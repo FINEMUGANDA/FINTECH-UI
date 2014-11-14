@@ -1,24 +1,48 @@
 @import "main-variables.scss";
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px){
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px){
+
+  .navbar-right {
+    float:left !important;
+  }
+
+  .main-nav ul {    
+    float: left;
+    width:100%;
+  }
+  .navbar-nav li {
+    display: block;
+    float: none;
+    width:100%;
+  }
+  .navbar-nav li a.notifications{
+    border:none;
+    margin:0;
+  }
+  .navbar-nav li a.notifications strong{
+    top:18px;
+    left:115px;
+    right: 81%;
+  }    
   .main-nav {
     display: none;
   }
-
   .navbar-toggle {
     display: inline-block;
     float: none;
     margin-right: 0px;
+    margin-left: 10px;
     padding: 9px 10px;
     margin-top: 13px;
     margin-bottom: 8px;
-    background-color: transparent;
+    background-color: #000 !important;
     background-image: none;
     border: none;
     border-radius: 4px;
   } 
   .navbar-form {
     width:450px;
-
     .form-group {
       display:block;
     }
