@@ -19,7 +19,6 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, Auth, 
         Auth.setCredentials(loginDetails.username, loginDetails.password);
         //Fired authentication call to server
         var authURL = REST_URL.AUTHENTICATION+"?username="+loginDetails.username+"&password="+loginDetails.password;
-        AuthService.authentication(authURL).then($scope.authenticationSuccess,$scope.authenticationFail);
 
         //authentication success callback
         var authenticationSuccess = function(result){
@@ -31,6 +30,10 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, Auth, 
           //Redirect Dashboard page
           $location.url(PAGE_URL.DASHBOARD);
          }
+        
+        AuthService.authentication(authURL).then(authenticationSuccess,$scope.authenticationFail);
+
+        
       }else{
         $scope.authenticationFail();
       }

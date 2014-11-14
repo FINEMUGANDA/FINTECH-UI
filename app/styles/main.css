@@ -5,16 +5,3 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "main-variables.scss";
 @import "main-web.scss";
 @import "main-tablet.scss";
-
-nav .navbar-nav > .active > a {
-	background-color: #E28B00 !important;
-	color: white !important;
-}
-
-nav {
-	background: white !important;
-}
-
-.navbar-nav.navbar-right:last-child {
-	margin-right: 0!important;
-}
