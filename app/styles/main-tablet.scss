@@ -1,0 +1,55 @@
+@import "main-variables.scss";
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px){
+  .main-nav {
+    display: none;
+  }
+
+  .navbar-toggle {
+    display: inline-block;
+    float: none;
+    margin-right: 0px;
+    padding: 9px 10px;
+    margin-top: 13px;
+    margin-bottom: 8px;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    border-radius: 4px;
+  } 
+  .navbar-form {
+    width:450px;
+
+    .form-group {
+      display:block;
+    }
+    .form-group input {
+      width:100%;
+    }
+  }
+  .summary .horizontal dt {
+    padding: 0 5px;
+  }
+  .summary .horizontal dd {
+    margin-right:5px;
+    width:118px;
+  }
+  
+  .filters {
+    ul {
+      @include make-md-column(9);
+      @include make-sm-column(10);
+    }
+    ul>li>a {
+      font-size:11px;
+      padding:5px;
+    }
+    .search { 
+      @include make-md-column(3);
+      @include make-sm-column(2);
+
+      .search-box {
+        width:100%;
+      }
+    }
+  }
+}

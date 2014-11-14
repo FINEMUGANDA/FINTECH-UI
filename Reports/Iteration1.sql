@@ -1,0 +1,4 @@
+#Make report for home page header statistic
+#Report number - 157
+#Report name - Home page header statistic
+select client.totalActiveClient, borrower.totalBorrowers, badStanding.loansInBadStanding, repayment.repaymentsDueThisWeek from (SELECT '' title, count(*) as totalActiveClient FROM m_client where m_client.status_enum=300) client join (SELECT '' title, count(*) as totalBorrowers FROM m_client c, m_loan l where c.id=l.client_id AND l.loan_status_id in (300,800,900)) borrower on client.title=borrower.title join (SELECT '' title, count(*) as loansInBadStanding FROM m_client c, m_loan l where c.id=l.client_id AND l.loan_status_id=900) badStanding on client.title=badStanding.title join (SELECT '' title, count(duedate) as repaymentsDueThisWeek from m_loan_repayment_schedule WHERE duedate >= curdate() - INTERVAL DAYOFWEEK(curdate()) DAY AND duedate < curdate() + 7-INTERVAL DAYOFWEEK(curdate()) DAY) repayment on client.title=repayment.title

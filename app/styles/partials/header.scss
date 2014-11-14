@@ -1,0 +1,118 @@
+nav {
+  @extend .navbar;
+  @extend .navbar-default;
+  @extend .navbar-fixed-top;
+  background: white;
+  @include box-shadow(0 1px 2px 0px rgba(0,0,0,0.10));
+
+  // NAVBAR HEADER
+  .navbar-header {
+    margin-right: $grid-gutter-width/2;
+    margin-left: $grid-gutter-width/2;
+  
+    .navbar-brand {
+      margin: 5px $grid-gutter-width/2 5px 0;
+      width:48px;
+      height:54px;
+      background: url("../images/logo-small.png") no-repeat;
+    }
+  
+    .navbar-brand > span {
+      display: none;
+    }
+  }
+
+  //NAV LINKS
+  .navbar-nav > li > a {
+    padding: 25px 15px 25px 40px;
+    font-size: 12px;
+    color: lighten($text-color,20%);
+    line-height: 14px;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+  }
+
+  .home {
+    background: url("../images/icon-navbar-home-inactive.png");
+  }
+  .clients {
+    background: url("../images/icon-navbar-clients-inactive.png");
+  }
+  .products {
+    background: url("../images/icon-navbar-products-inactive.png");
+  }
+  .reports {
+    background: url("../images/icon-navbar-reports-inactive.png");
+  }
+  .accounting {
+    background: url("../images/icon-navbar-accounting-inactive.png");
+  }
+  .configuration {
+    background: url("../images/icon-navbar-configuration-inactive.png");
+  }
+  .notifications {
+    background: url("../images/icon-navbar-notifications.png");
+  }
+  .notifications > span {
+    display: none;
+  }
+  .notifications > strong {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    padding: 3px 5px;
+    background: $primary-color;
+    font-size: 10px;
+    line-height: 15px;
+    border: 100px;
+    font-weight: 500;
+  }
+  .user {
+    background: url("../images/icon-navbar-user.png");
+  }
+
+  .navbar-nav > .active > a {
+    background-color: $primary-color;
+    color: white;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+  }
+  
+  .active > .home {
+    background: url("../images/icon-navbar-home-active.png");
+  }
+  .active > .clients {
+    background: url("../images/icon-navbar-clients-active.png");
+  }
+  .active > .products {
+    background: url("../images/icon-navbar-products-active.png");
+  }
+  .active > .reports {
+    background: url("../images/icon-navbar-reports-active.png");
+  }
+  .active > .accounting {
+    background: url("../images/icon-navbar-accounting-active.png");
+  }
+  .active > .configuration {
+    background: url("../images/icon-navbar-configuration-active.png");
+  }
+
+  // SEARCH BOX 
+  .navbar-form {
+    margin-top: 16px;
+  }
+
+  // RIGHT NAVBAR 
+
+  .navbar-right > li > a {
+    margin:7px;
+    border-left: 1px solid $border-color;
+    border-right: 1px solid $border-color;
+    position: relative;
+  }
+  .navbar-right > li:last-child a {
+    margin:0;
+    border:0;
+  }
+  
+}

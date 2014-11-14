@@ -1,0 +1,56 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login">
+  
+  <div class="shortcuts">
+    <ul role="tablist">
+      <li role="presentation" class="label">Shortcuts:</li>
+      <li role="presentation"><a href="#">New Client</a></li>
+      <li role="presentation"><a href="#">New Loan</a></li>
+      <li role="presentation"><a href="#">New Repayment</a></li>
+      <li role="presentation"><a href="#">New Note</a></li>
+      <li role="presentation"><a href="#">New Survey</a></li>
+      <li role="presentation"><a href="#">Upload Documents</a></li>
+    </ul>
+  </div>
+
+  <div class="summary">
+    <dl class="horizontal">
+      <dt>{{totalActiveClient}}</dt>
+      <dd><a href="#">Total Active Clients</a></dd>
+      <dt>{{totalBorrowers}}</dt>
+      <dd><a href="#">Total Borrowers</a></dd>
+      <dt>{{loansInBadStanding}}</dt>
+      <dd><a href="#">Loans in Bad Standing</a></dd>
+      <dt>{{repaymentsDueThisWeek}}</dt>
+      <dd><a href="#">Repayments Due This Week</a></dd>
+    </dl>
+    <div class="clearfix"></div>
+  </div>
+  
+  <div class="kpis">
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">Active Borrowers per Loan Officer</div> 
+        <div class="body"><div google-chart chart="borrowerPerLoanOfficer" style="{{borrowerPerLoanOfficer.cssStyle}}"></div></div>
+      </div>
+    </div>
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">PAR per Loan Officer</div> 
+        <div class="body"><div google-chart chart="PARPerLoanOfficer" style="{{PARPerLoanOfficer.cssStyle}}"></div></div>
+      </div>
+    </div>
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">Changes in Loan Portfolio current month</div> 
+        <div class="body"><div google-chart chart="loanPortfolioCurrentMonth" style="{{loanPortfolioCurrentMonth.cssStyle}}"></div></div>
+      </div>
+    </div>
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">Due vs. Collected previous week</div> 
+        <div class="body"><div google-chart chart="dueVsCollectedLastWeek" style="{{dueVsCollectedLastWeek.cssStyle}}"></div></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+.table {
+   >thead>tr>th {
+    background: lighten($background-web,0.8%);
+    border: 1px solid $border-color !important;
+    font-size:12px;
+    font-weight:200;
+    color: lighten($text-color,30%);
+  }
+  >tbody>tr {
+    background: #ffffff;
+    border: 1px solid $border-color;
+    border-top:0;
+  }
+  >tbody>tr>td {
+    padding:10px !important;
+    border: 0 !important;
+    font-size:12px !important;
+    font-weight:100;
+    color: lighten($text-color,30%);
+  } 
+  .name {
+    font-size:16px;
+    font-weight:100;
+  }
+  .meta {
+  }
+  .status {
+    font-weight:500;
+    font-size:11px;
+    &:before {
+      content: '\2022';
+      font-size: 39px;
+      line-height: 24px;
+      vertical-align: middle;
+    }
+  }
+  .active {
+    color: $tertiary-color;
+  }
+  .bad {
+    color: $bad;
+  }
+  .on-hold {
+    color: $hold;
+  }
+  .closed {
+    color: $closed;
+  } 
+  .grid-button {
+    font-size:11px;
+    font-weight: 500;
+    color: #fff;
+    border-radius:50px;
+    text-transform: uppercase;
+    background-color: $grid-button;
+  }
+}
