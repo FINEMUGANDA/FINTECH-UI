@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','userServices','Constants']);
+var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','userServices','Constants']);
 
  // Angular supports chaining, so here we chain the config function onto
   // the module we're configuring.
@@ -22,6 +22,13 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
       when('/dashboard', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/clients', {
+        templateUrl: 'views/clients.html',
+        controller: 'ClientsCtrl',
         data: {
             authorizedRoles: ['admin']
           }

@@ -8,12 +8,14 @@ app.constant('APPLICATION', {
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
-    'role' : 'role'
+    'role' : 'role',
+    'PAGE_SIZE' : 5
 });
 
 app.constant('REST_URL', {
     'AUTHENTICATION': 'api/v1/authentication',
-    'DASHBOARD_HEADER_STATISTIC': 'api/v1/runreports/Home page header statistic'
+    'DASHBOARD_HEADER_STATISTIC': 'api/v1/runreports/Home page header statistic',
+    'ALL_CLIENTS': ''
 });
 
 app.constant('PAGE_URL', {
@@ -42,5 +44,4 @@ app.constant('CHART_TYPE', {
     'ACTIVE_BORROWERS': 'activeBorrowers',
     'PAR_PER_LOAN': 'parPerLoan',
     'LOANPORTFOLIO_UPDATES': 'changesInLoanPortfolio'
-    
 });

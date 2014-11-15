@@ -160,7 +160,8 @@ body.pre-login {
 
 //PAGE HEADER 
 .page-header {
-  margin-bottom:10px;
+  margin-top:0px;
+  margin-bottom:15px;
   .header {
     @include make-row();
   }

@@ -8581,9 +8581,10 @@ body.pre-login {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003162}}
 .page-header {
-  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003164}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003165}}
 .page-header .header {
   margin-left: -15px;
   margin-right: -15px;
@@ -8597,7 +8598,7 @@ body.pre-login {
 .page-header .header:after {
   clear: both;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003167}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003168}}
 .page-header .header h3 {
   position: relative;
   min-height: 1px;
@@ -8617,27 +8618,27 @@ body.pre-login {
   line-height: 29px;
 }
 @media (min-width: 1200px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003167}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003168}}
   .page-header .header h3 {
     float: left;
     width: 75%;
   }
 }
 @media (min-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003167}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003168}}
   .page-header .header h3 {
     float: left;
     width: 75%;
   }
 }
 @media (min-width: 768px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003167}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003168}}
   .page-header .header h3 {
     float: left;
     width: 75%;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003176}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003177}}
 .page-header .header .action {
   position: relative;
   min-height: 1px;
@@ -8654,27 +8655,27 @@ body.pre-login {
   text-align: right;
 }
 @media (min-width: 1200px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003176}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003177}}
   .page-header .header .action {
     float: left;
     width: 25%;
   }
 }
 @media (min-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003176}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003177}}
   .page-header .header .action {
     float: left;
     width: 25%;
   }
 }
 @media (min-width: 768px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003176}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003177}}
   .page-header .header .action {
     float: left;
     width: 25%;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003182}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003183}}
 .page-header .header .action .primary {
   padding: 5px 20px !important;
   font-size: 14px !important;
@@ -8682,7 +8683,7 @@ body.pre-login {
   height: auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003191}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003192}}
 .filters {
   margin-left: -15px;
   margin-right: -15px;
@@ -8697,7 +8698,7 @@ body.pre-login {
 .filters:after {
   clear: both;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003197}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003198}}
 .filters ul {
   position: relative;
   min-height: 1px;
@@ -8705,17 +8706,17 @@ body.pre-login {
   padding-right: 15px;
 }
 @media (min-width: 1200px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003197}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003198}}
   .filters ul {
     float: left;
     width: 75%;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003200}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003201}}
 .filters ul > li > a {
   font-size: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003204}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003205}}
 .filters .search {
   position: relative;
   min-height: 1px;
@@ -8724,7 +8725,7 @@ body.pre-login {
   text-align: right;
 }
 @media (min-width: 1200px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003204}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003205}}
   .filters .search {
     float: left;
     width: 25%;
