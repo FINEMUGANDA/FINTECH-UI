@@ -18,3 +18,16 @@ nav {
 .navbar-nav.navbar-right:last-child {
 	margin-right: 0!important;
 }
+
+.st-sort-ascent:after {
+    content: "▲";
+}
+
+.st-sort-descent:after {
+    content: "▼";
+}
+
+.pagination {
+    margin: 0px 0px !important;
+    float: right !important;
+}

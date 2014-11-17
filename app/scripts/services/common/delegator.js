@@ -12,6 +12,7 @@ delegatorServices.factory('Remote', function($http, APPLICATION, Session) {
 			this.setHeader();
 			
 		    // com_thisnt below code to check with device id
+		    //TODO : 'genericResultSet':false will be removed 
 		  	var promise = $http.get(APPLICATION.host + url, {params: {'tenantIdentifier': 'default', 'pretty':true, 'genericResultSet':false}})
 		  	.success(function (data, status) {
 		  		console.log('Success from server'); 

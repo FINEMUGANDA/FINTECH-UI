@@ -207,3 +207,51 @@ body.pre-login {
     text-align: right;
   }
 }
+
+.table-footer {
+  @include make-row();
+  
+  .export,
+  .paginate {
+    @include make-lg-column(6);
+  }
+
+  .export {
+    font-weight: 500;
+    font-size:12px;
+
+    .link {
+      font-weight:200 !important;
+      display:inline-block;
+      padding: 0 20px 0 20px;
+    }
+
+    .pdf {
+      background: url("../images/icon-pdf.png") no-repeat;
+    }
+    .excel {
+      background: url("../images/icon-excel.png") no-repeat;
+    }
+    .copy {
+      background: url("../images/icon-copy.png") no-repeat;
+    }
+  }
+  .paginate ul {
+    float:right;
+    margin: 0 !important;
+    
+    li > a {
+      border-color: $border-color;
+      font-size:11px;
+      color: $text-color;
+    }
+
+    .active a {
+      background: $primary-color;
+      border-color: darken($primary-color,5%);
+      color: #fff !important;
+    }
+  }
+
+}
+

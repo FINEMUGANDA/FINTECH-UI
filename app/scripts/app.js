@@ -33,6 +33,41 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
             authorizedRoles: ['admin']
           }
       }).
+      when('/loans', {
+        templateUrl: 'views/loans.html',
+        controller: 'LoansCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/loansPendingApproval', {
+        templateUrl: 'views/loansPendingApproval.html',
+        controller: 'LoansPendingApprovalsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/loansAwaitingDisbursement', {
+        templateUrl: 'views/loansAwaitingDisbursement.html',
+        controller: 'LoansAwaitingDisbursementCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+       when('/loansRejected', {
+        templateUrl: 'views/loansRejected.html',
+        controller: 'LoansRejectedCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/loansWrittenOff', {
+        templateUrl: 'views/loansWrittenOff.html',
+        controller: 'LoansWrittenOffCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
       otherwise({
         redirectTo: '/'
       });
@@ -48,7 +83,10 @@ app.config(['$httpProvider', function($httpProvider) {
 
 
 app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL) {
-  
+  //total number of records in single page
+  $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
+  //total number of page in single page
+  $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
   $rootScope.page = {
       setHclass: function(hclass) {
           this.hclass = hclass;
@@ -57,6 +95,36 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
 
   $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
         $rootScope.page.setHclass(current.$$route.hclass);
+  });
+
+  //To update after view reloaded
+  $rootScope.$on('$includeContentLoaded', function() {
+    console.log("includeContentLoaded: includeContentLoaded success!");
+      //get top navigation menu
+        var $topNavigation = angular.element('#main-navbar-collapse .nav.navbar-nav:first');
+        //find all li tags (menus) from top UL
+        var $liEle = $topNavigation.find('li');
+        //check length
+        if ($liEle.length > 0) {
+          //travers to each menu item to remove selected menu class
+          $liEle.each(function() {
+              var $li=$(this);
+              $li.removeClass('active');
+          });
+        }
+        //add active /selection class for open view menu item      
+        switch($location.path()){
+          case PAGE_URL.CLIENTS:
+          case PAGE_URL.LOANS:
+          case PAGE_URL.LOANSAWAITINGDISBURSEMENT:
+          case PAGE_URL.LOANSPENDINGAPPROVAL:
+          case PAGE_URL.LOANSREJECTED:
+          case PAGE_URL.LOANSWRITTENOFF:
+            $topNavigation.find('.clients').parent().addClass('active');
+            break;
+          default:
+            $topNavigation.find('.home').parent().addClass('active');
+        }
   });
 
   $rootScope.$on('$stateChangeStart', function (event, next) {    
@@ -82,7 +150,9 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
   });  
 
   if(Session.getValue(APPLICATION.authToken) != null){
-    $location.url(PAGE_URL.DASHBOARD);
+    if($location.path()==PAGE_URL.ROOT || $location.path()==''){
+      $location.url(PAGE_URL.DASHBOARD);
+    }
   }else{
     //TODO - Need to remove else block once all the functionality will be implemented
     $location.url(PAGE_URL.ROOT);
@@ -200,3 +270,33 @@ app.directive('showValidation', [function() {
         }
     };
 }]);
+
+//color code status for each data tables
+app.filter('status', [ function() {
+    var STATUS_COLOR_CODE = {'0': 'status bad',//red
+      '100': 'status on-hold',//yellow
+      '200': 'status on-hold',//yellow
+      '300': 'status active',//green
+      '400': 'status closed',//grey
+      '500': 'status closed',//grey
+      '600': 'status closed',//grey
+      '601': 'status closed',//grey
+      '602': 'status active',//green
+      '700': 'status active',//green
+      '800': 'status active',//green
+      '900': 'status active'//green
+    };
+    return function(statusCode) {
+      return STATUS_COLOR_CODE[statusCode];
+    };
+}]);
+
+//color code status for each data tables
+app.filter('checkEmptyString', [ function() {
+
+    return function(value) {
+      return value=='';
+    };
+}]);
+
+

@@ -9,18 +9,30 @@ app.constant('APPLICATION', {
     'authToken': 'token',
     'username' : 'username',
     'role' : 'role',
-    'PAGE_SIZE' : 5
+    'PAGE_SIZE' : 5,
+    'DISPLAYED_PAGES' : 10
 });
 
 app.constant('REST_URL', {
     'AUTHENTICATION': 'api/v1/authentication',
     'DASHBOARD_HEADER_STATISTIC': 'api/v1/runreports/Home page header statistic',
-    'ALL_CLIENTS': ''
+    'ALL_CLIENTS': 'api/v1/runreports/PageClientsScreenClients',
+    'LOANS': '',
+    'LOANS_PENDING_APPROVALS': '',
+    'LOANS_AWAITING_DISBURSEMENT': '',
+    'LOANS_REJECTED': '',
+    'LOANS_WRITTEN_OFF': '',
 });
 
 app.constant('PAGE_URL', {
     'ROOT': '/',
-    'DASHBOARD': '/dashboard'
+    'DASHBOARD': '/dashboard',
+    'CLIENTS': '/clients',
+    'LOANS': '/loans',
+    'LOANSAWAITINGDISBURSEMENT': '/loansAwaitingDisbursement',
+    'LOANSPENDINGAPPROVAL': '/loansPendingApproval',
+    'LOANSREJECTED': '/loansRejected',
+    'LOANSWRITTENOFF': '/loansWrittenOff'
 });
 
 app.constant('AUTH_EVENTS', {

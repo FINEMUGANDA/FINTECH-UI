@@ -8732,6 +8732,77 @@ body.pre-login {
   }
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003211}}
+.table-footer {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_clearfix\.scss}line{font-family:\0000314}}
+.table-footer:before, .table-footer:after {
+  content: " ";
+  display: table;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_clearfix\.scss}line{font-family:\0000319}}
+.table-footer:after {
+  clear: both;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003214}}
+.table-footer .export,
+.table-footer .paginate {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 1200px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003214}}
+  .table-footer .export,
+  .table-footer .paginate {
+    float: left;
+    width: 50%;
+  }
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003219}}
+.table-footer .export {
+  font-weight: 500;
+  font-size: 12px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003223}}
+.table-footer .export .link {
+  font-weight: 200 !important;
+  display: inline-block;
+  padding: 0 20px 0 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003229}}
+.table-footer .export .pdf {
+  background: url("../images/icon-pdf.png") no-repeat;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003232}}
+.table-footer .export .excel {
+  background: url("../images/icon-excel.png") no-repeat;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003235}}
+.table-footer .export .copy {
+  background: url("../images/icon-copy.png") no-repeat;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003239}}
+.table-footer .paginate ul {
+  float: right;
+  margin: 0 !important;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003243}}
+.table-footer .paginate ul li > a {
+  border-color: #F2F2F2;
+  font-size: 11px;
+  color: #333333;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-web\.scss}line{font-family:\00003249}}
+.table-footer .paginate ul .active a {
+  background: #E28B00;
+  border-color: #c97b00;
+  color: #fff !important;
+}
+
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\000036}}
   .navbar-right {
@@ -8886,4 +8957,20 @@ nav {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000318}}
 .navbar-nav.navbar-right:last-child {
   margin-right: 0 !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000322}}
+.st-sort-ascent:after {
+  content: "▲";
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000326}}
+.st-sort-descent:after {
+  content: "▼";
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000330}}
+.pagination {
+  margin: 0px 0px !important;
+  float: right !important;
 }
