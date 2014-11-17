@@ -41,7 +41,7 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           }
       }).
       when('/loansPendingApproval', {
-        templateUrl: 'views/loansPendingApproval.html',
+        templateUrl: 'views/loansPendingApprovals.html',
         controller: 'LoansPendingApprovalsCtrl',
         data: {
             authorizedRoles: ['admin']

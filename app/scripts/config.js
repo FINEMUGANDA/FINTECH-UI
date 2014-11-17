@@ -9,19 +9,19 @@ app.constant('APPLICATION', {
     'authToken': 'token',
     'username' : 'username',
     'role' : 'role',
-    'PAGE_SIZE' : 5,
-    'DISPLAYED_PAGES' : 10
+    'PAGE_SIZE' : 2,
+    'DISPLAYED_PAGES' : 3
 });
 
 app.constant('REST_URL', {
     'AUTHENTICATION': 'api/v1/authentication',
     'DASHBOARD_HEADER_STATISTIC': 'api/v1/runreports/Home page header statistic',
     'ALL_CLIENTS': 'api/v1/runreports/PageClientsScreenClients',
-    'LOANS': '',
-    'LOANS_PENDING_APPROVALS': '',
-    'LOANS_AWAITING_DISBURSEMENT': '',
-    'LOANS_REJECTED': '',
-    'LOANS_WRITTEN_OFF': '',
+    'LOANS': 'api/v1/runreports/PageClientsScreenLoans',
+    'LOANS_PENDING_APPROVALS': 'api/v1/runreports/PageClientsScreenLoansPA',
+    'LOANS_AWAITING_DISBURSEMENT': 'api/v1/runreports/PageClientsScreenLoansAD',
+    'LOANS_REJECTED': 'api/v1/runreports/PageClientsScreenLoansRejected',
+    'LOANS_WRITTEN_OFF': 'api/v1/runreports/PageClientsScreenLoansWritten',
 });
 
 app.constant('PAGE_URL', {

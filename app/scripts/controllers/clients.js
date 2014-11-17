@@ -3,21 +3,20 @@
   // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController',['clientsService','Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, ClientsService, REST_URL, APPLICATION) {
+clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION) {
 	//To load the dashboard page
 
-  	$scope.loadClients = function(){
-      $scope.isLoading = true;
+  	$scope.loadClients = function(tableState, tableController){
     	console.log('ClientsCtrl : loadClients');
     	//Success callback
     	var allClientsSuccess = function(result){
-          var temp = result.data
-          $scope.allClients = temp;
-          //try {
-          //    var temp = JSON.parse('[{"id": 1,"name": "StephenSandoval","type": "Retailer","fileNo": 6743,"status": "ACTIVE","loanStatus": "INBADSTANDING","education": "Bachelors","povertyLevel": "500000-1000000","loanOfficer": "PeterSimpson","location" : "http://placehold.it/50x50","statusCode": "0","loanStatusCode": "100"},{"id": 2,"name": "Ryan Bradley","type": "Retailer","fileNo": 6743,"status": "ON HOLD","loanStatus": "CLOSED","education": "O Level","povertyLevel": "500000-1000000","loanOfficer": "PeterSimpson","location" : "http://placehold.it/50x50","statusCode": "200","loanStatusCode": "300"},{"id": 3,"name": "Ryan Bradley","type": "Retailer","fileNo": 6743,"status": "ACTIVE","loanStatus": "","education": "O Level","povertyLevel": "500000-1000000","loanOfficer": "PeterSimpson","location" : "http://placehold.it/50x50","statusCode": "800","loanStatusCode": ""}]');              
-          //    $scope.allClients = temp;
-          //} catch (e) {
-          //}
+          //var temp = result.data
+          //$scope.allClients = temp;
+          try {
+              var temp = JSON.parse('[{"id": 1,"name": "StephenSandoval","type": "Retailer","fileNo": 6743,"status": "ACTIVE","loanStatus": "INBADSTANDING","education": "Bachelors","povertyLevel": "500000-1000000","loanOfficer": "PeterSimpson","location" : "http://placehold.it/50x50","statusCode": "0","loanStatusCode": "100"},{"id": 2,"name": "Ryan Bradley","type": "Retailer","fileNo": 6743,"status": "ON HOLD","loanStatus": "CLOSED","education": "O Level","povertyLevel": "500000-1000000","loanOfficer": "PeterSimpson","location" : "http://placehold.it/50x50","statusCode": "200","loanStatusCode": "300"},{"id": 3,"name": "Ryan Bradley","type": "Retailer","fileNo": 6743,"status": "ACTIVE","loanStatus": "","education": "O Level","povertyLevel": "500000-1000000","loanOfficer": "PeterSimpson","location" : "http://placehold.it/50x50","statusCode": "800","loanStatusCode": ""}]');              
+              $scope.allClients = temp;
+          } catch (e) {
+          }
           $scope.isLoading = false;
           console.log('Success : Return from allClients service.'); 
       		
@@ -27,12 +26,16 @@ clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, C
           $scope.isLoading = false;
 	        console.log('Error : Return from allClients service.');
 	    }
-    	//service to get active clients from server
-    	ClientsService.getActiveClients(REST_URL.ALL_CLIENTS).then(allClientsSuccess, allClientsFail);
-      //allClientsSuccess();
+        //allClientsSuccess();
+        $scope.isLoading = true;
+        //$timeout(function () {
+            //service to get active clients from server
+        //ClientsService.getActiveClients(REST_URL.ALL_CLIENTS).then(allClientsSuccess, allClientsFail);
+        //    $scope.isLoading = false;
+        //}, 2000);
+        allClientsSuccess();
   	};
-  //will fire on every page load
-  $scope.loadClients();
+    $scope.loadClients();
 });
 
 
