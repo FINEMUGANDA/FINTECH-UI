@@ -83,4 +83,20 @@ INSERT INTO `mifostenant-default`.`m_code_value` (`id`, `code_id`, `code_value`,
     "dateFormat": "yyyy-dd-MM",
     "locale": "en"
 }
+# Add images to database
+# TODO : This is just for demo purpose. Need to store images on server side
+INSERT INTO `mifostenant-default`.`m_image` (`id`, `location`) VALUES ('1', 'client_image/amitrami.jpg');
+INSERT INTO `mifostenant-default`.`m_image` (`id`, `location`) VALUES ('2', 'client_image/ndabhi.jpg');
+INSERT INTO `mifostenant-default`.`m_image` (`id`, `location`) VALUES ('3', 'client_image/pgandhi.jpg');
+INSERT INTO `mifostenant-default`.`m_image` (`id`, `location`) VALUES ('4', 'client_image/ppatel.jpg');
+INSERT INTO `mifostenant-default`.`m_image` (`id`, `location`) VALUES ('5', 'client_image/pshah.jpg');
+INSERT INTO `mifostenant-default`.`m_image` (`id`, `location`) VALUES ('6', 'client_image/rkrangiya.jpg');
 
+# Update m_clent table
+
+UPDATE `mifostenant-default`.`m_client` SET `image_id`='1' WHERE `id`='1';
+UPDATE `mifostenant-default`.`m_client` SET `image_id`='2' WHERE `id`='2';
+UPDATE `mifostenant-default`.`m_client` SET `image_id`='3' WHERE `id`='4';
+UPDATE `mifostenant-default`.`m_client` SET `image_id`='4' WHERE `id`='5';
+UPDATE `mifostenant-default`.`m_client` SET `image_id`='5' WHERE `id`='6';
+UPDATE `mifostenant-default`.`m_client` SET `image_id`='6' WHERE `id`='7';
