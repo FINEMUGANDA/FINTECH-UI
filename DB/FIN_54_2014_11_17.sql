@@ -100,6 +100,8 @@ UPDATE `mifostenant-default`.`m_client` SET `image_id`='3' WHERE `id`='4';
 UPDATE `mifostenant-default`.`m_client` SET `image_id`='4' WHERE `id`='5';
 UPDATE `mifostenant-default`.`m_client` SET `image_id`='5' WHERE `id`='6';
 UPDATE `mifostenant-default`.`m_client` SET `image_id`='6' WHERE `id`='7';
+# Add images to database
+# TODO : This is just for demo purpose. Need to store images on server side
 UPDATE `mifostenant-default`.`m_image` SET `location`='images/client_image/amitrami.jpg' WHERE `id`='1';
 UPDATE `mifostenant-default`.`m_image` SET `location`='images/client_image/ndabhi.jpg' WHERE `id`='2';
 UPDATE `mifostenant-default`.`m_image` SET `location`='images/client_image/pgandhi.jpg' WHERE `id`='3';
