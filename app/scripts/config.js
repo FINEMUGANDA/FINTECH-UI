@@ -9,8 +9,8 @@ app.constant('APPLICATION', {
     'authToken': 'token',
     'username' : 'username',
     'role' : 'role',
-    'PAGE_SIZE' : 2,
-    'DISPLAYED_PAGES' : 3
+    'PAGE_SIZE' : 5,
+    'DISPLAYED_PAGES' : 5
 });
 
 app.constant('REST_URL', {

@@ -1,5 +1,5 @@
 <div ng-include="'views/common/header.html'"></div>
-<div class="container post-login" ng-controller="ClientsCtrl">
+<div class="container post-login" ng-controller="LoansAwaitingDisbursementCtrl">
   <div class="page-header">
     <div class="header">
       <h3>Loans Awaiting Disbursement</h3>
@@ -8,15 +8,11 @@
       </div>
     </div>
   </div>
-  
-  
-
   <div class="list">
-    <table st-table="allClients" class="table">
-      
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
-          <th colspan=8>
+          <th colspan="7">
               <div class="filters">
                  <ul role="tablist">
                   <li role="presentation"><a href="#/clients">Clients</a></li>
@@ -34,49 +30,45 @@
           </th>
         </tr>
         <tr>
-          <th colspan="2" st-sort="name">Client Details</th>
-          <th st-sort="status">Client Status</th>
-          <th st-sort="loanStatus">Loan Status</th>
-          <th st-sort="education">Education</th>
-          <th st-sort="povertyLevel">Povert Level</th>
-          <th st-sort="povertyLevel">Loan Officer</th>
+          <th st-sort="name">Client Details</th>
+          <th st-sort="loanAmount">Loan Amount</th>
+          <th st-sort="approvedon_date">Approved on</th>
+          <th st-sort="submitted_by">Submitted By</th>
+          <th st-sort="approved_by">Approved By</th>
+          <th st-sort="loanOfficer">Loan Officer</th>
           <th></th>
         </tr>
       </thead>
-      <tbody>        
-        <tr ng-repeat="client in allClients">
-          <td><img src={{client.location}}/></td>
+      <tbody ng-hide="isLoading">                
+        <tr ng-repeat="loansAwaitingDisbursement in displayed">
           <td>
               <div class="name">
-                <a href="#">{{client.name}}</a>
-              </div>
-              <div class="meta activity">
-                {{client.type}}
+                <a href="#">{{loansAwaitingDisbursement.name}}</a>
               </div>
               <div class="meta">
-                File No.: {{client.fileNo}}
+                File No.: {{loansAwaitingDisbursement.file_no}}
               </div>
-          </td>
+          </td>          
+          <td>{{loansAwaitingDisbursement.loanAmount}}</td>
+          <td>{{loansAwaitingDisbursement.approvedon_date}}</td>
+          <td>{{loansAwaitingDisbursement.submitted_by}}</td>
+          <td>{{loansAwaitingDisbursement.approved_by}}</td>
+          <td>{{loansAwaitingDisbursement.loanOfficer}}</td>
           <td>
-            <span class="{{client.statusCode | status}}">
-              {{client.status}}
-            </span>
-          </td>
-          <td>
-             <span class="{{client.loanStatusCode | status}}">
-              {{client.loanStatus}}
-            </span>
-          </td>
-          <td>{{client.education}}</td>
-          <td>{{client.povertyLevel}}</td>
-          <td>{{client.loanOfficer}}</td>
-          <td>
-            <button ng-if="client.loanStatusCode | checkEmptyString" class="btn grid-button">Create Loan</button>
+            <button class="btn grid-button">Disburse</button>
           </td>
         </tr>
-        <tfoot>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="7" class="text-center">
+            <div class="loading-indicator">Loading...</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="isLoading">        
           <tr>
-            <td colspan="8">
+            <td colspan="7">
               <div class="table-footer">
                 <div class="export">
                     <strong>Export: <a class="link pdf" >PDF</a><a class="link excel" >Excel</a>
@@ -88,7 +80,6 @@
             </td>
           </tr>
         </tfoot>
-      </tbody>
     </table>
   </div>
 </div>

@@ -8,15 +8,11 @@
       </div>
     </div>
   </div>
-  
-  
-
   <div class="list">
-    <table st-table="allClients" class="table">
-      
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
-          <th colspan=8>
+          <th colspan="8">
               <div class="filters">
                 <ul role="tablist">
                   <li role="presentation"><a href="#/clients" class="active">Clients</a></li>
@@ -43,8 +39,8 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>        
-        <tr ng-repeat="client in allClients">
+      <tbody ng-hide="isLoading">        
+        <tr ng-repeat="client in displayed">
           <td><img src={{client.location}}/></td>
           <td>
               <div class="name">
@@ -54,7 +50,7 @@
                 {{client.type}}
               </div>
               <div class="meta">
-                File No.: {{client.fileNo}}
+                File No.: {{client.file_no}}
               </div>
           </td>
           <td>
@@ -74,7 +70,15 @@
             <button ng-if="client.loanStatusCode | checkEmptyString" class="btn grid-button">Create Loan</button>
           </td>
         </tr>
-        <tfoot>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="8" class="text-center">
+            <div class="loading-indicator">Loading...</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="isLoading">
           <tr>
             <td colspan="8">
               <div class="table-footer">
@@ -88,7 +92,6 @@
             </td>
           </tr>
         </tfoot>
-      </tbody>
     </table>
   </div>
 </div>

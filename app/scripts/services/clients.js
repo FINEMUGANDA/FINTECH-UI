@@ -4,8 +4,8 @@ var clientsService = angular.module('clientsService', ['delegatorServices']);
 
 clientsService.factory('ClientsService', function($http, Remote) {
     return {
-            getActiveClients: function(url){
-                console.log('Get active clients...');
+            getData: function(url){
+                console.log('Get Data using clientsService...');
                 var promise = Remote.get(url);
                 return promise;
             }

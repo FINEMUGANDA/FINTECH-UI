@@ -8803,7 +8803,7 @@ body.pre-login {
   color: #fff !important;
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\000036}}
   .navbar-right {
     float: left !important;
@@ -8843,7 +8843,7 @@ body.pre-login {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000331}}
   .navbar-toggle {
     display: inline-block;
-    float: none;
+    float: right;
     margin-right: 0px;
     margin-left: 10px;
     padding: 9px 10px;
@@ -8891,21 +8891,21 @@ body.pre-login {
     padding-right: 15px;
   }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (min-width: 992px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 992px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000362}}
   .filters ul {
     float: left;
     width: 75%;
   }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (min-width: 768px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 768px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000362}}
   .filters ul {
     float: left;
     width: 83.3333333333%;
   }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000366}}
   .filters ul > li > a {
     font-size: 11px;
@@ -8923,21 +8923,21 @@ body.pre-login {
     padding-right: 15px;
   }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (min-width: 992px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 992px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000370}}
   .filters .search {
     float: left;
     width: 25%;
   }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (min-width: 768px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 768px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000370}}
   .filters .search {
     float: left;
     width: 16.6666666667%;
   }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire10\/git\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000374}}
   .filters .search .search-box {
     width: 100%;

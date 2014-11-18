@@ -1,5 +1,5 @@
 <div ng-include="'views/common/header.html'"></div>
-<div class="container post-login" ng-controller="ClientsCtrl">
+<div class="container post-login" ng-controller="LoansCtrl">
   <div class="page-header">
     <div class="header">
       <h3>Loans</h3>
@@ -8,15 +8,11 @@
       </div>
     </div>
   </div>
-  
-  
-
   <div class="list">
-    <table st-table="allClients" class="table">
-      
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">  
       <thead>
         <tr>
-          <th colspan=8>
+          <th colspan="6">
               <div class="filters">
                  <ul role="tablist">
                   <li role="presentation"><a href="#/clients">Clients</a></li>
@@ -28,55 +24,53 @@
                 </ul>
 
                 <div class="search" >
-                  <input type="text" st-search="" class="search-box" placeholder="Search Clients" />
+                  <input type="text" st-search="" class="search-box" placeholder="Search Loans" />
                 </div>
               </div>    
           </th>
         </tr>
         <tr>
-          <th colspan="2" st-sort="name">Client Details</th>
-          <th st-sort="status">Client Status</th>
+          <th colspan="2" st-sort="name">Client Details</th>          
           <th st-sort="loanStatus">Loan Status</th>
-          <th st-sort="education">Education</th>
-          <th st-sort="povertyLevel">Povert Level</th>
-          <th st-sort="povertyLevel">Loan Officer</th>
-          <th></th>
+          <th st-sort="loanAmount">Loan Amount</th>
+          <th st-sort="loanArrears">Amount in Arrears</th>
+          <th st-sort="loanOfficer">Loan Officer</th>
         </tr>
       </thead>
-      <tbody>        
-        <tr ng-repeat="client in allClients">
-          <td><img src={{client.location}}/></td>
+      <tbody ng-hide="isLoading">     
+        <tr ng-repeat="loan in displayed">
+         <td><img src={{loan.location}}/></td>
           <td>
               <div class="name">
-                <a href="#">{{client.name}}</a>
+                <a href="#">{{loan.name}}</a>
               </div>
               <div class="meta activity">
-                {{client.type}}
+                {{loan.type}}
               </div>
               <div class="meta">
-                File No.: {{client.fileNo}}
+                File No.: {{loan.file_no}}
               </div>
           </td>
           <td>
-            <span class="{{client.statusCode | status}}">
-              {{client.status}}
+             <span class="{{loan.loanStatusCode | status}}">
+              {{loan.loanStatus}}
             </span>
           </td>
-          <td>
-             <span class="{{client.loanStatusCode | status}}">
-              {{client.loanStatus}}
-            </span>
-          </td>
-          <td>{{client.education}}</td>
-          <td>{{client.povertyLevel}}</td>
-          <td>{{client.loanOfficer}}</td>
-          <td>
-            <button ng-if="client.loanStatusCode | checkEmptyString" class="btn grid-button">Create Loan</button>
+          <td>{{loan.loanAmount}}</td>
+          <td>{{loan.loanArrears}}</td>
+          <td>{{loan.loanOfficer}}</td>   
+        </tr>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="6" class="text-center">
+            <div class="loading-indicator">Loading...</div>
           </td>
         </tr>
-        <tfoot>
+      </tbody>
+      <tfoot ng-hide="isLoading">        
           <tr>
-            <td colspan="8">
+            <td colspan="6">
               <div class="table-footer">
                 <div class="export">
                     <strong>Export: <a class="link pdf" >PDF</a><a class="link excel" >Excel</a>
@@ -88,7 +82,6 @@
             </td>
           </tr>
         </tfoot>
-      </tbody>
     </table>
   </div>
 </div>

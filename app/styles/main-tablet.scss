@@ -1,7 +1,7 @@
 @import "main-variables.scss";
 @media only screen
-and (min-device-width: 768px)
-and (max-device-width: 1024px){
+and (min-width: 768px)
+and (max-width: 1024px){
 
   .navbar-right {
     float:left !important;
@@ -30,7 +30,7 @@ and (max-device-width: 1024px){
   }
   .navbar-toggle {
     display: inline-block;
-    float: none;
+    float: right;
     margin-right: 0px;
     margin-left: 10px;
     padding: 9px 10px;
