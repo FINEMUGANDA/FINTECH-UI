@@ -4,6 +4,9 @@
  * 
  * Some parts based on FPDF.
  */
+ var n;
+ var p;
+ var i;
 
 var jsPDF = function(){
 	
@@ -27,6 +30,7 @@ var jsPDF = function(){
 	var pages = new Array();
 	var offsets = new Array(); // List of offsets
 	var lineWidth = 0.200025; // 2mm
+	var pageWidth;
 	var pageHeight;
 	var k; // Scale factor
 	var unit = 'mm'; // Default to mm for units

@@ -37,7 +37,8 @@ THE SOFTWARE.*/
                 
 				var options = $.extend(defaults, options);
 				var el = this;
-				
+				var rowCalc;
+				var n;
 				if(defaults.type == 'csv' || defaults.type == 'txt'){
 				
 					// Header
