@@ -34,7 +34,7 @@
           <th st-sort="status">Client Status</th>
           <th st-sort="loanStatus">Loan Status</th>
           <th st-sort="education">Education</th>
-          <th st-sort="povertyLevel">Povert Level</th>
+          <th st-sort="povertyLevel">Poverty Level</th>
           <th st-sort="povertyLevel">Loan Officer</th>
           <th></th>
         </tr>
@@ -83,7 +83,7 @@
             <td colspan="8">
               <div class="table-footer">
                 <div class="export">
-                    <strong>Export: <a class="link pdf" >PDF</a><a class="link excel" >Excel</a>
+                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('0,7')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('0,7')" target="_blank">Excel</a>
                 </div>
                 <div class="paginate">
                   <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>

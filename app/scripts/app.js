@@ -93,6 +93,40 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
       }
   }
 
+  //TODO: we need to find a way to remove from root scope
+  $rootScope.pdfExport = function(ignoreColumns){
+    var cols = [];
+    if(ignoreColumns != undefined && ignoreColumns.indexOf(',') != -1){
+      cols = ignoreColumns.split(',');
+    }
+    if(ignoreColumns != undefined && ignoreColumns.indexOf(',') === -1){
+      cols = [ignoreColumns];
+    }
+
+      $('.table').tableExport({type:'pdf',
+          ignoreColumn: cols, 
+          escape:'false',
+          pdfFontSize:7,
+          pdfLeftMargin:5
+      });  
+  }
+  
+  //TODO: we need to find a way to remove from root scope
+  $rootScope.xlsExport = function(ignoreColumns){
+       var cols = [];
+      if(ignoreColumns != undefined && ignoreColumns.indexOf(',') != -1){
+         cols = ignoreColumns.split(',');
+      }
+      if(ignoreColumns != undefined && ignoreColumns.indexOf(',') === -1){
+        cols = [ignoreColumns];
+      }
+
+      $('.table').tableExport({type:'excel',
+          ignoreColumn: cols, 
+          escape:'false'
+      });  
+  }
+
   $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
         $rootScope.page.setHclass(current.$$route.hclass);
   });

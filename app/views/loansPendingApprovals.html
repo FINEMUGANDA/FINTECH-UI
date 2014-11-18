@@ -12,7 +12,7 @@
     <table st-table="displayed" st-safe-src="rowCollection" class="table">  
       <thead>
         <tr>
-          <th colspan="6">
+          <th colspan="7">
               <div class="filters">
                  <ul role="tablist">
                   <li role="presentation"><a href="#/clients">Clients</a></li>
@@ -60,17 +60,17 @@
       </tbody>
       <tbody ng-show="isLoading">
         <tr>
-          <td colspan="6" class="text-center">
+          <td colspan="7" class="text-center">
             <div class="loading-indicator">Loading...</div>
           </td>
         </tr>
       </tbody>
       <tfoot ng-hide="isLoading">        
           <tr>
-            <td colspan="6">
+            <td colspan="7">
               <div class="table-footer">
                 <div class="export">
-                    <strong>Export: <a class="link pdf" >PDF</a><a class="link excel" >Excel</a>
+                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('6')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('6')" target="_blank">Excel</a>
                 </div>
                 <div class="paginate">
                   <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
