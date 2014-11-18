@@ -1,4 +1,4 @@
-
+var minWidth;
 
 function sprintf( ) {
     // Return a formatted string  
