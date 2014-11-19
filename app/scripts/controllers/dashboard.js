@@ -12,7 +12,7 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $rootScope, $locatio
     $scope.getHeaderStatistics();    
     //Dummy Charts
     $scope.borrowerPerLoanOfficer = Graph.getColumnChart(CHART_TYPE.ACTIVE_BORROWERS);
-    $scope.PARPerLoanOfficer = Graph.getColumnChart(CHART_TYPE.PAR_PER_LOAN);
+    $scope.PARPerLoanOfficer = Graph.getparPerLoanChart(CHART_TYPE.PAR_PER_LOAN);
     $scope.loanPortfolioCurrentMonth = Graph.getColumnChart(CHART_TYPE.LOANPORTFOLIO_UPDATES);
     $scope.dueVsCollectedLastWeek = Graph.getPieChart();
   };

@@ -19,6 +19,11 @@ GraphUtils.factory('Graph', function () {
 		              "id": "borrowers",
 		              "label": "Borrowers",		              
 		              "type": "number"
+		            },
+		            {
+		              "id": "barHeaders",
+		              "role": "annotation",
+		              "type": "string"
 		            }
 		          ],
 		          "rows": [
@@ -26,6 +31,9 @@ GraphUtils.factory('Graph', function () {
 		              "c": [
 		                {
 		                  "v": "John S."
+		                },
+		                {
+		                  "v": 149
 		                },
 		                {
 		                  "v": 149
@@ -39,6 +47,9 @@ GraphUtils.factory('Graph', function () {
 		                },
 		                {
 		                  "v": 255
+		                },
+		                {
+		                  "v": 255
 		                }
 		              ]
 		            },
@@ -46,6 +57,9 @@ GraphUtils.factory('Graph', function () {
 		              "c": [
 		                {
 		                  "v": "Philip R."
+		                },
+		                {
+		                  "v": 475
 		                },
 		                {
 		                  "v": 475
@@ -59,6 +73,9 @@ GraphUtils.factory('Graph', function () {
 		                },
 		                {
 		                  "v": 201
+		                },
+		                {
+		                  "v": 201
 		                }
 		              ]
 		            },
@@ -66,6 +83,9 @@ GraphUtils.factory('Graph', function () {
 		              "c": [
 		                {
 		                  "v": "Vincent C."
+		                },
+		                {
+		                  "v": 290
 		                },
 		                {
 		                  "v": 290
@@ -88,6 +108,11 @@ GraphUtils.factory('Graph', function () {
 	              "id": "borrowers",
 	              "label": "Borrowers",		              
 	              "type": "number",
+	            },
+	            {
+	              "id": "barHeaders",
+	              "role": "annotation",
+	              "type": "string"
 	            }
 	          ],
 	          "rows": [
@@ -95,6 +120,9 @@ GraphUtils.factory('Graph', function () {
 	              "c": [
 	                {
 	                  "v": "John S."
+	                },
+	                {
+	                  "v": 14
 	                },
 	                {
 	                  "v": 14
@@ -108,6 +136,9 @@ GraphUtils.factory('Graph', function () {
 	                },
 	                {
 	                  "v": 4
+	                },
+	                {
+	                  "v": 4
 	                }
 	              ]
 	            },
@@ -115,6 +146,9 @@ GraphUtils.factory('Graph', function () {
 	              "c": [
 	                {
 	                  "v": "Philip R."
+	                },
+	                {
+	                  "v": 10
 	                },
 	                {
 	                  "v": 10
@@ -128,6 +162,9 @@ GraphUtils.factory('Graph', function () {
 	                },
 	                {
 	                  "v": 17
+	                },
+	                {
+	                  "v": 17
 	                }
 	              ]
 	            },
@@ -137,7 +174,10 @@ GraphUtils.factory('Graph', function () {
 	                  "v": "Vincent C."
 	                },
 	                {
-	                  "v": 3
+	                  "v": 2
+	                },
+	                {
+	                  "v": 2.37
 	                }
 	              ]
 	            }
@@ -255,13 +295,38 @@ GraphUtils.factory('Graph', function () {
     };
 
     return {
+    	getparPerLoanChart : function (chartData) {
+        	var data = parPerLoan();
+            return {
+		       "type": "ColumnChart",
+		       "cssStyle": "height:180px; width:100%;",
+		       "data": data,
+		       "options": {
+		         "colors":['#88cac6','#e28b00','#449acc'],
+		         "isStacked": "false",
+		         "fill": 20,
+		         "displayExactValues": true,
+		         "legend":{  
+		        	"position": "none",
+		         },
+		         "vAxis": {		            
+		           "gridlines": {
+		             "count": 5
+		           },
+		           "minValue": 0,
+		         },
+		         "hAxis": {
+		         }
+		       },
+		       "formatters": {
+	        },
+	        "displayed": true
+	      }
+        },
         getColumnChart: function (chartData) {
         	var data;
         	if("activeBorrowers" == chartData){
         		data = activeBorrowers();
-        	}
-        	else if("parPerLoan" == chartData){
-        		data = parPerLoan();
         	}else if("changesInLoanPortfolio" == chartData){
         		data = changesInLoanPortfolio();
         	}
@@ -273,12 +338,17 @@ GraphUtils.factory('Graph', function () {
 		        "options": {
 		          "colors":['#88cac6','#e28b00','#449acc'],
 		          "isStacked": "false",
-		          "fill": 20,		          
+		          "fill": 20,
 		          "displayExactValues": true,
+		          "legend":{  
+		          	"position": "none",
+		          },
 		          "vAxis": {		            
 		            "gridlines": {
 		              "count": 6
-		            }
+		            },
+		            "minValue": 0,
+		            "maxValue": 25,
 		          },
 		          "hAxis": {
 		          }
