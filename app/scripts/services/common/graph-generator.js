@@ -174,10 +174,10 @@ GraphUtils.factory('Graph', function () {
 	                  "v": "Vincent C."
 	                },
 	                {
-	                  "v": 2
+	                  "v": 5
 	                },
 	                {
-	                  "v": 2.37
+	                  "v": 5
 	                }
 	              ]
 	            }
