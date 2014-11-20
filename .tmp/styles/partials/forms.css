@@ -1,76 +1,174 @@
-/*
-Error: Undefined mixin 'box-shadow'.
-        on line 16 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/forms.scss, in `box-shadow'
-        from line 16 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/forms.scss
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\000039}}
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000316}}
+.alert h4 {
+  margin-top: 0;
+  color: inherit;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000322}}
+.alert .alert-link {
+  font-weight: bold;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000327}}
+.alert > p,
+.alert > ul {
+  margin-bottom: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000331}}
+.alert > p + p {
+  margin-top: 5px;
+}
 
-11:   font-size:16px;
-12: }
-13: 
-14: input[type=text]:focus, textarea:focus,
-15: input[type=password]:focus {
-16:   @include box-shadow(0 0 5px $primary-color);
-17:   outline:0;
-18:   border-color: $primary-color;
-19: }
-20: 
-21: .form-control-feedback {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000340}}
+.alert-dismissable,
+.alert-dismissible {
+  padding-right: 35px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000345}}
+.alert-dismissable .close,
+.alert-dismissible .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  color: inherit;
+}
 
-Backtrace:
-/home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/forms.scss:16:in `box-shadow'
-/home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/forms.scss:16
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:338:in `block in visit_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:98:in `block in with_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:98:in `with_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:336:in `visit_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `block in with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:420:in `block (2 levels) in visit_rule'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:420:in `map'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:420:in `block in visit_rule'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:418:in `visit_rule'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `block in with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `map'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:157:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:8:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/root_node.rb:36:in `css_tree'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/root_node.rb:20:in `render'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/engine.rb:268:in `render'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:491:in `update_stylesheet'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `each'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/sass_compiler.rb:40:in `compile!'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/commands/update_project.rb:49:in `perform'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/commands/base.rb:18:in `execute'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/commands/project_base.rb:19:in `execute'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/bin/compass:30:in `block in <top (required)>'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/bin/compass:44:in `call'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/bin/compass:44:in `<top (required)>'
-/usr/local/bin/compass:23:in `load'
-/usr/local/bin/compass:23:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Undefined mixin 'box-shadow'.\A         on line 16 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/forms.scss, in `box-shadow'\A         from line 16 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/forms.scss\A \A 11:   font-size:16px;\A 12: }\A 13: \A 14: input[type=text]:focus, textarea:focus,\A 15: input[type=password]:focus {\A 16:   @include box-shadow(0 0 5px $primary-color);\A 17:   outline:0;\A 18:   border-color: $primary-color;\A 19: }\A 20: \A 21: .form-control-feedback {"; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000357}}
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+.alert-success hr {
+  border-top-color: #c9e2b3;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+.alert-success .alert-link {
+  color: #2b542c;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000360}}
+.alert-info {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+.alert-info hr {
+  border-top-color: #a6e1ec;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+.alert-info .alert-link {
+  color: #245269;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000363}}
+.alert-warning {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+.alert-warning hr {
+  border-top-color: #f7e1b5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+.alert-warning .alert-link {
+  color: #66512c;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000366}}
+.alert-danger, .error {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+.alert-danger hr, .error hr {
+  border-top-color: #e4b9c0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+.alert-danger .alert-link, .error .alert-link {
+  color: #843534;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\000037}}
+.pre-login input.form-control,
+.pre-login .btn {
+  height: 45px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000312}}
+input.form-control {
+  border-radius: 4px;
+  border: 1px solid #CCCCCC;
+  font-size: 16px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000318}}
+input[type=text]:focus, textarea:focus,
+input[type=password]:focus {
+  box-shadow: 0 0 5px #E28B00;
+  outline: 0;
+  border-color: #E28B00;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000325}}
+.form-control-feedback {
+  top: 5px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000330}}
+.btn {
+  font-size: 16px;
+  border: 1px transparent;
+  font-weight: 500;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000335}}
+.btn:active {
+  outline: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000340}}
+.primary {
+  background: #449ACC;
+  color: #fff !important;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000344}}
+.primary:hover {
+  background: #6cb0d7;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000351}}
+.search-box {
+  padding: 5px 10px;
+  border-radius: 50px;
+  border: 1px solid #bfbfbf;
+  font-size: 12px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000359}}
+.error {
+  color: #D0021B;
+  background-color: #FCD4D9;
+  border-color: #fabcc4;
+  font-weight: 100;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000368}}
+::-webkit-input-placeholder,
+:-moz-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  font-size: 16px;
+  color: #CCCCCC;
+  line-height: 18px;
+}

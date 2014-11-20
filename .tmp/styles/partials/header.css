@@ -1,73 +1,172 @@
-/*
-Error: Undefined mixin 'box-shadow'.
-        on line 3 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/header.scss, in `box-shadow'
-        from line 3 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/header.scss
-
-1: nav {
-2:   background: white;
-3:   @include box-shadow(0 1px 2px 0px rgba(0,0,0,0.10));
-4:   border: none !important;
-5: 
-6:   // NAVBAR HEADER
-7:   .navbar-header {
-8:     margin-right: $grid-gutter-width/2;
-
-Backtrace:
-/home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/header.scss:3:in `box-shadow'
-/home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/header.scss:3
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:338:in `block in visit_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:98:in `block in with_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:98:in `with_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:336:in `visit_mixin'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `block in with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:420:in `block (2 levels) in visit_rule'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:420:in `map'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:420:in `block in visit_rule'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:418:in `visit_rule'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `block in with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/stack.rb:79:in `with_base'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `map'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:157:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:8:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/root_node.rb:36:in `css_tree'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/tree/root_node.rb:20:in `render'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/engine.rb:268:in `render'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:491:in `update_stylesheet'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `each'
-/var/lib/gems/1.9.1/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/sass_compiler.rb:40:in `compile!'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/commands/update_project.rb:49:in `perform'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/commands/base.rb:18:in `execute'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/commands/project_base.rb:19:in `execute'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/bin/compass:30:in `block in <top (required)>'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/bin/compass:44:in `call'
-/var/lib/gems/1.9.1/gems/compass-1.0.1/bin/compass:44:in `<top (required)>'
-/usr/local/bin/compass:23:in `load'
-/usr/local/bin/compass:23:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Undefined mixin 'box-shadow'.\A         on line 3 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/header.scss, in `box-shadow'\A         from line 3 of /home/aspire7/Aspire_Projects/FINEMSYSUGANDA/FINTECH-UI/app/styles/partials/header.scss\A \A 1: nav {\A 2:   background: white;\A 3:   @include box-shadow(0 1px 2px 0px rgba(0,0,0,0.10));\A 4:   border: none !important;\A 5: \A 6:   // NAVBAR HEADER\A 7:   .navbar-header {\A 8:     margin-right: $grid-gutter-width/2;"; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\000033}}
+nav {
+  background: white;
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
+  border: none !important;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\000039}}
+nav .navbar-header {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000313}}
+nav .navbar-header .navbar-brand {
+  margin: 3px 15px 3px 0;
+  width: 48px;
+  height: 54px;
+  background: url("../images/logo-small.png") no-repeat;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000320}}
+nav .navbar-header .navbar-brand > span {
+  display: none;
+}
+@media (min-width: 768px) and (max-width: 1210px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000331}}
+  nav .right {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    float: right !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1210px) and (min-width: 1200px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000331}}
+  nav .right {
+    float: left;
+    width: 33.3333333333%;
+  }
+}
+@media (min-width: 768px) and (max-width: 1210px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000335}}
+  nav .right form {
+    float: left !important;
+    margin: 15px 0;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000339}}
+  nav .right form .form-group {
+    margin-bottom: 0 !important;
+  }
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000345}}
+nav .navbar-nav > li > a {
+  padding: 23px 15px 23px 40px;
+  font-size: 12px;
+  color: #666666;
+  line-height: 14px;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000354}}
+nav .dropdown-menu > li > a {
+  font-size: 12px;
+  color: #666666;
+  line-height: 24px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000360}}
+nav .home {
+  background: url("../images/icon-navbar-home-inactive.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000363}}
+nav .clients {
+  background: url("../images/icon-navbar-clients-inactive.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000366}}
+nav .products {
+  background: url("../images/icon-navbar-products-inactive.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000369}}
+nav .reports {
+  background: url("../images/icon-navbar-reports-inactive.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000372}}
+nav .accounting {
+  background: url("../images/icon-navbar-accounting-inactive.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000375}}
+nav .configuration {
+  background: url("../images/icon-navbar-configuration-inactive.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000378}}
+nav .notifications {
+  background: url("../images/icon-navbar-notifications.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000381}}
+nav .notifications > span {
+  display: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000384}}
+nav .notifications > strong {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  padding: 3px 5px;
+  background: #E28B00;
+  font-size: 10px;
+  line-height: 15px;
+  border: 100px;
+  font-weight: 500;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000395}}
+nav .user {
+  background: url("../images/icon-navbar-user.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\0000399}}
+nav .navbar-nav > .active > a {
+  background-color: #E28B00;
+  color: white;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003106}}
+nav .active > .home {
+  background: url("../images/icon-navbar-home-active.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003109}}
+nav .active > .clients {
+  background: url("../images/icon-navbar-clients-active.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003112}}
+nav .active > .products {
+  background: url("../images/icon-navbar-products-active.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003115}}
+nav .active > .reports {
+  background: url("../images/icon-navbar-reports-active.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003118}}
+nav .active > .accounting {
+  background: url("../images/icon-navbar-accounting-active.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003121}}
+nav .active > .configuration {
+  background: url("../images/icon-navbar-configuration-active.png");
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003126}}
+nav .search > .search-box {
+  margin-top: 16px;
+  margin-right: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003131}}
+nav .search-sm {
+  margin-top: 14px;
+  float: left;
+  width: 600px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003136}}
+nav .search-sm .search-box {
+  width: 100%;
+  display: block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003144}}
+nav .navbar-right > li > a {
+  margin: 7px;
+  border-left: 1px solid #F2F2F2;
+  border-right: 1px solid #F2F2F2;
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/header\.scss}line{font-family:\00003150}}
+nav .navbar-right > li:last-child a {
+  margin: 0;
+  border: 0;
+}
