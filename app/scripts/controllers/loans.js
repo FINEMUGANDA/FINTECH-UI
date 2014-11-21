@@ -15,7 +15,7 @@ LoanProductCrtl.controller('LoanProductsCtrl', function ($scope, $rootScope, $lo
       var loanProductsSuccess = function(result) {
          $scope.isLoading = false;
          try {
-              $scope.rowCollection = result.data.pageItems;
+              $scope.rowCollection = result.data;
           } catch (e) {
           }
       }

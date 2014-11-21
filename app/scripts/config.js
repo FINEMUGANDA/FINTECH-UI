@@ -22,7 +22,7 @@ app.constant('REST_URL', {
     'LOANS_AWAITING_DISBURSEMENT': 'api/v1/runreports/PageClientsScreenLoansAD',
     'LOANS_REJECTED': 'api/v1/runreports/PageClientsScreenLoansRejected',
     'LOANS_WRITTEN_OFF': 'api/v1/runreports/PageClientsScreenLoansWritten',
-    'LOANS_PRODUCTS_LIST': 'api/v1/loans',
+    'LOANS_PRODUCTS_LIST': 'api/v1/loanproducts',
     'CHARGES': 'api/v1/charges',
 });
 
