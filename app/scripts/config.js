@@ -24,6 +24,7 @@ app.constant('REST_URL', {
     'LOANS_WRITTEN_OFF': 'api/v1/runreports/PageClientsScreenLoansWritten',
     'LOANS_PRODUCTS_LIST': 'api/v1/loanproducts',
     'CHARGES': 'api/v1/charges',
+    'LOAN_PRODUCTS_TEMPLATE':'api/v1/loanproducts/template'
 });
 
 app.constant('PAGE_URL', {
