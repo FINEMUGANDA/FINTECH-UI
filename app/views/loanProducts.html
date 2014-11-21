@@ -1,13 +1,13 @@
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="LoanProductsCtrl">
-    <div class="shortcuts">
-        <ul role="tablist">
-          <li role="presentation"><a href="#/loanProducts" class="active">Loan Products</a></li>
-          <li role="presentation"><a href="#/charges">Charges</a></li>
-          <li role="presentation"><a href="#/accounting">Accounting</a></li>
-        </ul>
-  	</div>
-  	<div class="list">
+  <div class="shortcuts">
+      <ul role="tablist">
+        <li role="presentation"><a href="#/loanProducts" class="active">Loan Products</a></li>
+        <li role="presentation"><a href="#/charges">Charges</a></li>
+        <li role="presentation"><a href="#/accounting">Accounting</a></li>
+      </ul>
+	</div>
+	<div class="list">
     <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
@@ -17,7 +17,11 @@
   	              <ul role="tablist">
 	                  <li role="presentation">
   					      	<div class="action">
-  					       		<button class="btn grid-button">Create Loan Products</button>
+  					       		<button class="btn grid-button">
+                        <a href="#/createloanproduct">
+                            Create Loan Products
+                        </a>
+                      </button>
   					      	</div>
 	          		    </li>
 	               </ul> 
@@ -61,7 +65,7 @@
             <td colspan="8">
               <div class="table-footer">
                 <div class="export">
-                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('0,7')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('0,7')" target="_blank">Excel</a>
+                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
                 </div>
                 <div class="paginate">
                   <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>

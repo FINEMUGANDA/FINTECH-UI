@@ -23,7 +23,11 @@ GraphUtils.factory('Graph', function () {
 		            {
 		              "id": "barHeaders",
 		              "role": "annotation",
-		              "type": "string"
+		              "type": "string",
+		               "p": {
+          					"role": "annotation",
+          					"html": true
+        				}
 		            }
 		          ],
 		          "rows": [

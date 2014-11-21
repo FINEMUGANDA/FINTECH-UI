@@ -88,6 +88,13 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
             authorizedRoles: ['admin']
           }
       }).
+      when('/createloanproduct', {
+        templateUrl: 'views/createLoanProduct.html',
+        controller: 'LoansWrittenOffCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
       otherwise({
         redirectTo: '/'
       });
