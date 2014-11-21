@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','userServices','Constants']);
+var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','loanProductController','chargesController','userServices','Constants']);
 
  // Angular supports chaining, so here we chain the config function onto
   // the module we're configuring.
@@ -64,6 +64,26 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
       when('/loansWrittenOff', {
         templateUrl: 'views/loansWrittenOff.html',
         controller: 'LoansWrittenOffCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/configuration', {
+        templateUrl: 'views/configuration.html',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/loanProducts', {
+        templateUrl: 'views/loanProducts.html',
+        controller: 'LoanProductsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/charges', {
+        templateUrl: 'views/charges.html',
+        controller: 'ChargesCtrl',
         data: {
             authorizedRoles: ['admin']
           }
@@ -156,6 +176,12 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.LOANSWRITTENOFF:
             $topNavigation.find('.clients').parent().addClass('active');
             break;
+          case PAGE_URL.CONFIGURATION:
+          case PAGE_URL.LOANPRODUCTS:
+          case PAGE_URL.CHARGES:
+          case PAGE_URL.ACCOUNTING:
+            $topNavigation.find('.configuration').parent().addClass('active');
+            break;  
           default:
             $topNavigation.find('.home').parent().addClass('active');
         }

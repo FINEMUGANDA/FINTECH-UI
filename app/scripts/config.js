@@ -22,6 +22,8 @@ app.constant('REST_URL', {
     'LOANS_AWAITING_DISBURSEMENT': 'api/v1/runreports/PageClientsScreenLoansAD',
     'LOANS_REJECTED': 'api/v1/runreports/PageClientsScreenLoansRejected',
     'LOANS_WRITTEN_OFF': 'api/v1/runreports/PageClientsScreenLoansWritten',
+    'LOANS_PRODUCTS_LIST': 'api/v1/loans',
+    'CHARGES': 'api/v1/charges',
 });
 
 app.constant('PAGE_URL', {
@@ -32,7 +34,11 @@ app.constant('PAGE_URL', {
     'LOANSAWAITINGDISBURSEMENT': '/loansAwaitingDisbursement',
     'LOANSPENDINGAPPROVAL': '/loansPendingApproval',
     'LOANSREJECTED': '/loansRejected',
-    'LOANSWRITTENOFF': '/loansWrittenOff'
+    'LOANSWRITTENOFF': '/loansWrittenOff',
+    'CONFIGURATION': '/configuration',
+    'LOANPRODUCTS': '/loanProducts',
+    'CHARGES': '/charges',
+    'ACCOUNTING': '/accounting'
 });
 
 app.constant('AUTH_EVENTS', {

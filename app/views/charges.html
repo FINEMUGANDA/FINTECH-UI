@@ -1,0 +1,75 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="ChargesCtrl">
+    <div class="shortcuts">
+        <ul role="tablist">
+          <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
+          <li role="presentation"><a href="#/charges" class="active">Charges</a></li>
+          <li role="presentation"><a href="#/accounting">Accounting</a></li>
+        </ul>
+  	</div>
+  	<div class="list">
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
+      <thead>
+        <tr>
+          <th colspan="3">
+              <div class="filters" >
+                <div style="float:right;">            
+                  <ul role="tablist">
+                    <li role="presentation">
+                    <div class="action">
+                      <button class="btn grid-button">Create Charges</button>
+                    </div>
+                    </li>
+                 </ul> 
+                </div>
+                <div class="search" style="float:right;">
+                    <input type="text" st-search="" class="search-box" placeholder="Search Charges" />
+                </div>
+             </div>  
+          </th>
+        </tr>
+        <tr>
+          <th st-sort="name">Charge Name</th>
+          <th st-sort="status">Type</th>
+          <th st-sort="loanStatus">Amount(%)</th>
+        </tr>
+      </thead>
+      <tbody ng-hide="isLoading">        
+        <tr ng-repeat="charges in displayed">
+          <td>{{charges.name}}</td>
+          <td>
+              <div class="name">
+                <a href="#">{{charges.chargeTimeType.value}}</a>
+              </div>
+          </td>
+          <td>
+            <span>
+              {{charges.currency.displaySymbol}}{{charges.amount}}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="8" class="text-center">
+            <div class="loading-indicator">Loading...</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="isLoading">
+          <tr>
+            <td colspan="8">
+              <div class="table-footer">
+                <div class="export">
+                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('0,7')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('0,7')" target="_blank">Excel</a>
+                </div>
+                <div class="paginate">
+                  <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+    </table>
+  </div>
+</div>
