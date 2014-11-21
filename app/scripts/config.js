@@ -36,11 +36,11 @@ app.constant('PAGE_URL', {
     'LOANSPENDINGAPPROVAL': '/loansPendingApproval',
     'LOANSREJECTED': '/loansRejected',
     'LOANSWRITTENOFF': '/loansWrittenOff',
-    'CONFIGURATION': '/configuration',
     'LOANPRODUCTS': '/loanProducts',
     'CHARGES': '/charges',
     'ACCOUNTING': '/accounting',
-    'CREATELOANPRODUCT':'/createloanproduct'
+    'CREATELOANPRODUCT':'/createloanproduct',
+    'CREATECHARGE':'/createCharge',
 });
 
 app.constant('AUTH_EVENTS', {

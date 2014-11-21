@@ -41,3 +41,33 @@ chargesController.controller('ChargesCtrl', function ($scope, $rootScope, $locat
 
       loadCharges();
 });
+
+chargesController.controller('ChargeFormCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION) {
+      console.log('ChargeFormCtrl : Insert Charge');
+      $scope.authenticate = function(loginDetails){
+    console.log('ChargeFormCtrl : authenticate');
+    //reset error value
+    $scope.error=false;
+    //Validate login form
+    if ($scope.chargeForm.$valid) {
+      //check for null details
+      if(!Utility.isUndefinedOrNull(Charge)){
+
+      }else{
+        $scope.invalidateForm();
+      }
+    } else {
+      $scope.invalidateForm();
+    }
+  };
+
+  //invalidate login form
+  $scope.invalidateForm = function(){
+   $scope.chargeForm.invalidate = false;
+  };
+
+  //Clear error from the login page
+  $scope.clearError = function(){
+   $scope.chargeForm.invalidate = false;
+  };
+});

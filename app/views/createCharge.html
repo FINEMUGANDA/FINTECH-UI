@@ -1,0 +1,85 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="ChargeFormCtrl">
+  <div class="shortcuts">
+      <ul role="tablist">
+        <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
+        <li role="presentation"><a href="#/charges" class="active">Charges</a></li>
+        <li role="presentation"><a href="#/accounting">Accounting</a></li>
+      </ul>
+  </div>
+  <br/><br/>
+  <div class="rows">
+    <div class="page-header">
+    <div class="header">
+      <h3>Create Charges</h3>
+      <div class="action"></div>
+    </div>
+    </div>
+    <div calss="col-md-12">
+      <form class="form-horizontal" name="chargeForm" novalidate show-validation>
+        <div calss="col-md-12">
+          <div class="form-group has-error has-feedback">                
+                <label class="control-label col-md-3">Name*:</label>
+                <div class="col-md-3">
+                    <input ng-focus="clearError()" id="name" class="form-control" type="text" ng-model="Charge.name" required>
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div>
+            </div>
+          </div>
+          <div class="form-group has-error has-feedback">
+              <label class="control-label col-md-3">Type:</label>
+              <div class="col-md-3">
+                  <select id="type" ng-model="Charge.type" class="form-control"  value="">
+                    <option value="">Select Type</option>                    
+                  </select>
+              </div>
+          </div>
+          <div class="form-group has-error has-feedback">
+              <label class="control-label col-md-3">Applies To:</label>
+              <div class="col-md-3">
+                  <select id="appliesTo" ng-model="Charge.appliesTo" class="form-control" value="">
+                    <option value="">Select</option>                    
+                  </select>
+              </div>
+          </div>
+          <div class="form-group has-error has-feedback">
+              <label class="control-label col-md-3">Application Frequency:</label>
+              <div class="col-md-3">
+                  <select id="applicationFrequency"  ng-model="Charge.applicationFrequency" class="form-control" value="">
+                    <option value="">Select</option>                    
+                  </select>
+              </div>
+          </div>
+          <div class="form-group has-error has-feedback">
+              <label class="control-label col-md-3">Charge Type:</label>
+              <div class="col-md-3">
+                  <select id="chargeType" ng-model="Charge.chargeType" class="form-control" value="">
+                    <option value="">Select Charge</option>                    
+                  </select>
+              </div>
+          </div>
+          <div class="form-group has-error has-feedback">
+              <label class="control-label col-md-3">Ammount(%):</label>
+              <div class="col-md-3">
+                  <select id="ammount"  ng-model="Charge.ammount" class="form-control" value="">
+                    <option value="">Select Ammount</option>                    
+                  </select>
+              </div>
+          </div>
+          <div class="form-group has-error has-feedback">
+              <label class="control-label col-md-3">Basis:</label>
+              <div class="col-md-3">
+                  <select id="basis"   ng-model="Charge.basis" class="form-control" value="">
+                    <option value="">Select Basis</option>                    
+                  </select>
+              </div>
+          </div>
+        <hr/>
+        <div class="col-md-offset-3 paddedtop">
+          <button id="cancel" style="margin-left:9px" type="reset" class="btn btn-warning" ng-click="cancel()">Cancel</button>
+          <button id="save" type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
