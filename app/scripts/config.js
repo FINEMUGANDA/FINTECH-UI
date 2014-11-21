@@ -38,7 +38,8 @@ app.constant('PAGE_URL', {
     'CONFIGURATION': '/configuration',
     'LOANPRODUCTS': '/loanProducts',
     'CHARGES': '/charges',
-    'ACCOUNTING': '/accounting'
+    'ACCOUNTING': '/accounting',
+    'CREATELOANPRODUCT':'/createloanproduct'
 });
 
 app.constant('AUTH_EVENTS', {

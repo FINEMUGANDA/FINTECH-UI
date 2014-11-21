@@ -187,6 +187,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.LOANPRODUCTS:
           case PAGE_URL.CHARGES:
           case PAGE_URL.ACCOUNTING:
+          case PAGE_URL.CREATELOANPRODUCT:
             $topNavigation.find('.configuration').parent().addClass('active');
             break;  
           default:

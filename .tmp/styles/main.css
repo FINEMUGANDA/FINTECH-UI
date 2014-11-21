@@ -17124,3 +17124,8 @@ nav {
 .form-control-feedback {
   top: 6px;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000349}}
+nav .notifications > strong {
+  right: 18px;
+}
