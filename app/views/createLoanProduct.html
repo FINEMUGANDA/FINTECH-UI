@@ -46,10 +46,11 @@
               <div class="col-md-3">                  
                   <select id="currencyCode" ng-model="loanProductDetails.currencyCode" class="form-control"
                     ng-options="currency.code as currency.name for currency in product.currencyOptions"
-                    value="{{currency.code}}"/>
+                    value="{{currency.code}}">
+                    </select>
               </div>
           </div>
-          <hr/>
+          <hr>
           <div class="form-group">
             <label class="control-label col-md-2">Principal</label>
             <div class="col-md-2">
