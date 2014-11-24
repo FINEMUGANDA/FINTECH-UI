@@ -26,12 +26,13 @@
           <div class="form-group">                
                   <label class="control-label col-md-2">Product name*</label>
                   <div class="validate col-md-3">
-                      <input id="name" name="name" class="form-control" type="text" ng-model="loanProductDetails.name" required>
+                      <input id="name" name="name" class="form-control" type="text" ng-model="loanProductDetails.name" required />
                       <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                   </div>
+                  <div class="col-md-1"></div>
                   <label class="control-label col-md-2">Short name*</label>
                   <div class="validate col-md-3">
-                      <input id="shortName" name="shortName" class="form-control" type="text" ng-model="loanProductDetails.shortName" ng-maxlength="4" required >
+                      <input id="shortName" name="shortName" class="form-control" type="text" ng-model="loanProductDetails.shortName" ng-maxlength="4" required />
                       <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                   </div>                
           </div>          
@@ -40,7 +41,8 @@
               <div class="col-md-3">
                   <textarea rows="2" class="form-control" ng-model="loanProductDetails.description"></textarea>
               </div>
-              <label class="control-label col-md-2">Currency</label>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Currency</label>              
               <div class="col-md-3">                  
                   <select id="currencyCode" ng-model="loanProductDetails.currencyCode" class="form-control"
                     ng-options="currency.code as currency.name for currency in product.currencyOptions"
@@ -49,44 +51,44 @@
           </div>
           <hr/>
           <div class="form-group">
-            <label class="control-label col-md-2 ng-binding">Principal</label>
+            <label class="control-label col-md-2">Principal</label>
             <div class="col-md-2">
-                <input id="minPrincipal" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minPrincipal">
-            </div>&nbsp;            
+                <input id="minPrincipal" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minPrincipal" />
+            </div>      
             <div class="validate col-md-2">
-               <input id="principal" placeholder="Default" class="form-control" type="text" name="principal"  ng-model="loanProductDetails.principal" required>
-            </div>&nbsp;
+               <input id="principal" placeholder="Default" class="form-control" type="text" name="principal"  ng-model="loanProductDetails.principal" required/>
+            </div>
             <div class="col-md-2">
-               <input id="maxPrincipal" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxPrincipal">
+               <input id="maxPrincipal" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxPrincipal" />
             </div>
           </div>
           <div class="form-group">  
-            <label class="control-label col-md-2 ng-binding">Loan Term</label>
+            <label class="control-label col-md-2">Loan Term</label>
             <div class="col-md-2">
-                <input id="minNumberOfRepayments" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minNumberOfRepayments">
-            </div>&nbsp;            
+                <input id="minNumberOfRepayments" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minNumberOfRepayments" />
+            </div>            
             <div class="validate col-md-2">
-               <input id="numberOfRepayments" placeholder="Default" class="form-control" type="text" name="loanTerm" ng-model="loanProductDetails.numberOfRepayments" required>
-            </div>&nbsp;
+               <input id="numberOfRepayments" placeholder="Default" class="form-control" type="text" name="loanTerm" ng-model="loanProductDetails.numberOfRepayments" required/>
+            </div>
             <div class="col-md-2">
-               <input id="maxNumberOfRepayments" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxNumberOfRepayments">
+               <input id="maxNumberOfRepayments" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxNumberOfRepayments" />
             </div>
           </div>
           <div class="form-group">  
-            <label class="control-label col-md-2 ng-binding">Interest Rate Per Period</label>
+            <label class="control-label col-md-2">Interest Rate Per Period</label>
             <div class="col-md-2">
-                <input id="mininterestRatePerPeriod" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.mininterestRatePerPeriod">
-            </div>&nbsp;           
+                <input id="mininterestRatePerPeriod" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.mininterestRatePerPeriod" />
+            </div>           
             <div class="validate col-md-2">
-               <input id="interestRatePerPeriod" placeholder="Default" class="form-control" type="text" name="interestRatePerPeriod" ng-model="loanProductDetails.interestRatePerPeriod" required>
-            </div>&nbsp;
+               <input id="interestRatePerPeriod" placeholder="Default" class="form-control" type="text" name="interestRatePerPeriod" ng-model="loanProductDetails.interestRatePerPeriod" required />
+            </div>
             <div class="col-md-2">
-               <input id="maxinterestRatePerPeriod" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxinterestRatePerPeriod">
+               <input id="maxinterestRatePerPeriod" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxinterestRatePerPeriod" />
             </div>
           </div>
           <hr/>
           <div class="form-group">
-            <label class="control-label col-md-2 ng-binding">Repayment Frequency</label>
+            <label class="control-label col-md-2">Repayment Frequency</label>
             <div class="col-md-3">                
                 <select id="repaymentFrequencyType" class="form-control"
                     ng-model="loanProductDetails.repaymentFrequencyType"
@@ -94,24 +96,24 @@
                     value="{{repaymentFrequencyType.id}}"/>
             </div>
             <div class="col-md-1"></div>
-            <label class="control-label col-md-2 ng-binding">Amortization</label>
+            <label class="control-label col-md-2">Amortization</label>
             <div class="col-md-3">
                 <select id="amortizationType" ng-model="loanProductDetails.amortizationType" class="form-control" ng-options="amortizationType.id as amortizationType.value for amortizationType in product.amortizationTypeOptions" value="{{amortizationType.id}}"/>
             </div>
           </div>  
           <div class="form-group">
-            <label class="control-label col-md-2 ng-binding">Interest Rate Frequency Type</label>
+            <label class="control-label col-md-2">Interest Rate Frequency Type</label>
             <div class="col-md-3">
                 <select class="form-control" id="interestRateFrequencyType" ng-model="loanProductDetails.interestRateFrequencyType" ng-options="interestRateFrequencyType.id as interestRateFrequencyType.value for interestRateFrequencyType in product.interestRateFrequencyTypeOptions" value="{{interestRateFrequencyType.id}}"/>
             </div>
             <div class="col-md-1"></div>
-            <label class="control-label col-md-2 ng-binding">Transaction Processing Strategy</label>
+            <label class="control-label col-md-2">Transaction Processing Strategy</label>
             <div class="col-md-3">
                 <select id="transactionProcessingStrategyId" ng-model="loanProductDetails.transactionProcessingStrategyId" class="form-control" ng-options="transactionProcessingStrategy.id as transactionProcessingStrategy.name for transactionProcessingStrategy in product.transactionProcessingStrategyOptions" value="{{transactionProcessingStrategy.id}}"/>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-2 ng-binding">Interest Rate Type</label>
+            <label class="control-label col-md-2">Interest Rate Type</label>
            <div class="col-md-3">
                 <select id="interestType" ng-model="loanProductDetails.interestType" class="form-control" ng-options="interestType.id as interestType.value for interestType in product.interestTypeOptions" value="{{interestType.id}}"/>
             </div>
