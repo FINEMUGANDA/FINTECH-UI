@@ -8,7 +8,8 @@ LoanProductCrtl.controller('LoanProductsCtrl', function ($scope, $rootScope, $lo
       //To load the loadproducts page      
       $scope.isLoading = false;
       $scope.rowCollection = [];
-      $scope.displayed=[]
+      $scope.displayed=[];
+
       //Success callback
       var loanProductsSuccess = function(result) {
          $scope.isLoading = false;
@@ -39,11 +40,12 @@ LoanProductCrtl.controller('LoanProductsCtrl', function ($scope, $rootScope, $lo
       loadLoanProducts();
 });
 
-LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION) {
+LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
       console.log('LoanProductsCtrl : CreateLoanProducts');
       //To load the loadproducts page
       $scope.isLoading = false;
       $scope.loanProductDetails = {};
+      $rootScope.loanProductMessage=false;
       //Success callback
       var loanProductTeplateSuccess = function(result) {
          $scope.isLoading = false;
@@ -56,14 +58,20 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
               $scope.loanProductDetails.amortizationType = $scope.product.amortizationType.id;
               $scope.loanProductDetails.interestType = $scope.product.interestType.id;
               $scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
+
+              $scope.loanProductDetails.includeInBorrowerCycle="true";
+              $scope.loanProductDetails.transactionProcessingStrategyId=5;
+              $scope.loanProductDetails.interestType = 1;
+              $scope.loanProductDetails.interestRateFrequencyType=3;
               //Set as default now
               $scope.loanProductDetails.inMultiplesOf = '0';
               $scope.loanProductDetails.repaymentEvery = "1";
               $scope.loanProductDetails.interestCalculationPeriodType = 1;
-              $scope.loanProductDetails.accountingRule = "3";
+              $scope.loanProductDetails.accountingRule = "1";
               $scope.loanProductDetails.isInterestRecalculationEnabled = "false";
               $scope.loanProductDetails.daysInYearType=1; 
               $scope.loanProductDetails.daysInMonthType=1;
+              $scope.loanProductDetails.locale="en";
           } catch (e) {
           }
       }
@@ -85,18 +93,42 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
       };
 
       loadLoanProductTemplate();
+      
+      $scope.validateLoanProduct = function(loanProductDetails){
+        console.log('LoanProductsCtrl : CreateLoanProducts : authenticateLoanProduct');
+            if ($scope.createloanproductform.$valid) {
+              $scope.saveLoanProduct(loanProductDetails);
+              
+            } else {
+              $scope.invalidateForm();
+            }
+        
+      };
 
-      $scope.saveLoanProduct = function(){
+      //invalidate login form
+      $scope.invalidateForm = function(){
+       $scope.createloanproductform.invalidate = false;
+      };
+
+      $scope.saveLoanProduct = function(loanProductDetails){
         console.log('LoanProductsCtrl : CreateLoanProducts : saveLoanProduct');
 
         var saveloanProductSuccess = function(result){
-          console.log('Success : Return from loanProducts service.');                    
+          console.log('Success : Return from loanProducts service.');
+          $rootScope.loanProductMessage=true;
+          $rootScope.type="alert-success";
+          $rootScope.message="Loan product saved successfully";
+          $location.url(PAGE_URL.LOANPRODUCTS);                  
         }
 
         var saveloanProductFail = function(result){
           console.log('Error : Return from loanProducts service.');                    
+          $rootScope.loanProductMessage=true;
+          $rootScope.type="error";
+          $rootScope.message="Loan product not saved, please try again!";
+          $location.url(PAGE_URL.LOANPRODUCTS);
         }
         console.log("JSON.toJson(loanProductDetails) > " + angular.toJson(this.loanProductDetails));
-        //LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS_LIST, JSON.toJson(loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
+        LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS_LIST, angular.toJson(this.loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
       };
 });
