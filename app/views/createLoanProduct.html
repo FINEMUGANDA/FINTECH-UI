@@ -21,28 +21,28 @@
           <div class="loading-indicator">Loading...</div>        
         </div>
       </div>  
-      <form name="createloanproductform" ng-hide="isLoading" class="form-horizontal">
+      <form name="createloanproductform" ng-hide="isLoading" class="form-horizontal" ng-submit="saveLoanProduct()">
         <div calss="col-md-12">
           <div class="form-group">                
                 <label class="control-label col-md-2">Product name<span class="required">*</span></label>
                 <div class="col-md-3">
-                    <input id="name" name="name" class="form-control" type="text" ng-model="formData.name">
+                    <input id="name" name="name" class="form-control" type="text" ng-model="loanProductDetails.name">
                 </div>
                 <div class="col-md-1"></div>
                 <label class="control-label col-md-2">Short name<span class="required">*</span></label>
                 <div class="col-md-3">
-                    <input id="shortName" name="shortName" class="form-control" type="text" ng-model="formData.shortName">
+                    <input id="shortName" name="shortName" class="form-control" type="text" ng-model="loanProductDetails.shortName">
                 </div>                
           </div>          
           <div class="form-group">
               <label class="control-label col-md-2">Description</label>
               <div class="col-md-3">
-                  <textarea rows="2" class="form-control" ng-model="formData.description"></textarea>
+                  <textarea rows="2" class="form-control" ng-model="loanProductDetails.description"></textarea>
               </div>
               <div class="col-md-1"></div>
               <label class="control-label col-md-2">Currency</label>
               <div class="col-md-3">                  
-                  <select id="currencyCode" ng-model="formData.currencyCode" class="form-control"
+                  <select id="currencyCode" ng-model="loanProductDetails.currencyCode" class="form-control"
                     ng-options="currency.code as currency.name for currency in product.currencyOptions"
                     value="{{currency.code}}"/>
               </div>
@@ -50,66 +50,74 @@
           <div class="form-group">
             <label class="control-label col-md-2 ng-binding">Principal</label>
             <div class="col-md-1">
-                <input id="minPrincipal" placeholder="Minimum" class="form-control" type="text" ng-model="formData.minPrincipal">
+                <input id="minPrincipal" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minPrincipal">
             </div>&nbsp;            
             <div class="col-md-1">
-               <input id="principal" placeholder="Default" class="form-control" type="text" name="principal"  ng-model="formData.principal">
+               <input id="principal" placeholder="Default" class="form-control" type="text" name="principal"  ng-model="loanProductDetails.principal">
             </div>&nbsp;
             <div class="col-md-1">
-               <input id="maxPrincipal" placeholder="Maximum" class="form-control" type="text" ng-model="formData.maxPrincipal">
+               <input id="maxPrincipal" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxPrincipal">
             </div>
             <div class="col-md-1"></div>
             <label class="control-label col-md-2 ng-binding">Loan Term</label>
             <div class="col-md-1">
-                <input id="minLoanTerm" placeholder="Minimum" class="form-control" type="text" ng-model="formData.minLoanTerm">
+                <input id="numberOfRepayments" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.numberOfRepayments">
             </div>&nbsp;            
             <div class="col-md-1">
-               <input id="loanTerm" placeholder="Default" class="form-control" type="text" name="loanTerm" ng-model="formData.loanTerm" >
+               <input id="numberOfRepayments" placeholder="Default" class="form-control" type="text" name="loanTerm" ng-model="loanProductDetails.numberOfRepayments" >
             </div>&nbsp;
             <div class="col-md-1">
-               <input id="maxLoanTerm" placeholder="Maximum" class="form-control" type="text" ng-model="formData.maxLoanTerm">
+               <input id="numberOfRepayments" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.numberOfRepayments">
             </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-sm-2">Include in LoanCycle Counter</label>
+              <div class="checkbox col-sm-2">
+              <label>
+                <input type="checkbox" ng-model="loanProductDetails.includeInBorrowerCycle" ng-true-value="true" ng-false-value="false">
+                </label>
+              </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-2 ng-binding">Repayment Frequency</label>
             <div class="col-md-3">                
                 <select id="repaymentFrequencyType" class="form-control"
-                    ng-model="formData.repaymentFrequencyType"
+                    ng-model="loanProductDetails.repaymentFrequencyType"
                     ng-options="repaymentFrequencyType.id as repaymentFrequencyType.value for repaymentFrequencyType in product.repaymentFrequencyTypeOptions"
                     value="{{repaymentFrequencyType.id}}"/>
             </div>
             <div class="col-md-1"></div>
             <label class="control-label col-md-2 ng-binding">Interest Rate Per Period</label>
             <div class="col-md-1">
-                <input id="minInterestRate" placeholder="Minimum" class="form-control" type="text" ng-model="formData.minInterestRate">
+                <input id="mininterestRatePerPeriod" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.mininterestRatePerPeriod">
             </div>&nbsp;            
             <div class="col-md-1">
-               <input id="interestRate" placeholder="Default" class="form-control" type="text" name="interestRate" ng-model="formData.interestRate" >
+               <input id="interestRatePerPeriod" placeholder="Default" class="form-control" type="text" name="interestRatePerPeriod" ng-model="loanProductDetails.interestRatePerPeriod" >
             </div>&nbsp;
             <div class="col-md-1">
-               <input id="maxInterestRate" placeholder="Maximum" class="form-control" type="text" ng-model="formData.maxInterestRate">
+               <input id="maxinterestRatePerPeriod" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxinterestRatePerPeriod">
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-2 ng-binding">Interest Rate Frequency Type</label>
             <div class="col-md-3">
-                <select class="form-control" id="interestRateFrequencyType" ng-model="formData.interestRateFrequencyType" ng-options="interestRateFrequencyType.id as interestRateFrequencyType.value for interestRateFrequencyType in product.interestRateFrequencyTypeOptions" value="{{interestRateFrequencyType.id}}"/>
+                <select class="form-control" id="interestRateFrequencyType" ng-model="loanProductDetails.interestRateFrequencyType" ng-options="interestRateFrequencyType.id as interestRateFrequencyType.value for interestRateFrequencyType in product.interestRateFrequencyTypeOptions" value="{{interestRateFrequencyType.id}}"/>
             </div>
             <div class="col-md-1"></div>
             <label class="control-label col-md-2 ng-binding">Amortization</label>
             <div class="col-md-3">
-                <select id="amortizationType" ng-model="formData.amortizationType" class="form-control" ng-options="amortizationType.id as amortizationType.value for amortizationType in product.amortizationTypeOptions" value="{{amortizationType.id}}"/>
+                <select id="amortizationType" ng-model="loanProductDetails.amortizationType" class="form-control" ng-options="amortizationType.id as amortizationType.value for amortizationType in product.amortizationTypeOptions" value="{{amortizationType.id}}"/>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-2 ng-binding">Interest Rate Type</label>
             <div class="col-md-3">
-                <select id="interestType" ng-model="formData.interestType" class="form-control" ng-options="interestType.id as interestType.value for interestType in product.interestTypeOptions" value="{{interestType.id}}"/>
+                <select id="interestType" ng-model="loanProductDetails.interestType" class="form-control" ng-options="interestType.id as interestType.value for interestType in product.interestTypeOptions" value="{{interestType.id}}"/>
             </div>
             <div class="col-md-1"></div>
             <label class="control-label col-md-2 ng-binding">Transaction Processing Strategy</label>
             <div class="col-md-3">
-                <select id="transactionProcessingStrategyId" ng-model="formData.transactionProcessingStrategyId" class="form-control" ng-options="transactionProcessingStrategy.id as transactionProcessingStrategy.name for transactionProcessingStrategy in product.transactionProcessingStrategyOptions" value="{{transactionProcessingStrategy.id}}"/>
+                <select id="transactionProcessingStrategyId" ng-model="loanProductDetails.transactionProcessingStrategyId" class="form-control" ng-options="transactionProcessingStrategy.id as transactionProcessingStrategy.name for transactionProcessingStrategy in product.transactionProcessingStrategyOptions" value="{{transactionProcessingStrategy.id}}"/>
             </div>
           </div>
           <hr/>

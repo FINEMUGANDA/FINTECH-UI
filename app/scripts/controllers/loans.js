@@ -43,19 +43,27 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
       console.log('LoanProductsCtrl : CreateLoanProducts');
       //To load the loadproducts page
       $scope.isLoading = false;
-      $scope.formData = {};
+      $scope.loanProductDetails = {};
       //Success callback
       var loanProductTeplateSuccess = function(result) {
          $scope.isLoading = false;
          try {
               $scope.product = result.data;
-              $scope.formData.digitsAfterDecimal = '2';
-              $scope.formData.currencyCode = $scope.product.currencyOptions[0].code;
-              $scope.formData.repaymentFrequencyType = $scope.product.repaymentFrequencyType.id;
-              $scope.formData.interestRateFrequencyType = $scope.product.interestRateFrequencyType.id;
-              $scope.formData.amortizationType = $scope.product.amortizationType.id;
-              $scope.formData.interestType = $scope.product.interestType.id;
-              $scope.formData.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
+              $scope.loanProductDetails.digitsAfterDecimal = '2';
+              $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions[0].code;
+              $scope.loanProductDetails.repaymentFrequencyType = $scope.product.repaymentFrequencyType.id;
+              $scope.loanProductDetails.interestRateFrequencyType = $scope.product.interestRateFrequencyType.id;
+              $scope.loanProductDetails.amortizationType = $scope.product.amortizationType.id;
+              $scope.loanProductDetails.interestType = $scope.product.interestType.id;
+              $scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
+              //Set as default now
+              $scope.loanProductDetails.inMultiplesOf = '0';
+              $scope.loanProductDetails.repaymentEvery = "1";
+              $scope.loanProductDetails.interestCalculationPeriodType = 1;
+              $scope.loanProductDetails.accountingRule = "3";
+              $scope.loanProductDetails.isInterestRecalculationEnabled = "false";
+              $scope.loanProductDetails.daysInYearType=1; 
+              $scope.loanProductDetails.daysInMonthType=1;
           } catch (e) {
           }
       }
@@ -71,10 +79,24 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
         $timeout(
           function() {
               $scope.rowCollection = [];              
-              LoanProductService.getData(REST_URL.LOAN_PRODUCTS_TEMPLATE).then(loanProductTeplateSuccess, loanProductTemplateFail);              
+              LoanProductService.getData(REST_URL.LOAN_PRODUCTS_TEMPLATE).then(loanProductTeplateSuccess, loanProductTemplateFail);
           }, 500
         );
       };
 
       loadLoanProductTemplate();
+
+      $scope.saveLoanProduct = function(){
+        console.log('LoanProductsCtrl : CreateLoanProducts : saveLoanProduct');
+
+        var saveloanProductSuccess = function(result){
+          console.log('Success : Return from loanProducts service.');                    
+        }
+
+        var saveloanProductFail = function(result){
+          console.log('Error : Return from loanProducts service.');                    
+        }
+        console.log("JSON.toJson(loanProductDetails) > " + angular.toJson(this.loanProductDetails));
+        //LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS_LIST, JSON.toJson(loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
+      };
 });
