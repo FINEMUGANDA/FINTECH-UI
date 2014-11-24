@@ -42,32 +42,57 @@ chargesController.controller('ChargesCtrl', function ($scope, $rootScope, $locat
       loadCharges();
 });
 
-chargesController.controller('ChargeFormCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION) {
-      console.log('ChargeFormCtrl : Insert Charge');
-      $scope.authenticate = function(loginDetails){
-    console.log('ChargeFormCtrl : authenticate');
-    //reset error value
-    $scope.error=false;
-    //Validate login form
-    if ($scope.chargeForm.$valid) {
-      //check for null details
-      if(!Utility.isUndefinedOrNull(Charge)){
-
-      }else{
-        $scope.invalidateForm();
-      }
-    } else {
-      $scope.invalidateForm();
+chargesController.controller('CreateChargeCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION) {
+    console.log('chargesController : CreateChargeCtrl');
+    //To load create charge page
+    $scope.isLoading = false;
+    $scope.chargeDetails = {};
+    //Success callback
+    var chargeTeplateSuccess = function(result) {
+       $scope.isLoading = false;
+       console.log('chargesController : CreateChargeCtrl : chargeTeplateSuccess');
+       try {
+            $scope.product = result.data;            
+            $scope.chargeDetails.penalty="true";
+            $scope.chargeDetails.chargeAppliesTo=$scope.product.chargeAppliesToOptions[0].id;
+            $scope.chargeDetails.locale= "en";
+            //Application Frequency
+            $scope.chargeDetails.chargeTimeType="35";            
+            //Charge Type
+            $scope.chargeDetails.chargeCalculationType="0";
+        } catch (e) {
+        }
     }
-  };
 
-  //invalidate login form
-  $scope.invalidateForm = function(){
-   $scope.chargeForm.invalidate = false;
-  };
+    //failur callback
+    var chargeTemplateFail = function(result){
+        $scope.isLoading = false;
+        console.log('Error : Return from charge service.');
+    }
 
-  //Clear error from the login page
-  $scope.clearError = function(){
-   $scope.chargeForm.invalidate = false;
-  };
+    var loadchargeTemplate = function getData(tableState) {
+      $scope.isLoading = true;
+      $timeout(
+        function() {
+            $scope.rowCollection = [];              
+            ChargesService.getData(REST_URL.CHARGE_TEMPLATE).then(chargeTeplateSuccess, chargeTemplateFail);
+        }, 500
+      );
+    };
+
+    loadchargeTemplate();
+
+    $scope.saveCharge = function(){
+      console.log('chargesController : CreateChargeCtrl : saveCharge');
+
+      var saveChargeSuccess = function(result){
+        console.log('Success : Return from charge service.');                    
+      }
+
+      var saveChargeFail = function(result){
+        console.log('Error : Return from charge service.');                    
+      }
+      console.log("JSON.toJson(chargeDetails) > " + angular.toJson(this.chargeDetails));
+      //LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS_LIST, JSON.toJson(loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
+    };
 });

@@ -1,5 +1,5 @@
 <div ng-include="'views/common/header.html'"></div>
-<div class="container post-login" ng-controller="ChargeFormCtrl">
+<div class="container post-login" ng-controller="CreateChargeCtrl">
   <div class="shortcuts">
       <ul role="tablist">
         <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
@@ -16,69 +16,67 @@
     </div>
     </div>
     <div calss="col-md-12">
-      <form class="form-horizontal" name="chargeForm" novalidate show-validation>
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>
+      <form name="createChargeForm" ng-hide="isLoading" class="form-horizontal" ng-submit="saveCharge()">
         <div calss="col-md-12">
           <div class="form-group has-error has-feedback">                
-                <label class="control-label col-md-3">Name*:</label>
-                <div class="col-md-3">
-                    <input ng-focus="clearError()" id="name" class="form-control" type="text" ng-model="Charge.name" required>
-                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                </div>
-            </div>
+              <label class="control-label col-md-3">Name<span class="required">*</span></label>
+              <div class="col-md-3">
+                  <input id="name" name="name" class="form-control" type="text" ng-model="chargeDetails.name">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </div>
           </div>
           <div class="form-group has-error has-feedback">
-              <label class="control-label col-md-3">Type:</label>
+              <label class="control-label col-md-3">Type</label>
               <div class="col-md-3">
-                  <select id="type" ng-model="Charge.type" class="form-control"  value="">
-                    <option value="">Select Type</option>                    
+                  <select id="type" ng-model="chargeDetails.penalty" class="form-control"  value="">
+                    <option value="false">Charge</option>
+                    <option value="true">Penalty</option>
                   </select>
               </div>
           </div>
           <div class="form-group has-error has-feedback">
-              <label class="control-label col-md-3">Applies To:</label>
+              <label class="control-label col-md-3">Applies To</label>
               <div class="col-md-3">
-                  <select id="appliesTo" ng-model="Charge.appliesTo" class="form-control" value="">
-                    <option value="">Select</option>                    
+                  <select id="chargeAppliesTo" name="chargeappliesto" ng-model="chargeDetails.chargeAppliesTo"
+                    ng-options="chargesapply.id as chargesapply.value for chargesapply in product.chargeAppliesToOptions"
+                    value="{{chargesapply.id}}" class="form-control"/>
+              </div>
+          </div>
+          <div class="form-group has-error has-feedback">
+              <label class="control-label col-md-3">Application Frequency</label>
+              <div class="col-md-3">                  
+                  <select id="chargeTimeType" ng-model="chargeDetails.chargeTimeType" value="" class="form-control">
+                    <option value="35">Every installment</option>
+                    <option value="36">After final maturity</option>
                   </select>
               </div>
           </div>
           <div class="form-group has-error has-feedback">
-              <label class="control-label col-md-3">Application Frequency:</label>
-              <div class="col-md-3">
-                  <select id="applicationFrequency"  ng-model="Charge.applicationFrequency" class="form-control" value="">
-                    <option value="">Select</option>                    
-                  </select>
-              </div>
-          </div>
-          <div class="form-group has-error has-feedback">
-              <label class="control-label col-md-3">Charge Type:</label>
-              <div class="col-md-3">
-                  <select id="chargeType" ng-model="Charge.chargeType" class="form-control" value="">
-                    <option value="">Select Charge</option>                    
-                  </select>
+              <label class="control-label col-md-3">Charge Type</label>
+              <div class="col-md-3">                  
+                  <select id="chargeCalculationType" name="chargecalculation" ng-model="chargeDetails.chargeCalculationType" value="{{chargecalculation.id}}" class="form-control">
+                          <option value="0">Flat</option>
+                          <option value="1">% Amount</option>
+                  </select>                  
               </div>
           </div>
           <div class="form-group has-error has-feedback">
               <label class="control-label col-md-3">Ammount(%):</label>
-              <div class="col-md-3">
-                  <select id="ammount"  ng-model="Charge.ammount" class="form-control" value="">
-                    <option value="">Select Ammount</option>                    
-                  </select>
+              <div class="col-md-3">                  
+                  <input id="amount" name="amount" type="text" ng-model="chargeDetails.amount" class="form-control" number-format/>
               </div>
           </div>
-          <div class="form-group has-error has-feedback">
-              <label class="control-label col-md-3">Basis:</label>
-              <div class="col-md-3">
-                  <select id="basis"   ng-model="Charge.basis" class="form-control" value="">
-                    <option value="">Select Basis</option>                    
-                  </select>
-              </div>
+          <hr/>
+          <div class="col-md-offset-3 paddedtop">
+            <button id="cancel" style="margin-left:9px" type="reset" class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button id="save" type="submit" class="btn btn-primary">Save</button>
           </div>
-        <hr/>
-        <div class="col-md-offset-3 paddedtop">
-          <button id="cancel" style="margin-left:9px" type="reset" class="btn btn-warning" ng-click="cancel()">Cancel</button>
-          <button id="save" type="submit" class="btn btn-primary">Save</button>
-        </div>
+        </div>         
       </form>
     </div>
   </div>
