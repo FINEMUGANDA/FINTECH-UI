@@ -1,5 +1,6 @@
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="LoanProductsCtrl">
+  <div class="alert {{type}}" role="alert" data-ng-show="loanProductMessage">{{message}}</div> 
   <div class="shortcuts">
       <ul role="tablist">
         <li role="presentation"><a href="#/loanProducts" class="active">Loan Products</a></li>

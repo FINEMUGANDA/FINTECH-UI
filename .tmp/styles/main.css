@@ -17122,15 +17122,16 @@ nav {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000345}}
 .form-control-feedback {
-  top: 6px;
+  top: 2px;
+  right: 10px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000349}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000350}}
 nav .notifications > strong {
   right: 18px !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000353}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000354}}
 .action .primary {
   padding: 5px 20px !important;
   font-size: 14px !important;
@@ -17138,7 +17139,7 @@ nav .notifications > strong {
   height: auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000360}}
 .table .grid-button {
   text-transform: none;
 }

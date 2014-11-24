@@ -5,7 +5,7 @@
       <form name="loginForm" novalidate show-validation>
         <legend>Please login to <strong>FINEM</strong> system</legend>
         <div ng-include src="'/views/alert.html'"></div>
-        <div class="form-group has-error has-feedback">
+        <div class="validate form-group has-error has-feedback">
           <input ng-focus="clearError()" type="text" class="form-control" placeholder="Username" ng-model="loginDetails.username"
                  name="username"
                  ng-minlength="5"
@@ -13,7 +13,7 @@
                  required />
           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
         </div>
-        <div class="form-group has-error has-feedback">
+        <div class="validate form-group has-error has-feedback">
           <input ng-focus="clearError()" type="password" class="form-control" placeholder="Password"
                  autocorrect="off" autocapitalize="off" ng-model="loginDetails.password"
                  name="password"
