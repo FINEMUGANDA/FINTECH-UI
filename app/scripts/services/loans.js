@@ -8,6 +8,11 @@ loanProductService.factory('LoanProductService', function($http, Remote) {
                 console.log('Get Data using configurationService...');
                 var promise = Remote.get(url);
                 return promise;
+            },
+            saveProduct: function(url,jsondata){
+                console.log('Get Data using configurationService...');
+                var promise = Remote.post(url,jsondata);
+                return promise;
             }
 	}
 });
