@@ -1,5 +1,6 @@
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="CreateChargeCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
   <div class="shortcuts">
       <ul role="tablist">
         <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
@@ -11,7 +12,7 @@
   <div class="rows">
     <div class="page-header">
     <div class="header">
-      <h3>Create Charges</h3>
+      <h3>Create Charge</h3>
       <div class="action"></div>
     </div>
     </div>
@@ -27,11 +28,10 @@
               <label class="control-label col-md-3">Name<span class="required">*</span></label>
               <div class="validate col-md-3">
                   <input id="name" name="name" class="form-control" type="text" ng-model="chargeDetails.name" required></input>
-                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-3">Type</label>
+              <label class="control-label col-md-3">Type<span class="required">*</span></label>
               <div class="col-md-3">
                   <select id="type" ng-model="chargeDetails.penalty" class="form-control"  value="">
                     <option value="false">Charge</option>
@@ -49,16 +49,17 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-3">Application Frequency</label>
+              <label class="control-label col-md-3">Application Frequency<span class="required">*</span></label>
               <div class="col-md-3">                  
-                  <select id="chargeTimeType" ng-model="chargeDetails.chargeTimeType" value="" class="form-control">
-                    <option value="35">Every installment</option>
-                    <option value="36">After final maturity</option>
+                  <select id="chargeTimeType" name="chargetimetype" ng-model="chargeDetails.chargeTimeType"
+                          value="{{timetype.id}}" class="form-control">                  
+                    <option value="8">Every installment</option>
+                    <option value="9">After final maturity</option>
                   </select>
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-3">Charge Type</label>
+              <label class="control-label col-md-3">Charge Type<span class="required">*</span></label>
               <div class="col-md-3">                  
                   <select id="chargeCalculationType" name="chargecalculation" ng-model="chargeDetails.chargeCalculationType" value="{{chargecalculation.id}}" class="form-control">
                           <option value="1">Flat</option>
@@ -67,7 +68,7 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-3">Ammount(%):</label>
+              <label class="control-label col-md-3">Ammount(%)<span class="required">*</span></label>
               <div class="validate col-md-3">                  
                   <input id="amount" name="amount" type="text" ng-model="chargeDetails.amount" class="form-control" only-digits required>
                   </input>
@@ -75,7 +76,7 @@
           </div>
           <hr/>
           <div class="col-md-offset-3 paddedtop">
-            <button id="cancel" style="margin-left:9px" type="reset" class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
             <button id="save" type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>         

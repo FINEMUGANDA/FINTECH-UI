@@ -10,7 +10,7 @@ chargesController.controller('ChargesCtrl', function ($scope, $rootScope, $locat
 
       $scope.isLoading = false;
       $scope.rowCollection = [];
-      $scope.displayed=[]
+      $scope.displayed=[];
       //Success callback
       var chargesSuccess = function(result) {
          $scope.isLoading = false;
@@ -42,11 +42,12 @@ chargesController.controller('ChargesCtrl', function ($scope, $rootScope, $locat
       loadCharges();
 });
 
-chargesController.controller('CreateChargeCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION) {
+chargesController.controller('CreateChargeCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
     console.log('chargesController : CreateChargeCtrl');
     //To load create charge page
     $scope.isLoading = false;
     $scope.chargeDetails = {};
+    $rootScope.message="";
     //Success callback
     var chargeTeplateSuccess = function(result) {
        $scope.isLoading = false;
@@ -57,9 +58,11 @@ chargesController.controller('CreateChargeCtrl', function ($scope, $rootScope, $
             $scope.chargeDetails.chargeAppliesTo=$scope.product.chargeAppliesToOptions[0].id;
             $scope.chargeDetails.locale= "en";
             //Application Frequency
-            $scope.chargeDetails.chargeTimeType="35";            
+            $scope.chargeDetails.chargeTimeType="8";            
             //Charge Type
-            $scope.chargeDetails.chargeCalculationType="0";
+            $scope.chargeDetails.chargeCalculationType="1";
+            $scope.chargeDetails.currencyCode="USD";
+            $scope.chargeDetails.chargePaymentMode="0";
         } catch (e) {
         }
     }
@@ -82,17 +85,27 @@ chargesController.controller('CreateChargeCtrl', function ($scope, $rootScope, $
 
     loadchargeTemplate();
 
-    $scope.saveCharge = function(){
+    //Save block
+    $scope.saveCharge = function(chargeDetails){
       console.log('chargesController : CreateChargeCtrl : saveCharge');
 
       var saveChargeSuccess = function(result){
-        console.log('Success : Return from charge service.');                    
+        console.log('Success : Return from charge service.');    
+        $rootScope.type="alert-success";
+        $rootScope.message="Charge saved successfully";
+        $location.url(PAGE_URL.CHARGES);                
       }
 
       var saveChargeFail = function(result){
         console.log('Error : Return from charge service.');                    
+        $scope.type="error";
+        $scope.message="Charge not saved: "+result.data.defaultUserMessage;
+        $scope.errors = result.data.errors;
+          for(var i=0;i<result.data.errors.length;i++){
+            $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+          }
       }
       console.log("JSON.toJson(chargeDetails) > " + angular.toJson(this.chargeDetails));
-      //LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS_LIST, JSON.toJson(loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
+      ChargesService.saveCharge(REST_URL.CREATE_CHARGE, angular.toJson(this.chargeDetails)).then(saveChargeSuccess, saveChargeFail);
     };
 });

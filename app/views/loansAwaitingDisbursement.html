@@ -31,7 +31,7 @@
         </tr>
         <tr>
           <th st-sort="name">Client Details</th>
-          <th st-sort="loanAmount">Loan Amount</th>
+          <th st-sort="loanAmount" class="number">Loan Amount</th>
           <th st-sort="approvedon_date">Approved on</th>
           <th st-sort="submitted_by">Submitted By</th>
           <th st-sort="approved_by">Approved By</th>
@@ -49,7 +49,7 @@
                 File No.: {{loansAwaitingDisbursement.file_no}}
               </div>
           </td>          
-          <td>{{loansAwaitingDisbursement.loanAmount}}</td>
+          <td class="number">{{loansAwaitingDisbursement.loanAmount}}</td>
           <td>{{loansAwaitingDisbursement.approvedon_date}}</td>
           <td>{{loansAwaitingDisbursement.submitted_by}}</td>
           <td>{{loansAwaitingDisbursement.approved_by}}</td>

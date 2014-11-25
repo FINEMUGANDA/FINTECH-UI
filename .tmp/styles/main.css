@@ -17122,7 +17122,7 @@ nav {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000345}}
 .form-control-feedback {
-  top: 2px;
+  top: 6px;
   right: 10px;
 }
 
@@ -17139,7 +17139,44 @@ nav .notifications > strong {
   height: auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000360}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000361}}
 .table .grid-button {
   text-transform: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000365}}
+input.form-control {
+  font-size: 14px !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000370}}
+.table > tbody > tr {
+  line-height: 15px !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000374}}
+.table > tbody > tr > td {
+  line-height: 15px !important;
+  font-size: 14px !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000379}}
+.table > thead > tr > th.number {
+  text-align: right;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000383}}
+.table > tbody > tr > td.number {
+  text-align: right;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000387}}
+.table .name, .table .status {
+  font-size: 14px !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000391}}
+.required {
+  color: #a94442;
+  font-weight: bolder;
 }

@@ -1,4 +1,4 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_mixins.scss";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_utilities.scss";
@@ -43,7 +43,7 @@ nav {
 }
 
 .form-control-feedback{
-	top: 2px;	
+	top: 6px;	
 	right: 10px
 }
 
@@ -57,6 +57,38 @@ nav .notifications > strong{
 	border-radius: 50px;
 	height: auto;
 }
+
 .table .grid-button {
-text-transform: none;
+	text-transform: none;
+}
+
+input.form-control {
+	font-size: 14px !important;
+}
+
+
+.table > tbody > tr {
+	line-height: 15px !important;
+}
+
+.table > tbody > tr > td {
+	line-height: 15px !important;
+	font-size: 14px !important;
+}
+
+.table > thead > tr > th.number {
+	text-align: right;
+}
+
+.table > tbody > tr > td.number {
+	text-align: right;
+}
+
+.table .name, .table .status {
+	font-size: 14px !important;	
+}
+
+.required {
+	color: #a94442;
+	font-weight: bolder;
 }

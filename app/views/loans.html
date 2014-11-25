@@ -32,8 +32,8 @@
         <tr>
           <th colspan="2" st-sort="name">Client Details</th>          
           <th st-sort="loanStatus">Loan Status</th>
-          <th st-sort="loanAmount">Loan Amount</th>
-          <th st-sort="loanArrears">Amount in Arrears</th>
+          <th st-sort="loanAmount" class="number">Loan Amount</th>
+          <th st-sort="loanArrears" class="number">Amount in Arrears</th>
           <th st-sort="loanOfficer">Loan Officer</th>
         </tr>
       </thead>
@@ -56,8 +56,8 @@
               {{loan.loanStatus}}
             </span>
           </td>
-          <td>{{loan.loanAmount}}</td>
-          <td>{{loan.loanArrears}}</td>
+          <td class="number">{{loan.loanAmount}}</td>
+          <td class="number">{{loan.loanArrears}}</td>
           <td>{{loan.loanOfficer}}</td>   
         </tr>
       </tbody>

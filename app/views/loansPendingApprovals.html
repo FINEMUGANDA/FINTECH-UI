@@ -31,9 +31,9 @@
         </tr>
         <tr>
           <th st-sort="name">Client Details</th>
-          <th st-sort="loanAmount">Loan Amount</th>
-          <th st-sort="installments"># of Installments</th>
-          <th st-sort="interestRate">Interest Rate</th>
+          <th st-sort="loanAmount" class="number">Loan Amount</th>
+          <th st-sort="installments" class="number"># of Installments</th>
+          <th st-sort="interestRate" class="number">Interest Rate</th>
           <th st-sort="submittedon_date">Submitted on</th>
           <th st-sort="loanOfficer">Loan Officer</th>
         </tr>
@@ -48,9 +48,9 @@
                 File No.: {{loanPendingApproval.file_no}}
               </div>
           </td>          
-          <td>{{loanPendingApproval.loanAmount}}</td>
-          <td>{{loanPendingApproval.installments}}</td>
-          <td>{{loanPendingApproval.interestRate}}</td>
+          <td class="number">{{loanPendingApproval.loanAmount}}</td>
+          <td class="number">{{loanPendingApproval.installments}}</td>
+          <td class="number">{{loanPendingApproval.interestRate}}</td>
           <td>{{loanPendingApproval.submittedon_date}}</td>
           <td>{{loanPendingApproval.loanOfficer}}</td>
           <td>

@@ -43,9 +43,9 @@ delegatorServices.factory('Remote', function($http, APPLICATION, Session) {
 	  	},
 	  	put: function(url, jsondata) {
 	  		console.log('Delegator PUT :' + APPLICATION.host + url +" -> JSON DATA : "+ jsondata);
-	  		this.setHeader();
+	  		//this.setHeader();
 
-	  		var promise = $http.put( APPLICATION.host + url, jsondata, {withCredentials: true})
+	  		var promise = $http.put( APPLICATION.host + url, jsondata)
 	  		.success(function (data, status) {
 	  			console.log('Success from server'); 
 	  			return data;

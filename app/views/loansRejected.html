@@ -31,7 +31,7 @@
         </tr>
         <tr>
           <th st-sort="name">Client Details</th>
-          <th st-sort="loanAmount">Loan Amount</th>          
+          <th st-sort="loanAmount" class="number">Loan Amount</th>          
           <th st-sort="loanOfficer">Loan Officer</th>          
           <th st-sort="rejectedReason">Reason for Rejection</th>
         </tr>
@@ -46,7 +46,7 @@
                 File No.: {{loansRejected.file_no}}
               </div>
           </td>
-          <td>{{loansRejected.loanAmount}}</td>
+          <td class="number">{{loansRejected.loanAmount}}</td>
           <td>{{loansRejected.loanOfficer}}</td>
           <td>{{loansRejected.rejectedReason}}</td>  
         </tr>

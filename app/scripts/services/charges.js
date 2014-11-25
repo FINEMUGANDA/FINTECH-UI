@@ -8,6 +8,11 @@ chargesService.factory('ChargesService', function($http, Remote) {
                 console.log('Get Data using chargesService...');
                 var promise = Remote.get(url);
                 return promise;
+            },
+            saveCharge: function(url,jsondata){
+                console.log('Get Data using chargesService...');
+                var promise = Remote.post(url,jsondata);
+                return promise;
             }
 	}
 });

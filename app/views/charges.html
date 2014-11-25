@@ -1,13 +1,14 @@
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="ChargesCtrl">
+    <div ng-include src="'/views/alert.html'"></div>   
     <div class="shortcuts">
         <ul role="tablist">
           <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
           <li role="presentation"><a href="#/charges" class="active">Charges</a></li>
           <li role="presentation"><a href="#/accounting">Accounting</a></li>
         </ul>
-  	</div>
-  	<div class="list">
+    </div>
+    <div class="list">
     <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
@@ -18,7 +19,7 @@
                     <li role="presentation">
                     <div class="action">
                         <a href="#/createCharge" class="btn grid-button">
-                            Create Charges
+                            Create Charge
                         </a>
                     </div>
                     </li>
@@ -32,8 +33,8 @@
         </tr>
         <tr>
           <th st-sort="name">Charge Name</th>
-          <th st-sort="status">Type</th>
-          <th st-sort="loanStatus">Amount(%)</th>
+          <th st-sort="chargeTimeType">Type</th>
+          <th st-sort="amount" class="number">Amount(%)</th>
         </tr>
       </thead>
       <tbody ng-hide="isLoading">        
@@ -44,7 +45,7 @@
                 <a href="#">{{charges.chargeTimeType.value}}</a>
               </div>
           </td>
-          <td>
+          <td class="number">
             <span>
               {{charges.currency.displaySymbol}}{{charges.amount}}
             </span>

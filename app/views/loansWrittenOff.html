@@ -31,8 +31,8 @@
         </tr>
         <tr>
           <th st-sort="name">Client Details</th>
-          <th st-sort="loanAmount">Loan Amount</th>
-          <th st-sort="balanceWritten">Balance Written Off</th>
+          <th st-sort="loanAmount" class="number">Loan Amount</th>
+          <th st-sort="balanceWritten" class="number">Balance Written Off</th>
           <th st-sort="writtenoffon_date">Date of Write-Off</th>
           <th st-sort="loanOfficer">Loan Officer</th>
           <th st-sort="writtenoff_reason">Reason for Write-off</th>
@@ -48,8 +48,8 @@
                 File No.: {{loansWrittenOff.file_no}}
               </div>
           </td>
-          <td>{{loansWrittenOff.loanAmount}}</td>
-          <td>{{loansWrittenOff.balanceWritten}}</td>
+          <td class="number">{{loansWrittenOff.loanAmount}}</td>
+          <td class="number">{{loansWrittenOff.balanceWritten}}</td>
           <td>{{loansWrittenOff.writtenoffon_date}}</td>
           <td>{{loansWrittenOff.loanOfficer}}</td>
           <td>{{loansWrittenOff.writtenoff_reason}}</td>

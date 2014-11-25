@@ -34,7 +34,7 @@
           <th st-sort="status">Client Status</th>
           <th st-sort="loanStatus">Loan Status</th>
           <th st-sort="education">Education</th>
-          <th st-sort="povertyLevel">Poverty Level</th>
+          <th st-sort="povertyLevel" class="number">Poverty Level</th>
           <th st-sort="povertyLevel">Loan Officer</th>
           <th></th>
         </tr>
@@ -64,7 +64,7 @@
             </span>
           </td>
           <td>{{client.education}}</td>
-          <td>{{client.povertyLevel}}</td>
+          <td class="number">{{client.povertyLevel}}</td>
           <td>{{client.loanOfficer}}</td>
           <td>
             <button ng-if="client.loanStatusCode | checkEmptyString" class="btn grid-button">Create Loan</button>
