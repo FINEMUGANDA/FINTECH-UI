@@ -112,7 +112,8 @@
             <div class="col-md-1"></div>
             <label class="control-label col-md-2">Transaction Processing Strategy<span class="required">*</span></label>
             <div class="col-md-3">
-                <select id="transactionProcessingStrategyId" ng-model="loanProductDetails.transactionProcessingStrategyId" class="form-control" ng-options="transactionProcessingStrategy.id as transactionProcessingStrategy.name for transactionProcessingStrategy in product.transactionProcessingStrategyOptions" value="{{transactionProcessingStrategy.id}}">
+                <select id="transactionProcessingStrategyId" ng-model="loanProductDetails.transactionProcessingStrategyId" class="form-control" value="{{transactionProcessingStrategy.id}}">
+                <option value="8">P/I/F/LPI</option>
                 </select>
             </div>
           </div>

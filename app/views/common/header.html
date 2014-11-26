@@ -23,7 +23,12 @@
            <li><a href="/#/clients" class="clients">Clients</a></li>
            <li><a  class="reports">Reports</a></li>
            <li><a  class="accounting">Accounting</a></li>
-           <li><a  href="/#/loanProducts" class="configuration">Configuration</a></li>
+           <li class="dropdown" >
+             <a  class="configuration dropdown-toggle caret-parent" data-toggle="dropdown">Configuration<span class="caret"></span></a>
+               <ul class="dropdown-menu" role="menu">
+                 <li><a  href="/#/loanProducts" >Products</a></li>
+               </ul>
+           </li>
          </ul> 
          <ul class="nav navbar-nav navbar-right"> 
            <li class="hidden-sm">
@@ -40,7 +45,7 @@
              </a>
            </li>
            <li class="dropdown" >
-             <a  class="user dropdown-toggle" data-toggle="dropdown"><span class="name">{{username}}</span><span class="caret"></span></a>
+             <a  class="user dropdown-toggle caret-parent" data-toggle="dropdown"><span class="name">{{username}}</span><span class="caret"></span></a>
                <ul class="dropdown-menu" role="menu">
                  <li><a >Change Password</a></li>
                  <li><a >Logout</a></li>

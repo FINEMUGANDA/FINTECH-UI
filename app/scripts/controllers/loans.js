@@ -57,10 +57,10 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
               $scope.loanProductDetails.interestRateFrequencyType = $scope.product.interestRateFrequencyType.id;
               $scope.loanProductDetails.amortizationType = $scope.product.amortizationType.id;
               $scope.loanProductDetails.interestType = $scope.product.interestType.id;
-              $scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
+              //$scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
 
               $scope.loanProductDetails.includeInBorrowerCycle="true";
-              $scope.loanProductDetails.transactionProcessingStrategyId=5;
+              $scope.loanProductDetails.transactionProcessingStrategyId=8;
               $scope.loanProductDetails.interestType = 1;
               $scope.loanProductDetails.interestRateFrequencyType=3;
               //Set as default now
@@ -125,8 +125,10 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
           $scope.type="error";
           $scope.message="Loan product not saved: "+result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
-          for(var i=0;i<result.data.errors.length;i++){
-            $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+          if(result.data.errors!='' && result.data.errors!='undefined'){
+            for(var i=0;i<result.data.errors.length;i++){
+              $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
           }
         }
         console.log("JSON.toJson(loanProductDetails) > " + angular.toJson(this.loanProductDetails));
@@ -152,7 +154,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
               $scope.loanProductDetails.interestRateFrequencyType = $scope.product.interestRateFrequencyType.id;
               $scope.loanProductDetails.amortizationType = $scope.product.amortizationType.id;
               $scope.loanProductDetails.interestType = $scope.product.interestType.id;
-              $scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
+              //$scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
 
               //set the values from the response on the edit page
               $scope.loanProductDetails.name = $scope.product.name;
@@ -235,8 +237,10 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
           $scope.type="error";
           $scope.message="Loan product not updated: "+result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
-          for(var i=0;i<result.data.errors.length;i++){
-            $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+          if(result.data.errors!='' && result.data.errors!='undefined'){
+            for(var i=0;i<result.data.errors.length;i++){
+              $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
           }
         }
         var $url=REST_URL.LOANS_PRODUCTS_LIST_BY_ID+$route.current.params.id;

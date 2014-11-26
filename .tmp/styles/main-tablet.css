@@ -1,41 +1,41 @@
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\000037}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\000037}}
   .navbar-right {
     float: left !important;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000311}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000311}}
   .main-nav ul {
     float: left;
     width: 100%;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000315}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000315}}
   .navbar-nav li {
     display: block;
     float: none;
     width: 100%;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000320}}
   .navbar-nav li a.notifications {
     border: none;
     margin: 0;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000324}}
   .navbar-nav li a.notifications strong {
     top: 18px;
     left: 115px;
     right: 81%;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000329}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000329}}
   .main-nav {
     display: none;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000332}}
   .navbar-toggle {
     display: inline-block;
     float: right;
@@ -50,31 +50,31 @@
     border-radius: 4px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000345}}
   .navbar-form {
     width: 450px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000347}}
   .navbar-form .form-group {
     display: block;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000350}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000350}}
   .navbar-form .form-group input {
     width: 100%;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000354}}
   .summary .horizontal dt {
     padding: 0 5px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000357}}
   .summary .horizontal dd {
     margin-right: 5px;
     width: 118px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000363}}
   .filters ul {
     position: relative;
     min-height: 1px;
@@ -87,26 +87,26 @@
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000363}}
   .filters ul {
     float: left;
     width: 75%;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 768px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000363}}
   .filters ul {
     float: left;
     width: 83.3333333333%;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000367}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000367}}
   .filters ul > li > a {
     font-size: 11px;
     padding: 5px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000371}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000371}}
   .filters .search {
     position: relative;
     min-height: 1px;
@@ -119,21 +119,21 @@
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000371}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000371}}
   .filters .search {
     float: left;
     width: 25%;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (min-width: 768px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000371}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000371}}
   .filters .search {
     float: left;
     width: 16.6666666667%;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000375}}
   .filters .search .search-box {
     width: 100%;
   }

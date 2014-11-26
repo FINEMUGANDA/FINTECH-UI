@@ -107,6 +107,12 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           data: {
             authorizedRoles: ['admin']
           }
+      }).when('/editCharge/:id', {
+          templateUrl: 'views/editCharge.html',
+          controller: 'EditChargeCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
       }).
       otherwise({
         redirectTo: '/'
@@ -202,6 +208,8 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.ACCOUNTING:
           case PAGE_URL.CREATELOANPRODUCT:
           case PAGE_URL.CREATECHARGE:
+          case PAGE_URL.EDITLOANPRODUCT:
+          case PAGE_URL.EDITCHARGE:
             $topNavigation.find('.configuration').parent().addClass('active');
             break;  
           default:

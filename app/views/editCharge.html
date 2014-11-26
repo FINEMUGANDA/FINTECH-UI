@@ -1,0 +1,86 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="EditChargeCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="shortcuts">
+      <ul role="tablist">
+        <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
+        <li role="presentation"><a href="#/charges" class="active">Charges</a></li>
+        <li role="presentation"><a href="#/accounting">Accounting</a></li>
+      </ul>
+  </div>
+  <br/><br/>
+  <div class="rows">
+    <div class="page-header">
+    <div class="header">
+      <h3>Edit Charge</h3>
+      <div class="action"></div>
+    </div>
+    </div>
+    <div calss="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>
+        </div>
+      </div>
+      <form name="editChargeForm" ng-hide="isLoading" class="form-horizontal" ng-submit="updateCharge(chargeDetails)" novalidate show-validation>
+        <div calss="col-md-12">
+          <div class="form-group">                
+              <label class="control-label col-md-3">Name<span class="required">*</span></label>
+              <div class="validate col-md-3">
+                  <input id="name" name="name" class="form-control" type="text" ng-model="chargeDetails.name" required></input>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-3">Type<span class="required">*</span></label>
+              <div class="col-md-3">
+                  <select id="type" ng-model="chargeDetails.penalty" class="form-control"  value="">
+                    <option value="false">Charge</option>
+                    <option value="true">Penalty</option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-3">Applies To</label>
+              <div class="col-md-3">
+                  <select id="chargeAppliesTo" name="chargeappliesto" ng-model="chargeDetails.chargeAppliesTo"
+                    ng-options="chargesapply.id as chargesapply.value for chargesapply in product.chargeAppliesToOptions"
+                    value="{{chargesapply.id}}" class="form-control">
+                  </select>  
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-3">Application Frequency<span class="required">*</span></label>
+              <div class="col-md-3">                  
+                  <select id="chargeTimeType" name="chargetimetype" ng-model="chargeDetails.chargeTimeType"
+                          value="{{timetype.id}}" class="form-control">                  
+                    <option value="8">Every installment</option>
+                    <option value="9">After final maturity</option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-3">Charge Type<span class="required">*</span></label>
+              <div class="col-md-3">                  
+                  <select id="chargeCalculationType" name="chargecalculation" ng-model="chargeDetails.chargeCalculationType" value="{{chargecalculation.id}}" class="form-control">
+                          <option value="1">Flat</option>
+                          <option value="2">% Amount</option>
+                  </select>                  
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-3">Ammount(%)<span class="required">*</span></label>
+              <div class="validate col-md-3">                  
+                  <input id="amount" name="amount" type="text" ng-model="chargeDetails.amount" class="form-control" only-digits required>
+                  </input>
+              </div>
+          </div>
+          <hr/>
+          <div class="col-md-offset-3 paddedtop">
+            <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>         
+      </form>
+    </div>
+  </div>
+</div>

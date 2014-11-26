@@ -13,6 +13,11 @@ chargesService.factory('ChargesService', function($http, Remote) {
                 console.log('Get Data using chargesService...');
                 var promise = Remote.post(url,jsondata);
                 return promise;
+            },
+            updateCharge: function(url,jsondata){
+                console.log('Put Data using chargesService...');
+                var promise = Remote.put(url,jsondata);
+                return promise;
             }
 	}
 });
