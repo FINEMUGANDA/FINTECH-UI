@@ -1,3 +1,5 @@
+<!--
+TODO delete this code
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="CreateLoanProductsCtrl">
   <div ng-include src="'/views/alert.html'"></div>
@@ -113,7 +115,7 @@
             <label class="control-label col-md-2">Transaction Processing Strategy<span class="required">*</span></label>
             <div class="col-md-3">
                 <select id="transactionProcessingStrategyId" ng-model="loanProductDetails.transactionProcessingStrategyId" class="form-control" value="{{transactionProcessingStrategy.id}}">
-                <option value="8">P/I/F/LPI</option>
+                  <option value="8">P/I/F/LPI</option>
                 </select>
             </div>
           </div>
@@ -136,6 +138,205 @@
           </div>
         </div>  
       </form>
+    </div>
+  </div>
+</div>
+-->
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="CreateLoanProductsCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="shortcuts">
+      <ul role="tablist">
+        <li role="presentation"><a href="#/loanProducts" class="active">Loan Products</a></li>
+        <li role="presentation"><a href="#/charges">Charges</a></li>
+        <li role="presentation"><a href="#/accounting">Accounting</a></li>
+      </ul>
+  </div>
+  <br/>
+  <div class="rows">
+    <div class="page-header">
+      <div class="header">
+        <h3>Create Loan Product</h3>
+        <div class="action"></div>
+      </div><br/>
+      <div class="shortcuts">
+          <ul role="tablist">
+            <li><a class="pointer {{newProTab}}" href="javascript:0" ng-click="setStep(1)">New Product</a></li>
+            <li><a class="pointer {{charTab}}" ng-click="setStep(2)">Charges</a></li>          
+          </ul>
+      </div>
+    </div>
+    <div calss="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>
+      <div class="col-md-12" ng-switch="step">                
+        <div ng-switch-when="1">
+            <form name="createloanproductform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
+              <div class="form-group">                
+                      <label class="control-label col-md-2">Product name<span class="required">*</span></label>
+                      <div class="validate col-md-3">
+                          <input id="name" name="name" class="form-control" type="text" ng-model="loanProductDetails.name" required />
+                      </div>
+                      <div class="col-md-1"></div>
+                      <label class="control-label col-md-2">Short name<span class="required">*</span></label>
+                      <div class="validate col-md-3">
+                          <input id="shortName" name="shortName" class="form-control" type="text" ng-model="loanProductDetails.shortName" ng-maxlength="4" required />
+                      </div>                
+              </div>          
+              <div class="form-group">
+                  <label class="control-label col-md-2">Description</label>
+                  <div class="col-md-3">
+                      <textarea rows="2" class="form-control" ng-model="loanProductDetails.description"></textarea>
+                  </div>
+                  <div class="col-md-1"></div>
+                  <label class="control-label col-md-2">Currency<span class="required">*</span></label>              
+                  <div class="col-md-3">                  
+                      <select id="currencyCode" ng-model="loanProductDetails.currencyCode" class="form-control"
+                        ng-options="currency.code as currency.name for currency in product.currencyOptions"
+                        value="{{currency.code}}">
+                        </select>
+                  </div>
+              </div>
+              <hr>
+              <div class="form-group">
+                <label class="control-label col-md-2">Principal<span class="required">*</span></label>
+                <div class="col-md-2">
+                    <input id="minPrincipal" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minPrincipal" only-digits/>
+                </div>      
+                <div class="validate col-md-2">
+                   <input id="principal" placeholder="Default" class="form-control" type="text" name="principal"  ng-model="loanProductDetails.principal" only-digits required/>
+                </div>
+                <div class="col-md-2">
+                   <input id="maxPrincipal" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxPrincipal" only-digits/>
+                </div>
+              </div>
+              <div class="form-group">  
+                <label class="control-label col-md-2">Loan Term<span class="required">*</span></label>
+                <div class="col-md-2">
+                    <input id="minNumberOfRepayments" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minNumberOfRepayments" only-digits/>
+                </div>            
+                <div class="validate col-md-2">
+                   <input id="numberOfRepayments" placeholder="Default" class="form-control" type="text" name="loanTerm" ng-model="loanProductDetails.numberOfRepayments" only-digits required/>
+                </div>
+                <div class="col-md-2">
+                   <input id="maxNumberOfRepayments" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxNumberOfRepayments" only-digits/>
+                </div>
+              </div>
+              <div class="form-group">  
+                <label class="control-label col-md-2">Interest Rate Per Period<span class="required">*</span></label>
+                <div class="col-md-2">
+                    <input id="minInterestRatePerPeriod" placeholder="Minimum" class="form-control" type="text" ng-model="loanProductDetails.minInterestRatePerPeriod" only-digits/>
+                </div>           
+                <div class="validate col-md-2">
+                   <input id="interestRatePerPeriod" placeholder="Default" class="form-control" type="text" name="interestRatePerPeriod" ng-model="loanProductDetails.interestRatePerPeriod" only-digits required />
+                </div>
+                <div class="col-md-2">
+                   <input id="maxInterestRatePerPeriod" placeholder="Maximum" class="form-control" type="text" ng-model="loanProductDetails.maxInterestRatePerPeriod" only-digits/>
+                </div>
+              </div>
+              <hr/>
+              <div class="form-group">
+                <label class="control-label col-md-2">Repayment Frequency<span class="required">*</span></label>
+                <div class="col-md-3">                
+                    <select id="repaymentFrequencyType" class="form-control"
+                        ng-model="loanProductDetails.repaymentFrequencyType"
+                        ng-options="repaymentFrequencyType.id as repaymentFrequencyType.value for repaymentFrequencyType in product.repaymentFrequencyTypeOptions"
+                        value="{{repaymentFrequencyType.id}}">
+                    </select>    
+                </div>
+                <div class="col-md-1"></div>
+                <label class="control-label col-md-2">Amortization<span class="required">*</span></label>
+                <div class="col-md-3">
+                    <select id="amortizationType" ng-model="loanProductDetails.amortizationType" class="form-control" ng-options="amortizationType.id as amortizationType.value for amortizationType in product.amortizationTypeOptions" value="{{amortizationType.id}}">
+                    </select>
+                </div>
+              </div>  
+              <div class="form-group">
+                <label class="control-label col-md-2">Interest Rate Frequency Type</label>
+                <div class="col-md-3">
+                    <select class="form-control" id="interestRateFrequencyType" ng-model="loanProductDetails.interestRateFrequencyType" ng-options="interestRateFrequencyType.id as interestRateFrequencyType.value for interestRateFrequencyType in product.interestRateFrequencyTypeOptions" value="{{interestRateFrequencyType.id}}">
+                    </select>
+                </div>
+                <div class="col-md-1"></div>
+                <label class="control-label col-md-2">Transaction Processing Strategy<span class="required">*</span></label>
+                <div class="col-md-3">
+                    <select id="transactionProcessingStrategyId" ng-model="loanProductDetails.transactionProcessingStrategyId" class="form-control" value="{{transactionProcessingStrategy.id}}">
+                      <option value="8">P/I/F/LPI</option>
+                    </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2">Interest Rate Type<span class="required">*</span></label>
+               <div class="col-md-3">
+                    <select id="interestType" ng-model="loanProductDetails.interestType" class="form-control" ng-options="interestType.id as interestType.value for interestType in product.interestTypeOptions" value="{{interestType.id}}">
+                    </select>
+                </div>
+                <div class="col-md-1"></div>
+                <label class="control-label col-sm-2">Include in LoanCycle Counter<span class="required">*</span></label>
+                  <div class="col-sm-1">
+                    <input type="checkbox" ng-model="loanProductDetails.includeInBorrowerCycle" ng-true-value="true" ng-false-value="false">
+                  </div>
+              </div>
+              <hr/>
+              <div class="col-md-offset-5 paddedtop">
+                <a id="cancel" href="#/loanProducts" class="btn btn-warning">Cancel</a>
+                <button id="save" type="button" class="btn btn-primary" ng-click="setStep(2)">Next</button>
+              </div>
+            </form>
+        </div>
+        <div ng-switch-when="2">
+          <form name="createloanproductform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
+            <div class="form-group">
+              <div class="col-sm-3">
+                  <select id="chargeId" ng-model="chargeId" class="form-control"
+                             ng-options="charge.id as charge.name for charge in product.chargeOptions"
+                             value="{{charge.id}}">
+                         <option value="">-- Select Charge --</option>
+                  </select>
+              </div>
+              <div class="col-sm-1">
+                <button type="button" class="btn btn-primary" ng-click="chargeSelected(chargeId)">Add
+                </button>
+              </div>
+            </div>
+            <table class="table">
+              <thead>                
+                <tr>
+                  <th>Charge Name</th>
+                  <th>Type</th>
+                  <th class="number">Amount(%)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>        
+                <tr ng-repeat="charge in charges">
+                  <td>{{charge.name}}</td>
+                  <td>
+                      <div class="name">
+                        {{charge.chargeTimeType.value}}
+                      </div>
+                  </td>
+                  <td class="number">
+                    <span>
+                      {{charge.currency.displaySymbol}}{{charge.amount}}
+                    </span>
+                  </td>
+                  <td>
+                    <a ng-click="deleteCharge($index)">                      
+                        <span class="glyphicon glyphicon-remove pointer"></span>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>              
+            </table>
+            <button class="btn btn-warning" ng-click="setStep(1)">back</button>
+            <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)">Save</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

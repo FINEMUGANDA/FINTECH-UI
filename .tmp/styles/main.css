@@ -17184,5 +17184,9 @@ input.form-control {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\0000396}}
 .caret-parent {
   cursor: pointer;
-  cursor: hand;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\00003100}}
+.pointer {
+  cursor: pointer;
 }
