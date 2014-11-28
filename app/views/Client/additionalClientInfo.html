@@ -34,6 +34,12 @@
               </div>
           </div>
           <div class="form-group">                
+              <label class="control-label col-md-2">Bank Account With</label>
+              <div class="col-md-4">
+                  <input id="bankAccountWith" name="bankAccountWith" class="form-control" type="text" ng-model="createClientAdditionalInfo.bankAccountWith"></input>
+              </div>
+          </div>
+          <div class="form-group">                
               <label class="control-label col-md-2">Branch</label>
               <div class="col-md-4">
                   <input id="branch" name="branch" class="form-control" type="text" ng-model="createClientAdditionalInfo.branch"></input>
@@ -126,7 +132,7 @@
           </div>
         <hr/>
           <div class="col-md-offset-3 paddedtop">
-            <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
+            <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
             <button id="save" type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>         

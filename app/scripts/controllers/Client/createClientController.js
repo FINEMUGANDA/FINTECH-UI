@@ -89,9 +89,9 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($scope, $rootScope, $l
           }
         }
         //TODO Replace the hardcoded urls with the user defined and replace the batch api request with simple request
-        var json='['+$scope.batchAPITemplate(1,REST_URL.CREATE_CLIENT,"POST",$scope.formateBody(angular.toJson(this.createClient)))+','+$scope.batchAPITemplate(2,REST_URL.CREATE_CLIENT_EXTRA_INFORMATION,"POST",$scope.formateBody(angular.toJson(this.createClientWithDataTable)),1)+']';
-        console.log(json);
-        //CreateClientsService.saveProduct(REST_URL., ).then(saveBasicClientSuccess, saveBasicClientFail);
+        //var json='['+$scope.batchAPITemplate(1,REST_URL.CREATE_CLIENT,"POST",$scope.formateBody(angular.toJson(this.createClient)))+','+$scope.batchAPITemplate(2,REST_URL.CREATE_CLIENT_EXTRA_INFORMATION,"POST",$scope.formateBody(angular.toJson(this.createClientWithDataTable)),1)+']';
+        //console.log(json);
+        CreateClientsService.saveProduct(REST_URL.CREATE_CLIENT,angular.toJson(this.createClient)).then(saveBasicClientSuccess, saveBasicClientFail);
         //fire this url to go to the edit page PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION/{{response.data.id}}
         $location.url(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION);
       };

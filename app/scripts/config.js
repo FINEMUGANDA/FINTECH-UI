@@ -52,8 +52,12 @@ app.constant('PAGE_URL', {
     'EDITLOANPRODUCT':'/editloanproduct/',
     'EDITCHARGE':'/editCharge/',
     //TODO change it according to the edited id i.e append '/ after the url ends'
+    'CREATE_CLIENT':'/createClient',
     'EDIT_BASIC_CLIENT_INFORMATION':'/editbasicclientinfo',
-    'EDIT_BASIC_CLIENT_INFORMATION_TEMPLATE':'/editbasicclientinfo',
+    'EDIT_CLIENT_ADDITIONAL_INFO':'/editadditionalclientinfo',
+    'EDIT_CLIENT_IDENTIFICATION':'/editclientidentification',
+    'EDIT_CLIENT_NEXT_OF_KEEN':'/editnextofkeen',
+    'EDIT_CLIENT_BUSINESS_DETAILS':'/editbusinessdetails',
 });
 
 app.constant('AUTH_EVENTS', {

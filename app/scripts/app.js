@@ -244,6 +244,12 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.LOANSPENDINGAPPROVAL:
           case PAGE_URL.LOANSREJECTED:
           case PAGE_URL.LOANSWRITTENOFF:
+          case PAGE_URL.CREATE_CLIENT:
+          case PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION:
+          case PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO:
+          case PAGE_URL.EDIT_CLIENT_IDENTIFICATION:
+          case PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN:
+          case PAGE_URL.EDIT_CLIENT_BUSINESS_DETAILS:
             $topNavigation.find('.clients').parent().addClass('active');
             break;
           case PAGE_URL.CONFIGURATION:
