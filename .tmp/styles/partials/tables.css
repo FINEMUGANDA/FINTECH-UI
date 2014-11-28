@@ -1,4 +1,4 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\000034}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\000034}}
 .table > thead > tr > th {
   background: #fafafa;
   border: 1px solid #F2F2F2 !important;
@@ -6,13 +6,13 @@
   font-weight: 200;
   color: gray;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000311}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000311}}
 .table > tbody > tr {
   background: #ffffff;
   border: 1px solid #F2F2F2;
   border-top: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000316}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000316}}
 .table > tbody > tr > td {
   padding: 10px !important;
   border: 0 !important;
@@ -20,40 +20,40 @@
   font-weight: 100;
   color: gray;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000323}}
 .table .name {
   font-size: 16px;
   font-weight: 100;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000329}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000329}}
 .table .status {
   font-weight: 500;
   font-size: 11px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000332}}
 .table .status:before {
   content: '\2022';
   font-size: 39px;
   line-height: 24px;
   vertical-align: middle;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000339}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000339}}
 .table .active {
   color: #68C49E;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000342}}
 .table .bad {
   color: #F44042;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000345}}
 .table .on-hold {
   color: #F5A623;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000348}}
 .table .closed {
   color: #777777;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/tables\.scss}line{font-family:\0000351}}
 .table .grid-button {
   font-size: 11px;
   font-weight: 500;

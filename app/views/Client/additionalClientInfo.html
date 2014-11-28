@@ -1,0 +1,136 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="CreateClientAdditionalInfoCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+    <div class="header">
+      <h3>Create Client</h3>
+    </div>	
+	</div>
+	<div class="filters">
+	    <ul role="tablist">
+	        <li role="presentation"><a href="#/editbasicclientinfo">Basic Client info</a></li>
+	        <li role="presentation"><a href="#/editadditionalclientinfo" class="active">Additonal Client Info</a></li>
+	        <li role="presentation"><a href="#/editclientidentification">Client ID</a></li>
+	        <li role="presentation"><a>Emergency Contacts/Next of Kin</a></li>
+	        <li role="presentation"><a>Business Details</a></li>
+	    </ul>
+	</div>
+    <div calss="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>
+      <form name="createAdditionalClientForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateCreateClientAdditionalInfo(createClientAdditionalInfo)" novalidate show-validation>
+        <div calss="col-md-12">
+          <div class="form-group">
+              <label class="control-label col-md-2">Bank account<span class="required">*</span></label>
+              <div class="validate col-md-4">
+              	<select id="bankAccount" ng-model="createClientAdditionalInfo.bankAccount" class="form-control"  required>
+              			<option value="33">Yes</option>
+                  		<option value="34">No</option>
+                  </select>	
+              </div>
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2">Branch</label>
+              <div class="col-md-4">
+                  <input id="branch" name="branch" class="form-control" type="text" ng-model="createClientAdditionalInfo.branch"></input>
+              </div>
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2">Bank account number</label>
+              <div class="col-md-4">
+                  <input id="bankAccountNumber" name="bankAccountNumber" class="form-control" type="text" ng-model="createClientAdditionalInfo.bankAccountNumber"></input>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">Citizenship<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <select id="citizenshipId" ng-model="createClientAdditionalInfo.citizenshipId" ng-options="citizenshipOptions.id as citizenshipOptions.name for citizenshipOptions in client.citizenshipOptions" class="form-control"  value="{{citizenshipOptions.id}}" required>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">Education Level<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <select id="educationId" ng-model="createClientAdditionalInfo.educationId" ng-options="educationOptions.id as educationOptions.value for educationOptions in client.educationOptions" class="form-control" value="{{educationOptions.id}}" required>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">Poverty Status (UGX p.m.)<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <select id="povertyStatusId" ng-model="createClientAdditionalInfo.povertyStatusId" ng-options="povertyStatusOptions.id as povertyStatusOptions.name for povertyStatusOptions in client.povertyStatusOptions" class="form-control"  value="{{povertyStatusOptions.id}}" required>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">Introduced by<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <select id="introducedById" ng-model="createClientAdditionalInfo.introducedById" class="form-control"  required>
+                  	<!-- Display the next three text boxed on the basis of this values selected -->
+                  	<option value="1">Existing Client</option>
+                  	<option value="2">Loan Officer</option>
+                  	<option value="3">Other</option>
+                  </select>
+              </div>
+          </div>          
+          <div class="form-group">
+              <label class="control-label col-md-2">Client Name</label>
+              <div class="col-md-4">
+                  <select id="clientName" ng-model="createClientAdditionalInfo.clientName" ng-options="clientNameOptions.id as clientNameOptions.name for clientNameOptions in client.clientNameOptions" class="form-control"  value="{{clientNameOptions.id}}">
+                  </select>
+              </div>
+          </div>          
+          <div class="form-group">
+              <label class="control-label col-md-2">Loan Officer</label>
+              <div class="col-md-4">
+                  <select id="staffId" ng-model="createClientAdditionalInfo.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in client.staffOptions" class="form-control" value="{{staffOptions.id}}">
+                  </select>
+              </div>
+          </div>         
+          <div class="form-group">                
+              <label class="control-label col-md-2">Other</label>
+              <div class="col-md-4">
+                  <input id="introducerName" name="introducerName" class="form-control" type="text" ng-model="createClientAdditionalInfo.introducerName"></input>
+              </div>
+          </div>
+          <!-- Need to display the calendar for the return year -->
+          <div class="form-group">                
+              <label class="control-label col-md-2">Known to Introducer since<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <input id="knowToIntroducer" name="knowToIntroducer" class="form-control" type="text" ng-model="createClientAdditionalInfo.knowToIntroducer" required></input>
+              </div>
+          </div>
+		  <div class="form-group">
+              <label class="control-label col-md-2">Visited by<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <select id="visitedById" ng-model="createClientAdditionalInfo.visitedById" ng-options="visitedByOptions.id as visitedByOptions.displayName for visitedByOptions in client.visitedByOptions" class="form-control" value="{{visitedByOptions.id}}" required>
+                  </select>
+              </div>
+          </div>
+          <!-- Need to display the calendar Simple calendar -->
+          <div class="form-group">                
+              <label class="control-label col-md-2">Visiting Date<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <input id="visitingDate" name="visitingDate" class="form-control" type="text" ng-model="createClientAdditionalInfo.visitingDate"  required></input>
+
+                   <!-- <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="createClient.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ></input>
+	              
+	              <span class="input-group-btn">
+	                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	              </span> -->
+              </div>
+          </div>
+        <hr/>
+          <div class="col-md-offset-3 paddedtop">
+            <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>         
+      </form>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','loanProductController','chargesController','userServices','Constants','ui.bootstrap']);
+var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','loanProductController','chargesController','createClientController','userServices','Constants','ui.bootstrap']);
 
  // Angular supports chaining, so here we chain the config function onto
   // the module we're configuring.
@@ -114,6 +114,35 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
             authorizedRoles: ['admin']
           }
       }).
+      //TODO
+      when('/createClient', {
+          templateUrl: 'views/Client/basicClientInfo.html',
+          controller: 'CreateClientCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/editbasicclientinfo', {
+          templateUrl: 'views/Client/editBasicClientInfo.html',
+          controller: 'EditClientCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/editadditionalclientinfo', {
+          templateUrl: 'views/Client/additionalClientInfo.html',
+          controller: 'CreateClientAdditionalInfoCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).
+      when('/editclientidentification', {
+          templateUrl: 'views/Client/addClientIdentification.html',
+          controller: 'ClientIdentificationCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).
       otherwise({
         redirectTo: '/'
       });
@@ -171,6 +200,14 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           ignoreColumn: cols, 
           escape:'false'
       });  
+  }
+
+  //TODO default template for the batch request processing
+  $rootScope.batchAPITemplate = function(requestno,requestUrl,requestMethod,jsonData){
+      var cols = '{ "requestId":'+requestno+',"relativeUrl":"'+requestUrl+'","method":"'+requestMethod+'",'+
+    '"headers":[ {"name":"Content-type","value":"application/json; charset=utf-8"},{"name":"X-Mifos-Platform-TenantId","value":"default"}],'+
+    '"body":"'+jsonData+'"}';  
+    return cols;
   }
 
   $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {

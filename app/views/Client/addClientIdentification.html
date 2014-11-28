@@ -1,0 +1,69 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="ClientIdentificationCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+    <div class="header">
+      <h3>Create Client</h3>
+    </div>	
+	</div>
+	<div class="filters">
+	    <ul role="tablist">
+	        <li role="presentation"><a href="#/editbasicclientinfo">Basic Client info</a></li>
+	        <li role="presentation"><a href="#/editadditionalclientinfo">Additonal Client Info</a></li>
+	        <li role="presentation"><a href="#/editclientidentification" class="active">Client ID</a></li>
+	        <li role="presentation"><a>Emergency Contacts/Next of Kin</a></li>
+	        <li role="presentation"><a>Business Details</a></li>
+	    </ul>
+	</div>
+    <div calss="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>
+      <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification)" novalidate show-validation>
+        <div calss="col-md-12">
+          <div class="form-group">
+              <label class="control-label col-md-2">Identification Type<span class="required">*</span></label>
+              <div class="validate col-md-4">
+              	<select id="identificationType" ng-model="clientIdentification.identificationType" class="form-control"  required>
+              			<option value="33">Yes</option>
+                  		<option value="34">No</option>
+                  </select>	
+              </div>
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2">Identification Number<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <input id="identificationNumber" name="identificationNumber" class="form-control" type="text" ng-model="clientIdentification.identificationNumber" required></input>
+              </div>
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2">Place of Issue</label>
+              <div class="col-md-4">
+                  <input id="issuePlace" name="issuePlace" class="form-control" type="text" ng-model="clientIdentification.issuePlace"></input>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">Date of Issue</label>
+              <div class="col-md-4">
+                  <input id="issueDate" name="issueDate" class="form-control" type="text" ng-model="clientIdentification.issueDate"></input>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">File Upload</label>
+              <div class="col-md-4">
+                  <input id="issueFile" name="issueFile" type="file" ng-model="clientIdentification.issueFile"></input>
+              </div>
+          </div>
+        <hr/>
+          <div class="col-md-offset-3 paddedtop">
+            <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>         
+      </form>
+    </div>
+  </div>
+</div>

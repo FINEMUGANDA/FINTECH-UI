@@ -4,8 +4,8 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {    
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-    /*'host' : 'https://localhost:8443/mifosng-provider/',*/
+    /*'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',*/
+    'host' : 'https://192.168.1.20:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
@@ -29,7 +29,10 @@ app.constant('REST_URL', {
     'CHARGE_TEMPLATE':'api/v1/charges/template',
     'CREATE_CHARGE':'api/v1/charges',
     'LOANS_PRODUCTS_LIST_BY_ID':'api/v1/loanproducts/',
-    'RETRIVE_CHARGE_BY_ID':'api/v1/charges/'
+    'RETRIVE_CHARGE_BY_ID':'api/v1/charges/',
+    'CREATE_CLIENT_TEMPLATE':'api/v1/clients/template',
+    'CREATE_CLIENT':'api/v1/clients',
+    'CREATE_CLIENT_EXTRA_INFORMATION':'api/v1/datatables/client_extra_information/$.clientId',
 });
 
 app.constant('PAGE_URL', {
@@ -48,6 +51,9 @@ app.constant('PAGE_URL', {
     'CREATECHARGE':'/createCharge',
     'EDITLOANPRODUCT':'/editloanproduct/',
     'EDITCHARGE':'/editCharge/',
+    //TODO change it according to the edited id i.e append '/ after the url ends'
+    'EDIT_BASIC_CLIENT_INFORMATION':'/editbasicclientinfo',
+    'EDIT_BASIC_CLIENT_INFORMATION_TEMPLATE':'/editbasicclientinfo',
 });
 
 app.constant('AUTH_EVENTS', {
