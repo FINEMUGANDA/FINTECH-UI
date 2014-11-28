@@ -72,9 +72,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($scope, $rootScope, $l
 
         var saveBasicClientSuccess = function(result){
           console.log('Success : Return from loanProducts service.');
-          $rootScope.type="alert-success";
-          $rootScope.message="Client created successfully";
-          //$location.url(PAGE_URL.LOANPRODUCTS);                  
+          $scope.saveBasicClientExtraInformation(createClientWithDataTable,result.data.clientId); 
         }
 
         var saveBasicClientFail = function(result){
@@ -88,37 +86,39 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($scope, $rootScope, $l
             }
           }
         }
-        //TODO Replace the hardcoded urls with the user defined and replace the batch api request with simple request
-        //var json='['+$scope.batchAPITemplate(1,REST_URL.CREATE_CLIENT,"POST",$scope.formateBody(angular.toJson(this.createClient)))+','+$scope.batchAPITemplate(2,REST_URL.CREATE_CLIENT_EXTRA_INFORMATION,"POST",$scope.formateBody(angular.toJson(this.createClientWithDataTable)),1)+']';
-        //console.log(json);
-        CreateClientsService.saveProduct(REST_URL.CREATE_CLIENT,angular.toJson(this.createClient)).then(saveBasicClientSuccess, saveBasicClientFail);
-        //fire this url to go to the edit page PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION/{{response.data.id}}
-        $location.url(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION);
+        console.log(angular.toJson(this.createClient));
+        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT,angular.toJson(this.createClient)).then(saveBasicClientSuccess, saveBasicClientFail);
       };
 
-      $scope.formateBody=function(jsonData){
-        var jsonData = JSON.stringify(jsonData);
-        jsonData = jsonData.replace(/"/g,'\"' );
-        return jsonData;
-      }
+       $scope.saveBasicClientExtraInformation = function(createClientWithDataTable,clientId){
+        console.log('CreateClientCtrl : CreateClient : saveBasicClientExtraInformation :'+ clientId);
 
-      $scope.batchAPITemplate = function(requestno,requestUrl,requestMethod,jsonData,referenceUrl){
-        var cols=null;
-        if(referenceUrl){
-                  cols = '{ "requestId":'+requestno+',"relativeUrl":"'+requestUrl+'","method":"'+requestMethod+'", "reference":'+referenceUrl+','+
-            '"headers":[ {"name":"Content-type","value":"application/json; charset=utf-8"},{"name":"X-Mifos-Platform-TenantId","value":"default"}],'+
-            '"body":'+jsonData+'}';  
-        }else{
-                  cols = '{ "requestId":'+requestno+',"relativeUrl":"'+requestUrl+'","method":"'+requestMethod+'",'+
-            '"headers":[ {"name":"Content-type","value":"application/json; charset=utf-8"},{"name":"X-Mifos-Platform-TenantId","value":"default"}],'+
-            '"body":'+jsonData+'}';  
+        var saveBasicClientExtraInformationSuccess = function(result){
+          console.log('Success : Return from loanProducts service.');
+          var $url = PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + clientId ;
+          console.log($url);
+          $location.url($url);
         }
-      
-    return cols;
-  }
+
+        var saveBasicClientExtraInformationFail = function(result){
+          console.log('Error : Return from loanProducts service.');                    
+          $scope.type="error";
+          $scope.message="Loan product not saved: "+result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          if(result.data.errors!='' && result.data.errors!='undefined'){
+            for(var i=0;i<result.data.errors.length;i++){
+              $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
+          }
+        }
+        console.log(angular.toJson(this.createClientWithDataTable));
+        var $url= REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + clientId;
+        console.log($url);
+        CreateClientsService.saveClient($url,angular.toJson(this.createClientWithDataTable)).then(saveBasicClientExtraInformationSuccess, saveBasicClientExtraInformationFail);
+      };
 });
 
-CreateClientCrtl.controller('EditClientCtrl', function ($scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
+CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
       console.log('CreateClientCtrl : EditClientCtrl');
       //To load the loadproducts page
       $scope.isLoading = false;
@@ -128,29 +128,15 @@ CreateClientCrtl.controller('EditClientCtrl', function ($scope, $rootScope, $loc
       var editClientTeplateSuccess = function(result) {
          $scope.isLoading = false;
          try {
+              //Call to fill up the data from the custom datatables i.e. client_extra_information
+              $scope.loadEditClientExtraInformationTemplate();
+
               //filling the dropdowns
               $scope.client = result.data;
               $scope.editClient.officeId = $scope.client.officeOptions[0].id;
               $scope.editClient.staffId = $scope.client.staffOptions;
               $scope.editClient.genderId = $scope.client.genderOptions;
 
-               //Set the default values
-              $scope.editClient.staffId = 1;
-              $scope.editClient.officeId = 1;
-              $scope.editClient.genderId = 22;
-              $scope.editClient.active = "true";
-              $scope.editClient.dateFormat= "dd/MM/yyyy";
-              var d=new Date();
-              var activationDate = d.getDate()+'/'+d.getMonth()+'/'+d.getFullYear(); 
-              console.log("activationDate"+activationDate);
-              $scope.editClient.activationDate= activationDate;
-              $scope.editClient.locale = "en";
-
-              $scope.editClientWithDataTable.numberOfChildren=0;
-              $scope.editClientWithDataTable.numberOfLoanDependents=0;
-              $scope.editClientWithDataTable.YesNo_cd_maritalStatus = 34;
-              $scope.editClientWithDataTable.locale = "en";
-              /*//Setting the retrived data for editing
               //data from m_client table
               $scope.client = result.data;
               $scope.editClient.externalId = $scope.client.externalId;
@@ -160,23 +146,12 @@ CreateClientCrtl.controller('EditClientCtrl', function ($scope, $rootScope, $loc
               $scope.editClient.middlename = $scope.client.middlename;
               $scope.editClient.lastname = $scope.client.lastname;
               $scope.editClient.dateOfBirth = $scope.client.dateOfBirth;
-              $scope.editClient.genderId = $scope.client.genderId;
+              $scope.editClient.genderId = $scope.client.gender.id;
               $scope.editClient.mobileNo = $scope.client.mobileNo;
               $scope.editClient.active = $scope.client.active;
               $scope.editClient.dateFormat = $scope.client.dateFormat;
               $scope.editClient.activationDate = $scope.client.activationDate;
               $scope.editClient.locale = $scope.client.locale;
-
-              //Data from extra datatable i.e client_extra_information
-              $scope.editClientWithDataTable.YesNo_cd_maritalStatus = $scope.client.YesNo_cd_maritalStatus;
-              $scope.editClientWithDataTable.nameOfSpouse = $scope.client.nameOfSpouse;
-              $scope.editClientWithDataTable.numberOfChildren = $scope.client.numberOfChildren;
-              $scope.editClientWithDataTable.numberOfLoanDependents = $scope.client.numberOfLoanDependents;
-              $scope.editClientWithDataTable.homeContactAddress = $scope.client.homeContactAddress;
-              $scope.editClientWithDataTable.homeContactPerson = $scope.client.homeContactPerson;
-              $scope.editClientWithDataTable.email = $scope.client.email;
-              $scope.editClientWithDataTable.SecondMobileNo = $scope.client.SecondMobileNo;
-              $scope.editClientWithDataTable.locale = $scope.client.locale;*/
           } catch (e) {
           }
       }
@@ -193,10 +168,41 @@ CreateClientCrtl.controller('EditClientCtrl', function ($scope, $rootScope, $loc
               //TODO Make two request to bring the client templates from the m_client table and the datatable client_extra_information table togather and fill it in the edit form
               //var $URL=REST_URL.EDIT_BASIC_CLIENT_INFORMATION_TEMPLATE+'/1'+'?template=true'
               //CreateClientsService.getData($URL).then(editClientTeplateSuccess, editClientTemplateFail);
-              CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE).then(editClientTeplateSuccess, editClientTemplateFail);
+              var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id +'?template=true'
+              CreateClientsService.getData($url).then(editClientTeplateSuccess, editClientTemplateFail);
               
           }, 500
         );
+      };
+      
+      $scope.loadEditClientExtraInformationTemplate = function() {
+        $scope.isLoading = true;
+          //Success callback
+          var editClientExtraInformationTeplateSuccess = function(result) {
+             $scope.isLoading = false;
+             try {
+                  //Data from extra datatable i.e client_extra_information
+                  $scope.editClientWithDataTable.YesNo_cd_maritalStatus = $scope.client.YesNo_cd_maritalStatus;
+                  $scope.editClientWithDataTable.nameOfSpouse = $scope.client.nameOfSpouse;
+                  $scope.editClientWithDataTable.numberOfChildren = $scope.client.numberOfChildren;
+                  $scope.editClientWithDataTable.numberOfLoanDependents = $scope.client.numberOfLoanDependents;
+                  $scope.editClientWithDataTable.homeContactAddress = $scope.client.homeContactAddress;
+                  $scope.editClientWithDataTable.homeContactPerson = $scope.client.homeContactPerson;
+                  $scope.editClientWithDataTable.email = $scope.client.email;
+                  $scope.editClientWithDataTable.SecondMobileNo = $scope.client.SecondMobileNo;
+                  $scope.editClientWithDataTable.locale = $scope.client.locale;
+              } catch (e) {
+              }
+          }
+          //failur callback
+          var editClientExtraInformationTemplateFail = function(result){
+              $scope.isLoading = false;
+              console.log('Error : Return from loanProducts service.');
+          }
+          $scope.rowCollection = [];              
+          var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id ;
+          console.log($url);
+          CreateClientsService.getData($url).then(editClientExtraInformationTeplateSuccess, editClientExtraInformationFail);
       };
 
       loadEditClientTemplate();

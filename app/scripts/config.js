@@ -32,7 +32,7 @@ app.constant('REST_URL', {
     'RETRIVE_CHARGE_BY_ID':'api/v1/charges/',
     'CREATE_CLIENT_TEMPLATE':'api/v1/clients/template',
     'CREATE_CLIENT':'api/v1/clients',
-    'CREATE_CLIENT_EXTRA_INFORMATION':'api/v1/datatables/client_extra_information/$.clientId',
+    'CREATE_CLIENT_EXTRA_INFORMATION':'api/v1/datatables/client_extra_information/',
 });
 
 app.constant('PAGE_URL', {
@@ -53,7 +53,7 @@ app.constant('PAGE_URL', {
     'EDITCHARGE':'/editCharge/',
     //TODO change it according to the edited id i.e append '/ after the url ends'
     'CREATE_CLIENT':'/createClient',
-    'EDIT_BASIC_CLIENT_INFORMATION':'/editbasicclientinfo',
+    'EDIT_BASIC_CLIENT_INFORMATION':'/editbasicclientinfo/',
     'EDIT_CLIENT_ADDITIONAL_INFO':'/editadditionalclientinfo',
     'EDIT_CLIENT_IDENTIFICATION':'/editclientidentification',
     'EDIT_CLIENT_NEXT_OF_KEEN':'/editnextofkeen',
