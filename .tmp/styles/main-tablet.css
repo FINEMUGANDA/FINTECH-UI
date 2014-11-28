@@ -142,4 +142,10 @@
   .badge {
     width: 22px;
   }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000385}}
+  .col-xs-2.text-right {
+    text-align: left;
+    width: 5px;
+  }
 }

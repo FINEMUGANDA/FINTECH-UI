@@ -81,4 +81,9 @@ and (max-width: 1024px){
   .badge {
     width: 22px;
   }
+
+  .col-xs-2.text-right {
+    text-align:left;
+    width:5px;
+  }
 }
