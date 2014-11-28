@@ -17077,6 +17077,11 @@ body.pre-login {
   .filters .search .search-box {
     width: 100%;
   }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main-tablet\.scss}line{font-family:\0000381}}
+  .badge {
+    width: 22px;
+  }
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\000039}}
 nav .navbar-nav > .active > a {
@@ -17201,4 +17206,20 @@ a.disabled {
   pointer-events: none;
   cursor: default;
   color: #777;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\00003114}}
+.form-group > .control-label {
+  font-weight: inherit;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\00003118}}
+label.text-left {
+  text-align: left !important;
+  padding-top: 0 !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\00003123}}
+.shortcuts ul > li:first-of-type > a {
+  padding-left: 0px !important;
 }

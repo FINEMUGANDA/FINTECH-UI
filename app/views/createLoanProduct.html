@@ -276,11 +276,11 @@ TODO delete this code
                     <select id="interestType" ng-model="loanProductDetails.interestType" class="form-control" ng-options="interestType.id as interestType.value for interestType in product.interestTypeOptions" value="{{interestType.id}}">
                     </select>
                 </div>
-                <div class="col-md-1"></div>
-                <label class="control-label col-sm-2">Include in LoanCycle Counter<span class="required">*</span></label>
-                  <div class="col-sm-1">
-                    <input type="checkbox" ng-model="loanProductDetails.includeInBorrowerCycle" ng-true-value="true" ng-false-value="false">
-                  </div>
+                <div class="col-md-1"></div>                
+                <div class="col-md-2 text-right">
+                  <input type="checkbox" ng-model="loanProductDetails.includeInBorrowerCycle" ng-true-value="true" ng-false-value="false" />
+                </div>  
+                <label class="control-label col-md-3 text-left">Include in LoanCycle Counter</label>                
               </div>
               <hr/>
               <div class="col-md-offset-5 paddedtop">                                

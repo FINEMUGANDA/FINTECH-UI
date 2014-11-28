@@ -110,3 +110,16 @@ a.disabled {
     cursor: default;
     color: #777;
 }
+
+.form-group > .control-label {
+	font-weight: inherit;
+}
+
+label.text-left {
+    text-align: left !important;
+    padding-top: 0 !important;
+}
+
+.shortcuts ul > li:first-of-type > a  {
+	padding-left: 0px !important;
+}
