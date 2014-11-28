@@ -17190,3 +17190,15 @@ input.form-control {
 .pointer {
   cursor: pointer;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\00003104}}
+.filters {
+  margin-bottom: 0px !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\00003108}}
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: #777;
+}

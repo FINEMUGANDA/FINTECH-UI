@@ -158,12 +158,14 @@ TODO delete this code
       <div class="header">
         <h3>Create Loan Product</h3>
         <div class="action"></div>
-      </div><br/>
-      <div class="shortcuts">
+      </div>      
+      <div class="summary">
+        <div class="shortcuts">
           <ul role="tablist">
-            <li><a class="pointer {{newProTab}}" href="javascript:0" ng-click="setStep(1)">New Product</a></li>
-            <li><a class="pointer {{charTab}}" ng-click="setStep(2)">Charges</a></li>          
+            <li><a class="pointer {{newProTab}}" ng-click="setStep(1)">New Product</a></li>
+            <li><a class="disabled">Charges</a></li>
           </ul>
+        </div>
       </div>
     </div>
     <div calss="col-md-12">
@@ -173,7 +175,7 @@ TODO delete this code
         </div>
       </div>
       <div class="col-md-12" ng-switch="step">                
-        <div ng-switch-when="1">
+        <div>
             <form name="createloanproductform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
               <div class="form-group">                
                       <label class="control-label col-md-2">Product name<span class="required">*</span></label>
@@ -281,9 +283,9 @@ TODO delete this code
                   </div>
               </div>
               <hr/>
-              <div class="col-md-offset-5 paddedtop">
+              <div class="col-md-offset-5 paddedtop">                                
                 <a id="cancel" href="#/loanProducts" class="btn btn-warning">Cancel</a>
-                <button id="save" type="button" class="btn btn-primary" ng-click="setStep(2)">Next</button>
+                <button id="save" type="submit" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)">Next</button>
               </div>
             </form>
         </div>

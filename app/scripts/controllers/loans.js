@@ -132,12 +132,15 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
       };
       
       $scope.validateLoanProduct = function(loanProductDetails){
-        console.log('LoanProductsCtrl : CreateLoanProducts : authenticateLoanProduct');
-        try{
+        console.log('LoanProductsCtrl : CreateLoanProducts : authenticateLoanProduct');        
+        if ($scope.createloanproductform.$valid) {
           $scope.saveLoanProduct(loanProductDetails);          
-        } catch (e){
-          console.log(e);
-        }        
+        } else {
+          $scope.invalidateForm();
+          $scope.type="error";
+          $scope.message="Highlighted fields are required";
+          $('html, body').animate({scrollTop : 0},800);
+        }
       };       
       
       //invalidate login form
@@ -147,7 +150,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
 
       $scope.saveLoanProduct = function(loanProductDetails){
         console.log('LoanProductsCtrl : CreateLoanProducts : saveLoanProduct');
-
+        $rootScope.message="";
         $scope.chargesSelected = [];
         var temp = '';
         for (var i in $scope.charges) {
@@ -162,7 +165,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
           console.log('Success : Return from loanProducts service.');
           $rootScope.type="alert-success";
           $rootScope.message="Loan product saved successfully";
-          $location.url(PAGE_URL.LOANPRODUCTS);                  
+          $location.url(PAGE_URL.EDITLOANPRODUCT+result.data.resourceId);                  
         }
 
         var saveloanProductFail = function(result){
@@ -175,6 +178,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         console.log("JSON.toJson(loanProductDetails) > " + angular.toJson(this.loanProductDetails));
         LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS_LIST, angular.toJson(this.loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
@@ -203,7 +207,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
       $scope.isLoading = false;
       $scope.loanProductDetails = {};
       $scope.charges = [];
-      $rootScope.message="";
+      //$rootScope.message="";
       //Success callback
       var editLoanProductTeplateSuccess = function(result,loanProductDetails) {
          $scope.isLoading = false;
@@ -271,7 +275,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
 
      loadEditProductTemplate();
 
-     $scope.chargeSelected = function (chargeId) {
+     $scope.chargeSelected = function (chargeId) {          
           if (chargeId) {
             var chargeTeplateSuccess = function(result){
               result.data.chargeId = result.data.id;
@@ -306,7 +310,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
 
       $scope.updateLoanProduct = function(loanProductDetails){
         console.log('LoanProductsCtrl : updateLoanProduct');
-
+        $rootScope.message="";
         $scope.chargesSelected = [];
         var temp='';
 
@@ -336,6 +340,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         var $url=REST_URL.LOANS_PRODUCTS_LIST_BY_ID+$route.current.params.id;
         LoanProductService.updateProduct($url, angular.toJson(this.loanProductDetails)).then(updateloanProductSuccess, updateloanProductFail);
