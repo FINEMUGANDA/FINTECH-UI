@@ -68,7 +68,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
          try {
               $scope.product = result.data;
               $scope.loanProductDetails.digitsAfterDecimal = '2';
-              $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions[0].code;
+              $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions[7].code;
               $scope.loanProductDetails.repaymentFrequencyType = $scope.product.repaymentFrequencyType.id;
               $scope.loanProductDetails.interestRateFrequencyType = $scope.product.interestRateFrequencyType.id;
               $scope.loanProductDetails.amortizationType = $scope.product.amortizationType.id;
@@ -210,6 +210,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
       //$rootScope.message="";
       //Success callback
       var editLoanProductTeplateSuccess = function(result,loanProductDetails) {
+         $rootScope.message="";
          $scope.isLoading = false;
          try {
               $scope.product = result.data;              
@@ -258,6 +259,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
 
       //failur callback
       var editLoanProductTemplateFail = function(result){
+          $rootScope.message="";          
           $scope.isLoading = false;
           console.log('Error : Return from loanProducts service.');
       }
