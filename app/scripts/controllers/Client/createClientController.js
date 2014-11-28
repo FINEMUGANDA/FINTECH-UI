@@ -392,3 +392,155 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($scope, $rootS
         //CreateClientsService.saveProduct(REST_URL., ).then(saveClientAdditionalInfoSuccess, saveClientAdditionalInfoFail);
       };
 });
+
+CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
+      console.log('CreateClientCtrl : ClientNextToKeenCtrl');
+      //To load the loadproducts page
+      $scope.isLoading = false;
+      $scope.clientNextToKeen={};
+      //Success callback
+      var createClientNextToKeenTeplateSuccess = function(result) {
+         $scope.isLoading = false;
+         try {
+              $scope.client = result.data;
+              $scope.clientNextToKeen.relationship = 34 ;
+          } catch (e) {
+          }
+      }
+      //failur callback
+      var createClientNextToKeenTemplateFail = function(result){
+          $scope.isLoading = false;
+          console.log('Error : Return from CreateClientsService service.');
+      }
+      var loadCreateClientNextToKeenTemplate = function getData(tableState) {
+        //$scope.isLoading = true;
+        $timeout(
+          function() {
+              $scope.rowCollection = [];               
+              console.log("successfully got the client Identification info");
+              //CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE).then(createClientNextToKeenTeplateSuccess, createClientNextToKeenTemplateFail);
+          }, 500
+        );
+      };
+
+      loadCreateClientNextToKeenTemplate();
+      
+      $scope.validateClientNextToKeen = function(clientNextToKeen){
+        console.log('CreateClientCtrl : CreateClient : validateClientNextToKeen');
+            if ($scope.ClientNextToKeenForm.$valid) {
+              $scope.saveClientNextToKeen(clientNextToKeen);
+            } else {
+              $scope.invalidateForm();
+            }
+      };
+
+      //invalidate login form
+      $scope.invalidateForm = function(){
+       $scope.ClientNextToKeenForm.invalidate = false;
+      };
+
+      $scope.saveClientNextToKeen = function(clientNextToKeen){
+        console.log('CreateClientCtrl : CreateClient : saveClientNextToKeen');
+
+        var saveClientNextToKeenSuccess = function(result){
+          console.log('Success : Return from CreateClientsService service.');
+          $rootScope.type="alert-success";
+          $rootScope.message="Client Next To Keen Detail saved successfully";
+          //$location.url(PAGE_URL.LOANPRODUCTS);                  
+        }
+
+        var saveClientNextToKeenFail = function(result){
+          console.log('Error : Return from CreateClientsService service.');                    
+          $scope.type="error";
+          $scope.message="Client Next To Keen Detail not saved: "+result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          if(result.data.errors!='' && result.data.errors!='undefined'){
+            for(var i=0;i<result.data.errors.length;i++){
+              $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
+          }
+        }
+        //TODO Make a call to the database to insert the client Additional information into the database
+        var json=angular.toJson(this.clientNextToKeen);
+        console.log(json);
+        console.log("Successfully saved the client Next To Keen Information");
+        //CreateClientsService.saveProduct(REST_URL., ).then(saveClientNextToKeenSuccess, saveClientNextToKeenFail);
+      };
+});
+
+CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
+      console.log('CreateClientCtrl : ClientBusinessActivityCtrl');
+      //To load the loadproducts page
+      $scope.isLoading = false;
+      $scope.clientBusinessActivity={};
+      //Success callback
+      var createClientBusinessActivityTeplateSuccess = function(result) {
+         $scope.isLoading = false;
+         try {
+              $scope.client = result.data;
+              $scope.clientBusinessActivity.businessActivity = 34 ;
+              $scope.clientBusinessActivity.bookkeeping = 34 ;
+              $scope.clientBusinessActivity.extraIncomeActivityList = 34 ;
+          } catch (e) {
+          }
+      }
+      //failur callback
+      var createClientBusinessActivityTemplateFail = function(result){
+          $scope.isLoading = false;
+          console.log('Error : Return from CreateClientsService service.');
+      }
+      var loadCreateClientBusinessActivityTemplate = function getData(tableState) {
+        //$scope.isLoading = true;
+        $timeout(
+          function() {
+              $scope.rowCollection = [];               
+              console.log("successfully got the client Business Activity info");
+              //CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE).then(createClientBusinessActivityTeplateSuccess, createClientBusinessActivityTemplateFail);
+          }, 500
+        );
+      };
+
+      loadCreateClientBusinessActivityTemplate();
+      
+      $scope.validateClientBusinessActivity = function(clientBusinessActivity){
+        console.log('CreateClientCtrl : CreateClient : validateClientBusinessActivity');
+            if ($scope.ClientBusinessActivityForm.$valid) {
+              $scope.saveClientBusinessActivity(clientBusinessActivity);
+            } else {
+              $scope.invalidateForm();
+            }
+      };
+
+      //invalidate login form
+      $scope.invalidateForm = function(){
+       $scope.ClientBusinessActivityForm.invalidate = false;
+      };
+
+      $scope.saveClientBusinessActivity = function(clientBusinessActivity){
+        console.log('CreateClientCtrl : CreateClient : saveClientBusinessActivity');
+
+        var saveClientBusinessActivitySuccess = function(result){
+          console.log('Success : Return from CreateClientsService service.');
+          $rootScope.type="alert-success";
+          $rootScope.message="Client Business Activity Detail saved successfully";
+          //$location.url(PAGE_URL.LOANPRODUCTS);                  
+        }
+
+        var saveClientBusinessActivityFail = function(result){
+          console.log('Error : Return from CreateClientsService service.');                    
+          $scope.type="error";
+          $scope.message="Client Business Activity Detail not saved: "+result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          if(result.data.errors!='' && result.data.errors!='undefined'){
+            for(var i=0;i<result.data.errors.length;i++){
+              $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
+          }
+        }
+        //TODO Make a call to the database to insert the client Additional information into the database
+        var json=angular.toJson(this.clientBusinessActivity);
+        console.log(json);
+        console.log("Successfully saved the client Business Activity Information");
+        //CreateClientsService.saveProduct(REST_URL., ).then(saveClientBusinessActivitySuccess, saveClientBusinessActivityFail);
+      };
+});

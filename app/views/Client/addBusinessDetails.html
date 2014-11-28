@@ -1,0 +1,96 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="ClientBusinessActivityCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+    <div class="header">
+      <h3>Create Client</h3>
+    </div>	
+	</div>
+	<div class="filters">
+	    <ul role="tablist">
+	        <li role="presentation"><a href="#/editbasicclientinfo">Basic Client info</a></li>
+	        <li role="presentation"><a href="#/editadditionalclientinfo">Additonal Client Info</a></li>
+	        <li role="presentation"><a href="#/editclientidentification">Client ID</a></li>
+	        <li role="presentation"><a href="#/editnextofkeen">Emergency Contacts/Next of Kin</a></li>
+	        <li role="presentation"><a href="#/editbusinessdetails" class="active">Business Details</a></li>
+	    </ul>
+	</div>
+    <div calss="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>
+      <form name="ClientBusinessActivityForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientBusinessActivity(clientBusinessActivity)" novalidate show-validation>
+        <div calss="col-md-12">
+          <div class="form-group">
+              <label class="control-label col-md-2">Business Activity<span class="required">*</span></label>
+              <div class="validate col-md-4">
+              	<select id="businessActivity" ng-model="clientBusinessActivity.businessActivity" class="form-control"  required>
+              			<option value="33">Yes</option>
+                  		<option value="34">No</option>
+                  </select>	
+              </div>
+          </div>
+           <div class="form-group">                
+              <label class="control-label col-md-2">Business Name (if any):<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <input id="businessName" name="businessName" class="form-control" type="text" ng-model="clientBusinessActivity.businessName" required></input>
+              </div>
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2">operating since:<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                  <input id="operatingSince" name="operatingSince" class="form-control" type="text" ng-model="clientBusinessActivity.operatingSince"  required></input>
+
+                   <!-- <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="createClient.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ></input>
+                
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span> -->
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">Bookkeeping<span class="required">*</span></label>
+              <div class="validate col-md-4">
+                <select id="bookkeeping" ng-model="clientBusinessActivity.bookkeeping" class="form-control"  required>
+                    <option value="33">Yes</option>
+                      <option value="34">No</option>
+                  </select> 
+              </div>
+          </div>
+           <div class="form-group">                
+              <label class="control-label col-md-2">Business Address<span class="required">*</span></label>
+              <div class="col-md-4">
+                  <textarea rows="3" id="businessAddress" name="businessAddress" class="form-control" ng-model="clientBusinessActivity.businessAddress"></textarea>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">Other income generating activities (list):</label>
+              <div class="validate col-md-4">
+                <select id="extraIncome" ng-model="clientBusinessActivity.extraIncome" class="form-control"  required>
+                    <option value="33">Yes</option>
+                      <option value="34">No</option>
+                  </select> 
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-2">list of income activities</label>
+              <div class="validate col-md-4">
+                <select id="extraIncomeActivityList" ng-model="clientBusinessActivity.extraIncomeActivityList" class="form-control"  required>
+                    <option value="33">Yes</option>
+                      <option value="34">No</option>
+                  </select> 
+              </div>
+          </div>          
+        <hr/>
+          <div class="col-md-offset-3 paddedtop">
+            <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>         
+      </form>
+    </div>
+  </div>
+</div>

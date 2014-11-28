@@ -113,32 +113,39 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           data: {
             authorizedRoles: ['admin']
           }
-      }).
-      //TODO
-      when('/createClient', {
+      }).when('/createClient', {
           templateUrl: 'views/Client/basicClientInfo.html',
           controller: 'CreateClientCtrl',
           data: {
             authorizedRoles: ['admin']
           }
-      }).
-      when('/editbasicclientinfo', {
+      }).when('/editbasicclientinfo', {
           templateUrl: 'views/Client/editBasicClientInfo.html',
           controller: 'EditClientCtrl',
           data: {
             authorizedRoles: ['admin']
           }
-      }).
-      when('/editadditionalclientinfo', {
+      }).when('/editadditionalclientinfo', {
           templateUrl: 'views/Client/additionalClientInfo.html',
           controller: 'CreateClientAdditionalInfoCtrl',
           data: {
             authorizedRoles: ['admin']
           }
-      }).
-      when('/editclientidentification', {
+      }).when('/editclientidentification', {
           templateUrl: 'views/Client/addClientIdentification.html',
           controller: 'ClientIdentificationCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/editnextofkeen', {
+          templateUrl: 'views/Client/addNextOfKeen.html',
+          controller: 'ClientNextToKeenCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/editbusinessdetails', {
+          templateUrl: 'views/Client/addBusinessDetails.html',
+          controller: 'ClientBusinessActivityCtrl',
           data: {
             authorizedRoles: ['admin']
           }
