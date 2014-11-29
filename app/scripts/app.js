@@ -137,7 +137,7 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           data: {
             authorizedRoles: ['admin']
           }
-      }).when('/editnextofkeen', {
+      }).when('/editnextofkeen/:id', {
           templateUrl: 'views/Client/addNextOfKeen.html',
           controller: 'ClientNextToKeenCtrl',
           data: {

@@ -183,7 +183,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
           }
         }
         console.log(angular.toJson(this.createClientWithDataTable));
-        var $url= REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + clientId;        
+        var $url= REST_URL.CREATE_ADDITIONAL_CLIENT_INFO + clientId;        
         CreateClientsService.saveClient($url,angular.toJson(this.createClientWithDataTable)).then(saveBasicClientExtraInformationSuccess, saveBasicClientExtraInformationFail);
       };
       //Finish - Save Basic Client Infromation
@@ -218,7 +218,49 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
       $scope.isLoading = false;
       $scope.editClient = {};
       $scope.editClientWithDataTable={};
-      
+      //Change Maritial Status
+      $scope.changeMaritialStatus = function(){
+        $scope.isMarried = false;
+        if($scope.editClientWithDataTable.YesNo_cd_maritalStatus==33){
+          $scope.isMarried=true;
+        }
+      }
+      //For date of birth calendar
+      $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+      };
+      //Validate and set uploaded file
+      $scope.onFileSelect = function ($files) {        
+        var reg = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+        if(reg.test($files[0])){          
+          $scope.type="error";
+          $scope.message="File extension not supported!";
+          $('html, body').animate({scrollTop : 0},800);
+        }
+        else if($files[0].size/1024 > 100){
+            $scope.type="error";
+            $scope.message="File is too large! File size must be less then or equal to 100Kb!";
+            $('html, body').animate({scrollTop : 0},800);            
+        }else{
+          $scope.file = $files[0];        
+        }
+      };
+      //Set loan officer 
+      $scope.changeOffice = function (officeId) {          
+          var changeOfficeSuccess = function(result){
+            console.log('Success : Return from createClientsService.');
+            $scope.staffOptions = result.data.staffOptions;
+            $scope.editClient.staffId = result.data.staffOptions[0].id;
+          }
+          var changeOfficeFail = function(result){
+            console.log('Error : Return from createClientsService.');            
+          }
+          var $url = REST_URL.GROUP_TEMPLATE_RESOURCE+'?staffInSelectedOfficeOnly=true&staffInSelectedOfficeOnly=true&officeId='+officeId;
+          CreateClientsService.getData($url).then(changeOfficeSuccess, changeOfficeFail);
+      };
+
       //Start - extra client information template
       //Success callback
       var editClientExtraInformationTemplateSuccess = function(result) {
@@ -280,7 +322,7 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
               $scope.editClient.locale = $scope.client.locale;
 			        //Call to fill up the data from the custom datatables i.e. client_extra_information
               $scope.rowCollection = [];              
-              var $url = REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id ;
+              var $url = REST_URL.CREATE_ADDITIONAL_CLIENT_INFO + $route.current.params.id ;
               console.log($url);
               CreateClientsService.getData($url).then(editClientExtraInformationTemplateSuccess, editClientExtraInformationTemplateFail);
           } catch (e) {
@@ -417,7 +459,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
                 CreateClientsService.getData($url).then(getClientSuccess, getClientFail);
               }
           } catch (e) {
-            console
+            console.log(e);
           }
       }
       //failur callback
@@ -661,6 +703,21 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
               $scope.clientBusinessActivity.locale = "en";
               //Set the default value of the Other income business activity dropdown
               //$scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = 30;
+
+              //Check if the request is for the Update or creation of the new record
+              if($scope.client.data == ''){
+                $scope.$requestMethodCreate=true;
+              }else{
+                $scope.$requestMethodCreate=false;
+                $scope.clientBusinessActivity.business_name = $scope.client.data[0].row[3];
+                $scope.clientBusinessActivity.operating_since = $scope.client.data[0].row[5];
+                $scope.clientBusinessActivity.business_address = $scope.client.data[0].row[4];
+                $scope.clientBusinessActivity.BusinessActivity_cd_business_activity = parseInt($scope.client.data[0].row[2]);
+                $scope.clientBusinessActivity.YesNo_cd_book_keeping = parseInt($scope.client.data[0].row[6]);
+                $scope.clientBusinessActivity.YesNo_cd_other_income = parseInt($scope.client.data[0].row[7]);
+                $scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = parseInt($scope.client.data[0].row[8]);                
+              }
+
           } catch (e) {
           }
       }
@@ -675,7 +732,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
           function() {
               $scope.rowCollection = [];               
               console.log("successfully got the client Business Activity info");
-              var $url=REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + c +'?genericResultSet=true';
+              var $url=REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id +'?genericResultSet=true';
               CreateClientsService.getData($url).then(createClientBusinessActivityTeplateSuccess, createClientBusinessActivityTemplateFail);
           }, 500
         );
@@ -722,8 +779,12 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
         var json=angular.toJson(this.clientBusinessActivity);
         console.log(json);
         console.log("Successfully saved the client Business Activity Information");
-        var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id ;
-        console.log($url);
-        CreateClientsService.saveClient($url, json).then(saveClientBusinessActivitySuccess, saveClientBusinessActivityFail);
+        var $requestUrl = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id ;
+        console.log($requestUrl);
+        if($scope.$requestMethodCreate){
+          CreateClientsService.saveClient($requestUrl, json).then(saveClientBusinessActivitySuccess, saveClientBusinessActivityFail);  
+        }else{
+          CreateClientsService.updateClient($requestUrl, json).then(saveClientBusinessActivitySuccess, saveClientBusinessActivityFail);  
+        }
       };
 });

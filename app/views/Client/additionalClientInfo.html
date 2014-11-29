@@ -4,7 +4,7 @@
   <div class="rows">
     <div class="page-header">
     <div class="header">
-      <h3>Create Client</h3>
+      <h3>Edit Client</h3>
     </div>	
       <div class="summary">
       	<div class="shortcuts">
@@ -27,7 +27,7 @@
       <form name="createAdditionalClientForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateCreateClientAdditionalInfo(createClientAdditionalInfo)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-4">Bank account<span class="required">*</span></label>
+              <label class="control-label col-md-4">Bank account<span class="required"> *</span></label>
               <div class="validate col-md-6">              	
                 <select id="bankAccount" ng-model="createClientAdditionalInfo.bankAccount" ng-options="yesNoOptions.id as yesNoOptions.value for yesNoOptions in yesNoOptions" class="form-control"  value="{{yesNoOptions.id}}" required>
                 </select>
@@ -52,21 +52,21 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">Citizenship<span class="required">*</span></label>
+              <label class="control-label col-md-4">Citizenship<span class="required"> *</span></label>
               <div class="validate col-md-6">
                   <select id="citizenshipId" ng-model="createClientAdditionalInfo.citizenshipId" ng-options="citizenshipOptions.id as citizenshipOptions.value for citizenshipOptions in citizenshipOptions" class="form-control"  value="{{citizenshipOptions.id}}" required>
                   </select>
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">Education Level<span class="required">*</span></label>
+              <label class="control-label col-md-4">Education Level<span class="required"> *</span></label>
               <div class="validate col-md-6">
                   <select id="educationId" ng-model="createClientAdditionalInfo.educationId" ng-options="educationOptions.id as educationOptions.value for educationOptions in educationOptions" class="form-control" value="{{educationOptions.id}}" required>
                   </select>
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">Poverty Status (UGX p.m.)<span class="required">*</span></label>
+              <label class="control-label col-md-4">Poverty Status (UGX p.m.)<span class="required"> *</span></label>
               <div class="validate col-md-6">
                   <select id="povertyStatusId" ng-model="createClientAdditionalInfo.povertyStatusId" ng-options="povertyStatusOptions.id as povertyStatusOptions.value for povertyStatusOptions in povertyStatusOptions" class="form-control"  value="{{povertyStatusOptions.id}}" required>
                   </select>
@@ -75,7 +75,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-4">Introduced by<span class="required">*</span></label>
+              <label class="control-label col-md-4">Introduced by<span class="required"> *</span></label>
               <div class="validate col-md-6">                  
                   <select id="introducedById" ng-model="createClientAdditionalInfo.introducedById" ng-options="introducedByOptions.id as introducedByOptions.value for introducedByOptions in introducedByOptions" class="form-control"  value="{{introducedByOptions.id}}" required>
                   </select>
@@ -103,13 +103,13 @@
           </div>
           <!-- Need to display the calendar for the return year -->
           <div class="form-group">                
-              <label class="control-label col-md-4">Known to Introducer since<span class="required">*</span></label>
+              <label class="control-label col-md-4">Known to Introducer since<span class="required"> *</span></label>
               <div class="validate col-md-6 dateCss">
                   <input id="knowToIntroducer" name="knowToIntroducer" type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="createClientAdditionalInfo.knowToIntroducer" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="open($event)" />
               </div>
           </div>
-		      <div class="form-group">
-              <label class="control-label col-md-4">Visited by<span class="required">*</span></label>
+		  <div class="form-group">
+              <label class="control-label col-md-4">Visited by<span class="required"> *</span></label>
               <div class="validate col-md-6">
                   <select id="visitedById" ng-model="createClientAdditionalInfo.visitedById" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" value="{{staffOptions.id}}" required>
                   </select>
@@ -117,7 +117,7 @@
           </div>
           <!-- Need to display the calendar Simple calendar -->
           <div class="form-group">                
-              <label class="control-label col-md-4">Visiting Date<span class="required">*</span></label>
+              <label class="control-label col-md-4">Visiting Date<span class="required"> *</span></label>
               <div class="validate col-md-6 dateCss">
                   <input id="visitingDate" name="visitingDate" type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="createClientAdditionalInfo.visitingDate" is-open="openVisitingDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="openVDate($event)" />
               </div>

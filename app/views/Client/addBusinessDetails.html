@@ -4,7 +4,7 @@
   <div class="rows">
     <div class="page-header">
     <div class="header">
-      <h3>Create Client</h3>
+      <h3>Edit Client</h3>
     </div>	
     <div class="summary">	
     	<div class="shortcuts">
@@ -27,20 +27,20 @@
       <form name="ClientBusinessActivityForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientBusinessActivity(clientBusinessActivity)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-4">Business Activity<span class="required">*</span></label>
+              <label class="control-label col-md-4">Business Activity<span class="required"> *</span></label>
               <div class="validate col-md-6">
               	<select id="BusinessActivity_cd_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in businessActivityOptions" class="form-control"  value="{{columnValues.id}}"  required>
                   </select>	
               </div>
           </div>
            <div class="form-group">                
-              <label class="control-label col-md-4">Business Name (if any)<span class="required">*</span></label>
+              <label class="control-label col-md-4">Business Name (if any)<span class="required"> *</span></label>
               <div class="validate col-md-6">
                   <input id="business_name" name="business_name" class="form-control" type="text" ng-model="clientBusinessActivity.business_name" required></input>
               </div>
           </div>
           <div class="form-group">                
-              <label class="control-label col-md-4">operating since<span class="required">*</span></label>
+              <label class="control-label col-md-4">operating since<span class="required"> *</span></label>
               <div class="validate col-md-6">
                   <input id="operating_since" name="operating_since" class="form-control" type="text" ng-model="clientBusinessActivity.operating_since"  required></input>
 
@@ -52,7 +52,7 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">Bookkeeping<span class="required">*</span></label>
+              <label class="control-label col-md-4">Bookkeeping<span class="required"> *</span></label>
               <div class="validate col-md-6">
                 <select id="YesNo_cd_book_keeping" ng-model="clientBusinessActivity.YesNo_cd_book_keeping" ng-options="columnValues.id as columnValues.value for columnValues in BookingKeeping" class="form-control"  value="{{columnValues.id}}"  required>
                   </select> 
@@ -65,14 +65,14 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">Other income generating activities (list)<span class="required">*</span></label>
+              <label class="control-label col-md-4">Other income generating activities (list)<span class="required"> *</span></label>
               <div class="validate col-md-6">
                 <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control"  value="{{columnValues.id}}"  required>
                 </select> 
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">list of income activities<span class="required">*</span></label>
+              <label class="control-label col-md-4">list of income activities<span class="required"> *</span></label>
               <div class="col-md-6">
                 <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in otherIncomeBusinessActivity" class="form-control"  value="{{columnValues.id}}">
                   </select> 

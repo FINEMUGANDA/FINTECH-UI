@@ -27,7 +27,7 @@
       <form name="createBasicClientForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateCreateClient(createClient,createClientWithDataTable)" novalidate show-validation >
           <div class="col-md-6">
             <div class="form-group">                
-                <label class="control-label col-md-4">File Number<span class="required">*</span></label>
+                <label class="control-label col-md-4">File Number<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <input id="externalId" name="externalId" class="form-control" type="text" ng-model="createClient.externalId" required></input>
                 </div>
@@ -40,14 +40,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Loan Officer<span class="required">*</span></label>
+                <label class="control-label col-md-4">Loan Officer<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <select id="staffId" ng-model="createClient.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" value="{{staffOptions.id}}" required>
                     </select>
                 </div>
             </div>
             <div class="form-group">                
-                <label class="control-label col-md-4">First Name<span class="required">*</span></label>
+                <label class="control-label col-md-4">First Name<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <input id="firstname" name="firstname" class="form-control" type="text" ng-model="createClient.firstname" required></input>
                 </div>
@@ -59,26 +59,26 @@
                 </div>
             </div>
             <div class="form-group">                
-                <label class="control-label col-md-4">Last Name<span class="required">*</span></label>
+                <label class="control-label col-md-4">Last Name<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <input id="lastname" name="lastname" class="form-control" type="text" ng-model="createClient.lastname" required></input>
                 </div>
             </div>
             <div class="form-group">                
-                <label class="control-label col-md-4">Date Of Birth<span class="required">*</span></label>
+                <label class="control-label col-md-4">Date Of Birth<span class="required"> *</span></label>
                 <div class="validate col-md-6 dateCss">                    
                     <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="createClient.dateOfBirth" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="open($event)" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Gender<span class="required">*</span></label>
+                <label class="control-label col-md-4">Gender<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <select id="genderId" ng-model="createClient.genderId" ng-options="genderOptions.id as genderOptions.name for genderOptions in client.genderOptions" class="form-control"  value="{{genderOptions.id}}" required>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Maritial Status<span class="required">*</span></label>
+                <label class="control-label col-md-4">Maritial Status<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                 	<select id="YesNo_cd_maritalStatus" ng-model="createClientWithDataTable.YesNo_cd_maritalStatus" class="form-control" required ng-change="changeMaritialStatus()">
                 			<option value="33">Yes</option>
@@ -93,13 +93,13 @@
                 </div>
             </div>
             <div class="form-group" ng-show="isMarried">
-                <label class="control-label col-md-4">Number Of Children<span class="required">*</span></label>
+                <label class="control-label col-md-4">Number Of Children<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfChildren" required></input>
                 </div>
             </div>
             <div class="form-group">                
-                <label class="control-label col-md-4">Number of loan dependants<span class="required">*</span></label>
+                <label class="control-label col-md-4">Number of loan dependants<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <input id="numberOfLoanDependents" name="numberOfLoanDependents" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfLoanDependents" required></input>
                 </div>
@@ -107,7 +107,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">                
-                <label class="control-label col-md-4">Upload Photo.<span class="required">*</span></label>
+                <label class="control-label col-md-4">Upload Photo.<span class="required"> *</span></label>
                 <div class="col-md-6">
                     <input type="file" ng-model='image' ng-file-select="onFileSelect($files)"></input>
                 </div>
@@ -122,7 +122,7 @@
                 </div>
             </div>
             <div class="form-group">                
-                <label class="control-label col-md-4">Home Contact Address<span class="required">*</span></label>
+                <label class="control-label col-md-4">Home Contact Address<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <textarea rows="3" id="homeContactAddress" name="homeContactAddress" class="form-control" ng-model="createClientWithDataTable.homeContactAddress" required></textarea>
                 </div>
@@ -140,7 +140,7 @@
                 </div>
             </div>
             <div class="form-group">                
-                <label class="control-label col-md-4">Main Telephone No.<span class="required">*</span></label>
+                <label class="control-label col-md-4">Main Telephone No.<span class="required"> *</span></label>
                 <div class="validate col-md-6">
                     <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="createClient.mobileNo" only-digits required></input>
                 </div>
@@ -154,7 +154,7 @@
           </div>  
           <hr/>
           <div class="col-md-12">          
-            <div class="col-md-offset-2 paddedtop">
+            <div class="col-md-offset-5 paddedtop">
               <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
               <button id="save" type="submit" class="btn btn-primary">Save</button>
             </div>

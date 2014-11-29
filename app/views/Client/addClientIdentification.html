@@ -4,7 +4,7 @@
   <div class="rows">
     <div class="page-header">
     <div class="header">
-      <h3>Create Client</h3>
+      <h3>Edit Client</h3>
     </div>	
 	  <div class="summary"> 
       	<div class="shortcuts">
@@ -27,7 +27,7 @@
       <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-4">Identification Type<span class="required">*</span></label>
+              <label class="control-label col-md-4">Identification Type<span class="required"> *</span></label>
               <div class="validate col-md-6">
               	<select id="identificationType" ng-model="clientIdentification.identificationType" class="form-control"  required>
               			<option value="33">Yes</option>
@@ -36,7 +36,7 @@
               </div>
           </div>
           <div class="form-group">                
-              <label class="control-label col-md-4">Identification Number<span class="required">*</span></label>
+              <label class="control-label col-md-4">Identification Number<span class="required"> *</span></label>
               <div class="validate col-md-6">
                   <input id="identificationNumber" name="identificationNumber" class="form-control" type="text" ng-model="clientIdentification.identificationNumber" required></input>
               </div>
