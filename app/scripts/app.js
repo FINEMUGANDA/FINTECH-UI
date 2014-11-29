@@ -125,13 +125,13 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           data: {
             authorizedRoles: ['admin']
           }
-      }).when('/editadditionalclientinfo', {
+      }).when('/editadditionalclientinfo/:id', {
           templateUrl: 'views/Client/additionalClientInfo.html',
           controller: 'CreateClientAdditionalInfoCtrl',
           data: {
             authorizedRoles: ['admin']
           }
-      }).when('/editclientidentification', {
+      }).when('/editclientidentification/:id', {
           templateUrl: 'views/Client/addClientIdentification.html',
           controller: 'ClientIdentificationCtrl',
           data: {

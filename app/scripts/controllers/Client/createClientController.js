@@ -33,7 +33,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
         }
         else if($files[0].size/1024 > 100){
             $scope.type="error";
-            $scope.message="File is too large! File size must be less then or equal to 100!";
+            $scope.message="File is too large! File size must be less then or equal to 100 KB!";
             $('html, body').animate({scrollTop : 0},800);            
         }else{
           $scope.file = $files[0];        
@@ -49,7 +49,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
           var changeOfficeFail = function(result){
             console.log('Error : Return from createClientsService.');            
           }
-          var $url = REST_URL.GROUP_TEMPLATE_RESOURCE+'?staffInSelectedOfficeOnly=true&staffInSelectedOfficeOnly=true&officeId='+officeId;
+          var $url = REST_URL.GROUP_TEMPLATE_RESOURCE+'?staffInSelectedOfficeOnly=true&officeId='+officeId;
           CreateClientsService.getData($url).then(changeOfficeSuccess, changeOfficeFail);
       };
       //Start Client Template
@@ -122,7 +122,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
       $scope.saveBasicClient = function(createClient,createClientWithDataTable){
         console.log('CreateClientCtrl : CreateClient : saveBasicClient');
         var d = new Date($scope.createClient.dateOfBirth);
-        $scope.createClient.dateOfBirth = d.getDate()+'/'+d.getMonth()+'/'+d.getFullYear();         
+        $scope.createClient.dateOfBirth = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
 
         var saveBasicClientSuccess = function(result){
           console.log('Success : Return from createClientsService');
@@ -218,36 +218,34 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
       $scope.isLoading = false;
       $scope.editClient = {};
       $scope.editClientWithDataTable={};
-
-      $scope.loadEditClientExtraInformationTemplate = function() {
-        $scope.isLoading = true;
-          //Success callback
-          var editClientExtraInformationTeplateSuccess = function(result) {
-             $scope.isLoading = false;
-             try {
-                  //Data from extra datatable i.e client_extra_information
-                  $scope.editClientWithDataTable.YesNo_cd_maritalStatus = $scope.client.YesNo_cd_maritalStatus;
-                  $scope.editClientWithDataTable.nameOfSpouse = $scope.client.nameOfSpouse;
-                  $scope.editClientWithDataTable.numberOfChildren = $scope.client.numberOfChildren;
-                  $scope.editClientWithDataTable.numberOfLoanDependents = $scope.client.numberOfLoanDependents;
-                  $scope.editClientWithDataTable.homeContactAddress = $scope.client.homeContactAddress;
-                  $scope.editClientWithDataTable.homeContactPerson = $scope.client.homeContactPerson;
-                  $scope.editClientWithDataTable.email = $scope.client.email;
-                  $scope.editClientWithDataTable.SecondMobileNo = $scope.client.SecondMobileNo;
-                  $scope.editClientWithDataTable.locale = $scope.client.locale;
-              } catch (e) {
-              }
+      
+      //Start - extra client information template
+      //Success callback
+      var editClientExtraInformationTemplateSuccess = function(result) {
+         $scope.isLoading = false;
+         console.log('Success : Return from createClientsService');
+         try {
+              $scope.editClientExtraInfo = result.data[0];
+              //Data from extra datatable i.e client_extra_information
+              $scope.editClientWithDataTable.YesNo_cd_maritalStatus = $scope.editClientExtraInfo.YesNo_cd_maritalStatus;
+              $scope.editClientWithDataTable.nameOfSpouse = $scope.editClientExtraInfo.nameOfSpouse;
+              $scope.editClientWithDataTable.numberOfChildren = $scope.editClientExtraInfo.numberOfChildren;
+              $scope.editClientWithDataTable.numberOfLoanDependents = $scope.editClientExtraInfo.numberOfLoanDependents;
+              $scope.editClientWithDataTable.homeContactAddress = $scope.editClientExtraInfo.homeContactAddress;
+              $scope.editClientWithDataTable.homeContactPerson = $scope.editClientExtraInfo.homeContactPerson;
+              $scope.editClientWithDataTable.email = $scope.$scope.editClientExtraInfo.email;
+              $scope.editClientWithDataTable.SecondMobileNo = $scope.$scope.editClientExtraInfo.SecondMobileNo;
+              $scope.editClientWithDataTable.locale = $scope.$scope.editClientExtraInfo.locale;
+          } catch (e) {
+            console.log(e);
           }
-          //failur callback
-          var editClientExtraInformationTemplateFail = function(result){
-              $scope.isLoading = false;
-              console.log('Error : Return from loanProducts service.');
-          }
-          $scope.rowCollection = [];              
-          var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id ;
-          console.log($url);
-          CreateClientsService.getData($url).then(editClientExtraInformationTeplateSuccess, editClientExtraInformationFail);
-      };
+      }
+      //failur callback
+      var editClientExtraInformationTemplateFail = function(result){
+          $scope.isLoading = false;
+          console.log('Error : Return from createClientsService');
+      }
+      //Finish - extra client information template
 
       //Success callback
       var editClientTeplateSuccess = function(result) {
@@ -267,21 +265,26 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
               //data from m_client table
               $scope.client = result.data;
               $scope.editClient.externalId = $scope.client.externalId;
+              $rootScope.officeId =$scope.client.officeId;
               $scope.editClient.officeId =$scope.client.officeId;
               $scope.editClient.staffId = $scope.client.staffId;
               $scope.editClient.firstname = $scope.client.firstname;
               $scope.editClient.middlename = $scope.client.middlename;
-              $scope.editClient.lastname = $scope.client.lastname;
-              $scope.editClient.dateOfBirth = $scope.client.dateOfBirth;
+              $scope.editClient.lastname = $scope.client.lastname;              
+              $scope.editClient.dateOfBirth = $scope.client.dateOfBirth[2]+'/'+$scope.client.dateOfBirth[1]+'/'+$scope.client.dateOfBirth[0];         
               $scope.editClient.genderId = $scope.client.gender.id;
               $scope.editClient.mobileNo = $scope.client.mobileNo;
               $scope.editClient.active = $scope.client.active;
               $scope.editClient.dateFormat = $scope.client.dateFormat;
               $scope.editClient.activationDate = $scope.client.activationDate;
               $scope.editClient.locale = $scope.client.locale;
-			  //Call to fill up the data from the custom datatables i.e. client_extra_information
-              //$scope.loadEditClientExtraInformationTemplate();
+			        //Call to fill up the data from the custom datatables i.e. client_extra_information
+              $scope.rowCollection = [];              
+              var $url = REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id ;
+              console.log($url);
+              CreateClientsService.getData($url).then(editClientExtraInformationTemplateSuccess, editClientExtraInformationTemplateFail);
           } catch (e) {
+            console.log(e);
           }
       }
       //failur callback
@@ -298,12 +301,10 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
               //var $URL=REST_URL.EDIT_BASIC_CLIENT_INFORMATION_TEMPLATE+'/1'+'?template=true'
               //CreateClientsService.getData($URL).then(editClientTeplateSuccess, editClientTemplateFail);
               var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id +'?template=true'
-              CreateClientsService.getData($url).then(editClientTeplateSuccess, editClientTemplateFail);              
+              CreateClientsService.getData($url).then(editClientTeplateSuccess, editClientTemplateFail);
           }, 500
         );
       };
-      
-      
 
       loadEditClientTemplate();
       
@@ -348,22 +349,75 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
         //fire this url to go to the edit page PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION/{{response.data.id}}
       };
     });
+
 CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
       console.log('CreateClientCtrl : CreateClientAdditionalInfoCtrl');
-      //To load the loadproducts page
+      //To load the client additional page
       $scope.isLoading = false;
       $scope.createClientAdditionalInfo={};
+      //For date of birth calendar
+      $scope.openVDate = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.openVisitingDate = true;
+      };
+      //For date of birth calendar
+      $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+      };
+      //Change offfice
+      var getOfficeSuccess = function(result){
+        console.log('Success : Return from createClientsService.');
+        $scope.staffOptions = result.data.staffOptions;
+        $scope.clientOptions = result.data.clientOptions;
+        //Loan Office
+        $scope.createClientAdditionalInfo.staffId = result.data.staffOptions[0].id;
+        //Client
+        $scope.createClientAdditionalInfo.clientId = result.data.clientOptions[0].id;
+        //Visited by
+        $scope.createClientAdditionalInfo.visitedById = result.data.staffOptions[0].id;
+      }
+      var getOfficeFail = function(result){
+        console.log('Error : Return from createClientsService.');            
+      }
+      //Get client
+      var getClientSuccess = function(result){
+        console.log('Success : Return from createClientsService.');
+        var $url = REST_URL.GROUP_TEMPLATE_RESOURCE+'?staffInSelectedOfficeOnly=true&officeId='+result.data.officeId;
+        CreateClientsService.getData($url).then(getOfficeSuccess, getOfficeFail);
+      }
+      var getClientFail = function(result){
+        console.log('Error : Return from createClientsService.');            
+      }
       //Success callback
-      var createClientAdditionalInfoTeplateSuccess = function(result) {
+      var createClientAdditionalInfoTemplateSuccess = function(result) {
          $scope.isLoading = false;
          try {
               //Setting the id for the headers
+              $scope.clientAdditionalInfo = result.data;
               $scope.id = $route.current.params.id;
-
               $scope.client = result.data;
-              $scope.createClientAdditionalInfo.bankAccount = 34 ;
-              $scope.createClientAdditionalInfo.introducedById = 3 ;
+              $scope.yesNoOptions = $scope.clientAdditionalInfo.columnHeaders[2].columnValues;
+              $scope.citizenshipOptions = $scope.clientAdditionalInfo.columnHeaders[6].columnValues;
+              $scope.educationOptions = $scope.clientAdditionalInfo.columnHeaders[7].columnValues;
+              $scope.povertyStatusOptions = $scope.clientAdditionalInfo.columnHeaders[8].columnValues;
+              $scope.introducedByOptions = $scope.clientAdditionalInfo.columnHeaders[9].columnValues;
+              $scope.createClientAdditionalInfo.bankAccount=$scope.clientAdditionalInfo.columnHeaders[2].columnValues[0].id;
+              $scope.createClientAdditionalInfo.citizenshipId=$scope.clientAdditionalInfo.columnHeaders[6].columnValues[0].id;
+              $scope.createClientAdditionalInfo.educationId=$scope.clientAdditionalInfo.columnHeaders[7].columnValues[0].id;
+              $scope.createClientAdditionalInfo.povertyStatusId=$scope.clientAdditionalInfo.columnHeaders[8].columnValues[0].id;
+              $scope.createClientAdditionalInfo.introducedById=$scope.clientAdditionalInfo.columnHeaders[9].columnValues[0].id;              
+              if($rootScope.officeId!='' && $rootScope.officeId!=undefined){
+                var $url = REST_URL.GROUP_TEMPLATE_RESOURCE+'?staffInSelectedOfficeOnly=true&officeId='+$rootScope.officeId;
+                CreateClientsService.getData($url).then(getOfficeSuccess, getOfficeFail);
+              }else{
+                var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id +'?fields=officeId';
+                CreateClientsService.getData($url).then(getClientSuccess, getClientFail);
+              }
           } catch (e) {
+            console
           }
       }
       //failur callback
@@ -372,12 +426,12 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
           console.log('Error : Return from CreateClientsService service.');
       }
       var loadCreateClientAdditionalInfoTemplate = function getData(tableState) {
-        //$scope.isLoading = true;
+        $scope.isLoading = true;
         $timeout(
           function() {
               $scope.rowCollection = [];               
               console.log("successfully got the additional client info");
-              //CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE).then(createClientAdditionalInfoTeplateSuccess, createClientAdditionalInfoTemplateFail);
+              CreateClientsService.getData(REST_URL.CREATE_CLIENT_EXTRA_INFORMATION+$route.current.params.id+'?genericResultSet=true').then(createClientAdditionalInfoTemplateSuccess, createClientAdditionalInfoTemplateFail);
           }, 500
         );
       };
@@ -438,8 +492,6 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
          try {
               //Setting the id for the headers
               $scope.id = $route.current.params.id;
-
-
               $scope.client = result.data;
               $scope.clientIdentification.identificationType = 34 ;
           } catch (e) {
@@ -517,7 +569,6 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
          try {
               //Setting the id for the headers
               $scope.id = $route.current.params.id;
-
               $scope.client = result.data;
               $scope.clientNextToKeen.relationship = 34 ;
           } catch (e) {
@@ -595,7 +646,6 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
          try {
               //Setting the id for the urls in the header
               $scope.id = $route.current.params.id;
-
               //Filling the drop downs
               $scope.client = result.data;
               $scope.businessActivityOptions = $scope.client.columnHeaders[2].columnValues;
@@ -625,7 +675,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
           function() {
               $scope.rowCollection = [];               
               console.log("successfully got the client Business Activity info");
-              var $url=REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id +'?genericResultSet=true';
+              var $url=REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + c +'?genericResultSet=true';
               CreateClientsService.getData($url).then(createClientBusinessActivityTeplateSuccess, createClientBusinessActivityTemplateFail);
           }, 500
         );
