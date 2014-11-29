@@ -6,16 +6,18 @@
     <div class="header">
       <h3>Create Client</h3>
     </div>	
-	</div>
-	<div class="filters">
-	    <ul role="tablist">
-	        <li role="presentation"><a href="#/editbasicclientinfo">Basic Client info</a></li>
-	        <li role="presentation"><a href="#/editadditionalclientinfo">Additonal Client Info</a></li>
-	        <li role="presentation"><a href="#/editclientidentification">Client ID</a></li>
-	        <li role="presentation"><a href="#/editnextofkeen" class="active">Emergency Contacts/Next of Kin</a></li>
-	        <li role="presentation"><a href="#/editbusinessdetails">Business Details</a></li>
-	    </ul>
-	</div>
+	  <div class="summary">  
+    	<div class="shortcuts">
+    	    <ul role="tablist">
+    	        <li role="presentation"><a href="#/editbasicclientinfo/{{id}}">Basic Client info</a></li>
+    	        <li role="presentation"><a href="#/editadditionalclientinfo/{{id}}">Additonal Client Info</a></li>
+    	        <li role="presentation"><a href="#/editclientidentification/{{id}}">Client ID</a></li>
+    	        <li role="presentation"><a href="#/editnextofkeen/{{id}}" class="active">Emergency Contacts/Next of Kin</a></li>
+    	        <li role="presentation"><a href="#/editbusinessdetails/{{id}}">Business Details</a></li>
+    	    </ul>
+    	</div>
+    </div>  
+  </div>
     <div calss="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
         <div class="form-group">          
@@ -23,15 +25,10 @@
         </div>
       </div>
       <form name="ClientNextToKeenForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientNextToKeen(clientNextToKeen)" novalidate show-validation>
-        <div class="form-group">
-            <div class="col-md-12">
-                    <button type="button" class="btn btn-primary" ng-click="">Add</button>
-            </div>
-        </div>
-        <div calss="col-md-12">
+        <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-2">Relationship<span class="required">*</span></label>
-              <div class="validate col-md-4">
+              <label class="control-label col-md-4">Relationship<span class="required">*</span></label>
+              <div class="validate col-md-6">
               	<select id="relationship" ng-model="clientNextToKeen.relationship" class="form-control"  required>
               			<option value="33">Yes</option>
                   		<option value="34">No</option>
@@ -39,26 +36,26 @@
               </div>
           </div>
            <div class="form-group">                
-              <label class="control-label col-md-2">First Name<span class="required">*</span></label>
-              <div class="validate col-md-4">
+              <label class="control-label col-md-4">First Name<span class="required">*</span></label>
+              <div class="validate col-md-6">
                   <input id="firstname" name="firstname" class="form-control" type="text" ng-model="clientNextToKeen.firstname" required></input>
               </div>
           </div>
           <div class="form-group">                
-              <label class="control-label col-md-2">Middle Name</label>
-              <div class="col-md-4">
+              <label class="control-label col-md-4">Middle Name</label>
+              <div class="col-md-6">
                   <input id="middlename" name="middlename" class="form-control" type="text" ng-model="clientNextToKeen.middlename"></input>
               </div>
           </div>
           <div class="form-group">                
-              <label class="control-label col-md-2">Last Name<span class="required">*</span></label>
-              <div class="validate col-md-4">
+              <label class="control-label col-md-4">Last Name<span class="required">*</span></label>
+              <div class="validate col-md-6">
                   <input id="lastname" name="lastname" class="form-control" type="text" ng-model="clientNextToKeen.lastname" required></input>
               </div>
           </div>
            <div class="form-group">                
-              <label class="control-label col-md-2">Date Of Birth</label>
-              <div class="col-md-4">
+              <label class="control-label col-md-4">Date Of Birth</label>
+              <div class="col-md-6">
                   <input id="dateOfBirth" name="dateOfBirth" class="form-control" type="text" ng-model="clientNextToKeen.dateOfBirth"  ></input>
 
                    <!-- <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="createClient.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ></input>
@@ -69,28 +66,38 @@
               </div>
           </div>
            <div class="form-group">                
-              <label class="control-label col-md-2">Main Address</label>
-              <div class="col-md-4">
+              <label class="control-label col-md-4">Main Address</label>
+              <div class="col-md-6">
                   <textarea rows="3" id="homeContactAddress" name="homeContactAddress" class="form-control" ng-model="clientNextToKeen.homeContactAddress"></textarea>
               </div>
           </div>
            <div class="form-group">                
-              <label class="control-label col-md-2">Main Telephone No.</label>
-              <div class="col-md-4">
+              <label class="control-label col-md-4">Main Telephone No.</label>
+              <div class="col-md-6">
                   <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="clientNextToKeen.mobileNo" only-digits></input>
               </div>
           </div>
           <div class="form-group">                
-              <label class="control-label col-md-2">2nd Telephone No.</label>
-              <div class="col-md-4">
+              <label class="control-label col-md-4">2nd Telephone No.</label>
+              <div class="col-md-6">
                   <input id="SecondMobileNo" name="SecondMobileNo" class="form-control" type="text" ng-model="clientNextToKeen.SecondMobileNo" only-digits></input>
               </div>
           </div>
+          </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-md-6">
+                        <button type="button" class="btn btn-primary" ng-click="">Add</button>
+                </div>
+              </div>
+        </div>
         <hr/>
-          <div class="col-md-offset-3 paddedtop">
+        <div class="col-md-12">
+          <div class="col-md-offset-2 paddedtop">
             <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
             <button id="save" type="submit" class="btn btn-primary">Save</button>
           </div>
+        </div>  
         </div>         
       </form>
     </div>

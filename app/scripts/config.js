@@ -4,8 +4,8 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {    
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-    /*'host' : 'https://localhost:8443/mifosng-provider/',*/
+    /*'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',*/
+    'host' : 'https://localhost:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
@@ -33,6 +33,8 @@ app.constant('REST_URL', {
     'CREATE_CLIENT_TEMPLATE':'api/v1/clients/template',
     'CREATE_CLIENT':'api/v1/clients',
     'CREATE_CLIENT_EXTRA_INFORMATION':'api/v1/datatables/client_extra_information/',
+    'GROUP_TEMPLATE_RESOURCE':'api/v1/groups/template',
+    'CREATE_CLIENT_BUSINESS_ACTIVITY':'api/v1/datatables/business_details/',
 });
 
 app.constant('PAGE_URL', {

@@ -6,16 +6,18 @@
     <div class="header">
       <h3>Create Client</h3>
     </div>	
-	</div>
-	<div class="filters">
-	    <ul role="tablist">
-	        <li role="presentation"><a href="#/editbasicclientinfo">Basic Client info</a></li>
-	        <li role="presentation"><a href="#/editadditionalclientinfo">Additonal Client Info</a></li>
-	        <li role="presentation"><a href="#/editclientidentification">Client ID</a></li>
-	        <li role="presentation"><a href="#/editnextofkeen">Emergency Contacts/Next of Kin</a></li>
-	        <li role="presentation"><a href="#/editbusinessdetails" class="active">Business Details</a></li>
-	    </ul>
-	</div>
+    <div class="summary">	
+    	<div class="shortcuts">
+    	    <ul role="tablist">
+    	        <li role="presentation"><a href="#/editbasicclientinfo/{{id}}">Basic Client info</a></li>
+    	        <li role="presentation"><a href="#/editadditionalclientinfo/{{id}}">Additonal Client Info</a></li>
+    	        <li role="presentation"><a href="#/editclientidentification/{{id}}">Client ID</a></li>
+    	        <li role="presentation"><a href="#/editnextofkeen/{{id}}">Emergency Contacts/Next of Kin</a></li>
+    	        <li role="presentation"><a href="#/editbusinessdetails/{{id}}" class="active">Business Details</a></li>
+    	    </ul>
+    	</div>
+    </div>
+  </div>
     <div calss="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
         <div class="form-group">          
@@ -23,26 +25,24 @@
         </div>
       </div>
       <form name="ClientBusinessActivityForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientBusinessActivity(clientBusinessActivity)" novalidate show-validation>
-        <div calss="col-md-12">
+        <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-2">Business Activity<span class="required">*</span></label>
-              <div class="validate col-md-4">
-              	<select id="businessActivity" ng-model="clientBusinessActivity.businessActivity" class="form-control"  required>
-              			<option value="33">Yes</option>
-                  		<option value="34">No</option>
+              <label class="control-label col-md-4">Business Activity<span class="required">*</span></label>
+              <div class="validate col-md-6">
+              	<select id="BusinessActivity_cd_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in businessActivityOptions" class="form-control"  value="{{columnValues.id}}"  required>
                   </select>	
               </div>
           </div>
            <div class="form-group">                
-              <label class="control-label col-md-2">Business Name (if any)<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="businessName" name="businessName" class="form-control" type="text" ng-model="clientBusinessActivity.businessName" required></input>
+              <label class="control-label col-md-4">Business Name (if any)<span class="required">*</span></label>
+              <div class="validate col-md-6">
+                  <input id="business_name" name="business_name" class="form-control" type="text" ng-model="clientBusinessActivity.business_name" required></input>
               </div>
           </div>
           <div class="form-group">                
-              <label class="control-label col-md-2">operating since<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="operatingSince" name="operatingSince" class="form-control" type="text" ng-model="clientBusinessActivity.operatingSince"  required></input>
+              <label class="control-label col-md-4">operating since<span class="required">*</span></label>
+              <div class="validate col-md-6">
+                  <input id="operating_since" name="operating_since" class="form-control" type="text" ng-model="clientBusinessActivity.operating_since"  required></input>
 
                    <!-- <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="createClient.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ></input>
                 
@@ -52,43 +52,39 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-2">Bookkeeping<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                <select id="bookkeeping" ng-model="clientBusinessActivity.bookkeeping" class="form-control"  required>
-                    <option value="33">Yes</option>
-                      <option value="34">No</option>
+              <label class="control-label col-md-4">Bookkeeping<span class="required">*</span></label>
+              <div class="validate col-md-6">
+                <select id="YesNo_cd_book_keeping" ng-model="clientBusinessActivity.YesNo_cd_book_keeping" ng-options="columnValues.id as columnValues.value for columnValues in BookingKeeping" class="form-control"  value="{{columnValues.id}}"  required>
                   </select> 
               </div>
           </div>
            <div class="form-group">                
-              <label class="control-label col-md-2">Business Address</label>
-              <div class="col-md-4">
-                  <textarea rows="3" id="businessAddress" name="businessAddress" class="form-control" ng-model="clientBusinessActivity.businessAddress"></textarea>
+              <label class="control-label col-md-4">Business Address</label>
+              <div class="col-md-6">
+                  <textarea rows="3" id="business_address" name="business_address" class="form-control" ng-model="clientBusinessActivity.business_address"></textarea>
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-2">Other income generating activities (list)<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                <select id="extraIncome" ng-model="clientBusinessActivity.extraIncome" class="form-control"  required>
-                    <option value="33">Yes</option>
-                      <option value="34">No</option>
-                  </select> 
+              <label class="control-label col-md-4">Other income generating activities (list)<span class="required">*</span></label>
+              <div class="validate col-md-6">
+                <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control"  value="{{columnValues.id}}"  required>
+                </select> 
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-2">list of income activities<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                <select id="extraIncomeActivityList" ng-model="clientBusinessActivity.extraIncomeActivityList" class="form-control"  required>
-                    <option value="33">Yes</option>
-                      <option value="34">No</option>
+              <label class="control-label col-md-4">list of income activities<span class="required">*</span></label>
+              <div class="col-md-6">
+                <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in otherIncomeBusinessActivity" class="form-control"  value="{{columnValues.id}}">
                   </select> 
               </div>
           </div>          
         <hr/>
-          <div class="col-md-offset-3 paddedtop">
+        <div class="col-md-12">
+          <div class="col-md-offset-4 paddedtop">
             <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
             <button id="save" type="submit" class="btn btn-primary">Save</button>
           </div>
+        </div>  
         </div>         
       </form>
     </div>

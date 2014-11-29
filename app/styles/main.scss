@@ -127,3 +127,19 @@ label.text-left {
 .tab {
 	display: none;
 }
+
+.dateCss .glyphicon-ok:before , .dateCss .glyphicon-remove:before{
+	content:none !important;
+}
+
+.thumbnail {
+	height: 150px;
+	width: 150px;
+	padding: 0;
+	margin: 0;
+}
+
+.thumbnail img {
+	width: 100%;
+	height: 100%;
+}

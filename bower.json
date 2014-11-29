@@ -11,7 +11,8 @@
     "bootstrap-sass-official": "~3.2.0",
     "angular-bootstrap": "~0.11.2",
     "angular-smart-table": "~1.4.4",
-    "ng-file-upload": "~1.6.12"
+    "ng-file-upload": "~1.6.12",
+    "angular-base64-upload": "~0.0.3"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

@@ -6,16 +6,18 @@
     <div class="header">
       <h3>Edit Client</h3>
     </div>	
-	</div>
-	<div class="filters">
-	    <ul role="tablist">
-	        <li role="presentation"><a href="#/editbasicclientinfo" class="active">Basic Client info</a></li>
-	        <li role="presentation"><a href="#/editadditionalclientinfo">Additonal Client Info</a></li>
-	        <li role="presentation"><a href="#/editclientidentification">Client ID</a></li>
-	        <li role="presentation"><a href="#/editnextofkeen">Emergency Contacts/Next of Kin</a></li>
-	        <li role="presentation"><a href="#/editbusinessdetails">Business Details</a></li>
-	    </ul>
-	</div>
+    <div class="summary">	
+    	<div class="shortcuts">
+    	    <ul role="tablist">
+    	        <li role="presentation"><a href="#/editbasicclientinfo/{{id}}" class="active">Basic Client info</a></li>
+    	        <li role="presentation"><a href="#/editadditionalclientinfo/{{id}}">Additonal Client Info</a></li>
+    	        <li role="presentation"><a href="#/editclientidentification/{{id}}">Client ID</a></li>
+    	        <li role="presentation"><a href="#/editnextofkeen/{{id}}">Emergency Contacts/Next of Kin</a></li>
+    	        <li role="presentation"><a href="#/editbusinessdetails/{{id}}">Business Details</a></li>
+    	    </ul>
+    	</div>
+    </div>
+  </div>
     <div calss="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
         <div class="form-group">          
@@ -23,125 +25,145 @@
         </div>
       </div>
       <form name="editBasicClientForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateEditClient(editClient,editClientWithDataTable)" novalidate show-validation>
-        <div calss="col-md-12">
-          <div class="form-group">                
-              <label class="control-label col-md-2">File Number<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="externalId" name="externalId" class="form-control" type="text" ng-model="editClient.externalId" required></input>
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-md-2">Office</label>
-              <div class="col-md-4">
-                  <select id="officeId" ng-model="editClient.officeId" ng-options="officeOptions.id as officeOptions.name for officeOptions in client.officeOptions" class="form-control"  value="{{officeOptions.id}}">
-                  </select>
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-md-2">Loan Officer<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <select id="staffId" ng-model="editClient.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in client.staffOptions" class="form-control" value="{{staffOptions.id}}" required>
-                  </select>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">First Name<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="firstname" name="firstname" class="form-control" type="text" ng-model="editClient.firstname" required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Middle Name</label>
-              <div class="col-md-4">
-                  <input id="middlename" name="middlename" class="form-control" type="text" ng-model="editClient.middlename"></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Last Name<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="lastname" name="lastname" class="form-control" type="text" ng-model="editClient.lastname" required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Date Of Birth<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="dateOfBirth" name="dateOfBirth" class="form-control" type="text" ng-model="editClient.dateOfBirth"  required></input>
+        <div class="col-md-6">
+            <div class="form-group">                
+                <label class="control-label col-md-4">File Number<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="externalId" name="externalId" class="form-control" type="text" ng-model="editClient.externalId" required></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">Office</label>
+                <div class="col-md-6">
+                    <select id="officeId" ng-model="editClient.officeId" ng-options="officeOptions.id as officeOptions.name for officeOptions in client.officeOptions" class="form-control"  value="{{officeOptions.id}}">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">Loan Officer<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <select id="staffId" ng-model="editClient.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in client.staffOptions" class="form-control" value="{{staffOptions.id}}" required>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">First Name<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="firstname" name="firstname" class="form-control" type="text" ng-model="editClient.firstname" required></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Middle Name</label>
+                <div class="col-md-6">
+                    <input id="middlename" name="middlename" class="form-control" type="text" ng-model="editClient.middlename"></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Last Name<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="lastname" name="lastname" class="form-control" type="text" ng-model="editClient.lastname" required></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Date Of Birth<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="dateOfBirth" name="dateOfBirth" class="form-control" type="text" ng-model="editClient.dateOfBirth"  required></input>
 
-                   <!-- <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="createClient.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ></input>
-	              
-	              <span class="input-group-btn">
-	                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-	              </span> -->
-              </div>
+                     <!-- <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="createClient.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ></input>
+                  
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span> -->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">Gender<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <select id="genderId" ng-model="editClient.genderId" ng-options="genderOptions.id as genderOptions.name for genderOptions in client.genderOptions" class="form-control"  value="{{genderOptions.id}}" required>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">Maritial Status<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                  <select id="YesNo_cd_maritalStatus" ng-model="createClientWithDataTable.YesNo_cd_maritalStatus" class="form-control"  required>
+                      <option value="33">Yes</option>
+                        <option value="34">No</option>
+                    </select> 
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Name Of Spouse<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="nameOfSpouse" name="nameOfSpouse" class="form-control" type="text" ng-model="createClientWithDataTable.nameOfSpouse" required></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Number Of Children<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfChildren" required></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Number of loan dependants<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="numberOfLoanDependents" name="numberOfLoanDependents" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfLoanDependents" required></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Home Contact Address<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <textarea rows="3" id="homeContactAddress" name="homeContactAddress" class="form-control" ng-model="createClientWithDataTable.homeContactAddress" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Home Contact Person</label>
+                <div class="col-md-6">
+                    <input id="homeContactPerson" name="homeContactPerson" class="form-control" type="text" ng-model="createClientWithDataTable.homeContactPerson"></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">E-Mail</label>
+                <div class="col-md-6">
+                    <input id="email" name="email" class="form-control" type="text" ng-model="createClientWithDataTable.email"></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">Main Telephone No.<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="editClient.mobileNo" only-digits required></input>
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-4">2nd Telephone No.<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input id="SecondMobileNo" name="SecondMobileNo" class="form-control" type="text" ng-model="createClientWithDataTable.SecondMobileNo" only-digits required></input>
+                </div>
+            </div>
           </div>
-          <div class="form-group">
-              <label class="control-label col-md-2">Gender<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <select id="genderId" ng-model="editClient.genderId" ng-options="genderOptions.id as genderOptions.name for genderOptions in client.genderOptions" class="form-control"  value="{{genderOptions.id}}" required>
-                  </select>
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-md-2">Maritial Status<span class="required">*</span></label>
-              <div class="validate col-md-4">
-              	<select id="YesNo_cd_maritalStatus" ng-model="editClientWithDataTable.YesNo_cd_maritalStatus" class="form-control"  required>
-              			<option value="33">Yes</option>
-                  		<option value="34">No</option>
-                  </select>	
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Name Of Spouse<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="nameOfSpouse" name="nameOfSpouse" class="form-control" type="text" ng-model="editClientWithDataTable.nameOfSpouse" required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Number Of Children<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="editClientWithDataTable.numberOfChildren" required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Number of loan dependants<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="numberOfLoanDependents" name="numberOfLoanDependents" class="form-control" type="text" ng-model="editClientWithDataTable.numberOfLoanDependents" required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Home Contact Address<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <textarea rows="3" id="homeContactAddress" name="homeContactAddress" class="form-control" ng-model="editClientWithDataTable.homeContactAddress" required></textarea>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Home Contact Person</label>
-              <div class="col-md-4">
-                  <input id="homeContactPerson" name="homeContactPerson" class="form-control" type="text" ng-model="editClientWithDataTable.homeContactPerson"></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">E-Mail</label>
-              <div class="col-md-4">
-                  <input id="email" name="email" class="form-control" type="text" ng-model="editClientWithDataTable.email"></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">Main Telephone No.<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="editClient.mobileNo" only-digits required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-2">2nd Telephone No.<span class="required">*</span></label>
-              <div class="validate col-md-4">
-                  <input id="SecondMobileNo" name="SecondMobileNo" class="form-control" type="text" ng-model="editClientWithDataTable.SecondMobileNo" only-digits required></input>
-              </div>
-          </div>
+          <div class="col-md-6">
+            <div class="form-group">                
+                <label class="control-label col-md-4">Upload Photo.<span class="required">*</span></label>
+                <div class="validate col-md-6">
+                    <input type="file" required ng-file-select="onFileSelect($files)" />
+                </div>
+                <div class="control-label col-md-2"></div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-md-4"></div>
+                <div class="col-sm-6 col-md-6">                
+                  <div class="thumbnail rows">
+                        <img ng-src="images/client_image/noPhoto.jpg" alt="Avatar">
+                  </div>
+                </div>
+            </div>
+          </div>  
         <hr/>
-          <div class="col-md-offset-3 paddedtop">
-            <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
-            <button id="save" type="submit" class="btn btn-primary">Save</button>
+          <div class="col-md-12">
+              <div class="col-md-offset-3 paddedtop">
+                <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
+                <button id="save" type="submit" class="btn btn-primary">Save</button>
+              </div>
           </div>
         </div>         
       </form>
