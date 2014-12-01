@@ -210,6 +210,9 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
       //$rootScope.message="";
       //Success callback
       var editLoanProductTeplateSuccess = function(result,loanProductDetails) {
+         if($rootScope.message!=''){
+          $scope.setStep(2);
+         }
          $rootScope.message="";
          $scope.isLoading = false;
          try {

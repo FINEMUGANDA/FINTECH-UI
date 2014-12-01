@@ -224,17 +224,30 @@ INSERT INTO `mifostenant-default`.`m_code_value` (`code_id`, `code_value`, `orde
             "code": "Introduced_by"
         },
         {
-            "name": "introducer_name",
+            "name": "introducer_client",
+            "type": "Number"
+        },
+        {
+            "name": "introducer_loanOfficer",
+            "type": "Number"
+        },
+        {
+            "name": "introducer_other",
             "type": "String",
             "length": 100
         },
         {
-            "name": "knowed_introducer_since",
+            "name": "knownToIntroducerSince",
             "type": "Date",
             "mandatory": true
-        },
+        },,
         {
-            "name": "visiting_date",
+            "name": "visitedById",
+            "type": "Number",
+            "mandatory": true
+        }
+        {
+            "name": "visitingDate",
             "type": "Date",
             "mandatory": true
         }
