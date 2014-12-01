@@ -40,7 +40,7 @@
         <tr ng-repeat="loansRejected in displayed">
            <td>
               <div class="name">
-                <a href="#">{{loansRejected.name}}</a>
+                <a ng-href="#editbasicclientinfo/{{loansRejected.id}}">{{loansRejected.name}}</a>
               </div>              
               <div class="meta">
                 File No.: {{loansRejected.file_no}}

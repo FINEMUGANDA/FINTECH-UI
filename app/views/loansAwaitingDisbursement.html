@@ -43,7 +43,7 @@
         <tr ng-repeat="loansAwaitingDisbursement in displayed">
           <td>
               <div class="name">
-                <a href="#">{{loansAwaitingDisbursement.name}}</a>
+                <a ng-href="#editbasicclientinfo/{{loansAwaitingDisbursement.id}}">{{loansAwaitingDisbursement.name}}</a>
               </div>
               <div class="meta">
                 File No.: {{loansAwaitingDisbursement.file_no}}

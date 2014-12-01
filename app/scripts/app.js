@@ -237,7 +237,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           });
         }
         var split_location_path = $location.path().split('/');
-        var location_path = '/'+split_location_path[1]+'/';
+        var location_path = '/'+split_location_path[1];
         //add active /selection class for open view menu item      
         switch(location_path){
           case PAGE_URL.CLIENTS:

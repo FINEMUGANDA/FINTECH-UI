@@ -42,7 +42,7 @@
         <tr ng-repeat="loansWrittenOff in displayed">
            <td>
               <div class="name">
-                <a href="#">{{loansWrittenOff.name}}</a>
+                <a ng-href="#editbasicclientinfo/{{loansWrittenOff.id}}">{{loansWrittenOff.name}}</a>
               </div>
               <div class="meta">
                 File No.: {{loansWrittenOff.file_no}}
