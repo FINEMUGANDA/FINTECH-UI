@@ -236,8 +236,10 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
               $li.removeClass('active');
           });
         }
+        var split_location_path = $location.path().split('/');
+        var location_path = '/'+split_location_path[1]+'/';
         //add active /selection class for open view menu item      
-        switch($location.path()){
+        switch(location_path){
           case PAGE_URL.CLIENTS:
           case PAGE_URL.LOANS:
           case PAGE_URL.LOANSAWAITINGDISBURSEMENT:

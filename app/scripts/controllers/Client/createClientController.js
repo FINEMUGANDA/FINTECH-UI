@@ -322,7 +322,7 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
               $scope.editClient.locale = $scope.client.locale;
 			        //Call to fill up the data from the custom datatables i.e. client_extra_information
               $scope.rowCollection = [];              
-              var $url = REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id ;
+              var $url = REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id +'?genericResultSet=true' ;
               console.log($url);
               CreateClientsService.getData($url).then(editClientExtraInformationTemplateSuccess, editClientExtraInformationTemplateFail);
           } catch (e) {

@@ -4,8 +4,8 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {    
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-    /*'host' : 'https://192.168.1.11:8443/mifosng-provider/',*/
+    /*'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',*/
+    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
@@ -57,10 +57,10 @@ app.constant('PAGE_URL', {
     //TODO change it according to the edited id i.e append '/ after the url ends'
     'CREATE_CLIENT':'/createClient',
     'EDIT_BASIC_CLIENT_INFORMATION':'/editbasicclientinfo/',
-    'EDIT_CLIENT_ADDITIONAL_INFO':'/editadditionalclientinfo',
-    'EDIT_CLIENT_IDENTIFICATION':'/editclientidentification',
-    'EDIT_CLIENT_NEXT_OF_KEEN':'/editnextofkeen',
-    'EDIT_CLIENT_BUSINESS_DETAILS':'/editbusinessdetails',
+    'EDIT_CLIENT_ADDITIONAL_INFO':'/editadditionalclientinfo/',
+    'EDIT_CLIENT_IDENTIFICATION':'/editclientidentification/',
+    'EDIT_CLIENT_NEXT_OF_KEEN':'/editnextofkeen/',
+    'EDIT_CLIENT_BUSINESS_DETAILS':'/editbusinessdetails/',
 });
 
 app.constant('AUTH_EVENTS', {

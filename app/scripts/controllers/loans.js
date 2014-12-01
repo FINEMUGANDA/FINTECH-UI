@@ -42,12 +42,12 @@ LoanProductCrtl.controller('LoanProductsCtrl', function ($scope, $rootScope, $lo
 
 LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService) {
       console.log('LoanProductsCtrl : CreateLoanProducts');
-      
+
+      //To highlight selected tab
       $scope.step=1;
       $scope.newProTab='active';
       $scope.setStep = function(step){
-        $scope.step = step;
-        //To highlight selected tab
+        $scope.step = step;      
         if(step==1){
           $scope.newProTab='active';
           $scope.charTab='';
@@ -165,6 +165,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
           console.log('Success : Return from loanProducts service.');
           $rootScope.type="alert-success";
           $rootScope.message="Loan product saved successfully";
+          $rootScope.isCreated=true;
           $location.url(PAGE_URL.EDITLOANPRODUCT+result.data.resourceId);                  
         }
 
@@ -186,34 +187,31 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
 });
 
 
-LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService) {
+LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
       console.log('LoanProductsCtrl : EditLoanProductsCtrl');
-
-      $scope.step=1;
-      $scope.newProTab='active';
+      
+      //To highlight selected tab
       $scope.setStep = function(step){
         $scope.step = step;
-        //To highlight selected tab
+        $scope.newProTab='';
+        $scope.charTab='';      
         if(step==1){
-          $scope.newProTab='active';
-          $scope.charTab='';
-        }else{          
-          $scope.newProTab='';
+          $scope.newProTab='active';          
+        }else{
           $scope.charTab='active';
         }
       };
+      $scope.setStep(1);
 
       //To load the loadproducts page
       $scope.isLoading = false;
       $scope.loanProductDetails = {};
-      $scope.charges = [];
-      //$rootScope.message="";
+      $scope.charges = [];      
       //Success callback
       var editLoanProductTeplateSuccess = function(result,loanProductDetails) {
-         if($rootScope.message!=''){
+         if(!Utility.isUndefinedOrNull($rootScope.isCreated) || $scope.type=='alert-success'){
           $scope.setStep(2);
          }
-         $rootScope.message="";
          $scope.isLoading = false;
          try {
               $scope.product = result.data;              
@@ -246,7 +244,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
               $scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyId;
               $scope.loanProductDetails.interestType = $scope.product.interestType.id;
               $scope.loanProductDetails.includeInBorrowerCycle = "true";
-              console.log('$scope.product.includeInBorrowerCycle'+$scope.product.includeInBorrowerCycle);
+      
               //Set as default now
               $scope.loanProductDetails.inMultiplesOf = '0';
               $scope.loanProductDetails.repaymentEvery = "1";
@@ -256,7 +254,10 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
               $scope.loanProductDetails.daysInYearType=1; 
               $scope.loanProductDetails.daysInMonthType=1;
               $scope.loanProductDetails.locale="en";
+              //To hide message
+              $rootScope.message="";
           } catch (e) {
+            console.log(e);
           }
       }
 
@@ -279,26 +280,6 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
       };
 
      loadEditProductTemplate();
-
-     $scope.chargeSelected = function (chargeId) {          
-          if (chargeId) {
-            var chargeTeplateSuccess = function(result){
-              result.data.chargeId = result.data.id;
-              $scope.charges.push(result.data);
-              $scope.chargeId = '';
-              $('select#chargeId').val('');
-            };
-            var chargeTemplateFail = function(result){
-              console.log("Error : Return from ChargesService service.")
-            };
-            var $url=REST_URL.RETRIVE_CHARGE_BY_ID + chargeId + '?template=true';
-            ChargesService.getData($url).then(chargeTeplateSuccess, chargeTemplateFail);              
-          }
-      };
-
-      $scope.deleteCharge = function (index) {
-          $scope.charges.splice(index, 1);
-      };
       
      $scope.validateLoanProduct = function(loanProductDetails){
         console.log('LoanProductsCtrl : CreateLoanProducts : authenticateLoanProduct');
@@ -315,24 +296,25 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
 
       $scope.updateLoanProduct = function(loanProductDetails){
         console.log('LoanProductsCtrl : updateLoanProduct');
-        $rootScope.message="";
-        $scope.chargesSelected = [];
+        $rootScope.message="";        
         var temp='';
-
+        $scope.chargesSelected = [];      
+        var temp='';
         for (var i in $scope.charges) {
             temp = {
                 id: $scope.charges[i].id
             }
             $scope.chargesSelected.push(temp);
         }
-
-        loanProductDetails.charges = $scope.chargesSelected;
+        $scope.loanProductDetails.charges=$scope.chargesSelected;
 
         var updateloanProductSuccess = function(result){
           console.log('Success : Return from loanProducts service.');
-          $rootScope.type="alert-success";
-          $rootScope.message="Loan product Updated successfully";
-          $location.url(PAGE_URL.LOANPRODUCTS);                  
+          $scope.type="alert-success";
+          $scope.message="Loan product Updated successfully";
+          $scope.errors='';
+          loadEditProductTemplate();
+          //$location.url(PAGE_URL.LOANPRODUCTS);                  
         }
 
         var updateloanProductFail = function(result){
@@ -350,4 +332,64 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function ($route, $scope, $ro
         var $url=REST_URL.LOANS_PRODUCTS_LIST_BY_ID+$route.current.params.id;
         LoanProductService.updateProduct($url, angular.toJson(this.loanProductDetails)).then(updateloanProductSuccess, updateloanProductFail);
       };
+
+    //Add charges
+    $scope.loanProductCharges = {};
+    $scope.chargeSelected = function (chargeId) {
+      $scope.chargesSelected = [];
+      if (chargeId) {
+        var chargeTeplateSuccess = function(result){
+          result.data.chargeId = result.data.id;
+          $scope.charges.push(result.data);
+          $scope.chargeId = '';
+          $('select#chargeId').val('');
+          $scope.saveCharges();
+        };
+        var chargeTemplateFail = function(result){
+          console.log("Error : Return from ChargesService service.")
+        };
+        var $url=REST_URL.RETRIVE_CHARGE_BY_ID + chargeId + '?template=true';
+        ChargesService.getData($url).then(chargeTeplateSuccess, chargeTemplateFail);              
+      }
+    };
+    //Delete charges
+    $scope.deleteCharge = function (index) {
+        $scope.charges.splice(index, 1);
+        $scope.saveCharges();
+    };    
+    //Save charges
+    $scope.saveCharges = function(){
+      console.log("EditLoanProductsCtrl : Save Charges");
+      $scope.chargesSelected = [];      
+      var temp='';
+      for (var i in $scope.charges) {
+          temp = {
+              id: $scope.charges[i].id
+          }
+          $scope.chargesSelected.push(temp);
+      }
+
+      var updateloanProductChargesSuccess = function(result){
+        console.log('Success : Return from loanProducts service.');          
+      }
+
+      var updateloanProductChargesFail = function(result){
+        $scope.charges.splice(index, 1);
+        console.log('Error : Return from loanProducts service.');                    
+        $scope.type="error";
+        $scope.message="Charges cannot be mapped with loan product: "+result.data.defaultUserMessage;
+        $scope.errors = result.data.errors;
+        if(result.data.errors!='' && result.data.errors!='undefined'){
+          for(var i=0;i<result.data.errors.length;i++){
+            $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+          }
+        }
+        $('html, body').animate({scrollTop : 0},800);
+      }
+
+      $scope.loanProductCharges.charges=$scope.chargesSelected;
+      $scope.loanProductCharges.currencyCode=$scope.loanProductDetails.currencyCode;
+      var $url=REST_URL.LOANS_PRODUCTS_LIST_BY_ID+$route.current.params.id;
+      LoanProductService.updateProduct($url, angular.toJson(this.loanProductCharges)).then(updateloanProductChargesSuccess, updateloanProductChargesFail);
+    }
 });

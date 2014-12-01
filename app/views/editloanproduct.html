@@ -140,8 +140,8 @@
               </div>
               <hr/>
               <div class="col-md-offset-5 paddedtop">
-                <a id="cancel" href="#/loanProducts" class="btn btn-warning">Cancel</a>
-                <button id="save" type="button" class="btn btn-primary" ng-click="setStep(2)">Next</button>
+                <a id="cancel" href="#/loanProducts" class="btn btn-warning">Cancel</a>                
+                 <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)">Next</button>
               </div>
             </form>
         </div>
@@ -150,7 +150,7 @@
             <div class="form-group">
               <div class="col-sm-3">
                   <select id="chargeId" ng-model="chargeId" class="form-control"
-                             ng-options="charge.id as charge.name for charge in product.chargeOptions"
+                             ng-options="charge.id as charge.name for charge in product.chargeOptions | filter:loanProductDetails.currencyCode:strict"
                              value="{{charge.id}}">
                          <option value="">-- Select Charge --</option>
                   </select>
@@ -190,8 +190,7 @@
                 </tr>
               </tbody>              
             </table>
-            <button class="btn btn-warning" ng-click="setStep(1)">back</button>
-            <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)">Save</button>
+            <button class="btn btn-warning" ng-click="setStep(1)">back</button>           
           </form>
         </div>
       </div>
