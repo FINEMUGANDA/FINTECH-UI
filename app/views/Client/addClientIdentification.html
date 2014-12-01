@@ -24,39 +24,37 @@
           <div class="loading-indicator">Loading...</div>        
         </div>
       </div>
-      <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification)" novalidate show-validation>
+      <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification,clientIdentificationExtra)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
               <label class="control-label col-md-4">Identification Type<span class="required"> *</span></label>
               <div class="validate col-md-6">
-              	<select id="identificationType" ng-model="clientIdentification.identificationType" class="form-control"  required>
-              			<option value="33">Yes</option>
-                  		<option value="34">No</option>
-                  </select>	
+              	<select id="documentTypeId" ng-model="clientIdentification.documentTypeId" ng-options="allowedDocumentTypes.id as allowedDocumentTypes.name for allowedDocumentTypes in identificationType" class="form-control"  value="{{allowedDocumentTypes.id}}" required>
+                 </select>	
               </div>
           </div>
           <div class="form-group">                
               <label class="control-label col-md-4">Identification Number<span class="required"> *</span></label>
               <div class="validate col-md-6">
-                  <input id="identificationNumber" name="identificationNumber" class="form-control" type="text" ng-model="clientIdentification.identificationNumber" required></input>
+                  <input id="documentKey" name="documentKey" class="form-control" type="text" ng-model="clientIdentification.documentKey" required></input>
               </div>
           </div>
           <div class="form-group">                
               <label class="control-label col-md-4">Place of Issue</label>
               <div class="col-md-6">
-                  <input id="issuePlace" name="issuePlace" class="form-control" type="text" ng-model="clientIdentification.issuePlace"></input>
+                  <input id="issue_place" name="issue_place" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_place"></input>
               </div>
           </div>
           <div class="form-group">
               <label class="control-label col-md-4">Date of Issue</label>
               <div class="col-md-6">
-                  <input id="issueDate" name="issueDate" class="form-control" type="text" ng-model="clientIdentification.issueDate"></input>
+                  <input id="issue_date" name="issue_date" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_date" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" ></input>
               </div>
           </div>
           <div class="form-group">
               <label class="control-label col-md-4">File Upload</label>
               <div class="col-md-6">
-                  <input id="issueFile" name="issueFile" type="file" ng-model="clientIdentification.issueFile"></input>
+                  <input id="issue_document" name="issue_document" type="file" ng-model="clientIdentificationExtra.issue_document" ng-file-select="onFileSelect($files)"></input>
               </div>
           </div>
         <hr/>

@@ -41,8 +41,8 @@
           </div>
           <div class="form-group">                
               <label class="control-label col-md-4">operating since<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-                  <input id="operating_since" name="operating_since" class="form-control" type="text" ng-model="clientBusinessActivity.operating_since"  required></input>
+              <div class="validate col-md-6 dateCss">
+                  <input id="operating_since" name="operating_since" class="form-control" type="text" ng-model="clientBusinessActivity.operating_since" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="open($event)" readonly="true"  required></input>
               </div>
           </div>
           <div class="form-group">
@@ -61,11 +61,11 @@
           <div class="form-group">
               <label class="control-label col-md-4">Other income generating activities (list)<span class="required"> *</span></label>
               <div class="validate col-md-6">
-                <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control"  value="{{columnValues.id}}"  required>
+                <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control"  value="{{columnValues.id}}" ng-change="changeIncomeActivity()"  required>
                 </select> 
               </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-show="isIncomeActivity">
               <label class="control-label col-md-4">list of income activities<span class="required"> *</span></label>
               <div class="col-md-6">
                 <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in otherIncomeBusinessActivity" class="form-control"  value="{{columnValues.id}}">

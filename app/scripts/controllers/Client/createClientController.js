@@ -201,7 +201,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
         var deleteClientBasicInfoFail = function(result){
           console.log('Error : Return from createClientsService.');
           $rootScope.type="error";
-          $rootScope.message="Cleint information is not saved, please try again!";
+          $rootScope.message="Client information is not saved, please try again!";
           if(clientId!=''){
             var $url = PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + clientId ;          
             $location.url($url);            
@@ -416,9 +416,9 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
         $scope.staffOptions = result.data.staffOptions;
         $scope.clientOptions = result.data.clientOptions;
         //Loan Office
-        $scope.createClientAdditionalInfo.staffId = result.data.staffOptions[0].id;
+        $scope.createClientAdditionalInfo.introducer_loanOfficer = result.data.staffOptions[0].id;
         //Client
-        $scope.createClientAdditionalInfo.clientId = result.data.clientOptions[0].id;
+        $scope.createClientAdditionalInfo.introducer_client = result.data.clientOptions[0].id;
         //Visited by
         $scope.createClientAdditionalInfo.visitedById = result.data.staffOptions[0].id;
       }
@@ -442,16 +442,16 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
          try {              
               $scope.clientAdditionalInfo = result.data;
               $scope.id = $route.current.params.id;
-              $scope.yesNoOptions = $scope.clientAdditionalInfo.columnHeaders[2].columnValues;
-              $scope.citizenshipOptions = $scope.clientAdditionalInfo.columnHeaders[6].columnValues;
-              $scope.educationOptions = $scope.clientAdditionalInfo.columnHeaders[7].columnValues;
-              $scope.povertyStatusOptions = $scope.clientAdditionalInfo.columnHeaders[8].columnValues;
-              $scope.introducedByOptions = $scope.clientAdditionalInfo.columnHeaders[9].columnValues;
-              $scope.createClientAdditionalInfo.YesNo_cd_bank_account=$scope.clientAdditionalInfo.columnHeaders[2].columnValues[0].id;
-              $scope.createClientAdditionalInfo.CitizenShip_cd_citizenship=$scope.clientAdditionalInfo.columnHeaders[6].columnValues[0].id;
-              $scope.createClientAdditionalInfo.Education_cd_education_level=$scope.clientAdditionalInfo.columnHeaders[7].columnValues[0].id;
-              $scope.createClientAdditionalInfo.Poverty_cd_poverty_status=$scope.clientAdditionalInfo.columnHeaders[8].columnValues[0].id;
-              $scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by=$scope.clientAdditionalInfo.columnHeaders[9].columnValues[0].id;
+              $scope.yesNoOptions = $scope.clientAdditionalInfo.columnHeaders[1].columnValues;
+              $scope.citizenshipOptions = $scope.clientAdditionalInfo.columnHeaders[5].columnValues;
+              $scope.educationOptions = $scope.clientAdditionalInfo.columnHeaders[6].columnValues;
+              $scope.povertyStatusOptions = $scope.clientAdditionalInfo.columnHeaders[7].columnValues;
+              $scope.introducedByOptions = $scope.clientAdditionalInfo.columnHeaders[8].columnValues;
+              $scope.createClientAdditionalInfo.YesNo_cd_bank_account=$scope.clientAdditionalInfo.columnHeaders[1].columnValues[0].id;
+              $scope.createClientAdditionalInfo.CitizenShip_cd_citizenship=$scope.clientAdditionalInfo.columnHeaders[5].columnValues[0].id;
+              $scope.createClientAdditionalInfo.Education_cd_education_level=$scope.clientAdditionalInfo.columnHeaders[6].columnValues[0].id;
+              $scope.createClientAdditionalInfo.Poverty_cd_poverty_status=$scope.clientAdditionalInfo.columnHeaders[7].columnValues[0].id;
+              $scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by=$scope.clientAdditionalInfo.columnHeaders[8].columnValues[0].id;
               //Get list of client and loan officer from office id of client
               if($rootScope.officeId!='' && $rootScope.officeId!=undefined){
                 var $url = REST_URL.GROUP_TEMPLATE_RESOURCE+'?staffInSelectedOfficeOnly=true&officeId='+$rootScope.officeId;
@@ -464,20 +464,20 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
               if(result.data.data == ''){
                 $scope.createAdditional=true;
               }else{
-                $scope.createClientAdditionalInfo.YesNo_cd_bank_account=$scope.clientAdditionalInfo.data.YesNo_cd_bank_account;
-                $scope.createClientAdditionalInfo.CitizenShip_cd_citizenship=$scope.clientAdditionalInfo.data.CitizenShip_cd_citizenship;
-                $scope.createClientAdditionalInfo.Education_cd_education_level=$scope.clientAdditionalInfo.data.Education_cd_education_level;
-                $scope.createClientAdditionalInfo.Poverty_cd_poverty_status=$scope.clientAdditionalInfo.data.Poverty_cd_poverty_status;
-                $scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by=$scope.clientAdditionalInfo.data.Introduced_by_cd_introduced_by;
-                $scope.createClientAdditionalInfo.bank_account_with=bank_account_with;
-                $scope.createClientAdditionalInfo.branch=$scope.clientAdditionalInfo.data.branch;
-                $scope.createClientAdditionalInfo.bank_account_number=$scope.clientAdditionalInfo.data.bank_account_number;
-                $scope.createClientAdditionalInfo.introducer_client=$scope.clientAdditionalInfo.data.introducer_client;
-                $scope.createClientAdditionalInfo.introducer_loanOfficer=$scope.clientAdditionalInfo.data.introducer_loanOfficer;
-                $scope.createClientAdditionalInfo.introducer_other=$scope.clientAdditionalInfo.data.introducer_other;
-                $scope.createClientAdditionalInfo.knownToIntroducerSince=$scope.clientAdditionalInfo.data.knownToIntroducerSince;
-                $scope.createClientAdditionalInfo.visitedById=$scope.clientAdditionalInfo.data.visitedById;
-                $scope.createClientAdditionalInfo.visitingDate=$scope.clientAdditionalInfo.data.visitingDate;
+                $scope.createClientAdditionalInfo.YesNo_cd_bank_account=parseInt($scope.clientAdditionalInfo.data[0].row[1]);
+                $scope.createClientAdditionalInfo.CitizenShip_cd_citizenship=parseInt($scope.clientAdditionalInfo.data[0].row[5]);
+                $scope.createClientAdditionalInfo.Education_cd_education_level=parseInt($scope.clientAdditionalInfo.data[0].row[6]);
+                $scope.createClientAdditionalInfo.Poverty_cd_poverty_status=parseInt($scope.clientAdditionalInfo.data[0].row[7]);
+                $scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by=parseInt($scope.clientAdditionalInfo.data[0].row[8]);
+                $scope.createClientAdditionalInfo.bank_account_with=$scope.clientAdditionalInfo.data[0].row[2];
+                $scope.createClientAdditionalInfo.branch=$scope.clientAdditionalInfo.data[0].row[3];
+                $scope.createClientAdditionalInfo.bank_account_number=$scope.clientAdditionalInfo.data[0].row[4];
+                $scope.createClientAdditionalInfo.introducer_client=$scope.clientAdditionalInfo.data[0].row[9];
+                $scope.createClientAdditionalInfo.introducer_loanOfficer=$scope.clientAdditionalInfo.data[0].row[10];
+                $scope.createClientAdditionalInfo.introducer_other=$scope.clientAdditionalInfo.data[0].row[11];
+                $scope.createClientAdditionalInfo.knownToIntroducerSince=$scope.clientAdditionalInfo.data[0].row[12];
+                $scope.createClientAdditionalInfo.visitedById=$scope.clientAdditionalInfo.data[0].row[13];
+                $scope.createClientAdditionalInfo.visitingDate=$scope.clientAdditionalInfo.data[0].row[14];
               }
           } catch (e) {
             console.log(e);
@@ -520,8 +520,8 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
 
         //Covert date format
         $scope.createClientAdditionalInfo.dateFormat= "dd/MM/yyyy";        
-        var d = new Date($scope.createClientAdditionalInfo.knowToIntroducer);
-        $scope.createClientAdditionalInfo.knowToIntroducer = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+        var d = new Date($scope.createClientAdditionalInfo.knownToIntroducerSince);
+        $scope.createClientAdditionalInfo.knownToIntroducerSince = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
         d = new Date($scope.createClientAdditionalInfo.visitingDate);
         $scope.createClientAdditionalInfo.visitingDate = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
         $scope.createClientAdditionalInfo.locale = "en";
@@ -529,7 +529,11 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
         var saveClientAdditionalInfoSuccess = function(result){
           console.log('Success : Return from CreateClientsService service.');
           $rootScope.type="alert-success";
-          $rootScope.message="Client Additional Detail saved successfully";
+          if($scope.createAdditional){
+              $rootScope.message="Client Business Activity Detail saved successfully";
+          }else{
+              $rootScope.message="Client Business Activity Detail updated successfully";
+          }
           loadCreateClientAdditionalInfoTemplate();                
         }
 
@@ -554,11 +558,35 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
       };
 });
 
-CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
+CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Base64) {
       console.log('CreateClientCtrl : ClientIdentificationCtrl');
       //To load the loadproducts page
       $scope.isLoading = false;
       $scope.clientIdentification={};
+      $scope.clientIdentificationExtra={};
+      //For date of birth calendar
+      $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+      };
+       //Validate and set uploaded file
+      $scope.onFileSelect = function ($files) {        
+        var reg = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+        if(reg.test($files[0])){          
+          $scope.type="error";
+          $scope.message="File extension not supported!";
+          $('html, body').animate({scrollTop : 0},800);
+        }
+        else if($files[0].size/1024 > 100){
+            $scope.type="error";
+            $scope.message="File is too large! File size must be less then or equal to 100 KB!";
+            $('html, body').animate({scrollTop : 0},800);            
+        }else{
+          $scope.file = $files[0];        
+        }
+      };
+
       //Success callback
       var createClientIdentificationTeplateSuccess = function(result) {
          $scope.isLoading = false;
@@ -566,8 +594,12 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
               //Setting the id for the headers
               $scope.id = $route.current.params.id;
               $scope.client = result.data;
-              $scope.clientIdentification.identificationType = 34 ;
+              $scope.identificationType =  $scope.client.allowedDocumentTypes;
+
+              //Set the default values for the identification id
+              $scope.clientIdentification.documentTypeId = 1 ;
           } catch (e) {
+              console.log(e);
           }
       }
       //failur callback
@@ -581,17 +613,18 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
           function() {
               $scope.rowCollection = [];               
               console.log("successfully got the client Identification info");
-              //CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE).then(createClientIdentificationTeplateSuccess, createClientIdentificationTemplateFail);
+              var $url=REST_URL.CREATE_CLIENT + '/' + $route.current.params.id +'/identifiers/template';
+              CreateClientsService.getData($url).then(createClientIdentificationTeplateSuccess, createClientIdentificationTemplateFail);
           }, 500
         );
       };
 
       loadCreateClientIdentificationTemplate();
       
-      $scope.validateClientIdentification = function(clientIdentification){
+      $scope.validateClientIdentification = function(clientIdentification,clientIdentificationExtra){
         console.log('CreateClientCtrl : CreateClient : validateClientIdentification');
             if ($scope.ClientIdentificationForm.$valid) {
-              $scope.saveClientIdentification(clientIdentification);
+              $scope.saveClientIdentification(clientIdentification,clientIdentificationExtra);
             } else {
               $scope.invalidateForm();
             }
@@ -602,14 +635,35 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
        $scope.ClientIdentificationForm.invalidate = false;
       };
 
-      $scope.saveClientIdentification = function(clientIdentification){
+      $scope.saveClientIdentification = function(clientIdentification,clientIdentificationExtra){
         console.log('CreateClientCtrl : CreateClient : saveClientIdentification');
 
         var saveClientIdentificationSuccess = function(result){
           console.log('Success : Return from CreateClientsService service.');
           $rootScope.type="alert-success";
           $rootScope.message="Client Identification Detail saved successfully";
-          //$location.url(PAGE_URL.LOANPRODUCTS);                  
+          
+          //Upload the documents according to the client identifier
+          $scope.uploadDocuments();
+
+          $upload.upload({
+            url: APPLICATION.host + REST_URL.CREATE_CLIENT+'/'+$route.current.params.id+'/images',
+            data: {},
+            file: $scope.file
+          }).then(function (imageData) {
+            console.log('Success : Return from createClientsService');
+            $scope.saveClientIdentificationExtra(clientIdentificationExtra);
+          },function(){
+            console.log('Failur : Return from createClientsService');
+            $scope.type="error";
+            $scope.message="Client identification is not saved, please try again!";
+            $scope.errors = result.data.errors;
+            if(result.data.errors!='' && result.data.errors!='undefined'){
+              for(var i=0;i<result.data.errors.length;i++){
+                $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+              }
+            }           
+          });
         }
 
         var saveClientIdentificationFail = function(result){
@@ -624,10 +678,44 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
           }
         }
         //TODO Make a call to the database to insert the client Additional information into the database
-        var json=angular.toJson(this.clientIdentification);
-        console.log(json);
-        console.log("Successfully saved the client Identification Information");
-        //CreateClientsService.saveProduct(REST_URL., ).then(saveClientAdditionalInfoSuccess, saveClientAdditionalInfoFail);
+        var json2=angular.toJson(this.clientIdentificationExtra);
+        console.log(json2);
+        var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id +'/identifiers';
+        console.log($url);
+        CreateClientsService.saveClient($url, angular.toJson(this.clientIdentification)).then(saveClientIdentificationSuccess, saveClientIdentificationFail);
+      };
+
+      $scope.saveClientIdentificationExtra = function(clientIdentificationExtra){
+        console.log('CreateClientCtrl : CreateClient : saveClientIdentificationExtra');
+
+        //Set the Client identification extra information
+        $scope.clientIdentificationExtra.locale="en";
+        //Covert date format
+        $scope.clientIdentificationExtra.dateFormat= "dd/MM/yyyy";        
+        var d = new Date($scope.clientIdentificationExtra.issue_date);
+        $scope.clientIdentificationExtra.issue_date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();  
+
+        var saveClientIdentificationExtraSuccess = function(result){
+          console.log('Success : Return from CreateClientsService service.');
+          $rootScope.type="alert-success";
+          $rootScope.message="Client Identification Detail saved successfully";
+          loadCreateClientIdentificationTemplate();
+        }
+
+        var saveClientIdentificationExtraFail = function(result){
+          console.log('Error : Return from CreateClientsService service.');                    
+          $scope.type="error";
+          $scope.message="Client Identification Detail not saved: "+result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          if(result.data.errors!='' && result.data.errors!='undefined'){
+            for(var i=0;i<result.data.errors.length;i++){
+              $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
+          }
+        }
+        var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION+ $route.current.params.id;
+        console.log($url);
+        //CreateClientsService.saveClient($url, angular.toJson(this.clientIdentificationExtra)).then(saveClientIdentificationExtraSuccess, saveClientIdentificationExtraFail);
       };
 });
 
@@ -713,6 +801,20 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
       //To load the loadproducts page
       $scope.isLoading = false;
       $scope.clientBusinessActivity={};
+      //For date of birth calendar
+      $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+      };
+      //Change Maritial Status
+      $scope.changeIncomeActivity = function(){
+        $scope.isIncomeActivity = false;
+        if($scope.clientBusinessActivity.YesNo_cd_other_income==33){
+          $scope.isIncomeActivity=true;
+        }
+      }
+      
       //Success callback
       var createClientBusinessActivityTeplateSuccess = function(result) {
          $scope.isLoading = false;
@@ -721,10 +823,10 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
               $scope.id = $route.current.params.id;
               //Filling the drop downs
               $scope.client = result.data;
-              $scope.businessActivityOptions = $scope.client.columnHeaders[2].columnValues;
-              $scope.BookingKeeping = $scope.client.columnHeaders[6].columnValues;
-              $scope.otherIncome = $scope.client.columnHeaders[7].columnValues;
-              $scope.otherIncomeBusinessActivity = $scope.client.columnHeaders[8].columnValues;
+              $scope.businessActivityOptions = $scope.client.columnHeaders[1].columnValues;
+              $scope.BookingKeeping = $scope.client.columnHeaders[5].columnValues;
+              $scope.otherIncome = $scope.client.columnHeaders[6].columnValues;
+              $scope.otherIncomeBusinessActivity = $scope.client.columnHeaders[7].columnValues;
 
               //Setting the default values of the drop downs
               $scope.clientBusinessActivity.BusinessActivity_cd_business_activity = 30;
@@ -740,16 +842,17 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
                 $scope.$requestMethodCreate=true;
               }else{
                 $scope.$requestMethodCreate=false;
-                $scope.clientBusinessActivity.business_name = $scope.client.data[0].row[3];
-                $scope.clientBusinessActivity.operating_since = $scope.client.data[0].row[5];
-                $scope.clientBusinessActivity.business_address = $scope.client.data[0].row[4];
-                $scope.clientBusinessActivity.BusinessActivity_cd_business_activity = parseInt($scope.client.data[0].row[2]);
-                $scope.clientBusinessActivity.YesNo_cd_book_keeping = parseInt($scope.client.data[0].row[6]);
-                $scope.clientBusinessActivity.YesNo_cd_other_income = parseInt($scope.client.data[0].row[7]);
-                $scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = parseInt($scope.client.data[0].row[8]);                
+                $scope.clientBusinessActivity.business_name = $scope.client.data[0].row[2];
+                $scope.clientBusinessActivity.operating_since = $scope.client.data[0].row[4];
+                $scope.clientBusinessActivity.business_address = $scope.client.data[0].row[3];
+                $scope.clientBusinessActivity.BusinessActivity_cd_business_activity = parseInt($scope.client.data[0].row[1]);
+                $scope.clientBusinessActivity.YesNo_cd_book_keeping = parseInt($scope.client.data[0].row[5]);
+                $scope.clientBusinessActivity.YesNo_cd_other_income = parseInt($scope.client.data[0].row[6]);
+                $scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = parseInt($scope.client.data[0].row[7]);                
               }
 
           } catch (e) {
+              console.log(e);
           }
       }
       //failur callback
@@ -788,11 +891,20 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
       $scope.saveClientBusinessActivity = function(clientBusinessActivity){
         console.log('CreateClientCtrl : CreateClient : saveClientBusinessActivity');
 
+        //Covert date format
+        $scope.clientBusinessActivity.dateFormat= "dd/MM/yyyy";        
+        var d = new Date($scope.clientBusinessActivity.operating_since);
+        $scope.clientBusinessActivity.operating_since = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+
         var saveClientBusinessActivitySuccess = function(result){
           console.log('Success : Return from CreateClientsService service.');
           $rootScope.type="alert-success";
-          $rootScope.message="Client Business Activity Detail saved successfully";
-          //$location.url(PAGE_URL.LOANPRODUCTS);                  
+          if($scope.$requestMethodCreate){
+              $rootScope.message="Client Business Activity Detail saved successfully";
+          }else{
+              $rootScope.message="Client Business Activity Detail updated successfully";
+          }
+          loadCreateClientBusinessActivityTemplate();   
         }
 
         var saveClientBusinessActivityFail = function(result){

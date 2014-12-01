@@ -35,7 +35,7 @@
             <div class="form-group">
                 <label class="control-label col-md-4">Office</label>
                 <div class="col-md-6">
-                    <select id="officeId" ng-model="editClient.officeId" ng-options="officeOptions.id as officeOptions.name for officeOptions in client.officeOptions" class="form-control"  value="{{officeOptions.id}}" ng-change="changeOffice(editClient.officeId)">
+                    <select id="officeId" ng-model="editClient.officeId" ng-options="officeOptions.id as officeOptions.name for officeOptions in client.officeOptions" class="form-control"  value="{{officeOptions.id}}" ng-change="changeOffice(editClient.officeId)" disabled="true" >
                     </select>
                 </div>
             </div>

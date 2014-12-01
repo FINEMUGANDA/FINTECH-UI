@@ -2,7 +2,6 @@
 {
     "datatableName": "client_extra_information",
     "apptableName": "m_client",
-    "multiRow": "true",
     "columns": [
         {
             "name": "maritalStatus",
@@ -51,7 +50,6 @@
 {
     "datatableName": "business_details",
     "apptableName": "m_client",
-    "multiRow": "true",
     "columns": [
         {
             "name": "business_activity",
@@ -95,7 +93,6 @@
 {
     "datatableName": "client_identification_details",
     "apptableName": "m_client",
-    "multiRow": "true",
     "columns": [
         {
             "name": "issue_place",
@@ -182,7 +179,6 @@ INSERT INTO `mifostenant-default`.`m_code_value` (`code_id`, `code_value`, `orde
 {
     "datatableName": "client_additional_details",
     "apptableName": "m_client",
-    "multiRow": "true",
     "columns": [
         {
             "name": "bank_account",
@@ -240,12 +236,12 @@ INSERT INTO `mifostenant-default`.`m_code_value` (`code_id`, `code_value`, `orde
             "name": "knownToIntroducerSince",
             "type": "Date",
             "mandatory": true
-        },,
+        },
         {
             "name": "visitedById",
             "type": "Number",
             "mandatory": true
-        }
+        },
         {
             "name": "visitingDate",
             "type": "Date",
