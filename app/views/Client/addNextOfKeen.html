@@ -39,23 +39,23 @@
               <tr ng-repeat="row in clientData">
                 <!-- <td>{{row.GuarantorRelationship_cd_relationship}}</td> -->
                 <td>
-                    <div class="name">
-                      {{row.firstname}} {{row.lastname}}
+                    <div class="name pointer" >
+                      <a ng-click="editNextToKeen($index)">{{row.firstname}} {{row.lastname}}</a>
                     </div>
                 </td>
                 <td>
                     <div class="name">
-                      {{row.date_of_birth[2]}}/{{row.date_of_birth[1]}}/{{row.date_of_birth[0]}}
+                      <a ng-click="editNextToKeen($index)">{{row.date_of_birth[2]}}/{{row.date_of_birth[1]}}/{{row.date_of_birth[0]}}</a>
                     </div>
                 </td>
                 <td>
                     <div class="name">
-                      {{row.address}}
+                      <a ng-click="editNextToKeen($index)">{{row.address}}</a>
                     </div>
                 </td>
-                <td class="number">
+                <td class="number" ng-click="editNextToKeen($index)">
                   <span>
-                    {{row.telephone}}
+                    <a ng-click="editNextToKeen($index)">{{row.telephone}}</a>
                   </span>
                 </td>
                 <td class="number">

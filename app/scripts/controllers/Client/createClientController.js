@@ -55,7 +55,6 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
       //Start Client Template
       //Success - callback
       var createClientTeplateSuccess = function(result) {
-         $rootScope.type='';
          $scope.isLoading = false;
          try {
               $scope.client = result.data;
@@ -80,11 +79,14 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
               $scope.createClientWithDataTable.locale = "en";
           } catch (e) {
           }
+          $rootScope.type='';
+          $scope.message='';
       }
       //failur callback
       var createClientTemplateFail = function(result){
           $scope.isLoading = false;
           console.log('Error : Return from createClientsService.');
+          $('html, body').animate({scrollTop : 0},800);
       }
       var loadCreateClientTemplate = function getData(tableState) {
         $scope.isLoading = true;
@@ -182,6 +184,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
             var $url = PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + clientId ;          
             $location.url($url);
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         console.log(angular.toJson(this.createClientWithDataTable));
         var $url= REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + clientId;        
@@ -207,6 +210,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
             var $url = PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + clientId ;          
             $location.url($url);            
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         CreateClientsService.deleteClient(REST_URL.CREATE_CLIENT+'/'+clientId).then(deleteClientBasicInfoSuccess, deleteClientBasicInfoFail);
       }
@@ -287,7 +291,6 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
       //Start - extra client information template
       //Success callback
       var editClientExtraInformationTemplateSuccess = function(result) {
-         $rootScope.type='';
          $scope.isLoading = false;
          console.log('Success : Return from createClientsService');
          try {
@@ -308,15 +311,21 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
                 $scope.editClientWithDataTable.homeContactPerson = $scope.editClientExtraInfo.row[6];
                 $scope.editClientWithDataTable.email = $scope.editClientExtraInfo.row[7];
                 $scope.editClientWithDataTable.SecondMobileNo = parseInt($scope.editClientExtraInfo.row[8]);
-              }              
+              }            
           } catch (e) {
             console.log(e);
           }
+          $rootScope.type='';
+          $scope.message='';  
       }
       //failur callback
       var editClientExtraInformationTemplateFail = function(result){
           $scope.isLoading = false;
           console.log('Error : Return from createClientsService');
+          if(result.status == 404){
+            var $url = PAGE_URL.CLIENTS;          
+            $location.url($url);
+          }
       }
       //Finish - extra client information template
 
@@ -370,6 +379,10 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
       var editClientTemplateFail = function(result){
           $scope.isLoading = false;
           console.log('Error : Return from loanProducts service.');
+          if(result.status == 404){
+            var $url = PAGE_URL.CLIENTS;          
+            $location.url($url);
+          }
       }
       var loadEditClientTemplate = function getData(tableState) {
         $scope.isLoading = true;
@@ -390,6 +403,7 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
               $scope.editBasicClient(editClient,editClientWithDataTable);
             } else {
               $scope.invalidateForm();
+              $('html, body').animate({scrollTop : 0},800);
             }
       };
 
@@ -505,7 +519,6 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
 
       //Success callback
       var createClientAdditionalInfoTemplateSuccess = function(result) {
-         $rootScope.type='';
          $scope.isLoading = false;
          try {              
               $scope.clientAdditionalInfo = result.data;
@@ -551,11 +564,17 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
           } catch (e) {
             console.log(e);
           }
+          $rootScope.type='';
+          $scope.message='';
       }
       //failur callback
       var createClientAdditionalInfoTemplateFail = function(result){
           $scope.isLoading = false;
           console.log('Error : Return from CreateClientsService service.');
+          if(result.status == 404){
+            var $url = PAGE_URL.CLIENTS;          
+            $location.url($url);
+          }
       }
       var loadCreateClientAdditionalInfoTemplate = function getData(tableState) {
         $scope.isLoading = true;
@@ -576,6 +595,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
               $scope.saveClientAdditionalInfo(createClientAdditionalInfo);
             } else {
               $scope.invalidateForm();
+              $('html, body').animate({scrollTop : 0},800);
             }
       };
 
@@ -621,6 +641,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }        
         var json=angular.toJson(this.createClientAdditionalInfo);
         console.log(json);
@@ -656,7 +677,6 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
 
       //Success callback
       var createClientIdentificationTeplateSuccess = function(result) {
-         $rootScope.type=''; 
          $scope.isLoading = false;
          try {
               //Setting the id for the headers
@@ -666,9 +686,13 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
 
               //Set the default values for the identification id
               $scope.clientIdentification.documentTypeId = 1 ;
+
+              $scope.loadExtraTemplate();
           } catch (e) {
               console.log(e);
           }
+          $rootScope.type=''; 
+          $scope.message='';
       }
       //failur callback
       var createClientIdentificationTemplateFail = function(result){
@@ -687,6 +711,25 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
         );
       };
 
+      $scope.loadExtraTemplate = function(){
+        console.log('CreateClientCtrl : CreateClient : loadExtraTemplate');
+
+        var loadExtraTemplateSuccess = function(result){
+          console.log('Success : Return from CreateClientsService service.');                    
+        }
+
+        var loadExtraTemplateFail = function(result){
+          console.log('Error : Return from CreateClientsService service.');        
+          if(result.status == 404){
+            var $url = PAGE_URL.CLIENTS;          
+            $location.url($url);
+          }            
+        }
+        var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id +'?genericResultSet=true';
+        console.log($url);
+        CreateClientsService.getData($url).then(loadExtraTemplateSuccess, loadExtraTemplateFail);
+      };
+
       loadCreateClientIdentificationTemplate();
       
       $scope.validateClientIdentification = function(clientIdentification,clientIdentificationExtra){
@@ -695,6 +738,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
               $scope.saveClientIdentification(clientIdentification,clientIdentificationExtra);
             } else {
               $scope.invalidateForm();
+              $('html, body').animate({scrollTop : 0},800);
             }
       };
 
@@ -801,6 +845,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION+ $route.current.params.id;
         console.log($url);
@@ -822,7 +867,6 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
       };
       //Success callback
       var createClientNextToKeenTeplateSuccess = function(result) {
-         $rootScope.type='';
          $scope.isLoading = false;
          try {
               //Setting the id for the headers
@@ -836,11 +880,18 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
           } catch (e) {
               console.log(e);
           }
+          $rootScope.type='';
+          $scope.message='';
       }
       //failur callback
       var createClientNextToKeenTemplateFail = function(result){
           $scope.isLoading = false;
           console.log('Error : Return from CreateClientsService service.');
+
+          if(result.status == 404){
+            var $url = PAGE_URL.CLIENTS;          
+            $location.url($url);
+          }
       }
       var loadCreateClientNextToKeenTemplate = function getData(tableState) {
         //$scope.isLoading = true;
@@ -880,6 +931,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         //TODO Make a call to the database to insert the client Additional information into the database
         var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '?genericResultSet=false';
@@ -895,6 +947,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
               $scope.saveClientNextToKeen(clientNextToKeen);
             } else {
               $scope.invalidateForm();
+              $('html, body').animate({scrollTop : 0},800);
             }
       };
 
@@ -936,6 +989,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         //TODO Make a call to the database to insert the client Additional information into the database
         var json=angular.toJson(this.clientNextToKeen);
@@ -943,7 +997,13 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
         console.log("Successfully saved the client Next To Keen Information");
         var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id;
         console.log($url);
-        CreateClientsService.saveClient($url, angular.toJson(this.clientNextToKeen)).then(saveClientNextToKeenSuccess, saveClientNextToKeenFail);
+        console.log($scope.clientNextToKeen.id);
+        if($scope.clientNextToKeen.id){
+            CreateClientsService.updateClient($url+'/'+$scope.clientNextToKeen.id, angular.toJson(this.clientNextToKeen)).then(saveClientNextToKeenSuccess, saveClientNextToKeenFail);
+        }else{
+            CreateClientsService.saveClient($url, angular.toJson(this.clientNextToKeen)).then(saveClientNextToKeenSuccess, saveClientNextToKeenFail); 
+        }
+        
       };
 
 
@@ -969,11 +1029,50 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         console.log("Successfully saved the client Next To Keen Information");
         var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id +'/'+ $scope.clientData[ClientId].id;
         console.log($url);
         CreateClientsService.deleteClient($url).then(deleteNextToKeenSuccess, deleteNextToKeenFail);
+      };
+
+      $scope.editNextToKeen = function(ClientId){
+        console.log('CreateClientCtrl : CreateClient : editNextToKeen');
+        
+        var editNextToKeenSuccess = function(result){
+          console.log('Success : Return from CreateClientsService service.');
+          $scope.client = result.data;
+          //Setting the values for the edit client next to keen page
+          $scope.clientNextToKeen.GuarantorRelationship_cd_relationship = parseInt($scope.client[0].GuarantorRelationship_cd_relationship);
+          $scope.clientNextToKeen.firstname = $scope.client[0].firstname;
+          $scope.clientNextToKeen.middlename = $scope.client[0].middlename;
+          $scope.clientNextToKeen.lastname = $scope.client[0].lastname;
+          if(!Utility.isUndefinedOrNull($scope.client[0].date_of_birth)){
+                $scope.clientNextToKeen.date_of_birth = $scope.client[0].date_of_birth[2]+'/'+$scope.client[0].date_of_birth[1]+'/'+$scope.client[0].date_of_birth[0];
+          }
+          $scope.clientNextToKeen.address = $scope.client[0].address;
+          $scope.clientNextToKeen.telephone = $scope.client[0].telephone;
+          $scope.clientNextToKeen.second_telephone = $scope.client[0].second_telephone;
+          $scope.clientNextToKeen.id = $scope.client[0].id;
+        }
+
+        var editNextToKeenFail = function(result){
+          console.log('Error : Return from CreateClientsService service.');                    
+          $scope.type="error";
+          $scope.message="Client Next To Keen Detail not deleted: "+result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          if(result.data.errors!='' && result.data.errors!='undefined'){
+            for(var i=0;i<result.data.errors.length;i++){
+              $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
+          }
+          $('html, body').animate({scrollTop : 0},800);
+        }
+        console.log("Successfully saved the client Next To Keen Information");
+        var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id +'/'+ $scope.clientData[ClientId].id;
+        console.log($url);
+        CreateClientsService.getData($url).then(editNextToKeenSuccess, editNextToKeenFail);
       };
 });
 
@@ -998,7 +1097,6 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
       
       //Success callback
       var createClientBusinessActivityTeplateSuccess = function(result) {
-         $rootScope.type='';
          $scope.isLoading = false;
          try {
               //Setting the id for the urls in the header
@@ -1032,15 +1130,20 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
                 $scope.clientBusinessActivity.YesNo_cd_other_income = parseInt($scope.client.data[0].row[6]);
                 $scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = parseInt($scope.client.data[0].row[7]);                
               }
-
           } catch (e) {
               console.log(e);
           }
+          $rootScope.type='';
+          $scope.message='';
       }
       //failur callback
       var createClientBusinessActivityTemplateFail = function(result){
           $scope.isLoading = false;
           console.log('Error : Return from CreateClientsService service.');
+          if(result.status == 404){
+            var $url = PAGE_URL.CLIENTS;          
+            $location.url($url);
+          }
       }
       var loadCreateClientBusinessActivityTemplate = function getData(tableState) {
         $scope.isLoading = true;
@@ -1062,6 +1165,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
               $scope.saveClientBusinessActivity(clientBusinessActivity);
             } else {
               $scope.invalidateForm();
+              $('html, body').animate({scrollTop : 0},800);
             }
       };
 
@@ -1104,6 +1208,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
               $('#'+$scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
             }
           }
+          $('html, body').animate({scrollTop : 0},800);
         }
         //TODO Make a call to the database to insert the client Additional information into the database
         var json=angular.toJson(this.clientBusinessActivity);

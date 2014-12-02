@@ -149,6 +149,12 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           data: {
             authorizedRoles: ['admin']
           }
+      }).when('/editnextofkeen/:id/:rowid', {
+          templateUrl: 'views/Client/addNextOfKeen.html',
+          controller: 'ClientNextToKeenCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
       }).
       otherwise({
         redirectTo: '/'

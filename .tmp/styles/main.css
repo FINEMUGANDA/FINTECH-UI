@@ -17253,3 +17253,9 @@ label.text-left {
   width: 100%;
   height: 100%;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/dummy\/FINTECH-UI\/app\/styles\/main\.scss}line{font-family:\00003147}}
+.Size {
+  height: 50px;
+  width: 50px;
+}
