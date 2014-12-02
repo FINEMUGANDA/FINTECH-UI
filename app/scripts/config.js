@@ -38,6 +38,7 @@ app.constant('REST_URL', {
     'GROUP_TEMPLATE_RESOURCE':'api/v1/groups/template',
     'CREATE_CLIENT_BUSINESS_ACTIVITY':'api/v1/datatables/business_details/',
     'CREATE_CLIENT_IDENTIFICATION':'api/v1/datatables/client_identification_details/',
+    'CREATE_CLIENT_NEXT_TO_KEEN':'api/v1/datatables/client_next_to_keen_details/',
 });
 
 app.constant('PAGE_URL', {

@@ -435,6 +435,22 @@ app.directive('showValidation', [function() {
     };
 });
 
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]); 
+
 //color code status for each data tables
 app.filter('status', [ function() {
     var STATUS_COLOR_CODE = {'0': 'status bad',//red

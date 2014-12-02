@@ -24,14 +24,55 @@
           <div class="loading-indicator">Loading...</div>        
         </div>
       </div>
+       <table class="table">
+            <thead>                
+              <tr>
+                <!-- <th>Relationship</th> -->
+                <th>Name</th>
+                <th>Date Of Birth</th>
+                <th>Address</th>
+                <th class="number">Telephone</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in clientData">
+                <!-- <td>{{row.GuarantorRelationship_cd_relationship}}</td> -->
+                <td>
+                    <div class="name">
+                      {{row.firstname}} {{row.lastname}}
+                    </div>
+                </td>
+                <td>
+                    <div class="name">
+                      {{row.date_of_birth[2]}}/{{row.date_of_birth[1]}}/{{row.date_of_birth[0]}}
+                    </div>
+                </td>
+                <td>
+                    <div class="name">
+                      {{row.address}}
+                    </div>
+                </td>
+                <td class="number">
+                  <span>
+                    {{row.telephone}}
+                  </span>
+                </td>
+                <td class="number">
+                  <a ng-click="deleteNextToKeen($index)">                      
+                      <span class="glyphicon glyphicon-remove pointer"></span>
+                  </a>
+                </td>
+              </tr>
+            </tbody>              
+          </table>
+          <hr/>
       <form name="ClientNextToKeenForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientNextToKeen(clientNextToKeen)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
               <label class="control-label col-md-4">Relationship<span class="required"> *</span></label>
               <div class="validate col-md-6">
-              	<select id="relationship" ng-model="clientNextToKeen.relationship" class="form-control"  required>
-              			<option value="33">Yes</option>
-                  		<option value="34">No</option>
+              	<select id="GuarantorRelationship_cd_relationship" ng-model="clientNextToKeen.GuarantorRelationship_cd_relationship" ng-options="columnValues.id as columnValues.value for columnValues in relationship" class="form-control"  value="{{columnValues.id}}"   required>
                   </select>	
               </div>
           </div>
@@ -56,46 +97,33 @@
            <div class="form-group">                
               <label class="control-label col-md-4">Date Of Birth</label>
               <div class="col-md-6">
-                  <input id="dateOfBirth" name="dateOfBirth" class="form-control" type="text" ng-model="clientNextToKeen.dateOfBirth"  ></input>
-
-                   <!-- <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="createClient.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ></input>
-                
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span> -->
+                  <input id="date_of_birth" name="date_of_birth" class="form-control" type="text" ng-model="clientNextToKeen.date_of_birth" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" ></input>
               </div>
           </div>
            <div class="form-group">                
               <label class="control-label col-md-4">Main Address</label>
               <div class="col-md-6">
-                  <textarea rows="3" id="homeContactAddress" name="homeContactAddress" class="form-control" ng-model="clientNextToKeen.homeContactAddress"></textarea>
+                  <textarea rows="3" id="address" name="address" class="form-control" ng-model="clientNextToKeen.address"></textarea>
               </div>
           </div>
            <div class="form-group">                
               <label class="control-label col-md-4">Main Telephone No.</label>
               <div class="col-md-6">
-                  <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="clientNextToKeen.mobileNo" only-digits></input>
+                  <input id="telephone" name="telephone" class="form-control" type="text" ng-model="clientNextToKeen.telephone" only-digits></input>
               </div>
           </div>
           <div class="form-group">                
               <label class="control-label col-md-4">2nd Telephone No.</label>
               <div class="col-md-6">
-                  <input id="SecondMobileNo" name="SecondMobileNo" class="form-control" type="text" ng-model="clientNextToKeen.SecondMobileNo" only-digits></input>
+                  <input id="second_telephone" name="second_telephone" class="form-control" type="text" ng-model="clientNextToKeen.second_telephone" only-digits></input>
               </div>
           </div>
           </div>
-          <div class="col-md-6">
-              <div class="form-group">
-                <div class="col-md-6">
-                        <button type="button" class="btn btn-primary" ng-click="">Add</button>
-                </div>
-              </div>
-        </div>
         <hr/>
         <div class="col-md-12">
           <div class="col-md-offset-2 paddedtop">
-            <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
-            <button id="save" type="submit" class="btn btn-primary">Save</button>
+            <a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>
+            <button id="save" type="submit" class="btn btn-primary">Next</button>
           </div>
         </div>  
         </div>         

@@ -23,6 +23,22 @@ createClientsService.factory('CreateClientsService', function($http, Remote) {
                 console.log('Delete Data using createClientsService...');
                 var promise = Remote.delete(url,jsondata);
                 return promise;
+            },
+            uploadFileToUrl : function(file, uploadUrl, data){
+                var fd = new FormData();
+                fd.append('file', file);
+                $http.post(uploadUrl, fd, {
+                    transformRequest: angular.identity,
+                    data:data,
+                    headers: {'Content-Type': undefined}
+                })
+                .success(function(){
+                    console.log("hooray");
+                })
+                .error(function(){
+                    console.log("hooray yar");
+                });
             }
+
 	}
 });
