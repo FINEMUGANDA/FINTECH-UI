@@ -11,7 +11,8 @@ app.constant('APPLICATION', {
     'username' : 'username',
     'role' : 'role',
     'PAGE_SIZE' : 5,
-    'DISPLAYED_PAGES' : 5
+    'DISPLAYED_PAGES' : 5,
+    'NO_IMAGE_THUMB' : 'images/client_image/noPhoto.jpg'
 });
 
 app.constant('REST_URL', {

@@ -10,12 +10,29 @@ clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, $
 
       $scope.isLoading = false;
       $scope.rowCollection = [];
-      $scope.displayed=[]
+      $scope.displayed=[];
+
       //Success callback
       var allClientsSuccess = function(result) {
          $scope.isLoading = false;
          try {
               $scope.rowCollection = result.data;
+              angular.forEach($scope.rowCollection, function(client) {
+                //Success callback
+                var clientImageSuccess = function(imageResult) {
+                   try {
+                        client['image'] = imageResult.data;
+                    } catch (e) {
+                    }
+                }
+
+                //failur callback
+                var clientImageFail = function(imageResult){
+                    console.log('Error : Return from client image service.');
+                }
+                client['image'] = APPLICATION.NO_IMAGE_THUMB;
+                ClientsService.getClientImage(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(clientImageSuccess, clientImageFail);  
+              });              
           } catch (e) {
           }
       }
@@ -55,6 +72,22 @@ clientsCtrl.controller('LoansCtrl', function ($scope, $rootScope, $location, $ti
          $scope.isLoading = false;
          try {
               $scope.rowCollection = result.data;
+              angular.forEach($scope.rowCollection, function(loan) {
+                //Success callback
+                var clientImageSuccess = function(imageResult) {
+                   try {
+                        loan['image'] = imageResult.data;
+                    } catch (e) {
+                    }
+                }
+
+                //failur callback
+                var clientImageFail = function(imageResult){
+                    console.log('Error : Return from client image service.');
+                }
+                loan['image'] = APPLICATION.NO_IMAGE_THUMB;
+                ClientsService.getClientImage(REST_URL.CREATE_CLIENT + '/' + loan.id + '/images').then(clientImageSuccess, clientImageFail);  
+              });       
           } catch (e) {
           }
       }
