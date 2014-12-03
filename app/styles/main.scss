@@ -132,7 +132,7 @@ label.text-left {
 	content:none !important;
 }
 
-.thumbnail {
+.thumbnail, .thumbnail video {
 	height: 150px;
 	width: 150px;
 	padding: 0;
@@ -147,4 +147,12 @@ label.text-left {
 .Size{
 	height:50px;
 	width:50px;
+}
+
+.margin-right5 {
+	margin-right: 5px;
+}
+
+.padding0 {
+	padding:0;
 }

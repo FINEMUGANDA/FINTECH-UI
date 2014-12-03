@@ -3,7 +3,7 @@
   // Here we attach this controller to our testApp module
 var CreateClientCrtl = angular.module('createClientController',['createClientsService','Constants', 'smart-table']);
 
-CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Base64) {
+CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Base64, Utility) {
       console.log('CreateClientCtrl : CreateClientCtrl');
       //To load the loadproducts page
       $scope.isLoading = false;
@@ -213,8 +213,59 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
           $('html, body').animate({scrollTop : 0},800);
         }
         CreateClientsService.deleteClient(REST_URL.CREATE_CLIENT+'/'+clientId).then(deleteClientBasicInfoSuccess, deleteClientBasicInfoFail);
-      }
+      };
       //Finish - Save Delete Client Infromation
+
+      //Camera functionality
+      //Show - hide camera functionality
+      $scope.onCamera = false;
+      var _video = null;
+      $scope.patOpts = {x: 0, y: 0, w: 150, h: 150};
+      $scope.showCamera = function(){
+        $scope.onCamera = true;        
+      };
+      $scope.hideCamera = function(){
+        $scope.onCamera = false;
+      };
+
+      $scope.onError = function (err) {
+        console.log("error");
+        $scope.$apply(
+            function() {
+                $scope.webcamError = err;
+            }
+        );
+      };
+
+      $scope.onSuccess = function (videoElem) {
+       console.log("In takeSnap"); 
+        // The video element contains the captured camera data
+        _video = videoElem;        
+      };
+
+      //Take snap-shot
+      $scope.takeSnap =function(){
+        console.log("In takeSnap");
+        _video = $('video')[0];
+        var getVideoData = function getVideoData(x, y, w, h) {
+            var hiddenCanvas = document.createElement('canvas');
+            hiddenCanvas.width = 300;
+            hiddenCanvas.height = 150;
+            var ctx = hiddenCanvas.getContext('2d');
+            ctx.drawImage(_video, 0, 0, 300, 150);
+            return ctx.getImageData(x, y, 300, h);
+        };
+        if (_video) {
+          console.log("In _video");
+          var patCanvas = document.createElement('canvas');
+          //var patCanvas = $('.thumbnail.rows:first')[0];
+          var ctxPat = patCanvas.getContext('2d');
+          var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
+          ctxPat.putImageData(idata, 0, 0);
+          $('.thumbnail.rows:first').find('img').attr('src',patCanvas.toDataURL());
+          $scope.hideCamera();
+        }
+      }
 });
 
 CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, $upload) {

@@ -108,16 +108,36 @@
           <div class="col-md-6">
             <div class="form-group">                
                 <label class="control-label col-md-4">Upload Photo.<span class="required"> *</span></label>
-                <div class="col-md-6">
-                    <input type="file" ng-model='image' ng-file-select="onFileSelect($files)"></input>
+                <div class="col-md-6" ng-hide="onCamera">
+                    <div class="col-md-12 col-xs-6 padding0" ng-hide="onCamera">
+                        <button type="button" class="col-md-2 col-xs-2 btn btn-primary" ng-click="showCamera()">
+                            <span class="glyphicon glyphicon-camera" data-unicode="e046"></span>
+                        </button>
+                        <input class="col-md-10 col-xs-10" placeholder="select file" type="file" ng-model='image' ng-file-select="onFileSelect($files)"></input>
+                    </div>
+                </div>
+                <div class="col-md-6" ng-show="onCamera">
+                    <button type="button" class="col-md-4 btn btn-warning margin-right5"  ng-click="hideCamera()">
+                        Cancel
+                    </button>                    
+                    <button type="button" class="col-md-4 btn btn-primary"  ng-click="takeSnap()">
+                        Click
+                    </button>
                 </div>
                 <div class="control-label col-md-2"></div>
             </div>
             <div class="form-group">
                 <div class="control-label col-md-4"></div>
-                <div class="col-sm-6 col-md-6">                
-                  <div class="thumbnail rows">
+                <div class="col-md-6">                
+                  <div class="thumbnail rows" ng-hide="onCamera">
                         <img ng-src="images/client_image/noPhoto.jpg" alt="Avatar">
+                  </div>
+                  <div class="thumbnail rows" ng-show="onCamera">
+                        <div ng-show="webcamError">{{webcamError.name}}</div>
+                        <webcam on-stream="onStream(stream,video)"
+                            on-error="onError(err)"
+                            on-streaming="onSuccess(video)">                            
+                        </webcam>
                   </div>
                 </div>
             </div>
