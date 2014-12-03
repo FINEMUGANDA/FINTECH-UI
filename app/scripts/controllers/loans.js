@@ -3,7 +3,7 @@
   // Here we attach this controller to our testApp module
 var LoanProductCrtl = angular.module('loanProductController',['loanProductService','Constants', 'smart-table']);
 
-LoanProductCrtl.controller('LoanProductsCtrl', function ($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION) {
+LoanProductCrtl.controller('LoanProductsCtrl', function ($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
       console.log('LoanProductsCtrl : LoanProducts');
       //To load the loadproducts page      
       $scope.isLoading = false;
@@ -38,6 +38,11 @@ LoanProductCrtl.controller('LoanProductsCtrl', function ($scope, $rootScope, $lo
       };
 
       loadLoanProducts();
+
+      //Redirect to edit loan product
+      $scope.routeTo = function(loanProductId){
+        $location.url(PAGE_URL.EDITLOANPRODUCT+'/'+loanProductId);
+      }
 });
 
 LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService) {
@@ -166,7 +171,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function ($scope, $rootScop
           $rootScope.type="alert-success";
           $rootScope.message="Loan product saved successfully";
           $rootScope.isCreated=true;
-          $location.url(PAGE_URL.EDITLOANPRODUCT+result.data.resourceId);                  
+          $location.url(PAGE_URL.EDITLOANPRODUCT+'/'+result.data.resourceId);
         }
 
         var saveloanProductFail = function(result){

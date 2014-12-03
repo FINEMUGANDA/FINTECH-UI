@@ -26,3 +26,8 @@ select c.id id,c.display_name name, ifnull(c.external_id,'') file_no, ifnull(l.a
 #Rerport name PageClientsScreenLoansWritten
 #Description : Get all written off loan for Loan Written off screen on clients page
 select c.id id,c.display_name name, ifnull(c.external_id,'') file_no, ifnull(FORMAT(l.approved_principal,2),0) loanAmount, ifnull(FORMAT(l.total_writtenoff_derived,2),0) balanceWritten, DATE_FORMAT(l.writtenoffon_date,'%d %b %y') writtenoffon_date, ifnull(s.display_name,'') loanOfficer, ifnull(n.note,'') writtenoff_reason from m_client c join m_loan l on c.id=l.client_id  and l.loan_status_id=601 join r_enum_value l_en on l.loan_status_id=l_en.enum_id and l_en.enum_name='loan_status_id' left join m_staff s on s.id=l.loan_officer_id left join m_note n on n.loan_id=l.id;
+#Date - 2014/12/02
+#Report number 164
+#Report name ClientIdentification
+#Description : To display data on the client identification page
+SELECT  ci.id 'identifier_id', ci.client_id 'client_id', ci.document_type_id 'documentTypeId', ci.document_key 'documentKey', cie.id 'extra_id', cie.issue_place 'issue_place', cie.issue_date 'issue_date', cie.issue_document 'issue_document'FROM m_client_identifier as ci LEFT JOIN client_identification_details cie ON cie.client_id=ci.client_id;

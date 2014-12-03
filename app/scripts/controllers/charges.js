@@ -3,7 +3,7 @@
   // Here we attach this controller to our testApp module
 var chargesController = angular.module('chargesController',['chargesService','Constants', 'smart-table']);
 
-chargesController.controller('ChargesCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION) {
+chargesController.controller('ChargesCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
       console.log('ChargesCtrl : loadCharges');
       //To load the loadproducts page
       var promise = null;
@@ -40,6 +40,11 @@ chargesController.controller('ChargesCtrl', function ($scope, $rootScope, $locat
       };
 
       loadCharges();
+
+      //Redirect to edit charges
+      $scope.routeTo = function(loanProductId){
+        $location.url(PAGE_URL.EDITCHARGE+'/'+loanProductId);
+      }
 });
 
 chargesController.controller('CreateChargeCtrl', function ($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {

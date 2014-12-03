@@ -171,7 +171,7 @@ app.config(['$httpProvider', function($httpProvider) {
 ]);
 
 //function to be called when the application gets running
-app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL) {
+app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL, Utility) {
   //total number of records in single page
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
   //total number of page in single page
@@ -305,7 +305,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
   }else{
     //TODO - Need to remove else block once all the functionality will be implemented
     $location.url(PAGE_URL.ROOT);
-  }
+  }  
 });
 
 app.config(function ($httpProvider) {
@@ -465,9 +465,19 @@ app.filter('status', [ function() {
     };
 }]);
 
+//Populate data into table
+app.filter('getDropdownValues', [ function() {
+    return function(id, dataValues){    
+      for(var i=0; i<dataValues.length; i++){
+        if(id==dataValues[i].id){
+          return dataValues[i].value;
+        }
+      } 
+  };
+}]);
+
 //color code status for each data tables
 app.filter('checkEmptyString', [ function() {
-
     return function(value) {
       return value=='';
     };

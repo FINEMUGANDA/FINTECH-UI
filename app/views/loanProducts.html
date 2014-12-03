@@ -12,7 +12,7 @@
     <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
-          <th colspan="3">
+          <th colspan="4">
               <div class="filters" >
                 <div style="float:right;">            
                   <ul role="tablist">
@@ -35,21 +35,25 @@
           <th st-sort="name">Loan Product Name</th>
           <th st-sort="description">Description</th>
           <th st-sort="numberOfRepayments" class="number">Repayment Frequency</th>
-          <th st-sort="interestRatePerPeriod" class="number">Interest Rate</th>
+          <th st-sort="interestRatePerPeriod" class="number">Interest Rate</th>          
         </tr>
       </thead>
       <tbody ng-hide="isLoading">        
-        <tr st-select-row="row" st-select-mode="single" ng-repeat="loanProducts in displayed">
-          <td><a ng-href="#editloanproduct/{{loanProducts.id}}">{{loanProducts.name}}</a></td>
-          <td><a ng-href="#editloanproduct/{{loanProducts.id}}">{{loanProducts.description}}</a></td>
-          <td class="number">
+        <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="loanProducts in displayed">
+          <td data-ng-click="routeTo(loanProducts.id)">
+            <a>{{loanProducts.name}}</a>
+          </td>
+          <td data-ng-click="routeTo(loanProducts.id)">
+            <a>{{loanProducts.description}}</a>
+          </td>
+          <td class="number" data-ng-click="routeTo(loanProducts.id)">
               <div class="name">
-                <a ng-href="#editloanproduct/{{loanProducts.id}}">{{loanProducts.numberOfRepayments}}</a>
+                <a>{{loanProducts.numberOfRepayments}}</a>
               </div>
           </td>
-          <td class="number">
+          <td class="number" data-ng-click="routeTo(loanProducts.id)">
             <span>
-              <a ng-href="#editloanproduct/{{loanProducts.id}}">{{loanProducts.interestRatePerPeriod}}</a>
+              <a>{{loanProducts.interestRatePerPeriod}}</a>
             </span>
           </td>
         </tr>

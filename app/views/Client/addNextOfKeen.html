@@ -99,8 +99,10 @@
                   </tr>
                 </thead>
                 <tbody ng-hide="isLoading">
-                  <tr ng-repeat="row in displayed">
-                    <td>{{row.GuarantorRelationship_cd_relationship}}</td>
+                  <tr ng-repeat="row in displayed">                  
+                    <td>
+                      {{row.GuarantorRelationship_cd_relationship | getDropdownValues:relationship}}                      
+                    </td>
                     <td>
                         <div class="name pointer" >
                           <a ng-click="editNextToKeen($index)">{{row.firstname}} {{row.lastname}}</a>

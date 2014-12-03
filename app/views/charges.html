@@ -38,14 +38,14 @@
         </tr>
       </thead>
       <tbody ng-hide="isLoading">        
-        <tr ng-repeat="charges in displayed">
-          <td>{{charges.name}}</td>
-          <td>
+        <tr class="pointer" ng-repeat="charges in displayed">
+          <td data-ng-click="routeTo(charges.id)">{{charges.name}}</td>
+          <td data-ng-click="routeTo(charges.id)">
               <div class="name">
-                <a ng-href="#editCharge/{{charges.id}}">{{charges.chargeTimeType.value}}</a>                
+                <a>{{charges.chargeTimeType.value}}</a>
               </div>
           </td>
-          <td class="number">
+          <td class="number" data-ng-click="routeTo(charges.id)">
             <span>
               {{charges.currency.displaySymbol}}{{charges.amount}}
             </span>
