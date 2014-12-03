@@ -50,6 +50,7 @@
 {
     "datatableName": "business_details",
     "apptableName": "m_client",
+    "multiRow":"true",
     "columns": [
         {
             "name": "business_activity",
@@ -93,6 +94,7 @@
 {
     "datatableName": "client_identification_details",
     "apptableName": "m_client",
+    "multiRow":"true",
     "columns": [
         {
             "name": "issue_place",

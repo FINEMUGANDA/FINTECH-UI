@@ -161,6 +161,7 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
       });
   }]);
 
+//Function to set the default headers for each request made to the rest api
 app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.headers.common['X-Mifos-Platform-TenantId'] = 'default';
         $httpProvider.defaults.useXDomain = true;
@@ -169,7 +170,7 @@ app.config(['$httpProvider', function($httpProvider) {
     }
 ]);
 
-
+//function to be called when the application gets running
 app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL) {
   //total number of records in single page
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
@@ -344,6 +345,7 @@ app.controller('ApplicationController', function ($scope, $location, USER_ROLES,
   };
 });
 
+//Factory to manage the session related things for the application
 app.factory('Session', function(APPLICATION) {
   
 
@@ -386,6 +388,7 @@ app.factory('Session', function(APPLICATION) {
   return Session; 
 });
 
+//Directive for the validation of each mandatory field
 app.directive('showValidation', [function() {
     return {
         restrict: "A",
@@ -419,6 +422,7 @@ app.directive('showValidation', [function() {
     };
 }]);
 
+//Directive to validate the field for only numbers as the input
  app.directive('onlyDigits', function () {
     return {
       require: 'ngModel',

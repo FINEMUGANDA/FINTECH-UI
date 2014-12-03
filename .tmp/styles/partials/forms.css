@@ -1,35 +1,35 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\000039}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\000039}}
 .alert {
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000316}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000316}}
 .alert h4 {
   margin-top: 0;
   color: inherit;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000322}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000322}}
 .alert .alert-link {
   font-weight: bold;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000327}}
 .alert > p,
 .alert > ul {
   margin-bottom: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000331}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000331}}
 .alert > p + p {
   margin-top: 5px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000340}}
 .alert-dismissable,
 .alert-dismissible {
   padding-right: 35px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000345}}
 .alert-dismissable .close,
 .alert-dismissible .close {
   position: relative;
@@ -38,80 +38,80 @@
   color: inherit;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000357}}
 .alert-success {
   background-color: #dff0d8;
   border-color: #d6e9c6;
   color: #3c763d;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
 .alert-success hr {
   border-top-color: #c9e2b3;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
 .alert-success .alert-link {
   color: #2b542c;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000360}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000360}}
 .alert-info {
   background-color: #d9edf7;
   border-color: #bce8f1;
   color: #31708f;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
 .alert-info hr {
   border-top-color: #a6e1ec;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
 .alert-info .alert-link {
   color: #245269;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000363}}
 .alert-warning {
   background-color: #fcf8e3;
   border-color: #faebcc;
   color: #8a6d3b;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
 .alert-warning hr {
   border-top-color: #f7e1b5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
 .alert-warning .alert-link {
   color: #66512c;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/_alerts\.scss}line{font-family:\0000366}}
 .alert-danger, .error {
   background-color: #f2dede;
   border-color: #ebccd1;
   color: #a94442;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\000038}}
 .alert-danger hr, .error hr {
   border-top-color: #e4b9c0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/bower_components\/bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/mixins\/_alerts\.scss}line{font-family:\0000311}}
 .alert-danger .alert-link, .error .alert-link {
   color: #843534;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\000037}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\000037}}
 .pre-login input.form-control,
 .pre-login .btn {
   height: 45px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000312}}
 input.form-control {
   border-radius: 4px;
   border: 1px solid #CCCCCC;
   font-size: 16px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000318}}
 input[type=text]:focus, textarea:focus,
 input[type=password]:focus {
   box-shadow: 0 0 5px #E28B00;
@@ -119,33 +119,33 @@ input[type=password]:focus {
   border-color: #E28B00;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000325}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000325}}
 .form-control-feedback {
   top: 5px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000330}}
 .btn {
   font-size: 16px;
   border: 1px transparent;
   font-weight: 500;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000335}}
 .btn:active {
   outline: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000340}}
 .primary {
   background: #449ACC;
   color: #fff !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000344}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000344}}
 .primary:hover {
   background: #6cb0d7;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000351}}
 .search-box {
   padding: 5px 10px;
   border-radius: 50px;
@@ -153,7 +153,7 @@ input[type=password]:focus {
   font-size: 12px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000359}}
 .error {
   color: #D0021B;
   background-color: #FCD4D9;
@@ -161,7 +161,7 @@ input[type=password]:focus {
   font-weight: 100;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire7\/Aspire_Projects\/FINEMSYSUGANDA\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aspire4\/git\/FINEMSYS\/FINTECH-UI\/app\/styles\/partials\/forms\.scss}line{font-family:\0000368}}
 ::-webkit-input-placeholder,
 :-moz-placeholder,
 ::-moz-placeholder,

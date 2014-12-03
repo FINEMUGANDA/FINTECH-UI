@@ -24,6 +24,49 @@
           <div class="loading-indicator">Loading...</div>        
         </div>
       </div>
+      <table class="table">
+            <thead>                
+              <tr>
+                <th>Identification Type</th>
+                <th>Identification Number</th>
+                <th>Place of Issue</th>
+                <th>Date of Issue</th>
+                <th>File</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="">
+                <td></td>
+                <td>
+                    <div class="name pointer" >
+                      <a ng-click="editClientIdentification($index)"></a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name" ng-show="">
+                      <a ng-click="editClientIdentification($index)"></a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name">
+                      <a ng-click="editClientIdentification($index)"></a>
+                    </div>
+                </td>
+                <td class="number" ng-click="editNextToKeen($index)">
+                  <span>
+                    <a ng-click="editClientIdentification($index)"></a>
+                  </span>
+                </td>
+                <td class="number">
+                  <a ng-click="deleteClientIdentification($index)">                      
+                      <span class="glyphicon glyphicon-remove pointer"></span>
+                  </a>
+                </td>
+              </tr>
+            </tbody>              
+          </table>
+          <hr/>
       <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification,clientIdentificationExtra)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">

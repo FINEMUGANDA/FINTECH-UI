@@ -57,7 +57,6 @@ app.constant('PAGE_URL', {
     'CREATECHARGE':'/createCharge',
     'EDITLOANPRODUCT':'/editloanproduct/',
     'EDITCHARGE':'/editCharge/',
-    //TODO change it according to the edited id i.e append '/ after the url ends'
     'CREATE_CLIENT':'/createClient',
     'EDIT_BASIC_CLIENT_INFORMATION':'/editbasicclientinfo',
     'EDIT_CLIENT_ADDITIONAL_INFO':'/editadditionalclientinfo',

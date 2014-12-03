@@ -52,10 +52,12 @@
                   </select> 
               </div>
           </div>
+          </div>
+          <div class="col-md-6">
            <div class="form-group">                
               <label class="control-label col-md-4">Business Address</label>
               <div class="col-md-6">
-                  <textarea rows="3" id="business_address" name="business_address" class="form-control" ng-model="clientBusinessActivity.business_address"></textarea>
+                  <textarea rows="2" id="business_address" name="business_address" class="form-control" ng-model="clientBusinessActivity.business_address"></textarea>
               </div>
           </div>
           <div class="form-group">
@@ -72,15 +74,87 @@
                   </select> 
               </div>
           </div>          
-        <hr/>
+        </div>
         <div class="col-md-12">
-          <div class="col-md-offset-4 paddedtop">
-            <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning">Back</a>
+          <div class="col-md-offset-5 paddedtop">
             <button id="save" type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>  
-        </div>         
+               
       </form>
+      <hr/>
+      <table class="table"  st-table="displayed" st-safe-src="rowCollection">
+            <thead>                
+              <tr>
+                <th st-sort="BusinessActivity_cd_business_activity">Business Activity</th>
+                <th st-sort="business_name">Business Name</th>
+                <th st-sort="operating_since">operating since</th>
+                <th st-sort="YesNo_cd_book_keeping">Bookkeeping</th>
+                <th st-sort="business_address">Business Address</th>
+                <th st-sort="BusinessActivity_cd_other_income_business_activity">list of income activities</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in displayed">
+                <td>
+                    <div class="name pointer" >
+                      <a ng-click="editBusinessActivity($index)">{{row.BusinessActivity_cd_business_activity}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name pointer" >
+                      <a ng-click="editBusinessActivity($index)">{{row.business_name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name pointer" ng-show="{{row.operating_since[2]}}">
+                      <a ng-click="editBusinessActivity($index)">{{row.operating_since[2]}}/{{row.operating_since[1]}}/{{row.operating_since[0]}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name pointer">
+                      <a ng-click="editBusinessActivity($index)">{{row.YesNo_cd_book_keeping}}</a>
+                    </div>
+                </td>
+                <td>
+                  <div class="name pointer">
+                    <a ng-click="editBusinessActivity($index)">{{row.business_address}}</a>
+                  </div>
+                </td>
+                <td>
+                  <div class="name pointer">
+                    <a ng-click="editBusinessActivity($index)">{{row.BusinessActivity_cd_other_income_business_activity}}</a>
+                  </div>
+                </td>
+                <td class="number">
+                  <a ng-click="deleteBusinessDetails($index)">                      
+                      <span class="glyphicon glyphicon-remove pointer"></span>
+                  </a>
+                </td>
+              </tr>
+            </tbody>   
+            <tfoot ng-hide="isLoading">
+                <tr>
+                  <td colspan="8">
+                    <div class="table-footer">
+                      <div class="export">
+                          <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
+                      </div>
+                      <div class="paginate">
+                        <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>           
+          </table>
+          <hr/>
+        <div class="col-md-12">
+          <div class="col-md-offset-5 paddedtop">
+            <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning">Back</a>
+          </div>
+        </div>
     </div>
   </div>
 </div>

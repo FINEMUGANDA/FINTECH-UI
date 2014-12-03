@@ -33,6 +33,7 @@
         </tr>
         <tr>
           <th st-sort="name">Loan Product Name</th>
+          <th st-sort="description">Description</th>
           <th st-sort="numberOfRepayments" class="number">Repayment Frequency</th>
           <th st-sort="interestRatePerPeriod" class="number">Interest Rate</th>
         </tr>
@@ -40,6 +41,7 @@
       <tbody ng-hide="isLoading">        
         <tr st-select-row="row" st-select-mode="single" ng-repeat="loanProducts in displayed">
           <td><a ng-href="#editloanproduct/{{loanProducts.id}}">{{loanProducts.name}}</a></td>
+          <td><a ng-href="#editloanproduct/{{loanProducts.id}}">{{loanProducts.description}}</a></td>
           <td class="number">
               <div class="name">
                 <a ng-href="#editloanproduct/{{loanProducts.id}}">{{loanProducts.numberOfRepayments}}</a>

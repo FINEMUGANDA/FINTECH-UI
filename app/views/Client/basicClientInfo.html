@@ -105,7 +105,7 @@
                 </div>
             </div>            
           </div>
-          <div class="col-md-6">
+            <div class="col-md-6">
             <div class="form-group">                
                 <label class="control-label col-md-4">Upload Photo.<span class="required"> *</span></label>
                 <div class="col-md-6" ng-hide="onCamera">
@@ -133,7 +133,7 @@
                         <img ng-src="images/client_image/noPhoto.jpg" alt="Avatar">
                   </div>
                   <div class="thumbnail rows" ng-show="onCamera">
-                        <div ng-show="webcamError">{{webcamError.name}}</div>
+                        <div ng-show="webcamError">Device Not Found!</div>
                         <webcam on-stream="onStream(stream,video)"
                             on-error="onError(err)"
                             on-streaming="onSuccess(video)">                            
