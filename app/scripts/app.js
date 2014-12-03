@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','loanProductController','chargesController','createClientController','userServices','Constants','ui.bootstrap','angularFileUpload','naif.base64','webcam']);
+var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','loanProductController','chargesController','createClientController','userServices','Constants','ui.bootstrap','angularFileUpload','naif.base64','webcam','accountService','angularTreeview']);
 
  // Angular supports chaining, so here we chain the config function onto
   // the module we're configuring.
@@ -155,13 +155,35 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           data: {
             authorizedRoles: ['admin']
           }
-      }).
-      otherwise({
+      }).when('/accounting', {
+          templateUrl: 'views/accounting/chart.html',
+          controller: 'AccountingChartCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/accounting/chart', {
+          templateUrl: 'views/accounting/chart.html',
+          controller: 'AccountingChartCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/accounting/edit/:id', {
+          templateUrl: 'views/accounting/edit.account.html',
+          controller: 'AccountingEditCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/accounting/create', {
+          templateUrl: 'views/accounting/edit.account.html',
+          controller: 'AccountingEditCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).otherwise({
         redirectTo: '/'
       });
   }]);
 
-//Function to set the default headers for each request made to the rest api
 app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.headers.common['X-Mifos-Platform-TenantId'] = 'default';
         $httpProvider.defaults.useXDomain = true;
@@ -264,13 +286,15 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.CONFIGURATION:
           case PAGE_URL.LOANPRODUCTS:
           case PAGE_URL.CHARGES:
-          case PAGE_URL.ACCOUNTING:
           case PAGE_URL.CREATELOANPRODUCT:
           case PAGE_URL.CREATECHARGE:
           case PAGE_URL.EDITLOANPRODUCT:
           case PAGE_URL.EDITCHARGE:
             $topNavigation.find('.configuration').parent().addClass('active');
             break;  
+          case PAGE_URL.ACCOUNTING:
+            $topNavigation.find('.accounting').parent().addClass('active');
+            break;
           default:
             $topNavigation.find('.home').parent().addClass('active');
         }
@@ -305,7 +329,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
   }else{
     //TODO - Need to remove else block once all the functionality will be implemented
     $location.url(PAGE_URL.ROOT);
-  }  
+  }
 });
 
 app.config(function ($httpProvider) {

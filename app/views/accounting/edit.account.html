@@ -1,0 +1,75 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+      <div class="header">
+        <h3>{{id? 'Edit' : 'Create'}} Account</h3>
+      </div>      
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>      
+      <div>
+        <form name="accountform" ng-hide="isLoading" class="form-horizontal" novalidate show-validation ng-submit="saveAccount()">
+          <div class="form-group">
+            <label class="control-label col-md-2">Account Name<span class="required">*</span></label>
+            <div class="validate col-md-3">
+              <input id="name" name="name" class="form-control" type="text" ng-model="account.name" required />
+            </div>
+            <div class="col-md-1"></div>
+            <label class="control-label col-md-2">GL Code<span class="required">*</span></label>
+            <div class="validate col-md-3">
+              <input id="name" name="name" class="form-control" type="text" ng-model="account.glCode" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2">Description</label>
+            <div class="col-md-3">
+              <textarea rows="2" class="form-control" ng-model="account.description"></textarea>
+            </div>
+            <div class="col-md-1"></div>
+            <label class="control-label col-md-2">Account Usage<span class="required">*</span></label>
+            <div class="col-md-3">
+              <select id="usageCode" ng-model="account.usage" class="form-control">
+                <option ng-repeat="usage in options.usageOptions" value="{{usage.id}}" ng-selected="account.usage == usage.id">{{usage.value}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2" for='accountType'>Account Type<span class="required">*</span></label>
+            <div class="validate col-md-3">
+              <select id="accountType" ng-model="account.type" class="form-control">
+                <option ng-repeat="accountType in options.accountTypeOptions" value="{{accountType.id}}" ng-selected="account.type == accountType.id">{{accountType.value}}</option>
+              </select>
+            </div>
+            <div class="col-md-1"></div>
+            <label class="control-label col-md-2" for='parent'>Parent</label>
+            <div class="validate col-md-3">
+              <select id="parent" ng-model="account.parentId" class="form-control">
+                <option ng-repeat="assetHeader in options.assetHeaderAccountOptions" value="{{assetHeader.id}}" ng-selected="account.parentId == assetHeader.id">{{assetHeader.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2" for='manualEntriesAllowed'>Manual entries allowed</label>
+            <div class="validate col-md-3">
+              <input type='checkbox' class="form-control" id='manualEntriesAllowed' ng-model='account.manualEntriesAllowed'>
+            </div>
+          </div>
+
+          <hr/>
+          <div class="col-md-offset-5 paddedtop">                                
+            <button id="save" type="submit" class="btn btn-primary">Save</button>
+            <a id="cancel" href="#/account/chart" class="btn btn-warning">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

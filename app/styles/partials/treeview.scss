@@ -1,0 +1,69 @@
+div[data-angular-treeview] {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: Tahoma;
+    font-size:13px;
+    color: #000000;
+    text-decoration: none;
+}
+
+div[data-tree-model] ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: none;
+    overflow: hidden;
+}
+
+div[data-tree-model] li {
+    position: relative;
+    padding: 0 0 0 20px;
+    line-height: 20px;
+}
+
+div[data-tree-model] li .expanded:before {
+    padding: 1px 10px;
+    position:absolute;
+    font-family: 'Glyphicons Halflings';
+    top:0;
+    left:-5px;
+    content: "\e082";
+    font-style: normal;
+    color:red;
+}
+
+div[data-tree-model] li .collapsed:before {
+    padding: 1px 10px;
+    position:absolute;
+    font-family: 'Glyphicons Halflings';
+    top:0;
+    left:-5px;
+    content: "\e081";
+    font-style: normal;
+    color:darkgreen;
+}
+
+div[data-tree-model] li .normal:before {
+    padding: 1px 10px;
+    position:absolute;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    top:0;
+    left:-5px;
+    content: "\e086";
+    color:deepskyblue;
+}
+
+div[data-tree-model] li i, div[data-tree-model] li span {
+    cursor: pointer;
+}
+
+div[data-tree-model] li .selected {
+    background-color: #d3d3d3;
+    font-weight: bold;
+    color: darkblue;
+    padding: 1px 10px;
+}

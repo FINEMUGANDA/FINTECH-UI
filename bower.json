@@ -13,7 +13,8 @@
     "angular-smart-table": "~1.4.4",
     "ng-file-upload": "~1.6.12",
     "angular-base64-upload": "~0.0.3",
-    "webcam-directive": "~1.2.0"
+    "webcam-directive": "~1.2.0",
+    "angular.treeview": "git@github.com:eu81273/angular.treeview.git"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

@@ -21,8 +21,13 @@
          <ul class="nav navbar-nav">
            <li class="active"><a href="/#/dashboard" class="home">Home</a></li>
            <li><a href="/#/clients" class="clients">Clients</a></li>
-           <li><a  class="reports">Reports</a></li>
-           <li><a  class="accounting">Accounting</a></li>
+           <li><a class="reports">Reports</a></li>
+           <li class="dropdown">
+             <a class="accounting dropdown-toggle pointer" data-toggle="dropdown">Accounting<span class="caret"></span></a>
+               <ul class="dropdown-menu" role="menu">
+                 <li><a href="/#/accounting/chart">Chart of Accounts</a></li>
+               </ul>
+           </li>
            <li class="dropdown" >
              <a class="configuration dropdown-toggle pointer" data-toggle="dropdown">Configuration<span class="caret"></span></a>
                <ul class="dropdown-menu" role="menu">
