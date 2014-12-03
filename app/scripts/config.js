@@ -39,6 +39,7 @@ app.constant('REST_URL', {
     'CREATE_CLIENT_BUSINESS_ACTIVITY':'api/v1/datatables/business_details/',
     'CREATE_CLIENT_IDENTIFICATION':'api/v1/datatables/client_identification_details/',
     'CREATE_CLIENT_NEXT_TO_KEEN':'api/v1/datatables/client_next_to_keen_details/',
+    'CLIENT_IDENTIFICATION_TEMPLATE_REPORT':'api/v1/runreports/ClientIdentification',
 });
 
 app.constant('PAGE_URL', {

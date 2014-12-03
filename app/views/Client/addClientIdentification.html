@@ -24,49 +24,6 @@
           <div class="loading-indicator">Loading...</div>        
         </div>
       </div>
-      <table class="table">
-            <thead>                
-              <tr>
-                <th>Identification Type</th>
-                <th>Identification Number</th>
-                <th>Place of Issue</th>
-                <th>Date of Issue</th>
-                <th>File</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="">
-                <td></td>
-                <td>
-                    <div class="name pointer" >
-                      <a ng-click="editClientIdentification($index)"></a>
-                    </div>
-                </td>
-                <td>
-                    <div class="name" ng-show="">
-                      <a ng-click="editClientIdentification($index)"></a>
-                    </div>
-                </td>
-                <td>
-                    <div class="name">
-                      <a ng-click="editClientIdentification($index)"></a>
-                    </div>
-                </td>
-                <td class="number" ng-click="editNextToKeen($index)">
-                  <span>
-                    <a ng-click="editClientIdentification($index)"></a>
-                  </span>
-                </td>
-                <td class="number">
-                  <a ng-click="deleteClientIdentification($index)">                      
-                      <span class="glyphicon glyphicon-remove pointer"></span>
-                  </a>
-                </td>
-              </tr>
-            </tbody>              
-          </table>
-          <hr/>
       <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification,clientIdentificationExtra)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
@@ -88,6 +45,8 @@
                   <input id="issue_place" name="issue_place" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_place"></input>
               </div>
           </div>
+          </div>
+          <div class="col-md-6">
           <div class="form-group">
               <label class="control-label col-md-4">Date of Issue</label>
               <div class="col-md-6">
@@ -100,15 +59,88 @@
                   <input id="issue_document" name="issue_document" type="file" ng-model="clientIdentificationExtra.issue_document" ng-file-select="onFileSelect($files)"></input>
               </div>
           </div>
-        <hr/>
+        </div>
         <div class="col-md-12">
-          <div class="col-md-offset-4 paddedtop">
-            <a id="cancel" href="#/editadditionalclientinfo/{{id}}" class="btn btn-warning">Back</a>
-            <button id="save" type="submit" class="btn btn-primary">Next</button>
+          <div class="col-md-offset-5 paddedtop">
+            <button id="save" type="submit" class="btn btn-primary">Add</button>
           </div>
         </div>  
-        </div>         
       </form>
+      <hr/>
+      <table class="table" st-table="displayed" st-safe-src="rowCollection">
+            <thead>                
+              <tr>
+                <th st-sort="GuarantorRelationship_cd_relationship">Identification Type</th>
+                <th st-sort="GuarantorRelationship_cd_relationship">Identification Number</th>
+                <th st-sort="GuarantorRelationship_cd_relationship">Place of Issue</th>
+                <th st-sort="GuarantorRelationship_cd_relationship">Date of Issue</th>
+                <th st-sort="GuarantorRelationship_cd_relationship">File</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody ng-hide="isLoading">
+              <tr ng-repeat="row in displayed">
+                <td>
+                    <div class="name pointer" >
+                      <a ng-click="editClientIdentification($index)">{{row.documentTypeId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name pointer" >
+                      <a ng-click="editClientIdentification($index)">{{row.documentKey}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name pointer">
+                      <a ng-click="editClientIdentification($index)">{{row.issue_place}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="name pointer" ng-show="{{row.issue_date[2]}}">
+                          <a ng-click="editNextToKeen($index)">{{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}</a>
+                    </div>
+                </td>
+                <td>
+                  <div class="name pointer">
+                    <a ng-click="editClientIdentification($index)">{{row.issue_document}}</a>
+                  </div>
+                </td>
+                <td class="number">
+                  <a ng-click="deleteClientIdentification($index)">                      
+                      <span class="glyphicon glyphicon-remove pointer"></span>
+                  </a>
+                </td>
+              </tr>
+            </tbody> 
+             <tbody ng-show="isLoading">
+                   <tr>
+                      <td colspan="8" class="text-center">
+                        <div class="loading-indicator">Loading...</div>
+                      </td>
+                   </tr>
+              </tbody>
+              <tfoot ng-hide="isLoading">
+                <tr>
+                  <td colspan="8">
+                    <div class="table-footer">
+                      <div class="export">
+                          <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
+                      </div>
+                      <div class="paginate">
+                        <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>             
+          </table>
+          <hr/>
+          <div class="col-md-12">
+          <div class="col-md-offset-5 paddedtop">
+            <a id="cancel" href="#/editadditionalclientinfo/{{id}}" class="btn btn-warning">Back</a>
+            <a id="save"  href="#/editnextofkeen/{{id}}" class="btn btn-primary">Next</a>
+          </div>
+        </div>  
     </div>
   </div>
 </div>
