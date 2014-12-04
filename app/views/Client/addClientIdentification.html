@@ -47,7 +47,7 @@
           </div>
           </div>
           <div class="col-md-6">
-          <div class="form-group">
+          <div class="form-group"> 
               <label class="control-label col-md-4">Date of Issue</label>
               <div class="col-md-6">
                   <input id="issue_date" name="issue_date" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_date" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" ></input>
@@ -81,7 +81,7 @@
               <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
                 <td data-ng-click="editClientIdentification($index)">
                     <div class="name">
-                      {{row.documentTypeId | getDropdownValues:identificationType}}
+                      {{row.documentTypeId | getDropdownNames:identificationType}}
                     </div>
                 </td>
                 <td data-ng-click="editClientIdentification($index)">

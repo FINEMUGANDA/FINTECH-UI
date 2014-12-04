@@ -749,11 +749,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
               $scope.clientIdentification = {};
               $scope.clientIdentificationExtra = {};
               $scope.client = result.data;
-              $scope.identificationType = $scope.client.allowedDocumentTypes;
-
+              $rootScope.identificationType = $scope.client.allowedDocumentTypes;
               //Set the default values for the identification id
               $scope.clientIdentification.documentTypeId = 1 ;
-
               $scope.loadExtraTemplate();
           } catch (e) {
               console.log(e);

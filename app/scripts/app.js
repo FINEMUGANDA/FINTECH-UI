@@ -490,12 +490,23 @@ app.filter('status', [ function() {
     };
 }]);
 
-//Populate data into table
+//Populate data values into table
 app.filter('getDropdownValues', [ function() {
     return function(id, dataValues){    
       for(var i=0; i<dataValues.length; i++){
         if(id==dataValues[i].id){
           return dataValues[i].value;
+        }
+      } 
+  };
+}]);
+
+//Populate data names into table
+app.filter('getDropdownNames', [ function() {
+    return function(id, dataValues){    
+      for(var i=0; i<dataValues.length; i++){
+        if(id==dataValues[i].id){
+          return dataValues[i].name;
         }
       } 
   };
