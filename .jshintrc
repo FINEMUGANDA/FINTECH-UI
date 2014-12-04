@@ -1,22 +1,30 @@
 {
   "node": true,
+  "browser": true,
   "esnext": true,
   "bitwise": true,
+  "camelcase": true,
+  "curly": true,
   "eqeqeq": true,
   "immed": true,
-  "latedef": "nofunc",
+  "indent": 2,
+  "latedef": true,
   "newcap": true,
   "noarg": true,
+  "quotmark": "single",
   "regexp": true,
   "undef": true,
-  "indent": 2,
-  "smarttabs": true,
-  "asi": false,
-  "debug": true,
+  "unused": true,
   "strict": true,
   "trailing": true,
-  "globals" : {
-    "helpers": false,
-    "settings": false
+  "smarttabs": true,
+  "globals": {
+    "jQuery": true,
+    "angular": true,
+    "console": true,
+    "$": true,
+    "_": true,
+    "APPLICATION": true,
+    "google": true
   }
 }
