@@ -134,11 +134,11 @@ chargesController.controller('EditChargeCtrl', function ($scope, $rootScope, $lo
             $scope.chargeDetails.penalty="true";
             $scope.chargeDetails.chargeAppliesTo=$scope.product.chargeAppliesToOptions[0].id;
             $scope.chargeDetails.locale= "en";
+            $scope.chargeDetails.currencyCode=$scope.product.currency.code;
             //Application Frequency
             $scope.chargeDetails.chargeTimeType="8";            
             //Charge Type
-            $scope.chargeDetails.chargeCalculationType="1";
-            $scope.chargeDetails.currencyCode="USD";
+            $scope.chargeDetails.chargeCalculationType="1";            
             $scope.chargeDetails.chargePaymentMode="0";
         } catch (e) {
         }

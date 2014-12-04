@@ -160,3 +160,7 @@ label.text-left {
 tr.pointer:hover {
 	background-color: #e5e5e5;
 }
+
+tr.pointer > td {
+	color: #449acc !important;
+}

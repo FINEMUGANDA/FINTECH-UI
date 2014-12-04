@@ -184,6 +184,7 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
       });
   }]);
 
+//Function to set the default headers for each request made to the rest api
 app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.headers.common['X-Mifos-Platform-TenantId'] = 'default';
         $httpProvider.defaults.useXDomain = true;

@@ -41,19 +41,19 @@
       <tbody ng-hide="isLoading">        
         <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="loanProducts in displayed">
           <td data-ng-click="routeTo(loanProducts.id)">
-            <a>{{loanProducts.name}}</a>
+            {{loanProducts.name}}
           </td>
           <td data-ng-click="routeTo(loanProducts.id)">
-            <a>{{loanProducts.description}}</a>
+            {{loanProducts.description}}
           </td>
           <td class="number" data-ng-click="routeTo(loanProducts.id)">
               <div class="name">
-                <a>{{loanProducts.numberOfRepayments}}</a>
+                {{loanProducts.numberOfRepayments}}
               </div>
           </td>
           <td class="number" data-ng-click="routeTo(loanProducts.id)">
             <span>
-              <a>{{loanProducts.interestRatePerPeriod}}</a>
+              {{loanProducts.interestRatePerPeriod}}
             </span>
           </td>
         </tr>

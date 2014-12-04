@@ -70,40 +70,34 @@
       <table class="table" st-table="displayed" st-safe-src="rowCollection">
             <thead>                
               <tr>
-                <th st-sort="GuarantorRelationship_cd_relationship">Identification Type</th>
-                <th st-sort="GuarantorRelationship_cd_relationship">Identification Number</th>
-                <th st-sort="GuarantorRelationship_cd_relationship">Place of Issue</th>
-                <th st-sort="GuarantorRelationship_cd_relationship">Date of Issue</th>
-                <th st-sort="GuarantorRelationship_cd_relationship">File</th>
+                <th st-sort="documentTypeId">Identification Type</th>
+                <th st-sort="documentKey">Identification Number</th>
+                <th st-sort="issue_place">Place of Issue</th>
+                <th st-sort="issue_date">Date of Issue</th>
                 <th></th>
               </tr>
             </thead>
             <tbody ng-hide="isLoading">
-              <tr ng-repeat="row in displayed">
-                <td>
-                    <div class="name pointer" >
-                      <a ng-click="editClientIdentification($index)">{{row.documentTypeId}}</a>
+              <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
+                <td data-ng-click="editClientIdentification($index)">
+                    <div class="name">
+                      {{row.documentTypeId | getDropdownValues:identificationType}}
                     </div>
                 </td>
-                <td>
-                    <div class="name pointer" >
-                      <a ng-click="editClientIdentification($index)">{{row.documentKey}}</a>
+                <td data-ng-click="editClientIdentification($index)">
+                    <div class="name">
+                      {{row.documentKey}}
                     </div>
                 </td>
-                <td>
-                    <div class="name pointer">
-                      <a ng-click="editClientIdentification($index)">{{row.issue_place}}</a>
+                <td data-ng-click="editClientIdentification($index)">
+                    <div class="name">
+                      {{row.issue_place}}
                     </div>
                 </td>
-                <td>
-                    <div class="name pointer" ng-show="{{row.issue_date[2]}}">
-                          <a ng-click="editNextToKeen($index)">{{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}</a>
+                <td data-ng-click="editClientIdentification($index)">
+                    <div class="name" ng-show="{{row.issue_date[2]}}">
+                          {{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}
                     </div>
-                </td>
-                <td>
-                  <div class="name pointer">
-                    <a ng-click="editClientIdentification($index)">{{row.issue_document}}</a>
-                  </div>
                 </td>
                 <td class="number">
                   <a ng-click="deleteClientIdentification($index)">                      

@@ -82,7 +82,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
           } catch (e) {
           }
           $rootScope.type='';
-          $scope.message='';
+          $rootScope.message='';
       }
       //failur callback
       var createClientTemplateFail = function(result){
@@ -353,8 +353,10 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
               $scope.editClientWithDataTable.numberOfLoanDependents=0;
               $scope.editClientWithDataTable.YesNo_cd_maritalStatus = 34;
               $scope.editClientWithDataTable.locale = "en";
-              $scope.editClientExtraInfo = result.data.data;              
+              $scope.editClientExtraInfo = result.data.data;
+              $scope.isAvailableBasicInformation = false;
               if($scope.editClientExtraInfo.length > 0){
+                $scope.isAvailableBasicInformation = true;
                 $scope.editClientExtraInfo = $scope.editClientExtraInfo[0];
                 //Data from extra datatable i.e client_extra_information              
                 $scope.editClientWithDataTable.YesNo_cd_maritalStatus = parseInt($scope.editClientExtraInfo.row[1]);                
@@ -370,7 +372,7 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
             console.log(e);
           }
           $rootScope.type='';
-          $scope.message='';  
+          $rootScope.message='';
       }
       //failur callback
       var editClientExtraInformationTemplateFail = function(result){
@@ -467,6 +469,8 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
 
       //Start - save edit client basic template details
       $scope.editBasicClient = function(editClient,editClientWithDataTable){
+        //TODO Set the client active false for the clients
+        $scope.editClient.active = false;
         console.log('CreateClientCtrl : CreateClient : saveBasicClient');
         var d = new Date($scope.editClient.dateOfBirth);
         $scope.editClient.dateOfBirth = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
@@ -521,7 +525,11 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
         }
         console.log(angular.toJson(this.editClientWithDataTable));
         var $url= REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + clientId;
-        CreateClientsService.updateClient($url,angular.toJson(this.editClientWithDataTable)).then(updateBasicClientExtraInformationSuccess, updateBasicClientExtraInformationFail);
+        if($scope.isAvailableBasicInformation==true){          
+          CreateClientsService.updateClient($url,angular.toJson(this.editClientWithDataTable)).then(updateBasicClientExtraInformationSuccess, updateBasicClientExtraInformationFail);
+        }else{
+          CreateClientsService.saveClient($url,angular.toJson(this.editClientWithDataTable)).then(updateBasicClientExtraInformationSuccess, updateBasicClientExtraInformationFail);
+        }
       };
     });
     //Finish - save edit client basic extra information template details
@@ -619,7 +627,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
             console.log(e);
           }
           $rootScope.type='';
-          $scope.message='';
+          $rootScope.message='';
       }
       //failur callback
       var createClientAdditionalInfoTemplateFail = function(result){
@@ -738,6 +746,8 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
          try {
               //Setting the id for the headers
               $scope.id = $route.current.params.id;
+              $scope.clientIdentification = {};
+              $scope.clientIdentificationExtra = {};
               $scope.client = result.data;
               $scope.identificationType = $scope.client.allowedDocumentTypes;
 
@@ -749,7 +759,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
               console.log(e);
           }
           $rootScope.type=''; 
-          $scope.message='';
+          $rootScope.message='';
       }
       //failur callback
       var createClientIdentificationTemplateFail = function(result){
@@ -803,7 +813,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
                      
         }
         $scope.rowCollection = [];
-        var $url = REST_URL.CLIENT_IDENTIFICATION_TEMPLATE_REPORT+'?genericResultSet=false';
+        var $url = REST_URL.CLIENT_IDENTIFICATION_TEMPLATE_REPORT+'?genericResultSet=false&R_client_id='+$route.current.params.id;
         console.log($url);
         CreateClientsService.getData($url).then(loadTableDataSuccess, loadTableDataFail);
       };
@@ -873,6 +883,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function ($route, $scope
           /*if($scope.file){
           $scope.uploadDocuments(result.data.resourceId, result.data.clientId);
           }*/
+          $scope.clientIdentificationExtra.identifier_id = result.data.resourceId;
           $scope.saveClientIdentificationExtra(clientIdentificationExtra);
         }
 
@@ -1093,6 +1104,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
          try {
               //Setting the id for the headers
               $scope.id = $route.current.params.id;
+              $scope.clientNextToKeen = {};
               $scope.client = result.data;
               $scope.relationship = $scope.client.columnHeaders[2].columnValues ;
 
@@ -1103,7 +1115,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function ($route, $scope, $r
               console.log(e);
           }
           $rootScope.type='';
-          $scope.message='';
+          $rootScope.message='';
       }
       //failur callback
       var createClientNextToKeenTemplateFail = function(result){
@@ -1322,6 +1334,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
          try {
               //Setting the id for the urls in the header
               $scope.id = $route.current.params.id;
+              $scope.clientBusinessActivity = {};
               //Filling the drop downs
               $scope.client = result.data;
               $scope.businessActivityOptions = $scope.client.columnHeaders[2].columnValues;
@@ -1342,7 +1355,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
               console.log(e);
           }
           $rootScope.type='';
-          $scope.message='';
+          $rootScope.message='';
       }
       //failur callback
       var createClientBusinessActivityTemplateFail = function(result){

@@ -96,35 +96,35 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="row in displayed">
-                <td>
-                    <div class="name pointer" >
-                      <a ng-click="editBusinessActivity($index)">{{row.BusinessActivity_cd_business_activity}}</a>
+              <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
+                <td data-ng-click="editBusinessActivity($index)">
+                    <div class="name" >
+                      {{row.BusinessActivity_cd_business_activity | getDropdownValues:businessActivityOptions}}
                     </div>
                 </td>
-                <td>
-                    <div class="name pointer" >
-                      <a ng-click="editBusinessActivity($index)">{{row.business_name}}</a>
+                <td data-ng-click="editBusinessActivity($index)">
+                    <div class="name">
+                      {{row.business_name}}
                     </div>
                 </td>
-                <td>
-                    <div class="name pointer" ng-show="{{row.operating_since[2]}}">
-                      <a ng-click="editBusinessActivity($index)">{{row.operating_since[2]}}/{{row.operating_since[1]}}/{{row.operating_since[0]}}</a>
+                <td data-ng-click="editBusinessActivity($index)">
+                    <div class="name" ng-show="{{row.operating_since[2]}}">
+                      {{row.operating_since[2]}}/{{row.operating_since[1]}}/{{row.operating_since[0]}}
                     </div>
                 </td>
-                <td>
-                    <div class="name pointer">
-                      <a ng-click="editBusinessActivity($index)">{{row.YesNo_cd_book_keeping}}</a>
+                <td data-ng-click="editBusinessActivity($index)">
+                    <div class="name">
+                      {{row.YesNo_cd_book_keeping | getDropdownValues:BookingKeeping}}
                     </div>
                 </td>
-                <td>
-                  <div class="name pointer">
-                    <a ng-click="editBusinessActivity($index)">{{row.business_address}}</a>
+                <td data-ng-click="editBusinessActivity($index)">
+                  <div class="name">
+                    {{row.business_address}}
                   </div>
                 </td>
-                <td>
-                  <div class="name pointer">
-                    <a ng-click="editBusinessActivity($index)">{{row.BusinessActivity_cd_other_income_business_activity}}</a>
+                <td data-ng-click="editBusinessActivity($index)">
+                  <div class="name">
+                    {{row.BusinessActivity_cd_other_income_business_activity | getDropdownValues:otherIncomeBusinessActivity}}
                   </div>
                 </td>
                 <td class="number">

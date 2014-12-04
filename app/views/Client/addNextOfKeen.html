@@ -99,29 +99,29 @@
                   </tr>
                 </thead>
                 <tbody ng-hide="isLoading">
-                  <tr ng-repeat="row in displayed">                  
-                    <td>
+                  <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">                  
+                    <td data-ng-click="editNextToKeen($index)">
                       {{row.GuarantorRelationship_cd_relationship | getDropdownValues:relationship}}                      
                     </td>
-                    <td>
-                        <div class="name pointer" >
-                          <a ng-click="editNextToKeen($index)">{{row.firstname}} {{row.lastname}}</a>
+                    <td data-ng-click="editNextToKeen($index)">
+                        <div class="name" >
+                          {{row.firstname}} {{row.lastname}}
                         </div>
                     </td>
-                    <td>
+                    <td data-ng-click="editNextToKeen($index)">
                         <div class="name" ng-show="{{row.date_of_birth[2]}}">
-                          <a ng-click="editNextToKeen($index)">{{row.date_of_birth[2]}}/{{row.date_of_birth[1]}}/{{row.date_of_birth[0]}}</a>
+                          {{row.date_of_birth[2]}}/{{row.date_of_birth[1]}}/{{row.date_of_birth[0]}}
                         </div>
                     </td>
-                    <td>
+                    <td data-ng-click="editNextToKeen($index)">
                         <div class="name">
-                          <a ng-click="editNextToKeen($index)">{{row.address}}</a>
+                          {{row.address}}
                         </div>
                     </td>
-                    <td class="number" ng-click="editNextToKeen($index)">
-                      <span>
-                        <a ng-click="editNextToKeen($index)">{{row.telephone}}</a>
-                      </span>
+                    <td class="number" data-ng-click="editNextToKeen($index)">
+                      <div class="name">
+                        {{row.telephone}}
+                      </div>  
                     </td>
                     <td class="number">
                       <a ng-click="deleteNextToKeen($index)">                      

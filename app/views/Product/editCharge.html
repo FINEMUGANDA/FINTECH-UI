@@ -31,6 +31,15 @@
               </div>
           </div>
           <div class="form-group">
+              <label class="control-label col-md-3">Currency<span class="required">*</span></label>
+              <div class="validate col-md-3">
+                  <select id="currencyCode" ng-model="chargeDetails.currencyCode" class="form-control"
+                    ng-options="currency.code as currency.name for currency in product.currencyOptions"
+                    value="{{currency.code}}">
+                    </select>
+              </div>
+          </div>
+          <div class="form-group">
               <label class="control-label col-md-3">Type<span class="required">*</span></label>
               <div class="col-md-3">
                   <select id="type" ng-model="chargeDetails.penalty" class="form-control"  value="">
