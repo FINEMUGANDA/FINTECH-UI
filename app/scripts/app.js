@@ -194,7 +194,7 @@ app.config(['$httpProvider', function($httpProvider) {
 ]);
 
 //function to be called when the application gets running
-app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL, Utility) {
+app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL) {
   //total number of records in single page
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
   //total number of page in single page
@@ -203,15 +203,15 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
       setHclass: function(hclass) {
           this.hclass = hclass;
       }
-  }
+  };
 
   //TODO: we need to find a way to remove from root scope
   $rootScope.pdfExport = function(ignoreColumns){
     var cols = [];
-    if(ignoreColumns != undefined && ignoreColumns.indexOf(',') != -1){
+    if(ignoreColumns !== undefined && ignoreColumns.indexOf(',') !== -1){
       cols = ignoreColumns.split(',');
     }
-    if(ignoreColumns != undefined && ignoreColumns.indexOf(',') === -1){
+    if(ignoreColumns !== undefined && ignoreColumns.indexOf(',') === -1){
       cols = [ignoreColumns];
     }
 
@@ -221,15 +221,15 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           pdfFontSize:7,
           pdfLeftMargin:5
       });  
-  }
+  };
   
   //TODO: we need to find a way to remove from root scope
   $rootScope.xlsExport = function(ignoreColumns){
        var cols = [];
-      if(ignoreColumns != undefined && ignoreColumns.indexOf(',') != -1){
+      if(ignoreColumns !== undefined && ignoreColumns.indexOf(',') !== -1){
          cols = ignoreColumns.split(',');
       }
-      if(ignoreColumns != undefined && ignoreColumns.indexOf(',') === -1){
+      if(ignoreColumns !== undefined && ignoreColumns.indexOf(',') === -1){
         cols = [ignoreColumns];
       }
 
@@ -237,7 +237,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           ignoreColumn: cols, 
           escape:'false'
       });  
-  }
+  };
 
   //TODO default template for the batch request processing
   $rootScope.batchAPITemplate = function(requestno,requestUrl,requestMethod,jsonData){
@@ -245,15 +245,15 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
     '"headers":[ {"name":"Content-type","value":"application/json; charset=utf-8"},{"name":"X-Mifos-Platform-TenantId","value":"default"}],'+
     '"body":"'+jsonData+'"}';  
     return cols;
-  }
+  };
 
-  $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+  $rootScope.$on('$routeChangeSuccess', function(event, current) {
         $rootScope.page.setHclass(current.$$route.hclass);
   });
 
   //To update after view reloaded
   $rootScope.$on('$includeContentLoaded', function() {
-    console.log("includeContentLoaded: includeContentLoaded success!");
+    console.log('includeContentLoaded: includeContentLoaded success!');
       //get top navigation menu
         var $topNavigation = angular.element('#main-navbar-collapse .nav.navbar-nav:first');
         //find all li tags (menus) from top UL
@@ -266,10 +266,10 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
               $li.removeClass('active');
           });
         }
-        var split_location_path = $location.path().split('/');
-        var location_path = '/'+split_location_path[1];
+        var SPLIT_LOCATION_PATH = $location.path().split('/');
+        var LOCATION_PATH = '/'+SPLIT_LOCATION_PATH[1];
         //add active /selection class for open view menu item      
-        switch(location_path){
+        switch(LOCATION_PATH){
           case PAGE_URL.CLIENTS:
           case PAGE_URL.LOANS:
           case PAGE_URL.LOANSAWAITINGDISBURSEMENT:
@@ -316,15 +316,15 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
   });
 
   //hendled notAuthenticated event
-  $rootScope.$on(AUTH_EVENTS.notAuthenticated, function (event, next) {
+  $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
     $location.url(PAGE_URL.ROOT);
   });
-  $rootScope.$on(AUTH_EVENTS.sessionTimeout, function (event, next) {
+  $rootScope.$on(AUTH_EVENTS.sessionTimeout, function () {
     $location.url(PAGE_URL.ROOT);
   });  
 
-  if(Session.getValue(APPLICATION.authToken) != null){
-    if($location.path()==PAGE_URL.ROOT || $location.path()==''){
+  if(Session.getValue(APPLICATION.authToken) !== null){
+    if($location.path()===PAGE_URL.ROOT || $location.path()===''){
       $location.url(PAGE_URL.DASHBOARD);
     }
   }else{
@@ -340,7 +340,7 @@ app.config(function ($httpProvider) {
       return $injector.get('AuthInterceptor');
     }
   ]);
-})
+});
 
 app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
   return {
@@ -354,7 +354,7 @@ app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
       return $q.reject(response);
     }
   };
-})
+});
 
 app.controller('ApplicationController', function ($scope, $location, USER_ROLES, AuthService) {  
   $scope.currentUser = null;
@@ -416,9 +416,9 @@ app.factory('Session', function(APPLICATION) {
 //Directive for the validation of each mandatory field
 app.directive('showValidation', [function() {
     return {
-        restrict: "A",
+        restrict: 'A',
         require:'form',
-        link: function(scope, element, attrs, formCtrl) {
+        link: function(scope, element) {
             element.find('.validate').each(function() {
                 var $formGroup=$(this);
                 var $inputs = $formGroup.find('input[ng-model],textarea[ng-model],select[ng-model]');
@@ -494,7 +494,7 @@ app.filter('status', [ function() {
 app.filter('getDropdownValues', [ function() {
     return function(id, dataValues){    
       for(var i=0; i<dataValues.length; i++){
-        if(id==dataValues[i].id){
+        if(id===dataValues[i].id){
           return dataValues[i].value;
         }
       } 
@@ -505,7 +505,7 @@ app.filter('getDropdownValues', [ function() {
 app.filter('getDropdownNames', [ function() {
     return function(id, dataValues){    
       for(var i=0; i<dataValues.length; i++){
-        if(id==dataValues[i].id){
+        if(id===dataValues[i].id){
           return dataValues[i].name;
         }
       } 
@@ -515,7 +515,7 @@ app.filter('getDropdownNames', [ function() {
 //color code status for each data tables
 app.filter('checkEmptyString', [ function() {
     return function(value) {
-      return value=='';
+      return value==='';
     };
 }]);
 

@@ -4,7 +4,7 @@ var userServices = angular.module('userServices', ['delegatorServices']);
 
 userServices.factory('AuthService', function($http, $filter, Remote, Session) {
     return {
-	  	    authentication: function(url, loginDetails) { 
+	  	    authentication: function(url) { 
                 console.log('Authentication service...'); 
                 var promise = Remote.post(url); 
 		  	    return promise;
@@ -23,5 +23,5 @@ userServices.factory('AuthService', function($http, $filter, Remote, Session) {
                 }
                 return (this.isAuthenticated() && authorizedRoles.indexOf(Session.getValue(APPLICATION.role)) !== -1);
             }
-	}
+	};
 });

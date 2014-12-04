@@ -19,12 +19,11 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
   //failur callback
   var loadAccountsFail = function(result) {
     $scope.isLoading = false;
-    console.log('Error : Return from AccountService service.');
+    console.log('Error : Return from AccountService service.'+result);
   };
 
-  var loadAccounts = function getData(tableState) {
+  var loadAccounts = function getData() {
     $scope.isLoading = true;
-
     $timeout(
       function() {
         $scope.rowCollection = [];
@@ -42,7 +41,7 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
       item.children = [];
       item.collapsed = true;
       map[item.id] = i;
-      if (item.parentId && item.parentId !== "0") {
+      if (item.parentId && item.parentId !== '0') {
         data[map[item.parentId]].children.push(item);
       } else {
         if (!result[item.type.value]) {
@@ -101,7 +100,7 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
   //failur callback
   var loadAccountFail = function(result) {
     $scope.isLoading = false;
-    console.log('Error : Return from AccountService service.');
+    console.log('Error : Return from AccountService service.'+result);
   };
 
   var loadAccount = function getData() {
@@ -124,16 +123,16 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
     if ($scope.accountform.$valid) {
       var saveAccountSuccess = function(result) {
         console.log('Success : Return from AccountService service.');
-        $scope.type = "alert-success";
-        $scope.message = "Account saved successfully";
+        $scope.type = 'alert-success';
+        $scope.message = 'Account saved successfully';
         $scope.isCreated=true;
         $scope.id = result.data.resourceId;
       };
 
       var saveAccountFail = function(result) {
         console.log('Error : Return from AccountService service.');
-        $scope.type = "error";
-        $scope.message = "Account not saved: " + result.data.defaultUserMessage;
+        $scope.type = 'error';
+        $scope.message = 'Account not saved: ' + result.data.defaultUserMessage;
         $scope.errors = result.data.errors;
         $('html, body').animate({scrollTop: 0}, 800);
       };
@@ -145,8 +144,8 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
       }
     } else {
       $scope.accountform.invalidate = true;
-      $scope.type = "error";
-      $scope.message = "Highlighted fields are required";
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
       $('html, body').animate({scrollTop: 0}, 800);
     }
     console.log($scope.accountform.$valid);

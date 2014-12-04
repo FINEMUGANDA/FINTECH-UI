@@ -18,7 +18,7 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, Auth, 
         //Set the credentials in header
         Auth.setCredentials(loginDetails.username, loginDetails.password);
         //Fired authentication call to server
-        var authURL = REST_URL.AUTHENTICATION+"?username="+loginDetails.username+"&password="+loginDetails.password;
+        var authURL = REST_URL.AUTHENTICATION+'?username='+loginDetails.username+'&password='+loginDetails.password;
 
         //authentication success callback
         var authenticationSuccess = function(result){
@@ -29,7 +29,7 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, Auth, 
           Session.create(Base64.encode(loginDetails.username + ':' + loginDetails.password), result.data.username, result.data.roles[0]);
           //Redirect Dashboard page
           $location.url(PAGE_URL.DASHBOARD);
-         }
+         };
         
         AuthService.authentication(authURL).then(authenticationSuccess,$scope.authenticationFail);
 
@@ -47,7 +47,9 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, Auth, 
    AuthService.logout(REST_URL.AUTHENTICATION).then(function(result){
         Session.remove();
         $location.url(PAGE_URL.ROOT);
+        console.log(result);
       },function(result){
+          console.log(result);
           console.log('Error : Return from logout service.');
       });
   };
@@ -55,10 +57,11 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, Auth, 
   //authentication fail callback
   $scope.authenticationFail = function(result){
     console.log('Error : Return from login service.');
+    console.log(result);
     //Broadcast a login failed event
     $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     $scope.error=true;
-  }
+  };
 
   //invalidate login form
   $scope.invalidateForm = function(){

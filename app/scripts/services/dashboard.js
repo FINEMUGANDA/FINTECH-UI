@@ -9,5 +9,5 @@ dashboardService.factory('DashboardService', function($http, Remote) {
                 var promise = Remote.get(url);
                 return promise;
             }
-	}
+	};
 });

@@ -26,15 +26,15 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $rootScope, $locatio
       $scope.totalBorrowers = result.data[0].totalBorrowers;
       $scope.loansInBadStanding = result.data[0].loansInBadStanding;      
       $scope.repaymentsDueThisWeek = result.data[0].repaymentsDueThisWeek;
-    } 
+    };
     //failur callback
     var headerStatisticsFail = function(result){
-      console.log('Error : Return from headerStatistics service.');
+      console.log('Error : Return from headerStatistics service.'+result);
       $scope.totalActiveClient = 0;
       $scope.totalBorrowers = 0;
       $scope.loansInBadStanding = 0;      
       $scope.repaymentsDueThisWeek = 0;
-    }
+    };
     //service to get Statistics value from server
     DashboardService.headerStatistics(REST_URL.DASHBOARD_HEADER_STATISTIC).then(headerStatisticsSuccess,headerStatisticsFail);
    
