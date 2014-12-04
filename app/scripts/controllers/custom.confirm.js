@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('angularjsApp').controller('CustomConfirmController', function($scope, $modalInstance, data) {
   $scope.data = data;
   $scope.msg = data.msg || 'Are you sure?';
