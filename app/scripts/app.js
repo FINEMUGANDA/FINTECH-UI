@@ -8,7 +8,24 @@
  *
  * Main module of the application.
  */
-var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboardController','clientsController','loanProductController','chargesController','createClientController','userServices','Constants','ui.bootstrap','angularFileUpload','naif.base64','webcam','accountService','angularTreeview']);
+var app = angular.module('angularjsApp', [
+  'ngRoute',
+  'loginController',
+  'dashboardController',
+  'clientsController',
+  'loanProductController',
+  'chargesController',
+  'createClientController',
+  'userServices',
+  'Constants',
+  'ui.bootstrap',
+  'angularFileUpload',
+  'naif.base64',
+  'webcam',
+  'accountService',
+  'angularTreeview',
+  'dialogs.main'
+]);
 
  // Angular supports chaining, so here we chain the config function onto
   // the module we're configuring.

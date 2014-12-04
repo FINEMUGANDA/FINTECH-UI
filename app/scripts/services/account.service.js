@@ -18,6 +18,11 @@ accountService.factory('AccountService', function($http, Remote) {
       console.log('Put Data using AccountService...');
       var promise = Remote.put(url, jsondata);
       return promise;
+    },
+    removeAccount: function(url, jsondata) {
+      console.log('Remove Data using AccountService...');
+      var promise = Remote.delete(url, jsondata);
+      return promise;
     }
   };
 });

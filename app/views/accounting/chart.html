@@ -1,11 +1,11 @@
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login">
   <div ng-include src="'/views/alert.html'"></div>
-<!--  <div class="shortcuts">
-    <ul role="tablist">
-      <li role="presentation"><a href="#/accounting/chart" class="active">Chart of Accounts</a></li>
-    </ul>
-  </div>-->
+  <!--  <div class="shortcuts">
+      <ul role="tablist">
+        <li role="presentation"><a href="#/accounting/chart" class="active">Chart of Accounts</a></li>
+      </ul>
+    </div>-->
 
   <div class="list">
     <div class="page-header">
@@ -13,54 +13,56 @@
         <h3 style="width: 50%;">Chart of Accounts</h3>
         <div class="action" style="width: 50%;">
           <a href="#/accounting/create" class="btn primary">Add Account</a>
-          <a href="javascript:void(0);" class="btn primary" ng-click="isTreeview=true" ng-show='!isTreeview'>Tree View</a>
-          <a href="javascript:void(0);" class="btn primary" ng-click="isTreeview=false" ng-show='isTreeview'>List View</a>
+          <a href="javascript:void(0);" class="btn primary" ng-click="isTreeview = true" ng-show='!isTreeview'>Tree View</a>
+          <a href="javascript:void(0);" class="btn primary" ng-click="isTreeview = false" ng-show='isTreeview'>List View</a>
         </div>
       </div>
     </div>
 
     <div data-angular-treeview="true" data-tree-id="treeview" data-tree-model="treedata" data-node-id="id" data-node-label="name" data-node-children="children" ng-if="isTreeview"></div>
 
-    <table st-table="displayed" st-safe-src="rowCollection" class="table" ng-if="!isTreeview">
+    <table st-table="displayed" st-safe-src="rowCollection" class="table account-chart" ng-if="!isTreeview">
       <thead>
         <tr>
-          <th colspan="6">
-            <div class="filters">
-              <div class="search" style="float:right;">
-                <input type="text" st-search="" class="search-box" placeholder="Search Accounts"/>
-              </div>
-            </div>
-          </th>
-        </tr>
-        <tr>
-          <th st-sort="name">Account</th>
-          <th st-sort="glCode">GL Code</th>
-          <th st-sort="type.value">Account Type</th>
-          <th st-sort="disabled">Disabled?</th>
-          <th st-sort="manualEntriesAllowed">Manual Entries Allowed</th>
-          <th st-sort="usage.value">Used as</th>
-        </tr>
+          <th colspan="7">
+      <div class="filters">
+        <div class="search" style="float:right;">
+          <input type="text" st-search="" class="search-box" placeholder="Search Accounts"/>
+        </div>
+      </div>
+      </th>
+      </tr>
+      <tr>
+        <th st-sort="name">Account</th>
+        <th st-sort="glCode">GL Code</th>
+        <th st-sort="type.value">Account Type</th>
+        <th st-sort="disabled">Disabled?</th>
+        <th st-sort="manualEntriesAllowed">Manual Entries Allowed</th>
+        <th st-sort="usage.value">Used as</th>
+        <th width="1%">&nbsp;</th>
+      </tr>
       </thead>
-      <tbody ng-hide="isLoading">        
-        <tr st-select-row="row" st-select-mode="single" ng-repeat="account in displayed">
-          <td><a ng-href="#/accounting/edit/{{account.id}}">{{account.name}}</a></td>
-          <td><a ng-href="#/accounting/edit/{{account.id}}" class="number">{{account.glCode}}</a></td>
-          <td><a ng-href="#/accounting/edit/{{account.id}}">{{account.type.value}}</a></td>
-          <td><a ng-href="#/accounting/edit/{{account.id}}">{{account.disabled}}</a></td>
-          <td><a ng-href="#/accounting/edit/{{account.id}}">{{account.manualEntriesAllowed}}</a></td>
-          <td><a ng-href="#/accounting/edit/{{account.id}}">{{account.usage.value}}</a></td>
+      <tbody ng-hide="isLoading">
+        <tr st-select-row="row" st-select-mode="single" ng-repeat="account in displayed" class="pointer">
+          <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.name}}</a></td>
+          <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}" class="number">{{account.glCode}}</a></td>
+          <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.type.value}}</a></td>
+          <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.disabled}}</a></td>
+          <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.manualEntriesAllowed}}</a></td>
+          <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.usage.value}}</a></td>
+          <td class="actions"><a href="javascript:void(0);" ng-click="removeAccount(account)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">
         <tr>
-          <td colspan="6" class="text-center">
+          <td colspan="7" class="text-center">
             <div class="loading-indicator">Loading...</div>
           </td>
         </tr>
       </tbody>
       <tfoot ng-hide="isLoading">
         <tr>
-          <td colspan="6">
+          <td colspan="7">
             <div class="table-footer">
               <div class="export">
                 <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
@@ -75,3 +77,20 @@
     </table>
   </div>
 </div>
+
+
+<!--<script type="text/ng-template" id="/dialogs/custom-confirm.html">
+<div class="modal-header">
+  <button type="button" class="close" ng-click="no()">&times;</button>
+  <h4 class="modal-title">
+    <span class="glyphicon glyphicon-check"></span> Remove Confirmation
+  </h4>
+</div>
+<div class="modal-body" ng-bind-html="msg">
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" ng-click="yes()">Remove</button>
+  <button type="button" class="btn btn-primary" ng-click="no()">Cancel</button>
+</div>
+  
+</script>-->

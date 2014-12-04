@@ -164,3 +164,19 @@ tr.pointer:hover {
 tr.pointer > td {
 	color: #449acc !important;
 }
+
+.account-chart {
+  td.actions {
+    text-align: center;
+    .glyphicon-remove-circle {
+      color: #d9534f;
+    }
+  }
+}
+.dialog-header-confirm { 
+  background-color: #fff;
+  border-radius: 10px 10px 0 0;
+  h4 {
+    color: #333;
+  }
+}

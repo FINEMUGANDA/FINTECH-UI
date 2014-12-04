@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope, REST_URL, AccountService, $timeout) {
+angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope, REST_URL, AccountService, $timeout, $location, dialogs) {
   console.log('AccountingChartCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 10;
@@ -19,7 +19,7 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
   //failur callback
   var loadAccountsFail = function(result) {
     $scope.isLoading = false;
-    console.log('Error : Return from AccountService service.'+result);
+    console.log('Error : Return from AccountService service.' + result);
   };
 
   var loadAccounts = function getData() {
@@ -62,14 +62,36 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
     $scope.treeview.currentNode = selectedNode;
     $scope.treeview.currentNode.collapsed = !$scope.treeview.currentNode.collapsed;
   };
-});
 
+  $scope.editAccount = function(account) {
+    $location.path('/accounting/edit/' + account.id);
+  };
+  $scope.removeAccount = function(account) {
+    var msg = 'You are about to remove Account <strong>' + account.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var index = $scope.rowCollection.indexOf(account);
+        AccountService.removeAccount(REST_URL.ACCOUNT_BY_ID + account.id).then(function() {
+          if (index >= -1) {
+            $scope.rowCollection.splice(index, 1);
+          }
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          $('html, body').animate({scrollTop: 0}, 800);
+        });
+      }
+    });
+  };
+});
 
 angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope, REST_URL, AccountService, $timeout, $route) {
   console.log('AccountingEditCtrl');
   $scope.isLoading = false;
   $scope.id = $route.current.params.id;
-  $scope.options = {};
+  $scope.data = {};
 
   //Success callback
   var loadAccountSuccess = function(result) {
@@ -88,19 +110,42 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
       if (result.data.tagId) {
         $scope.account.tagId = result.data.tagId;
       }
-      $scope.options = {
-        usageOptions: result.data.usageOptions,
-        accountTypeOptions: result.data.accountTypeOptions,
-        assetHeaderAccountOptions: result.data.assetHeaderAccountOptions
-      };
+      $scope.data = _.extend({}, result.data);
     } catch (e) {
+      console.log(e);
     }
   };
+
+  // Watch for account type updates and fill account header accounts for selected type
+  $scope.$watch('account.type', function(newVal) {
+    var type = _.find($scope.data.accountTypeOptions, function(typeOption) {
+      var eq = false;
+      try {
+        eq = parseInt(typeOption.id) === parseInt(newVal);
+      } catch (e) {
+        console.log('Can\'t parse accountTypeId', e);
+      }
+      return eq;
+    });
+    $scope.headerAccountOptions = [];
+    if (!type) {
+      return;
+    }
+    var accounts = $scope.data[type.value.toLowerCase() + 'HeaderAccountOptions'];
+    if (accounts && accounts.length) {
+      if ($scope.id) {
+        accounts = _.filter(accounts, function(account) {
+          return parseInt(account.id) !== parseInt($scope.id);
+        });
+      }
+      $scope.headerAccountOptions = accounts;
+    }
+  });
 
   //failur callback
   var loadAccountFail = function(result) {
     $scope.isLoading = false;
-    console.log('Error : Return from AccountService service.'+result);
+    console.log('Error : Return from AccountService service.' + result);
   };
 
   var loadAccount = function getData() {
@@ -108,7 +153,6 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
 
     $timeout(
       function() {
-//        $scope.rowCollection = [];
         var url = REST_URL.ACCOUNT_TEMPLATE;
         if ($scope.id) {
           url = REST_URL.ACCOUNT_BY_ID + $scope.id + '?template=true';
@@ -119,14 +163,17 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
   };
 
   $scope.saveAccount = function() {
-    console.log(angular.copy($scope.account));
     if ($scope.accountform.$valid) {
       var saveAccountSuccess = function(result) {
         console.log('Success : Return from AccountService service.');
         $scope.type = 'alert-success';
         $scope.message = 'Account saved successfully';
-        $scope.isCreated=true;
-        $scope.id = result.data.resourceId;
+        $scope.errors = [];
+        if (!$scope.id) {
+          loadAccount();// load updatedData
+        } else {
+          $scope.id = result.data.resourceId;
+        }
       };
 
       var saveAccountFail = function(result) {
@@ -137,6 +184,7 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
         $('html, body').animate({scrollTop: 0}, 800);
       };
 
+      $scope.message = undefined; //hide alert message if exist
       if ($scope.id) {
         AccountService.updateAccount(REST_URL.ACCOUNT_UPDATE_BY_ID + $scope.id, angular.copy($scope.account)).then(saveAccountSuccess, saveAccountFail);
       } else {
@@ -148,7 +196,6 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
       $scope.message = 'Highlighted fields are required';
       $('html, body').animate({scrollTop: 0}, 800);
     }
-    console.log($scope.accountform.$valid);
   };
 
   loadAccount();
