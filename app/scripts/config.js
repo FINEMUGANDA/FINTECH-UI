@@ -42,7 +42,9 @@ app.constant('REST_URL', {
     'CLIENT_IDENTIFICATION_TEMPLATE_REPORT':'api/v1/runreports/ClientIdentification',
     ACCOUNT_LIST: 'api/v1/glaccounts',
     ACCOUNT_BY_ID: 'api/v1/glaccounts/',
-    ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template'
+    ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template',
+    ACCOUNT_UPDATE_BY_ID: 'api/v1/glaccounts/',
+    ACCOUNT_CREATE: 'api/v1/glaccounts'
 });
 
 app.constant('PAGE_URL', {
