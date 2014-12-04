@@ -36,7 +36,7 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
   loadAccounts();
 
   function buildTreeData(data) {
-    var map = {}, item, result = [];
+    var map = {}, item, result = {};
     for (var i = 0; i < data.length; i += 1) {
       item = data[i];
       item.children = [];
@@ -45,7 +45,10 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
       if (item.parentId && item.parentId !== "0") {
         data[map[item.parentId]].children.push(item);
       } else {
-        result.push(item);
+        if (!result[item.type.value]) {
+          result[item.type.value] = {name: item.type.value, children: [], collapsed: true};
+        }
+        result[item.type.value].children.push(item);
       }
     }
     return result;
