@@ -27,42 +27,42 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           }
       }).
       when('/clients', {
-        templateUrl: 'views/clients.html',
+        templateUrl: 'views/Client/grids/clients.html',
         controller: 'ClientsCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
       when('/loans', {
-        templateUrl: 'views/loans.html',
+        templateUrl: 'views/Client/grids/loans.html',
         controller: 'LoansCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
       when('/loansPendingApproval', {
-        templateUrl: 'views/loansPendingApprovals.html',
+        templateUrl: 'views/Client/grids/loansPendingApprovals.html',
         controller: 'LoansPendingApprovalsCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
       when('/loansAwaitingDisbursement', {
-        templateUrl: 'views/loansAwaitingDisbursement.html',
+        templateUrl: 'views/Client/grids/loansAwaitingDisbursement.html',
         controller: 'LoansAwaitingDisbursementCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
        when('/loansRejected', {
-        templateUrl: 'views/loansRejected.html',
+        templateUrl: 'views/Client/grids/loansRejected.html',
         controller: 'LoansRejectedCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
       when('/loansWrittenOff', {
-        templateUrl: 'views/loansWrittenOff.html',
+        templateUrl: 'views/Client/grids/loansWrittenOff.html',
         controller: 'LoansWrittenOffCtrl',
         data: {
             authorizedRoles: ['admin']
@@ -75,40 +75,40 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','dashboar
           }
       }).
       when('/loanProducts', {
-        templateUrl: 'views/loanProducts.html',
+        templateUrl: 'views/Product/loanProducts.html',
         controller: 'LoanProductsCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
       when('/charges', {
-        templateUrl: 'views/charges.html',
+        templateUrl: 'views/Product/charges.html',
         controller: 'ChargesCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
       when('/createloanproduct', {
-        templateUrl: 'views/createLoanProduct.html',
+        templateUrl: 'views/Product/createLoanProduct.html',
         controller: 'LoansWrittenOffCtrl',
         data: {
             authorizedRoles: ['admin']
           }
       }).
       when('/createCharge', {
-        templateUrl: 'views/createCharge.html',
+        templateUrl: 'views/Product/createCharge.html',
         controller: '',
         data: {
             authorizedRoles: ['admin']
           }
       }).when('/editloanproduct/:id', {
-          templateUrl: 'views/editloanproduct.html',
+          templateUrl: 'views/Product/editloanproduct.html',
           controller: 'EditLoanProductsCtrl',
           data: {
             authorizedRoles: ['admin']
           }
       }).when('/editCharge/:id', {
-          templateUrl: 'views/editCharge.html',
+          templateUrl: 'views/Product/editCharge.html',
           controller: 'EditChargeCtrl',
           data: {
             authorizedRoles: ['admin']

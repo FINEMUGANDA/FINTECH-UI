@@ -30,4 +30,4 @@ select c.id id,c.display_name name, ifnull(c.external_id,'') file_no, ifnull(FOR
 #Report number 164
 #Report name ClientIdentification
 #Description : To display data on the client identification page
-SELECT  ci.id 'identifier_id', ci.client_id 'client_id', ci.document_type_id 'documentTypeId', ci.document_key 'documentKey', cie.id 'extra_id', cie.issue_place 'issue_place', cie.issue_date 'issue_date', cie.issue_document 'issue_document'FROM m_client_identifier as ci LEFT JOIN client_identification_details cie ON cie.client_id=ci.client_id;
+SELECT  ci.id 'identifier_id', ci.client_id 'client_id', ci.document_type_id 'documentTypeId', ci.document_key 'documentKey', cie.id 'extra_id', cie.issue_place 'issue_place', cie.issue_date 'issue_date', cie.issue_document 'issue_document' FROM m_client_identifier as ci  LEFT JOIN client_identification_details cie ON cie.client_id=ci.client_id and cie.identifier_id=ci.id where ci.client_id=${client_id};

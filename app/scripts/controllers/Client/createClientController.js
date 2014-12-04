@@ -40,6 +40,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
           $scope.file = $files[0];        
         }
       };
+      
       //Set loan officer 
       $scope.changeOffice = function (officeId) {          
           var changeOfficeSuccess = function(result){
