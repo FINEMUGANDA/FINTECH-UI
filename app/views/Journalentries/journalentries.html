@@ -31,21 +31,21 @@
         </tr>
       <tr>
         <th st-sort="id">Entry ID</th>
-        <th st-sort="comments">Transaction Description</th>
-        <th st-sort="transactionDate">Transaction Date</th>
-        <th st-sort="officeName">Office</th>
-        <th st-sort="officeName" class="number">Debit</th>
-        <th st-sort="officeName" class="number">Credit</th>        
+        <th st-sort="description">Transaction Description</th>
+        <th st-sort="entry_date">Transaction Date</th>
+        <th st-sort="office_name">Office</th>
+        <th st-sort="Credit" class="number">Debit</th>
+        <th st-sort="Debit" class="number">Credit</th>        
       </tr>
       </thead>
       <tbody ng-hide="isLoading">
-        <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" ng-show="journal.entryType.value=='CREDIT'" class="pointer">
+        <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
           <td ng-click="viewDetail(journal)">{{journal.id}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.comments}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.transactionDate[2]+'/'+journal.transactionDate[1]+'/'+ journal.transactionDate[0]}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.officeName}}</td>
-          <td ng-click="viewDetail(journal)" class="number">{{journal.amount}}</td>
-          <td ng-click="viewDetail(journal)" class="number">{{journal.amount}}</td>
+          <td ng-click="viewDetail(journal)">{{journal.description}}</td>
+          <td ng-click="viewDetail(journal)">{{journal.entry_date[2]+'/'+journal.entry_date[1]+'/'+ journal.entry_date[0]}}</td>
+          <td ng-click="viewDetail(journal)">{{journal.office_name}}</td>
+          <td ng-click="viewDetail(journal)" class="number">{{journal.Debit}}</td>
+          <td ng-click="viewDetail(journal)" class="number">{{journal.Credit}}</td>
           <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
         </tr>
       </tbody>

@@ -31,3 +31,8 @@ select c.id id,c.display_name name, ifnull(c.external_id,'') file_no, ifnull(FOR
 #Report name ClientIdentification
 #Description : To display data on the client identification page
 SELECT  ci.id 'identifier_id', ci.client_id 'client_id', ci.document_type_id 'documentTypeId', ci.document_key 'documentKey', cie.id 'extra_id', cie.issue_place 'issue_place', cie.issue_date 'issue_date', cie.issue_document 'issue_document' FROM m_client_identifier as ci  LEFT JOIN client_identification_details cie ON cie.client_id=ci.client_id and cie.identifier_id=ci.id where ci.client_id=${client_id};
+#Date - 2014/12/05
+#Report number 165
+#Report name JournalEntryList
+#Description : To display data on the client identification page
+SELECT  m.id, description, entry_date, o.name as office_name, transaction_id, SUM(case when type_enum=1 then amount ELSE 0 END) as \'Credit\', SUM(case when type_enum=2 then amount ELSE 0 END) as \'Debit\' FROM `mifostenant-default`.acc_gl_journal_entry m Left join m_office o on o.id=m.office_id group by  transaction_id order by entry_date desc', 'To display data on journal entry list;

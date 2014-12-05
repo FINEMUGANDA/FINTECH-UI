@@ -4,8 +4,8 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {    
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-//    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
+//    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
+    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
@@ -45,7 +45,8 @@ app.constant('REST_URL', {
     ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template',
     ACCOUNT_UPDATE_BY_ID: 'api/v1/glaccounts/',
     ACCOUNT_CREATE: 'api/v1/glaccounts',
-    JOURNALENTRIES_LIST:'api/v1/journalentries'
+    JOURNALENTRIES_LIST:'api/v1/runreports/JournalEntryList',
+    JOURNALENTRIES:'api/v1/journalentries'    
 });
 
 app.constant('PAGE_URL', {

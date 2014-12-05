@@ -9,7 +9,7 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
   var loadJournalEntriesSuccess = function(result) {
     $scope.isLoading = false;
     try {
-      $scope.rowCollection = result.data.pageItems;
+      $scope.rowCollection = result.data;
     } catch (e) {
       console.log(e);
     }
@@ -35,15 +35,15 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
 
   //Forward to view details
   $scope.viewDetail = function(journal){
-    $location.path(PAGE_URL.JOURNALENTRIES_DETAILS + '/' + journal.transactionId);
+    $location.path(PAGE_URL.JOURNALENTRIES_DETAILS + '/' + journal.transaction_id);
   }
 });
 
 //View Journal Entry in Details
-angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route,$scope, REST_URL, JournalService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route,$scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility) {
   console.log('JournalEntriesDetailsCtrl');
   $scope.isLoading = false;
-  $scope.itemsByPage = 5;
+  $scope.itemsByPage = 2;
   $scope.id = $route.current.params.id;
 
   //Success callback
@@ -51,6 +51,16 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data.pageItems;
+      if(!Utility.isUndefinedOrNull(result.data.pageItems)){
+        $scope.officeName = $scope.rowCollection[0].officeName;
+        $scope.transactionDate = $scope.rowCollection[0].transactionDate[2] + '/';
+        $scope.transactionDate +=$scope.rowCollection[0].transactionDate[1] + '/';
+        $scope.transactionDate +=$scope.rowCollection[0].transactionDate[0];
+        $scope.createdByUserName=$scope.rowCollection[0].createdByUserName;
+        $scope.createdDate = $scope.rowCollection[0].createdDate[2] + '/';
+        $scope.createdDate +=$scope.rowCollection[0].createdDate[1] + '/';
+        $scope.createdDate +=$scope.rowCollection[0].createdDate[0];
+      }
     } catch (e) {
       console.log(e);
     }
@@ -67,7 +77,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     $timeout(
       function() {
         $scope.rowCollection = [];
-        var url = REST_URL.JOURNALENTRIES_LIST + '?transactionId=';
+        var url = REST_URL.JOURNALENTRIES + '?transactionId=';
         if ($scope.id) {
           url = url + $scope.id;
         }else{
