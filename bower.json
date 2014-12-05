@@ -14,7 +14,7 @@
     "ng-file-upload": "~1.6.12",
     "angular-base64-upload": "~0.0.3",
     "webcam-directive": "~1.2.0",
-    "angular.treeview": "git@github.com:eu81273/angular.treeview.git",
+    "angular.treeview": "https://github.com/eu81273/angular.treeview.git",
     "lodash": "~2.4.1",
     "angular-dialog-service": "~5.2.6"
   },
