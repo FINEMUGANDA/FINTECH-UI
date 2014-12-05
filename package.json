@@ -41,6 +41,6 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "bower install"
+    "postinstall": "bower cache clean && bower install"
   }
 }
