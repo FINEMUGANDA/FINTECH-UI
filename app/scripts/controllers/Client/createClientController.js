@@ -107,7 +107,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function ($route, $scope, $rootS
       $scope.validateCreateClient = function(createClient,createClientWithDataTable){
         console.log('CreateClientCtrl : CreateClient : validateCreateClient');
           if ($scope.createBasicClientForm.$valid && $scope.file) {
-            $scope.saveBasicClient(createClient,createClientWithDataTable);
+            $scope.saveBasicClient(createClient,createClientWithDataTable); 
           } else {
             $scope.invalidateForm();
             $scope.type="error";
@@ -453,6 +453,7 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
       //Start - Validate edit client form
       $scope.validateEditClient = function(editClient,editClientWithDataTable){
         console.log('CreateClientCtrl : CreateClient : validateEditClient');
+
         $scope.message = undefined;
         if ($scope.editBasicClientForm.$valid) {
           $scope.editBasicClient(editClient,editClientWithDataTable);
@@ -462,14 +463,32 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
           $scope.message = 'Highlighted fields are required';
           $('html, body').animate({scrollTop : 0},800);
         }
+
+            if ($scope.editBasicClientForm.$valid) {
+              $scope.editBasicClient(editClient,editClientWithDataTable);
+            } else {
+              $scope.invalidateForm();
+              $scope.type="error";
+              $scope.message="Highlighted fields are required";
+              if($scope.createBasicClientForm.email.$invalid){
+                $scope.message="Please enter valid Email id!";            
+              }            
+            $('html, body').animate({scrollTop : 0},800);
+              $('html, body').animate({scrollTop : 0},800);
+            }
+
       };
       //Finish - edit client template
 
       //invalidate Edit client form
       $scope.invalidateForm = function(){
+
         if ($scope.createBasicClientForm) {
           $scope.createBasicClientForm.invalidate = false;
         }
+
+       $scope.editBasicClientForm.invalidate = false;
+
       };
 
       //Start - save edit client basic template details
@@ -482,10 +501,7 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
 
         var editBasicClientSuccess = function(result){
           console.log('Success : Return from CreateClientsService service.');
-          $scope.updateBasicClientExtraInformation(editClientWithDataTable,result.data.clientId);
-          //Redirect to the next page
-          var $url = PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO + '/' + $route.current.params.id ;          
-          $location.url($url);
+          $scope.updateBasicClientExtraInformation(editClientWithDataTable,result.data.clientId);          
         }
 
         var editBasicClientFail = function(result){
@@ -513,7 +529,10 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
         var updateBasicClientExtraInformationSuccess = function(result){
           console.log('Success : Return from createClientsService service.');
           $rootScope.type="alert-success";
-          $rootScope.message="Client information updated successfully";          
+          $rootScope.message="Client information updated successfully";
+          //Redirect to the next page
+          var $url = PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO + '/' + $route.current.params.id ;          
+          $location.url($url);
         }
 
         var updateBasicClientExtraInformationFail = function(result){
