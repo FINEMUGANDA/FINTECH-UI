@@ -464,13 +464,6 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
           $('html, body').animate({scrollTop : 0},800);
         }
 
-            if ($scope.editBasicClientForm.$valid) {
-              $scope.editBasicClient(editClient,editClientWithDataTable);
-            } else {
-              $scope.invalidateForm();
-              $('html, body').animate({scrollTop : 0},800);
-            }
-
       };
       //Finish - edit client template
 
@@ -480,7 +473,6 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
           $scope.createBasicClientForm.invalidate = false;
         }
        $scope.editBasicClientForm.invalidate = false;
-       $scope.createBasicClientForm.invalidate = false;
       };
 
       //Start - save edit client basic template details
@@ -493,10 +485,7 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
 
         var editBasicClientSuccess = function(result){
           console.log('Success : Return from CreateClientsService service.');
-          $scope.updateBasicClientExtraInformation(editClientWithDataTable,result.data.clientId);
-          //Redirect to the next page
-          var $url = PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO + '/' + $route.current.params.id ;          
-          $location.url($url);
+          $scope.updateBasicClientExtraInformation(editClientWithDataTable,result.data.clientId);          
         }
 
         var editBasicClientFail = function(result){
@@ -524,7 +513,10 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
         var updateBasicClientExtraInformationSuccess = function(result){
           console.log('Success : Return from createClientsService service.');
           $rootScope.type="alert-success";
-          $rootScope.message="Client information updated successfully";          
+          $rootScope.message="Client information updated successfully";
+          //Redirect to the next page
+          var $url = PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO + '/' + $route.current.params.id ;          
+          $location.url($url);          
         }
 
         var updateBasicClientExtraInformationFail = function(result){
