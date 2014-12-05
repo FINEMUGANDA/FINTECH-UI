@@ -41,7 +41,7 @@
       </thead>
       <tbody ng-hide="isLoading">        
         <tr ng-repeat="client in displayed">
-          <td><img class="Size" src={{client.image}}></td>
+          <td><img class="Size" src="{{client.image}}"></td>
           <td>
               <div class="name">
                 <a ng-href="#editbasicclientinfo/{{client.id}}">{{client.name}}</a>

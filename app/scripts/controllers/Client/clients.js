@@ -3,7 +3,7 @@
   // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController',['clientsService','Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION) {
+clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION, $q) {
       console.log('ClientsCtrl : loadClients');
       //To load the clients page
       var promise = null;
@@ -11,6 +11,22 @@ clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, $
       $scope.isLoading = false;
       $scope.rowCollection = [];
       $scope.displayed=[];
+      
+      function resolveImage(src) {
+
+        var deferred = $q.defer();
+
+        var image = new Image();
+        image.onerror = function() {
+          deferred.resolve(false);
+        };
+        image.onload = function() {
+          deferred.resolve(true);
+        };
+        image.src = src;
+
+        return deferred.promise;
+      }
 
       //Success callback
       var allClientsSuccess = function(result) {
@@ -19,20 +35,25 @@ clientsCtrl.controller('ClientsCtrl', function ($scope, $rootScope, $location, $
               $scope.rowCollection = result.data;
               angular.forEach($scope.rowCollection, function(client) {
                 //Success callback
-                var clientImageSuccess = function(imageResult) {
-                   try {
-                        client['image'] = imageResult.data;
-                    } catch (e) {
-                    }
-                }
-
-                //failur callback
-                var clientImageFail = function(imageResult){
-                    console.log('Error : Return from client image service.');
-                }
+//                var clientImageSuccess = function(imageResult) {
+//                   try {
+//                        client['image'] = imageResult.data;
+//                    } catch (e) {
+//                    }
+//                }
+//
+//                //failur callback
+//                var clientImageFail = function(imageResult){
+//                    console.log('Error : Return from client image service.');
+//                }
                 client['image'] = APPLICATION.NO_IMAGE_THUMB;
-                ClientsService.getClientImage(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(clientImageSuccess, clientImageFail);  
-              });              
+                resolveImage(APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + client.id + '/images?tenantIdentifier=default&output=inline_octet').then(function(isSuccess) {
+                  if (isSuccess) {
+                    client['image'] = APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + client.id + '/images?tenantIdentifier=default&output=inline_octet';
+                  }
+                });
+//                ClientsService.getClientImage(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(clientImageSuccess, clientImageFail);  
+              });
           } catch (e) {
           }
       }
