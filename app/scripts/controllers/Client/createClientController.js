@@ -453,18 +453,23 @@ CreateClientCrtl.controller('EditClientCtrl', function ($route, $scope, $rootSco
       //Start - Validate edit client form
       $scope.validateEditClient = function(editClient,editClientWithDataTable){
         console.log('CreateClientCtrl : CreateClient : validateEditClient');
-            if ($scope.editBasicClientForm.$valid) {
-              $scope.editBasicClient(editClient,editClientWithDataTable);
-            } else {
-              $scope.invalidateForm();
-              $('html, body').animate({scrollTop : 0},800);
-            }
+        $scope.message = undefined;
+        if ($scope.editBasicClientForm.$valid) {
+          $scope.editBasicClient(editClient,editClientWithDataTable);
+        } else {
+          $scope.invalidateForm();
+          $scope.type = 'error';
+          $scope.message = 'Highlighted fields are required';
+          $('html, body').animate({scrollTop : 0},800);
+        }
       };
       //Finish - edit client template
 
       //invalidate Edit client form
       $scope.invalidateForm = function(){
-       $scope.createBasicClientForm.invalidate = false;
+        if ($scope.createBasicClientForm) {
+          $scope.createBasicClientForm.invalidate = false;
+        }
       };
 
       //Start - save edit client basic template details
@@ -653,12 +658,15 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function ($route, 
       
       $scope.validateCreateClientAdditionalInfo = function(createClientAdditionalInfo){
         console.log('CreateClientCtrl : CreateClient : validateCreateClientAdditionalInfo');
-            if ($scope.createAdditionalClientForm.$valid) {
-              $scope.saveClientAdditionalInfo(createClientAdditionalInfo);
-            } else {
-              $scope.invalidateForm();
-              $('html, body').animate({scrollTop : 0},800);
-            }
+        $scope.message = undefined;
+        if ($scope.createAdditionalClientForm.$valid) {
+          $scope.saveClientAdditionalInfo(createClientAdditionalInfo);
+        } else {
+          $scope.invalidateForm();
+          $scope.type = 'error';
+          $scope.message = 'Highlighted fields are required';
+          $('html, body').animate({scrollTop : 0},800);
+        }
       };
 
       //invalidate client additional form
@@ -1414,12 +1422,15 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function ($route, $sco
       
       $scope.validateClientBusinessActivity = function(clientBusinessActivity){
         console.log('CreateClientCtrl : CreateClient : validateClientBusinessActivity');
-            if ($scope.ClientBusinessActivityForm.$valid) {
-              $scope.saveClientBusinessActivity(clientBusinessActivity);
-            } else {
-              $scope.invalidateForm();
-              $('html, body').animate({scrollTop : 0},800);
-            }
+        $scope.message = undefined;
+        if ($scope.ClientBusinessActivityForm.$valid) {
+          $scope.saveClientBusinessActivity(clientBusinessActivity);
+        } else {
+          $scope.invalidateForm();
+          $scope.type = 'error';
+          $scope.message = 'Highlighted fields are required';
+          $('html, body').animate({scrollTop : 0},800);
+        }
       };
 
       //invalidate login form
