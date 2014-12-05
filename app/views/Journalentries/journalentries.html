@@ -1,0 +1,75 @@
+<div ng-include="'views/common/header.html'"></div>
+  <div class="container post-login"> 
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="page-header">
+    <div class="header">
+      <h3>Journal Entries</h3>
+      <div class="action"></div>
+    </div>
+    </div>
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
+      <thead>
+        <tr>
+          <th colspan="6">
+              <div class="filters" >
+                <div style="float:right;">            
+                  <ul role="tablist">
+                    <li role="presentation">
+                    <div class="action">                      
+                      <a href="#/createloanproduct" class="btn primary" >
+                          Create Journal Entries
+                      </a>
+                    </div>
+                    </li>
+                 </ul> 
+                </div>
+                <div class="search" style="float:right;">
+                    <input type="text" st-search="" class="search-box" placeholder="Search Journal Entries" />
+                </div>
+             </div>  
+          </th>
+        </tr>
+      <tr>
+        <th st-sort="id">Entry ID</th>
+        <th st-sort="comments">Transaction Description</th>
+        <th st-sort="transactionDate">Transaction Date</th>
+        <th st-sort="officeName">Office</th>
+        <th st-sort="officeName" class="number">Debit</th>
+        <th st-sort="officeName" class="number">Credit</th>        
+      </tr>
+      </thead>
+      <tbody ng-hide="isLoading">
+        <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
+          <td ng-click="editAccount(journal)">{{journal.id}}</td>
+          <td ng-click="editAccount(journal)">{{journal.comments}}</td>
+          <td ng-click="editAccount(journal)">{{journal.transactionDate[2]+'/'+journal.transactionDate[1]+'/'+ journal.transactionDate[0]}}</td>
+          <td ng-click="editAccount(journal)">{{journal.officeName}}</td>
+          <td ng-click="editAccount(journal)" class="number">{{journal.amount}}</td>
+          <td ng-click="editAccount(journal)" class="number">{{journal.amount}}</td>
+          <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
+        </tr>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="6" class="text-center">
+            <div class="loading-indicator">Loading...</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="isLoading">
+        <tr>
+          <td colspan="6">
+            <div class="table-footer">
+              <div class="export">
+                <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
+              </div>
+              <div class="paginate">
+                <div st-pagination="" class="pagination pointer" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

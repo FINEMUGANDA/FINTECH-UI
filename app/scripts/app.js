@@ -15,8 +15,9 @@ var app = angular.module('angularjsApp', [
   'clientsController',
   'loanProductController',
   'chargesController',
-  'createClientController',
+  'createClientController',  
   'userServices',
+  'journalService',
   'Constants',
   'ui.bootstrap',
   'angularFileUpload',
@@ -196,6 +197,12 @@ var app = angular.module('angularjsApp', [
           data: {
             authorizedRoles: ['admin']
           }
+      }).when('/journalentries', {
+          templateUrl: 'views/Journalentries/journalentries.html',
+          controller: 'JournalEntriesCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
       }).otherwise({
         redirectTo: '/'
       });
@@ -311,6 +318,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
             $topNavigation.find('.configuration').parent().addClass('active');
             break;  
           case PAGE_URL.ACCOUNTING:
+          case PAGE_URL.JOURNALENTRIES:
             $topNavigation.find('.accounting').parent().addClass('active');
             break;
           default:
