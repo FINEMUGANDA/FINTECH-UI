@@ -34,9 +34,9 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
   loadJournalEntries();
 
   //Forward to view details
-  $scope.viewDetail = function(journal){
+  $scope.viewDetail = function(journal) {
     $location.path(PAGE_URL.JOURNALENTRIES_DETAILS + '/' + journal.transaction_id);
-  }
+  };
 });
 
 //View Journal Entry in Details
@@ -80,7 +80,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
         var url = REST_URL.JOURNALENTRIES + '?transactionId=';
         if ($scope.id) {
           url = url + $scope.id;
-        }else{
+        } else {
           //TODO
         }
         //service to get journalentries from server
