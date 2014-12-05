@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
   console.log('JournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 5;
