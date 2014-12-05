@@ -203,6 +203,12 @@ var app = angular.module('angularjsApp', [
           data: {
             authorizedRoles: ['admin']
           }
+      }).when('/journalentries/details/:id', {
+          templateUrl: 'views/Journalentries/journalentriesDetails.html',
+          controller: 'JournalEntriesDetailsCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
       }).otherwise({
         redirectTo: '/'
       });

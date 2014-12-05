@@ -4,8 +4,8 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {    
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-//    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
+//    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
+    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
@@ -39,13 +39,13 @@ app.constant('REST_URL', {
     'CREATE_CLIENT_BUSINESS_ACTIVITY':'api/v1/datatables/business_details/',
     'CREATE_CLIENT_IDENTIFICATION':'api/v1/datatables/client_identification_details/',
     'CREATE_CLIENT_NEXT_TO_KEEN':'api/v1/datatables/client_next_to_keen_details/',
-    'CLIENT_IDENTIFICATION_TEMPLATE_REPORT':'api/v1/runreports/ClientIdentification',
-    JOURNALENTRIES_LIST:'api/v1/journalentries',
+    'CLIENT_IDENTIFICATION_TEMPLATE_REPORT':'api/v1/runreports/ClientIdentification',    
     ACCOUNT_LIST: 'api/v1/glaccounts',
     ACCOUNT_BY_ID: 'api/v1/glaccounts/',
     ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template',
     ACCOUNT_UPDATE_BY_ID: 'api/v1/glaccounts/',
-    ACCOUNT_CREATE: 'api/v1/glaccounts'
+    ACCOUNT_CREATE: 'api/v1/glaccounts',
+    JOURNALENTRIES_LIST:'api/v1/journalentries'
 });
 
 app.constant('PAGE_URL', {
@@ -71,6 +71,7 @@ app.constant('PAGE_URL', {
     'EDIT_CLIENT_NEXT_OF_KEEN':'/editnextofkeen',
     'EDIT_CLIENT_BUSINESS_DETAILS':'/editbusinessdetails',
     'JOURNALENTRIES':'/journalentries',
+    'JOURNALENTRIES_DETAILS':'/journalentries/details',
 });
 
 app.constant('AUTH_EVENTS', {

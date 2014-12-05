@@ -3,14 +3,28 @@
     <div ng-include src="'/views/alert.html'"></div>
     <div class="page-header">
     <div class="header">
-      <h3>Journal Entries</h3>
+      <h3>Journal Entries : {{id}}</h3>
       <div class="action"></div>
     </div>
-    </div>
+    </div>    
     <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
           <th colspan="6">
+            <div class="form-group">
+              <label class="control-label col-md-2">Description</label>
+              <div class="col-md-3">
+                  <textarea rows="2" class="form-control" ng-model="loanProductDetails.description"></textarea>
+              </div>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Currency<span class="required">*</span></label>              
+              <div class="col-md-3">                  
+                  <select id="currencyCode" ng-model="loanProductDetails.currencyCode" class="form-control"
+                    ng-options="currency.code as currency.name for currency in product.currencyOptions"
+                    value="{{currency.code}}">
+                    </select>
+              </div>
+            </div>
               <div class="filters" >
                 <div style="float:right;">            
                   <ul role="tablist">
@@ -31,21 +45,27 @@
         </tr>
       <tr>
         <th st-sort="id">Entry ID</th>
-        <th st-sort="comments">Transaction Description</th>
-        <th st-sort="transactionDate">Transaction Date</th>
-        <th st-sort="officeName">Office</th>
+        <th st-sort="comments">Type</th>
+        <th st-sort="transactionDate">Account</th>        
         <th st-sort="officeName" class="number">Debit</th>
         <th st-sort="officeName" class="number">Credit</th>        
       </tr>
       </thead>
       <tbody ng-hide="isLoading">
-        <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" ng-show="journal.entryType.value=='CREDIT'" class="pointer">
+        <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
           <td ng-click="viewDetail(journal)">{{journal.id}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.comments}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.transactionDate[2]+'/'+journal.transactionDate[1]+'/'+ journal.transactionDate[0]}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.officeName}}</td>
-          <td ng-click="viewDetail(journal)" class="number">{{journal.amount}}</td>
-          <td ng-click="viewDetail(journal)" class="number">{{journal.amount}}</td>
+          <td ng-click="viewDetail(journal)">{{journal.glAccountType.value}}</td>
+          <td ng-click="viewDetail(journal)">{{journal.glAccountName}}</td>          
+          <td ng-click="viewDetail(journal)" class="number">
+            <div ng-show="journal.entryType.value == 'DEBIT'">
+              {{journal.amount}}
+            </div>
+          </td>
+          <td ng-click="viewDetail(journal)" class="number">
+            <div ng-show="journal.entryType.value == 'CREDIT'">
+              {{journal.amount}}
+            </div>
+          </td>
           <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
         </tr>
       </tbody>
