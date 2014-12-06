@@ -1,0 +1,158 @@
+<div ng-include="'views/common/header.html'"></div>
+  <div class="container post-login" ng-controller="CreateJournalEntriesCtrl"> 
+    <div ng-include src="'/views/alert.html'"></div> 
+    <div class="page-header">
+      <div class="header">
+        <h3>Add Journal Entry</h3>
+        <div class="action"></div>
+      </div>
+    </div>
+    <div calss="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>
+      <div>
+        <form name="createjournalentryForm" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation ng-submit="validateJournalEntry(createjournalentryForm)">
+          <div class="form-group">                
+              <label class="control-label col-md-2">Office<span class="required"> *</span></label>
+              <div class="validate col-md-3">
+                  <select chosen="offices" id="officeId" ng-model="journalEntryForm.officeId" class="form-control"
+                          ng-options="office.id as office.name for office in offices" value="{{office.id}}">
+                  </select>
+              </div>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Currency<span class="required"> *</span></label>
+              <div class="validate col-md-3">
+                  <select id="currencyCode" name="currency" ng-model="journalEntryForm.currencyCode" class="form-control" ng-options="currency.code as (currency.name+' ('+ currency.displaySymbol +')') for currency in currencyOptions" value="{{currency.code}}">
+                  </select>
+              </div>                
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2 col-xs-2">Affected GL entries<span class="required"> *</span></label>                
+              <div class="col-md-10 col-xs-10">
+                    <label class="control-label paddingleft0"> Debit </label>
+                    <a ng-click="addDebitAccount()">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </a>                    
+              </div>
+              <div ng-repeat="dbAccount in journalEntryForm.dbAccounts">
+                <div class="col-md-12 col-xs-12 paddingleft0">
+                  <div class="col-md-2 col-xs-2"></div>
+                  <div class="col-md-3 col-xs-3">
+                    <select chosen="glAccounts" ng-model="dbAccount.select" ng-options="(debitAccount.name +'('+ debitAccount.glCode +')') for debitAccount in glAccounts" class="form-control">
+                      <option class="displaynone" value="">-- Select -- </option>
+                    </select>                      
+                  </div>
+                  <div class="col-md-3 col-xs-3">
+                    <input type="text" class="input-small form-control" ng-model="dbAccount.debitAmount">                  
+                  </div>
+                  <div class="col-md-1 col-xs-1 margintop6">
+                    <a ng-click="removeDebitAccount($index)">                      
+                          <span class="glyphicon glyphicon-remove pointer"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>  
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2 col-xs-2"></label>
+              <div class="col-md-10 col-xs-10">
+                    <label class="control-label paddingleft0"> Credit </label>
+                    <a ng-click="addCrAccount()">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </a>                    
+              </div>
+              <div ng-repeat="crAccount in journalEntryForm.crAccounts">
+                <div class="col-md-12 col-xs-12 paddingleft0">
+                  <div class="col-md-2 col-xs-2"></div>
+                  <div class="col-md-3 col-xs-3">
+                    <select chosen="glAccounts" ng-model="crAccount.select" ng-options="(creditAccount.name +'('+ creditAccount.glCode +')') for creditAccount in glAccounts" class="form-control">
+                      <option class="displaynone" value="">-- Select -- </option>
+                    </select>                      
+                  </div>
+                  <div class="col-md-3 col-xs-3">
+                    <input type="text" class="input-small form-control" ng-model="crAccount.crAmount">                  
+                  </div>
+                  <div class="col-md-1 col-xs-1 margintop6">
+                    <a ng-click="removeCrAccount($index)">                      
+                          <span class="glyphicon glyphicon-remove pointer"></span>
+                    </a>
+                  </div>
+                </div>
+              </div> 
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2">Reference number<span class="required"> *</span></label>
+              <div class="validate col-md-3">
+                  <input id="referenceNumber" name="referenceNumber" class="form-control" type="text" ng-model="journalEntryForm.referenceNumber" required />
+              </div>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Transaction date
+              <span class="required"> *</span></label>
+              <div class="validate col-md-3 dateCss">                  
+                  <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="journalEntryForm.transationDate" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="open($event)" readonly="true" />
+              </div>
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-2 col-xs-3">Show Payment Details</label>
+              <div class="col-md-10 col-xs-7">                    
+                  <a class="btn btn-primary" ng-click="showPaymentDetails=!showPaymentDetails">
+                      <span class="glyphicon glyphicon-minus" ng-show="showPaymentDetails"></span>
+                      <span class="glyphicon glyphicon-plus" ng-show="!showPaymentDetails"></span>
+                  </a>                    
+              </div>
+          </div>
+          <div collapse="!showPaymentDetails">
+            <div class="form-group">
+              <label class="control-label col-md-2">Payment type</label>
+              <div class="col-md-3">
+                  <select id="paymentTypeId" class="form-control" value="" ng-options="paymentType.id as paymentType.name for paymentType in paymentTypes" ng-model="journalEntryForm.paymentTypeId">
+                  </select>
+              </div>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Account#</label>
+              <div class="col-md-3">
+                  <input id="accountNumber" type="text" ng-model="journalEntryForm.accountNumber" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2">Cheque#</label>
+              <div class="col-md-3">
+                  <input id="checkNumber" type="text" ng-model="journalEntryForm.checkNumber" class="form-control">
+              </div>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Routing code</label>
+              <div class="col-md-3">
+                  <input id="routingCode" type="text" ng-model="journalEntryForm.routingCode" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2">Receipt#</label>
+              <div class="col-md-3">
+                  <input id="receiptNumber" type="text" ng-model="journalEntryForm.receiptNumber" class="form-control">
+              </div>
+              <div class="col-md-1"></div>                                
+              <label class="control-label col-md-2">Bank#</label>
+              <div class="col-md-3">
+                  <input id="bankNumber" type="text" ng-model="journalEntryForm.bankNumber" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2">Comment<span class="required"> *</span></label>
+            <div class="col-md-9 validate">
+                  <textarea rows="4" ng-model="journalEntryForm.comments" class="form-control" required></textarea>
+            </div>
+          </div>
+          <hr/>
+          <div class="col-md-offset-5 paddedtop">                           
+            <a id="cancel" href="#/journalentries" class="btn btn-warning">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

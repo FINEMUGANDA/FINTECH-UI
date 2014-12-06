@@ -44,9 +44,13 @@ app.constant('REST_URL', {
     ACCOUNT_BY_ID: 'api/v1/glaccounts/',
     ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template',
     ACCOUNT_UPDATE_BY_ID: 'api/v1/glaccounts/',
-    ACCOUNT_CREATE: 'api/v1/glaccounts',
+    ACCOUNT_CREATE: 'api/v1/glaccounts',    
+    JOURNALENTRIES:'api/v1/journalentries',
     JOURNALENTRIES_LIST:'api/v1/runreports/JournalEntryList',
-    JOURNALENTRIES:'api/v1/journalentries'    
+    GLACCOUNTS:'api/v1/glaccounts',
+    CURRENCY_LIST:'api/v1/currencies',
+    CODE_LIST:'api/v1/codes',
+    OFFICE_LIST:'api/v1/offices'
 });
 
 app.constant('PAGE_URL', {

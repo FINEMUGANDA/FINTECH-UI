@@ -209,6 +209,12 @@ var app = angular.module('angularjsApp', [
           data: {
             authorizedRoles: ['admin']
           }
+      }).when('/journalentries/create', {
+          templateUrl: 'views/Journalentries/createJournalentries.html',
+          controller: 'CreateJournalEntriesCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
       }).otherwise({
         redirectTo: '/'
       });

@@ -1,12 +1,15 @@
 'use strict';
 
-angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
+angular.module('angularjsApp').controller('JournalEntriesCtrl', function($rootScope, $scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
   console.log('JournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 5;
 
   //Success callback
   var loadJournalEntriesSuccess = function(result) {
+    $rootScope.type = '';
+    $rootScope.message = '';
+    $rootScope.errors = '';
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
@@ -40,10 +43,10 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
 });
 
 //View Journal Entry in Details
-angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route,$scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility) {
+angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route,$scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
   console.log('JournalEntriesDetailsCtrl');
   $scope.isLoading = false;
-  $scope.itemsByPage = 2;
+  $scope.itemsByPage = 5;
   $scope.id = $route.current.params.id;
 
   //Success callback
@@ -72,7 +75,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     console.log('Error : Return from JournalService service.' + result);
   };
 
-  var loadJournalDetailsEntries = function getData() {
+  var loadJournalEntriesDetails = function getData() {
     $scope.isLoading = true;
     $timeout(
       function() {
@@ -81,12 +84,153 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
         if ($scope.id) {
           url = url + $scope.id;
         } else {
-          //TODO
+          $location.path(PAGE_URL.JOURNALENTRIES);
         }
         //service to get journalentries from server
         JournalService.getData(url).then(loadJournalEntriesDetailsSuccess, loadJournalEntriesDetailsFail);
       }, 2000);
   };
 
-  loadJournalDetailsEntries();
+  loadJournalEntriesDetails();
+});
+
+//Create Journal Entry
+angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($rootScope, $scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
+  console.log('CreateJournalEntriesCtrl');
+  $scope.isLoading = false;
+  $scope.journalEntryForm = {};
+  $scope.journalEntryForm.crAccounts = [{}];
+  $scope.journalEntryForm.dbAccounts = [{}];
+  $scope.showPaymentDetails = false;
+  //For date of transaction calendar  
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+  //Get all acounts
+  JournalService.getData(REST_URL.GLACCOUNTS + '?disabled=false&manualEntriesAllowed=true&usage=1').then(function(data){
+    $scope.glAccounts = data.data;
+  });
+  //Get all currency
+  JournalService.getData(REST_URL.CURRENCY_LIST + '?fields=selectedCurrencyOptions').then(function(result){
+    $scope.currencyOptions = result.data.selectedCurrencyOptions;
+    $scope.journalEntryForm.currencyCode = $scope.currencyOptions[0].code;
+  });
+  //Get all code values
+  JournalService.getData(REST_URL.CODE_LIST + '/12/codevalues').then(function(result){
+    if (result.data.length > 0) {
+        $scope.journalEntryForm.paymentTypeId = result.data[0].id;
+    }
+    $scope.paymentTypes = result.data;
+  });
+  JournalService.getData(REST_URL.OFFICE_LIST).then(function(result){
+    $scope.offices = result.data;
+    $scope.journalEntryForm.officeId = $scope.offices[0].id;    
+  });
+
+  //events for credits
+  $scope.addCrAccount = function () {
+      $scope.journalEntryForm.crAccounts.push({});
+  }
+
+  $scope.removeCrAccount = function (index) {
+      $scope.journalEntryForm.crAccounts.splice(index, 1);
+  }
+
+  //events for debits
+  $scope.addDebitAccount = function () {
+      $scope.journalEntryForm.dbAccounts.push({});
+  }
+
+  $scope.removeDebitAccount = function (index) {
+      $scope.journalEntryForm.dbAccounts.splice(index, 1);
+  }
+
+  //Validate create journalentry
+  $scope.validateJournalEntry = function() {
+    $scope.type = '';
+    $scope.message = '';
+    $scope.errors = '';
+    console.log('CreateJournalEntriesCtrl : validateJournalEntry');
+    if ($scope.createjournalentryForm.$valid) {
+      $scope.saveJournalEntry(createjournalentryForm);
+    } else {
+      $scope.invalidateForm();
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';      
+      $('html, body').animate({scrollTop: 0}, 800);
+    }
+  };
+  //invalidate login form
+  $scope.invalidateForm = function() {
+    $scope.createjournalentryForm.invalidate = false;
+  };
+
+  //Start - Save Journal Entry
+  $scope.saveJournalEntry = function(createjournalentryForm) {
+    console.log('CreateJournalEntriesCtrl : saveJournalEntry');
+    var jeTransaction = new Object();
+    var d = new Date(this.journalEntryForm.transationDate);
+    jeTransaction.transactionDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();    
+    jeTransaction.locale = 'en';
+    jeTransaction.dateFormat = 'dd/MM/yyyy';
+    jeTransaction.officeId = this.journalEntryForm.officeId;
+    jeTransaction.transactionDate = jeTransaction.transactionDate ;
+    jeTransaction.referenceNumber = this.journalEntryForm.referenceNumber;
+    jeTransaction.comments = this.journalEntryForm.comments;
+    jeTransaction.currencyCode = this.journalEntryForm.currencyCode;
+    jeTransaction.paymentTypeId = this.journalEntryForm.paymentTypeId;
+    jeTransaction.accountNumber = this.journalEntryForm.accountNumber;
+    jeTransaction.checkNumber = this.journalEntryForm.checkNumber;
+    jeTransaction.routingCode = this.journalEntryForm.routingCode;
+    jeTransaction.receiptNumber = this.journalEntryForm.receiptNumber;
+    jeTransaction.bankNumber = this.journalEntryForm.bankNumber;
+
+    //Construct credits array
+    jeTransaction.credits = [];
+    for (var i = 0; i < this.journalEntryForm.crAccounts.length; i++) {
+        var temp = new Object();
+        if(this.journalEntryForm.crAccounts[i].select){
+          temp.glAccountId = this.journalEntryForm.crAccounts[i].select.id;
+        }
+        temp.amount = this.journalEntryForm.crAccounts[i].crAmount;
+        jeTransaction.credits.push(temp);
+    }
+    //construct debits array
+    jeTransaction.debits = [];
+    for (var i = 0; i < this.journalEntryForm.dbAccounts.length; i++) {
+        var temp = new Object();
+        if(this.journalEntryForm.dbAccounts[i].select){
+          temp.glAccountId = this.journalEntryForm.dbAccounts[i].select.id;
+        }
+        temp.amount = this.journalEntryForm.dbAccounts[i].debitAmount;
+        jeTransaction.debits.push(temp);
+    }
+
+    var saveJournalEntrySuccess = function() {
+      console.log('Success : Return from JournalService service.');
+      $rootScope.type = 'alert-success';
+      $rootScope.message = 'Journal Entry saved successfully';      
+      $location.path(PAGE_URL.JOURNALENTRIES);
+    };
+
+    var saveJournalEntryFail = function(result) {
+      console.log('Error : Return from JournalService service.');
+      $scope.type = 'error';
+      $scope.message = 'Journal Entry not saved: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+      if (result.data.errors && result.data.errors.length) {
+        for (var i = 0; i < result.data.errors.length; i++) {
+          $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+        }
+      }
+      $('html, body').animate({scrollTop: 0}, 800);
+    };
+    var json = angular.toJson(jeTransaction);
+    console.log(json);
+    var url = REST_URL.JOURNALENTRIES;        
+    JournalService.saveJournalEntry(url, json).then(saveJournalEntrySuccess, saveJournalEntryFail);
+  };
+  //Finish - Save Journal Entry
 });
