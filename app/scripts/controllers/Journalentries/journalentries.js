@@ -43,7 +43,7 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($rootSc
 });
 
 //View Journal Entry in Details
-angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route,$scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
+angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route, $scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
   console.log('JournalEntriesDetailsCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 5;
@@ -63,6 +63,11 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
         $scope.createdDate = $scope.rowCollection[0].createdDate[2] + '/';
         $scope.createdDate +=$scope.rowCollection[0].createdDate[1] + '/';
         $scope.createdDate +=$scope.rowCollection[0].createdDate[0];
+      }
+      for (var i in result.data.pageItems) {          
+        if (result.data.pageItems[i].reversed == false) {
+            $scope.flag = true;
+        }
       }
     } catch (e) {
       console.log(e);
@@ -92,6 +97,31 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
   };
 
   loadJournalEntriesDetails();
+
+  //Failure callback : Reverse Entry
+  var reverseJournalEntryFail = function(result) {
+    console.log('Error : Return from JournalService service.');
+    $scope.type = 'error';
+    $scope.message = 'Journal Entry not reversed: ' + result.data.defaultUserMessage;
+    $scope.errors = result.data.errors;
+    if (result.data.errors && result.data.errors.length) {
+      for (var i = 0; i < result.data.errors.length; i++) {
+        $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+      }
+    }
+    $('html, body').animate({scrollTop: 0}, 800);
+  };
+
+  //Reverse Entry
+  $scope.spin = false;
+  $scope.reverseTransaction = function (transactionId) {
+    $scope.spin = true;
+    console.log(transactionId);
+    var url = REST_URL.JOURNALENTRIES + '/'+ transactionId +'?command=reverse';
+    JournalService.saveJournalEntry(url).then(function (data) {
+      $route.reload();
+    }, reverseJournalEntryFail);
+  }
 });
 
 //Create Journal Entry

@@ -17,8 +17,10 @@
                   <ul role="tablist">
                     <li role="presentation">
                     <div class="action">                      
-                      <a class="btn primary" >
-                          <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>Reverse
+                      <a data-ng-show="flag" ng-click="reverseTransaction(id)" class="btn primary">
+                          <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
+                          <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>
+                          Reverse
                       </a>
                     </div>
                     </li>
