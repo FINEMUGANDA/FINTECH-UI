@@ -100,23 +100,24 @@
                 <label class="control-label col-md-2">Repayment Frequency<span class="required">*</span></label>
                 <div class="col-md-3">                
                     <select id="repaymentFrequencyType" class="form-control"
-                        ng-model="loanProductDetails.repaymentFrequencyType"
-                        ng-options="repaymentFrequencyType.id as repaymentFrequencyType.value for repaymentFrequencyType in product.repaymentFrequencyTypeOptions"
-                        value="{{repaymentFrequencyType.id}}">
-                    </select>    
+                      ng-model="loanProductDetails.repaymentFrequencyType" >
+                      <option value="2"> Monthly </option>
+                    </select>
                 </div>
                 <div class="col-md-1"></div>
                 <label class="control-label col-md-2">Amortization<span class="required">*</span></label>
                 <div class="col-md-3">
-                    <select id="amortizationType" ng-model="loanProductDetails.amortizationType" class="form-control" ng-options="amortizationType.id as amortizationType.value for amortizationType in product.amortizationTypeOptions" value="{{amortizationType.id}}">
-                    </select>
+                    <select id="amortizationType" ng-model="loanProductDetails.amortizationType" class="form-control">
+                      <option value="1" >Equal installments</option>
+                  </select>
                 </div>
               </div>  
               <div class="form-group">
                 <label class="control-label col-md-2">Interest Rate Frequency Type</label>
                 <div class="col-md-3">
-                    <select class="form-control" id="interestRateFrequencyType" ng-model="loanProductDetails.interestRateFrequencyType" ng-options="interestRateFrequencyType.id as interestRateFrequencyType.value for interestRateFrequencyType in product.interestRateFrequencyTypeOptions" value="{{interestRateFrequencyType.id}}">
-                    </select>
+                    <select class="form-control" id="interestRateFrequencyType" ng-model="loanProductDetails.interestRateFrequencyType" >
+                      <option value="3" selected="selected" label="Per year">Per year</option>
+                  </select>
                 </div>
                 <div class="col-md-1"></div>
                 <label class="control-label col-md-2">Transaction Processing Strategy<span class="required">*</span></label>
@@ -129,8 +130,9 @@
               <div class="form-group">
                 <label class="control-label col-md-2">Interest Rate Type<span class="required">*</span></label>
                <div class="col-md-3">
-                    <select id="interestType" ng-model="loanProductDetails.interestType" class="form-control" ng-options="interestType.id as interestType.value for interestType in product.interestTypeOptions" value="{{interestType.id}}">
-                    </select>
+                    <select id="interestType" ng-model="loanProductDetails.interestType" class="form-control">
+                      <option value="1"> Flat </option>
+                  </select>
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-xs-2 text-right">

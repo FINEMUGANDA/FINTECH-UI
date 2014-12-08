@@ -73,13 +73,17 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope
     try {
       $scope.product = result.data;
       $scope.loanProductDetails.digitsAfterDecimal = '2';
-      $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions[7].code;
+      $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions[7].code; 
+      //Days and weeks options are hidden
       $scope.loanProductDetails.repaymentFrequencyType = $scope.product.repaymentFrequencyType.id;
+      //Per month option is hidden
       $scope.loanProductDetails.interestRateFrequencyType = $scope.product.interestRateFrequencyType.id;
       $scope.loanProductDetails.amortizationType = $scope.product.amortizationType.id;
+      //Declining Balance option is hidden
       $scope.loanProductDetails.interestType = $scope.product.interestType.id;
       //$scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
 
+      //Set defaults value as per requirements
       $scope.loanProductDetails.includeInBorrowerCycle = 'true';
       $scope.loanProductDetails.transactionProcessingStrategyId = 8;
       $scope.loanProductDetails.interestType = 1;
