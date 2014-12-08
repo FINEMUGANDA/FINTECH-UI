@@ -33,7 +33,7 @@
         </tr>
         <tr>
           <th st-sort="name">Charge Name</th>
-          <th st-sort="chargeTimeType">Type</th>
+          <th st-sort="charges.penalty">Type</th>
           <th st-sort="amount" class="number">Amount(%)</th>
         </tr>
       </thead>
@@ -42,12 +42,13 @@
           <td data-ng-click="routeTo(charges.id)">{{charges.name}}</td>
           <td data-ng-click="routeTo(charges.id)">
               <div class="name">
-                <a>{{charges.chargeTimeType.value}}</a>
+                <a>{{charges.penalty | getChargeType}}</a>
               </div>
           </td>
           <td class="number" data-ng-click="routeTo(charges.id)">
             <span>
               {{charges.currency.displaySymbol}}{{charges.amount}}
+              <span ng-show="charges.chargeCalculationType.id==2">%</span> 
             </span>
           </td>
         </tr>

@@ -10,6 +10,7 @@ chargesController.controller('ChargesCtrl', function($scope, $rootScope, $locati
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.itemsByPage = 11;
   //Success callback
   var chargesSuccess = function(result) {
     $scope.isLoading = false;

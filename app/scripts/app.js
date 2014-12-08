@@ -561,6 +561,18 @@ app.filter('getRepaymentFrequencyType', [ function() {
   };
 }]);
 
+//Give type value on charges grid
+app.filter('getChargeType', [ function() {
+    var value; 
+    return function(type){
+      value = 'Charge';
+      if(type){
+        value = 'Penalty';
+      }
+      return value;
+  };
+}]);
+
 //color code status for each data tables
 app.filter('checkEmptyString', [ function() {
     return function(value) {
