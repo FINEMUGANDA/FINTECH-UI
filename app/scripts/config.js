@@ -4,15 +4,15 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {    
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-//    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
+//    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
+    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
     'role' : 'role',
     'PAGE_SIZE' : 5,
     'DISPLAYED_PAGES' : 5,
-    'NO_IMAGE_THUMB' : 'images/client_image/noPhoto.jpg'
+    'NO_IMAGE_THUMB' : 'images/noPhoto.jpg'
 });
 
 app.constant('REST_URL', {
