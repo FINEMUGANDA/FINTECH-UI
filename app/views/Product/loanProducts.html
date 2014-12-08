@@ -34,7 +34,7 @@
         <tr>
           <th st-sort="name">Loan Product Name</th>
           <th st-sort="description">Description</th>
-          <th st-sort="numberOfRepayments" class="number">Repayment Frequency</th>
+          <th st-sort="repaymentFrequencyType.value">Repayment Frequency</th>
           <th st-sort="interestRatePerPeriod" class="number">Interest Rate</th>          
         </tr>
       </thead>
@@ -46,15 +46,11 @@
           <td data-ng-click="routeTo(loanProducts.id)">
             {{loanProducts.description}}
           </td>
-          <td class="number" data-ng-click="routeTo(loanProducts.id)">
-              <div class="name">
-                {{loanProducts.numberOfRepayments}}
-              </div>
+          <td data-ng-click="routeTo(loanProducts.id)">              
+              {{loanProducts.repaymentFrequencyType.value | getRepaymentFrequencyType }}              
           </td>
-          <td class="number" data-ng-click="routeTo(loanProducts.id)">
-            <span>
+          <td class="number" data-ng-click="routeTo(loanProducts.id)">            
               {{loanProducts.interestRatePerPeriod}}
-            </span>
           </td>
         </tr>
       </tbody>

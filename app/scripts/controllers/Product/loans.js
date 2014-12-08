@@ -9,6 +9,7 @@ LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $rootScope, $loc
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.itemsByPage = 10;
 
   //Success callback
   var loanProductsSuccess = function(result) {

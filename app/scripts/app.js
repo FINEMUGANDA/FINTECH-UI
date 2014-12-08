@@ -549,11 +549,21 @@ app.filter('getDropdownNames', [ function() {
   };
 }]);
 
+//Convert months into monthly in repaymentFrequencyType
+app.filter('getRepaymentFrequencyType', [ function() {
+    var value; 
+    return function(name){
+      value = name;
+      if(name==='Months'){
+        value = 'Monthly';
+      }
+      return value;
+  };
+}]);
+
 //color code status for each data tables
 app.filter('checkEmptyString', [ function() {
     return function(value) {
       return value==='';
     };
 }]);
-
-
