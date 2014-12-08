@@ -65,7 +65,7 @@ chargesController.controller('CreateChargeCtrl', function($scope, $rootScope, $l
       $scope.chargeDetails.chargeTimeType = '8';
       //Charge Type
       $scope.chargeDetails.chargeCalculationType = '1';
-      $scope.chargeDetails.currencyCode = 'USD';
+      $scope.chargeDetails.currencyCode = $scope.product.currencyOptions[7].code;
       $scope.chargeDetails.chargePaymentMode = '0';
     } catch (e) {
       console.log(e);
@@ -91,7 +91,11 @@ chargesController.controller('CreateChargeCtrl', function($scope, $rootScope, $l
   //Save block
   $scope.saveCharge = function() {
     console.log('chargesController : CreateChargeCtrl : saveCharge');
-
+    //Set amount according to charge type
+    this.chargeDetails.amount = $scope.flat;
+    if(this.chargeDetails.chargeCalculationType===2){
+      this.chargeDetails.amount = $scope.percentage;
+    }
     var saveChargeSuccess = function() {
       console.log('Success : Return from charge service.');
       $rootScope.type = 'alert-success';
@@ -138,6 +142,11 @@ chargesController.controller('EditChargeCtrl', function($scope, $rootScope, $loc
       //Charge Type
       $scope.chargeDetails.chargeCalculationType = '1';
       $scope.chargeDetails.chargePaymentMode = '0';
+      //Set charge type
+      $scope.flat = $scope.chargeDetails.amount;
+      if($scope.product.chargeCalculationType===2){        
+        $scope.percentage = $scope.chargeDetails.amount <=100 ? $scope.chargeDetails.amount : 100;
+      }
     } catch (e) {
       console.log(e);
     }
@@ -163,6 +172,11 @@ chargesController.controller('EditChargeCtrl', function($scope, $rootScope, $loc
   //Update block
   $scope.updateCharge = function() {
     console.log('chargesController : EditChargeCtrl : updateCharge');
+    //Set amount according to charge type
+    this.chargeDetails.amount = $scope.flat;
+    if(this.chargeDetails.chargeCalculationType===2){
+      this.chargeDetails.amount = $scope.percentage;
+    }
 
     var updateChargeSuccess = function() {
       console.log('Success : Return from charge service.');

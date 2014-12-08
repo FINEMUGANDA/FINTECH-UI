@@ -51,10 +51,9 @@
           <div class="form-group">
               <label class="control-label col-md-3">Applies To</label>
               <div class="col-md-3">
-                  <select id="chargeAppliesTo" name="chargeappliesto" ng-model="chargeDetails.chargeAppliesTo"
-                    ng-options="chargesapply.id as chargesapply.value for chargesapply in product.chargeAppliesToOptions"
-                    value="{{chargesapply.id}}" class="form-control">
-                  </select>  
+                  <select id="chargeAppliesTo" name="chargeappliesto" ng-model="chargeDetails.chargeAppliesTo" class="form-control">
+                    <option value="1" >Loan</option>
+                  </select>
               </div>
           </div>
           <div class="form-group">
@@ -77,9 +76,14 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-3">Ammount(%)<span class="required">*</span></label>
+              <label class="control-label col-md-3">Ammount
+              <span ng-show="chargeDetails.chargeCalculationType==2">(%)</span>
+              <span class="required">*</span>
+              </label>
               <div class="validate col-md-3">                  
-                  <input id="amount" name="amount" type="text" ng-model="chargeDetails.amount" class="form-control" only-digits required>
+                  <input id="flat" name="flat" ng-show="chargeDetails.chargeCalculationType==1" type="text" ng-model="flat" class="form-control" only-digits required>
+                  </input>
+                  <input id="percentage" name="percentage" ng-show="chargeDetails.chargeCalculationType==2" type="text" ng-model="percentage" class="form-control" only-digits required maxlength="3">
                   </input>
               </div>
           </div>
