@@ -92,9 +92,11 @@ chargesController.controller('CreateChargeCtrl', function($scope, $rootScope, $l
   //Save block
   $scope.saveCharge = function() {
     console.log('chargesController : CreateChargeCtrl : saveCharge');
+    $scope.type = '';
+    $scope.message = '';
     //Set amount according to charge type
     this.chargeDetails.amount = $scope.flat;
-    if(this.chargeDetails.chargeCalculationType===2){
+    if(this.chargeDetails.chargeCalculationType==='2'){
       this.chargeDetails.amount = $scope.percentage;
     }
     var saveChargeSuccess = function() {
@@ -115,8 +117,13 @@ chargesController.controller('CreateChargeCtrl', function($scope, $rootScope, $l
         }
       }
     };
-    console.log('JSON.toJson(chargeDetails) > ' + angular.toJson(this.chargeDetails));
-    ChargesService.saveCharge(REST_URL.CREATE_CHARGE, angular.toJson(this.chargeDetails)).then(saveChargeSuccess, saveChargeFail);
+    if(this.chargeDetails.chargeCalculationType==='2' && $scope.percentage > 100){
+      $scope.type = 'error';
+      $scope.message = 'Amount(%) must be or equal to 100';
+    }else{
+      console.log('JSON.toJson(chargeDetails) > ' + angular.toJson(this.chargeDetails));
+      ChargesService.saveCharge(REST_URL.CREATE_CHARGE, angular.toJson(this.chargeDetails)).then(saveChargeSuccess, saveChargeFail);
+    }
   };
 });
 
@@ -141,11 +148,11 @@ chargesController.controller('EditChargeCtrl', function($scope, $rootScope, $loc
       //Application Frequency
       $scope.chargeDetails.chargeTimeType = '8';
       //Charge Type
-      $scope.chargeDetails.chargeCalculationType = '1';
+      $scope.chargeDetails.chargeCalculationType = $scope.product.chargeCalculationType.id;
       $scope.chargeDetails.chargePaymentMode = '0';
       //Set charge type
       $scope.flat = $scope.chargeDetails.amount;
-      if($scope.product.chargeCalculationType===2){        
+      if($scope.product.chargeCalculationType.id===2){        
         $scope.percentage = $scope.chargeDetails.amount <=100 ? $scope.chargeDetails.amount : 100;
       }
     } catch (e) {
@@ -173,9 +180,11 @@ chargesController.controller('EditChargeCtrl', function($scope, $rootScope, $loc
   //Update block
   $scope.updateCharge = function() {
     console.log('chargesController : EditChargeCtrl : updateCharge');
+    $scope.type = '';
+    $scope.message = '';
     //Set amount according to charge type
     this.chargeDetails.amount = $scope.flat;
-    if(this.chargeDetails.chargeCalculationType===2){
+    if(this.chargeDetails.chargeCalculationType==='2'){
       this.chargeDetails.amount = $scope.percentage;
     }
 
@@ -197,8 +206,13 @@ chargesController.controller('EditChargeCtrl', function($scope, $rootScope, $loc
         }
       }
     };
-    console.log('JSON.toJson(chargeDetails) > ' + angular.toJson(this.chargeDetails));
-    var $url = REST_URL.RETRIVE_CHARGE_BY_ID + $route.current.params.id;
-    ChargesService.updateCharge($url, angular.toJson(this.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
+    if(this.chargeDetails.chargeCalculationType==='2' && $scope.percentage > 100){
+      $scope.type = 'error';
+      $scope.message = 'Amount(%) must be or equal to 100';
+    }else{
+      console.log('JSON.toJson(chargeDetails) > ' + angular.toJson(this.chargeDetails));
+      var $url = REST_URL.RETRIVE_CHARGE_BY_ID + $route.current.params.id;
+      ChargesService.updateCharge($url, angular.toJson(this.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
+    }    
   };
 });
