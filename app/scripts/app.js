@@ -535,15 +535,19 @@ app.filter('status', [ function() {
 }]);
 
 //Populate data values into table
-app.filter('getDropdownValues', [ function() {
-    return function(id, dataValues){    
-      for(var i=0; i<dataValues.length; i++){
-        if(id===dataValues[i].id){
-          return dataValues[i].value;
+app.filter('getDropdownValues', [function() {
+    return function(id, dataValues) {
+      for (var i = 0; i < dataValues.length; i++) {
+        try {
+          if (parseInt(id) === parseInt(dataValues[i].id)) {
+            return dataValues[i].value;
+          }
+        } catch (e) {
+
         }
-      } 
-  };
-}]);
+      }
+    };
+  }]);
 
 //Populate data names into table
 app.filter('getDropdownNames', [ function() {

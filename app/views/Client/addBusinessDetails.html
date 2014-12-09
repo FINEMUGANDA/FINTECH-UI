@@ -3,158 +3,158 @@
   <div ng-include src="'/views/alert.html'"></div>
   <div class="rows">
     <div class="page-header">
-    <div class="header">
-      <h3>Edit Client</h3>
-    </div>	
-    <div class="summary">	
-    	<div class="shortcuts">
-    	    <ul role="tablist">
-    	        <li role="presentation"><a href="#/editbasicclientinfo/{{id}}">Basic Client info</a></li>
-    	        <li role="presentation"><a href="#/editadditionalclientinfo/{{id}}">Additonal Client Info</a></li>
-    	        <li role="presentation"><a href="#/editclientidentification/{{id}}">Client ID</a></li>
-    	        <li role="presentation"><a href="#/editnextofkeen/{{id}}">Emergency Contacts/Next of Kin</a></li>
-    	        <li role="presentation"><a href="#/editbusinessdetails/{{id}}" class="active">Business Details</a></li>
-    	    </ul>
-    	</div>
+      <div class="header">
+        <h3>Edit Client</h3>
+      </div>
+      <div class="summary">
+        <div class="shortcuts">
+          <ul role="tablist">
+            <li role="presentation"><a href="#/editbasicclientinfo/{{id}}">Basic Client info</a></li>
+            <li role="presentation"><a href="#/editadditionalclientinfo/{{id}}">Additonal Client Info</a></li>
+            <li role="presentation"><a href="#/editclientidentification/{{id}}">Client ID</a></li>
+            <li role="presentation"><a href="#/editnextofkeen/{{id}}">Emergency Contacts/Next of Kin</a></li>
+            <li role="presentation"><a href="#/editbusinessdetails/{{id}}" class="active">Business Details</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-    <div calss="col-md-12">
+    <div class="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
-        <div class="form-group">          
-          <div class="loading-indicator">Loading...</div>        
+        <div class="form-group">
+          <div class="loading-indicator">Loading...</div>
         </div>
       </div>
       <form name="ClientBusinessActivityForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientBusinessActivity(clientBusinessActivity)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-4">Business Activity<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-              	<select id="BusinessActivity_cd_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in businessActivityOptions" class="form-control"  value="{{columnValues.id}}"  required>
-                  </select>	
-              </div>
-          </div>
-           <div class="form-group">                
-              <label class="control-label col-md-4">Business Name (if any)<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-                  <input id="business_name" name="business_name" class="form-control" type="text" ng-model="clientBusinessActivity.business_name" required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-4">operating since<span class="required"> *</span></label>
-              <div class="validate col-md-6 dateCss">
-                  <input id="operating_since" name="operating_since" class="form-control" type="text" ng-model="clientBusinessActivity.operating_since" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="open($event)" readonly="true"  required></input>
-              </div>
+            <label class="control-label col-md-4">Business Activity<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <select id="BusinessActivity_cd_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_business_activity" class="form-control" required>
+                <option ng-repeat="businessActivity in businessActivityOptions" value="{{businessActivity.id}}">{{businessActivity.value}}</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">Bookkeeping<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-                <select id="YesNo_cd_book_keeping" ng-model="clientBusinessActivity.YesNo_cd_book_keeping" ng-options="columnValues.id as columnValues.value for columnValues in BookingKeeping" class="form-control"  value="{{columnValues.id}}"  required>
-                  </select> 
-              </div>
-          </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">                
-              <label class="control-label col-md-4">Business Address</label>
-              <div class="col-md-6">
-                  <textarea rows="2" id="business_address" name="business_address" class="form-control" ng-model="clientBusinessActivity.business_address"></textarea>
-              </div>
+            <label class="control-label col-md-4">Business Name (if any)<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <input id="business_name" name="business_name" class="form-control" type="text" ng-model="clientBusinessActivity.business_name" required />
+            </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">Other income generating activities (list)<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-                <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control"  value="{{columnValues.id}}" ng-change="changeIncomeActivity()"  required>
-                </select> 
-              </div>
+            <label class="control-label col-md-4">operating since<span class="required"> *</span></label>
+            <div class="validate col-md-6 dateCss">
+              <input id="operating_since" name="operating_since" class="form-control" type="text" ng-model="clientBusinessActivity.operating_since" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-4">Bookkeeping<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <select id="YesNo_cd_book_keeping" ng-model="clientBusinessActivity.YesNo_cd_book_keeping" ng-options="columnValues.id as columnValues.value for columnValues in BookingKeeping" class="form-control" value="{{columnValues.id}}" required></select> 
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-4">Business Address</label>
+            <div class="col-md-6">
+              <textarea rows="2" id="business_address" name="business_address" class="form-control" ng-model="clientBusinessActivity.business_address"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-4">Other income generating activities (list)<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control" value="{{columnValues.id}}" ng-change="changeIncomeActivity()" required>
+              </select> 
+            </div>
           </div>
           <div class="form-group" ng-show="isIncomeActivity">
-              <label class="control-label col-md-4">list of income activities<span class="required"> *</span></label>
-              <div class="col-md-6">
-                <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in otherIncomeBusinessActivity" class="form-control"  value="{{columnValues.id}}">
-                  </select> 
-              </div>
-          </div>          
+            <label class="control-label col-md-4">List of income activities<span class="required"> *</span></label>
+            <div class="col-md-6">
+<!--              <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in otherIncomeBusinessActivity" class="form-control" value="{{columnValues.id}}">
+              </select>-->
+              <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" class="form-control" required>
+                <option ng-repeat="businessActivity in filterBusinessActivity(otherIncomeBusinessActivity)" value="{{businessActivity.id}}">{{businessActivity.value}}</option>
+              </select>
+
+            </div>
+          </div>
         </div>
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
-            <button id="save" type="submit" class="btn btn-primary">Save</button>
+            <button id="save" type="submit" class="btn btn-primary">{{clientBusinessActivity.id? 'Update' : 'Add'}}</button>
           </div>
-        </div>  
-               
+        </div>
+
       </form>
       <hr/>
       <table class="table"  st-table="displayed" st-safe-src="rowCollection">
-            <thead>                
-              <tr>
-                <th st-sort="BusinessActivity_cd_business_activity">Business Activity</th>
-                <th st-sort="business_name">Business Name</th>
-                <th st-sort="operating_since">operating since</th>
-                <th st-sort="YesNo_cd_book_keeping">Bookkeeping</th>
-                <th st-sort="business_address">Business Address</th>
-                <th st-sort="BusinessActivity_cd_other_income_business_activity">list of income activities</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
-                <td data-ng-click="editBusinessActivity($index)">
-                    <div class="name" >
-                      {{row.BusinessActivity_cd_business_activity | getDropdownValues:businessActivityOptions}}
-                    </div>
-                </td>
-                <td data-ng-click="editBusinessActivity($index)">
-                    <div class="name">
-                      {{row.business_name}}
-                    </div>
-                </td>
-                <td data-ng-click="editBusinessActivity($index)">
-                    <div class="name" ng-show="{{row.operating_since[2]}}">
-                      {{row.operating_since[2]}}/{{row.operating_since[1]}}/{{row.operating_since[0]}}
-                    </div>
-                </td>
-                <td data-ng-click="editBusinessActivity($index)">
-                    <div class="name">
-                      {{row.YesNo_cd_book_keeping | getDropdownValues:BookingKeeping}}
-                    </div>
-                </td>
-                <td data-ng-click="editBusinessActivity($index)">
-                  <div class="name">
-                    {{row.business_address}}
-                  </div>
-                </td>
-                <td data-ng-click="editBusinessActivity($index)">
-                  <div class="name">
-                    {{row.BusinessActivity_cd_other_income_business_activity | getDropdownValues:otherIncomeBusinessActivity}}
-                  </div>
-                </td>
-                <td class="number">
-                  <a ng-click="deleteBusinessDetails($index)">                      
-                      <span class="glyphicon glyphicon-remove pointer"></span>
-                  </a>
-                </td>
-              </tr>
-            </tbody>   
-            <tfoot ng-hide="isLoading">
-                <tr>
-                  <td colspan="8">
-                    <div class="table-footer">
-                      <div class="export">
-                          <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
-                      </div>
-                      <div class="paginate">
-                        <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>           
-          </table>
-          <hr/>
-        <div class="col-md-12">
-          <div class="col-md-offset-5 paddedtop">
-            <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning">Back</a>
-          </div>
+        <thead>
+          <tr>
+            <th st-sort="BusinessActivity_cd_business_activity">Business Activity</th>
+            <th st-sort="business_name">Business Name</th>
+            <th st-sort="operating_since">operating since</th>
+            <th st-sort="YesNo_cd_book_keeping">Bookkeeping</th>
+            <th st-sort="business_address">Business Address</th>
+            <th st-sort="BusinessActivity_cd_other_income_business_activity">List of income activities</th>
+            <th width="1%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
+            <td data-ng-click="editBusinessActivity($index)">
+              <div class="name">
+                {{row.BusinessActivity_cd_business_activity| getDropdownValues:businessActivityOptions}}
+              </div>
+            </td>
+            <td data-ng-click="editBusinessActivity($index)">
+              <div class="name">
+                {{row.business_name}}
+              </div>
+            </td>
+            <td data-ng-click="editBusinessActivity($index)">
+              <div class="name" ng-show="{{row.operating_since[2]}}">
+                {{row.operating_since[2]}}/{{row.operating_since[1]}}/{{row.operating_since[0]}}
+              </div>
+            </td>
+            <td data-ng-click="editBusinessActivity($index)">
+              <div class="name">
+                {{row.YesNo_cd_book_keeping| getDropdownValues:BookingKeeping}}
+              </div>
+            </td>
+            <td data-ng-click="editBusinessActivity($index)">
+              <div class="name">
+                {{row.business_address}}
+              </div>
+            </td>
+            <td data-ng-click="editBusinessActivity($index)">
+              <div class="name">
+                {{row.BusinessActivity_cd_other_income_business_activity| getDropdownValues:otherIncomeBusinessActivity}}
+              </div>
+            </td>
+            <td class="actions"><a href="javascript:void(0);" ng-click="deleteBusinessDetails($index)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+          </tr>
+        </tbody>
+        <tfoot ng-hide="isLoading">
+          <tr>
+            <td colspan="7">
+              <div class="table-footer">
+                <div class="export">
+                  <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
+                </div>
+                <div class="paginate">
+                  <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <hr/>
+      <div class="col-md-12">
+        <div class="col-md-offset-5 paddedtop">
+          <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning">Back</a>
         </div>
+      </div>
     </div>
   </div>
 </div>
