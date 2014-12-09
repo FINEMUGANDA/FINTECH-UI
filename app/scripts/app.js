@@ -125,6 +125,12 @@ var app = angular.module('angularjsApp', [
           data: {
             authorizedRoles: ['admin']
           }
+      }).when('/mapAccount/:id', {
+          templateUrl: 'views/Product/mapAccount.html',
+          controller: 'MapAccountingCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
       }).when('/editCharge/:id', {
           templateUrl: 'views/Product/editCharge.html',
           controller: 'EditChargeCtrl',
@@ -327,6 +333,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.CREATECHARGE:
           case PAGE_URL.EDITLOANPRODUCT:
           case PAGE_URL.EDITCHARGE:
+          case PAGE_URL.MAPACCOUNTING:
             $topNavigation.find('.configuration').parent().addClass('active');
             break;  
           case PAGE_URL.ACCOUNTING:

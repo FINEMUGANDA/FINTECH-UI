@@ -33,7 +33,7 @@ LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $rootScope, $loc
       function() {
         $scope.rowCollection = [];
         //service to get clients from server              
-        LoanProductService.getData(REST_URL.LOANS_PRODUCTS_LIST).then(loanProductsSuccess, loanProductsFail);
+        LoanProductService.getData(REST_URL.LOANS_PRODUCTS).then(loanProductsSuccess, loanProductsFail);
       }, 2000
       );
   };
@@ -192,14 +192,14 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope
       $('html, body').animate({scrollTop: 0}, 800);
     };
     console.log('JSON.toJson(loanProductDetails) > ' + angular.toJson(this.loanProductDetails));
-    LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS_LIST, angular.toJson(this.loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
+    LoanProductService.saveProduct(REST_URL.LOANS_PRODUCTS, angular.toJson(this.loanProductDetails)).then(saveloanProductSuccess, saveloanProductFail);
   };
 });
 
 
 LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
   console.log('LoanProductsCtrl : EditLoanProductsCtrl');
-
+  $scope.id = $route.current.params.id;
   //To highlight selected tab
   $scope.setStep = function(step) {
     $scope.step = step;
@@ -211,7 +211,11 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $roo
       $scope.charTab = 'active';
     }
   };
-  $scope.setStep(1);
+  $scope.step = 1;
+  if($rootScope.editStep && $rootScope.editStep !== 'undefined'){
+    $scope.step = $rootScope.editStep;
+  }
+  $scope.setStep($scope.step);
 
   //To load the loadproducts page
   $scope.isLoading = false;

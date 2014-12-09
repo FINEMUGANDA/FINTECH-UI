@@ -5,7 +5,7 @@ var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {    
     'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-//    'host' : 'https://192.168.1.11:8443/mifosng-provider/',
+//    'host' : 'https://localhost:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
@@ -24,7 +24,7 @@ app.constant('REST_URL', {
     'LOANS_AWAITING_DISBURSEMENT': 'api/v1/runreports/PageClientsScreenLoansAD',
     'LOANS_REJECTED': 'api/v1/runreports/PageClientsScreenLoansRejected',
     'LOANS_WRITTEN_OFF': 'api/v1/runreports/PageClientsScreenLoansWritten',
-    'LOANS_PRODUCTS_LIST': 'api/v1/loanproducts',
+    'LOANS_PRODUCTS': 'api/v1/loanproducts',
     'CHARGES': 'api/v1/charges',
     'LOAN_PRODUCTS_TEMPLATE':'api/v1/loanproducts/template',
     'CHARGE_TEMPLATE':'api/v1/charges/template',
@@ -68,6 +68,7 @@ app.constant('PAGE_URL', {
     'CREATELOANPRODUCT':'/createloanproduct',
     'CREATECHARGE':'/createCharge',
     'EDITLOANPRODUCT':'/editloanproduct',
+    'MAPACCOUNTING':'/mapAccount',
     'EDITCHARGE':'/editCharge',
     'CREATE_CLIENT':'/createClient',
     'EDIT_BASIC_CLIENT_INFORMATION':'/editbasicclientinfo',

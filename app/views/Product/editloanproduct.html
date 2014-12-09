@@ -19,7 +19,8 @@
         <div class="shortcuts">
             <ul role="tablist">
               <li><a class="pointer {{newProTab}}" ng-click="setStep(1)">Edit Product</a></li>
-              <li><a class="pointer {{charTab}}" ng-click="setStep(2)">Charges</a></li>          
+              <li><a class="pointer {{charTab}}" ng-click="setStep(2)">Charges</a></li>
+              <li><a class="pointer" href="#/mapAccount/{{id}}">Accounting</a></li>
             </ul>
         </div>
       </div>
@@ -191,8 +192,12 @@
                   </td>
                 </tr>
               </tbody>              
-            </table>
-            <button class="btn btn-warning" ng-click="setStep(1)">back</button>           
+            </table>            
+            <hr/>
+            <div class="col-md-offset-5 paddedtop">
+              <button class="btn btn-warning" ng-click="setStep(1)">back</button>              
+              <a id="save" class="btn btn-primary" href="#/mapAccount/{{id}}">Next</a>
+            </div>
           </form>
         </div>
       </div>
