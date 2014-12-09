@@ -165,12 +165,10 @@ tr.pointer > td {
 	color: #449acc !important;
 }
 
-.account-chart {
-  td.actions {
-    text-align: center;
-    .glyphicon-remove-circle {
-      color: #d9534f;
-    }
+td.actions {
+  text-align: center;
+  .glyphicon-remove-circle {
+    color: #d9534f;
   }
 }
 .dialog-header-confirm { 

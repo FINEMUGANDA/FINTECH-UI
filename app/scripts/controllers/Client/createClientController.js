@@ -1306,7 +1306,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
   };
 });
 
-CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility) {
+CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientBusinessActivityCtrl');
   //To load the loadproducts page
   $scope.isLoading = false;
@@ -1478,29 +1478,35 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   $scope.deleteBusinessDetails = function(ClientId) {
     console.log('CreateClientCtrl : CreateClient : deleteBusinessDetails');
 
-    var deleteBusinessDetailsSuccess = function() {
-      console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client Business Activity Detail deleted successfully';
-      //Load the template to display the changes onto the screen
-      loadCreateClientBusinessActivityTemplate();
-    };
+    var msg = 'You are about to remove Business Details';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var deleteBusinessDetailsSuccess = function() {
+          console.log('Success : Return from CreateClientsService service.');
+          $rootScope.type = 'alert-success';
+          $rootScope.message = 'Client Business Activity Detail deleted successfully';
+          //Load the template to display the changes onto the screen
+          loadCreateClientBusinessActivityTemplate();
+        };
 
-    var deleteBusinessDetailsFail = function(result) {
-      console.log('Error : Return from CreateClientsService service.');
-      $scope.type = 'error';
-      $scope.message = 'Client Business Activity not deleted: ' + result.data.defaultUserMessage;
-      $scope.errors = result.data.errors;
-      if (result.data.errors && result.data.errors.length) {
-        for (var i = 0; i < result.data.errors.length; i++) {
-          $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
-        }
+        var deleteBusinessDetailsFail = function(result) {
+          console.log('Error : Return from CreateClientsService service.');
+          $scope.type = 'error';
+          $scope.message = 'Client Business Activity not deleted: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          if (result.data.errors && result.data.errors.length) {
+            for (var i = 0; i < result.data.errors.length; i++) {
+              $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
+          }
+          $('html, body').animate({scrollTop: 0}, 800);
+        };
+        console.log('Successfully saved the Business Activity Information');
+        var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '/' + $scope.rowCollection[ClientId].id;
+        CreateClientsService.deleteClient($url).then(deleteBusinessDetailsSuccess, deleteBusinessDetailsFail);
       }
-      $('html, body').animate({scrollTop: 0}, 800);
-    };
-    console.log('Successfully saved the Business Activity Information');
-    var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '/' + $scope.rowCollection[ClientId].id;
-    CreateClientsService.deleteClient($url).then(deleteBusinessDetailsSuccess, deleteBusinessDetailsFail);
+    });
   };
 
   //Function to get the data from the business_activity table to edit it 
@@ -1538,6 +1544,16 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     console.log('Successfully saved the client Next To Keen Information');
     var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '/' + $scope.rowCollection[ClientId].id;
     CreateClientsService.getData($url).then(editBusinessActivitySuccess, editBusinessActivityFail);
+  };
+
+  $scope.filterBusinessActivity = function(activities) {
+    return _.filter(activities, function(item) {
+      try {
+        return parseInt(item.id) !== parseInt($scope.clientBusinessActivity.BusinessActivity_cd_business_activity);
+      } catch (e) {
+        console.log('Cant parse integer value for business activity', e);
+      }
+    });
   };
 
 });
