@@ -65,7 +65,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
         $scope.createdDate +=$scope.rowCollection[0].createdDate[0];
       }
       for (var i in result.data.pageItems) {          
-        if (result.data.pageItems[i].reversed == false) {
+        if (result.data.pageItems[i].reversed === false) {
             $scope.flag = true;
         }
       }
@@ -119,9 +119,10 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     console.log(transactionId);
     var url = REST_URL.JOURNALENTRIES + '/'+ transactionId +'?command=reverse';
     JournalService.saveJournalEntry(url).then(function (data) {
+      console.log(data);
       $route.reload();
     }, reverseJournalEntryFail);
-  }
+  };
 });
 
 //Create Journal Entry
@@ -162,20 +163,20 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   //events for credits
   $scope.addCrAccount = function () {
       $scope.journalEntryForm.crAccounts.push({});
-  }
+  };
 
   $scope.removeCrAccount = function (index) {
       $scope.journalEntryForm.crAccounts.splice(index, 1);
-  }
+  };
 
   //events for debits
   $scope.addDebitAccount = function () {
       $scope.journalEntryForm.dbAccounts.push({});
-  }
+  };
 
   $scope.removeDebitAccount = function (index) {
       $scope.journalEntryForm.dbAccounts.splice(index, 1);
-  }
+  };
 
   //Validate create journalentry
   $scope.validateJournalEntry = function() {
@@ -184,7 +185,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     $scope.errors = '';
     console.log('CreateJournalEntriesCtrl : validateJournalEntry');
     if ($scope.createjournalentryForm.$valid) {
-      $scope.saveJournalEntry(createjournalentryForm);
+      $scope.saveJournalEntry();
     } else {
       $scope.invalidateForm();
       $scope.type = 'error';
@@ -198,9 +199,9 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   };
 
   //Start - Save Journal Entry
-  $scope.saveJournalEntry = function(createjournalentryForm) {
+  $scope.saveJournalEntry = function() {
     console.log('CreateJournalEntriesCtrl : saveJournalEntry');
-    var jeTransaction = new Object();
+    var jeTransaction = new Object({});
     var d = new Date(this.journalEntryForm.transationDate);
     jeTransaction.transactionDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();    
     jeTransaction.locale = 'en';
@@ -220,22 +221,22 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     //Construct credits array
     jeTransaction.credits = [];
     for (var i = 0; i < this.journalEntryForm.crAccounts.length; i++) {
-        var temp = new Object();
+        var temp1 = new Object({});
         if(this.journalEntryForm.crAccounts[i].select){
-          temp.glAccountId = this.journalEntryForm.crAccounts[i].select.id;
+          temp1.glAccountId = this.journalEntryForm.crAccounts[i].select.id;
         }
-        temp.amount = this.journalEntryForm.crAccounts[i].crAmount;
-        jeTransaction.credits.push(temp);
+        temp1.amount = this.journalEntryForm.crAccounts[i].crAmount;
+        jeTransaction.credits.push(temp1);
     }
     //construct debits array
     jeTransaction.debits = [];
-    for (var i = 0; i < this.journalEntryForm.dbAccounts.length; i++) {
-        var temp = new Object();
-        if(this.journalEntryForm.dbAccounts[i].select){
-          temp.glAccountId = this.journalEntryForm.dbAccounts[i].select.id;
+    for (var j = 0; j < this.journalEntryForm.dbAccounts.length; j++) {
+        var temp2 = new Object({});
+        if(this.journalEntryForm.dbAccounts[j].select){
+          temp2.glAccountId = this.journalEntryForm.dbAccounts[j].select.id;
         }
-        temp.amount = this.journalEntryForm.dbAccounts[i].debitAmount;
-        jeTransaction.debits.push(temp);
+        temp2.amount = this.journalEntryForm.dbAccounts[j].debitAmount;
+        jeTransaction.debits.push(temp2);
     }
 
     var saveJournalEntrySuccess = function() {

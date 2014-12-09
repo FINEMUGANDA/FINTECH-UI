@@ -1,7 +1,6 @@
 'use strict';
-'use strict';
 
-angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, $scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
+angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, $scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('MapAccountingCtrl');
   $scope.isLoading = true;
   $scope.mapAccountingForm = {};
@@ -12,18 +11,18 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
     $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + $scope.id);
   };
   $scope.isAccountingEnabled = function () {
-    if ($scope.mapAccountingForm.accountingRule == 2 || $scope.mapAccountingForm.accountingRule == 3 || $scope.mapAccountingForm.accountingRule == 4) {
+    if ($scope.mapAccountingForm.accountingRule === 2 || $scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
         return true;
     }
     return false;
   };
   $scope.isAccrualAccountingEnabled = function () {
-    if ($scope.mapAccountingForm.accountingRule == 3 || $scope.mapAccountingForm.accountingRule == 4) {
+    if ($scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
         return true;
     }
     return false;
-  }
-  //Success callback : Map Accounting Template
+  };
+  //Success callback : Map Accounting Template;
   var mapAccountingTemplateSuccess = function(result) {    
     console.log('Success : Return from loanProducts service.');
     $scope.isLoading = false;
@@ -36,11 +35,11 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
       $scope.mapAccountingForm.accountingRule = '1';
       $scope.mapAccountingForm = {
         accountingRule: $scope.product.accountingRule.id,
-      }
-      if ($scope.mapAccountingForm.accountingRule == 2 || $scope.mapAccountingForm.accountingRule == 3 || $scope.mapAccountingForm.accountingRule == 4) {
+      };
+      if ($scope.mapAccountingForm.accountingRule === 2 || $scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
         $scope.mapAccountingForm.fundSourceAccountId = $scope.product.accountingMappings.fundSourceAccount.id;
         $scope.mapAccountingForm.loanPortfolioAccountId = $scope.product.accountingMappings.loanPortfolioAccount.id;
-        if ($scope.mapAccountingForm.accountingRule == 3 || $scope.mapAccountingForm.accountingRule == 4) {
+        if ($scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
           $scope.mapAccountingForm.receivableInterestAccountId = $scope.product.accountingMappings.receivableInterestAccount.id;
           $scope.mapAccountingForm.receivableFeeAccountId = $scope.product.accountingMappings.receivableFeeAccount.id;
           $scope.mapAccountingForm.receivablePenaltyAccountId = $scope.product.accountingMappings.receivablePenaltyAccount.id;
@@ -75,7 +74,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
     console.log('MapAccountingCtrl : updateLoanProduct');
     $rootScope.message = '';
     $rootScope.type = '';
-    this.mapAccountingForm.locale = "en";
+    this.mapAccountingForm.locale = 'en';
 
     var updateloanProductSuccess = function() {
       console.log('Success : Return from loanProducts service.');
@@ -97,7 +96,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
       }
       $('html, body').animate({scrollTop: 0}, 800);
     };
-    console.log("angular.toJson(this.mapAccountingForm) > "+angular.toJson(this.mapAccountingForm));
+    console.log(angular.toJson(this.mapAccountingForm) > +angular.toJson(this.mapAccountingForm));
     var $url = REST_URL.LOANS_PRODUCTS_LIST_BY_ID + $route.current.params.id;
     LoanProductService.updateProduct($url, angular.toJson(this.mapAccountingForm)).then(updateloanProductSuccess, updateloanProductFail);
   };
