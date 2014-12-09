@@ -11,13 +11,13 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
     $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + $scope.id);
   };
   $scope.isAccountingEnabled = function () {
-    if ($scope.mapAccountingForm.accountingRule === 2 || $scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
+    if (parseInt($scope.mapAccountingForm.accountingRule) === 2 || parseInt($scope.mapAccountingForm.accountingRule) === 3 || parseInt($scope.mapAccountingForm.accountingRule) === 4) {
         return true;
     }
     return false;
   };
   $scope.isAccrualAccountingEnabled = function () {
-    if ($scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
+    if (parseInt($scope.mapAccountingForm.accountingRule) === 3 || parseInt($scope.mapAccountingForm.accountingRule) === 4) {
         return true;
     }
     return false;
@@ -36,10 +36,10 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
       $scope.mapAccountingForm = {
         accountingRule: $scope.product.accountingRule.id,
       };
-      if ($scope.mapAccountingForm.accountingRule === 2 || $scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
+      if (parseInt($scope.mapAccountingForm.accountingRule) === 2 || parseInt($scope.mapAccountingForm.accountingRule) === 3 || parseInt($scope.mapAccountingForm.accountingRule) === 4) {
         $scope.mapAccountingForm.fundSourceAccountId = $scope.product.accountingMappings.fundSourceAccount.id;
         $scope.mapAccountingForm.loanPortfolioAccountId = $scope.product.accountingMappings.loanPortfolioAccount.id;
-        if ($scope.mapAccountingForm.accountingRule === 3 || $scope.mapAccountingForm.accountingRule === 4) {
+        if (parseInt($scope.mapAccountingForm.accountingRule) === 3 || parseInt($scope.mapAccountingForm.accountingRule) === 4) {
           $scope.mapAccountingForm.receivableInterestAccountId = $scope.product.accountingMappings.receivableInterestAccount.id;
           $scope.mapAccountingForm.receivableFeeAccountId = $scope.product.accountingMappings.receivableFeeAccount.id;
           $scope.mapAccountingForm.receivablePenaltyAccountId = $scope.product.accountingMappings.receivablePenaltyAccount.id;
