@@ -611,7 +611,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
         CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?fields=officeId').then(getClientSuccess, getClientFail);
       }
       //Set create/edit information
-      if (!result.data.data) {
+      if (!result.data.data || !result.data.data.length) {
         $scope.createAdditional = true;
       } else {
         $scope.createAdditional = false;
