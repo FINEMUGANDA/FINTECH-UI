@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -35,16 +35,61 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $t
   var loadClients = function getData() {
     $scope.isLoading = true;
 
-    $timeout(
-      function() {
-        $scope.rowCollection = [];
-        //service to get clients from server
-        ClientsService.getData(REST_URL.ALL_CLIENTS).then(allClientsSuccess, allClientsFail);
-      }, 2000
-      );
+    $timeout(function() {
+      $scope.rowCollection = [];
+      //service to get clients from server
+      ClientsService.getData(REST_URL.ALL_CLIENTS).then(allClientsSuccess, allClientsFail);
+    }, 2000);
+  };
+
+  $scope.closeClient = function(client) {
+    var dialog = dialogs.create('/views/Client/grids/closeClientDialog.html', 'ConfirmCloseClientDialog', {client: client}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        loadClients();
+      }
+    });
   };
 
   loadClients();
+});
+
+clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, data) {
+  $scope.client = data.client;
+  $scope.info = {};
+  var $url = REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=close';
+  ClientsService.getData($url).then(function(result) {
+    if (result.data && result.data.closureReasons) {
+      $scope.closureReasons = result.data.closureReasons;
+    }
+  }, function() {
+    console.log('Cant recieve closure reasons data');
+  });
+  $scope.closeClient = function() {
+    $scope.message = '';
+
+    var currentDate = new Date();
+    var json = {
+      dateFormat: 'dd/MM/yyyy',
+      locale: 'en',
+      closureDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear(),
+      closureReasonId: $scope.info.closureReason
+    };
+    var url = REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=close';
+    CreateClientsService.saveClient(url, json).then(function(result) {
+      console.log('Success CreateClientsService command close', result);
+      $modalInstance.close(true);
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
+  };
+
+  $scope.cancel = function() {
+    $modalInstance.close(false);
+  };
+
 });
 
 
@@ -225,13 +270,11 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $rootScope, $loca
   var loadLoansWrittenOff = function getData() {
     $scope.isLoading = true;
 
-    $timeout(
-      function() {
-        $scope.rowCollection = [];
-        //service to get LoansWritten from server
-        ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
-      }, 2000
-      );
+    $timeout(function() {
+      $scope.rowCollection = [];
+      //service to get LoansWritten from server
+      ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
+    }, 2000);
   };
 
   loadLoansWrittenOff();
