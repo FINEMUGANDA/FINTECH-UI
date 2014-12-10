@@ -822,7 +822,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     console.log($url);
     CreateClientsService.getData($url).then(loadTableDataSuccess, loadTableDataFail);
   };
-  
+
   $scope.loadDocuments = function(identifier_id, cb) {
     console.log('CreateClientCtrl : CreateClient : loadTableData');
 
@@ -834,17 +834,17 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     var loadDocumentsFail = function() {
       console.log('Error : Return from CreateClientsService service.');
     };
-    var $url = REST_URL.BASE + 'client_identifiers/'+ identifier_id +'/documents';
+    var $url = REST_URL.BASE + 'client_identifiers/' + identifier_id + '/documents';
     CreateClientsService.getData($url).then(loadDocumentsSuccess, loadDocumentsFail);
   };
-  
-  $scope.removeAttachment = function(file) {    
+
+  $scope.removeAttachment = function(file) {
     var msg = 'You are about to remove Attachment <strong>' + file.fileName + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {      
+    dialog.result.then(function(result) {
       if (result) {
         var index = $scope.clientIdentification.files.indexOf(file);
-        var url = REST_URL.BASE + 'client_identifiers/' + file.parentEntityId + '/documents/' + file.id ;
+        var url = REST_URL.BASE + 'client_identifiers/' + file.parentEntityId + '/documents/' + file.id;
         CreateClientsService.deleteClient(url).then(function() {
           if (index >= -1) {
             $scope.clientIdentification.files.splice(index, 1);
@@ -858,7 +858,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       }
     });
   };
- 
+
   loadCreateClientIdentificationTemplate();
 
   $scope.validateClientIdentification = function(clientIdentification, clientIdentificationExtra) {
@@ -917,12 +917,12 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   //function for saving the client identification details
   $scope.saveClientIdentification = function(clientIdentification, clientIdentificationExtra) {
     console.log('CreateClientCtrl : CreateClient : saveClientIdentification');
-   
+
     var saveClientIdentificationSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
       //Upload the documents according to the client identifier
-      if($scope.file){
-       $scope.uploadDocuments(result.data.resourceId, result.data.clientId);
+      if ($scope.file) {
+        $scope.uploadDocuments(result.data.resourceId, result.data.clientId);
       }
       $scope.clientIdentificationExtra.identifier_id = result.data.resourceId;
       $scope.saveClientIdentificationExtra(clientIdentificationExtra);
@@ -1013,10 +1013,10 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
-    };    
+    };
     var msg = 'You are about to remove client identifiers <strong>' + $scope.rowCollection[ClientId].documentKey + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {      
+    dialog.result.then(function(result) {
       if (result) {
         console.log('Successfully saved the client Next To Keen Information');
         //Id must be the the id of client_identifier id i.e identifier id
@@ -1072,9 +1072,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       //Setting the values for the edit client next to keen page
       $scope.clientIdentification.documentTypeId = parseInt($scope.client.documentType.id);
       $scope.clientIdentification.documentKey = $scope.client.documentKey;
-      $scope.Identifier_id = $scope.client.id;      
+      $scope.Identifier_id = $scope.client.id;
       $scope.base_url = APPLICATION.host + REST_URL.BASE;
-      $scope.loadDocuments($scope.Identifier_id, function(data){
+      $scope.loadDocuments($scope.Identifier_id, function(data) {
         $scope.files = data;
       });
       $scope.editClientIdentificationExtra(ClientId);
@@ -1135,7 +1135,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 });
 
-CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility) {
+CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientNextToKeenCtrl');
   //To load the loadproducts page
   $scope.isLoading = false;
@@ -1285,35 +1285,43 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
     }
   };
 
-  $scope.deleteNextToKeen = function(ClientId) {
+  $scope.deleteNextToKeen = function(doc, index) {
     console.log('CreateClientCtrl : CreateClient : deleteNextToKeen');
+    var name = '';
+    if (doc && doc.firstname && doc.lastname) {
+      name = ' <strong>' + doc.firstname + ' ' + doc.lastname + '</strong>';
+    }
+    var msg = 'You are about to remove Client Next of Keen Details' + name;
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var deleteNextToKeenSuccess = function() {
+          console.log('Success : Return from CreateClientsService service.');
+          $rootScope.type = 'alert-success';
+          $rootScope.message = 'Client Next of Keen Details deleted successfully';
+          //Editing the page
+          loadCreateClientNextToKeenTemplate();
+        };
 
-    var deleteNextToKeenSuccess = function() {
-      console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client Next To Keen Detail deleted successfully';
-      //Editing the page
-      loadCreateClientNextToKeenTemplate();
-    };
-
-    var deleteNextToKeenFail = function(result) {
-      console.log('Error : Return from CreateClientsService service.');
-      $scope.type = 'error';
-      $scope.message = 'Client Next To Keen Detail not deleted: ' + result.data.defaultUserMessage;
-      $scope.errors = result.data.errors;
-      if (result.data.errors && result.data.errors.length) {
-        for (var i = 0; i < result.data.errors.length; i++) {
-          $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
-        }
+        var deleteNextToKeenFail = function(result) {
+          console.log('Error : Return from CreateClientsService service.');
+          $scope.type = 'error';
+          $scope.message = 'Client Next To Keen Detail not deleted: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          if (result.data.errors && result.data.errors.length) {
+            for (var i = 0; i < result.data.errors.length; i++) {
+              $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+            }
+          }
+          $('html, body').animate({scrollTop: 0}, 800);
+        };
+        console.log('Successfully saved the client Next To Keen Information');
+        var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '/' + $scope.rowCollection[index].id;
+        console.log($url);
+        CreateClientsService.deleteClient($url).then(deleteNextToKeenSuccess, deleteNextToKeenFail);
       }
-      $('html, body').animate({scrollTop: 0}, 800);
-    };
-    console.log('Successfully saved the client Next To Keen Information');
-    var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '/' + $scope.rowCollection[ClientId].id;
-    console.log($url);
-    CreateClientsService.deleteClient($url).then(deleteNextToKeenSuccess, deleteNextToKeenFail);
+    });
   };
-
   $scope.editNextToKeen = function(ClientId) {
     console.log('CreateClientCtrl : CreateClient : editNextToKeen');
 
