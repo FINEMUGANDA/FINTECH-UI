@@ -723,8 +723,9 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
   };
 });
 
-CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility) {
+CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientIdentificationCtrl');
+  $scope.button_name = 'Add';
   $scope.isLoading = false;
   $scope.clientIdentification = {};
   $scope.clientIdentificationExtra = {};
@@ -821,7 +822,43 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     console.log($url);
     CreateClientsService.getData($url).then(loadTableDataSuccess, loadTableDataFail);
   };
+  
+  $scope.loadDocuments = function(identifier_id, cb) {
+    console.log('CreateClientCtrl : CreateClient : loadTableData');
 
+    var loadDocumentsSuccess = function(result) {
+      console.log('Success : Return from CreateClientsService service.');
+      cb(result.data);
+    };
+
+    var loadDocumentsFail = function() {
+      console.log('Error : Return from CreateClientsService service.');
+    };
+    var $url = REST_URL.BASE + 'client_identifiers/'+ identifier_id +'/documents';
+    CreateClientsService.getData($url).then(loadDocumentsSuccess, loadDocumentsFail);
+  };
+  
+  $scope.removeAttachment = function(file) {    
+    var msg = 'You are about to remove Attachment <strong>' + file.fileName + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {      
+      if (result) {
+        var index = $scope.clientIdentification.files.indexOf(file);
+        var url = REST_URL.BASE + 'client_identifiers/' + file.parentEntityId + '/documents/' + file.id ;
+        CreateClientsService.deleteClient(url).then(function() {
+          if (index >= -1) {
+            $scope.clientIdentification.files.splice(index, 1);
+          }
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          $('html, body').animate({scrollTop: 0}, 800);
+        });
+      }
+    });
+  };
+ 
   loadCreateClientIdentificationTemplate();
 
   $scope.validateClientIdentification = function(clientIdentification, clientIdentificationExtra) {
@@ -854,7 +891,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       //CreateClientsService.uploadFileToUrl(file, uploadUrl, angular.toJson($scope.formData));
 
       $upload.upload({
-        url: APPLICATION.host + 'client_identifiers/' + client_identifiers_id + '/documents',
+        url: APPLICATION.host + 'api/v1/client_identifiers/' + client_identifiers_id + '/documents',
         data: $scope.formData,
         file: $scope.file
       }).then(function() {
@@ -880,15 +917,16 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   //function for saving the client identification details
   $scope.saveClientIdentification = function(clientIdentification, clientIdentificationExtra) {
     console.log('CreateClientCtrl : CreateClient : saveClientIdentification');
-
+   
     var saveClientIdentificationSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
       //Upload the documents according to the client identifier
-      /*if($scope.file){
+      if($scope.file){
        $scope.uploadDocuments(result.data.resourceId, result.data.clientId);
-       }*/
+      }
       $scope.clientIdentificationExtra.identifier_id = result.data.resourceId;
       $scope.saveClientIdentificationExtra(clientIdentificationExtra);
+      $scope.button_name = 'Add';
     };
 
     var saveClientIdentificationFail = function(result) {
@@ -918,7 +956,6 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   //function for saving the client identification extra details
   $scope.saveClientIdentificationExtra = function() {
     console.log('CreateClientCtrl : CreateClient : saveClientIdentificationExtra');
-
     //Set the Client identification extra information
     $scope.clientIdentificationExtra.locale = 'en';
     //Covert date format
@@ -976,12 +1013,18 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
-    };
-    console.log('Successfully saved the client Next To Keen Information');
-    //Id must be the the id of client_identifier id i.e identifier id
-    var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + $scope.rowCollection[ClientId].identifier_id;
-    console.log($url);
-    CreateClientsService.deleteClient($url).then(deleteClientIdentificationSuccess, deleteClientIdentificationFail);
+    };    
+    var msg = 'You are about to remove client identifiers <strong>' + $scope.rowCollection[ClientId].documentKey + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {      
+      if (result) {
+        console.log('Successfully saved the client Next To Keen Information');
+        //Id must be the the id of client_identifier id i.e identifier id
+        var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + $scope.rowCollection[ClientId].identifier_id;
+        console.log($url);
+        CreateClientsService.deleteClient($url).then(deleteClientIdentificationSuccess, deleteClientIdentificationFail);
+      }
+    });
   };
 
   //function for deleteing the client identification extra details
@@ -1021,15 +1064,19 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
 
   //function for editing the client identification details 
   $scope.editClientIdentification = function(ClientId) {
-
+    $scope.button_name = 'Edit';
     var editClientIdentificationSuccess = function(result) {
+      $('#issue_document').val('');
       console.log('Success : Return from CreateClientsService service.');
       $scope.client = result.data;
       //Setting the values for the edit client next to keen page
       $scope.clientIdentification.documentTypeId = parseInt($scope.client.documentType.id);
       $scope.clientIdentification.documentKey = $scope.client.documentKey;
-      $scope.Identifier_id = $scope.client.id;
-
+      $scope.Identifier_id = $scope.client.id;      
+      $scope.base_url = APPLICATION.host + REST_URL.BASE;
+      $scope.loadDocuments($scope.Identifier_id, function(data){
+        $scope.files = data;
+      });
       $scope.editClientIdentificationExtra(ClientId);
     };
 

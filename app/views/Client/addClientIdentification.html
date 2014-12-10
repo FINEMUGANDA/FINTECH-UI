@@ -58,16 +58,27 @@
               <div class="col-md-6">
                   <input id="issue_document" name="issue_document" type="file" ng-model="clientIdentificationExtra.issue_document" ng-file-select="onFileSelect($files)"></input>
               </div>
-          </div>
+          </div> 
+          <div class="form-group attachment_file">
+              <label class="control-label col-md-4"></label>
+              <div class="col-md-6">
+                <div ng-repeat="file in files">
+                  <a target="blank" href="{{base_url}}client_identifiers/{{Identifier_id}}/documents/{{file.id}}/attachment?tenantIdentifier=default">
+                    {{file.fileName}}
+                  </a>
+                  &nbsp;&nbsp;<a href="javascript:void(0);" ng-click="removeAttachment(file)"><i class="glyphicon glyphicon-remove-circle"></i></a>
+                </div> 
+              </div>
+          </div>              
         </div>
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
-            <button id="save" type="submit" class="btn btn-primary">Add</button>
+            <button id="save" type="submit" class="btn btn-primary">{{button_name}}</button>
           </div>
         </div>  
       </form>
       <hr/>
-      <table class="table" st-table="displayed" st-safe-src="rowCollection">
+      <table class="table account-chart" st-table="displayed" st-safe-src="rowCollection">
             <thead>                
               <tr>
                 <th st-sort="documentTypeId">Identification Type</th>
@@ -99,9 +110,9 @@
                           {{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}
                     </div>
                 </td>
-                <td class="number">
+                <td class="number actions">
                   <a ng-click="deleteClientIdentification($index)">                      
-                      <span class="glyphicon glyphicon-remove pointer"></span>
+                      <span class="glyphicon glyphicon-remove-circle"></span>
                   </a>
                 </td>
               </tr>

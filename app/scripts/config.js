@@ -50,7 +50,9 @@ app.constant('REST_URL', {
     GLACCOUNTS:'api/v1/glaccounts',
     CURRENCY_LIST:'api/v1/currencies',
     CODE_LIST:'api/v1/codes',
-    OFFICE_LIST:'api/v1/offices'
+    OFFICE_LIST:'api/v1/offices',
+    DOCUMENTS : 'api/v1/documents/',
+    BASE : 'api/v1/'
 });
 
 app.constant('PAGE_URL', {
