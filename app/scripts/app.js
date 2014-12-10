@@ -25,7 +25,8 @@ var app = angular.module('angularjsApp', [
   'webcam',
   'accountService',
   'angularTreeview',
-  'dialogs.main'
+  'dialogs.main',
+  'ng.deviceDetector'
 ]);
 
  // Angular supports chaining, so here we chain the config function onto

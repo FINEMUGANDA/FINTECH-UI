@@ -133,8 +133,8 @@ label.text-left {
 }
 
 .thumbnail, .thumbnail video {
-	height: 150px;
-	width: 150px;
+	max-height: 240px;
+	max-width: 320px;
 	padding: 0;
 	margin: 0;
 }

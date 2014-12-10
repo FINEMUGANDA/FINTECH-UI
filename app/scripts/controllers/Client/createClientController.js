@@ -4,14 +4,14 @@
 var CreateClientCrtl = angular.module('createClientController', ['createClientsService', 'Constants', 'smart-table']);
 
 //Controller for the create Client page for creating the client with basic information
-CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload) {
+CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, deviceDetector) {
   console.log('CreateClientCtrl : CreateClientCtrl');
   //To load the createClient page
   $scope.isLoading = false;
   $scope.createClient = {};
   $scope.createClientWithDataTable = {};
   //Change Maritial Status
-  $scope.changeMaritialStatus = function() {
+  $scope.changeMaritalStatus = function() {
     $scope.isMarried = false;
     if ($scope.createClientWithDataTable.YesNo_cd_maritalStatus === 33) {
       $scope.isMarried = true;
@@ -107,7 +107,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
   //Validate create client
   $scope.validateCreateClient = function(createClient, createClientWithDataTable) {
     console.log('CreateClientCtrl : CreateClient : validateCreateClient');
-    if ($scope.createBasicClientForm.$valid && $scope.file) {
+    if ($scope.createBasicClientForm.$valid && ($scope.file || $scope.cameraFile)) {
       $scope.saveBasicClient(createClient, createClientWithDataTable);
     } else {
       $scope.invalidateForm();
@@ -132,17 +132,27 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
 
     var saveBasicClientSuccess = function(result) {
       console.log('Success : Return from createClientsService');
-      $upload.upload({
-        url: APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + result.data.clientId + '/images',
-        data: {},
-        file: $scope.file
-      }).then(function() {
-        console.log('Success : Return from createClientsService');
-        $scope.saveBasicClientExtraInformation(createClientWithDataTable, result.data.clientId);
-      }, function() {
-        console.log('Failur : Return from createClientsService');
-        $scope.deleteClientBasicInfo(result.data.clientId);
-      });
+      if ($scope.cameraFile && $scope.cameraFile.length) {
+        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + result.data.clientId + '/images', $scope.cameraFile).then(function() {
+          console.log('Success : Return from createClientsService');
+          $scope.saveBasicClientExtraInformation(createClientWithDataTable, result.data.clientId);
+        }, function() {
+          console.log('Failur : Return from createClientsService');
+          $scope.deleteClientBasicInfo(result.data.clientId);
+        });
+      } else {
+        $upload.upload({
+          url: APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + result.data.clientId + '/images',
+          data: {},
+          file: $scope.file
+        }).then(function() {
+          console.log('Success : Return from createClientsService');
+          $scope.saveBasicClientExtraInformation(createClientWithDataTable, result.data.clientId);
+        }, function() {
+          console.log('Failur : Return from createClientsService');
+          $scope.deleteClientBasicInfo(result.data.clientId);
+        });
+      }
     };
     var saveBasicClientFail = function(result) {
       console.log('Error : Return from createClientsService');
@@ -221,13 +231,60 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
 
   //Camera functionality
   //Show - hide camera functionality
-  $scope.onCamera = false;
+  $scope.html5Camera = false;
   var _video = null;
-  $scope.patOpts = {x: 0, y: 0, w: 150, h: 150};
+  $scope.patOpts = {x: 0, y: 0, w: 320, h: 240};
+
+  $scope.isDevice = _.some(deviceDetector.raw.device);
+
   $scope.showCamera = function() {
+    if (window.hasUserMedia()) {
+      $scope.html5Camera = true;
+    } else if (!$scope.isDevice) {
+      $scope.flashCamera = true;
+      $timeout($scope.initFlashCamera);
+    }
     $scope.onCamera = true;
   };
+  var image = null;
+  var pos = 0;
+  var hiddenCanvas = document.createElement('canvas');
+  hiddenCanvas.width = 320;
+  hiddenCanvas.height = 240;
+  var ctx = hiddenCanvas.getContext('2d');
+  image = ctx.getImageData(0, 0, 320, 240);
+
+  $scope.initFlashCamera = function() {
+    $('#webcam').webcam({
+      swffile: '/bower_components/webcam/jscam_canvas_only.swf',
+      mode: 'callback',
+      width: 320,
+      height: 240,
+      onCapture: function() {
+        window.webcam.save();
+      },
+      onSave: function(data) {
+        var col = data.split(';');
+        var img = image;
+        for (var i = 0; i < 320; i++) {
+          var tmp = parseInt(col[i]);
+          img.data[pos + 0] = (tmp >> 16) & 0xff;
+          img.data[pos + 1] = (tmp >> 8) & 0xff;
+          img.data[pos + 2] = tmp & 0xff;
+          img.data[pos + 3] = 0xff;
+          pos += 4;
+        }
+
+        if (pos >= 4 * 320 * 240) {
+          ctx.putImageData(img, 0, 0);
+          pos = 0;
+        }
+      }
+    });
+  };
   $scope.hideCamera = function() {
+    $scope.html5Camera = false;
+    $scope.flashCamera = false;
     $scope.onCamera = false;
   };
 
@@ -249,24 +306,34 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
   //Take snap-shot
   $scope.takeSnap = function() {
     console.log('In takeSnap');
-    _video = $('video')[0];
-    var getVideoData = function getVideoData(x, y, w, h) {
-      var hiddenCanvas = document.createElement('canvas');
-      hiddenCanvas.width = 300;
-      hiddenCanvas.height = 150;
-      var ctx = hiddenCanvas.getContext('2d');
-      ctx.drawImage(_video, 0, 0, 300, 150);
-      return ctx.getImageData(x, y, 300, h);
-    };
-    if (_video) {
-      console.log('In _video');
-      var patCanvas = document.createElement('canvas');
-      //var patCanvas = $('.thumbnail.rows:first')[0];
-      var ctxPat = patCanvas.getContext('2d');
-      var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
-      ctxPat.putImageData(idata, 0, 0);
-      $('.thumbnail.rows:first').find('img').attr('src', patCanvas.toDataURL());
+    if ($scope.flashCamera) {
+      window.webcam.capture();
+      $scope.cameraImage = hiddenCanvas.toDataURL();
+      $('.thumbnail.rows:first').find('img').attr('src', $scope.cameraImage);
       $scope.hideCamera();
+    } else {
+      _video = $('video')[0];
+      var getVideoData = function getVideoData(x, y, w, h) {
+        var hiddenCanvas = document.createElement('canvas');
+        hiddenCanvas.width = 320;
+        hiddenCanvas.height = 240;
+        var ctx = hiddenCanvas.getContext('2d');
+        ctx.drawImage(_video, 0, 0, 320, 240);
+        return ctx.getImageData(x, y, w, h);
+      };
+      if (_video) {
+        console.log('In _video');
+        var patCanvas = document.createElement('canvas');
+        patCanvas.width = 320;
+        patCanvas.height = 240;
+        //var patCanvas = $('.thumbnail.rows:first')[0];
+        var ctxPat = patCanvas.getContext('2d');
+        var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
+        ctxPat.putImageData(idata, 0, 0);
+        $scope.cameraFile = patCanvas.toDataURL();
+        $('.thumbnail.rows:first').find('img').attr('src', $scope.cameraFile);
+        $scope.hideCamera();
+      }
     }
   };
 });

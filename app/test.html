@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>ScriptCam Test</title>
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="./scripts/lib/scriptcam/scriptcam.min.js"></script>-->
+    <script src="../bower_components/webcamjs/webcam.js"></script>
+  </head>
+  <body>
+    <input type="file" accept="image/*;capture=camera" />
+    
+    <div id="webcam"></div>
+    
+    <script type="text/javascript">
+    Webcam.set({
+        width: 150,
+        height: 150,
+        dest_width: 320,
+        dest_height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 90,
+        force_flash: false
+    });
+    Webcam.attach( '#webcam' );
+
+    </script>
+  </body>
+</html>
