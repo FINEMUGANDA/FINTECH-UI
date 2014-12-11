@@ -832,8 +832,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     } catch (e) {
       console.log(e);
     }
-    $rootScope.type = '';
-    $rootScope.message = '';
+    $scope.type = '';
+    $scope.errors = [];
+    $scope.message = '';
   };
   //failur callback
   var createClientIdentificationTemplateFail = function() {
@@ -918,7 +919,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
           }
         }, function(result) {
           $scope.type = 'error';
-          $scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
+          $scope.message = 'Attachment not removed: ' + result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
           $('html, body').animate({scrollTop: 0}, 800);
         });
@@ -934,6 +935,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.saveClientIdentification(clientIdentification, clientIdentificationExtra);
     } else {
       $scope.invalidateForm();
+      $scope.type = 'error';
+      $scope.errors = [];
+      $scope.message = 'Highlighted fields are required';
       $('html, body').animate({scrollTop: 0}, 800);
     }
   };
@@ -963,8 +967,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
         file: $scope.file
       }).then(function() {
         console.log('Success : Return from createClientsService');
-        $rootScope.type = 'alert-success';
-        $rootScope.message = 'Client Identification Detail saved successfully';
+        $scope.type = 'alert-success';
+        $scope.errors = [];
+        $scope.message = 'Client Identifications Detail saved successfully';
         //$scope.saveClientIdentificationExtra(clientIdentificationExtra);
       }, function(result) {
         console.log('Failure : Return from createClientsService');
@@ -984,6 +989,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   //function for saving the client identification details
   $scope.saveClientIdentification = function(clientIdentification, clientIdentificationExtra) {
     console.log('CreateClientCtrl : CreateClient : saveClientIdentification');
+    $scope.type = '';
+    $scope.errors = [];
+    $scope.message = '';
 
     var saveClientIdentificationSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
@@ -1027,13 +1035,16 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     $scope.clientIdentificationExtra.locale = 'en';
     //Covert date format
     $scope.clientIdentificationExtra.dateFormat = 'dd/MM/yyyy';
-    var d = new Date($scope.clientIdentificationExtra.issue_date);
-    $scope.clientIdentificationExtra.issue_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    if ($scope.clientIdentificationExtra.issue_date) {
+      var d = new Date($scope.clientIdentificationExtra.issue_date);
+      $scope.clientIdentificationExtra.issue_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    }
 
     var saveClientIdentificationExtraSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client Identification Detail saved successfully';
+      $scope.type = 'alert-success';
+      $scope.errors = [];
+      $scope.message = 'Client Identification Detail saved successfully';
       loadCreateClientIdentificationTemplate();
     };
 
@@ -1064,8 +1075,8 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
 
     var deleteClientIdentificationSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client Identification deleted successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Client Identification deleted successfully';
       $scope.deleteClientIdentificationExtra(ClientId);
     };
 

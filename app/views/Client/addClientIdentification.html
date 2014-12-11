@@ -3,149 +3,149 @@
   <div ng-include src="'/views/alert.html'"></div>
   <div class="rows">
     <div class="page-header">
-    <div class="header">
-      <h3>Edit Client</h3>
-    </div>	
-	  <div class="summary"> 
-      	<div class="shortcuts">
-      	    <ul role="tablist">
-      	        <li role="presentation"><a href="#/editbasicclientinfo/{{id}}">Basic Client info</a></li>
-      	        <li role="presentation"><a href="#/editadditionalclientinfo/{{id}}">Additonal Client Info</a></li>
-      	        <li role="presentation"><a href="#/editclientidentification/{{id}}" class="active">Client ID</a></li>
-      	        <li role="presentation"><a href="#/editnextofkeen/{{id}}">Emergency Contacts/Next of Kin</a></li>
-      	        <li role="presentation"><a href="#/editbusinessdetails/{{id}}">Business Details</a></li>
-      	    </ul>
-      	</div>
-    </div>
-  </div>
-    <div calss="col-md-12">
-      <div class="col-md-12" ng-show="isLoading">
-        <div class="form-group">          
-          <div class="loading-indicator">Loading...</div>        
+      <div class="header">
+        <h3>Edit Client</h3>
+      </div>
+      <div class="summary">
+        <div class="shortcuts">
+          <ul role="tablist">
+            <li role="presentation"><a href="#/editbasicclientinfo/{{id}}">Basic Client info</a></li>
+            <li role="presentation"><a href="#/editadditionalclientinfo/{{id}}">Additional Client Info</a></li>
+            <li role="presentation"><a href="#/editclientidentification/{{id}}" class="active">Client ID</a></li>
+            <li role="presentation"><a href="#/editnextofkeen/{{id}}">Emergency Contacts/Next of Kin</a></li>
+            <li role="presentation"><a href="#/editbusinessdetails/{{id}}">Business Details</a></li>
+          </ul>
         </div>
       </div>
-      <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification,clientIdentificationExtra)" novalidate show-validation>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">
+          <div class="loading-indicator">Loading...</div>
+        </div>
+      </div>
+      <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification(clientIdentification, clientIdentificationExtra)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
-              <label class="control-label col-md-4">Identification Type<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-              	<select id="documentTypeId" ng-model="clientIdentification.documentTypeId" ng-options="allowedDocumentTypes.id as allowedDocumentTypes.name for allowedDocumentTypes in identificationType" class="form-control"  value="{{allowedDocumentTypes.id}}" required>
-                 </select>	
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-4">Identification Number<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-                  <input id="documentKey" name="documentKey" class="form-control" type="text" ng-model="clientIdentification.documentKey" required></input>
-              </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-4">Place of Issue</label>
-              <div class="col-md-6">
-                  <input id="issue_place" name="issue_place" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_place"></input>
-              </div>
-          </div>
-          </div>
-          <div class="col-md-6">
-          <div class="form-group"> 
-              <label class="control-label col-md-4">Date of Issue</label>
-              <div class="col-md-6">
-                  <input id="issue_date" name="issue_date" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_date" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" ></input>
-              </div>
+            <label class="control-label col-md-4">Identification Type<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <select id="documentTypeId" ng-model="clientIdentification.documentTypeId" ng-options="allowedDocumentTypes.id as allowedDocumentTypes.name for allowedDocumentTypes in identificationType" class="form-control" value="{{allowedDocumentTypes.id}}" required>
+              </select>
+            </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-md-4">File Upload</label>
-              <div class="col-md-6">
-                  <input id="issue_document" name="issue_document" type="file" ng-model="clientIdentificationExtra.issue_document" ng-file-select="onFileSelect($files)"></input>
-              </div>
+            <label class="control-label col-md-4">Identification Number<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <input id="documentKey" name="documentKey" class="form-control" type="text" ng-model="clientIdentification.documentKey" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-4">Place of Issue</label>
+            <div class="col-md-6">
+              <input id="issue_place" name="issue_place" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_place" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-4">Date of Issue</label>
+            <div class="col-md-6">
+              <input id="issue_date" name="issue_date" class="form-control" type="text" ng-model="clientIdentificationExtra.issue_date" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-4">File Upload</label>
+            <div class="col-md-6">
+              <input id="issue_document" name="issue_document" type="file" ng-model="clientIdentificationExtra.issue_document" ng-file-select="onFileSelect($files)" />
+            </div>
           </div> 
           <div class="form-group attachment_file">
-              <label class="control-label col-md-4"></label>
-              <div class="col-md-6">
-                <div ng-repeat="file in files">
-                  <a target="blank" href="{{base_url}}client_identifiers/{{Identifier_id}}/documents/{{file.id}}/attachment?tenantIdentifier=default">
-                    {{file.fileName}}
-                  </a>
-                  &nbsp;&nbsp;<a href="javascript:void(0);" ng-click="removeAttachment(file)"><i class="glyphicon glyphicon-remove-circle"></i></a>
-                </div> 
+            <label class="control-label col-md-4"></label>
+            <div class="col-md-6">
+              <div ng-repeat="file in files">
+                <a target="blank" href="{{base_url}}client_identifiers/{{Identifier_id}}/documents/{{file.id}}/attachment?tenantIdentifier=default">
+                  {{file.fileName}}
+                </a>
+                &nbsp;&nbsp;<a href="javascript:void(0);" ng-click="removeAttachment(file)"><i class="glyphicon glyphicon-remove-circle"></i></a>
               </div>
-          </div>              
+            </div>
+          </div>
         </div>
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
             <button id="save" type="submit" class="btn btn-primary">{{button_name}}</button>
           </div>
-        </div>  
+        </div>
       </form>
       <hr/>
       <table class="table account-chart" st-table="displayed" st-safe-src="rowCollection">
-            <thead>                
-              <tr>
-                <th st-sort="documentTypeId">Identification Type</th>
-                <th st-sort="documentKey">Identification Number</th>
-                <th st-sort="issue_place">Place of Issue</th>
-                <th st-sort="issue_date">Date of Issue</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody ng-hide="isLoading">
-              <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
-                <td data-ng-click="editClientIdentification($index)">
-                    <div class="name">
-                      {{row.documentTypeId | getDropdownNames:identificationType}}
-                    </div>
-                </td>
-                <td data-ng-click="editClientIdentification($index)">
-                    <div class="name">
-                      {{row.documentKey}}
-                    </div>
-                </td>
-                <td data-ng-click="editClientIdentification($index)">
-                    <div class="name">
-                      {{row.issue_place}}
-                    </div>
-                </td>
-                <td data-ng-click="editClientIdentification($index)">
-                    <div class="name" ng-show="{{row.issue_date[2]}}">
-                          {{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}
-                    </div>
-                </td>
-                <td class="number actions">
-                  <a ng-click="deleteClientIdentification($index)">                      
-                      <span class="glyphicon glyphicon-remove-circle"></span>
-                  </a>
-                </td>
-              </tr>
-            </tbody> 
-             <tbody ng-show="isLoading">
-                   <tr>
-                      <td colspan="8" class="text-center">
-                        <div class="loading-indicator">Loading...</div>
-                      </td>
-                   </tr>
-              </tbody>
-              <tfoot ng-hide="isLoading">
-                <tr>
-                  <td colspan="8">
-                    <div class="table-footer">
-                      <div class="export">
-                          <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
-                      </div>
-                      <div class="paginate">
-                        <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>             
-          </table>
-          <hr/>
-          <div class="col-md-12">
-          <div class="col-md-offset-5 paddedtop">
-            <a id="cancel" href="#/editadditionalclientinfo/{{id}}" class="btn btn-warning">Back</a>
-            <a id="save"  href="#/editnextofkeen/{{id}}" class="btn btn-primary">Next</a>
-          </div>
-        </div>  
+        <thead>
+          <tr>
+            <th st-sort="documentTypeId">Identification Type</th>
+            <th st-sort="documentKey">Identification Number</th>
+            <th st-sort="issue_place">Place of Issue</th>
+            <th st-sort="issue_date">Date of Issue</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody ng-hide="isLoading">
+          <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
+            <td data-ng-click="editClientIdentification($index)">
+              <div class="name">
+                {{row.documentTypeId| getDropdownNames:identificationType}}
+              </div>
+            </td>
+            <td data-ng-click="editClientIdentification($index)">
+              <div class="name">
+                {{row.documentKey}}
+              </div>
+            </td>
+            <td data-ng-click="editClientIdentification($index)">
+              <div class="name">
+                {{row.issue_place}}
+              </div>
+            </td>
+            <td data-ng-click="editClientIdentification($index)">
+              <div class="name" ng-show="{{row.issue_date[2]}}">
+                {{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}
+              </div>
+            </td>
+            <td class="number actions">
+              <a ng-click="deleteClientIdentification($index)">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody ng-show="isLoading">
+          <tr>
+            <td colspan="5" class="text-center">
+              <div class="loading-indicator">Loading...</div>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot ng-hide="isLoading">
+          <tr>
+            <td colspan="5">
+              <div class="table-footer">
+                <div class="export">
+                  <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
+                </div>
+                <div class="paginate">
+                  <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <hr/>
+      <div class="col-md-12">
+        <div class="col-md-offset-5 paddedtop">
+          <a id="cancel" href="#/editadditionalclientinfo/{{id}}" class="btn btn-warning">Back</a>
+          <a id="saveBtn"  href="#/editnextofkeen/{{id}}" class="btn btn-primary">Next</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

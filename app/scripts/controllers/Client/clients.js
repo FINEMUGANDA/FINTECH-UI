@@ -66,7 +66,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $t
         var url = REST_URL.CREATE_CLIENT + '/' + client.id + '?command=activate';
         CreateClientsService.saveClient(url, json).then(function(result) {
           console.log('Success CreateClientsService command activate', result);
-          $scope.type = 'success';
+          $scope.type = 'alert-success';
           $scope.message = 'Client has been successfuly activated.';
           loadClients();
         }, function(result) {
