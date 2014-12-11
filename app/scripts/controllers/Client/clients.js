@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility, dialogs) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, Utility, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -47,6 +47,33 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $t
     dialog.result.then(function(result) {
       if (result) {
         loadClients();
+      }
+    });
+  };
+
+  $scope.activateClient = function(client) {
+    var msg = 'Are You sure want to re-activate client <strong>' + client.name + '</strong>?';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Activate', submitBtn: {value: 'Activate', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        $scope.message = '';
+        var currentDate = new Date();
+        var json = {
+          dateFormat: 'dd/MM/yyyy',
+          locale: 'en',
+          activationDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear()
+        };
+        var url = REST_URL.CREATE_CLIENT + '/' + client.id + '?command=activate';
+        CreateClientsService.saveClient(url, json).then(function(result) {
+          console.log('Success CreateClientsService command activate', result);
+          $scope.type = 'success';
+          $scope.message = 'Client has been successfuly activated.';
+          loadClients();
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Client not activated: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
       }
     });
   };
