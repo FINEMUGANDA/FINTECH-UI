@@ -1305,10 +1305,16 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
 
   $scope.validateClientNextToKeen = function(clientNextToKeen) {
     console.log('CreateClientCtrl : CreateClient : validateClientNextToKeen');
+    $scope.type = '';
+    $scope.message = '';
+    $scope.errors = [];
     if ($scope.ClientNextToKeenForm.$valid) {
       $scope.saveClientNextToKeen(clientNextToKeen);
     } else {
       $scope.invalidateForm();
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
       $('html, body').animate({scrollTop: 0}, 800);
     }
   };
@@ -1332,8 +1338,9 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
 
     var saveClientNextToKeenSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client Next To Keen Detail saved successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Client Next To Keen Details saved successfully';
+      $scope.errors = [];
       loadCreateClientNextToKeenTemplate();
     };
 
@@ -1375,8 +1382,9 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
       if (result) {
         var deleteNextToKeenSuccess = function() {
           console.log('Success : Return from CreateClientsService service.');
-          $rootScope.type = 'alert-success';
-          $rootScope.message = 'Client Next of Keen Details deleted successfully';
+          $scope.type = 'alert-success';
+          $scope.message = 'Client Next of Keen Details deleted successfully';
+          $scope.errors = [];
           //Editing the page
           loadCreateClientNextToKeenTemplate();
         };
@@ -1418,6 +1426,10 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
       $scope.clientNextToKeen.telephone = $scope.client[0].telephone;
       $scope.clientNextToKeen.second_telephone = $scope.client[0].second_telephone;
       $scope.clientNextToKeen.id = $scope.client[0].id;
+      $scope.invalidateForm();
+      $scope.type = '';
+      $scope.message = '';
+      $scope.errors = [];
     };
 
     var editNextToKeenFail = function(result) {
