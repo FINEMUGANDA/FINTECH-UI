@@ -13,7 +13,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
   //Change Maritial Status
   $scope.changeMaritalStatus = function() {
     $scope.isMarried = false;
-    if ($scope.createClientWithDataTable.YesNo_cd_maritalStatus === 33) {
+    if ($scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus === 55) {
       $scope.isMarried = true;
     }
   };
@@ -23,6 +23,16 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
     $event.stopPropagation();
     $scope.opened = true;
   };
+//  var url = CREATE_CLIENT_EXTRA_INFORMATION
+  CreateClientsService.getData(REST_URL.CREATE_CLIENT_EXTRA_INFORMATION).then(function(result) {
+    if (result.data && result.data.columnHeaderData) {
+      $scope.clientOptions = _.indexBy(result.data.columnHeaderData, 'columnName');
+    }
+  }, function(result) {
+    $scope.type = 'error';
+    $scope.message = 'Cant retrieve additional client info options' + result.data.defaultUserMessage;
+    $scope.errors = result.data.errors;
+  });
 
   //Validate and set uploaded file
   $scope.onFileSelect = function($files) {
@@ -32,9 +42,9 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
       $scope.message = 'File extension not supported!';
       $('html, body').animate({scrollTop: 0}, 800);
     }
-    else if ($files[0].size / 1024 > 80) {
+    else if ($files[0].size / 1024 > 120) {
       $scope.type = 'error';
-      $scope.message = 'File is too large! File size must be less then or equal to 80 KB!';
+      $scope.message = 'File is too large! File size must be less then or equal to 120 KB!';
       $('html, body').animate({scrollTop: 0}, 800);
     } else {
       $scope.file = $files[0];
@@ -77,7 +87,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
       //Set default value for extra client information
       $scope.createClientWithDataTable.numberOfChildren = 0;
       $scope.createClientWithDataTable.numberOfLoanDependents = 0;
-      $scope.createClientWithDataTable.YesNo_cd_maritalStatus = 34;
+      $scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus = 54;
       $scope.createClientWithDataTable.locale = 'en';
     } catch (e) {
       console.error(e);
@@ -369,9 +379,9 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
       $scope.message = 'File extension not supported!';
       $('html, body').animate({scrollTop: 0}, 800);
     }
-    else if ($files[0].size / 1024 > 80) {
+    else if ($files[0].size / 1024 > 120) {
       $scope.type = 'error';
-      $scope.message = 'File is too large! File size must be less then or equal to 80 KB';
+      $scope.message = 'File is too large! File size must be less then or equal to 120 KB';
       $('html, body').animate({scrollTop: 0}, 800);
     } else {
       $scope.file = $files[0];
@@ -414,27 +424,39 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
   //Success callback
   var editClientExtraInformationTemplateSuccess = function(result) {
     $scope.isLoading = false;
-    console.log('Success : Return from createClientsService');
+    console.log('editClientExtraInformationTemplateSuccess: Success : Return from createClientsService');
     try {
+      console.log(result.data);
+      $scope.clientOptions = _.indexBy(result.data.columnHeaders, 'columnName');
+      
       //Set default value for client extra information
       $scope.editClientWithDataTable.numberOfChildren = 0;
       $scope.editClientWithDataTable.numberOfLoanDependents = 0;
-      $scope.editClientWithDataTable.YesNo_cd_maritalStatus = 34;
+      $scope.editClientWithDataTable.MaritalStatus_cd_maritalStatus = 54;
       $scope.editClientWithDataTable.locale = 'en';
       $scope.editClientExtraInfo = result.data.data;
       $scope.isAvailableBasicInformation = false;
       if ($scope.editClientExtraInfo.length > 0) {
+        $timeout(function() {
+          
+        
         $scope.isAvailableBasicInformation = true;
         $scope.editClientExtraInfo = $scope.editClientExtraInfo[0];
-        //Data from extra datatable i.e client_extra_information              
-        $scope.editClientWithDataTable.YesNo_cd_maritalStatus = parseInt($scope.editClientExtraInfo.row[1]);
-        $scope.editClientWithDataTable.numberOfChildren = parseInt($scope.editClientExtraInfo.row[2]);
-        $scope.editClientWithDataTable.numberOfLoanDependents = parseInt($scope.editClientExtraInfo.row[3]);
-        $scope.editClientWithDataTable.nameOfSpouse = parseInt($scope.editClientExtraInfo.row[4]);
-        $scope.editClientWithDataTable.homeContactAddress = $scope.editClientExtraInfo.row[5];
-        $scope.editClientWithDataTable.homeContactPerson = $scope.editClientExtraInfo.row[6];
-        $scope.editClientWithDataTable.email = $scope.editClientExtraInfo.row[7];
-        $scope.editClientWithDataTable.SecondMobileNo = parseInt($scope.editClientExtraInfo.row[8]);
+        _.each(result.data.columnHeaders, function(header, index) {
+  //        $scope.editClientWithDataTable[header.columnName] = 
+          $scope.editClientWithDataTable[header.columnName] = $scope.editClientExtraInfo.row[index];
+          console.log(header.columnName, $scope.editClientExtraInfo.row[index]);
+        });
+        });
+        //Data from extra datatable i.e client_extra_information
+//        $scope.editClientWithDataTable.MaritalStatus_cd_maritalStatus = parseInt($scope.editClientExtraInfo.row[1]);
+//        $scope.editClientWithDataTable.numberOfChildren = parseInt($scope.editClientExtraInfo.row[2]);
+//        $scope.editClientWithDataTable.numberOfLoanDependents = parseInt($scope.editClientExtraInfo.row[3]);
+//        $scope.editClientWithDataTable.nameOfSpouse = parseInt($scope.editClientExtraInfo.row[4]);
+//        $scope.editClientWithDataTable.homeContactAddress = $scope.editClientExtraInfo.row[5];
+//        $scope.editClientWithDataTable.homeContactPerson = $scope.editClientExtraInfo.row[6];
+//        $scope.editClientWithDataTable.email = $scope.editClientExtraInfo.row[7];
+//        $scope.editClientWithDataTable.SecondMobileNo = parseInt($scope.editClientExtraInfo.row[8]);
       }
     } catch (e) {
       console.log(e);
@@ -458,6 +480,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
   var editClientTeplateSuccess = function(result) {
     $scope.isLoading = false;
     try {
+      console.log(result);
       $rootScope.type = '';
       $rootScope.message = '';
       //setting the id for the header for the navigation

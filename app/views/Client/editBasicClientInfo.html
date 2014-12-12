@@ -80,19 +80,18 @@
           <div class="form-group">
             <label class="control-label col-md-4">Marital Status<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="YesNo_cd_maritalStatus" ng-model="editClientWithDataTable.YesNo_cd_maritalStatus" class="form-control" required ng-change="changeMaritalStatus()">
-                <option value="33">Yes</option>
-                <option value="34">No</option>
-              </select>   
+              <select id="MaritalStatus_cd_maritalStatus" ng-model="editClientWithDataTable.MaritalStatus_cd_maritalStatus" class="form-control" required ng-change="changeMaritalStatus()">
+                <option ng-repeat="option in clientOptions.MaritalStatus_cd_maritalStatus.columnValues" value="{{option.id}}">{{option.value}}</option>
+              </select>
             </div>
           </div>
-          <div class="form-group" ng-if="editClientWithDataTable.YesNo_cd_maritalStatus == 33">
+          <div class="form-group" ng-if="editClientWithDataTable.MaritalStatus_cd_maritalStatus == 55">
             <label class="control-label col-md-4">Name Of Spouse</label>
             <div class="col-md-6">
               <input id="nameOfSpouse" name="nameOfSpouse" class="form-control" type="text" ng-model="editClientWithDataTable.nameOfSpouse" />
             </div>
           </div>
-          <div class="form-group" ng-if="editClientWithDataTable.YesNo_cd_maritalStatus == 33">
+          <div class="form-group" ng-if="editClientWithDataTable.MaritalStatus_cd_maritalStatus == 55">
             <label class="control-label col-md-4">Number Of Children<span class="required"> *</span></label>
             <div class="validate col-md-6">
               <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="editClientWithDataTable.numberOfChildren" required />
@@ -141,9 +140,9 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-4">Main Telephone No.<span class="required"> *</span></label>
-            <div class="validate col-md-6">
-              <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="editClient.mobileNo" only-digits required />
+            <label class="control-label col-md-4">Main Telephone No.</label>
+            <div class="col-md-6">
+              <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="editClient.mobileNo" only-digits />
             </div>
           </div>
           <div class="form-group">

@@ -80,9 +80,8 @@
           <div class="form-group">
             <label class="control-label col-md-4">Marital Status<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="YesNo_cd_maritalStatus" ng-model="createClientWithDataTable.YesNo_cd_maritalStatus" class="form-control" required ng-change="changeMaritalStatus()">
-                <option value="33">Yes</option>
-                <option value="34">No</option>
+              <select id="MaritalStatus_cd_maritalStatus" ng-model="createClientWithDataTable.MaritalStatus_cd_maritalStatus" class="form-control" required ng-change="changeMaritalStatus()">
+                <option ng-repeat="option in clientOptions.MaritalStatus_cd_maritalStatus.columnValues" value="{{option.id}}">{{option.value}}</option>
               </select>
             </div>
           </div>
