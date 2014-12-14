@@ -17,6 +17,7 @@ var app = angular.module('angularjsApp', [
   'chargesController',
   'createClientController',  
   'userServices',
+  'loanService',
   'journalService',
   'Constants',
   'ui.bootstrap',
@@ -26,7 +27,8 @@ var app = angular.module('angularjsApp', [
   'accountService',
   'angularTreeview',
   'dialogs.main',
-  'ng.deviceDetector'
+  'ng.deviceDetector',
+  'ui.router'
 ]);
 
  // Angular supports chaining, so here we chain the config function onto
@@ -219,6 +221,18 @@ var app = angular.module('angularjsApp', [
       }).when('/journalentries/create', {
           templateUrl: 'views/Journalentries/createJournalentries.html',
           controller: 'CreateJournalEntriesCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/loans/:clientId/form', {
+          templateUrl: 'views/loans/loans.form.html',
+          controller: 'LoansFormCtrl',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/loans/:clientId/form/:tab', {
+          templateUrl: 'views/loans/loans.form.html',
+          controller: 'LoansFormCtrl',
           data: {
             authorizedRoles: ['admin']
           }

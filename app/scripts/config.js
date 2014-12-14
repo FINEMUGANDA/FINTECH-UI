@@ -25,6 +25,8 @@ app.constant('REST_URL', {
     'LOANS_REJECTED': 'api/v1/runreports/PageClientsScreenLoansRejected',
     'LOANS_WRITTEN_OFF': 'api/v1/runreports/PageClientsScreenLoansWritten',
     'LOANS_PRODUCTS': 'api/v1/loanproducts',
+    'LOANS_TEMPLATES': 'api/v1/loans/template',
+    'LOANS_CREATE': 'api/v1/loans',
     'CHARGES': 'api/v1/charges',
     'LOAN_PRODUCTS_TEMPLATE':'api/v1/loanproducts/template',
     'CHARGE_TEMPLATE':'api/v1/charges/template',

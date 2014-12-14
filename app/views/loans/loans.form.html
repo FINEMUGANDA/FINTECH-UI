@@ -1,0 +1,26 @@
+<div ng-include="'views/common/header.html'"></div>
+
+<div class="container post-login">
+  <div class="rows">
+    <div class="page-header">
+      <div class="header">
+        <h3>{{currentTab.title}}</h3>
+      </div>
+      <div class="summary">
+        <div class="shortcuts">
+          <ul role="tablist">
+            <li role="presentation" ng-repeat="tab in tabs"><a href="#/loans/{{clientId}}/form/{{tab.name}}/{{id}}" ng-class="tab.active? 'active' : ''" ng-click="selectTab(tab.name)">{{tab.title}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 list">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">
+          <div class="loading-indicator">Loading...</div>
+        </div>
+      </div>
+      <div ng-repeat="tab in tabs" ng-if="tab.active" ng-include="tab.view"></div>
+    </div>
+  </div>
+</div>

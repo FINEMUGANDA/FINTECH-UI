@@ -69,7 +69,7 @@
           <td style="text-align: right">
             <button ng-if="client.statusCode == 600" class="btn grid-button" ng-click="activateClient(client)">Re-Activate</button>
             <button ng-if="client.statusCode == 300 && (client.loanStatusCode | checkEmptyString)" class="btn grid-button" ng-click="closeClient(client)">Close</button>
-            <button ng-if="client.loanStatusCode | checkEmptyString" class="btn grid-button">Create Loan</button>
+            <a ng-href="#/loans/{{client.id}}/form" ng-if="client.statusCode == 300 && (client.loanStatusCode | checkEmptyString)" class="btn grid-button">Create Loan</a>
           </td>
         </tr>
       </tbody>
