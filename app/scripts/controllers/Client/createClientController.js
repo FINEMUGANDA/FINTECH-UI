@@ -10,13 +10,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
   $scope.isLoading = false;
   $scope.createClient = {};
   $scope.createClientWithDataTable = {};
-  //Change Maritial Status
-  $scope.changeMaritalStatus = function() {
-    $scope.isMarried = false;
-    if ($scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus === 55) {
-      $scope.isMarried = true;
-    }
-  };
+
   //For date of birth calendar
   $scope.open = function($event) {
     $event.preventDefault();
@@ -139,6 +133,9 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
     console.log('CreateClientCtrl : CreateClient : saveBasicClient');
     var d = new Date($scope.createClient.dateOfBirth);
     $scope.createClient.dateOfBirth = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    $scope.createClient.active = true;
+    d = new Date();
+    $scope.createClient.activationDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
 
     var saveBasicClientSuccess = function(result) {
       console.log('Success : Return from createClientsService');
@@ -187,29 +184,30 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
 
     var saveBasicClientExtraInformationSuccess = function() {
       console.log('Success : Return from createClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client basic information are saved successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Client basic information are saved successfully';
       var $url = PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO + '/' + clientId;
       $location.url($url);
     };
 
     var saveBasicClientExtraInformationFail = function(result) {
       console.log('Error : Return from createClientsService service.');
-      $rootScope.type = 'error';
-      $rootScope.message = 'Some details of client are not saved: ' + result.data.defaultUserMessage;
-      $rootScope.errors = result.data.errors;
+      $scope.type = 'error';
+      $scope.message = 'Some details of client are not saved: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
       if (clientId) {
-        var $url = PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + clientId;
+        var $url = PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + '/' + clientId;
         $location.url($url);
       }
       $('html, body').animate({scrollTop: 0}, 800);
     };
     console.log(angular.toJson(this.createClientWithDataTable));
+    this.createClientWithDataTable.numberOfChildren = this.createClientWithDataTable.numberOfChildren || 0;
     var $url = REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + clientId;
     CreateClientsService.saveClient($url, angular.toJson(this.createClientWithDataTable)).then(saveBasicClientExtraInformationSuccess, saveBasicClientExtraInformationFail);
   };
@@ -227,8 +225,8 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
     };
     var deleteClientBasicInfoFail = function() {
       console.log('Error : Return from createClientsService.');
-      $rootScope.type = 'error';
-      $rootScope.message = 'Client information is not saved, please try again!';
+      $scope.type = 'error';
+      $scope.message = 'Client information is not saved, please try again!';
       if (clientId) {
         var $url = PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + clientId;
         $location.url($url);
@@ -461,8 +459,8 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
     } catch (e) {
       console.log(e);
     }
-    $rootScope.type = '';
-    $rootScope.message = '';
+    $scope.type = '';
+    $scope.message = '';
   };
   //failur callback
   var editClientExtraInformationTemplateFail = function(result) {
@@ -481,8 +479,8 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
     $scope.isLoading = false;
     try {
       console.log(result);
-      $rootScope.type = '';
-      $rootScope.message = '';
+      $scope.type = '';
+      $scope.message = '';
       //setting the id for the header for the navigation
       $scope.id = $route.current.params.id;
       $scope.editClient.dateFormat = 'dd/MM/yyyy';
@@ -495,7 +493,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
       //data from m_client table
       $scope.client = result.data;
       $scope.editClient.externalId = $scope.client.externalId;
-      $rootScope.officeId = $scope.client.officeId;
+      $scope.officeId = $scope.client.officeId;
       $scope.editClient.staffId = $scope.client.staffId;
       $scope.editClient.firstname = $scope.client.firstname;
       $scope.editClient.middlename = $scope.client.middlename;
@@ -603,8 +601,8 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
 
     var updateBasicClientExtraInformationSuccess = function() {
       console.log('Success : Return from createClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client information updated successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Client information updated successfully';
       //Redirect to the next page
       var $url = PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO + '/' + $route.current.params.id;
       $location.url($url);
@@ -623,6 +621,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
       $('html, body').animate({scrollTop: 0}, 800);
     };
     console.log(angular.toJson(this.editClientWithDataTable));
+    this.editClientWithDataTable.numberOfChildren = this.editClientWithDataTable.numberOfChildren || 0;
     var $url = REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + clientId;
     if ($scope.isAvailableBasicInformation) {
       CreateClientsService.updateClient($url, angular.toJson(this.editClientWithDataTable)).then(updateBasicClientExtraInformationSuccess, updateBasicClientExtraInformationFail);

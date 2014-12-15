@@ -85,16 +85,16 @@
               </select>
             </div>
           </div>
-          <div class="form-group" ng-show="isMarried">
+          <div class="form-group" ng-show="createClientWithDataTable.MaritalStatus_cd_maritalStatus == 55">
             <label class="control-label col-md-4">Name Of Spouse</label>
             <div class="col-md-6">
               <input id="nameOfSpouse" name="nameOfSpouse" class="form-control" type="text" ng-model="createClientWithDataTable.nameOfSpouse" />
             </div>
           </div>
-          <div class="form-group" ng-show="isMarried">
-            <label class="control-label col-md-4">Number Of Children<span class="required"> *</span></label>
-            <div class="validate col-md-6">
-              <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfChildren" required />
+          <div class="form-group">
+            <label class="control-label col-md-4">Number Of Children</label>
+            <div class="col-md-6">
+              <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfChildren" />
             </div>
           </div>
           <div class="form-group">
