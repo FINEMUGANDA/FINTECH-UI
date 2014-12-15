@@ -28,7 +28,8 @@ var app = angular.module('angularjsApp', [
   'angularTreeview',
   'dialogs.main',
   'ng.deviceDetector',
-  'ui.router'
+  'ui.router',
+  'roleService'
 ]);
 
  // Angular supports chaining, so here we chain the config function onto
@@ -236,6 +237,24 @@ var app = angular.module('angularjsApp', [
           data: {
             authorizedRoles: ['admin']
           }
+      }).when('/admin/roles', {
+          templateUrl: 'views/Admin/roles.html',
+          controller: 'RoleController',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/admin/create_role', {
+          templateUrl: 'views/Admin/role_form.html',
+          controller: 'RoleController',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/admin/edit_role/:id', {
+          templateUrl: 'views/Admin/role_form.html',
+          controller: 'RoleController',
+          data: {
+            authorizedRoles: ['admin']
+          }
       }).otherwise({
         redirectTo: '/'
       });
@@ -354,6 +373,9 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.ACCOUNTING:
           case PAGE_URL.JOURNALENTRIES:
             $topNavigation.find('.accounting').parent().addClass('active');
+            break;
+          case PAGE_URL.ADMIN:
+            $topNavigation.find('.admin').parent().addClass('active');
             break;
           default:
             $topNavigation.find('.home').parent().addClass('active');
