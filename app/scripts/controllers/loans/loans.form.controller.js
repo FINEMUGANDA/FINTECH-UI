@@ -37,18 +37,52 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
   $scope.selectTab($route.current.params.tab);
 });
 
-angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location) {
+angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location, dialogs) {
   console.log('LoansFormCreateCtrl', $scope);
   $scope.loan = {};
 
   LoanService.getData(REST_URL.LOANS_PRODUCTS).then(function(result) {
     $scope.loanProducts = result.data;
   });
+  $scope.filterChargeOptions = function(chargeOptions) {
+    if (!chargeOptions || !$scope.data) {
+      return [];
+    }
+    var result = _.filter(chargeOptions, function(charge) {
+      return _.every([
+        charge.currency.code === $scope.data.currency.code,
+        !_.find($scope.chargesCollection, function(existingCharge) {
+          var result = false;
+          try {
+            result = parseInt(existingCharge.chargeId) === parseInt(charge.id);
+          } catch (e) {
+            console.log('Cant parse charge id', e);
+          }
+          return result;
+        })
+      ]);
+    });
+    return result;
+  };
+  $scope.removeCharge = function(charge) {
+    var msg = 'You are about to remove Charge <strong>' + charge.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var index = $scope.chargesCollection.indexOf(charge);
+        if (index >= -1) {
+          $scope.chargesCollection.splice(index, 1);
+        }
+      }
+    });
+  };
 
   function loadProductTemplate(productId, useTemplateData) {
     LoanService.getData(REST_URL.LOANS_TEMPLATES + '?templateType=individual&clientId=' + $scope.clientId + '&productId=' + productId).then(function(result) {
       var data = result.data;
+      console.log('loadProductTemplate...', result.data);
       $scope.data = data;
+      $scope.chargesCollection = data.charges;
       $scope.showDetails = true;
       if (useTemplateData) {
         $timeout(function() {
@@ -63,7 +97,6 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.amortizationType = data.amortizationType.id;
           $scope.loan.interestCalculationPeriodType = data.interestCalculationPeriodType.id;
           $scope.loan.interestType = data.interestType.id;
-//          $scope.loan.interestRateFrequencyType = data.interestRateFrequencyType.id;
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
@@ -84,6 +117,44 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
       loadProductTemplate(newVal, true);
     }
   });
+
+  function findChargeById(chargeId) {
+    return _.find($scope.data.chargeOptions, function(item) {
+      var result = false;
+      try {
+        result = parseInt(item.id) === parseInt(chargeId);
+      } catch (e) {
+        console.log('Cant parse charge id...');
+      }
+      return result;
+    });
+  }
+
+  $scope.$watch('charge.chargeId', function(chargeId) {
+    if (!chargeId) {
+      return;
+    }
+    $scope.currentCharge = findChargeById(chargeId);
+    if (!$scope.currentCharge) {
+      console.log('Charge amount is not founded!');
+    } else {
+      $scope.charge.amount = $scope.currentCharge.amount;
+    }
+  });
+
+  $scope.addCharge = function() {
+    console.log('addCharge');
+    if (!$scope.charge || !$scope.charge.chargeId) {
+      return;
+    }
+    var charge = findChargeById($scope.charge.chargeId);
+    charge.chargeId = $scope.charge.chargeId;
+    if (!charge) {
+      return;
+    }
+    $scope.chargesCollection.push(charge);
+    $scope.charge = {};
+  };
   if ($scope.loanId) {
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
       var data = result.data;
@@ -101,7 +172,6 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
         $scope.loan.amortizationType = data.amortizationType.id;
         $scope.loan.interestCalculationPeriodType = data.interestCalculationPeriodType.id;
         $scope.loan.interestType = data.interestType.id;
-//          $scope.loan.interestRateFrequencyType = data.interestRateFrequencyType.id;
         $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
         $scope.loan.productId = data.loanProductId;
         loadProductTemplate(data.loanProductId);
@@ -113,7 +183,6 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           }
           if (data.timeline.submittedOnDate) {
             var submittedOnDate = new Date(data.timeline.submittedOnDate);
-            console.log(submittedOnDate, data.timeline.submittedOnDate);
             $scope.loan.submittedOnDate = submittedOnDate.getDate() + '/' + (submittedOnDate.getMonth() + 1) + '/' + submittedOnDate.getFullYear();
           }
         }
@@ -157,10 +226,26 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
     function saveLoanSuccess(result) {
       console.log('Saved successfuly...', result);
-      $scope.type = 'alert-success';
-      $scope.message = 'Loan saved successfuly';
-      $scope.errors = [];
-      $location.url('/loans/' + $scope.clientId + '/form/charges/' + result.data.loanId);
+
+      async.each($scope.chargesCollection, function(charge, callback) {
+        var data = {};
+        data.chargeId = charge.chargeId;
+        data.amount = charge.amount;
+        data.locale = 'en';
+        LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + result.data.loanId + '/charges', data).then(function() {
+          callback();
+        }, function() {
+          callback();
+        });
+      }, function(err) {
+        if (!err) {
+          $scope.type = 'alert-success';
+          $scope.message = 'Loan saved successfuly';
+          $scope.errors = [];
+          $location.url('/loans/' + $scope.clientId + '/form/charges/' + result.data.loanId);
+        }
+      });
+
     }
 
     function saveLoanFail(result) {
@@ -181,6 +266,7 @@ angular.module('angularjsApp').controller('LoansFormChargesCtrl', function($rout
   console.log('LoansFormCreateCtrl');
   $scope.rowCollection = [];
   $scope.loan = {};
+  $scope.isLoading = false;
 
   $scope.filterChargeOptions = function(chargeOptions) {
     if (!chargeOptions || !$scope.loan.currency || !$scope.loanProduct) {

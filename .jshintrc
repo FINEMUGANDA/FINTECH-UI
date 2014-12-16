@@ -25,6 +25,7 @@
     "$": true,
     "_": true,
     "APPLICATION": true,
-    "google": true
+    "google": true,
+    "async": true
   }
 }

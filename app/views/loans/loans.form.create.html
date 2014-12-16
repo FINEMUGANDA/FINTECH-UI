@@ -16,14 +16,14 @@
     <hr />
 
     <div class="col-md-6" ng-show="showDetails">
-<!--      <div class="form-group">
-        <label class="control-label col-md-5">Loan Officer<span class="required"> *</span></label>
-        <div class="validate col-md-6">
-          <select class="form-control" required ng-model="loan.loanOfficer">
-            <option ng-repeat="officer in data.loanOfficerOptions" value="{{officer.id}}">{{officer.displayName}}</option>
-          </select>
-        </div>
-      </div>-->
+      <!--      <div class="form-group">
+              <label class="control-label col-md-5">Loan Officer<span class="required"> *</span></label>
+              <div class="validate col-md-6">
+                <select class="form-control" required ng-model="loan.loanOfficer">
+                  <option ng-repeat="officer in data.loanOfficerOptions" value="{{officer.id}}">{{officer.displayName}}</option>
+                </select>
+              </div>
+            </div>-->
       <div class="form-group">
         <label class="control-label col-md-5">Principal<span class="required"> *</span></label>
         <div class="validate col-md-6">
@@ -50,14 +50,14 @@
           </select>
         </div>
       </div>
-<!--      <div class="form-group">
-        <label class="control-label col-md-5">Interest Rate Frequency<span class="required"> *</span></label>
-        <div class="validate col-md-6">
-          <select class="form-control" required ng-model="loan.interestRateFrequencyType">
-            <option ng-repeat="interestRateFrequencyType in data.interestRateFrequencyTypeOptions" value="{{interestRateFrequencyType.id}}">{{interestRateFrequencyType.value}}</option>
-          </select>
-        </div>
-      </div>-->
+      <!--      <div class="form-group">
+              <label class="control-label col-md-5">Interest Rate Frequency<span class="required"> *</span></label>
+              <div class="validate col-md-6">
+                <select class="form-control" required ng-model="loan.interestRateFrequencyType">
+                  <option ng-repeat="interestRateFrequencyType in data.interestRateFrequencyTypeOptions" value="{{interestRateFrequencyType.id}}">{{interestRateFrequencyType.value}}</option>
+                </select>
+              </div>
+            </div>-->
       <div class="form-group">
         <label class="control-label col-md-5">Interest Calculation Period<span class="required"> *</span></label>
         <div class="validate col-md-6">
@@ -122,13 +122,96 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12" ng-show="showDetails">
-      <hr />
-      <div class="col-md-offset-5 paddedtop">
-        <!--<a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>-->
-        <button type="submit" id="save-btn" class="btn btn-primary">Next</button>
-      </div>
-    </div>
-
   </form>
+
+  <hr/>
+  <div ng-show="showDetails && !loanId">
+    <h4>Charges</h4>
+    <form name="loanFormAddCharge" ng-hide="isLoading" class="form-horizontal" ng-submit="addCharge()" novalidate show-validation>
+      <div class="clearfix">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-5">Charges / Fees<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <select class="form-control" required ng-model="charge.chargeId">
+                <option ng-repeat="chargeOption in filterChargeOptions(data.chargeOptions)" value="{{chargeOption.id}}" ng-selected="chargeOption.id == charge.chargeId">{{chargeOption.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix" ng-show="charge.chargeId">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-5">Amount<span class="required"> *</span></label>
+            <div class="validate col-md-6">
+              <input id="amount" name="amount" class="form-control" type="text" ng-model="charge.amount" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-5">Charge calculation</label>
+            <div class="validate col-md-6">
+              <input id="amount" name="amount" class="form-control" type="text" ng-value="currentCharge.chargeCalculationType.value" readonly />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-5">Charge time</label>
+            <div class="validate col-md-6">
+              <input id="amount" name="amount" class="form-control" type="text" ng-value="currentCharge.chargeTimeType.value" readonly />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" ng-show="charge.chargeId">
+        <div class="col-md-offset-5 paddedtop">
+          <button type="submit" id="add-charge-btn" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </form>
+    <hr />
+    <table class="table paddedtop" st-table="displayed" st-safe-src="chargesCollection">
+      <thead>
+        <tr>
+          <th st-sort="name">Charge Name</th>
+          <th st-sort="chargeTimeType.value">Type</th>
+          <th st-sort="amount">Amount</th>
+          <th width="1%"></th>
+        </tr>
+      </thead>
+      <tbody ng-hide="isLoading">
+        <tr ng-repeat="row in displayed">
+          <td>{{row.name}}</td>
+          <td>{{row.chargeTimeType.value}}</td>
+          <td>{{row.amount}}</td>
+          <td class="actions"><a href="javascript:void(0);" ng-click="removeCharge(row)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+        </tr>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="4" class="text-center">
+            <div class="loading-indicator">Loading...</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="isLoading">
+        <tr>
+          <td colspan="4">
+            <div class="table-footer">
+              <div class="paginate">
+                <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="col-md-12" ng-show="showDetails">
+    <hr />
+    <div class="col-md-offset-5 paddedtop">
+      <!--<a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>-->
+      <button id="save-btn" class="btn btn-primary" ng-click="saveLoan()">Next</button>
+    </div>
+  </div>
 </div>
