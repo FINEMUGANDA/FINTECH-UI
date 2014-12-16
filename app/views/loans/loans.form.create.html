@@ -7,7 +7,7 @@
           <label class="control-label col-md-5">Loan Product<span class="required"> *</span></label>
           <div class="validate col-md-6">
             <select class="form-control" required ng-model="loan.productId">
-              <option ng-repeat="product in loanProducts" value="{{product.id}}">{{product.name}}</option>
+              <option ng-repeat="product in loanProducts" value="{{product.id}}" ng-selected="{{loan.productId == product.id}}">{{product.name}}</option>
             </select>
           </div>
         </div>
@@ -46,7 +46,7 @@
         <label class="control-label col-md-5">Interest Method<span class="required"> *</span></label>
         <div class="validate col-md-6">
           <select class="form-control" required ng-model="loan.interestType">
-            <option ng-repeat="interestType in data.interestTypeOptions" value="{{interestType.id}}">{{interestType.value}}</option>
+            <option ng-repeat="interestType in data.interestTypeOptions" value="{{interestType.id}}" ng-selected="{{loan.interestType == interestType.id}}">{{interestType.value}}</option>
           </select>
         </div>
       </div>
@@ -62,7 +62,7 @@
         <label class="control-label col-md-5">Interest Calculation Period<span class="required"> *</span></label>
         <div class="validate col-md-6">
           <select class="form-control" required ng-model="loan.interestCalculationPeriodType">
-            <option ng-repeat="interestCalculationPeriodType in data.interestCalculationPeriodTypeOptions" value="{{interestCalculationPeriodType.id}}">{{interestCalculationPeriodType.value}}</option>
+            <option ng-repeat="interestCalculationPeriodType in data.interestCalculationPeriodTypeOptions" value="{{interestCalculationPeriodType.id}}" ng-selected="{{loan.interestCalculationPeriodType == interestCalculationPeriodType.id}}">{{interestCalculationPeriodType.value}}</option>
           </select>
         </div>
       </div>
@@ -83,7 +83,7 @@
         </div>
         <div class="validate col-md-3">
           <select class="form-control" required ng-model="loan.loanTermFrequencyType">
-            <option ng-repeat="termFrequencyType in data.termFrequencyTypeOptions" value="{{termFrequencyType.id}}">{{termFrequencyType.value}}</option>
+            <option ng-repeat="termFrequencyType in data.termFrequencyTypeOptions" value="{{termFrequencyType.id}}" ng-selected="{{loan.loanTermFrequencyType == termFrequencyType.id}}">{{termFrequencyType.value}}</option>
           </select>
         </div>
       </div>
@@ -94,7 +94,7 @@
         </div>
         <div class="validate col-md-3">
           <select class="form-control" required ng-model="loan.repaymentFrequencyType">
-            <option ng-repeat="repaymentFrequencyType in data.repaymentFrequencyTypeOptions" value="{{repaymentFrequencyType.id}}">{{repaymentFrequencyType.value}}</option>
+            <option ng-repeat="repaymentFrequencyType in data.repaymentFrequencyTypeOptions" value="{{repaymentFrequencyType.id}}" ng-selected="{{loan.repaymentFrequencyType == repaymentFrequencyType.id}}">{{repaymentFrequencyType.value}}</option>
           </select>
         </div>
       </div>
@@ -102,7 +102,7 @@
         <label class="control-label col-md-5">Amortization<span class="required"> *</span></label>
         <div class="validate col-md-6">
           <select class="form-control" required ng-model="loan.amortizationType">
-            <option ng-repeat="amortizationType in data.amortizationTypeOptions" value="{{amortizationType.id}}">{{amortizationType.value}}</option>
+            <option ng-repeat="amortizationType in data.amortizationTypeOptions" value="{{amortizationType.id}}" ng-selected="{{loan.amortizationType == amortizationType.id}}">{{amortizationType.value}}</option>
           </select>
         </div>
       </div>
@@ -110,7 +110,7 @@
         <label class="control-label col-md-5">Transaction Strategy<span class="required"> *</span></label>
         <div class="validate col-md-6">
           <select class="form-control" required ng-model="loan.transactionProcessingStrategyId">
-            <option ng-repeat="transactionProcessingStrategy in data.transactionProcessingStrategyOptions" value="{{transactionProcessingStrategy.id}}">{{transactionProcessingStrategy.name}}</option>
+            <option ng-repeat="transactionProcessingStrategy in data.transactionProcessingStrategyOptions" value="{{transactionProcessingStrategy.id}}" ng-selected="{{loan.transactionProcessingStrategyId == transactionProcessingStrategy.id}}">{{transactionProcessingStrategy.name}}</option>
           </select>
         </div>
       </div>
@@ -126,7 +126,7 @@
       <hr />
       <div class="col-md-offset-5 paddedtop">
         <!--<a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>-->
-        <button type="submit" id="save-btn" class="btn btn-primary">Save</button>
+        <button type="submit" id="save-btn" class="btn btn-primary">Next</button>
       </div>
     </div>
 

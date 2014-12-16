@@ -9,7 +9,7 @@
       <div class="summary">
         <div class="shortcuts">
           <ul role="tablist">
-            <li role="presentation" ng-repeat="tab in tabs"><a href="#/loans/{{clientId}}/form/{{tab.name}}/{{id}}" ng-class="tab.active? 'active' : ''" ng-click="selectTab(tab.name)">{{tab.title}}</a></li>
+            <li role="presentation" ng-repeat="tab in tabs"><a href="#/loans/{{clientId}}/form/{{tab.name}}/{{loanId}}" ng-class="[tab.active? 'active' : '', tab.disabled? 'disabled' : '']" ng-click="selectTab(tab.name)">{{tab.title}}</a></li>
           </ul>
         </div>
       </div>

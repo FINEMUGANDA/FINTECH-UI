@@ -3,6 +3,7 @@
 angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $scope) {
   console.log('LoansFormCtrl');
   $scope.clientId = $route.current.params.clientId;
+  $scope.loanId = $route.current.params.loanId;
   $scope.step = 'create';
 
   $scope.tabs = [
@@ -24,21 +25,32 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
       $scope.currentTab.active = true;
     }
   };
-  $scope.selectTab($route.current.params.tab);
 
+  $scope.enableTabs = function() {
+    _.each($scope.tabs, function(tab) {
+      tab.disabled = false;
+    });
+  };
+  if ($scope.loanId) {
+    $scope.enableTabs();
+  }
+  $scope.selectTab($route.current.params.tab);
 });
-angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout) {
+
+angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location) {
   console.log('LoansFormCreateCtrl', $scope);
   $scope.loan = {};
+
   LoanService.getData(REST_URL.LOANS_PRODUCTS).then(function(result) {
     $scope.loanProducts = result.data;
   });
-  $scope.$watch('loan.productId', function(newVal) {
-    if (newVal > 0) {
-      LoanService.getData(REST_URL.LOANS_TEMPLATES + '?templateType=individual&clientId=' + $scope.clientId + '&productId=' + newVal).then(function(result) {
-        var data = result.data;
-        $scope.data = data;
-        $scope.showDetails = true;
+
+  function loadProductTemplate(productId, useTemplateData) {
+    LoanService.getData(REST_URL.LOANS_TEMPLATES + '?templateType=individual&clientId=' + $scope.clientId + '&productId=' + productId).then(function(result) {
+      var data = result.data;
+      $scope.data = data;
+      $scope.showDetails = true;
+      if (useTemplateData) {
         $timeout(function() {
           $scope.loan.principal = data.principal;
           $scope.loan.numberOfRepayments = data.numberOfRepayments;
@@ -59,13 +71,59 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
             $scope.loan.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
           }
         });
-      }, function(result) {
-        $scope.type = 'error';
-        $scope.message = 'Cant retrieve additional client info options' + result.data.defaultUserMessage;
-        $scope.errors = result.data.errors;
-      });
+      }
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Cant retrieve additional client info options' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
+  }
+  $scope.$watch('loan.productId', function(newVal, oldVal) {
+    if (newVal > 0 && (oldVal || !$scope.loanId)) {
+      console.log('Changed productId...');
+      loadProductTemplate(newVal, true);
     }
   });
+  if ($scope.loanId) {
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
+      var data = result.data;
+      $scope.data = data;
+      $scope.showDetails = true;
+      $timeout(function() {
+        $scope.loan.principal = data.principal;
+        $scope.loan.numberOfRepayments = data.numberOfRepayments;
+        $scope.loan.interestRatePerPeriod = data.interestRatePerPeriod;
+        $scope.loan.repaymentEvery = data.repaymentEvery;
+
+        $scope.loan.loanTermFrequency = data.termFrequency;
+        $scope.loan.loanTermFrequencyType = data.termPeriodFrequencyType.id;
+        $scope.loan.repaymentFrequencyType = data.repaymentFrequencyType.id;
+        $scope.loan.amortizationType = data.amortizationType.id;
+        $scope.loan.interestCalculationPeriodType = data.interestCalculationPeriodType.id;
+        $scope.loan.interestType = data.interestType.id;
+//          $scope.loan.interestRateFrequencyType = data.interestRateFrequencyType.id;
+        $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
+        $scope.loan.productId = data.loanProductId;
+        loadProductTemplate(data.loanProductId);
+
+        if (data.timeline) {
+          if (data.timeline.expectedDisbursementDate) {
+            var expectedDisbursementDate = new Date(data.timeline.expectedDisbursementDate);
+            $scope.loan.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
+          }
+          if (data.timeline.submittedOnDate) {
+            var submittedOnDate = new Date(data.timeline.submittedOnDate);
+            console.log(submittedOnDate, data.timeline.submittedOnDate);
+            $scope.loan.submittedOnDate = submittedOnDate.getDate() + '/' + (submittedOnDate.getMonth() + 1) + '/' + submittedOnDate.getFullYear();
+          }
+        }
+      });
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Cant retrieve additional client info options' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
+  }
   $scope.datepicker = {};
 
   $scope.open = function($event, target) {
@@ -75,26 +133,158 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
   };
   $scope.saveLoan = function() {
     console.log('Saving loan...', $scope.loan);
+    if (!$scope.loanFormCreate.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      $('html, body').animate({scrollTop: 0}, 800);
+      return;
+    }
     var data = angular.copy($scope.loan);
     data.locale = 'en';
     data.dateFormat = 'dd/MM/yyyy';
     data.loanType = 'individual';
     data.clientId = $scope.clientId;
-    var submittedDate = new Date(data.submittedOnDate);
-    data.submittedOnDate = submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear();
-    var expectedDisbursementDate = new Date($scope.loan.expectedDisbursementDate);
-    data.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
 
-    LoanService.saveLoan(REST_URL.LOANS_CREATE, data).then(function(result) {
+    if (typeof data.submittedOnDate === 'object') {
+      var submittedDate = new Date(data.submittedOnDate);
+      data.submittedOnDate = submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear();
+    }
+    if (typeof data.expectedDisbursementDate === 'object') {
+      var expectedDisbursementDate = new Date(data.expectedDisbursementDate);
+      data.submittedOnDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
+    }
+
+    function saveLoanSuccess(result) {
       console.log('Saved successfuly...', result);
       $scope.type = 'alert-success';
       $scope.message = 'Loan saved successfuly';
       $scope.errors = [];
-    }, function(result) {
+      $location.url('/loans/' + $scope.clientId + '/form/charges/' + result.data.loanId);
+    }
+
+    function saveLoanFail(result) {
       console.log('Cant save loan...', result);
       $scope.type = 'error';
       $scope.message = 'Cant save loan: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+    }
+    if ($scope.loanId) {
+      LoanService.updateLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId, data).then(saveLoanSuccess, saveLoanFail);
+    } else {
+      LoanService.saveLoan(REST_URL.LOANS_CREATE, data).then(saveLoanSuccess, saveLoanFail);
+    }
+  };
+});
+
+angular.module('angularjsApp').controller('LoansFormChargesCtrl', function($route, $scope, REST_URL, $timeout, LoanService, dialogs) {
+  console.log('LoansFormCreateCtrl');
+  $scope.rowCollection = [];
+  $scope.loan = {};
+
+  $scope.filterChargeOptions = function(chargeOptions) {
+    if (!chargeOptions || !$scope.loan.currency || !$scope.loanProduct) {
+      return [];
+    }
+    var result = _.filter(chargeOptions, function(charge) {
+      return _.every([
+        charge.currency.code === $scope.loanProduct.currency.code,
+        !_.find($scope.rowCollection, function(existingCharge) {
+          var result = false;
+          try {
+            result = parseInt(existingCharge.chargeId) === parseInt(charge.id);
+          } catch (e) {
+            console.log('Cant parse charge id', e);
+          }
+          return result;
+        })
+      ]);
+    });
+    return result;
+  };
+
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
+    $scope.loan = result.data;
+    LoanService.getData(REST_URL.LOANS_PRODUCTS + '/' + $scope.loan.loanProductId).then(function(result) {
+      $scope.loanProduct = result.data;
+    });
+  });
+
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges/template').then(function(result) {
+    $scope.data = result.data;
+  });
+  function updateLoanCharges() {
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges').then(function(result) {
+      $scope.rowCollection = result.data;
+    });
+  }
+  updateLoanCharges();
+
+  $scope.$watch('charge.chargeId', function(chargeId) {
+    if (!chargeId) {
+      return;
+    }
+    $scope.currentCharge = _.find($scope.data.chargeOptions, function(item) {
+      var result = false;
+      try {
+        result = parseInt(item.id) === parseInt(chargeId);
+      } catch (e) {
+        console.log('Cant parse charge id...');
+      }
+      return result;
+    });
+    if (!$scope.currentCharge) {
+      console.log('Charge amount is not founded!');
+    } else {
+      $scope.charge.amount = $scope.currentCharge.amount;
+    }
+  });
+
+  $scope.addCharge = function() {
+    if (!$scope.loanFormAddCharge.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      $('html, body').animate({scrollTop: 0}, 800);
+      return;
+    }
+    var data = angular.copy($scope.charge);
+    data.locale = 'en';
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges', data).then(function() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Charge added successfully.';
+      $scope.errors = [];
+      $scope.charge = {};
+      updateLoanCharges();
+    }, function(result) {
+      $scope.message = 'Cant add charge:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
     });
   };
+  $scope.removeCharge = function(charge) {
+    var msg = 'You are about to remove Charge <strong>' + charge.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var index = $scope.rowCollection.indexOf(charge);
+        LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges/' + charge.id).then(function() {
+          $scope.type = 'alert-success';
+          $scope.message = 'Charge removed successfully.';
+          $scope.errors = [];
+          if (index >= -1) {
+            $scope.rowCollection.splice(index, 1);
+          } else {
+            updateLoanCharges();
+          }
+        }, function(result) {
+          $scope.message = 'Cant remove charge:' + result.data.defaultUserMessage;
+          $scope.type = 'error';
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+
+  };
+
 });
