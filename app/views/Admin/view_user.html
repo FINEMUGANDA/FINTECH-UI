@@ -1,0 +1,72 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+      <div class="header">
+        <h3>Users</h3>
+      </div>
+      <div class="summary">
+        <div class="shortcuts">
+          <ul role="tablist">
+            <li role="presentation"><a href="#/admin/roles">Roles</a></li>
+            <li role="presentation"><a class="active" href="#/admin/users">Users</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 ng-scope">
+        <div class="well">
+          <div class="pull-right">
+            <div class="btn-group">
+              <a href="#/admin/edit_user/{{formData.id}}" class="btn btn-primary ng-binding" has-permission="UPDATE_USER">
+                <i class="icon-edit icon-white"></i>Edit
+              </a>
+              <button type="button" ng-click="deleteUser(formData.id, formData.username)" class="btn btn-primary ng-binding" has-permission="DELETE_USER">
+                <i class="icon-trash icon-white"></i>Delete
+              </button>
+            </div>
+          </div>
+          <h3 class="bolder ng-binding">&nbsp;</h3>
+          <div class="row">
+            <div class="col-md-5">
+              <table class="table table-bordered table-striped">
+                <tbody><tr>
+                    <td >Login Name:</td>
+                    <td >{{formData.username}}</td>
+                  </tr>
+                  <tr>
+                    <td >First Name:</td>
+                    <td >{{formData.firstname}}</td>
+                  </tr>
+                  <tr>
+                    <td >Last Name:</td>
+                    <td >{{formData.lastname}}</td>
+                  </tr>
+                  <tr>
+                    <td >Email:</td>
+                    <td >{{formData.email}}</td>
+                  </tr>
+                  <tr>
+                    <td >Office:</td>
+                    <td >{{formData.officeName}}</td>
+                  </tr>
+                  <tr data-ng-show="user.staff" class="ng-hide">
+                    <td >Staff:</td>
+                    <td >{{formData.firstname}}</td>
+                  </tr>
+                  <tr>
+                    <td valign="top" >Roles:</td>
+                    <td>
+                      <span ng-repeat="role in selectedRoles_view">{{role.name}}, </span>
+                    </td>
+                  </tr>
+                </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

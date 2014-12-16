@@ -261,7 +261,32 @@ var app = angular.module('angularjsApp', [
           data: {
             authorizedRoles: ['admin']
           }
-      }).otherwise({
+      }).when('/admin/users', {
+          templateUrl: 'views/Admin/users.html',
+          controller: 'UserController',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/admin/edit_user/:id', {
+          templateUrl: 'views/Admin/user_form.html',
+          controller: 'UserController',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/admin/create_user', {
+          templateUrl: 'views/Admin/user_form.html',
+          controller: 'UserController',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      }).when('/admin/view_user/:id', {
+          templateUrl: 'views/Admin/view_user.html',
+          controller: 'UserController',
+          data: {
+            authorizedRoles: ['admin']
+          }
+      })
+        .otherwise({
         redirectTo: '/'
       });
   }]);
@@ -374,14 +399,12 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
           case PAGE_URL.EDITLOANPRODUCT:
           case PAGE_URL.EDITCHARGE:
           case PAGE_URL.MAPACCOUNTING:
+          case PAGE_URL.ADMIN:
             $topNavigation.find('.configuration').parent().addClass('active');
             break;  
           case PAGE_URL.ACCOUNTING:
           case PAGE_URL.JOURNALENTRIES:
             $topNavigation.find('.accounting').parent().addClass('active');
-            break;
-          case PAGE_URL.ADMIN:
-            $topNavigation.find('.admin').parent().addClass('active');
             break;
           default:
             $topNavigation.find('.home').parent().addClass('active');
