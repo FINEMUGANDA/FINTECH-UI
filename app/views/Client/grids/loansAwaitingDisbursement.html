@@ -14,14 +14,7 @@
         <tr>
           <th colspan="7">
               <div class="filters">
-                 <ul role="tablist">
-                  <li role="presentation"><a href="#/clients">Clients</a></li>
-                  <li role="presentation"><a href="#/loans">Loans</a></li>
-                  <li role="presentation"><a href="#/loansPendingApproval">Loans Pending Approval</a></li>
-                  <li role="presentation"><a href="#/loansAwaitingDisbursement" class="active">Loans Awaiting Disbursement</a></li>
-                  <li role="presentation"><a href="#/loansRejected">Loans Rejected</a></li>
-                  <li role="presentation"><a href="#/loansWrittenOff">Loans Written-Off</a></li>
-                </ul>
+                <div ng-include="'views/Client/header.menu.html'" onload="active='loansAwaitingDisbursement'"></div>
 
                 <div class="search" >
                   <input type="text" st-search="" class="search-box" placeholder="Search Loans Awaiting Disbursement" />

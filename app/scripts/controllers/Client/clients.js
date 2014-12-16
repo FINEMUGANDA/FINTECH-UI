@@ -135,12 +135,16 @@ clientsCtrl.controller('LoansCtrl', function($scope, $rootScope, $location, $tim
       $scope.rowCollection = result.data;
       angular.forEach($scope.rowCollection, function(loan) {
         loan.image = APPLICATION.NO_IMAGE_THUMB;
-        Utility.getImage(APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + loan.id + '/images?tenantIdentifier=default&output=inline_octet').then(function(result) {
+        Utility.getImage(APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images?tenantIdentifier=default&output=inline_octet').then(function(result) {
           loan.image = result;
         });
       });
     } catch (e) {
     }
+  };
+  $scope.editLoan = function(loan) {
+    console.log(loan);
+    $location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
   };
 
   //failur callback
