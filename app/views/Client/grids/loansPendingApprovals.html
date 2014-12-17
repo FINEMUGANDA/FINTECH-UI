@@ -29,6 +29,7 @@
           <th st-sort="interestRate" class="number">Interest Rate</th>
           <th st-sort="submittedon_date">Submitted on</th>
           <th st-sort="loanOfficer">Loan Officer</th>
+          <th width="1%"></th>
         </tr>
       </thead>
       <tbody ng-hide="isLoading">
@@ -47,7 +48,7 @@
           <td>{{loanPendingApproval.submittedon_date}}</td>
           <td>{{loanPendingApproval.loanOfficer}}</td>
           <td>
-            <button class="btn grid-button">Approve</button>
+            <button class="btn grid-button" ng-click="openActionDialog(loanPendingApproval)">Action</button>
           </td>
         </tr>
       </tbody>
