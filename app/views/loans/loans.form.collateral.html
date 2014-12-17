@@ -1,1 +1,84 @@
-collateral form
+<div ng-controller="LoansFormCollateralCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+
+  <form name="loanFormCollateral" ng-hide="isLoading" class="form-horizontal" ng-submit="saveCollateral()" novalidate show-validation>
+    <div class="clearfix">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-5">Collateral Type<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <select class="form-control" required ng-model="collateral.collateralTypeId">
+              <option ng-repeat="collateralTypeOption in filterCollateralOptions(data.allowedCollateralTypes)" value="{{collateralTypeOption.id}}" ng-selected="collateralTypeOption.id == collateral.collateralTypeId">{{collateralTypeOption.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-5">Description<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <textarea class="form-control" ng-model="collateral.description"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-5">Value<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <input class="form-control" ng-model="collateral.value" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-offset-5 paddedtop">
+        <button type="submit" id="add-collateral-btn" class="btn btn-primary">{{collateral.id? 'Edit' : 'Save'}}</button>
+      </div>
+    </div>
+  </form>
+
+  <hr/>
+  <table class="table paddedtop" st-table="displayed" st-safe-src="rowCollection">
+    <thead>
+      <tr>
+        <th st-sort="type.name">Collateral Type</th>
+        <th st-sort="description">Description</th>
+        <th st-sort="value">Value</th>
+        <th width="1%"></th>
+      </tr>
+    </thead>
+    <tbody ng-hide="isLoading">
+      <tr ng-repeat="row in displayed">
+        <td>{{row.type.name}}</td>
+        <td>{{row.description}}</td>
+        <td>{{row.value}}</td>
+        <td class="actions"><a href="javascript:void(0);" ng-click="removeCollateral(row)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+      </tr>
+    </tbody>
+    <tbody ng-show="isLoading">
+      <tr>
+        <td colspan="4" class="text-center">
+          <div class="loading-indicator">Loading...</div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot ng-hide="isLoading">
+      <tr>
+        <td colspan="4">
+          <div class="table-footer">
+            <div class="export">
+              <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
+            </div>
+            <div class="paginate">
+              <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="col-md-12">
+    <hr />
+    <div class="col-md-offset-5 paddedtop">
+      <a id="cancel" href="#/loans/{{clientId}}/form/charges/{{loanId}}" class="btn btn-warning">Back</a>
+      <button id="next-btn" class="btn btn-primary">Next</button>
+    </div>
+  </div>
+</div>

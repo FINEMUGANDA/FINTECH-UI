@@ -374,3 +374,93 @@ angular.module('angularjsApp').controller('LoansFormChargesCtrl', function($rout
   };
 
 });
+
+angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($route, $scope, REST_URL, $timeout, LoanService, dialogs) {
+  console.log('LoansFormCreateCtrl');
+  $scope.rowCollection = [];
+  $scope.loan = {};
+  $scope.isLoading = false;
+
+  $scope.filterCollateralOptions = function(collateralOptions) {
+    if (!collateralOptions) {
+      return [];
+    }
+    return _.filter(collateralOptions, function(collateral) {
+      return !_.find($scope.rowCollection, function(existingCollateral) {
+        var result = false;
+        try {
+          result = parseInt(existingCollateral.type.id) === parseInt(collateral.id);
+        } catch (e) {
+          console.log('Cant parse collateral id', e);
+        }
+        return result;
+      });
+    });
+  };
+
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
+    $scope.loan = result.data;
+    LoanService.getData(REST_URL.LOANS_PRODUCTS + '/' + $scope.loan.loanProductId).then(function(result) {
+      $scope.loanProduct = result.data;
+    });
+  });
+
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals/template').then(function(result) {
+    $scope.data = result.data;
+  });
+  function updateLoanCollaterals() {
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals').then(function(result) {
+      $scope.rowCollection = result.data;
+    });
+  }
+  updateLoanCollaterals();
+
+  $scope.saveCollateral = function() {
+    if (!$scope.loanFormCollateral.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      $('html, body').animate({scrollTop: 0}, 800);
+      return;
+    }
+    var data = angular.copy($scope.collateral);
+    data.locale = 'en';
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals', data).then(function() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Collateral added successfully.';
+      $scope.errors = [];
+      $scope.collateral = {};
+      updateLoanCollaterals();
+    }, function(result) {
+      $scope.message = 'Cant add charge:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    });
+  };
+
+  $scope.removeCollateral = function(collateral) {
+    var msg = 'You are about to remove Collateral <strong>' + collateral.type.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var index = $scope.rowCollection.indexOf(collateral);
+        LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals/' + collateral.id).then(function() {
+          $scope.type = 'alert-success';
+          $scope.message = 'Collateral removed successfully.';
+          $scope.errors = [];
+          if (index >= -1) {
+            $scope.rowCollection.splice(index, 1);
+          } else {
+            updateLoanCollaterals();
+          }
+        }, function(result) {
+          $scope.message = 'Cant remove collateral:' + result.data.defaultUserMessage;
+          $scope.type = 'error';
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+
+  };
+
+});
