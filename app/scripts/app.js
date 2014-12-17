@@ -301,7 +301,7 @@ app.config(['$httpProvider', function($httpProvider) {
 ]);
 
 //function to be called when the application gets running
-app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL) {
+app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL, dialogs) {
   //total number of records in single page
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
   //total number of page in single page
@@ -310,6 +310,21 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
       setHclass: function(hclass) {
           this.hclass = hclass;
       }
+  };
+
+  $rootScope.logout = function (){
+    delete localStorage.ang_session;
+    $location.url('/');
+  };
+
+  $rootScope.change_pass = function (){
+    var msg = 'You are about to remove User ';
+    var dialog = dialogs.create('/views/change-password.html', 'passwordController', {msg: msg}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+
+      }
+    });
   };
 
   //TODO: we need to find a way to remove from root scope
