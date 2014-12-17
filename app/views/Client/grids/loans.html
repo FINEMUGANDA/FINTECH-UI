@@ -1,4 +1,4 @@
-<div ng-include="'views/common/header.html'"></div> 
+<div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="LoansCtrl">
   <div class="page-header">
     <div class="header">
@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="list">
-    <table st-table="displayed" st-safe-src="rowCollection" class="table">  
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
           <th colspan="6">
@@ -18,18 +18,18 @@
         <div class="search" >
           <input type="text" st-search="" class="search-box" placeholder="Search Loans" />
         </div>
-      </div>    
+      </div>
       </th>
       </tr>
       <tr>
-        <th colspan="2" st-sort="name">Client Details</th>          
+        <th colspan="2" st-sort="name">Client Details</th>
         <th st-sort="loanStatus">Loan Status</th>
         <th st-sort="loanAmount" class="number">Loan Amount</th>
         <th st-sort="loanArrears" class="number">Amount in Arrears</th>
         <th st-sort="loanOfficer">Loan Officer</th>
       </tr>
       </thead>
-      <tbody ng-hide="isLoading">     
+      <tbody ng-hide="isLoading">
         <tr ng-repeat="loan in displayed" class="pointer">
           <td ng-click="editLoan(loan)"><img ng-src="{{loan.image}}" class="Size"></td>
           <td ng-click="editLoan(loan)">
@@ -50,7 +50,7 @@
           </td>
           <td class="number" ng-click="editLoan(loan)">{{loan.loanAmount}}</td>
           <td class="number" ng-click="editLoan(loan)">{{loan.loanArrears}}</td>
-          <td ng-click="editLoan(loan)">{{loan.loanOfficer}}</td>   
+          <td ng-click="editLoan(loan)">{{loan.loanOfficer}}</td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">
@@ -60,7 +60,7 @@
           </td>
         </tr>
       </tbody>
-      <tfoot ng-hide="isLoading">        
+      <tfoot ng-hide="isLoading">
         <tr>
           <td colspan="6">
             <div class="table-footer">

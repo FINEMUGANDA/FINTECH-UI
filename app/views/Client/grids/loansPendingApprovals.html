@@ -1,4 +1,4 @@
-<div ng-include="'views/common/header.html'"></div> 
+<div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="LoansPendingApprovalsCtrl">
   <div class="page-header">
     <div class="header">
@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="list">
-    <table st-table="displayed" st-safe-src="rowCollection" class="table">  
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
           <th colspan="7">
@@ -19,7 +19,7 @@
                 <div class="search" >
                   <input type="text" st-search="" class="search-box" placeholder="Search Loans Pending Approval" />
                 </div>
-              </div>    
+              </div>
           </th>
         </tr>
         <tr>
@@ -31,16 +31,16 @@
           <th st-sort="loanOfficer">Loan Officer</th>
         </tr>
       </thead>
-      <tbody ng-hide="isLoading">        
+      <tbody ng-hide="isLoading">
         <tr ng-repeat="loanPendingApproval in displayed">
           <td>
               <div class="name">
-                <a ng-href="#editbasicclientinfo/{{loanPendingApproval.id}}">{{loanPendingApproval.name}}</a>
-              </div>              
+                <a ng-href="#editbasicclientinfo/{{loanPendingApproval.clientId}}">{{loanPendingApproval.name}}</a>
+              </div>
               <div class="meta">
                 File No.: {{loanPendingApproval.file_no}}
               </div>
-          </td>          
+          </td>
           <td class="number">{{loanPendingApproval.loanAmount}}</td>
           <td class="number">{{loanPendingApproval.installments}}</td>
           <td class="number">{{loanPendingApproval.interestRate}}</td>
@@ -58,7 +58,7 @@
           </td>
         </tr>
       </tbody>
-      <tfoot ng-hide="isLoading">        
+      <tfoot ng-hide="isLoading">
           <tr>
             <td colspan="7">
               <div class="table-footer">
