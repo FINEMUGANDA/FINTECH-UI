@@ -38,7 +38,31 @@ utils.factory('Utility', function($q, APPLICATION) {
       image.src = src;
 
       return deferred.promise;
+    },
+    filterOptions: function(options, optionID, selectedOptions) {
+      var filteredOptions = [];
+      var flag=true;
+      angular.forEach(options, function(item){
+        flag=true;
+        for (var i in selectedOptions) {
+          if(parseInt(item.id)===parseInt(selectedOptions[i])){
+            flag = false;
+          }
+        }
+        if(!flag && optionID) {
+          flag = (parseInt(item.id)===parseInt(optionID));
+        }
+        if(flag) {
+          filteredOptions.push(item);
+        }
+      });
+      return filteredOptions;
+   },
+   setSelectedOptions: function (selectedOptions, assetID) {    
+    if(assetID){
+      selectedOptions.push(assetID);
     }
+   }
   };
 });
 

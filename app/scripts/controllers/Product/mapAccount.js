@@ -1,75 +1,41 @@
 'use strict';
 
-angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, $scope, $location, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
+angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootScope, $route, $scope, $location, LoanProductService, REST_URL, APPLICATION, PAGE_URL, Utility) {
   console.log('MapAccountingCtrl');
   $scope.isLoading = true;
   $scope.mapAccountingForm = {};
   $scope.id = $route.current.params.id;
-  //Filters
-  $scope.selectedAssets = [];
-  //Set selectedAssets
-  $scope.setSelectedAssets = function (assetID) {    
-    if(assetID){
-      $scope.selectedAssets.push(assetID);
-    }
-  };
-  //Remove selected option
+  //Filter on Assests Options
   $scope.changeAssetsOptions = function () {
-    $scope.selectedAssets = [];
-    $scope.setSelectedAssets($scope.mapAccountingForm.fundSourceAccountId);
-    $scope.setSelectedAssets($scope.mapAccountingForm.loanPortfolioAccountId);
-    $scope.setSelectedAssets($scope.mapAccountingForm.receivableInterestAccountId);
-    $scope.setSelectedAssets($scope.mapAccountingForm.receivableFeeAccountId);
-    $scope.setSelectedAssets($scope.mapAccountingForm.receivablePenaltyAccountId);
-    $scope.setSelectedAssets($scope.mapAccountingForm.transfersInSuspenseAccountId);
-    console.log('$scope.selectedAssets = ' + $scope.selectedAssets);    
+    //$scope.selectedAssets = [];
+    var selectedAssets = [];
+    var form = $scope.mapAccountingForm;
+    Utility.setSelectedOptions(selectedAssets, form.fundSourceAccountId);
+    Utility.setSelectedOptions(selectedAssets, form.loanPortfolioAccountId);
+    Utility.setSelectedOptions(selectedAssets, form.receivableInterestAccountId);
+    Utility.setSelectedOptions(selectedAssets, form.receivableFeeAccountId);
+    Utility.setSelectedOptions(selectedAssets, form.receivablePenaltyAccountId);
+    Utility.setSelectedOptions(selectedAssets, form.transfersInSuspenseAccountId);    
+    $scope.fundSourceOption = Utility.filterOptions($scope.assetAccountOptions, form.fundSourceAccountId, selectedAssets);
+    $scope.loanPortfolioOption = Utility.filterOptions($scope.assetAccountOptions, form.loanPortfolioAccountId, selectedAssets);
+    $scope.interestReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivableInterestAccountId, selectedAssets);
+    $scope.feesReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivableFeeAccountId, selectedAssets);
+    $scope.penaltiesReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivablePenaltyAccountId, selectedAssets);
+    $scope.transferSuspenseOption = Utility.filterOptions($scope.assetAccountOptions, form.transfersInSuspenseAccountId, selectedAssets);
+    console.log('selectedAssets = ' + selectedAssets);    
   };
-  //Filter for options
-  function filterOptions(item, optionID) {
-    var flag=true;
-    try {
-      for (var i in $scope.selectedAssets) {
-        if(parseInt(item.id)===parseInt($scope.selectedAssets[i])){
-          flag = false;
-        }
-      }
-      if(!flag) {
-        flag = (parseInt(item.id)===parseInt(optionID));
-      }
-      return flag;
-    } catch (e) {
-        console.log('Cant parse integer value for filterOptions', e);
-    }
-  };  
-  $scope.filterFundSource = function(assetAccountOptions) {
-    return _.filter(assetAccountOptions, function(item) {
-      return filterOptions(item, $scope.mapAccountingForm.fundSourceAccountId);
-    });
-  };
-  $scope.filterLoanPortfolio = function(assetAccountOptions) {
-    return _.filter(assetAccountOptions, function(item) {
-      return filterOptions(item, $scope.mapAccountingForm.loanPortfolioAccountId);
-    });
-  };
-  $scope.filterInterestReceivable = function(assetAccountOptions) {
-    return _.filter(assetAccountOptions, function(item) {
-      return filterOptions(item, $scope.mapAccountingForm.receivableInterestAccountId);
-    });
-  };
-  $scope.filterFeesReceivable = function(assetAccountOptions) {
-    return _.filter(assetAccountOptions, function(item) {
-      return filterOptions(item, $scope.mapAccountingForm.receivableFeeAccountId);
-    });
-  };
-  $scope.filterPenaltiesReceivable = function(assetAccountOptions) {
-    return _.filter(assetAccountOptions, function(item) {
-      return filterOptions(item, $scope.mapAccountingForm.receivablePenaltyAccountId);
-    });
-  };
-  $scope.filterTransferSuspense = function(assetAccountOptions) {
-    return _.filter(assetAccountOptions, function(item) {
-      return filterOptions(item, $scope.mapAccountingForm.transfersInSuspenseAccountId);
-    });
+  //Filter on Income Options
+  $scope.changeIncomeOptions = function () {
+    var selectedIncome = [];
+    var form = $scope.mapAccountingForm;
+    Utility.setSelectedOptions(selectedIncome, form.interestOnLoanAccountId);
+    Utility.setSelectedOptions(selectedIncome, form.incomeFromFeeAccountId);
+    Utility.setSelectedOptions(selectedIncome, form.incomeFromPenaltyAccountId);
+    Utility.setSelectedOptions(selectedIncome, form.incomeFromRecoveryAccountId);
+    $scope.interestOnLoanOption = Utility.filterOptions($scope.incomeAccountOptions, form.interestOnLoanAccountId, selectedIncome);
+    $scope.incomeFromFeeOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromFeeAccountId, selectedIncome);
+    $scope.incomeFromPenaltyOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromPenaltyAccountId, selectedIncome);
+    $scope.incomeFromRecoveryOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromRecoveryAccountId, selectedIncome);
   };
   //To move on edit loan product page
   $scope.setStep = function(step) {
@@ -121,8 +87,8 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
       }
       $rootScope.message = '';
       $rootScope.type = '';
-      $scope.filterFundSource($scope.assetAccountOptions);
-      $scope.filterLoanPortfolio($scope.assetAccountOptions);
+      $scope.changeAssetsOptions();
+      $scope.changeIncomeOptions();
     } catch (e) {
       console.log(e);
     }
