@@ -5,6 +5,72 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
   $scope.isLoading = true;
   $scope.mapAccountingForm = {};
   $scope.id = $route.current.params.id;
+  //Filters
+  $scope.selectedAssets = [];
+  //Set selectedAssets
+  $scope.setSelectedAssets = function (assetID) {    
+    if(assetID){
+      $scope.selectedAssets.push(assetID);
+    }
+  };
+  //Remove selected option
+  $scope.changeAssetsOptions = function () {
+    $scope.selectedAssets = [];
+    $scope.setSelectedAssets($scope.mapAccountingForm.fundSourceAccountId);
+    $scope.setSelectedAssets($scope.mapAccountingForm.loanPortfolioAccountId);
+    $scope.setSelectedAssets($scope.mapAccountingForm.receivableInterestAccountId);
+    $scope.setSelectedAssets($scope.mapAccountingForm.receivableFeeAccountId);
+    $scope.setSelectedAssets($scope.mapAccountingForm.receivablePenaltyAccountId);
+    $scope.setSelectedAssets($scope.mapAccountingForm.transfersInSuspenseAccountId);
+    console.log('$scope.selectedAssets = ' + $scope.selectedAssets);    
+  };
+  //Filter for options
+  function filterOptions(item, optionID) {
+    var flag=true;
+    try {
+      for (var i in $scope.selectedAssets) {
+        if(parseInt(item.id)===parseInt($scope.selectedAssets[i])){
+          flag = false;
+        }
+      }
+      if(!flag) {
+        flag = (parseInt(item.id)===parseInt(optionID));
+      }
+      return flag;
+    } catch (e) {
+        console.log('Cant parse integer value for filterOptions', e);
+    }
+  };  
+  $scope.filterFundSource = function(assetAccountOptions) {
+    return _.filter(assetAccountOptions, function(item) {
+      return filterOptions(item, $scope.mapAccountingForm.fundSourceAccountId);
+    });
+  };
+  $scope.filterLoanPortfolio = function(assetAccountOptions) {
+    return _.filter(assetAccountOptions, function(item) {
+      return filterOptions(item, $scope.mapAccountingForm.loanPortfolioAccountId);
+    });
+  };
+  $scope.filterInterestReceivable = function(assetAccountOptions) {
+    return _.filter(assetAccountOptions, function(item) {
+      return filterOptions(item, $scope.mapAccountingForm.receivableInterestAccountId);
+    });
+  };
+  $scope.filterFeesReceivable = function(assetAccountOptions) {
+    return _.filter(assetAccountOptions, function(item) {
+      return filterOptions(item, $scope.mapAccountingForm.receivableFeeAccountId);
+    });
+  };
+  $scope.filterPenaltiesReceivable = function(assetAccountOptions) {
+    return _.filter(assetAccountOptions, function(item) {
+      return filterOptions(item, $scope.mapAccountingForm.receivablePenaltyAccountId);
+    });
+  };
+  $scope.filterTransferSuspense = function(assetAccountOptions) {
+    return _.filter(assetAccountOptions, function(item) {
+      return filterOptions(item, $scope.mapAccountingForm.transfersInSuspenseAccountId);
+    });
+  };
   //To move on edit loan product page
   $scope.setStep = function(step) {
     $rootScope.editStep = step;
@@ -29,6 +95,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
     try {
       $scope.product = result.data;
       $scope.assetAccountOptions = $scope.product.accountingMappingOptions.assetAccountOptions || [];
+      $scope.assetAccountOptionsGlobal = $scope.product.accountingMappingOptions.assetAccountOptions || [];
       $scope.incomeAccountOptions = $scope.product.accountingMappingOptions.incomeAccountOptions || [];
       $scope.expenseAccountOptions = $scope.product.accountingMappingOptions.expenseAccountOptions || [];
       $scope.liabilityAccountOptions = $scope.product.accountingMappingOptions.liabilityAccountOptions || [];
@@ -54,6 +121,8 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
       }
       $rootScope.message = '';
       $rootScope.type = '';
+      $scope.filterFundSource($scope.assetAccountOptions);
+      $scope.filterLoanPortfolio($scope.assetAccountOptions);
     } catch (e) {
       console.log(e);
     }
@@ -75,6 +144,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
     $rootScope.message = '';
     $rootScope.type = '';
     this.mapAccountingForm.locale = 'en';
+    this.mapAccountingForm.accountingRule = parseInt(this.mapAccountingForm.accountingRule);
 
     var updateloanProductSuccess = function() {
       console.log('Success : Return from loanProducts service.');
