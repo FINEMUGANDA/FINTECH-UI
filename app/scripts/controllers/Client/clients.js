@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, Utility, dialogs) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, Utility, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -120,7 +120,7 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
 });
 
 
-clientsCtrl.controller('LoansCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
+clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
   console.log('LoansCtrl : Loans');
   //To load the loans page
 
@@ -167,7 +167,7 @@ clientsCtrl.controller('LoansCtrl', function($scope, $rootScope, $location, $tim
 });
 
 
-clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, ClientsService, REST_URL, dialogs) {
   console.log('LoansPendingApprovalsCtrl : LoansPendingApprovals');
   //To load the LoansPendingApprovals page
 
@@ -199,10 +199,112 @@ clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $rootScope,
     }, 2000);
   };
 
+  $scope.openActionDialog = function(loan) {
+    var dialog = dialogs.create('/views/Client/grids/loans.dialog.action.html', 'LoansActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        loadLoansPendingApprovals();
+      }
+    });
+  };
+
   loadLoansPendingApprovals();
 });
 
-clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, dialogs, data) {
+  console.log('LoansActionDialogCtrl', $scope);
+  $scope.baseLoan = data.loan;
+  $scope.info = {};
+  $scope.data = {};
+  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '/charges').then(function(result) {
+    if (result.data) {
+      $scope.data.charges = result.data;
+    }
+  }, function() {
+    console.log('Cant recieve charges data');
+  });
+  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId).then(function(result) {
+    if (result.data) {
+      $scope.loan = result.data;
+    }
+  }, function() {
+    console.log('Cant recieve loan data');
+  });
+
+  $scope.cancel = function() {
+    $modalInstance.close(false);
+  };
+  $scope.reject = function() {
+    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'reject'}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var currentDate = new Date();
+        var json = {
+          dateFormat: 'dd/MM/yyyy',
+          locale: 'en',
+          rejectedOnDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear(),
+          note: result.note
+        };
+        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=reject', json).then(function(result) {
+          $scope.type = 'alert-success';
+          $scope.message = 'Loan rejected successfuly';
+          $scope.errors = result.data.errors;
+          $modalInstance.close(true);
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+  };
+  $scope.approve = function() {
+    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'approve'}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var currentDate = new Date();
+        var json = {
+          dateFormat: 'dd/MM/yyyy',
+          locale: 'en',
+          approvedOnDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear(),
+          note: result.note
+        };
+        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=approve', json).then(function(result) {
+          $scope.type = 'alert-success';
+          $scope.message = 'Loan approved successfuly';
+          $scope.errors = result.data.errors;
+          $modalInstance.close(true);
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Loan not approved: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+  };
+
+});
+
+clientsCtrl.controller('SubmitLoanActionDialogCtrl', function($scope, $modalInstance, data) {
+  $scope.type = data.type;
+  if ($scope.type === 'approve') {
+    $scope.title = 'Approve Loan';
+    $scope.messageLabel = 'Note';
+  } else {
+    $scope.title = 'RejectLoan';
+    $scope.messageLabel = 'Reason';
+  }
+
+  $scope.ok = function() {
+    $modalInstance.close({note: $scope.note});
+  };
+  $scope.cancel = function() {
+    $modalInstance.close(false);
+  };
+});
+
+
+clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeout, ClientsService, REST_URL) {
   console.log('LoansAwaitingDisbursementCtrl : LoansAwaitingDisbursement');
   //To load the LoansAwaitingDisbursement page
 
@@ -239,7 +341,7 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $rootSc
   loadLoansPendingApprovals();
 });
 
-clientsCtrl.controller('LoansRejectedCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansRejectedCtrl', function($scope, $timeout, ClientsService, REST_URL) {
   console.log('LoansRejectedCtrl : LoansRejected');
   //To load the LoansRejected page
 
@@ -276,7 +378,7 @@ clientsCtrl.controller('LoansRejectedCtrl', function($scope, $rootScope, $locati
   loadLoansRejected();
 });
 
-clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, ClientsService, REST_URL) {
   console.log('LoansWrittenOffCtrl : LoansWrittenOff');
   //To load the LoansWrittenOff page
 

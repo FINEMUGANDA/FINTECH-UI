@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, $scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
+angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, $scope, $location, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('MapAccountingCtrl');
   $scope.isLoading = true;
   $scope.mapAccountingForm = {};
@@ -73,7 +73,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
   };
   //To move on edit loan product page
   $scope.setStep = function(step) {
-    $rootScope.editStep = step;
+    $scope.editStep = step;
     $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + $scope.id);
   };
   $scope.isAccountingEnabled = function () {
@@ -141,15 +141,15 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($route, 
   //Map accounting with loan product and save
   $scope.updateLoanProduct = function() {
     console.log('MapAccountingCtrl : updateLoanProduct');
-    $rootScope.message = '';
-    $rootScope.type = '';
+    $scope.message = '';
+    $scope.type = '';
     this.mapAccountingForm.locale = 'en';
     this.mapAccountingForm.accountingRule = parseInt(this.mapAccountingForm.accountingRule);
 
     var updateloanProductSuccess = function() {
       console.log('Success : Return from loanProducts service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Loan product Updated successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan product Updated successfully';
       $scope.errors = '';
       $route.reload();
     };

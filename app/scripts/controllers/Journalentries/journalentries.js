@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('angularjsApp').controller('JournalEntriesCtrl', function($rootScope, $scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
+angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
   console.log('JournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 5;
 
   //Success callback
   var loadJournalEntriesSuccess = function(result) {
-    $rootScope.type = '';
-    $rootScope.message = '';
-    $rootScope.errors = '';
+    $scope.type = '';
+    $scope.message = '';
+    $scope.errors = '';
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
@@ -126,7 +126,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
 });
 
 //Create Journal Entry
-angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($rootScope, $scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
+angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($scope, REST_URL, JournalService, $location, PAGE_URL) {
   console.log('CreateJournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.journalEntryForm = {};
@@ -207,7 +207,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     jeTransaction.locale = 'en';
     jeTransaction.dateFormat = 'dd/MM/yyyy';
     jeTransaction.officeId = this.journalEntryForm.officeId;
-    jeTransaction.transactionDate = jeTransaction.transactionDate ;
+    jeTransaction.transactionDate = this.journalEntryForm.transactionDate ;
     jeTransaction.referenceNumber = this.journalEntryForm.referenceNumber;
     jeTransaction.comments = this.journalEntryForm.comments;
     jeTransaction.currencyCode = this.journalEntryForm.currencyCode;
@@ -241,8 +241,8 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
 
     var saveJournalEntrySuccess = function() {
       console.log('Success : Return from JournalService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Journal Entry saved successfully';      
+      $scope.type = 'alert-success';
+      $scope.message = 'Journal Entry saved successfully';      
       $location.path(PAGE_URL.JOURNALENTRIES);
     };
 

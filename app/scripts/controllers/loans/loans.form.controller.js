@@ -37,45 +37,13 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
   $scope.selectTab($route.current.params.tab);
 });
 
-angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location) {
   console.log('LoansFormCreateCtrl', $scope);
   $scope.loan = {};
 
   LoanService.getData(REST_URL.LOANS_PRODUCTS).then(function(result) {
     $scope.loanProducts = result.data;
   });
-  $scope.filterChargeOptions = function(chargeOptions) {
-    if (!chargeOptions || !$scope.data) {
-      return [];
-    }
-    var result = _.filter(chargeOptions, function(charge) {
-      return _.every([
-        charge.currency.code === $scope.data.currency.code,
-        !_.find($scope.chargesCollection, function(existingCharge) {
-          var result = false;
-          try {
-            result = parseInt(existingCharge.chargeId) === parseInt(charge.id);
-          } catch (e) {
-            console.log('Cant parse charge id', e);
-          }
-          return result;
-        })
-      ]);
-    });
-    return result;
-  };
-  $scope.removeCharge = function(charge) {
-    var msg = 'You are about to remove Charge <strong>' + charge.name + '</strong>';
-    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        var index = $scope.chargesCollection.indexOf(charge);
-        if (index >= -1) {
-          $scope.chargesCollection.splice(index, 1);
-        }
-      }
-    });
-  };
 
   function loadProductTemplate(productId, useTemplateData) {
     LoanService.getData(REST_URL.LOANS_TEMPLATES + '?templateType=individual&clientId=' + $scope.clientId + '&productId=' + productId).then(function(result) {
@@ -118,43 +86,6 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     }
   });
 
-  function findChargeById(chargeId) {
-    return _.find($scope.data.chargeOptions, function(item) {
-      var result = false;
-      try {
-        result = parseInt(item.id) === parseInt(chargeId);
-      } catch (e) {
-        console.log('Cant parse charge id...');
-      }
-      return result;
-    });
-  }
-
-  $scope.$watch('charge.chargeId', function(chargeId) {
-    if (!chargeId) {
-      return;
-    }
-    $scope.currentCharge = findChargeById(chargeId);
-    if (!$scope.currentCharge) {
-      console.log('Charge amount is not founded!');
-    } else {
-      $scope.charge.amount = $scope.currentCharge.amount;
-    }
-  });
-
-  $scope.addCharge = function() {
-    console.log('addCharge');
-    if (!$scope.charge || !$scope.charge.chargeId) {
-      return;
-    }
-    var charge = findChargeById($scope.charge.chargeId);
-    charge.chargeId = $scope.charge.chargeId;
-    if (!charge) {
-      return;
-    }
-    $scope.chargesCollection.push(charge);
-    $scope.charge = {};
-  };
   if ($scope.loanId) {
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
       var data = result.data;
@@ -365,6 +296,96 @@ angular.module('angularjsApp').controller('LoansFormChargesCtrl', function($rout
           }
         }, function(result) {
           $scope.message = 'Cant remove charge:' + result.data.defaultUserMessage;
+          $scope.type = 'error';
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+
+  };
+
+});
+
+angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($route, $scope, REST_URL, $timeout, LoanService, dialogs) {
+  console.log('LoansFormCreateCtrl');
+  $scope.rowCollection = [];
+  $scope.loan = {};
+  $scope.isLoading = false;
+
+  $scope.filterCollateralOptions = function(collateralOptions) {
+    if (!collateralOptions) {
+      return [];
+    }
+    return _.filter(collateralOptions, function(collateral) {
+      return !_.find($scope.rowCollection, function(existingCollateral) {
+        var result = false;
+        try {
+          result = parseInt(existingCollateral.type.id) === parseInt(collateral.id);
+        } catch (e) {
+          console.log('Cant parse collateral id', e);
+        }
+        return result;
+      });
+    });
+  };
+
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
+    $scope.loan = result.data;
+    LoanService.getData(REST_URL.LOANS_PRODUCTS + '/' + $scope.loan.loanProductId).then(function(result) {
+      $scope.loanProduct = result.data;
+    });
+  });
+
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals/template').then(function(result) {
+    $scope.data = result.data;
+  });
+  function updateLoanCollaterals() {
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals').then(function(result) {
+      $scope.rowCollection = result.data;
+    });
+  }
+  updateLoanCollaterals();
+
+  $scope.saveCollateral = function() {
+    if (!$scope.loanFormCollateral.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      $('html, body').animate({scrollTop: 0}, 800);
+      return;
+    }
+    var data = angular.copy($scope.collateral);
+    data.locale = 'en';
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals', data).then(function() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Collateral added successfully.';
+      $scope.errors = [];
+      $scope.collateral = {};
+      updateLoanCollaterals();
+    }, function(result) {
+      $scope.message = 'Cant add charge:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    });
+  };
+
+  $scope.removeCollateral = function(collateral) {
+    var msg = 'You are about to remove Collateral <strong>' + collateral.type.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var index = $scope.rowCollection.indexOf(collateral);
+        LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals/' + collateral.id).then(function() {
+          $scope.type = 'alert-success';
+          $scope.message = 'Collateral removed successfully.';
+          $scope.errors = [];
+          if (index >= -1) {
+            $scope.rowCollection.splice(index, 1);
+          } else {
+            updateLoanCollaterals();
+          }
+        }, function(result) {
+          $scope.message = 'Cant remove collateral:' + result.data.defaultUserMessage;
           $scope.type = 'error';
           $scope.errors = result.data.errors;
         });

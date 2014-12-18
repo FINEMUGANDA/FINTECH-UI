@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var chargesController = angular.module('chargesController', ['chargesService', 'Constants', 'smart-table']);
 
-chargesController.controller('ChargesCtrl', function($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
+chargesController.controller('ChargesCtrl', function($scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('ChargesCtrl : loadCharges');
   //To load the loadproducts page
 
@@ -47,12 +47,12 @@ chargesController.controller('ChargesCtrl', function($scope, $rootScope, $locati
   };
 });
 
-chargesController.controller('CreateChargeCtrl', function($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
+chargesController.controller('CreateChargeCtrl', function($scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('chargesController : CreateChargeCtrl');
   //To load create charge page
   $scope.isLoading = false;
   $scope.chargeDetails = {};
-  $rootScope.message = '';
+  $scope.message = '';
   //Success callback
   var chargeTeplateSuccess = function(result) {
     $scope.isLoading = false;
@@ -101,8 +101,8 @@ chargesController.controller('CreateChargeCtrl', function($scope, $rootScope, $l
     }
     var saveChargeSuccess = function() {
       console.log('Success : Return from charge service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Charge saved successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Charge saved successfully';
       $location.url(PAGE_URL.CHARGES);
     };
 
@@ -127,12 +127,12 @@ chargesController.controller('CreateChargeCtrl', function($scope, $rootScope, $l
   };
 });
 
-chargesController.controller('EditChargeCtrl', function($scope, $rootScope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL, $route) {
+chargesController.controller('EditChargeCtrl', function($scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL, $route) {
   console.log('chargesController : EditChargeCtrl');
   //To load create charge page
   $scope.isLoading = false;
   $scope.chargeDetails = {};
-  $rootScope.message = '';
+  $scope.message = '';
   //Success callback
   var chargeTeplateSuccess = function(result) {
     $scope.isLoading = false;
@@ -190,8 +190,8 @@ chargesController.controller('EditChargeCtrl', function($scope, $rootScope, $loc
 
     var updateChargeSuccess = function() {
       console.log('Success : Return from charge service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Charge updated successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Charge updated successfully';
       $location.url(PAGE_URL.CHARGES);
     };
 
