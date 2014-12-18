@@ -4,7 +4,7 @@
 var CreateClientCrtl = angular.module('createClientController', ['createClientsService', 'Constants', 'smart-table']);
 
 //Controller for the create Client page for creating the client with basic information
-CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, deviceDetector) {
+CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, deviceDetector) {
   console.log('CreateClientCtrl : CreateClientCtrl');
   //To load the createClient page
   $scope.isLoading = false;
@@ -86,8 +86,8 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
     } catch (e) {
       console.error(e);
     }
-    $rootScope.type = '';
-    $rootScope.message = '';
+    $scope.type = '';
+    $scope.message = '';
   };
   //failur callback
   var createClientTemplateFail = function() {
@@ -347,7 +347,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $rootSc
 });
 
 //Contoller for Edit Client page
-CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, $upload) {
+CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, $upload) {
   console.log('CreateClientCtrl : EditClientCtrl');
   //To load the editbasicclient page
   $scope.isLoading = false;
@@ -633,7 +633,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $rootScop
 //Finish - save edit client basic extra information template details
 
 //Controller for the Client Additional Details page
-CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
+CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('CreateClientCtrl : CreateClientAdditionalInfoCtrl');
   //To load the client additional page
   $scope.isLoading = false;
@@ -694,8 +694,8 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
       $scope.createClientAdditionalInfo.Poverty_cd_poverty_status = $scope.clientAdditionalInfo.columnHeaders[7].columnValues[0].id;
       $scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by = $scope.clientAdditionalInfo.columnHeaders[8].columnValues[0].id;
       //Get list of client and loan officer from office id of client
-      if ($rootScope.officeId) {
-        CreateClientsService.getData(REST_URL.GROUP_TEMPLATE_RESOURCE + '?staffInSelectedOfficeOnly=true&officeId=' + $rootScope.officeId).then(getOfficeSuccess, getOfficeFail);
+      if ($scope.officeId) {
+        CreateClientsService.getData(REST_URL.GROUP_TEMPLATE_RESOURCE + '?staffInSelectedOfficeOnly=true&officeId=' + $scope.officeId).then(getOfficeSuccess, getOfficeFail);
       } else {
         CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?fields=officeId').then(getClientSuccess, getClientFail);
       }
@@ -722,8 +722,8 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
     } catch (e) {
       console.log(e);
     }
-    $rootScope.type = '';
-    $rootScope.message = '';
+    $scope.type = '';
+    $scope.message = '';
   };
   //failur callback
   var createClientAdditionalInfoTemplateFail = function(result) {
@@ -776,11 +776,11 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
 
     var saveClientAdditionalInfoSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
+      $scope.type = 'alert-success';
       if ($scope.createAdditional) {
-        $rootScope.message = 'Client Business Activity Detail saved successfully';
+        $scope.message = 'Client Business Activity Detail saved successfully';
       } else {
-        $rootScope.message = 'Client Business Activity Detail updated successfully';
+        $scope.message = 'Client Business Activity Detail updated successfully';
       }
 
       //Redirect to the next page
@@ -812,7 +812,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
   };
 });
 
-CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
+CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientIdentificationCtrl');
   $scope.button_name = 'Add';
   $scope.isLoading = false;
@@ -847,7 +847,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.clientIdentification = {};
       $scope.clientIdentificationExtra = {};
       $scope.client = result.data;
-      $rootScope.identificationType = $scope.client.allowedDocumentTypes;
+      $scope.identificationType = $scope.client.allowedDocumentTypes;
       //Set the default values for the identification id
       $scope.clientIdentification.documentTypeId = 1;
       $scope.loadExtraTemplate();
@@ -1133,8 +1133,8 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
 
     var deleteClientIdentificationExtraSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Client Identification deleted successfully';
+      $scope.type = 'alert-success';
+      $scope.message = 'Client Identification deleted successfully';
       //Display the changes result to the user i.e the data has been deleted
       loadCreateClientIdentificationTemplate();
     };
@@ -1235,7 +1235,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 });
 
-CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
+CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientNextToKeenCtrl');
   //To load the loadproducts page
   $scope.isLoading = false;
@@ -1265,8 +1265,8 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
     } catch (e) {
       console.log(e);
     }
-    $rootScope.type = '';
-    $rootScope.message = '';
+    $scope.type = '';
+    $scope.message = '';
   };
   //failur callback
   var createClientNextToKeenTemplateFail = function(result) {
@@ -1473,7 +1473,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $ro
   };
 });
 
-CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scope, $rootScope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
+CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientBusinessActivityCtrl');
   //To load the loadproducts page
   $scope.isLoading = false;
@@ -1520,8 +1520,8 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     } catch (e) {
       console.log(e);
     }
-    $rootScope.type = '';
-    $rootScope.message = '';
+    $scope.type = '';
+    $scope.message = '';
   };
   //failur callback
   var createClientBusinessActivityTemplateFail = function(result) {
@@ -1606,11 +1606,11 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     var saveClientBusinessActivitySuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      $rootScope.type = 'alert-success';
+      $scope.type = 'alert-success';
       if ($scope.$requestMethodCreate) {
-        $rootScope.message = 'Client Business Activity Detail saved successfully';
+        $scope.message = 'Client Business Activity Detail saved successfully';
       } else {
-        $rootScope.message = 'Client Business Activity Detail updated successfully';
+        $scope.message = 'Client Business Activity Detail updated successfully';
       }
       loadCreateClientBusinessActivityTemplate();
     };
@@ -1651,8 +1651,8 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
       if (result) {
         var deleteBusinessDetailsSuccess = function() {
           console.log('Success : Return from CreateClientsService service.');
-          $rootScope.type = 'alert-success';
-          $rootScope.message = 'Client Business Activity Detail deleted successfully';
+          $scope.type = 'alert-success';
+          $scope.message = 'Client Business Activity Detail deleted successfully';
           //Load the template to display the changes onto the screen
           loadCreateClientBusinessActivityTemplate();
         };

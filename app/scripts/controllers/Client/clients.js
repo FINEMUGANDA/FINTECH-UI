@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, Utility, dialogs) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, Utility, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -120,7 +120,7 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
 });
 
 
-clientsCtrl.controller('LoansCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
+clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
   console.log('LoansCtrl : Loans');
   //To load the loans page
 
@@ -167,7 +167,7 @@ clientsCtrl.controller('LoansCtrl', function($scope, $rootScope, $location, $tim
 });
 
 
-clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL, dialogs) {
+clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, ClientsService, REST_URL, dialogs) {
   console.log('LoansPendingApprovalsCtrl : LoansPendingApprovals');
   //To load the LoansPendingApprovals page
 
@@ -304,7 +304,7 @@ clientsCtrl.controller('SubmitLoanActionDialogCtrl', function($scope, $modalInst
 });
 
 
-clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeout, ClientsService, REST_URL) {
   console.log('LoansAwaitingDisbursementCtrl : LoansAwaitingDisbursement');
   //To load the LoansAwaitingDisbursement page
 
@@ -341,7 +341,7 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $rootSc
   loadLoansPendingApprovals();
 });
 
-clientsCtrl.controller('LoansRejectedCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansRejectedCtrl', function($scope, $timeout, ClientsService, REST_URL) {
   console.log('LoansRejectedCtrl : LoansRejected');
   //To load the LoansRejected page
 
@@ -378,7 +378,7 @@ clientsCtrl.controller('LoansRejectedCtrl', function($scope, $rootScope, $locati
   loadLoansRejected();
 });
 
-clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $rootScope, $location, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, ClientsService, REST_URL) {
   console.log('LoansWrittenOffCtrl : LoansWrittenOff');
   //To load the LoansWrittenOff page
 

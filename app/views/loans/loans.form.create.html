@@ -6,7 +6,7 @@
         <div class="form-group">
           <label class="control-label col-md-5">Loan Product<span class="required"> *</span></label>
           <div class="validate col-md-6">
-            <select class="form-control" required ng-model="loan.productId">
+            <select class="form-control" required ng-model="loan.productId" ng-disabled="loanId">
               <option ng-repeat="product in loanProducts" value="{{product.id}}" ng-selected="{{loan.productId == product.id}}">{{product.name}}</option>
             </select>
           </div>
@@ -123,45 +123,6 @@
       </div>
     </div>
   </form>
-
-  <hr/>
-  <div ng-show="showDetails">
-    <h4>Charges</h4>
-    <table class="table paddedtop" st-table="displayed" st-safe-src="chargesCollection">
-      <thead>
-        <tr>
-          <th st-sort="name">Charge Name</th>
-          <th st-sort="chargeTimeType.value">Type</th>
-          <th st-sort="amount">Amount</th>
-        </tr>
-      </thead>
-      <tbody ng-hide="isLoading">
-        <tr ng-repeat="row in displayed">
-          <td>{{row.name}}</td>
-          <td>{{row.chargeTimeType.value}}</td>
-          <td>{{row.amount}}</td>
-        </tr>
-      </tbody>
-      <tbody ng-show="isLoading">
-        <tr>
-          <td colspan="3" class="text-center">
-            <div class="loading-indicator">Loading...</div>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot ng-hide="isLoading">
-        <tr>
-          <td colspan="3">
-            <div class="table-footer">
-              <div class="paginate">
-                <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
 
   <div class="col-md-12" ng-show="showDetails">
     <hr />

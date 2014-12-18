@@ -3,7 +3,7 @@
   // Here we attach this controller to our testApp module
 var dashboardCtrl = angular.module('dashboardController',['dashboardService','Constants', 'GraphUtils']);
   
-dashboardCtrl.controller('DashboardCtrl', function ($scope, $rootScope, $location, DashboardService, REST_URL, PAGE_URL, CHART_TYPE, APPLICATION, Session, Graph) {
+dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, REST_URL, PAGE_URL, CHART_TYPE, APPLICATION, Session, Graph) {
   //To load the dashboard page
   $scope.loadDashboard = function(){
     console.log('DashboardCtrl : loadDashboard');

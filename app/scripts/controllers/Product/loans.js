@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var LoanProductCrtl = angular.module('loanProductController', ['loanProductService', 'Constants', 'smart-table']);
 
-LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
+LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('LoanProductsCtrl : LoanProducts');
   //To load the loadproducts page      
   $scope.isLoading = false;
@@ -46,7 +46,7 @@ LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $rootScope, $loc
   };
 });
 
-LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService) {
+LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService) {
   console.log('LoanProductsCtrl : CreateLoanProducts');
 
   //To highlight selected tab
@@ -67,7 +67,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope
   $scope.isLoading = false;
   $scope.loanProductDetails = {};
   $scope.charges = [];
-  $rootScope.message = '';
+  $scope.message = '';
   //Success callback
   var loanProductTeplateSuccess = function(result) {
     $scope.isLoading = false;
@@ -98,7 +98,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope
       $scope.loanProductDetails.daysInYearType = 1;
       $scope.loanProductDetails.daysInMonthType = 1;
       $scope.loanProductDetails.locale = 'en';
-      $rootScope.step = 1;
+      $scope.step = 1;
     } catch (e) {
     }
   };
@@ -160,7 +160,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope
 
   $scope.saveLoanProduct = function(loanProductDetails) {
     console.log('LoanProductsCtrl : CreateLoanProducts : saveLoanProduct');
-    $rootScope.message = '';
+    $scope.message = '';
     $scope.chargesSelected = [];
     var temp = '';
     for (var i in $scope.charges) {
@@ -173,9 +173,9 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope
 
     var saveloanProductSuccess = function(result) {
       console.log('Success : Return from loanProducts service.');
-      $rootScope.type = 'alert-success';
-      $rootScope.message = 'Loan product saved successfully';
-      $rootScope.isCreated = true;
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan product saved successfully';
+      $scope.isCreated = true;
       $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + result.data.resourceId);
     };
 
@@ -197,7 +197,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $rootScope
 });
 
 
-LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $rootScope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
+LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
   console.log('LoanProductsCtrl : EditLoanProductsCtrl');
   $scope.id = $route.current.params.id;
   //To highlight selected tab
@@ -212,8 +212,8 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $roo
     }
   };
   $scope.step = 1;
-  if($rootScope.editStep && $rootScope.editStep !== 'undefined'){
-    $scope.step = $rootScope.editStep;
+  if($scope.editStep && $scope.editStep !== 'undefined'){
+    $scope.step = $scope.editStep;
   }
   $scope.setStep($scope.step);
 
@@ -223,7 +223,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $roo
   $scope.charges = [];
   //Success callback
   var editLoanProductTeplateSuccess = function(result) {
-    if (!Utility.isUndefinedOrNull($rootScope.isCreated) || $scope.type === 'alert-success') {
+    if (!Utility.isUndefinedOrNull($scope.isCreated) || $scope.type === 'alert-success') {
       $scope.setStep(2);
     }
     $scope.isLoading = false;
@@ -269,7 +269,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $roo
       $scope.loanProductDetails.daysInMonthType = 1;
       $scope.loanProductDetails.locale = 'en';
       //To hide message
-      $rootScope.message = '';
+      $scope.message = '';
     } catch (e) {
       console.log(e);
     }
@@ -277,7 +277,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $roo
 
   //failur callback
   var editLoanProductTemplateFail = function() {
-    $rootScope.message = '';
+    $scope.message = '';
     $scope.isLoading = false;
     console.log('Error : Return from loanProducts service.');
   };
@@ -310,7 +310,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $roo
 
   $scope.updateLoanProduct = function() {
     console.log('LoanProductsCtrl : updateLoanProduct');
-    $rootScope.message = '';
+    $scope.message = '';
     $scope.chargesSelected = [];
     var temp = '';
     for (var i in $scope.charges) {

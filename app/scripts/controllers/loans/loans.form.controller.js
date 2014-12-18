@@ -37,45 +37,13 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
   $scope.selectTab($route.current.params.tab);
 });
 
-angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location) {
   console.log('LoansFormCreateCtrl', $scope);
   $scope.loan = {};
 
   LoanService.getData(REST_URL.LOANS_PRODUCTS).then(function(result) {
     $scope.loanProducts = result.data;
   });
-  $scope.filterChargeOptions = function(chargeOptions) {
-    if (!chargeOptions || !$scope.data) {
-      return [];
-    }
-    var result = _.filter(chargeOptions, function(charge) {
-      return _.every([
-        charge.currency.code === $scope.data.currency.code,
-        !_.find($scope.chargesCollection, function(existingCharge) {
-          var result = false;
-          try {
-            result = parseInt(existingCharge.chargeId) === parseInt(charge.id);
-          } catch (e) {
-            console.log('Cant parse charge id', e);
-          }
-          return result;
-        })
-      ]);
-    });
-    return result;
-  };
-  $scope.removeCharge = function(charge) {
-    var msg = 'You are about to remove Charge <strong>' + charge.name + '</strong>';
-    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        var index = $scope.chargesCollection.indexOf(charge);
-        if (index >= -1) {
-          $scope.chargesCollection.splice(index, 1);
-        }
-      }
-    });
-  };
 
   function loadProductTemplate(productId, useTemplateData) {
     LoanService.getData(REST_URL.LOANS_TEMPLATES + '?templateType=individual&clientId=' + $scope.clientId + '&productId=' + productId).then(function(result) {
@@ -118,43 +86,6 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     }
   });
 
-  function findChargeById(chargeId) {
-    return _.find($scope.data.chargeOptions, function(item) {
-      var result = false;
-      try {
-        result = parseInt(item.id) === parseInt(chargeId);
-      } catch (e) {
-        console.log('Cant parse charge id...');
-      }
-      return result;
-    });
-  }
-
-  $scope.$watch('charge.chargeId', function(chargeId) {
-    if (!chargeId) {
-      return;
-    }
-    $scope.currentCharge = findChargeById(chargeId);
-    if (!$scope.currentCharge) {
-      console.log('Charge amount is not founded!');
-    } else {
-      $scope.charge.amount = $scope.currentCharge.amount;
-    }
-  });
-
-  $scope.addCharge = function() {
-    console.log('addCharge');
-    if (!$scope.charge || !$scope.charge.chargeId) {
-      return;
-    }
-    var charge = findChargeById($scope.charge.chargeId);
-    charge.chargeId = $scope.charge.chargeId;
-    if (!charge) {
-      return;
-    }
-    $scope.chargesCollection.push(charge);
-    $scope.charge = {};
-  };
   if ($scope.loanId) {
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
       var data = result.data;
