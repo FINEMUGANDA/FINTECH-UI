@@ -126,7 +126,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
 });
 
 //Create Journal Entry
-angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($scope, REST_URL, JournalService, $location, PAGE_URL) {
+angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($scope, REST_URL, JournalService, $location, PAGE_URL, Utility) {
   console.log('CreateJournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.journalEntryForm = {};
@@ -139,9 +139,31 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     $event.stopPropagation();
     $scope.opened = true;
   };
+  //Filter debit options
+  $scope.changeCreditOptions = function() {
+    var selectedCreditOptions = [];
+    for (var i = 0; i < $scope.journalEntryForm.crAccounts.length; i++) {        
+        if($scope.journalEntryForm.crAccounts[i].select){
+          selectedCreditOptions.push($scope.journalEntryForm.crAccounts[i].select.id);
+        }
+    }
+    $scope.debitOptions = Utility.filterOptions($scope.glAccounts, null, selectedCreditOptions);
+  };
+  //Filter credit options
+  $scope.changeDebitOptions = function() {
+    var selectedDebitOptions = [];
+    for (var i = 0; i < $scope.journalEntryForm.dbAccounts.length; i++) {        
+        if($scope.journalEntryForm.dbAccounts[i].select){
+          selectedDebitOptions.push($scope.journalEntryForm.dbAccounts[i].select.id);
+        }
+    }
+    $scope.creditOptions = Utility.filterOptions($scope.glAccounts, null, selectedDebitOptions);
+  };  
   //Get all acounts
   JournalService.getData(REST_URL.GLACCOUNTS + '?disabled=false&manualEntriesAllowed=true&usage=1').then(function(data){
     $scope.glAccounts = data.data;
+    $scope.changeCreditOptions();
+    $scope.changeDebitOptions();
   });
   //Get all currency
   JournalService.getData(REST_URL.CURRENCY_LIST + '?fields=selectedCurrencyOptions').then(function(result){
@@ -166,7 +188,10 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   };
 
   $scope.removeCrAccount = function (index) {
-      $scope.journalEntryForm.crAccounts.splice(index, 1);
+      if(1 < $scope.journalEntryForm.crAccounts.length) {
+          $scope.journalEntryForm.crAccounts.splice(index, 1);
+      }
+      $scope.changeCreditOptions();
   };
 
   //events for debits
@@ -175,7 +200,10 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   };
 
   $scope.removeDebitAccount = function (index) {
-      $scope.journalEntryForm.dbAccounts.splice(index, 1);
+      if(1 < $scope.journalEntryForm.dbAccounts.length) {
+          $scope.journalEntryForm.dbAccounts.splice(index, 1);
+      }
+      $scope.changeDebitOptions();
   };
 
   //Validate create journalentry
@@ -196,8 +224,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   //invalidate login form
   $scope.invalidateForm = function() {
     $scope.createjournalentryForm.invalidate = false;
-  };
-
+  };  
   //Start - Save Journal Entry
   $scope.saveJournalEntry = function() {
     console.log('CreateJournalEntriesCtrl : saveJournalEntry');
@@ -207,7 +234,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     jeTransaction.locale = 'en';
     jeTransaction.dateFormat = 'dd/MM/yyyy';
     jeTransaction.officeId = this.journalEntryForm.officeId;
-    jeTransaction.transactionDate = this.journalEntryForm.transactionDate ;
+    //jeTransaction.transactionDate = this.journalEntryForm.transactionDate ;
     jeTransaction.referenceNumber = this.journalEntryForm.referenceNumber;
     jeTransaction.comments = this.journalEntryForm.comments;
     jeTransaction.currencyCode = this.journalEntryForm.currencyCode;

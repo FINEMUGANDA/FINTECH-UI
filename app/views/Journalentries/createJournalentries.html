@@ -38,15 +38,15 @@
                     </a>                    
               </div>
               <div ng-repeat="dbAccount in journalEntryForm.dbAccounts">
-                <div class="col-md-12 col-xs-12 paddingleft0">
+                <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
-                    <select chosen="glAccounts" ng-model="dbAccount.select" ng-options="(debitAccount.name +'('+ debitAccount.glCode +')') for debitAccount in glAccounts" class="form-control">
+                    <select chosen="glAccounts" ng-model="dbAccount.select" ng-options="(debitAccount.name +'('+ debitAccount.glCode +')') for debitAccount in debitOptions" class="form-control" ng-change="changeDebitOptions()">
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>                      
                   </div>
                   <div class="col-md-3 col-xs-3">
-                    <input type="text" class="input-small form-control" ng-model="dbAccount.debitAmount">                  
+                    <input type="text" class="input-small form-control" ng-model="dbAccount.debitAmount" placeholder="Amount">
                   </div>
                   <div class="col-md-1 col-xs-1 margintop6">
                     <a ng-click="removeDebitAccount($index)">                      
@@ -65,15 +65,15 @@
                     </a>                    
               </div>
               <div ng-repeat="crAccount in journalEntryForm.crAccounts">
-                <div class="col-md-12 col-xs-12 paddingleft0">
+                <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
-                    <select chosen="glAccounts" ng-model="crAccount.select" ng-options="(creditAccount.name +'('+ creditAccount.glCode +')') for creditAccount in glAccounts" class="form-control">
+                    <select chosen="glAccounts" ng-model="crAccount.select" ng-options="(creditAccount.name +'('+ creditAccount.glCode +')') for creditAccount in creditOptions" class="form-control" ng-change="changeCreditOptions()">
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>                      
                   </div>
                   <div class="col-md-3 col-xs-3">
-                    <input type="text" class="input-small form-control" ng-model="crAccount.crAmount">                  
+                    <input type="text" class="input-small form-control" ng-model="crAccount.crAmount" placeholder="Amount">
                   </div>
                   <div class="col-md-1 col-xs-1 margintop6">
                     <a ng-click="removeCrAccount($index)">                      
