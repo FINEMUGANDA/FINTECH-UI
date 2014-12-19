@@ -8,75 +8,70 @@
       </div>
       <div class="summary">
         <div class="shortcuts">
-          <ul role="tablist">
-            <li role="presentation"><a href="#/admin/roles">Roles</a></li>
-            <li role="presentation"><a class="active" href="#/admin/users">Users</a></li>
-          </ul>
+          <div ng-include="'views/Admin/header_item.menu.html'" onload="active='users'"></div>
         </div>
       </div>
     </div>
     <div class="row">
-
-      <form name="userForm" novalidate="" class="form-horizontal well ng-scope ng-invalid ng-invalid-required ng-dirty ng-invalid-req" ng-submit="validateUser()">
+      <form name="userForm" class="form-horizontal" ng-submit="validateUser()" novalidate show-validation>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding" for="username">Username<span class="required">*</span></label>
+          <label class="control-label col-sm-2" for="username">Username<span class="required">*</span></label>
           <div class="validate col-sm-3">
             <input type="text" id="username" name="username" ng-model="formData.username" class="form-control" required>
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding" for="firstname">First name<span class="required">*</span></label>
+          <label class="control-label col-sm-2" for="firstname">First name<span class="required">*</span></label>
           <div class="validate col-sm-3">
-            <input type="text" id="firstname" name="firstname" ng-model="formData.firstname" class="form-control" required="" late-validate="">
+            <input type="text" id="firstname" name="firstname" ng-model="formData.firstname" class="form-control" required late-validate="">
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding" for="lastname">Last name<span class="required">*</span></label>
+          <label class="control-label col-sm-2" for="lastname">Last name<span class="required">*</span></label>
           <div class="validate col-sm-3">
-            <input type="text" id="lastname" name="lastname" ng-model="formData.lastname" class="form-control" required="" late-validate="">
+            <input type="text" id="lastname" name="lastname" ng-model="formData.lastname" class="form-control" required late-validate="">
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding" for="email1">Email</label>
-          <div class="col-sm-3">
-            <input type="email" id="email1" name="email1" class="form-control ng-pristine ng-valid ng-valid-email" ng-model="formData.email" required="" >
+          <label class="control-label col-sm-2" for="email1">Email<span class="required">*</span></label>
+          <div class="validate col-sm-3">
+            <input type="email" id="email1" name="email1" class="form-control" ng-model="formData.email" required late-validate="">
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding">Auto generate password</label>
+          <label class="control-label col-sm-2">Auto generate password</label>
           <div class="validate col-sm-3">
             <label class="checkbox">
-              <input type="checkbox" ng-model="formData.sendPasswordToEmail" class="ng-valid ng-dirty">
+              <input type="checkbox" ng-model="formData.sendPasswordToEmail" class="">
             </label>
           </div>
         </div>
         <div data-ng-switch="" on="formData.sendPasswordToEmail">
           <div data-ng-switch-when="false" class="ng-scope">
             <div class="form-group">
-              <label class="control-label col-sm-2 ng-binding" for="password">Password<span class="required">*</span></label>
+              <label class="control-label col-sm-2" for="password">Password<span class="required">*</span></label>
               <div class="col-sm-3">
-                <input type="password" id="password" name="password" ng-model="formData.password" class="form-control ng-pristine ng-invalid ng-invalid-required" required="" late-validate="">
+                <input type="password" id="password" name="password" ng-model="formData.password" class="form-control" required="" late-validate="">
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label col-sm-2 ng-binding" for="repeatPassword">Repeat password<span class="required">*</span></label>
+              <label class="control-label col-sm-2" for="repeatPassword">Repeat password<span class="required">*</span></label>
               <div class="col-sm-3">
-                <input type="password" id="repeatPassword" name="repeatPassword" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="formData.repeatPassword" required="" late-validate="">
+                <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" ng-model="formData.repeatPassword" required="" late-validate="">
               </div>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding">Office<span class="required">*</span></label>
-
+          <label class="control-label col-sm-2">Office<span class="required">*</span></label>
           <div class="validate col-sm-3">
-            <select chosen="offices" id="officeId" ng-model="formData.officeId" class="form-control ng-pristine ng-valid" data-ng-change="getOfficeStaff()" ng-options="office.id as office.name for office in offices">
+            <select chosen="offices" id="officeId" ng-model="formData.officeId" class="form-control" data-ng-change="getOfficeStaff()" ng-options="office.id as office.name for office in offices">
               <option value="" class="ng-binding">--Select Office--</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding">Staff</label>
+          <label class="control-label col-sm-2">Staff</label>
           <div class="col-sm-3">
             <select chosen="staffs" id="staffId" ng-model="formData.staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in staff_vars" value="">
               <option value="" class="ng-binding">--Select Staff--</option>
@@ -84,7 +79,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2 ng-binding">Select roles<span class="required">*</span></label>
+          <label class="control-label col-sm-2">Select roles<span class="required">*</span></label>
           <div class="validate col-sm-3">
             <select multiple required ng-model="formData.selectedRoles" class="form-control">
               <option ng-repeat="role in roles" ng-value="{{role.id}}" ng-selected>{{role.name}}</option>
@@ -92,11 +87,10 @@
           </div>
         </div>
         <div class="col-md-offset-3">
-          <a id="cancel" href="#/users" class="btn btn-default ng-binding">Cancel</a>
-          <button id="save" type="submit" class="btn btn-primary ng-binding" has-permission="CREATE_USER">Submit</button>
+          <a id="cancel" href="#/users" class="btn btn-default">Cancel</a>
+          <button id="save" type="submit" class="btn btn-primary" has-permission="CREATE_USER">Submit</button>
         </div>
       </form>
-
     </div>
   </div>
 </div>

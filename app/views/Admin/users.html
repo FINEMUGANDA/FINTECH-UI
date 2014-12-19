@@ -14,13 +14,8 @@
       <table st-table="displayed" st-safe-src="rowCollection" class="table">
         <thead>
           <tr>
-            <th colspan="2">
-              <div class="filters">
-                <ul role="tablist">
-                  <li role="presentation"><a href="#/admin/roles">Roles</a></li>
-                  <li role="presentation"><a class="active" href="#/admin/users">Users</a></li>
-                </ul>
-              </div>
+            <th colspan="4">
+              <div ng-include="'views/Admin/header.menu.html'" onload="active='users'"></div>
             </th>
           </tr>
         <tr>

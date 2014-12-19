@@ -4,9 +4,9 @@
   <div class="rows">
     <div class="page-header">
       <div class="header">
-        <h3>Roles</h3>
+        <h3>Staff</h3>
         <div class="action">
-          <a ng-href="/#/admin/create_role" class="btn primary" href="/#/admin/create_role">Create Role</a>
+          <a ng-href="/#/admin/create_staff" class="btn primary" href="/#/admin/create_staff">Create Staff</a>
         </div>
       </div>
     </div>
@@ -15,18 +15,22 @@
         <thead>
           <tr>
             <th colspan="4">
-              <div ng-include="'views/Admin/header.menu.html'" onload="active='roles'"></div>
+              <div ng-include="'views/Admin/header.menu.html'" onload="active='staff'"></div>
             </th>
           </tr>
         <tr>
-          <th st-sort="name">Name</th>
-          <th st-sort="description">Description</th>
+          <th st-sort="firstname">Name</th>
+          <th st-sort="lastname">Is Loan Officer</th>
+          <th st-sort="email">Office</th>
+          <th st-sort="officeId">Active</th>
         </tr>
         </thead>
         <tbody ng-hide="isLoading" class="">
-          <tr ng-repeat="role in displayed">
-            <td><a ng-href="/#/admin/edit_role/{{role.id}}" href="/#createClient">{{role.name}}</a></td>
-            <td>{{role.description}}</td>
+          <tr ng-repeat="staff in displayed">
+            <td><a ng-href="/#/admin/view_staff/{{staff.id}}" href="/#/admin/view_staff/{{staff.id}}">{{staff.firstname}} {{staff.lastname}}</a></td>
+            <td>{{staff.isLoanOfficer}}</td>
+            <td>{{staff.officeName}}</td>
+            <td>{{staff.isActive}}</td>
           </tr>
         </tbody>
         <tbody ng-show="isLoading" class="ng-hide">
@@ -38,7 +42,7 @@
         </tbody>
         <tfoot ng-hide="isLoading">
           <tr>
-            <td colspan="2">
+            <td colspan="7">
               <div class="table-footer">
                 <div class="export">
                   <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>

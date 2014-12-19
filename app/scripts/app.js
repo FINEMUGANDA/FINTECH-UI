@@ -272,10 +272,33 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
-    })
-      .otherwise({
-        redirectTo: '/'
-      });
+    }).when('/admin/staff', {
+      templateUrl: 'views/Admin/staff.html',
+      controller: 'StaffController',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/admin/edit_staff/:id', {
+      templateUrl: 'views/Admin/staff_form.html',
+      controller: 'StaffController',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/admin/create_staff', {
+      templateUrl: 'views/Admin/staff_form.html',
+      controller: 'StaffController',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/admin/view_staff/:id', {
+      templateUrl: 'views/Admin/view_staff.html',
+      controller: 'StaffController',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).otherwise({
+      redirectTo: '/'
+    });
   }]);
 
 //Function to set the default headers for each request made to the rest api
@@ -377,7 +400,7 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
     }
     var SPLIT_LOCATION_PATH = $location.path().split('/');
     var LOCATION_PATH = '/' + SPLIT_LOCATION_PATH[1];
-    //add active /selection class for open view menu item      
+    //add active /selection class for open view menu item
     switch (LOCATION_PATH) {
       case PAGE_URL.CLIENTS:
       case PAGE_URL.LOANS:
@@ -641,21 +664,20 @@ app.filter('getRepaymentFrequencyType', [function() {
   }]);
 
 //Give type value on charges grid
-app.filter('getChargeType', [function() {
-    var value;
-    return function(type) {
+app.filter('getChargeType', [ function() {
+    var value; 
+    return function(type){
       value = 'Charge';
-      if (type) {
+      if(type){
         value = 'Penalty';
       }
       return value;
-    };
-  }]);
+  };
+}]);
 
 //color code status for each data tables
-app.filter('checkEmptyString', [function() {
+app.filter('checkEmptyString', [ function() {
     return function(value) {
-      return value === '';
+      return value==='';
     };
-  }
-]);
+}]);
