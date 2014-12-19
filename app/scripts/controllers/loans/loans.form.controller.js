@@ -73,6 +73,15 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           }
         });
       }
+
+      var $url = REST_URL.GROUP_TEMPLATE_RESOURCE + '?staffInSelectedOfficeOnly=true&officeId=' + $scope.data.clientOfficeId;
+      LoanService.getData($url).then(function(officers) {
+        $scope.data.officerOptions = officers.data;
+      }, function(result) {
+        $scope.type = 'error';
+        $scope.message = 'Cant retrieve client officers options' + result.data.defaultUserMessage;
+        $scope.errors = result.data.errors;
+      });
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Cant retrieve additional client info options' + result.data.defaultUserMessage;
@@ -93,6 +102,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
       $scope.showDetails = true;
       $timeout(function() {
         $scope.loan.principal = data.principal;
+        $scope.loan.loanOfficerId = data.loanOfficerId;
         $scope.loan.numberOfRepayments = data.numberOfRepayments;
         $scope.loan.interestRatePerPeriod = data.interestRatePerPeriod;
         $scope.loan.repaymentEvery = data.repaymentEvery;
@@ -392,6 +402,76 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
       }
     });
 
+  };
+
+});
+
+angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($route, $scope, REST_URL, $timeout, LoanService) {
+  console.log('LoansFormCreateCtrl');
+  $scope.rowCollection = [];
+  $scope.loan = {};
+  $scope.datepicker = {};
+  $scope.isLoading = false;
+
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
+    $scope.loan = result.data;
+    LoanService.getData(REST_URL.LOANS_PRODUCTS + '/' + $scope.loan.loanProductId).then(function(result) {
+      $scope.loanProduct = result.data;
+    });
+  });
+
+  LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?genericResultSet=true').then(function(result) {
+    $scope.data = result.data;
+    $scope.data.columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
+  });
+  LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?genericResultSet=false').then(function(result) {
+    if (result && result.data && result.data.length) {
+      $timeout(function() {
+        $scope.guarantor = result.data[0];
+        var date = new Date(result.data[0].dateOfBirth[0], result.data[0].dateOfBirth[1] - 1, result.data[0].dateOfBirth[2]);
+        $scope.guarantor.dateOfBirth = date;
+//        $scope.guarantor.dateOfBirth = result.data[0].dateOfBirth[2] + '/' + result.data[0].dateOfBirth[1] + '/' + result.data[0].dateOfBirth[0];
+      });
+    }
+  });
+
+  $scope.saveGuarantor = function() {
+    if (!$scope.loanFormGuarantor.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      $('html, body').animate({scrollTop: 0}, 800);
+      return;
+    }
+    var json = angular.copy($scope.guarantor);
+    json.locale = 'en';
+    json.dateFormat = 'dd/MM/yyyy';
+    if (typeof json.dateOfBirth === 'object') {
+      var date = new Date(json.dateOfBirth);
+      json.dateOfBirth = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    }
+    function saveGuarantorSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Guarantor saved successfully.';
+      $scope.errors = [];
+      $scope.charge = {};
+//      updateLoanCharges();
+    }
+    function saveGuarantorFail(result) {
+      $scope.message = 'Cant save guarantor:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    if ($scope.guarantor.loan_id) {
+      LoanService.updateLoan(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?tenantidentifier=default', angular.toJson(json)).then(saveGuarantorSuccess, saveGuarantorFail);
+    } else {
+      LoanService.saveLoan(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?tenantidentifier=default', angular.toJson(json)).then(saveGuarantorSuccess, saveGuarantorFail);
+    }
+  };
+  $scope.open = function($event, target) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.datepicker[target] = true;
   };
 
 });

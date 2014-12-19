@@ -27,6 +27,7 @@ app.constant('REST_URL', {
     'LOANS_PRODUCTS': 'api/v1/loanproducts',
     'LOANS_TEMPLATES': 'api/v1/loans/template',
     'LOANS_CREATE': 'api/v1/loans',
+    'LOANS_GUARANTOR_DETAILS': 'api/v1/datatables/extra_guarantor_details/',
     'CHARGES': 'api/v1/charges',
     'LOAN_PRODUCTS_TEMPLATE':'api/v1/loanproducts/template',
     'CHARGE_TEMPLATE':'api/v1/charges/template',
