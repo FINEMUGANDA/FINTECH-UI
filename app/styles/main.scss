@@ -167,6 +167,7 @@ tr.pointer > td {
 
 td.actions {
   text-align: center;
+  white-space: nowrap;
   .glyphicon-remove-circle {
     color: #d9534f;
   }

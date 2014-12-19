@@ -66,6 +66,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.interestCalculationPeriodType = data.interestCalculationPeriodType.id;
           $scope.loan.interestType = data.interestType.id;
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
+          $scope.loan.status = 100;
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
             var expectedDisbursementDate = new Date(data.timeline.expectedDisbursementDate);
