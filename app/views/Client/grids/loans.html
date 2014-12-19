@@ -30,9 +30,9 @@
       </tr>
       </thead>
       <tbody ng-hide="isLoading">
-        <tr ng-repeat="loan in displayed" class="pointer">
-          <td ng-click="editLoan(loan)"><img ng-src="{{loan.image}}" class="Size"></td>
-          <td ng-click="editLoan(loan)">
+        <tr ng-repeat="loan in displayed">
+          <td><img ng-src="{{loan.image}}" class="Size"></td>
+          <td>
             <div class="name">
               <a ng-href="#editbasicclientinfo/{{loan.clientId}}">{{loan.name}}</a>
             </div>
@@ -43,14 +43,14 @@
               File No.: {{loan.file_no}}
             </div>
           </td>
-          <td ng-click="editLoan(loan)">
+          <td>
             <span class="{{loan.loanStatusCode| status}}">
               {{loan.loanStatus}}
             </span>
           </td>
-          <td class="number" ng-click="editLoan(loan)">{{loan.loanAmount}}</td>
-          <td class="number" ng-click="editLoan(loan)">{{loan.loanArrears}}</td>
-          <td ng-click="editLoan(loan)">{{loan.loanOfficer}}</td>
+          <td class="number">{{loan.loanAmount}}</td>
+          <td class="number">{{loan.loanArrears}}</td>
+          <td>{{loan.loanOfficer}}</td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">

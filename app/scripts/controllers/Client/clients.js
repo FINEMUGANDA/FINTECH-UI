@@ -142,10 +142,6 @@ clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, Client
     } catch (e) {
     }
   };
-  $scope.editLoan = function(loan) {
-    console.log(loan);
-    $location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
-  };
 
   //failur callback
   var allLoansFail = function() {
@@ -167,7 +163,7 @@ clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, Client
 });
 
 
-clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, ClientsService, REST_URL, dialogs) {
+clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, LoanService, CreateClientsService, REST_URL, $location, dialogs) {
   console.log('LoansPendingApprovalsCtrl : LoansPendingApprovals');
   //To load the LoansPendingApprovals page
 
@@ -195,8 +191,31 @@ clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, C
     $timeout(function() {
       $scope.rowCollection = [];
       //service to get LoansPendingApprovals from server
-      ClientsService.getData(REST_URL.LOANS_PENDING_APPROVALS).then(allLoansPendingApprovalsSuccess, allLoansPendingApprovalsFail);
+      LoanService.getData(REST_URL.LOANS_PENDING_APPROVALS).then(allLoansPendingApprovalsSuccess, allLoansPendingApprovalsFail);
     }, 2000);
+  };
+
+  $scope.editLoan = function(loan) {
+    $location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+  };
+
+  $scope.removeLoan = function(loan) {
+    var msg = 'You are about to remove Loan for client: <strong>' + loan.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + loan.loanId).then(function() {
+          $scope.type = 'alert-success';
+          $scope.message = 'Loan removed successfuly';
+          $scope.errors = [];
+          loadLoansPendingApprovals();
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
   };
 
   $scope.openActionDialog = function(loan) {
@@ -304,7 +323,7 @@ clientsCtrl.controller('SubmitLoanActionDialogCtrl', function($scope, $modalInst
 });
 
 
-clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeout, LoanService, REST_URL, $location, dialogs) {
   console.log('LoansAwaitingDisbursementCtrl : LoansAwaitingDisbursement');
   //To load the LoansAwaitingDisbursement page
 
@@ -329,15 +348,34 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeou
   var loadLoansPendingApprovals = function getData() {
     $scope.isLoading = true;
 
-    $timeout(
-      function() {
-        $scope.rowCollection = [];
-        //service to get allLoansAwaitingDisbursemensFail from server
-        ClientsService.getData(REST_URL.LOANS_AWAITING_DISBURSEMENT).then(allLoansAwaitingDisbursementSuccess, allLoansAwaitingDisbursemensFail);
-      }, 2000
-      );
+    $timeout(function() {
+      $scope.rowCollection = [];
+      //service to get allLoansAwaitingDisbursemensFail from server
+      LoanService.getData(REST_URL.LOANS_AWAITING_DISBURSEMENT).then(allLoansAwaitingDisbursementSuccess, allLoansAwaitingDisbursemensFail);
+    }, 2000);
   };
 
+  $scope.editLoan = function(loan) {
+    $location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+  };
+  $scope.removeLoan = function(loan) {
+    var msg = 'You are about to remove Loan for client: <strong>' + loan.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + loan.loanId).then(function() {
+          $scope.type = 'alert-success';
+          $scope.message = 'Loan removed successfuly';
+          $scope.errors = [];
+          loadLoansPendingApprovals();
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+  };
   loadLoansPendingApprovals();
 });
 

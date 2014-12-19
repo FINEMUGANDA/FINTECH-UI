@@ -13,42 +13,43 @@
       <thead>
         <tr>
           <th colspan="7">
-              <div class="filters">
-                <div ng-include="'views/Client/header.menu.html'" onload="active='loansPendingApproval'"></div>
+      <div class="filters">
+        <div ng-include="'views/Client/header.menu.html'" onload="active = 'loansPendingApproval'"></div>
 
-                <div class="search" >
-                  <input type="text" st-search="" class="search-box" placeholder="Search Loans Pending Approval" />
-                </div>
-              </div>
-          </th>
-        </tr>
-        <tr>
-          <th st-sort="name">Client Details</th>
-          <th st-sort="loanAmount" class="number">Loan Amount</th>
-          <th st-sort="installments" class="number"># of Installments</th>
-          <th st-sort="interestRate" class="number">Interest Rate</th>
-          <th st-sort="submittedon_date">Submitted on</th>
-          <th st-sort="loanOfficer">Loan Officer</th>
-          <th width="1%"></th>
-        </tr>
+        <div class="search" >
+          <input type="text" st-search="" class="search-box" placeholder="Search Loans Pending Approval" />
+        </div>
+      </div>
+      </th>
+      </tr>
+      <tr>
+        <th st-sort="name">Client Details</th>
+        <th st-sort="loanAmount" class="number">Loan Amount</th>
+        <th st-sort="installments" class="number"># of Installments</th>
+        <th st-sort="interestRate" class="number">Interest Rate</th>
+        <th st-sort="submittedon_date">Submitted on</th>
+        <th st-sort="loanOfficer">Loan Officer</th>
+        <th width="1%"></th>
+      </tr>
       </thead>
       <tbody ng-hide="isLoading">
-        <tr ng-repeat="loanPendingApproval in displayed">
-          <td>
-              <div class="name">
-                <a ng-href="#editbasicclientinfo/{{loanPendingApproval.clientId}}">{{loanPendingApproval.name}}</a>
-              </div>
-              <div class="meta">
-                File No.: {{loanPendingApproval.file_no}}
-              </div>
+        <tr ng-repeat="loanPendingApproval in displayed" class="pointer">
+          <td ng-click="editLoan(loanPendingApproval)">
+            <div class="name">
+              <a ng-href="#editbasicclientinfo/{{loanPendingApproval.clientId}}">{{loanPendingApproval.name}}</a>
+            </div>
+            <div class="meta">
+              File No.: {{loanPendingApproval.file_no}}
+            </div>
           </td>
-          <td class="number">{{loanPendingApproval.loanAmount}}</td>
-          <td class="number">{{loanPendingApproval.installments}}</td>
-          <td class="number">{{loanPendingApproval.interestRate}}</td>
-          <td>{{loanPendingApproval.submittedon_date}}</td>
-          <td>{{loanPendingApproval.loanOfficer}}</td>
-          <td>
+          <td ng-click="editLoan(loanPendingApproval)" class="number">{{loanPendingApproval.loanAmount}}</td>
+          <td ng-click="editLoan(loanPendingApproval)" class="number">{{loanPendingApproval.installments}}</td>
+          <td ng-click="editLoan(loanPendingApproval)" class="number">{{loanPendingApproval.interestRate}}</td>
+          <td ng-click="editLoan(loanPendingApproval)">{{loanPendingApproval.submittedon_date}}</td>
+          <td ng-click="editLoan(loanPendingApproval)">{{loanPendingApproval.loanOfficer}}</td>
+          <td class="actions">
             <button class="btn grid-button" ng-click="openActionDialog(loanPendingApproval)">Action</button>
+            <a href="javascript:void(0);" ng-click="removeLoan(loanPendingApproval)" class="btn"><i class="glyphicon glyphicon-remove-circle"></i></a>
           </td>
         </tr>
       </tbody>
@@ -60,19 +61,19 @@
         </tr>
       </tbody>
       <tfoot ng-hide="isLoading">
-          <tr>
-            <td colspan="7">
-              <div class="table-footer">
-                <div class="export">
-                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('6')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('6')" target="_blank">Excel</a>
-                </div>
-                <div class="paginate">
-                  <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
-                </div>
+        <tr>
+          <td colspan="7">
+            <div class="table-footer">
+              <div class="export">
+                <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('6')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('6')" target="_blank">Excel</a></strong>
               </div>
-            </td>
-          </tr>
-        </tfoot>
+              <div class="paginate">
+                <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </div>
