@@ -13,19 +13,31 @@
           <th colspan="6">
             <div class="form-group col-xs-12">
               <div class="filters" >
+                <div style="float:left;">            
+                  <ul role="tablist">
+                    <li role="presentation">
+                      <div class="action">                      
+                        <a href='#/journalentries' class="btn primary btn-warning">
+                            <span class="glyphicon glyphicon-arrow-left"></span>
+                            Back
+                        </a>
+                      </div>
+                    </li>
+                 </ul>
+                </div>
                 <div style="float:right;">            
                   <ul role="tablist">
                     <li role="presentation">
-                    <div class="action">                      
-                      <a data-ng-show="flag" ng-click="reverseTransaction(id)" class="btn primary">
-                          <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
-                          <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>
-                          Reverse
-                      </a>
-                    </div>
+                      <div class="action">                      
+                        <a data-ng-show="flag" ng-click="reverseJournalEntry()" class="btn primary">
+                            <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
+                            <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>
+                            Reverse
+                        </a>
+                      </div>
                     </li>
-                 </ul> 
-                </div>
+                 </ul>
+                </div>                
               </div> 
             </div>
             <div class="form-group col-xs-12">

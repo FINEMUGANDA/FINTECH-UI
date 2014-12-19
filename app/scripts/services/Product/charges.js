@@ -18,6 +18,11 @@ chargesService.factory('ChargesService', function($http, Remote) {
       console.log('Put Data using chargesService...');
       var promise = Remote.put(url, jsondata);
       return promise;
+    },
+    removeCharge: function(url, jsondata) {
+      console.log('Remove Data using chargesService...');
+      var promise = Remote.delete(url, jsondata);
+      return promise;
     }
   };
 });

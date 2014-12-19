@@ -66,7 +66,7 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
   $scope.editAccount = function(account) {
     $location.path('/accounting/edit/' + account.id);
   };
-  $scope.removeAccount = function(account) {
+  $scope.removeAccount = function(account) { 
     var msg = 'You are about to remove Account <strong>' + account.name + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {

@@ -56,6 +56,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
       $scope.rowCollection = result.data.pageItems;
       if(!Utility.isUndefinedOrNull(result.data.pageItems)){
         $scope.officeName = $scope.rowCollection[0].officeName;
+        $scope.officeId = $scope.rowCollection[0].officeId;
         $scope.transactionDate = $scope.rowCollection[0].transactionDate[2] + '/';
         $scope.transactionDate +=$scope.rowCollection[0].transactionDate[1] + '/';
         $scope.transactionDate +=$scope.rowCollection[0].transactionDate[0];
@@ -98,8 +99,33 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
 
   loadJournalEntriesDetails();
 
-  //Failure callback : Reverse Entry
-  var reverseJournalEntryFail = function(result) {
+  //Success callback : Reverse Transaction
+  var reverseTransactionSuccess = function(result) {
+    console.log('reverseTransactionSuccess : ' + result);
+    var form = {};
+    var d = new  Date();
+    form.journalentry = $scope.id;
+    form.reversenote = $scope.note;        
+    form.createdDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    form.locale = 'en';
+    form.dateFormat = 'dd/MM/yyyy';
+    var json = angular.toJson(form);
+    console.log(json);
+    var url = REST_URL.JOURANAL_ENTRY_REVERSE_NOTE + $scope.officeId;
+    JournalService.saveJournalEntry(url, json).then(function(result) {
+      console.log('JOURANAL_ENTRY_REVERSE_NOTE : ' + result);
+      $route.reload();
+    }, function(result) {
+      $scope.spin = false;
+      $scope.type = 'error';
+      $scope.message = 'Entries are reversed but note can not be saved: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+      $('html, body').animate({scrollTop: 0}, 800);
+    });
+  };
+  //Failure callback : Reverse Transaction
+  var reverseTransactionFail = function(result) {
+    $scope.spin = false;
     console.log('Error : Return from JournalService service.');
     $scope.type = 'error';
     $scope.message = 'Journal Entry not reversed: ' + result.data.defaultUserMessage;
@@ -112,16 +138,29 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     $('html, body').animate({scrollTop: 0}, 800);
   };
 
-  //Reverse Entry
+  //Reverse Transaction
   $scope.spin = false;
   $scope.reverseTransaction = function (transactionId) {
     $scope.spin = true;
     console.log(transactionId);
     var url = REST_URL.JOURNALENTRIES + '/'+ transactionId +'?command=reverse';
-    JournalService.saveJournalEntry(url).then(function (data) {
-      console.log(data);
-      $route.reload();
-    }, reverseJournalEntryFail);
+    var json = {      
+      'transactionId': transactionId
+    };
+    JournalService.saveJournalEntry(url,json).then(reverseTransactionSuccess, reverseTransactionFail);
+  };
+
+  // Reverse entry
+  $scope.reverseJournalEntry = function() {
+    $scope.spin = true;
+    var msg = 'Please Enter Notes : ';
+    var dialog = dialogs.create('/views/Journalentries/reversal-note.html', 'ReverseNoteController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        $scope.note = result;
+        $scope.reverseTransaction($scope.id);        
+      }
+    });
   };
 });
 

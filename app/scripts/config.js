@@ -55,7 +55,8 @@ app.constant('REST_URL', {
     CODE_LIST:'api/v1/codes',
     OFFICE_LIST:'api/v1/offices',
     DOCUMENTS : 'api/v1/documents/',
-    BASE : 'api/v1/'
+    BASE : 'api/v1/',
+    JOURANAL_ENTRY_REVERSE_NOTE:'api/v1/datatables/journal_entry_reverse_note/'    
 });
 
 app.constant('PAGE_URL', {

@@ -54,7 +54,7 @@ INSERT INTO `mifostenant-default`.`m_code_value` (`id`, `code_id`, `code_value`,
         {
             "name": "business_name",
             "type": "String",
-	    "length":100,
+	        "length":100,
             "mandatory": true
         },
         {

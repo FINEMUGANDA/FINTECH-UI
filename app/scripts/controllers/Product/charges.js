@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var chargesController = angular.module('chargesController', ['chargesService', 'Constants', 'smart-table']);
 
-chargesController.controller('ChargesCtrl', function($scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
+chargesController.controller('ChargesCtrl', function(dialogs, $scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('ChargesCtrl : loadCharges');
   //To load the loadproducts page
 
@@ -44,6 +44,27 @@ chargesController.controller('ChargesCtrl', function($scope, $location, $timeout
   //Redirect to edit charges
   $scope.routeTo = function(loanProductId) {
     $location.url(PAGE_URL.EDITCHARGE + '/' + loanProductId);
+  };
+
+  // Delete charges
+  $scope.removeCharge = function(charge) {
+    var msg = 'You are about to remove Charge <strong>' + charge.name + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var index = $scope.rowCollection.indexOf(charge);
+        ChargesService.removeCharge(REST_URL.CHARGES + '/' +charge.id).then(function() {
+          if (index >= -1) {
+            $scope.rowCollection.splice(index, 1);
+          }
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Charge not removed: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+          $('html, body').animate({scrollTop: 0}, 800);
+        });
+      }
+    });
   };
 });
 
