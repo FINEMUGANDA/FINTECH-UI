@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h4 class="modal-title">
+    Change Loan Status
+  </h4>
+</div>
+<form name="closeClientForm" ng-hide="isLoading" class="form">
+  <div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+
+    <dl class="dl-horizontal">
+      <dt>Client Name</dt>
+      <dd>{{baseLoan.name}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>File No.</dt>
+      <dd>{{baseLoan.file_no}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Loan Amount</dt>
+      <dd>{{baseLoan.loanAmount}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Charges</dt>
+      <dd>
+        <div ng-repeat="charge in data.charges">{{charge.name}}</div>
+      </dd>
+    </dl>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" ng-click="undoApproval()">Undo Approval</button>
+    <button type="button" class="btn btn-success" ng-click="disburse()">Disburse</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+  </div>
+</form>

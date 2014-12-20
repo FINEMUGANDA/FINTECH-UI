@@ -564,14 +564,6 @@ app.directive('showValidation', [function() {
               scope.$watch(function() {
                 return $input.hasClass('ng-invalid');
               }, function(isInvalid) {
-                var $spanEle = $formGroup.find('span');
-                if ($spanEle.length > 0) {
-                  $spanEle.each(function() {
-                    var $span = $(this);
-                    $span.toggleClass('glyphicon-remove', isInvalid);
-                    $span.toggleClass('glyphicon-ok', !isInvalid);
-                  });
-                }
                 $formGroup.toggleClass('has-success', !isInvalid);
                 $formGroup.toggleClass('has-error', isInvalid);
               });

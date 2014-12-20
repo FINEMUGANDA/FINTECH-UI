@@ -4,14 +4,23 @@
     <span class="glyphicon glyphicon-check"></span> {{title}}
   </h4>
 </div>
-<form name="closeClientForm" ng-hide="isLoading" class="form" ng-submit="closeClient()" novalidate show-validation>
+<form name="submitLoanActionForm" ng-hide="isLoading" class="form" ng-submit="ok()" novalidate show-validation>
   <div class="modal-body">
-    <label>{{messageLabel}}</label>
-    <textarea class="form-control" ng-model="note"></textarea>
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="form-group">
+      <label>{{messageLabel}}</label>
+      <textarea class="form-control" ng-model="data.note"></textarea>
+    </div>
+    <div class="form-group validate" ng-if="dialogType === 'disburse'">
+      <label>Disbursement Date <span class="required">*</span></label>
+      <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="data.actualDisbursementDate" is-open="datepicker.actualDisbursementDate" datepicker-options="dateOptions" close-text="Close" required ng-click="open($event, 'actualDisbursementDate')" readonly="true" />
+    </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" ng-if="type === 'approve'" ng-click="ok()">Approve</button>
-    <button type="button" class="btn btn-danger" ng-if="type === 'reject'" ng-click="ok()">Reject</button>
+    <button type="button" class="btn btn-success" ng-if="dialogType === 'approve'" ng-click="ok()">Approve</button>
+    <button type="button" class="btn btn-success" ng-if="dialogType === 'disburse'" ng-click="ok()">Disburse</button>
+    <button type="button" class="btn btn-danger" ng-if="dialogType === 'reject'" ng-click="ok()">Reject</button>
+    <button type="button" class="btn btn-danger" ng-if="dialogType === 'undoApproval'" ng-click="ok()">Undo Approval</button>
     <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
   </div>
 </form>

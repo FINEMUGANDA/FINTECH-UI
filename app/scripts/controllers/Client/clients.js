@@ -86,8 +86,8 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
   $scope.info = {};
   var $url = REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=close';
   ClientsService.getData($url).then(function(result) {
-    if (result.data && result.data.closureReasons) {
-      $scope.closureReasons = result.data.closureReasons;
+    if (result.data && result.data.narrations) {
+      $scope.closureReasons = result.data.narrations;
     }
   }, function() {
     console.log('Cant recieve closure reasons data');
@@ -305,17 +305,36 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
 });
 
 clientsCtrl.controller('SubmitLoanActionDialogCtrl', function($scope, $modalInstance, data) {
-  $scope.type = data.type;
-  if ($scope.type === 'approve') {
+  $scope.dialogType = data.type;
+  $scope.datepicker = {};
+  $scope.data = {};
+  if ($scope.dialogType === 'approve') {
     $scope.title = 'Approve Loan';
     $scope.messageLabel = 'Note';
+  } else if ($scope.dialogType === 'disburse') {
+    $scope.title = 'Disburse Loan';
+    $scope.messageLabel = 'Note';
+  } else if ($scope.dialogType === 'undoApproval') {
+    $scope.title = 'Undo Approval Loan';
+    $scope.messageLabel = 'Note';
   } else {
-    $scope.title = 'RejectLoan';
+    $scope.title = 'Reject Loan';
     $scope.messageLabel = 'Reason';
   }
-
+  $scope.open = function($event, target) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.datepicker[target] = true;
+  };
   $scope.ok = function() {
-    $modalInstance.close({note: $scope.note});
+    if (!$scope.submitLoanActionForm.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      $('html, body').animate({scrollTop: 0}, 800);
+      return;
+    }
+    $modalInstance.close(angular.copy($scope.data));
   };
   $scope.cancel = function() {
     $modalInstance.close(false);
@@ -370,13 +389,93 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeou
           loadLoansPendingApprovals();
         }, function(result) {
           $scope.type = 'error';
+          $scope.message = 'Loan not removed: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+  };
+  $scope.openActionDialog = function(loan) {
+    var dialog = dialogs.create('/views/Client/grids/loans.dialog.disburse.action.html', 'LoansDisburseActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        loadLoansPendingApprovals();
+      }
+    });
+  };
+
+  loadLoansPendingApprovals();
+});
+
+
+clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, dialogs, data) {
+  console.log('LoansActionDialogCtrl', $scope);
+  $scope.baseLoan = data.loan;
+  $scope.info = {};
+  $scope.data = {};
+  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '/charges').then(function(result) {
+    if (result.data) {
+      $scope.data.charges = result.data;
+    }
+  }, function() {
+    console.log('Cant recieve charges data');
+  });
+  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId).then(function(result) {
+    if (result.data) {
+      $scope.loan = result.data;
+    }
+  }, function() {
+    console.log('Cant recieve loan data');
+  });
+
+  $scope.cancel = function() {
+    $modalInstance.close(false);
+  };
+  $scope.undoApproval = function() {
+    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'undoApproval'}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var json = {
+          note: result.note
+        };
+        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=undoApproval', json).then(function(result) {
+          $scope.type = 'alert-success';
+          $scope.message = 'Loan rejected successfuly';
+          $scope.errors = result.data.errors;
+          $modalInstance.close(true);
+        }, function(result) {
+          $scope.type = 'error';
           $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
         });
       }
     });
   };
-  loadLoansPendingApprovals();
+  $scope.disburse = function() {
+    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'disburse'}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var actualDisbursementDate = new Date(result.actualDisbursementDate);
+        var json = {
+          dateFormat: 'dd/MM/yyyy',
+          locale: 'en',
+          actualDisbursementDate: actualDisbursementDate.getDate() + '/' + (actualDisbursementDate.getMonth() + 1) + '/' + actualDisbursementDate.getFullYear(),
+          note: result.note
+        };
+        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=disburse', json).then(function(result) {
+          $scope.type = 'alert-success';
+          $scope.message = 'Loan disbursed successfuly';
+          $scope.errors = result.data.errors;
+          $modalInstance.close(true);
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+  };
+
 });
 
 clientsCtrl.controller('LoansRejectedCtrl', function($scope, $timeout, ClientsService, REST_URL) {
