@@ -45,7 +45,7 @@ utils.factory('Utility', function($q, APPLICATION) {
       angular.forEach(options, function(item){
         flag=true;
         for (var i in selectedOptions) {
-          if(parseInt(item.id)===parseInt(selectedOptions[i])){
+          if(parseInt(item.id)===parseInt(selectedOptions[i].id)){
             flag = false;
           }
         }
@@ -60,7 +60,11 @@ utils.factory('Utility', function($q, APPLICATION) {
    },
    setSelectedOptions: function (selectedOptions, assetID) {    
     if(assetID){
-      selectedOptions.push(assetID);
+      var temp = '';
+      temp = {
+        id: assetID
+      };
+      selectedOptions.push(temp);
     }
    }
   };
