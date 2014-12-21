@@ -356,7 +356,6 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       var chargeTeplateSuccess = function(result) {
         result.data.chargeId = result.data.id;
         $scope.charges.push(result.data);
-        $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
         $scope.chargeId = '';
         $('select#chargeId').val('');
         $scope.saveCharges();
@@ -370,8 +369,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
   };
   //Delete charges
   $scope.deleteCharge = function(index) {
-    $scope.charges.splice(index, 1);
-    $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
+    $scope.charges.splice(index, 1);    
     $scope.saveCharges();
   };
   //Save charges
@@ -385,6 +383,9 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       };
       $scope.chargesSelected.push(temp);
     }
+
+    //Filterd charge options
+    $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.chargesSelected);
 
     var updateloanProductChargesSuccess = function() {
       console.log('Success : Return from loanProducts service.');
