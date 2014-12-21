@@ -152,7 +152,7 @@
             <div class="form-group">
               <div class="col-sm-3">
                   <select id="chargeId" ng-model="chargeId" class="form-control"
-                             ng-options="charge.id as charge.name for charge in product.chargeOptions | filter:loanProductDetails.currencyCode:strict"
+                             ng-options="charge.id as charge.name for charge in product.filteredChargeOptions | filter:loanProductDetails.currencyCode:strict"
                              value="{{charge.id}}">
                          <option value="">-- Select Charge --</option>
                   </select>

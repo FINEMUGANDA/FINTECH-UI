@@ -237,7 +237,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       $scope.loanProductDetails.interestType = $scope.product.interestType.id;
       $scope.charges = $scope.product.charges || [];
       //Filter charge options
-      $scope.product.chargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
+      $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
       //$scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
 
       //set the values from the response on the edit page
@@ -356,7 +356,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       var chargeTeplateSuccess = function(result) {
         result.data.chargeId = result.data.id;
         $scope.charges.push(result.data);
-        $scope.product.chargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
+        $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
         $scope.chargeId = '';
         $('select#chargeId').val('');
         $scope.saveCharges();
@@ -371,7 +371,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
   //Delete charges
   $scope.deleteCharge = function(index) {
     $scope.charges.splice(index, 1);
-    $scope.product.chargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
+    $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
     $scope.saveCharges();
   };
   //Save charges
