@@ -1,5 +1,4 @@
 'use strict';
-
 // Here we attach this controller to our testApp module
 var chargesController = angular.module('chargesController', ['chargesService', 'Constants', 'smart-table']);
 
@@ -115,6 +114,8 @@ chargesController.controller('CreateChargeCtrl', function($scope, $location, $ti
     console.log('chargesController : CreateChargeCtrl : saveCharge');
     $scope.type = '';
     $scope.message = '';
+    //
+    this.chargeDetails.active='true';
     //Set amount according to charge type
     this.chargeDetails.amount = $scope.flat;
     if(this.chargeDetails.chargeCalculationType==='2'){
@@ -129,11 +130,17 @@ chargesController.controller('CreateChargeCtrl', function($scope, $location, $ti
 
     var saveChargeFail = function(result) {
       console.log('Error : Return from charge service.');
-      $scope.type = 'error';
-      $scope.message = 'Charge not saved: ' + result.data.defaultUserMessage;
+      $scope.type = 'error';      
+      $scope.message = 'Charge not saved: ' + result.data.defaultUserMessage;     
       $scope.errors = result.data.errors;
-      if (result.data.errors && result.data.errors.length) {
+      if (result.data.errors && result.data.errors.length > 0) {
         for (var i = 0; i < result.data.errors.length; i++) {
+          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.must.be.penalty'){
+            $scope.message = 'Charge not saved: Overdue Charge must be a penalty ';
+          }
+          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.frequency.cannot.be.updated.it.is.used.in.loan'){
+            $scope.message = 'Charge not saved: Charge frequency can\'t be updated as it is used in Loan Products ';
+          }
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
@@ -162,12 +169,12 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
       $scope.product = result.data;
       $scope.chargeDetails.name = $scope.product.name;
       $scope.chargeDetails.amount = $scope.product.amount;
-      $scope.chargeDetails.penalty = 'true';
-      $scope.chargeDetails.chargeAppliesTo = $scope.product.chargeAppliesToOptions[0].id;
+      $scope.chargeDetails.penalty = String($scope.product.penalty);
+      $scope.chargeDetails.chargeAppliesTo = $scope.product.chargeAppliesTo.id;
       $scope.chargeDetails.locale = 'en';
       $scope.chargeDetails.currencyCode = $scope.product.currency.code;
       //Application Frequency
-      $scope.chargeDetails.chargeTimeType = '8';
+      $scope.chargeDetails.chargeTimeType = $scope.product.chargeTimeType.id;
       //Charge Type
       $scope.chargeDetails.chargeCalculationType = $scope.product.chargeCalculationType.id;
       $scope.chargeDetails.chargePaymentMode = '0';
@@ -221,8 +228,14 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
       $scope.type = 'error';
       $scope.message = 'Charge not updated: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
-      if (result.data.errors && result.data.errors.length) {
+      if (result.data.errors && result.data.errors.length > 0) {
         for (var i = 0; i < result.data.errors.length; i++) {
+          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.must.be.penalty'){
+            $scope.message = 'Charge not saved: After final maturity Charge must be a penalty ';
+          }
+          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.frequency.cannot.be.updated.it.is.used.in.loan'){
+            $scope.message = 'Charge not saved: Charge frequency can\'t be updated as it is used in Loan Products ';
+          }
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
