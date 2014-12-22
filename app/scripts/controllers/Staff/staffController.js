@@ -33,8 +33,12 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
     var loadItemStaffSuccess = function(result) {
       $scope.isLoading = false;
       $scope.formData = result.data;
-      var date = new Date($scope.formData.joiningDate[0], $scope.formData.joiningDate[1] - 1, $scope.formData.joiningDate[2]);
-      $scope.formData.joiningDate = date;
+      if($scope.formData.joiningDate){
+        $scope.formData.joiningDate = new Date($scope.formData.joiningDate[0],
+                                               $scope.formData.joiningDate[1] - 1,
+                                               $scope.formData.joiningDate[2]);
+
+      }
       if ($location.$$url.indexOf('edit')) {
         load_form_data();
       }
