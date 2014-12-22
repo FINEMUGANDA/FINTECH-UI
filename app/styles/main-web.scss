@@ -36,7 +36,7 @@ body.pre-login {
   margin-top:0px;
 }
 
-// LINKS - HORIZONTAL 
+// LINKS - HORIZONTAL
 .links-horizontal {
   ul {
     @extend .nav;
@@ -68,14 +68,14 @@ body.pre-login {
 
 .shortcuts {
   @extend .links-horizontal;
-  
+
   ul > .label {
     padding: 5px 10px;
     font-size:12px;
     border-right: 1px solid darken($border-color,4%);
     border-radius: 0;
   }
-  
+
   ul > .label {
     padding-left:20px;
     color: $primary-color;
@@ -90,7 +90,7 @@ body.pre-login {
   }
 }
 
-//SUMMARY 
+//SUMMARY
 
 .summary {
   margin: $grid-gutter-width/2 0;
@@ -121,7 +121,7 @@ body.pre-login {
     border-right: 1px solid $border-color;
     float:left;
   }
-  
+
   dd:last-of-type {
     border: 0;
   }
@@ -141,7 +141,7 @@ body.pre-login {
       border-radius:0;
       border-color: $border-color;
       box-shadow: none;
-    
+
       .heading {
         @extend .panel-heading;
         border-radius:0;
@@ -150,7 +150,7 @@ body.pre-login {
         font-size: 16px;
         font-weight:100;
       }
-    
+
       .body {
         @extend .panel-body;
         border-radius:0;
@@ -160,7 +160,7 @@ body.pre-login {
   }
 }
 
-//PAGE HEADER 
+//PAGE HEADER
 .page-header {
   margin-top:0px;
   margin-bottom:15px;
@@ -196,7 +196,7 @@ body.pre-login {
   @extend .links-horizontal;
   margin-bottom:15px;
 
-  
+
   ul {
     @include make-lg-column(9);
   }
@@ -212,7 +212,7 @@ body.pre-login {
 
 .table-footer {
   @include make-row();
-  
+
   .export,
   .paginate {
     @include make-lg-column(6);
@@ -241,7 +241,7 @@ body.pre-login {
   .paginate ul {
     float:right;
     margin: 0 !important;
-    
+
     li > a {
       border-color: $border-color;
       font-size:11px;
@@ -254,6 +254,58 @@ body.pre-login {
       color: #fff !important;
     }
   }
-
 }
 
+#loans_info_wrapper{
+  position: relative;
+}
+
+.tooltip {
+  top: -30px;
+  position: absolute;
+  z-index: 100;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 1;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 6px 0 rgba(0,0,0,.16);
+}
+.tooltip:before {
+  left: 18px;
+  top: -9px;
+  content: ' ';
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  background: transparent;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: 0 0 6px 0 rgba(0,0,0,.16);
+  z-index: -1;
+}
+
+.tooltip .tooltip__container {
+  border-radius: 8px;
+  background: #fff;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: left;
+}
+.tooltip__navigate {
+  background: #f5f5f5;
+  border-top: 1px solid #e6e6e6;
+  padding: 10px 13px;
+  text-align: center;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+.tooltip__content {
+padding: 20px 15px;
+}

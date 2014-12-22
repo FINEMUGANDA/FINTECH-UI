@@ -311,16 +311,48 @@ app.config(['$httpProvider', function($httpProvider) {
 ]);
 
 //function to be called when the application gets running
-app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs) {
+app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs, RoleService, REST_URL) {
   //total number of records in single page
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
   //total number of page in single page
   $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
+
+  var url = '';
+
+  $('html').click(function (){
+    $('#loans_info_wrapper').hide();
+  });
+
   $rootScope.page = {
     setHclass: function(hclass) {
       this.hclass = hclass;
     }
   };
+
+  $rootScope.loans_info_show = function(){
+    $('#loans_info_wrapper').css($('#loans_info_button').offset()).toggle();
+  };
+
+  function total_loans_info(){
+    var loadPASuccess = function(result) {
+      $rootScope.loans_PAcount = result.data.length;
+        var loadADSuccess = function(result) {
+          $rootScope.loans_ADcount = result.data.length;
+          $rootScope.loans_total =  $rootScope.loans_PAcount + $rootScope.loans_ADcount;
+        };
+        var loadADFail = function() {
+          console.log('Error : erorr req.');
+        };
+        url = REST_URL.BASE + 'runreports/PageClientsScreenLoansAD?genericResultSet=false&pretty=true&tenantIdentifier=default';
+        RoleService.getData(url).then(loadADSuccess, loadADFail);
+    };
+    var loadPAFail = function() {
+      console.log('Error : erorr req.');
+    };
+    url = REST_URL.BASE + 'runreports/PageClientsScreenLoansPA?genericResultSet=false&pretty=true&tenantIdentifier=default';
+    RoleService.getData(url).then(loadPASuccess, loadPAFail);
+  }
+  total_loans_info();
 
   $rootScope.logout = function() {
     delete localStorage.ang_session;
@@ -657,7 +689,7 @@ app.filter('getRepaymentFrequencyType', [function() {
 
 //Give type value on charges grid
 app.filter('getChargeType', [ function() {
-    var value; 
+    var value;
     return function(type){
       value = 'Charge';
       if(type){
