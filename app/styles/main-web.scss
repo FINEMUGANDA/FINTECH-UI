@@ -307,5 +307,21 @@ body.pre-login {
   border-bottom-left-radius: 7px;
 }
 .tooltip__content {
-padding: 20px 15px;
+  padding: 20px 15px;
+}
+.loans-details {
+  .status {
+  }
+  .active {
+    color: $tertiary-color;
+  }
+  .bad {
+    color: $bad;
+  }
+  .on-hold {
+    color: $hold;
+  }
+  .closed {
+    color: $closed;
+  }
 }

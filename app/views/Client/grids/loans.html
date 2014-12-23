@@ -14,7 +14,7 @@
         <tr>
           <th colspan="6">
       <div class="filters">
-        <div ng-include="'views/Client/header.menu.html'" onload="active='loans'"></div>
+        <div ng-include="'views/Client/header.menu.html'" onload="active = 'loans'"></div>
         <div class="search" >
           <input type="text" st-search="" class="search-box" placeholder="Search Loans" />
         </div>
@@ -30,9 +30,9 @@
       </tr>
       </thead>
       <tbody ng-hide="isLoading">
-        <tr ng-repeat="loan in displayed">
+        <tr ng-repeat="loan in displayed" class="pointer">
           <td><img ng-src="{{loan.image}}" class="Size"></td>
-          <td>
+          <td ng-click="showLoanDetails(loan)">
             <div class="name">
               <a ng-href="#editbasicclientinfo/{{loan.clientId}}">{{loan.name}}</a>
             </div>
@@ -43,14 +43,14 @@
               File No.: {{loan.file_no}}
             </div>
           </td>
-          <td>
+          <td ng-click="showLoanDetails(loan)">
             <span class="{{loan.loanStatusCode| status}}">
               {{loan.loanStatus}}
             </span>
           </td>
-          <td class="number">{{loan.loanAmount}}</td>
-          <td class="number">{{loan.loanArrears}}</td>
-          <td>{{loan.loanOfficer}}</td>
+          <td ng-click="showLoanDetails(loan)" class="number">{{loan.loanAmount}}</td>
+          <td ng-click="showLoanDetails(loan)" class="number">{{loan.loanArrears}}</td>
+          <td ng-click="showLoanDetails(loan)">{{loan.loanOfficer}}</td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">

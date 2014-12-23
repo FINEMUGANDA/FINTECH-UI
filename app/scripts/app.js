@@ -248,6 +248,18 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/loans/:clientId/details/:loanId', {
+      templateUrl: 'views/loans/details/loans.details.html',
+      controller: 'LoansDetailsCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/loans/:clientId/details/:loanId/:tab', {
+      templateUrl: 'views/loans/details/loans.details.html',
+      controller: 'LoansDetailsCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).when('/admin/users', {
       templateUrl: 'views/Admin/users.html',
       controller: 'UserController',
