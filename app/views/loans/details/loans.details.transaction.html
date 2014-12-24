@@ -1,67 +1,58 @@
 
-<button class="btn btn-primary pull-right" ng-click="export()">{{'label.button.export'| translate}}</button>
+<!--<button class="btn btn-primary pull-right" ng-click="export()">{{'label.button.export'| translate}}</button>-->
 <div class="pull-right">
-  <input type="checkbox" data-ng-model="hideAccrualTransactions" ng-true-value="false" ng-false-value="" ng-checked="isHideAccrualsCheckboxChecked" ng-change="updateCheckBoxStatus()">&nbsp;&nbsp;
-  <label class="control-label">{{ 'label.input.hide.accrual.transactions' | translate }}</label>&nbsp;&nbsp;
+  <input type="checkbox" id="hideAccrualTransactions" ng-model="transactionTab.hideAccrualTransactions">&nbsp;&nbsp;
+  <label class="control-label" for="hideAccrualTransactions">Hide Accruals</label>&nbsp;&nbsp;
 </div>
 <br>
-<table class="table">
+<table st-table="transactionTab.displayed" st-safe-src="transactionTab.rowCollection" class="table loanRepaymentTable">
   <colgroup span="4"></colgroup>
   <thead>
     <tr class="graybg">
-      <th class="pointer" ng-click="changeTransactionSort('id')">{{'label.heading.id'| translate}}</th>
-      <th class="pointer" ng-click="changeTransactionSort('officeName')">{{'label.heading.office'| translate}}</th>
-      <th class="pointer" ng-click="changeTransactionSort('date')">{{'label.heading.transactiondate'| translate}}</th>
-      <th class="pointer" ng-click="changeTransactionSort('type.value')">{{'label.heading.transactiontype'| translate}}</th>
-      <th class="pointer" ng-click="changeTransactionSort('amount')">{{'label.heading.amount'| translate}}</th>
-      <th class="pointer" colspan="4" scope="colgroup">{{'label.heading.breakdown'| translate}}</th>
-      <th class="pointer" scope="colgroup">{{'label.heading.loan.balance'| translate}}</th>
+      <th colspan="5">&nbsp;</th>
+      <th colspan="4" style="text-align: center">Break Down</th>
+      <th>&nbsp;</th>
     </tr>
     <tr>
-      <th scope="col">&nbsp;</th>
-      <th scope="col">&nbsp;</th>
-      <th scope="col">&nbsp;</th>
-      <th scope="col">&nbsp;</th>
-      <th scope="col">&nbsp;</th>
-      <th class="pointer" scope="col" ng-click="changeTransactionSort('principalPortion')">{{'label.heading.principal'| translate}}</th>
-      <th class="pointer" scope="col" ng-click="changeTransactionSort('interestPortion')">{{'label.heading.interest'| translate}}</th>
-      <th class="pointer" scope="col" ng-click="changeTransactionSort('feeChargesPortion')">{{'label.heading.fees'| translate}}</th>
-      <th class="pointer" scope="col" ng-click="changeTransactionSort('penaltyChargesPortion')">{{'label.heading.penalities'| translate}}</th>
+      <th st-sort="id" class="pointer">ID</th>
+      <th st-sort="officeName" class="pointer">Office</th>
+      <th st-sort="date"  class="pointer">Transaction Date</th>
+      <th st-sort="type.value" class="pointer">Transaction Type</th>
+      <th st-sort="amount" class="pointer">Amount</th>
+      <th st-sort="principalPortion" class="pointer">Principal</th>
+      <th st-sort="interestPortion" class="pointer">Interest</th>
+      <th st-sort="feeChargesPortion" class="pointer">Fees</th>
+      <th st-sort="penaltyChargesPortion" class="pointer">Penalties</th>
+      <th st-sort="outstandingLoanBalance" class="pointer">Loan Balance</th>
     </tr>
   </thead>
   <tbody>
-    <tr class="pointer-main" ng-class="{strikeoff : transaction.manuallyReversed == true}"
-        ng-repeat="transaction in loandetails.transactions| filter:{type.accrual:hideAccrualTransactions} | orderBy:transactionSort.column:transactionSort.descending">
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.id}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.officeName}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.date| DateFormat}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.type.value}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.amount| number}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.principalPortion| number}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.interestPortion| number}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.feeChargesPortion| number}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.penaltyChargesPortion| number}}
-      </td>
-      <td class="pointer" data-ng-click="routeTo(loandetails.id, transaction.id, transaction.type.id)">
-        {{transaction.outstandingLoanBalance| number}}
-      </td>
+    <tr class="pointer-main" ng-class="{strikeoff : transaction.manuallyReversed == true}" ng-repeat="transaction in transactionTab.displayed">
+      <td>{{transaction.id}}</td>
+      <td>{{transaction.officeName}}</td>
+      <td>{{transaction.date| DateFormat}}</td>
+      <td>{{transaction.type.value}}</td>
+      <td>{{transaction.amount| number}}</td>
+      <td>{{transaction.principalPortion| number}}</td>
+      <td>{{transaction.interestPortion| number}}</td>
+      <td>{{transaction.feeChargesPortion| number}}</td>
+      <td>{{transaction.penaltyChargesPortion| number}}</td>
+      <td>{{transaction.outstandingLoanBalance| number}}</td>
     </tr>
   </tbody>
+  <tfoot ng-hide="isLoading">
+    <tr>
+      <td colspan="10">
+        <div class="table-footer">
+          <div class="export">
+            <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('0,7')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('0,7')" target="_blank">Excel</a></strong>
+          </div>
+          <div class="paginate">
+            <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tfoot>
+
 </table>

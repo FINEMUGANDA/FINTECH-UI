@@ -40,8 +40,33 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     $scope.enableTabs();
   }
   $scope.selectTab($route.current.params.tab);
+  $scope.transactionTab = {};
+  $scope.transactionTab.hideAccrualTransactions = true;
 
   LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
     $scope.loanDetails = result.data;
   });
+
+  $scope.$watch('transactionTab.hideAccrualTransactions', function() {
+    filterTransactions();
+  });
+  $scope.initTab = function(tab) {
+    if (tab && tab.name === 'transaction') {
+      filterTransactions();
+    }
+  };
+
+  function filterTransactions() {
+    $timeout(function() {
+      if (!$scope.loanDetails || !$scope.loanDetails.transactions) {
+        return;
+      }
+      $scope.transactionTab.rowCollection = _.filter(angular.copy($scope.loanDetails.transactions), function(transaction) {
+        if ($scope.transactionTab.hideAccrualTransactions) {
+          return !transaction.type.accrual;
+        }
+        return true;
+      });
+    });
+  }
 });

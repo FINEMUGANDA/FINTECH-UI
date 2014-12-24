@@ -64,6 +64,8 @@
     font-size:12px;
     font-weight:600;
     color: lighten($text-color,30%);
+    border: solid 1px #cccccc;
+    border-left: none;
     & + td, & + th {
       border: solid 1px #cccccc;
     }

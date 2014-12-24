@@ -91,6 +91,6 @@
         <div class="loading-indicator">Loading...</div>
       </div>
     </div>
-    <div ng-repeat="tab in tabs" ng-if="tab.active" ng-include="tab.view"></div>
+    <div ng-repeat="tab in tabs" ng-if="tab.active" ng-include="tab.view" onload="initTab(tab)"></div>
   </div>
 </div>
