@@ -1,41 +1,32 @@
-
-<table class="table width100">
+<div ng-show="chargesTab.loading">Loading...</div>
+<table class="table width100" ng-hide="chargesTab.loading">
   <tr class="graybg">
-    <th>{{'label.heading.name'| translate}}</th>
-    <th>{{'label.heading.feeorpenalty'| translate}}</th>
-    <th>{{'label.heading.paymentdueat'| translate}}</th>
-    <th>{{'label.heading.dueasof'| translate}}</th>
-    <th>{{'label.heading.calculationtype'| translate}}</th>
-    <th>{{'label.heading.due'| translate}}</th>
-    <th>{{'label.heading.paid'| translate}}</th>
-    <th>{{'label.heading.waived'| translate}}</th>
-    <th>{{'label.heading.outstanding'| translate}}</th>
-    <th>{{'label.heading.actions'| translate}}</th>
+    <th>Name</th>
+    <th>Fee/Penalty</th>
+    <th>Payment due at</th>
+    <th>Due as of</th>
+    <th>Calculation Type</th>
+    <th>Due</th>
+    <th>Paid</th>
+    <th>Waived</th>
+    <th>Outstanding</th>
+    <!--<th>Actions</th>-->
   </tr>
-  <tr ng-repeat="charge in charges" class="pointer-main">
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.name}}</td>
-    <td ng-show="charge.penalty" class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{"penalty"}}</td>
-    <td ng-hide="charge.penalty" class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{"fee"}}</td>
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.chargeTimeType.value}}</td>
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.dueDate| DateFormat}}</td>
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.chargeCalculationType.value}}</td>
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amount| number}}</td>
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountPaid| number}}</td>
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountWaived| number}}</td>
-    <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountOutstanding| number}}</td>
-    <td>
-      <a title="{{'label.edit'| translate}}" data-ng-show="status == 'Submitted and pending approval'"
-         href="#/loanaccountcharge/{{loandetails.id}}/editcharge/{{charge.id}}"><i
-          class="icon-pencil icon-white"></i></a>
-      <a title="{{'label.delete'| translate}}" class="btn-warning"
-         data-ng-show="status == 'Submitted and pending approval'" data-ng-click="delCharge(charge.id)"
-         title="delete"><i class="icon-remove icon-white"></i></a>
-      <a class="btn-primary" data-ng-hide="charge.actionFlag"
-         href="#/loanaccountcharge/{{loandetails.id}}/waivecharge/{{charge.id}}"><i
-          class="icon-flag icon-white"></i></a>
-      <a class="btn-success" data-ng-show="charge.chargePayable && status == 'Active'"
-         href="#/loanaccountcharge/{{loandetails.id}}/paycharge/{{charge.id}}">{{"label.button.pay"|
-                    translate}}</a>
-    </td>
+  <tr ng-repeat="charge in chargesTab.charges" class="pointer-main">
+    <td>{{charge.name}}</td>
+    <td>{{charge.penalty? "Penalty" : "Fee"}}</td>
+    <td>{{charge.chargeTimeType.value}}</td>
+    <td>{{charge.dueDate| DateFormat}}</td>
+    <td>{{charge.chargeCalculationType.value}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amount| number}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountPaid| number}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountWaived| number}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountOutstanding| number}}</td>
+<!--    <td>
+      <a title="Edit" ng-show="loanDetails.status.id == 100" href="#/loanaccountcharge/{{loanDetails.id}}/editcharge/{{charge.id}}"><i class="glyphicon glyphicon-pencil"></i></a>
+      <a title="Remove" ng-show="loanDetails.status.id == 100" ng-click="delCharge(charge.id)"><i class="glyphicon glyphicon-remove"></i></a>
+      <a ng-hide="charge.actionFlag" href="#/loanaccountcharge/{{loanDetails.id}}/waivecharge/{{charge.id}}"><i class="glyphicon glyphicon-flag"></i></a>
+      <a class="btn btn-sm btn-success" ng-show="charge.chargePayable && loanDetails.status.id == 300" href="#/loanaccountcharge/{{loanDetails.id}}/paycharge/{{charge.id}}">Pay</a>
+    </td>-->
   </tr>
 </table>

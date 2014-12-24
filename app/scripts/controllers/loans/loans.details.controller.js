@@ -8,11 +8,11 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   $scope.step = 'create';
 
   $scope.tabs = [
-    {name: 'account', view: 'views/loans/details/loans.details.account.html', title: 'Loan Details', active: true, disabled: true},
-    {name: 'summary', view: 'views/loans/details/loans.details.summary.html', title: 'Loan Summary', active: false, disabled: true},
-    {name: 'repayment', view: 'views/loans/details/loans.details.repayment.html', title: 'Repayment Schedule', active: false, disabled: true},
-    {name: 'transaction', view: 'views/loans/details/loans.details.transaction.html', title: 'Transaction History', active: false, disabled: true},
-    {name: 'charges', view: 'views/loans/details/loans.details.charges.html', title: 'Charges', active: false, disabled: true},
+    {name: 'account', view: 'views/loans/details/loans.details.account.html', title: 'Loan Details', active: true, disabled: false},
+    {name: 'summary', view: 'views/loans/details/loans.details.summary.html', title: 'Loan Summary', active: false, disabled: false},
+    {name: 'repayment', view: 'views/loans/details/loans.details.repayment.html', title: 'Repayment Schedule', active: false, disabled: false},
+    {name: 'transaction', view: 'views/loans/details/loans.details.transaction.html', title: 'Transaction History', active: false, disabled: false},
+    {name: 'charges', view: 'views/loans/details/loans.details.charges.html', title: 'Charges', active: false, disabled: false},
     {name: 'collateral', view: 'views/loans/details/loans.details.collateral.html', title: 'Collateral', active: false, disabled: true},
     {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.html', title: 'Guarantor Info', active: false, disabled: true},
     {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Notes', active: false, disabled: true}
@@ -31,17 +31,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     }
   };
 
-  $scope.enableTabs = function() {
-    _.each($scope.tabs, function(tab) {
-      tab.disabled = false;
-    });
-  };
-  if ($scope.loanId) {
-    $scope.enableTabs();
-  }
   $scope.selectTab($route.current.params.tab);
-  $scope.transactionTab = {};
-  $scope.transactionTab.hideAccrualTransactions = true;
 
   LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
     $scope.loanDetails = result.data;
@@ -51,10 +41,21 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     filterTransactions();
   });
   $scope.initTab = function(tab) {
-    if (tab && tab.name === 'transaction') {
-      filterTransactions();
+    if (!tab || !tab.name) {
+      return;
+    }
+    if (tab.name === 'transaction') {
+      initTransactions();
+    } else if (tab.name === 'charges') {
+      initCharges();
     }
   };
+
+  function initTransactions() {
+    $scope.transactionTab = {};
+    $scope.transactionTab.hideAccrualTransactions = true;
+    filterTransactions();
+  }
 
   function filterTransactions() {
     $timeout(function() {
@@ -67,6 +68,16 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
         }
         return true;
       });
+    });
+  }
+
+  function initCharges() {
+    $scope.chargesTab = {};
+    $scope.chargesTab.loading = true;
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges').then(function(result) {
+      console.log(result.data);
+      $scope.chargesTab.charges = result.data;
+      $scope.chargesTab.loading = false;
     });
   }
 });

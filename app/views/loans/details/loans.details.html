@@ -80,7 +80,7 @@
     <div class="summary">
       <div class="shortcuts">
         <ul role="tablist">
-          <li role="presentation" ng-repeat="tab in tabs"><a href="javascript:void(0);" ng-class="[tab.active? 'active' : '', tab.disabled? 'disabled' : '']" ng-click="selectTab(tab.name)">{{tab.title}}</a></li>
+          <li role="presentation" ng-repeat="tab in tabs"><a href="javascript:void(0);" ng-class="{active: tab.active, disabled : tab.disabled}" ng-click="selectTab(tab.name)">{{tab.title}}</a></li>
         </ul>
       </div>
     </div>
