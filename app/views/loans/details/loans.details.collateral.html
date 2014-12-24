@@ -1,0 +1,15 @@
+
+<table class="table">
+  <thead>
+  <th>{{'label.heading.type'| translate}}</th>
+  <th>{{'label.heading.value'| translate}}</th>
+  <th>{{'label.heading.description'| translate}}</th>
+</thead>
+<tbody>
+  <tr ng-repeat="collateral in loandetails.collateral" class="pointer-main">
+    <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.type.name}}</td>
+    <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.value| number}}</td>
+    <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.description}}</td>
+  </tr>
+</tbody>
+</table>

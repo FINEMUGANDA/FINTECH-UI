@@ -43,8 +43,5 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
 
   LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
     $scope.loanDetails = result.data;
-    if ($scope.loanDetails.timeline.actualDisbursementDate && $scope.loanDetails.timeline.actualDisbursementDate.length) {
-      $scope.loanDetails.actualDisbursementDate = new Date($scope.loanDetails.timeline.actualDisbursementDate[0], $scope.loanDetails.timeline.actualDisbursementDate[1] - 1, $scope.loanDetails.timeline.actualDisbursementDate[2]);
-    }
   });
 });

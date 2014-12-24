@@ -1,9 +1,9 @@
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_mixins.scss";
 @import "main-variables.scss";
 .table {
-   >thead>tr>th {
+  >thead>tr>th {
     background: lighten($background-web,0.8%);
-    border: 1px solid $border-color !important;
+    border: 1px solid $border-color;
     font-size:12px;
     font-weight:200;
     color: lighten($text-color,30%);
@@ -11,11 +11,11 @@
   >tbody>tr {
     background: #ffffff;
     border: 1px solid $border-color;
-    border-top:0;
+    /*border-top:0;*/
   }
   >tbody>tr>td {
     padding:10px !important;
-    border: 0 !important;
+    border: 0;
     font-size:12px !important;
     font-weight:100;
     color: lighten($text-color,30%);
@@ -55,5 +55,31 @@
     border-radius:50px;
     text-transform: uppercase;
     background-color: $grid-button;
+  }
+}
+
+.loanRepaymentTable {
+  & > thead tr > td, & > thead tr > th {
+    background: lighten($background-web,0.8%);
+    font-size:12px;
+    font-weight:600;
+    color: lighten($text-color,30%);
+    & + td, & + th {
+      border: solid 1px #cccccc;
+    }
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  & > tbody tr td {
+    border: solid 1px #cccccc;
+    border-left: none;
+    & + td {
+      border: solid 1px #cccccc;
+    }
+    &:last-child {
+      border-right: none;
+    }
   }
 }

@@ -41,32 +41,32 @@ utils.factory('Utility', function($q, APPLICATION) {
     },
     filterOptions: function(options, optionID, selectedOptions) {
       var filteredOptions = [];
-      var flag=true;
-      angular.forEach(options, function(item){
-        flag=true;
+      var flag = true;
+      angular.forEach(options, function(item) {
+        flag = true;
         for (var i in selectedOptions) {
-          if(parseInt(item.id)===parseInt(selectedOptions[i].id)){
+          if (parseInt(item.id) === parseInt(selectedOptions[i].id)) {
             flag = false;
           }
         }
-        if(!flag && optionID) {
-          flag = (parseInt(item.id)===parseInt(optionID));
+        if (!flag && optionID) {
+          flag = (parseInt(item.id) === parseInt(optionID));
         }
-        if(flag) {
+        if (flag) {
           filteredOptions.push(item);
         }
       });
       return filteredOptions;
-   },
-   setSelectedOptions: function (selectedOptions, assetID) {    
-    if(assetID){
-      var temp = '';
-      temp = {
-        id: assetID
-      };
-      selectedOptions.push(temp);
+    },
+    setSelectedOptions: function(selectedOptions, assetID) {
+      if (assetID) {
+        var temp = '';
+        temp = {
+          id: assetID
+        };
+        selectedOptions.push(temp);
+      }
     }
-   }
   };
 });
 
@@ -156,3 +156,23 @@ utils.factory('Base64', function() {
     }
   };
 });
+
+
+utils.filter('DateFormat', ['dateFilter', function(dateFilter) {
+    return function(input, format) {
+      format = format || 'dd MMM yyyy';
+      if (input) {
+        var tDate = new Date(input);
+        return dateFilter(tDate, format);
+      }
+      return '';
+    };
+  }
+]);
+
+utils.filter('YesOrNo', function() {
+  return function(input) {
+    return input? 'Yes' : 'No';
+  };
+});
+

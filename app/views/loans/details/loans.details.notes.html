@@ -1,0 +1,27 @@
+<form>
+  <div class="form-group">
+    <div class="col-sm-12 col-md-12">
+      <textarea rows="1" class="form-control marginbottom0px" id="textarea"
+                placeholder="{{'label.input.enternote'| translate}}" ng-model="formData.note"></textarea>
+
+      <div class="notewrapper col-sm-12 col-md-12">
+        <span class="pull-right noteaddbuttonwrapper">
+          <button class="btn btn-primary" type="submit" ng-click="saveNote()"
+                  has-permission='CREATE_LOANNOTE'>{{'label.button.add'| translate}}
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="col-md-12">
+  <br/>
+  <div ng-repeat="loanNote in loanNotes| orderBy:predicate:reverse">
+    <blockquote>
+      <p>{{loanNote.note}}</p>
+      {{loanNote.id}}
+      <small>{{'label.createdby'| translate}} :&nbsp;{{loanNote.createdByUsername}}</small>
+      <small>{{'label.createdon'| translate}} :&nbsp;{{loanNote.createdOn| DateFormat}}</small>
+    </blockquote>
+  </div>
+</div>

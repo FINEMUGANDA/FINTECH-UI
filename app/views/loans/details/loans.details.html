@@ -39,7 +39,7 @@
     <div class="col-md-6">
       <dl class="dl-horizontal">
         <dt>Disbursement Date:</dt>
-        <dd>{{loanDetails.actualDisbursementDate? (loanDetails.actualDisbursementDate | date: 'dd MMM yyyy') : 'Not Provided'}}</dd>
+        <dd>{{loanDetails.timeline.actualDisbursementDate? (loanDetails.timeline.actualDisbursementDate | DateFormat) : 'Not Provided'}}</dd>
       </dl>
       <dl class="dl-horizontal">
         <dt>Currency:</dt>

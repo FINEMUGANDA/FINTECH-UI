@@ -1,0 +1,71 @@
+
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <td>Repayment Strategy</td>
+      <td><span class="padded-td">{{loanDetails.transactionProcessingStrategyName}}</span></td>
+    </tr>
+    <tr>
+      <td>Repayments</td>
+      <td><span class="padded-td">{{loanDetails.numberOfRepayments}} every {{loanDetails.repaymentEvery}}&nbsp;{{loanDetails.repaymentFrequencyType.value}}</span><span ng-show="loanDetails.repaymentFrequencyType.id == 2 && loanDetails.repaymentFrequencyNthDayType.id != 0 && loanDetails.repaymentFrequencyDayOfWeekType.id != 0">&nbsp;on&nbsp;{{loanDetails.repaymentFrequencyNthDayType.value}}&nbsp;{{loanDetails.repaymentFrequencyDayOfWeekType.value}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Amortization</td>
+      <td><span class="padded-td">{{loanDetails.amortizationType.value}}</span></td>
+    </tr>
+    <tr>
+      <td>Interest</td>
+      <td><span class="padded-td">{{loanDetails.annualInterestRate}} per annum ({{loanDetails.interestRatePerPeriod}}%&nbsp; {{loanDetails.interestRateFrequencyType.value}}) - {{loanDetails.interestType.value}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Interest Calculation Period</td>
+      <td><span class="padded-td">{{loanDetails.interestCalculationPeriodType.value}}</span></td>
+    </tr>
+    <tr>
+      <td>Interest Type</td>
+      <td><span class="padded-td">{{loanDetails.interestType.value}}</span></td>
+    </tr>
+    <tr>
+      <td>Submitted On</td>
+      <td><span class="padded-td">{{loanDetails.timeline.submittedOnDate| DateFormat }}</span></td>
+    </tr>
+    <tr>
+      <td>Approved On</td>
+      <td><span class="padded-td">{{loanDetails.timeline.approvedOnDate| DateFormat}}</span></td>
+    </tr>
+    <tr>
+      <td>Disbursed On</td>
+      <td><span class="padded-td">{{loanDetails.timeline.actualDisbursementDate| DateFormat}}</span></td>
+    </tr>
+    <tr>
+      <td>Matures On</td>
+      <td><span class="padded-td">{{loanDetails.timeline.expectedMaturityDate| DateFormat}}</span></td>
+    </tr>
+    <tr>
+      <td>Recalculate Interest</td>
+      <td><span class="padded-td">{{ loanDetails.isInterestRecalculationEnabled | YesOrNo }}</span></td>
+    </tr>
+    <tr>
+      <td>Days in year</td>
+      <td><span class="padded-td">{{ loanDetails.daysInYearType.value}}</span></td>
+    </tr>
+    <tr>
+      <td>Days in month</td>
+      <td><span class="padded-td">{{ loanDetails.daysInMonthType.value}}</span></td>
+    </tr>
+    <!--    <tr data-ng-show="loanDetails.isInterestRecalculationEnabled">
+          <td>{{ 'label.input.interest.recalculation.compounding.method' | translate }}</td>
+          <td><span class="padded-td">{{ loanDetails.interestRecalculationData.interestRecalculationCompoundingType.value}}</span></td>
+        </tr>
+        <tr data-ng-show="loanDetails.isInterestRecalculationEnabled">
+          <td>{{ 'label.input.interest.recalculation.reschdule.strategy' | translate }}</td>
+          <td><span class="padded-td">{{ loanDetails.interestRecalculationData.rescheduleStrategyType.value}}</span></td>
+        </tr>
+        <tr data-ng-show="loanDetails.isInterestRecalculationEnabled">
+          <td>{{ 'label.input.frequency.for.recalculte.outstanding.principal' | translate }}</td>
+          <td><span class="padded-td">{{ loanDetails.interestRecalculationData.calendarData.humanReadable}}</span></td>
+        </tr>-->
+  </tbody>
+</table>

@@ -1,0 +1,75 @@
+<table class="table table-striped loanRepaymentTable">
+  <colgroup span="4"></colgroup>
+  <thead>
+    <tr>
+      <td colspan="5"></td>
+      <td colspan="2" style="text-align: center;">Loan Amount and Balance</td>
+      <td colspan="3" style="text-align: center;">Total Cost of Loan</td>
+      <td colspan="6" style="text-align: center;">Installment Totals</td>
+    </tr>
+    <tr>
+      <td>#</td>
+      <td>Days</td>
+      <td>Date</td>
+      <td colspan="2">Paid Date</td>
+
+      <td>Principal Due</td>
+      <td>Balance of Loan</td>
+
+      <td>Interest</td>
+      <td>Fees</td>
+      <td>Penalties</td>
+
+      <td>Due</td>
+      <td>Paid</td>
+      <td>In Advance</td>
+      <td>Late</td>
+      <td data-ng-show="isWaived">Waived</td>
+      <td>Outstanding</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="period in loanDetails.repaymentSchedule.periods">
+      <td scope="row">{{period.period}}</td>
+      <td>{{period.daysInPeriod}}</td>
+      <td>{{period.dueDate| DateFormat}}</td>
+      <td>{{period.obligationsMetOnDate| DateFormat}}</td>
+      <td>
+        <div ng-show="period.obligationsMetOnDate"><i class="icon-check icon-white"></i></div>
+      </td>
+
+      <td>{{period.principalDue| number}}</td>
+      <td>{{period.principalLoanBalanceOutstanding| number}}</td>
+      <td>{{period.interestOriginalDue| number}}</td>
+      <td>{{period.feeChargesDue| number}}</td>
+      <td>{{period.penaltyChargesDue| number}}</td>
+
+      <td>{{period.totalDueForPeriod| number}}</td>
+      <td>{{period.totalPaidForPeriod| number}}</td>
+      <td>{{period.totalPaidInAdvanceForPeriod| number}}</td>
+      <td>{{period.totalPaidLateForPeriod| number}}</td>
+      <td data-ng-show="isWaived">{{period.totalWaivedForPeriod| number}}</td>
+      <td>{{period.totalOutstandingForPeriod| number}}</td>
+    </tr>
+  </tbody>
+  <tfoot class="ui-widget-header">
+    <tr>
+      <th>&nbsp;</th>
+      <th>{{loanDetails.repaymentSchedule.loanTermInDays}}</th>
+      <th colspan="3">Total</th>
+
+      <th>{{loanDetails.repaymentSchedule.totalPrincipalExpected| number}}</th>
+      <th>&nbsp;</th>
+      <th>{{loanDetails.repaymentSchedule.totalInterestCharged| number}}</th>
+      <th>{{loanDetails.repaymentSchedule.totalFeeChargesCharged| number}}</th>
+      <th>{{loanDetails.repaymentSchedule.totalPenaltyChargesCharged| number}}</th>
+
+      <th>{{loanDetails.repaymentSchedule.totalRepaymentExpected| number}}</th>
+      <th>{{loanDetails.repaymentSchedule.totalRepayment| number}}</th>
+      <th>{{loanDetails.repaymentSchedule.totalPaidInAdvance| number}}</th>
+      <th>{{loanDetails.repaymentSchedule.totalPaidLate| number}}</th>
+      <th data-ng-show="isWaived">{{loanDetails.repaymentSchedule.totalWaived| number}}</th>
+      <th>{{loanDetails.repaymentSchedule.totalOutstanding| number}}</th>
+    </tr>
+  </tfoot>
+</table>
