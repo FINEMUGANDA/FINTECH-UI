@@ -56,7 +56,8 @@ app.constant('REST_URL', {
     OFFICE_LIST:'api/v1/offices',
     DOCUMENTS : 'api/v1/documents/',
     BASE : 'api/v1/',
-    JOURANAL_ENTRY_REVERSE_NOTE:'api/v1/datatables/journal_entry_reverse_note/'    
+    JOURANAL_ENTRY_REVERSE_NOTE:'api/v1/datatables/journal_entry_reverse_note/',
+    HOLIDAYS: 'api/v1/holidays'   
 });
 
 app.constant('PAGE_URL', {
