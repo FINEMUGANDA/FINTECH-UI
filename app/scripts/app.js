@@ -308,6 +308,12 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/loan_reassignment', {
+      templateUrl: 'views/loans/loan_reassignment.html',
+      controller: 'LoansReassignmentCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).otherwise({
       redirectTo: '/'
     });
