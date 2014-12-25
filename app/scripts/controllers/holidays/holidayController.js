@@ -84,7 +84,7 @@ angular.module('angularjsApp').controller('CreateHolidayController', function($l
       holidayOfficeIdArray.push(node.id);
       if (node.children.length > 0) {
           for (var i = 0; i < node.children.length; i++) {
-              node.children[i].selectedCheckBox = true;
+              node.children[i].selectedCheckBox = 'true';
               holidayOfficeIdArray.push(node.children[i].id);
               if (node.children[i].children.length > 0) {
                   recurHolidayApplyToOffice(node.children[i]);
@@ -96,7 +96,7 @@ angular.module('angularjsApp').controller('CreateHolidayController', function($l
       holidayOfficeIdArray = _.without(holidayOfficeIdArray, node.id);
       if (node.children.length > 0) {
           for (var i = 0; i < node.children.length; i++) {
-              node.children[i].selectedCheckBox = false;
+              node.children[i].selectedCheckBox = 'false';
               holidayOfficeIdArray = _.without(holidayOfficeIdArray, node.children[i].id);
               if (node.children[i].children.length > 0) {
                   recurRemoveHolidayAppliedOOffice(node.children[i]);
