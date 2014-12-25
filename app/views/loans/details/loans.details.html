@@ -8,80 +8,81 @@
       </div>
     </div>
   </div>
-
-  <div class="span gray-head summary" style="margin-left:0%;">
-    <ul class="breadcrumb">
-      <li ng-show="loanDetails.clientName"><a href="#/editbasicclientinfo/{{loanDetails.clientId}}">{{loanDetails.clientName}}</a></li>
-      <li class="active">{{loanDetails.loanProductName}} (#{{loanDetails.accountNo}})</li>
-    </ul>
-    <div class="clearfix">
-      <span style="margin-left: 10px;font-size:20px">
-        <strong class="loans-details">
-          <i ng-hide="loanDetails.inArrears" class="glyphicon glyphicon-stop {{loanDetails.status.id| status}}"></i>
-          <i ng-show="loanDetails.inArrears" class="glyphicon glyphicon-stop {{loanDetails.status.id| status}} overdue"></i>&nbsp;<span>{{loanDetails.loanProductName}} (#{{loanDetails.accountNo}})</span>
-        </strong>
-      </span>
-      <div class="pull-right">
-        <button class="btn btn-sm primary">Prepay Loan</button>
-        <button class="btn btn-sm primary">Make Payment</button>
-        <button class="btn btn-sm primary">Undo Disbursement</button>
-        <button class="btn btn-sm primary">Waive Interest</button>
-        <button class="btn btn-sm primary">Reschedule</button>
-        <button class="btn btn-sm primary">Write Off</button>
-        <button class="btn btn-sm primary">Close</button>
+  <div ng-hide="isLoading">
+    <div class="span gray-head summary" style="margin-left:0%;">
+      <ul class="breadcrumb">
+        <li ng-show="loanDetails.clientName"><a href="#/editbasicclientinfo/{{loanDetails.clientId}}">{{loanDetails.clientName}}</a></li>
+        <li class="active">{{loanDetails.loanProductName}} (#{{loanDetails.accountNo}})</li>
+      </ul>
+      <div class="clearfix">
+        <span style="margin-left: 10px;font-size:20px">
+          <strong class="loans-details">
+            <i ng-hide="loanDetails.inArrears" class="glyphicon glyphicon-stop {{loanDetails.status.id| status}}"></i>
+            <i ng-show="loanDetails.inArrears" class="glyphicon glyphicon-stop {{loanDetails.status.id| status}} overdue"></i>&nbsp;<span>{{loanDetails.loanProductName}} (#{{loanDetails.accountNo}})</span>
+          </strong>
+        </span>
+        <div class="pull-right">
+          <button class="btn btn-sm primary" ng-click="openTransactionDialog()">Prepay Loan</button>
+          <button class="btn btn-sm primary">Make Payment</button>
+          <button class="btn btn-sm primary">Undo Disbursement</button>
+          <button class="btn btn-sm primary">Waive Interest</button>
+          <button class="btn btn-sm primary">Reschedule</button>
+          <button class="btn btn-sm primary">Write Off</button>
+          <button class="btn btn-sm primary">Close</button>
+        </div>
       </div>
     </div>
-  </div>
 
 
 
-  <div class="summary clearfix">
-    <div class="col-md-6">
-      <dl class="dl-horizontal">
-        <dt>Disbursement Date:</dt>
-        <dd>{{loanDetails.timeline.actualDisbursementDate? (loanDetails.timeline.actualDisbursementDate | DateFormat) : 'Not Provided'}}</dd>
-      </dl>
-      <dl class="dl-horizontal">
-        <dt>Currency:</dt>
-        <dd>{{loanDetails.currency.displayLabel}}</dd>
-      </dl>
-      <dl class="dl-horizontal">
-        <dt>Loan Officer:</dt>
-        <dd>{{loanDetails.loanOfficerName? loanDetails.loanOfficerName : 'Unassigned'}}</dd>
-      </dl>
-      <dl class="dl-horizontal">
-        <dt>External ID:</dt>
-        <dd>{{loanDetails.externalId? loanDetails.externalId : 'Not Provided'}}</dd>
-      </dl>
+    <div class="summary clearfix">
+      <div class="col-md-6">
+        <dl class="dl-horizontal">
+          <dt>Disbursement Date:</dt>
+          <dd>{{loanDetails.timeline.actualDisbursementDate ? (loanDetails.timeline.actualDisbursementDate | DateFormat) : 'Not Provided'}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Currency:</dt>
+          <dd>{{loanDetails.currency.displayLabel}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Loan Officer:</dt>
+          <dd>{{loanDetails.loanOfficerName? loanDetails.loanOfficerName : 'Unassigned'}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>External ID:</dt>
+          <dd>{{loanDetails.externalId? loanDetails.externalId : 'Not Provided'}}</dd>
+        </dl>
+      </div>
+      <div class="col-md-6">
+        <dl class="dl-horizontal">
+          <dt>Loan Purpose:</dt>
+          <dd>{{loanDetails.loanPurposeName? loanDetails.loanPurposeName : 'Not Provided'}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Approved Amount:</dt>
+          <dd>{{loanDetails.approvedPrincipal| number}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Disburse Amount:</dt>
+          <dd>{{loanDetails.principal| number}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Arrears By:</dt>
+          <dd>{{loanDetails.summary.totalOverdue? loanDetails.summary.totalOverdue : 'Not Provided'}}</dd>
+        </dl>
+      </div>
     </div>
-    <div class="col-md-6">
-      <dl class="dl-horizontal">
-        <dt>Loan Purpose:</dt>
-        <dd>{{loanDetails.loanPurposeName? loanDetails.loanPurposeName : 'Not Provided'}}</dd>
-      </dl>
-      <dl class="dl-horizontal">
-        <dt>Approved Amount:</dt>
-        <dd>{{loanDetails.approvedPrincipal| number}}</dd>
-      </dl>
-      <dl class="dl-horizontal">
-        <dt>Disburse Amount:</dt>
-        <dd>{{loanDetails.principal| number}}</dd>
-      </dl>
-      <dl class="dl-horizontal">
-        <dt>Arrears By:</dt>
-        <dd>{{loanDetails.summary.totalOverdue? loanDetails.summary.totalOverdue : 'Not Provided'}}</dd>
-      </dl>
-    </div>
-  </div>
-  <div>
-    <div class="header">
-      <h3>{{currentTab.title}}</h3>
-    </div>
-    <div class="summary">
-      <div class="shortcuts">
-        <ul role="tablist">
-          <li role="presentation" ng-repeat="tab in tabs"><a href="javascript:void(0);" ng-class="{active: tab.active, disabled : tab.disabled}" ng-click="selectTab(tab.name)">{{tab.title}}</a></li>
-        </ul>
+    <div>
+      <div class="header">
+        <h3>{{currentTab.title}}</h3>
+      </div>
+      <div class="summary">
+        <div class="shortcuts">
+          <ul role="tablist">
+            <li role="presentation" ng-repeat="tab in tabs"><a href="javascript:void(0);" ng-class="{active: tab.active, disabled : tab.disabled}" ng-click="selectTab(tab.name)">{{tab.title}}</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -91,6 +92,6 @@
         <div class="loading-indicator">Loading...</div>
       </div>
     </div>
-    <div ng-repeat="tab in tabs" ng-if="tab.active" ng-include="tab.view" onload="initTab(tab)"></div>
+    <div ng-repeat="tab in tabs" ng-if="tab.active" ng-include="tab.view" onload="initTab(tab)" ng-hide="isLoading"></div>
   </div>
 </div>

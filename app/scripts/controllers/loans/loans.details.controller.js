@@ -6,6 +6,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   $scope.clientId = $route.current.params.clientId;
   $scope.loanId = $route.current.params.loanId;
   $scope.step = 'create';
+  $scope.isLoading = true;
 
   $scope.tabs = [
     {name: 'account', view: 'views/loans/details/loans.details.account.html', title: 'Loan Details', active: true, disabled: false},
@@ -32,10 +33,14 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   };
 
   $scope.selectTab($route.current.params.tab);
-
-  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
-    $scope.loanDetails = result.data;
-  });
+  function updateLoanDetails() {
+    $scope.isLoading = true;
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
+      $scope.loanDetails = result.data;
+      $scope.isLoading = false;
+    });
+  }
+  updateLoanDetails();
 
   $scope.$watch('transactionTab.hideAccrualTransactions', function() {
     filterTransactions();
@@ -82,8 +87,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
 
 
   $scope.openCollateralDialog = function(collateral) {
-    console.log(collateral);
-    var dialog = dialogs.create('/views/loans/details/loans.details.collateral.dialog.html', 'LoanDeatilsCollateralDialog', {collateral: collateral, loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.collateral.dialog.html', 'LoanDeatilsCollateralDialog', {collateral: collateral, loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       console.log(result);
     });
@@ -112,16 +116,74 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
         });
       }
     });
-
   };
-
+  $scope.openTransactionDialog = function() {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.prepay.dialog.html', 'LoanDeatilsPrepayDialog', {loan: $scope.loanDetails}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateLoanDetails();
+    });
+  };
 });
 
+angular.module('angularjsApp').controller('LoanDeatilsPrepayDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+  $scope.loan = data.loan;
+  $scope.formData = {};
+  $scope.isLoading = true;
+  LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/template?command=prepayLoan').then(function(result) {
+    $scope.data = result.data;
+    console.log(result.data);
+    $timeout(function() {
+      $scope.formData.transactionDate = new Date();
+      $scope.formData.transactionAmount = result.data.amount;
+      $scope.isLoading = false;
+    });
+  });
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.errors = [];
+    if (!$scope.loanDetailsFormPrepay.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+
+    var data = angular.copy($scope.formData);
+    data.locale = 'en';
+    data.dateFormat = 'dd/MM/yyyy';
+    if (typeof data.transactionDate === 'object') {
+      var transactionDate = data.transactionDate;
+      data.transactionDate = transactionDate.getDate() + '/' + (transactionDate.getMonth() + 1) + '/' + transactionDate.getFullYear();
+    }
+    function handleSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan updated successfully.';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.dismiss(true);
+      }, 2000);
+    }
+    function handleFail(result) {
+      $scope.message = 'Cant prepay loan:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss(false);
+  };
+});
 
 angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.collateral = {};
   $scope.loan = data.loan;
-  LoanService.getData();
   $scope.cancel = function() {
     $modalInstance.dismiss(false);
   };
@@ -136,7 +198,6 @@ angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', functio
         $scope.collateralId = data.collateral.id;
       });
     }
-
   });
   function updateLoanCollaterals() {
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/collaterals').then(function(result) {
@@ -172,7 +233,7 @@ angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', functio
       $scope.errors = [];
       $scope.collateral = {};
       updateLoanCollaterals();
-      $scope.$modalInstance.dismiss(true);
+      $modalInstance.dismiss(true);
     }
     function handleFail(result) {
       $scope.message = 'Cant add collateral:' + result.data.defaultUserMessage;
