@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 angular.module('angularjsApp').controller('StaffController', function($route, $scope, RoleService, REST_URL, $location) {
   var url = '';
   $scope.formData = {};
@@ -57,7 +57,7 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
   $scope.save = function() {
     var saveSuccess = function() {
       $scope.type = 'alert-success';
-      $scope.message = 'saved successfully';
+      $scope.message = 'Saved successfully';
       $scope.errors = [];
       $location.url('/admin/staff');
     };

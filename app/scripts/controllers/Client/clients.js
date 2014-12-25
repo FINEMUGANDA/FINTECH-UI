@@ -159,6 +159,10 @@ clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, Client
     }, 2000);
   };
 
+  $scope.showLoanDetails = function(loan) {
+    $location.url('/loans/' + loan.clientId + '/details/' + loan.loanId);
+  };
+
   loadLoans();
 });
 

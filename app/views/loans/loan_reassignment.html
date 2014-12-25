@@ -1,0 +1,88 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+      <div class="header">
+        <h3>Loan reassignment</h3>
+      </div>
+    </div>
+    <div class="row" ng-show="isLoading">
+      <form name="userForm" class="form-horizontal" ng-submit="validate()" novalidate show-validation>
+        <div class="form-group">
+          <label class="control-label col-sm-2">Office<span class="required">*</span></label>
+          <div class="validate col-sm-3">
+            <select chosen="offices"
+                    id="officeId"
+                    ng-model="formData.officeId"
+                    class="form-control"
+                    ng-options="office.id as office.name for office in offices"
+                    data-ng-change="getFromOfficer()"
+                    required>
+              <option value="">--Select Office--</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="lastname">Assignment date<span class="required">*</span></label>
+          <div class="validate col-sm-3">
+            <input type="text"
+                   datepicker-popup="dd MMMM yyyy"
+                   is-open="opened"
+                   datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)"
+                   close-text="Close"
+                   ng-click="open($event)"
+                   id="assignmentDate"
+                   name="assignmentDate"
+                   ng-model="formData.assignmentDate"
+                   class="form-control"
+                   late-validate
+                   required>
+          </div>
+        </div>
+        <div class="form-group" ng-show="fromLoanOfficeshow">
+          <label class="control-label col-sm-2">From loan officer<span class="required">*</span></label>
+          <div class="validate col-sm-3">
+            <select chosen="from_officers"
+                    ng-model="formData.fromLoanOfficerId"
+                    class="form-control"
+                    ng-options="officer.id as officer.displayName for officer in from_officers"
+                    data-ng-change="getToOfficer()"
+                    required>
+              <option value="">--Select one--</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" ng-show="toLoanOfficeshow">
+          <label class="control-label col-sm-2">To loan officer<span class="required">*</span></label>
+          <div class="validate col-sm-3">
+            <select chosen="to_officers"
+                    ng-model="formData.toLoanOfficerId"
+                    class="form-control"
+                    ng-options="officer.id as officer.displayName for officer in to_officers"
+                    required>
+              <option value="">--Select one--</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <ul class="list-unstyled">
+            <li ng-repeat="client in clients"><strong>{{client.displayName}}</strong>
+              <ul class="list-unstyled">
+                <li ng-repeat="loan in client.loans">
+                  <input type="checkbox" ng-model="formData.loans[loan.id]">
+                  {{loan.productName}} ( {{loan.accountNo}} )
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-offset-3">
+          <a id="cancel" href="#/users" class="btn btn-default">Cancel</a>
+          <button id="save" type="submit" class="btn btn-primary" has-permission="CREATE_USER">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

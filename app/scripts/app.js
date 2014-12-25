@@ -249,6 +249,18 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/loans/:clientId/details/:loanId', {
+      templateUrl: 'views/loans/details/loans.details.html',
+      controller: 'LoansDetailsCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/loans/:clientId/details/:loanId/:tab', {
+      templateUrl: 'views/loans/details/loans.details.html',
+      controller: 'LoansDetailsCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).when('/admin/users', {
       templateUrl: 'views/Admin/users.html',
       controller: 'UserController',
@@ -303,6 +315,12 @@ app.config(['$routeProvider', function($routeProvider) {
     }).when('/holidays/create_holiday', {
       templateUrl: 'views/holidays/create.holiday.html',
       controller: 'HolidayController'
+    }).when('/loan_reassignment', {
+      templateUrl: 'views/loans/loan_reassignment.html',
+      controller: 'LoansReassignmentCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).otherwise({
       redirectTo: '/'
     });
@@ -646,8 +664,8 @@ app.directive('ngSummary', function($compile) {
       var nodeId = attrs.nodeId || 'id';
       var nodeLabel = attrs.nodeLabel || 'label';
       var nodeChildren = attrs.nodeChildren || 'children';
-      var template = "";
-      if (treeId === "holidaytreeview") {
+      var template = '';
+      if (treeId === 'holidaytreeview') {
           template =
               '<ul>' +
                   '<li data-ng-repeat="node in ' + treeModel + '">' +

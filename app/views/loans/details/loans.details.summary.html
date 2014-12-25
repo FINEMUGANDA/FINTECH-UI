@@ -1,0 +1,64 @@
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="empty"></th>
+      <th>Original</th>
+      <th>Paid</th>
+      <th>Waived</th>
+      <th>Written Off</th>
+      <th>Outstanding</th>
+      <th>Over Due</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Principal</th>
+      <td>{{loanDetails.summary.principalDisbursed | number}}</td>
+      <td>{{loanDetails.summary.principalPaid | number}}</td>
+      <td>&nbsp;</td>
+      <td>{{loanDetails.summary.principalWrittenOff | number}}</td>
+      <td>{{loanDetails.summary.principalOutstanding | number}}</td>
+      <td>{{loanDetails.summary.principalOverdue | number}}</td>
+    </tr>
+    <tr>
+      <th>Interest</th>
+      <td>{{loanDetails.summary.interestCharged | number}}</td>
+      <td>{{loanDetails.summary.interestPaid | number}}</td>
+      <td>{{loanDetails.summary.interestWaived | number}}</td>
+      <td>{{loanDetails.summary.interestWrittenOff | number}}</td>
+      <td>{{loanDetails.summary.interestOutstanding | number}}</td>
+      <td>{{loanDetails.summary.interestOverdue | number}}</td>
+    </tr>
+    <tr>
+      <th>Fees</th>
+      <td>{{loanDetails.summary.feeChargesCharged | number}}</td>
+      <td>{{loanDetails.summary.feeChargesPaid | number}}</td>
+      <td>{{loanDetails.summary.feeChargesWaived | number}}</td>
+      <td>{{loanDetails.summary.feeChargesWrittenOff | number}}</td>
+      <td>{{loanDetails.summary.feeChargesOutstanding | number}}</td>
+      <td>{{loanDetails.summary.feeChargesOverdue | number}}</td>
+    </tr>
+
+    <tr>
+      <th>Penalties</th>
+      <td>{{loanDetails.summary.penaltyChargesCharged | number}}</td>
+      <td>{{loanDetails.summary.penaltyChargesPaid | number}}</td>
+      <td>{{loanDetails.summary.penaltyChargesWaived | number}}</td>
+      <td>{{loanDetails.summary.penaltyChargesWrittenOff | number}}</td>
+      <td>{{loanDetails.summary.penaltyChargesOutstanding | number}}</td>
+      <td>{{loanDetails.summary.penaltyChargesOverdue | number}}</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th>Total</th>
+      <th>{{loanDetails.summary.totalExpectedRepayment | number}}</th>
+      <th>{{loanDetails.summary.totalRepayment | number}}</th>
+      <th>{{loanDetails.summary.totalWaived | number}}</th>
+      <th>{{loanDetails.summary.totalWrittenOff | number}}</th>
+      <th>{{loanDetails.summary.totalOutstanding | number}}</th>
+      <th>{{loanDetails.summary.totalOverdue | number}}</th>
+    </tr>
+  </tfoot>
+</table>
