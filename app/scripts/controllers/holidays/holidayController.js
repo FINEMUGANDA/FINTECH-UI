@@ -62,9 +62,14 @@ angular.module('angularjsApp').controller('CreateHolidayController', function($l
   $scope.formHoliday = {};
   var holidayOfficeIdArray = [];
   $scope.holidayApplyToOffice = function (node) {
-      console.log('out node.selectedCheckBox > '+node.selectedCheckBox)
+      console.log('out node.selectedCheckBox > '+ node.selectedCheckBox);
+      console.log(node.selectedCheckBox === true);
+      console.log(node.selectedCheckBox == true);
+      var a = 'true'
+      console.log(node.selectedCheckBox == a);
+      console.log(node.selectedCheckBox === a);
       if (node.selectedCheckBox === true) {
-        console.log('in node.selectedCheckBox > '+node.selectedCheckBox)
+          console.log('in node.selectedCheckBox > '+node.selectedCheckBox);
           node.selectedCheckBox = true;
           recurHolidayApplyToOffice(node);
           holidayOfficeIdArray = _.uniq(holidayOfficeIdArray);
