@@ -1,15 +1,20 @@
-
+<div ng-include src="'/views/alert.html'"></div>
 <table class="table">
   <thead>
-  <th>{{'label.heading.type'| translate}}</th>
-  <th>{{'label.heading.value'| translate}}</th>
-  <th>{{'label.heading.description'| translate}}</th>
-</thead>
-<tbody>
-  <tr ng-repeat="collateral in loandetails.collateral" class="pointer-main">
-    <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.type.name}}</td>
-    <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.value| number}}</td>
-    <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.description}}</td>
-  </tr>
-</tbody>
+    <tr>
+      <th>Type</th>
+      <th>Value</th>
+      <th>Description</th>
+      <th style="width: 1%;">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="collateral in loanDetails.collateral" class="pointer-main">
+      <td class="pointer" ng-click="openCollateralDialog(collateral)">{{collateral.type.name}}</td>
+      <td class="pointer" ng-click="openCollateralDialog(collateral)">{{collateral.value| number}}</td>
+      <td class="pointer" ng-click="openCollateralDialog(collateral)">{{collateral.description}}</td>
+      <td class="actions"><a href="javascript:void(0);" ng-click="removeCollateral(collateral)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+    </tr>
+  </tbody>
 </table>
+<button class="btn primary" ng-click="openCollateralDialog()">Add Collateral</button>
