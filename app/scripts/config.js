@@ -85,7 +85,8 @@ app.constant('PAGE_URL', {
     'EDIT_CLIENT_BUSINESS_DETAILS':'/editbusinessdetails',
     'JOURNALENTRIES':'/journalentries',
     'JOURNALENTRIES_DETAILS':'/journalentries/details',
-    ADMIN :'/admin'
+    ADMIN :'/admin',
+    HOLIDAYS : '/holidays'
 });
 
 app.constant('AUTH_EVENTS', {

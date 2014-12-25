@@ -66,6 +66,10 @@ utils.factory('Utility', function($q, APPLICATION) {
         };
         selectedOptions.push(temp);
       }
+    },
+    dataFormat: function(date) {
+      date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      return date;
     }
   };
 });
