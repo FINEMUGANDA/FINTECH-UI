@@ -65,22 +65,22 @@ angular.module('angularjsApp').controller('CreateHolidayController', function($l
       console.log('out node.selectedCheckBox > '+ node.selectedCheckBox);
       console.log(node.selectedCheckBox === true);
       console.log(node.selectedCheckBox == true);
-      var a = 'true'
+      var a = 'true';
       console.log(node.selectedCheckBox == a);
       console.log(node.selectedCheckBox === a);
-      if (node.selectedCheckBox === true) {
+      if (node.selectedCheckBox === 'true') {
           console.log('in node.selectedCheckBox > '+node.selectedCheckBox);
-          node.selectedCheckBox = true;
+          node.selectedCheckBox = 'true';
           recurHolidayApplyToOffice(node);
           holidayOfficeIdArray = _.uniq(holidayOfficeIdArray);
       } else {
-          node.selectedCheckBox = false;
+          node.selectedCheckBox = 'false';
           recurRemoveHolidayAppliedOOffice(node);
 
       }
   };
   function recurHolidayApplyToOffice(node) {
-      node.selectedCheckBox = true;
+      node.selectedCheckBox = 'true';
       holidayOfficeIdArray.push(node.id);
       if (node.children.length > 0) {
           for (var i = 0; i < node.children.length; i++) {
