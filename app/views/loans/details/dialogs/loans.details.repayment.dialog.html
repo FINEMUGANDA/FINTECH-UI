@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="cancel()">&times;</button>
-  <h4 class="modal-title">Prepay Loan</h4>
+  <h4 class="modal-title">{{action === 'prepay'? 'Prepay Loan' : 'Make Payment'}}</h4>
 </div>
 
 <form name="loanDetailsFormPrepay" class="form form-horizontal" ng-submit="submit()" novalidate show-validation>
