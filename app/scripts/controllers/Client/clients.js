@@ -166,6 +166,51 @@ clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, Client
   loadLoans();
 });
 
+clientsCtrl.controller('LoansClosedCtrl', function($scope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
+  console.log('LoansClosedCtrl : Loans');
+  //To load the loans page
+
+  $scope.isLoading = false;
+  $scope.rowCollection = [];
+  $scope.displayed = [];
+
+  //Success callback
+  var allLoansSuccess = function(result) {
+    $scope.isLoading = false;
+    try {
+      $scope.rowCollection = result.data;
+      angular.forEach($scope.rowCollection, function(loan) {
+        loan.image = APPLICATION.NO_IMAGE_THUMB;
+        Utility.getImage(APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images?tenantIdentifier=default&output=inline_octet').then(function(result) {
+          loan.image = result;
+        });
+      });
+    } catch (e) {
+    }
+  };
+
+  //failur callback
+  var allLoansFail = function() {
+    $scope.isLoading = false;
+    console.log('Error : Return from allLoansFail service.');
+  };
+
+  var loadLoans = function getData() {
+    $scope.isLoading = true;
+
+    $timeout(function() {
+      $scope.rowCollection = [];
+      //service to get loans from server
+      ClientsService.getData(REST_URL.LOANS_CLOSED).then(allLoansSuccess, allLoansFail);
+    }, 2000);
+  };
+
+  $scope.showLoanDetails = function(loan) {
+    $location.url('/loans/' + loan.clientId + '/details/' + loan.loanId);
+  };
+
+  loadLoans();
+});
 
 clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, LoanService, CreateClientsService, REST_URL, $location, dialogs) {
   console.log('LoansPendingApprovalsCtrl : LoansPendingApprovals');

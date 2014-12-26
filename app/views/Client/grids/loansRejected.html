@@ -1,4 +1,4 @@
-<div ng-include="'views/common/header.html'"></div> 
+<div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="LoansRejectedCtrl">
   <div class="page-header">
     <div class="header">
@@ -13,35 +13,34 @@
       <thead>
         <tr>
           <th colspan="4">
-              <div class="filters">
-                <div ng-include="'views/Client/header.menu.html'" onload="active='loansRejected'"></div>
-
-                <div class="search" >
-                  <input type="text" st-search="" class="search-box" placeholder="Search Loans Rejected" />
-                </div>
-              </div>    
+            <div class="shortcuts">
+              <div class="search pull-right">
+                <input type="text" st-search="" class="search-box" placeholder="Search Loans Rejected" />
+              </div>
+              <div ng-include="'views/Client/header.menu.html'" onload="active='loansRejected'"></div>
+            </div>
           </th>
         </tr>
         <tr>
           <th st-sort="name">Client Details</th>
-          <th st-sort="loanAmount" class="number">Loan Amount</th>          
-          <th st-sort="loanOfficer">Loan Officer</th>          
+          <th st-sort="loanAmount" class="number">Loan Amount</th>
+          <th st-sort="loanOfficer">Loan Officer</th>
           <th st-sort="rejectedReason">Reason for Rejection</th>
         </tr>
       </thead>
-      <tbody>        
+      <tbody>
         <tr ng-repeat="loansRejected in displayed">
            <td>
               <div class="name">
                 <a ng-href="#editbasicclientinfo/{{loansRejected.id}}">{{loansRejected.name}}</a>
-              </div>              
+              </div>
               <div class="meta">
                 File No.: {{loansRejected.file_no}}
               </div>
           </td>
           <td class="number">{{loansRejected.loanAmount}}</td>
           <td>{{loansRejected.loanOfficer}}</td>
-          <td>{{loansRejected.rejectedReason}}</td>  
+          <td>{{loansRejected.rejectedReason}}</td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">
@@ -56,7 +55,7 @@
             <td colspan="4">
               <div class="table-footer">
                <div class="export">
-                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
+                 <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
                 </div>
                 <div class="paginate">
                   <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>

@@ -8,6 +8,25 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   $scope.step = 'create';
   $scope.isLoading = true;
 
+  function updateActiveState(statusCode) {
+    var STATUS_CODE = {
+      '100': 'loansPendingApproval',
+      '200': 'loansAwaitingDisbursement',
+      '300': 'loans',
+      '400': 'closed',
+      '500': 'loansRejected',
+      '600': 'closed',
+      '601': 'loansWrittenOff',
+      '602': 'loans',
+      '700': 'loans',
+      '800': 'loans',
+      '900': 'loans'
+    };
+    $timeout(function() {
+      $scope.active = STATUS_CODE[statusCode + ''];
+    });
+  }
+
   $scope.tabs = [
     {name: 'account', view: 'views/loans/details/loans.details.account.html', title: 'Loan Details', active: true, disabled: false},
     {name: 'summary', view: 'views/loans/details/loans.details.summary.html', title: 'Loan Summary', active: false, disabled: false},
@@ -37,6 +56,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     $scope.isLoading = true;
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
       $scope.loanDetails = result.data;
+      updateActiveState(result.data.status.id || 300);
       $scope.isLoading = false;
     });
   }

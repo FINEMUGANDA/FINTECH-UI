@@ -3,9 +3,7 @@
 <div class="container post-login">
   <div class="summary">
     <div class="shortcuts">
-      <div class="filters">
-        <div ng-include="'views/Client/header.menu.html'" onload="active = 'loans'"></div>
-      </div>
+      <div ng-include="'views/Client/header.menu.html'"></div>
     </div>
   </div>
   <div ng-hide="isLoading">
@@ -21,7 +19,7 @@
             <i ng-show="loanDetails.inArrears" class="glyphicon glyphicon-stop {{loanDetails.status.id| status}} overdue"></i>&nbsp;<span>{{loanDetails.loanProductName}} (#{{loanDetails.accountNo}})</span>
           </strong>
         </span>
-        <div class="pull-right">
+        <div class="pull-right" ng-show="loanDetails.status.id == 300 || loanDetails.status.id == 800 || loanDetails.status.id == 900">
           <button class="btn btn-sm primary" ng-click="openTransactionDialog('prepay')">Prepay Loan</button>
           <button class="btn btn-sm primary" ng-click="openTransactionDialog('repayment')">Make Payment</button>
           <button class="btn btn-sm primary">Undo Disbursement</button>

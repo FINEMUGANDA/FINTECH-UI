@@ -20,6 +20,7 @@ app.constant('REST_URL', {
     'DASHBOARD_HEADER_STATISTIC': 'api/v1/runreports/Home page header statistic',
     'ALL_CLIENTS': 'api/v1/runreports/PageClientsScreenClients',
     'LOANS': 'api/v1/runreports/PageClientsScreenLoans',
+    'LOANS_CLOSED': 'api/v1/runreports/PageClientsScreenLoansClosed',
     'LOANS_PENDING_APPROVALS': 'api/v1/runreports/PageClientsScreenLoansPA',
     'LOANS_AWAITING_DISBURSEMENT': 'api/v1/runreports/PageClientsScreenLoansAD',
     'LOANS_REJECTED': 'api/v1/runreports/PageClientsScreenLoansRejected',
