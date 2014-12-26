@@ -1,5 +1,5 @@
 <div ng-include="'views/common/header.html'"></div>
-<div class="container post-login" ng-controller="LoansCtrl">
+<div class="container post-login" ng-controller="LoansClosedCtrl">
   <div class="page-header">
     <div class="header">
       <h3>Active Loans</h3>
@@ -17,7 +17,7 @@
         <div class="search pull-right" >
           <input type="text" st-search="" class="search-box" placeholder="Search Loans" />
         </div>
-        <div ng-include="'views/Client/header.menu.html'" onload="active = 'loans'"></div>
+        <div ng-include="'views/Client/header.menu.html'" onload="active = 'closed'"></div>
       </div>
       </th>
       </tr>

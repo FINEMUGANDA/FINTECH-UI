@@ -1,20 +1,20 @@
 <div ng-include src="'/views/alert.html'"></div>
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Type</th>
       <th>Value</th>
       <th>Description</th>
-      <th style="width: 1%;">&nbsp;</th>
+      <!--<th style="width: 1%;">&nbsp;</th>-->
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="collateral in loanDetails.collateral" class="pointer-main">
-      <td class="pointer" ng-click="openCollateralDialog(collateral)">{{collateral.type.name}}</td>
-      <td class="pointer" ng-click="openCollateralDialog(collateral)">{{collateral.value| number}}</td>
-      <td class="pointer" ng-click="openCollateralDialog(collateral)">{{collateral.description}}</td>
-      <td class="actions"><a href="javascript:void(0);" ng-click="removeCollateral(collateral)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+    <tr ng-repeat="collateral in loanDetails.collateral">
+      <td>{{collateral.type.name}}</td>
+      <td>{{collateral.value| number}}</td>
+      <td>{{collateral.description}}</td>
+      <!--<td class="actions"><a href="javascript:void(0);" ng-click="removeCollateral(collateral)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>-->
     </tr>
   </tbody>
 </table>
-<button class="btn primary" ng-click="openCollateralDialog()">Add Collateral</button>
+<!--<button class="btn primary" ng-click="openCollateralDialog()">Add Collateral</button>-->

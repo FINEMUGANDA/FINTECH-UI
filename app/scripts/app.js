@@ -58,6 +58,12 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/loansClosed', {
+      templateUrl: 'views/Client/grids/loansClosed.html',
+      controller: 'LoansClosedCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).when('/loansPendingApproval', {
       templateUrl: 'views/Client/grids/loansPendingApprovals.html',
       controller: 'LoansPendingApprovalsCtrl',

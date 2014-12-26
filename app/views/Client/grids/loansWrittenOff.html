@@ -1,4 +1,4 @@
-<div ng-include="'views/common/header.html'"></div> 
+<div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="LoansWrittenOffCtrl">
   <div class="page-header">
     <div class="header">
@@ -13,13 +13,12 @@
       <thead>
         <tr>
           <th colspan="6">
-              <div class="filters">
-                <div ng-include="'views/Client/header.menu.html'" onload="active='loansWrittenOff'"></div>
-
-                <div class="search" >
-                  <input type="text" st-search="" class="search-box" placeholder="Search Loans Written-Off" />
-                </div>
-              </div>    
+            <div class="shortcuts">
+              <div class="search pull-right" >
+                <input type="text" st-search="" class="search-box" placeholder="Search Loans Written-Off" />
+              </div>
+              <div ng-include="'views/Client/header.menu.html'" onload="active='loansWrittenOff'"></div>
+            </div>
           </th>
         </tr>
         <tr>
@@ -31,7 +30,7 @@
           <th st-sort="writtenoff_reason">Reason for Write-off</th>
         </tr>
       </thead>
-      <tbody ng-hide="isLoading">        
+      <tbody ng-hide="isLoading">
         <tr ng-repeat="loansWrittenOff in displayed">
            <td>
               <div class="name">
