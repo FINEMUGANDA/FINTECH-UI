@@ -46,22 +46,22 @@
           <td data-ng-click="editHoliday(holiday.id)">{{holiday.name}}</td>
           <td data-ng-click="editHoliday(holiday.id)">
               <div class="name">
-                <a>{{holiday.fromDate[2]}}/{{holiday.fromDate[1]}}/{{holiday.fromDate[0]}} </a>
+                <a>{{holiday.fromDate}} </a>
               </div>
           </td>
           <td data-ng-click="editHoliday(holiday.id)">
               <div class="name">
-                <a>{{holiday.toDate[2]}}/{{holiday.toDate[1]}}/{{holiday.toDate[0]}} </a>
+                <a>{{holiday.toDate}} </a>
               </div>
           </td>
           <td data-ng-click="editHoliday(holiday.id)">
               <div class="name">
-                <a>{{holiday.repaymentsRescheduledTo[2]}}/{{holiday.repaymentsRescheduledTo[1]}}/{{holiday.repaymentsRescheduledTo[0]}} </a>
+                <a>{{holiday.repaymentsRescheduledTo}} </a>
               </div>
           </td>
           <td data-ng-click="editHoliday(holiday.id)">
               <div class="name">
-                <a>{{holiday.status.value}}</a>
+                <a>{{holiday.status}}</a>
               </div>
           </td>
           <td class="actions"><a href="javascript:void(0);" ng-click="removeHoliday(holiday)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>

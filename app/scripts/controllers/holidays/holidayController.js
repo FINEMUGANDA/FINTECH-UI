@@ -27,7 +27,7 @@ angular.module('angularjsApp').controller('HolidayController', function($route, 
       function() {
         $scope.rowCollection = [];
         //service to get accounts from server
-        HolidayService.getData(REST_URL.HOLIDAYS + '?officeId=1').then(loadHolidaysSuccess, loadHolidaysFail);
+        HolidayService.getData(REST_URL.HOLIDAYS_LIST).then(loadHolidaysSuccess, loadHolidaysFail);
       }, 2000);
   };
   loadHolidays();

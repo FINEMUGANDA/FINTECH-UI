@@ -58,7 +58,8 @@ app.constant('REST_URL', {
     DOCUMENTS : 'api/v1/documents/',
     BASE : 'api/v1/',
     JOURANAL_ENTRY_REVERSE_NOTE:'api/v1/datatables/journal_entry_reverse_note/',
-    HOLIDAYS: 'api/v1/holidays'   
+    HOLIDAYS: 'api/v1/holidays',
+    HOLIDAYS_LIST:'api/v1/runreports/HolidayList',
 });
 
 app.constant('PAGE_URL', {
