@@ -1,0 +1,120 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h4 class="modal-title">Edit Guarantor Info</h4>
+</div>
+
+
+
+<form name="loanFormGuarantor" ng-hide="isLoading" class="form-horizontal" ng-submit="saveGuarantor()" novalidate show-validation>
+  <div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="clearfix">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-5">First Name<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.firstName" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-5">Date of Birth<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <input type="text" class="form-control" datepicker-popup="dd MMMM yyyy" ng-model="guarantor.dateOfBirth" is-open="datepicker.birthday" datepicker-options="dateOptions" close-text="Close" required ng-click="open($event, 'birthday')" readonly="true" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-5">Guarantor business activity</label>
+          <div class="col-md-6">
+            <select class="form-control" ng-model="guarantor.BusinessActivity_cd_businessActivity">
+              <option ng-repeat="businessActivityOption in data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues" value="{{businessActivityOption.id}}" ng-selected="businessActivityOption.id == guarantor.BusinessActivity_cd_businessActivity">{{businessActivityOption.value}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-5">Guarantor Income per month</label>
+          <div class="col-md-6">
+            <input id="income" name="income" class="form-control" type="text" ng-model="guarantor.income" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-5">Guarantor business location</label>
+          <div class="col-md-6">
+            <textarea id="businessLocation" name="businessLocation" class="form-control" ng-model="guarantor.businessLocation"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-5">Last Name<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.lastName" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-5">Client Relation<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <select class="form-control" ng-model="guarantor.GuarantorRelationship_cd_clientRelation" required>
+              <option ng-repeat="guarantorRelationshipOption in data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues" value="{{guarantorRelationshipOption.id}}" ng-selected="guarantorRelationshipOption.id == guarantor.GuarantorRelationship_cd_clientRelation">{{guarantorRelationshipOption.value}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-5">Main Address<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <textarea id="address" name="address" class="form-control" ng-model="guarantor.address"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-5">Main Phone Number<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.phone" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-5">2nd Phone Number</label>
+          <div class="col-md-6">
+            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.secondaryPhone" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+  </div>
+</form>
+
+
+
+
+
+
+<!--<form name="loanDetailsFormCollateral" ng-hide="isLoading" class="form" ng-submit="saveCollateral()" novalidate show-validation>
+  <div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="form-group">
+      <label for="collateralTypeId">Collateral Type<span class="required">&nbsp;*</span></label>
+      <select id="collateralTypeId" ng-model="collateral.collateralTypeId" class="form-control" required>
+        <option ng-repeat="collateralTypeOption in filterCollaterals(data.allowedCollateralTypes)" value="{{collateralTypeOption.id}}" ng-selected="collateralTypeOption.id == collateral.collateralTypeId">{{collateralTypeOption.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="description">Description<span class="required">&nbsp;*</span></label>
+      <textarea id="description" ng-model="collateral.description" class="form-control" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="value">Value<span class="required">&nbsp;*</span></label>
+      <input id="value" name="value" class="form-control" type="text" ng-model="collateral.value" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+  </div>
+</form>-->

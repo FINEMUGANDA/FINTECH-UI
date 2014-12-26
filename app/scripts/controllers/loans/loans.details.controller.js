@@ -34,7 +34,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     {name: 'transaction', view: 'views/loans/details/loans.details.transaction.html', title: 'Transaction History', active: false, disabled: false},
     {name: 'charges', view: 'views/loans/details/loans.details.charges.html', title: 'Charges', active: false, disabled: false},
     {name: 'collateral', view: 'views/loans/details/loans.details.collateral.html', title: 'Collateral', active: false, disabled: false},
-    {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.html', title: 'Guarantor Info', active: false, disabled: true},
+    {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.html', title: 'Guarantor Info', active: false, disabled: false},
     {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Notes', active: false, disabled: true}
   ];
 
@@ -73,6 +73,8 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       initTransactions();
     } else if (tab.name === 'charges') {
       initCharges();
+    } else if (tab.name === 'guarantor') {
+      initGuarantor();
     }
   };
 
@@ -105,7 +107,24 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     });
   }
 
-
+  function initGuarantor() {
+    $scope.guarantorTab = {};
+    $scope.guarantorTab.loading = true;
+    LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?genericResultSet=false').then(function(result) {
+      if (result && result.data && result.data.length) {
+        $timeout(function() {
+          $scope.guarantorTab.guarantor = result.data[0];
+        });
+      }
+      $scope.guarantorTab.loading = false;
+    });
+  }
+  $scope.openGuarantorDialog = function() {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.guarantor.dialog.html', 'LoanDeatilsGuarantorDialog', {guarantor: $scope.guarantorTab.guarantor, loan: $scope.loanDetails}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      initGuarantor();
+    });
+  };
   $scope.openCollateralDialog = function(collateral) {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.collateral.dialog.html', 'LoanDeatilsCollateralDialog', {collateral: collateral, loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
@@ -273,5 +292,61 @@ angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', functio
     } else {
       LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/collaterals', data).then(handleSuccess, handleFail);
     }
+  };
+});
+
+angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+  $scope.loan = data.loan;
+  $scope.guarantor = data.guarantor || {};
+  if ($scope.guarantor.dateOfBirth) {
+    $scope.guarantor.dateOfBirth = new Date($scope.guarantor.dateOfBirth);
+  }
+  $scope.datepicker = {};
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+
+  LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loan.id + '?genericResultSet=true').then(function(result) {
+    $scope.data = result.data;
+    $scope.data.columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
+  });
+
+  $scope.saveGuarantor = function() {
+    if (!$scope.loanFormGuarantor.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+    var json = angular.copy($scope.guarantor);
+    json.locale = 'en';
+    json.dateFormat = 'dd/MM/yyyy';
+    if (typeof json.dateOfBirth === 'object') {
+      var date = new Date(json.dateOfBirth);
+      json.dateOfBirth = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    }
+    function saveGuarantorSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Guarantor saved successfully.';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.close();
+      }, 2000);
+    }
+    function saveGuarantorFail(result) {
+      $scope.message = 'Cant save guarantor:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    if ($scope.guarantor.loan_id) {
+      LoanService.updateLoan(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loan.id + '?tenantidentifier=default', angular.toJson(json)).then(saveGuarantorSuccess, saveGuarantorFail);
+    } else {
+      LoanService.saveLoan(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loan.id + '?tenantidentifier=default', angular.toJson(json)).then(saveGuarantorSuccess, saveGuarantorFail);
+    }
+  };
+  $scope.open = function($event, target) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.datepicker[target] = true;
   };
 });

@@ -1,0 +1,43 @@
+<div ng-show="guarantorTab.loading">Loading...</div>
+<table class="table table-striped" ng-hide="guarantorTab.loading">
+  <tbody>
+    <tr>
+      <td style="width: 30%">Name</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.firstName}} {{guarantorTab.guarantor.lastName}}</span></td>
+    </tr>
+    <tr>
+      <td>Date of Birth</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.dateOfBirth | DateFormat: 'dd MMMM yyyy'}}</span></td>
+    </tr>
+    <tr>
+      <td>Guarantor business activity</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.BusinessActivity_cd_businessActivity.value}}</span></td>
+    </tr>
+    <tr>
+      <td>Guarantor Income per month</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.income | number}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Guarantor business location</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.businessLocation}}</span></td>
+    </tr>
+    <tr>
+      <td>Client Relation</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.GuarantorRelationship_cd_clientRelation.value }}</span></td>
+    </tr>
+    <tr>
+      <td>Main Address</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.address}}</span></td>
+    </tr>
+    <tr>
+      <td>Main Phone Number</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.phone}}</span></td>
+    </tr>
+    <tr>
+      <td>2nd Phone Number</td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.secondaryPhone}}</span></td>
+    </tr>
+  </tbody>
+</table>
+<button class="btn primary" ng-click="openGuarantorDialog()" ng-hide="guarantorTab.loading">Edit Guarantor</button>
