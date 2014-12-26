@@ -35,7 +35,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     {name: 'charges', view: 'views/loans/details/loans.details.charges.html', title: 'Charges', active: false, disabled: false},
     {name: 'collateral', view: 'views/loans/details/loans.details.collateral.html', title: 'Collateral', active: false, disabled: false},
     {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.html', title: 'Guarantor Info', active: false, disabled: false},
-    {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Notes', active: false, disabled: true}
+    {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Notes', active: false, disabled: false}
   ];
 
   $scope.selectTab = function(name) {
@@ -75,6 +75,8 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       initCharges();
     } else if (tab.name === 'guarantor') {
       initGuarantor();
+    } else if (tab.name === 'notes') {
+      initNotes();
     }
   };
 
@@ -123,6 +125,16 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       });
     });
   }
+
+  function initNotes() {
+    $scope.notesTab = {};
+    $scope.notesTab.loading = true;
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/notes').then(function(result) {
+      $scope.notesTab.notes = result.data;
+      $scope.notesTab.loading = false;
+    });
+  }
+
   $scope.openGuarantorDialog = function() {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.guarantor.dialog.html', 'LoanDeatilsGuarantorDialog', {guarantor: $scope.guarantorTab.guarantor, loan: $scope.loanDetails, data: $scope.guarantorTab.data}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function() {
@@ -164,6 +176,28 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.repayment.dialog.html', 'LoanDeatilsRepaymentDialog', {loan: $scope.loanDetails, action: action}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       updateLoanDetails();
+    });
+  };
+  $scope.saveNote = function() {
+    console.log('save');
+    if (!$scope.notesTab || !$scope.notesTab.formData.note || !$scope.notesTab.formData.note.length) {
+      $scope.type = 'error';
+      $scope.message = 'You must enter note';
+      $scope.errors = [];
+      return;
+    }
+    ;
+    var jsonData = {};
+    jsonData.note = $scope.notesTab.formData.note;
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/notes', jsonData).then(function(result) {
+      $scope.type = 'alert-success';
+      $scope.message = 'Note created successfully.';
+      $scope.errors = [];
+      initNotes();
+    }, function(result) {
+      $scope.message = 'Cant create note:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
     });
   };
 });
