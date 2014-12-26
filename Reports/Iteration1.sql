@@ -40,4 +40,4 @@ SELECT  m.id, description, entry_date, o.name as office_name, transaction_id, SU
 #Report number 169
 #Report name HolidayList
 #Description : To display data on the holday page
-SELECT id, name, DATE_FORMAT(from_date,'%d/%m/%Y') from_date, DATE_FORMAT(to_date,'%d/%m/%Y') to_date, DATE_FORMAT(repayments_rescheduled_to,'%d/%m/%Y') alternate_date, (case when status_enum=100 THEN 'Pending' when status_enum=300 THEN 'Active'	when status_enum=600 THEN 'Deleted' end ) as status from m_holiday;
+SELECT id, name, DATE_FORMAT(from_date,'%d/%m/%Y') fromDate, DATE_FORMAT(to_date,'%d/%m/%Y') toDate, DATE_FORMAT(repayments_rescheduled_to,'%d/%m/%Y') repaymentsRescheduledTo, (case when status_enum=100 THEN 'Pending' when status_enum=300 THEN 'Active'	when status_enum=600 THEN 'Deleted' end ) as status from m_holiday;

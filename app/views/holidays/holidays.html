@@ -43,23 +43,23 @@
       </thead>
       <tbody ng-hide="isLoading">        
         <tr class="pointer" ng-repeat="holiday in displayed">
-          <td data-ng-click="editHoliday(holiday.id)">{{holiday.name}}</td>
-          <td data-ng-click="editHoliday(holiday.id)">
+          <td data-ng-click="editHoliday(holiday)">{{holiday.name}}</td>
+          <td data-ng-click="editHoliday(holiday)">
               <div class="name">
                 <a>{{holiday.fromDate}} </a>
               </div>
           </td>
-          <td data-ng-click="editHoliday(holiday.id)">
+          <td data-ng-click="editHoliday(holiday)">
               <div class="name">
                 <a>{{holiday.toDate}} </a>
               </div>
           </td>
-          <td data-ng-click="editHoliday(holiday.id)">
+          <td data-ng-click="editHoliday(holiday)">
               <div class="name">
                 <a>{{holiday.repaymentsRescheduledTo}} </a>
               </div>
           </td>
-          <td data-ng-click="editHoliday(holiday.id)">
+          <td data-ng-click="editHoliday(holiday)">
               <div class="name">
                 <a>{{holiday.status}}</a>
               </div>

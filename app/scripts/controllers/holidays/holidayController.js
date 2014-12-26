@@ -32,8 +32,10 @@ angular.module('angularjsApp').controller('HolidayController', function($route, 
   };
   loadHolidays();
 
-  $scope.editHoliday = function(id) {
-    $location.path('/holidays/edit/' + id);
+  $scope.editHoliday = function(holiday) {
+    if(holiday.status !== 'Deleted'){
+      $location.path('/holidays/edit/' + holiday.id);
+    }    
   };
 
   $scope.removeHoliday = function(holiday) { 
