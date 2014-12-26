@@ -11,7 +11,7 @@
     </tr>
     <tr>
       <td>Guarantor business activity</td>
-      <td><span class="padded-td">{{guarantorTab.guarantor.BusinessActivity_cd_businessActivity.value}}</span></td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.BusinessActivity_cd_businessActivity | getDropdownValues: guarantorTab.data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues || []}}</span></td>
     </tr>
     <tr>
       <td>Guarantor Income per month</td>
@@ -24,7 +24,7 @@
     </tr>
     <tr>
       <td>Client Relation</td>
-      <td><span class="padded-td">{{guarantorTab.guarantor.GuarantorRelationship_cd_clientRelation.value }}</span></td>
+      <td><span class="padded-td">{{guarantorTab.guarantor.GuarantorRelationship_cd_clientRelation | getDropdownValues: guarantorTab.data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues || [] }}</span></td>
     </tr>
     <tr>
       <td>Main Address</td>

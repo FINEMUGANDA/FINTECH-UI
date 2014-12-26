@@ -110,17 +110,21 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   function initGuarantor() {
     $scope.guarantorTab = {};
     $scope.guarantorTab.loading = true;
-    LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?genericResultSet=false').then(function(result) {
-      if (result && result.data && result.data.length) {
-        $timeout(function() {
-          $scope.guarantorTab.guarantor = result.data[0];
-        });
-      }
-      $scope.guarantorTab.loading = false;
+    LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?genericResultSet=true').then(function(result) {
+      $scope.guarantorTab.data = result.data;
+      $scope.guarantorTab.data.columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
+      LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loanId + '?genericResultSet=false').then(function(result) {
+        if (result && result.data && result.data.length) {
+          $timeout(function() {
+            $scope.guarantorTab.guarantor = result.data[0];
+          });
+        }
+        $scope.guarantorTab.loading = false;
+      });
     });
   }
   $scope.openGuarantorDialog = function() {
-    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.guarantor.dialog.html', 'LoanDeatilsGuarantorDialog', {guarantor: $scope.guarantorTab.guarantor, loan: $scope.loanDetails}, {size: 'lg', keyboard: true, backdrop: true});
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.guarantor.dialog.html', 'LoanDeatilsGuarantorDialog', {guarantor: $scope.guarantorTab.guarantor, loan: $scope.loanDetails, data: $scope.guarantorTab.data}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       initGuarantor();
     });
@@ -298,6 +302,7 @@ angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', functio
 angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.loan = data.loan;
   $scope.guarantor = data.guarantor || {};
+  $scope.data = data.data;
   if ($scope.guarantor.dateOfBirth) {
     $scope.guarantor.dateOfBirth = new Date($scope.guarantor.dateOfBirth);
   }
@@ -305,11 +310,6 @@ angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function
   $scope.cancel = function() {
     $modalInstance.dismiss();
   };
-
-  LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loan.id + '?genericResultSet=true').then(function(result) {
-    $scope.data = result.data;
-    $scope.data.columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
-  });
 
   $scope.saveGuarantor = function() {
     if (!$scope.loanFormGuarantor.$valid) {
