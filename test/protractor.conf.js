@@ -10,7 +10,7 @@ exports.config = {
     // For simplicity assume any JS in 'e2e' directory is a test
     // NOTE: Use 'suites' instead of specs to group tests
     specs: [
-        'e2e/*.js'
+        'e2e/*.spec.js'
     ],
 
     // -- How to set up browsers --
