@@ -8,7 +8,7 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
 
   $scope.tabs = [
     {name: 'create', view: 'views/loans/loans.form.create.html', title: 'Loan Application', active: true, disabled: true},
-    {name: 'charges', view: 'views/loans/loans.form.charges.html', title: 'Charges', active: false, disabled: true},
+//    {name: 'charges', view: 'views/loans/loans.form.charges.html', title: 'Charges', active: false, disabled: true},
     {name: 'collateral', view: 'views/loans/loans.form.collateral.html', title: 'Collateral', active: false, disabled: true},
     {name: 'guarantor', view: 'views/loans/loans.form.guarantor.html', title: 'Guarantor', active: false, disabled: true}
   ];
@@ -183,7 +183,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.type = 'alert-success';
           $scope.message = 'Loan saved successfuly';
           $scope.errors = [];
-          $location.url('/loans/' + $scope.clientId + '/form/charges/' + result.data.loanId);
+          $location.url('/loans/' + $scope.clientId + '/form/collateral/' + result.data.loanId);
         }
       });
 

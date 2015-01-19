@@ -19,7 +19,7 @@
         <div class="form-group">
           <label class="control-label col-sm-5" for="transactionAmount">Transaction Amount<span class="required">*</span></label>
           <div class="col-sm-7 validate">
-            <input id="transactionAmount" type="text" name="amount" ng-model="formData.transactionAmount" class="form-control" number-format required>
+            <input id="transactionAmount" type="text" name="amount" ng-model="formData.transactionAmount" class="form-control" number-format ng-readonly="action === 'prepay'" required>
           </div>
         </div>
 

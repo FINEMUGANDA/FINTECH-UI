@@ -186,10 +186,9 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       $scope.errors = [];
       return;
     }
-    ;
     var jsonData = {};
     jsonData.note = $scope.notesTab.formData.note;
-    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/notes', jsonData).then(function(result) {
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/notes', jsonData).then(function() {
       $scope.type = 'alert-success';
       $scope.message = 'Note created successfully.';
       $scope.errors = [];
