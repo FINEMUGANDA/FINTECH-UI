@@ -133,9 +133,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
     console.log('CreateClientCtrl : CreateClient : saveBasicClient');
     var d = new Date($scope.createClient.dateOfBirth);
     $scope.createClient.dateOfBirth = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
-    $scope.createClient.active = true;
-    d = new Date();
-    $scope.createClient.activationDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    $scope.createClient.active = false;
 
     var saveBasicClientSuccess = function(result) {
       console.log('Success : Return from createClientsService');
@@ -426,7 +424,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
     try {
       console.log(result.data);
       $scope.clientOptions = _.indexBy(result.data.columnHeaders, 'columnName');
-      
+
       //Set default value for client extra information
       $scope.editClientWithDataTable.numberOfChildren = 0;
       $scope.editClientWithDataTable.numberOfLoanDependents = 0;
@@ -436,15 +434,14 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       $scope.isAvailableBasicInformation = false;
       if ($scope.editClientExtraInfo.length > 0) {
         $timeout(function() {
-          
-        
-        $scope.isAvailableBasicInformation = true;
-        $scope.editClientExtraInfo = $scope.editClientExtraInfo[0];
-        _.each(result.data.columnHeaders, function(header, index) {
-  //        $scope.editClientWithDataTable[header.columnName] = 
-          $scope.editClientWithDataTable[header.columnName] = $scope.editClientExtraInfo.row[index];
-          console.log(header.columnName, $scope.editClientExtraInfo.row[index]);
-        });
+
+
+          $scope.isAvailableBasicInformation = true;
+          $scope.editClientExtraInfo = $scope.editClientExtraInfo[0];
+          _.each(result.data.columnHeaders, function(header, index) {
+            $scope.editClientWithDataTable[header.columnName] = $scope.editClientExtraInfo.row[index];
+            console.log(header.columnName, $scope.editClientExtraInfo.row[index]);
+          });
         });
         //Data from extra datatable i.e client_extra_information
 //        $scope.editClientWithDataTable.MaritalStatus_cd_maritalStatus = parseInt($scope.editClientExtraInfo.row[1]);
@@ -527,13 +524,11 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
   };
   var loadEditClientTemplate = function getData() {
     $scope.isLoading = true;
-    $timeout(
-      function() {
-        $scope.rowCollection = [];
-        var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true';
-        CreateClientsService.getData($url).then(editClientTeplateSuccess, editClientTemplateFail);
-      }, 500
-      );
+    $timeout(function() {
+      $scope.rowCollection = [];
+      var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true';
+      CreateClientsService.getData($url).then(editClientTeplateSuccess, editClientTemplateFail);
+    }, 500);
   };
   //Finish - edit client template
 
@@ -1606,6 +1601,13 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     var saveClientBusinessActivitySuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
+      d = new Date();
+      var jsonData = {
+        "locale": "en",
+        "dateFormat": "dd/MM/yyyy",
+        "activationDate": d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
+      };
+      CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData);
       $scope.type = 'alert-success';
       if ($scope.$requestMethodCreate) {
         $scope.message = 'Client Business Activity Detail saved successfully';
