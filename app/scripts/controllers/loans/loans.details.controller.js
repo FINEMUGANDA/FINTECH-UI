@@ -56,6 +56,11 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     $scope.isLoading = true;
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
       $scope.loanDetails = result.data;
+      LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
+        if (result && result.data && result.data.length) {
+          _.extend($scope.loanDetails, result.data[0]);
+        }
+      });
       updateActiveState(result.data.status.id || 300);
       $scope.isLoading = false;
     });

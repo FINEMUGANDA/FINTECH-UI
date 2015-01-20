@@ -127,6 +127,12 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
             $scope.loan.submittedOnDate = submittedOnDate.getDate() + '/' + (submittedOnDate.getMonth() + 1) + '/' + submittedOnDate.getFullYear();
           }
         }
+        LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
+          if (result && result.data && result.data.length) {
+            $scope.loanDetails = result.data[0];
+            $scope.isAvailableLoanDetails = true;
+          }
+        });
       });
     }, function(result) {
       $scope.type = 'error';
@@ -178,13 +184,26 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
         }, function() {
           callback();
         });
-      }, function(err) {
-        if (!err) {
+      }, function() {
+        var loanDetails = angular.copy($scope.loanDetails);
+        var resultSuccess = function() {
           $scope.type = 'alert-success';
           $scope.message = 'Loan saved successfuly';
           $scope.errors = [];
           $location.url('/loans/' + $scope.clientId + '/form/collateral/' + result.data.loanId);
+        };
+        var resultFail = function() {
+          $scope.type = 'error';
+          $scope.message = 'Cant save loan details';
+          $scope.errors = [];
+        };
+        var url = REST_URL.LOANS_EXTRA_DETAILS + result.data.loanId;
+        if ($scope.isAvailableLoanDetails) {
+          LoanService.updateLoan(url, loanDetails).then(resultSuccess, resultFail);
+        } else {
+          LoanService.saveLoan(url, loanDetails).then(resultSuccess, resultFail);
         }
+
       });
 
     }

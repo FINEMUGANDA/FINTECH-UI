@@ -434,8 +434,6 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       $scope.isAvailableBasicInformation = false;
       if ($scope.editClientExtraInfo.length > 0) {
         $timeout(function() {
-
-
           $scope.isAvailableBasicInformation = true;
           $scope.editClientExtraInfo = $scope.editClientExtraInfo[0];
           _.each(result.data.columnHeaders, function(header, index) {
@@ -1603,9 +1601,9 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
       console.log('Success : Return from CreateClientsService service.');
       d = new Date();
       var jsonData = {
-        "locale": "en",
-        "dateFormat": "dd/MM/yyyy",
-        "activationDate": d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
+        'locale': 'en',
+        'dateFormat': 'dd/MM/yyyy',
+        'activationDate': d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
       };
       CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData);
       $scope.type = 'alert-success';
