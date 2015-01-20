@@ -183,6 +183,12 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails();
     });
   };
+  $scope.openWriteOffDialog = function() {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.writeoff.dialog.html', 'LoanDeatilsWriteOffDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateLoanDetails();
+    });
+  };
   $scope.saveNote = function() {
     console.log('save');
     if (!$scope.notesTab || !$scope.notesTab.formData.note || !$scope.notesTab.formData.note.length) {
@@ -264,6 +270,65 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
       $scope.errors = result.data.errors;
     }
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+});
+
+angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+  $scope.loan = data.loan;
+  $scope.action = data.action;
+  $scope.formData = {};
+  $scope.isLoading = true;
+  var url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/template?command=writeoff';
+  LoanService.getData(url).then(function(result) {
+    $scope.data = result.data;
+    $timeout(function() {
+      if (result.data.date && result.data.date.length) {
+        $scope.formData.transactionDate = new Date(result.data.date);
+      }
+      $scope.isLoading = false;
+    });
+  });
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.errors = [];
+    if (!$scope.loanDetailsFormWriteOff.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+
+    var data = angular.copy($scope.formData);
+    data.locale = 'en';
+    data.dateFormat = 'dd/MM/yyyy';
+    if (typeof data.transactionDate === 'object') {
+      var transactionDate = data.transactionDate;
+      data.transactionDate = transactionDate.getDate() + '/' + (transactionDate.getMonth() + 1) + '/' + transactionDate.getFullYear();
+    }
+    function handleSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan write off was processed successfully';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.close();
+      }, 2000);
+    }
+    function handleFail(result) {
+      $scope.message = 'Cant write off loan: ' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=writeoff', data).then(handleSuccess, handleFail);
   };
   $scope.cancel = function() {
     $modalInstance.dismiss();
