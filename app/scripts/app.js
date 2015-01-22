@@ -324,6 +324,15 @@ app.config(['$routeProvider', function($routeProvider) {
     }).when('/holidays/edit/:id', {
       templateUrl: 'views/holidays/edit.holiday.html',
       controller: 'EditHolidayController'
+    }).when('/reports', {
+      templateUrl: 'views/reports/reports.html',
+      controller: 'ReportsController'
+    }).when('/reports/create_report', {
+      templateUrl: 'views/reports/create.report.html',
+      controller: 'CreateReportsController'
+    }).when('/reports/edit/:id', {
+      templateUrl: 'views/reports/edit.report.html',
+      controller: 'EditReportController'
     }).when('/loan_reassignment', {
       templateUrl: 'views/loans/loan_reassignment.html',
       controller: 'LoansReassignmentCtrl',
@@ -492,6 +501,7 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
       case PAGE_URL.MAPACCOUNTING:
       case PAGE_URL.ADMIN:
       case PAGE_URL.HOLIDAYS:
+      case PAGE_URL.REPORTS:
         $topNavigation.find('.configuration').parent().addClass('active');
         break;
       case PAGE_URL.ACCOUNTING:
