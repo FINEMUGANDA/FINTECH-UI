@@ -1,0 +1,61 @@
+<div ng-include="'views/common/header.html'"></div> 
+<div class="container post-login" ng-controller="EditHolidayController">
+  <div ng-include src="'/views/alert.html'"></div>
+  <br/><br/>
+  <div class="rows">
+    <div class="page-header">
+    <div class="header">
+      <h3>Edit Holiday</h3>
+      <div class="action"></div>
+    </div>
+    </div>
+    <div calss="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">          
+          <div class="loading-indicator">Loading...</div>        
+        </div>
+      </div>
+      <form name="editHolidayForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validate()" novalidate show-validation>
+        <div calss="col-md-12">
+          <div class="form-group">                
+              <label class="control-label col-md-3">Name<span class="required">*</span></label>
+              <div class="validate col-md-3">
+                  <input id="name" name="name" class="form-control" type="text" ng-model="formHoliday.name" required></input>
+              </div>
+          </div>
+          <div ng-hide="holidayStatusActive">
+            <div class="form-group">                
+                <label class="control-label col-md-3">From Date<span class="required">*</span></label>
+                <div class="validate col-md-3">
+                    <input id="fromDate" name="fromDate" class="form-control" type="text" ng-model="date.fromDate" datepicker-popup="dd/MM/yyyy" is-open="openedFromDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="openFromDate($event)" required></input>                  
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-3">To Date<span class="required">*</span></label>
+                <div class="validate col-md-3">
+                    <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="date.toDate" is-open="openedToDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="openToDate($event)"></input>
+                </div>
+            </div>
+            <div class="form-group">               
+                <label class="control-label col-md-3">Repayment scheduled to<span class="required">*</span></label>
+                <div class="validate col-md-3">
+                    <input id="repaymentsRescheduledTo" name="repaymentsRescheduledTo" class="form-control" type="text" ng-model="date.repaymentsRescheduledTo" datepicker-popup="dd/MM/yyyy" is-open="openedRepaymentDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="openRepaymentDate($event)" required></input>                  
+                </div>
+            </div>
+          </div>
+          <div class="form-group">                
+              <label class="control-label col-md-3">Description</label>
+              <div class="col-md-3">
+                  <input id="name" name="name" class="form-control" type="text" ng-model="formHoliday.description"></input>
+              </div>
+          </div>         
+          <hr/>
+          <div class="col-md-offset-3 paddedtop">
+            <a id="cancel" href="#/holidays" class="btn btn-warning">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </div>         
+      </form>
+    </div>
+  </div>
+</div>

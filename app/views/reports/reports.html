@@ -1,0 +1,93 @@
+<div ng-include="'views/common/header.html'"></div> 
+<div class="container post-login" ng-controller="HolidayController">
+    <div ng-include src="'/views/alert.html'"></div>   
+    <div class="shortcuts">
+        <ul role="tablist"> 
+          <!--
+          <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
+          <li role="presentation"><a href="#/charges" class="active">Charges</a></li>
+          -->
+        </ul>
+    </div>
+    <div class="list">
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
+      <thead>
+        <tr>
+          <th colspan="6">
+              <div class="filters" >
+                <div style="float:right;">            
+                  <ul role="tablist">
+                    <li role="presentation">
+                    <div class="action">
+                        <a href="#/holidays/create_holiday" class="btn grid-button">
+                            Create Holiday
+                        </a>
+                    </div>
+                    </li>
+                 </ul> 
+                </div>
+                <div class="search" style="float:right;">
+                    <input type="text" st-search="" class="search-box" placeholder="Search Holidays" />
+                </div>
+             </div>  
+          </th>
+        </tr>
+        <tr>
+          <th st-sort="name">Holiday Name</th>
+          <th st-sort="fromDate">Start Date</th>
+          <th st-sort="toDate">End Date</th>
+          <th st-sort="repaymentsRescheduledTo">Alternate Working Day</th>
+          <th st-sort="status">Status</th>
+          <th width="1%">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody ng-hide="isLoading">        
+        <tr class="pointer" ng-repeat="holiday in displayed">
+          <td data-ng-click="editHoliday(holiday)">{{holiday.name}}</td>
+          <td data-ng-click="editHoliday(holiday)">
+              <div class="name">
+                <a>{{holiday.fromDate}} </a>
+              </div>
+          </td>
+          <td data-ng-click="editHoliday(holiday)">
+              <div class="name">
+                <a>{{holiday.toDate}} </a>
+              </div>
+          </td>
+          <td data-ng-click="editHoliday(holiday)">
+              <div class="name">
+                <a>{{holiday.repaymentsRescheduledTo}} </a>
+              </div>
+          </td>
+          <td data-ng-click="editHoliday(holiday)">
+              <div class="name">
+                <a>{{holiday.status}}</a>
+              </div>
+          </td>
+          <td class="actions"><a href="javascript:void(0);" ng-click="removeHoliday(holiday)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+        </tr>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="8" class="text-center">
+            <div class="loading-indicator">Loading...</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="isLoading">
+          <tr>
+            <td colspan="8">
+              <div class="table-footer">
+                <div class="export">
+                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
+                </div>
+                <div class="paginate">
+                  <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+    </table>
+  </div>
+</div>
