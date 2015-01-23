@@ -1,61 +1,113 @@
-<div ng-include="'views/common/header.html'"></div> 
-<div class="container post-login" ng-controller="EditHolidayController">
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login" ng-controller="EditReportController">
   <div ng-include src="'/views/alert.html'"></div>
-  <br/><br/>
+  <br/>
   <div class="rows">
     <div class="page-header">
-    <div class="header">
-      <h3>Edit Holiday</h3>
-      <div class="action"></div>
-    </div>
+      <div class="header">
+        <h3>Edit Report</h3>        
+      </div>
     </div>
     <div calss="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
         <div class="form-group">          
           <div class="loading-indicator">Loading...</div>        
         </div>
-      </div>
-      <form name="editHolidayForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validate()" novalidate show-validation>
-        <div calss="col-md-12">
-          <div class="form-group">                
-              <label class="control-label col-md-3">Name<span class="required">*</span></label>
+      </div>      
+      <div>
+          <form name="editReportForm" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
+            <div class="form-group">
+              <label class="control-label col-md-2">Report name<span class="required">*</span></label>
               <div class="validate col-md-3">
-                  <input id="name" name="name" class="form-control" type="text" ng-model="formHoliday.name" required></input>
+                  <input id="reportName" name="reportName" class="form-control" type="text" ng-model="reportDetails.reportName" required />
               </div>
-          </div>
-          <div ng-hide="holidayStatusActive">
-            <div class="form-group">                
-                <label class="control-label col-md-3">From Date<span class="required">*</span></label>
-                <div class="validate col-md-3">
-                    <input id="fromDate" name="fromDate" class="form-control" type="text" ng-model="date.fromDate" datepicker-popup="dd/MM/yyyy" is-open="openedFromDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="openFromDate($event)" required></input>                  
-                </div>
-            </div>
-            <div class="form-group">                
-                <label class="control-label col-md-3">To Date<span class="required">*</span></label>
-                <div class="validate col-md-3">
-                    <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="date.toDate" is-open="openedToDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="openToDate($event)"></input>
-                </div>
-            </div>
-            <div class="form-group">               
-                <label class="control-label col-md-3">Repayment scheduled to<span class="required">*</span></label>
-                <div class="validate col-md-3">
-                    <input id="repaymentsRescheduledTo" name="repaymentsRescheduledTo" class="form-control" type="text" ng-model="date.repaymentsRescheduledTo" datepicker-popup="dd/MM/yyyy" is-open="openedRepaymentDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="openRepaymentDate($event)" required></input>                  
-                </div>
-            </div>
-          </div>
-          <div class="form-group">                
-              <label class="control-label col-md-3">Description</label>
-              <div class="col-md-3">
-                  <input id="name" name="name" class="form-control" type="text" ng-model="formHoliday.description"></input>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Report type<span class="required">*</span></label>
+              <div class="col-md-3">                  
+                  <select id="reportType" ng-model="reportDetails.reportType" class="form-control" ng-options="reportType for reportType in reportdetail.allowedReportTypes" value="">
+                  </select>
               </div>
-          </div>         
-          <hr/>
-          <div class="col-md-offset-3 paddedtop">
-            <a id="cancel" href="#/holidays" class="btn btn-warning">Cancel</a>
-            <button id="save" type="submit" class="btn btn-primary">Update</button>
-          </div>
-        </div>         
-      </form>
+            </div>  
+            <div class="form-group">
+              <label class="control-label col-md-2">Report category<span class="required">*</span></label>
+              <div class="validate col-md-3">
+                  <input id="reportCategory" name="reportCategory" class="form-control" type="text" ng-model="reportDetails.reportCategory" required />
+              </div>
+              <div class="col-md-1"></div>
+              <label class="control-label col-md-2">Report sub type</label>
+              <div class="col-md-3">                  
+                  <select id="reportSubType" ng-model="reportDetails.reportSubType" class="form-control" ng-options="reportSubType for reportSubType in reportdetail.allowedReportSubTypes" value="">
+                    <option value="">Select one</option>
+                  </select>
+              </div>              
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2">Description<span class="required">*</span></label>
+             <div class="col-md-3">                  
+                  <textarea id="description" class="form-control" rows="2" ng-model="reportDetails.description"></textarea>
+              </div>
+              <div class="col-md-1"></div>                
+              <div class="col-xs-2 text-right">
+                <input type="checkbox" ng-model="reportDetails.useReport" ng-true-value="true" ng-false-value="false" />
+              </div>  
+              <label class="control-label col-md-3 text-left">Use report(UI)</label>                
+            </div>
+            <hr/>            
+            <div ng-hide="reportDetails.reportType=='Pentaho'" class="form-group">
+              <label class="control-label col-md-2">Sql<span class="required"> *</span></label>
+              <div class="col-md-9 validate">                    
+                <textarea class="form-control" id="reportSql" rows="4" name="sql" ng-model="reportDetails.reportSql" required></textarea>
+              </div>
+            </div>
+            <hr/> 
+            <div class="form-group">
+              <label class="control-label col-md-2 col-xs-12">Report Parameter</label>
+              <div class="col-md-3 col-xs-6">
+                <select ng-model="allowedParameterId" class="form-control">
+                    <option value="">Select loan product</option>
+                    <option ng-repeat="allowedParameter in reportdetail.allowedParameters"
+                            value="{{allowedParameter.id}}">{{allowedParameter.parameterName}}
+                    </option>
+                </select>
+              </div>
+              <div class="col-md-1 col-xs-1">
+                <button type="button" class="btn btn-primary" ng-click="parameterSelected(allowedParameterId)">Add
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2"></label>
+                <div class="col-md-9">
+                  <table data-ng-show="flag" class="table">
+                    <thead>                
+                      <tr>
+                        <th>Parameter</th>
+                        <th>Parameter Name passed to Pentaho</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>        
+                      <tr ng-repeat="reportParameter in reportParameters">
+                        <td>{{reportParameter.allowedParameterName}}</td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="reportParameter.reportParameterName">
+                        </td>
+                        <td>
+                          <a ng-click="deleteReport($index)">                      
+                              <span class="glyphicon glyphicon-remove pointer"></span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>              
+                  </table>
+                </div>  
+            </div>    
+            <div class="col-md-offset-5 paddedtop">                                
+              <a id="cancel" href="#/reports" class="btn btn-warning">Cancel</a>
+              <button id="save" type="submit" class="btn btn-primary" ng-click="validateReport(loanProductDetails)">Save</button>
+            </div>
+          </form>
+      </div>      
     </div>
   </div>
 </div>

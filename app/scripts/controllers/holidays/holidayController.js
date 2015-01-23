@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('angularjsApp').controller('HolidayController', function($route, $scope, REST_URL, HolidayService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('HolidayController', function($route, $scope, REST_URL, 
+  HolidayService, $timeout, $location, dialogs) {
   console.log('HolidayController');
   $scope.isLoading = false;
   $scope.itemsByPage = 10;
@@ -12,6 +13,7 @@ angular.module('angularjsApp').controller('HolidayController', function($route, 
     try {
       $scope.rowCollection = result.data;
     } catch (e) {
+      console.log(e);
     }
   };
 

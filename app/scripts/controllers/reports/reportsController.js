@@ -1,53 +1,43 @@
 'use strict';
 
-angular.module('angularjsApp').controller('ReportsController', function($route, $scope, REST_URL, HolidayService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('ReportsController', function($route, $scope, 
+  REST_URL, ReportService, $timeout, $location, dialogs) {
   console.log('ReportsController');
-  $scope.isLoading = false;
+  $scope.isLoading = true;
   $scope.itemsByPage = 10;
   $scope.isTreeview = false;
 
   //Success callback
-  var loadHolidaysSuccess = function(result) {
+  var loadReportsSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
     } catch (e) {
+      console.log(e);
     }
   };
-
-  //failur callback
-  var loadHolidaysFail = function(result) {
+  //failure callback
+  var loadReportsFail = function(result) {
     $scope.isLoading = false;
-    console.log('Error : Return from HolidayService service.' + result);
+    console.log('Error : Return from ReportsService service.' + result);
+  };
+  //Make request for list of reports
+  ReportService.getData(REST_URL.REPORTS).then(loadReportsSuccess, loadReportsFail);
+
+  $scope.editReport = function(report) {    
+      $location.path('/reports/edit/' + report.id);    
   };
 
-  var loadHolidays = function getData() {
-    $scope.isLoading = true;
-    $timeout(
-      function() {
-        $scope.rowCollection = [];
-        //service to get accounts from server
-        HolidayService.getData(REST_URL.HOLIDAYS_LIST).then(loadHolidaysSuccess, loadHolidaysFail);
-      }, 2000);
-  };
-  loadHolidays();
-
-  $scope.editHoliday = function(holiday) {
-    if (holiday.status !== 'Deleted') {
-      $location.path('/holidays/edit/' + holiday.id);
-    }
-  };
-
-  $scope.removeHoliday = function(holiday) {
-    var msg = 'You are about to remove Holiday <strong>' + holiday.name + '</strong>';
+  $scope.removeReport = function(report) {
+    var msg = 'You are about to remove Report <strong>' + report.reportName + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
-        HolidayService.removeHoliday(REST_URL.HOLIDAYS + '/' + holiday.id).then(function() {
+        ReportService.removeReport(REST_URL.REPORTS + '/' + report.id).then(function() {
           $route.reload();
         }, function(result) {
           $scope.type = 'error';
-          $scope.message = 'Holiday not deleted: ' + result.data.defaultUserMessage;
+          $scope.message = 'Report not deleted: ' + result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
           $('html, body').animate({scrollTop: 0}, 800);
         });
@@ -56,130 +46,84 @@ angular.module('angularjsApp').controller('ReportsController', function($route, 
   };
 });
 
-// Create Holiday
-angular.module('angularjsApp').controller('CreateReportsController', function($location, $scope, REST_URL, HolidayService, $timeout, Utility) {
+// Create Report
+angular.module('angularjsApp').controller('CreateReportsController', function($location, $scope, 
+  REST_URL, ReportService) {
   console.log('CreateReportsController');
-  $scope.offices = [];
-  $scope.formHoliday = {};
-  var holidayOfficeIdArray = [];
-  $scope.holidayApplyToOffice = function(node) {
-    console.log('holidayApplyToOffice');
-    if (node.selectedCheckBox === 'true') {
-      node.selectedCheckBox = 'true';
-      recurHolidayApplyToOffice(node);
-      holidayOfficeIdArray = _.uniq(holidayOfficeIdArray);
-    } else {
-      node.selectedCheckBox = 'false';
-      recurRemoveHolidayAppliedOOffice(node);
-    }
+  $scope.isLoading = true;
+  $scope.reportParameters = [];
+  $scope.reportDetails = {};
+  $scope.flag = false;
+  $scope.parameterSelected = function (allowedParameterId) {
+      $scope.flag = true;
+      for (var i in $scope.reportdetail.allowedParameters) {
+          if ($scope.reportdetail.allowedParameters[i].id === parseInt(allowedParameterId)) {
+              $scope.reportParameters.push({parameterId: allowedParameterId,
+                  id: '',
+                  allowedParameterName: $scope.reportdetail.allowedParameters[i].parameterName
+              });
+          }
+      }
+      $scope.allowedParameterId = '';
   };
-  function recurHolidayApplyToOffice(node) {
-    console.log('recurHolidayApplyToOffice');
-    node.selectedCheckBox = 'true';
-    holidayOfficeIdArray.push(node.id);
-    if (node.children.length > 0) {
-      for (var i = 0; i < node.children.length; i++) {
-        node.children[i].selectedCheckBox = 'true';
-        holidayOfficeIdArray.push(node.children[i].id);
-        if (node.children[i].children.length > 0) {
-          recurHolidayApplyToOffice(node.children[i]);
-        }
+  function deepCopy(obj) {
+      if (Object.prototype.toString.call(obj) === '[object Array]') {
+          var out1 = [], i = 0;
+          var len = obj.length;
+          for (; i < len; i++) {
+              out1[i] = deepCopy(obj[i]);
+          }
+          return out1;
       }
-    }
-  }
-  function recurRemoveHolidayAppliedOOffice(node) {
-    console.log('recurRemoveHolidayAppliedOOffice');
-    holidayOfficeIdArray = _.without(holidayOfficeIdArray, node.id);
-    if (node.children.length > 0) {
-      for (var i = 0; i < node.children.length; i++) {
-        node.children[i].selectedCheckBox = 'false';
-        holidayOfficeIdArray = _.without(holidayOfficeIdArray, node.children[i].id);
-        if (node.children[i].children.length > 0) {
-          recurRemoveHolidayAppliedOOffice(node.children[i]);
-        }
+      if (typeof obj === 'object') {
+          var out2 = {}, j;
+          for (j in obj) {
+              out2[j] = deepCopy(obj[j]);
+          }
+          return out2;
       }
-    }
+      return obj;
   }
-  function buildTreeData(data) {
-    console.log('buildTreeData');
-    var map = {}, item, result = {};
-    for (var i = 0; i < data.length; i += 1) {
-      item = data[i];
-      item.children = [];
-      item.collapsed = true;
-      map[item.id] = i;
-      if (item.parentId && item.parentId !== '0') {
-        result[item.parentId].children.push(item);
-      } else {
-        if (!result[item.id]) {
-          result[item.id] = {name: item.name, id: item.id, children: [], collapsed: true};
-        } else {
-          result[item.id].children.push(item);
-        }
-      }
-    }
-    return result;
-  }
-  $scope.treeview = {};
-  $scope.treeview.selectNodeLabel = function(selectedNode) {
-    if ($scope.treeview.currentNode && $scope.treeview.currentNode.selected) {
-      $scope.treeview.currentNode.selected = undefined;
-    }
-    selectedNode.selected = 'selected';
-    $scope.treeview.currentNode = selectedNode;
-    $scope.treeview.currentNode.collapsed = !$scope.treeview.currentNode.collapsed;
+  $scope.deleteParameter = function (index) {
+      $scope.reportParameters.splice(index, 1);
   };
   //Success callback
-  var loadOfficesSuccess = function(result) {
-    $scope.offices = result.data;
+  var loadReportsSuccess = function(result) { 
+    $scope.isLoading = false;   
     try {
-      $scope.treedata = buildTreeData(result.data);
+      $scope.reportdetail = result.data;
+      $scope.reportDetails.reportType = result.data.allowedReportTypes[0];
     } catch (e) {
       console.log(e);
     }
   };
   //failure callback
-  var loadOfficesFail = function(result) {
-    console.log('Error : Return from HolidayService service.' + result);
+  var loadReportsFail = function(result) {
+    $scope.isLoading = false;
+    console.log('Error : Return from ReportService service.' + result);
   };
-  HolidayService.getData(REST_URL.OFFICE_LIST).then(loadOfficesSuccess, loadOfficesFail);
-  // Save holiday
-  $scope.saveHoliday = function() {
-    console.log('saveHoliday');
-    var saveHolidaySuccess = function(result) {
-      console.log('saveHolidaySuccess');
+  ReportService.getData(REST_URL.REPORTS +'/template').then(loadReportsSuccess, loadReportsFail);
+  // Save report
+  $scope.saveReport = function() {
+    deepCopy('obj');
+    console.log('saveReport`');
+    var saveReportSuccess = function(result) {
+      console.log('saveReportSuccess' + result);
       $scope.type = 'alert-success';
       $scope.message = 'Saved successfully';
       $scope.errors = [];
-      $scope.activeHoliday(result.data);
+      $location.url('/reports');
     };
-    var saveHolidayFail = function(result) {
-      console.log('saveHolidayFail');
+    var saveReportFail = function(result) {
+      console.log('saveReportFail');
       $scope.type = 'error';
-      $scope.message = 'Holiday not saved: ' + result.data.defaultUserMessage;
+      $scope.message = 'Report not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
       $('html, body').animate({scrollTop: 0}, 800);
-    };
-    $scope.formHoliday.offices = [];
-    for (var i in holidayOfficeIdArray) {
-      var temp = {};
-      temp.officeId = holidayOfficeIdArray[i];
-      $scope.formHoliday.offices.push(temp);
-    }
-    $scope.formHoliday.locale = 'en';
-    $scope.formHoliday.dateFormat = 'dd/MM/yyyy';
-    if (typeof $scope.formHoliday.fromDate === 'object') {
-      $scope.formHoliday.fromDate = Utility.dataFormat($scope.formHoliday.fromDate);
-    }
-    if (typeof $scope.formHoliday.toDate === 'object') {
-      $scope.formHoliday.toDate = Utility.dataFormat($scope.formHoliday.toDate);
-    }
-    if (typeof $scope.formHoliday.repaymentsRescheduledTo === 'object') {
-      $scope.formHoliday.repaymentsRescheduledTo = Utility.dataFormat($scope.formHoliday.repaymentsRescheduledTo);
-    }
-    var json = angular.toJson($scope.formHoliday);
+    };    
+    var json = angular.toJson($scope.reportDetails);
     console.log('json > ' + json);
-    HolidayService.saveHoliday(REST_URL.HOLIDAYS, json).then(saveHolidaySuccess, saveHolidayFail);
+    ReportService.saveReport(REST_URL.REPORTS, json).then(saveReportSuccess, saveReportFail);
   };
   //Validate form and save
   $scope.validate = function() {
@@ -187,8 +131,8 @@ angular.module('angularjsApp').controller('CreateReportsController', function($l
     $scope.type = '';
     $scope.message = '';
     $scope.errors = [];
-    if ($scope.createHolidayForm.$valid) {
-      $scope.saveHoliday();
+    if ($scope.createReportForm.$valid) {
+      $scope.saveReport();
     } else {
       $scope.type = 'error';
       $scope.message = 'Highlighted fields are required';
@@ -196,142 +140,63 @@ angular.module('angularjsApp').controller('CreateReportsController', function($l
       $('html, body').animate({scrollTop: 0}, 800);
     }
   };
-  //Active Holiday
-  $scope.activeHoliday = function(data) {
-    console.log('activeHoliday');
-    var activeHolidaySuccess = function(result) {
-      console.log('Success : activeHolidaySuccess' + result);
-      $location.url('/holidays');
-    };
-    var activeHolidayFail = function(result) {
-      console.log('Failure : activeHolidayFail' + result);
-      $location.url('/holidays');
-    };
-    var url = REST_URL.HOLIDAYS + '/' + data.resourceId + '?command=activate';
-    HolidayService.saveHoliday(url).then(activeHolidaySuccess, activeHolidayFail);
-  };
-  //For date
-  $scope.openedFromDate = false;
-  $scope.openFromDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedFromDate = true;
-  };
-  $scope.openedToDate = false;
-  $scope.openToDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedToDate = true;
-  };
-  $scope.openedRepaymentDate = false;
-  $scope.openRepaymentDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedRepaymentDate = true;
-  };
 });
 
-// Edit Holiday
-angular.module('angularjsApp').controller('EditReportController', function($route, $location, $scope, REST_URL, HolidayService, $timeout, Utility) {
+// Edit Report
+angular.module('angularjsApp').controller('EditReportController', function($route, $location, $scope, 
+  REST_URL, ReportService) {
   console.log('EditReportController');
-  $scope.formHoliday = {};
-  $scope.date = {};
+  $scope.isLoading = true;
+  $scope.reportDetails = {};
   $scope.id = $route.current.params.id;
   //Success callback
-  var loadHolidaySuccess = function(result) {
-    console.log('loadHolidaySuccess');
+  var loadReportSuccess = function(result) {
+    console.log('loadReportSuccess');
     $scope.isLoading = false;
     try {
-      $scope.formHoliday = {
-        name: result.data.name,
-        description: result.data.description,
-      };
-      $scope.holidayStatusActive = false;
-      if (result.data.status.value === 'Active') {
-        $scope.holidayStatusActive = true;
-      }
-      var fromDate = result.data.fromDate;
-      fromDate = fromDate[2] + '/' + fromDate[1] + '/' + fromDate[0];
-      $scope.date.fromDate = fromDate;
-
-      var toDate = result.data.toDate;
-      toDate = toDate[2] + '/' + toDate[1] + '/' + toDate[0];
-      $scope.date.toDate = toDate;
-
-      var repaymentsRescheduledTo = result.data.repaymentsRescheduledTo;
-      repaymentsRescheduledTo = repaymentsRescheduledTo[2] + '/' + repaymentsRescheduledTo[1] + '/' + repaymentsRescheduledTo[0];
-      $scope.date.repaymentsRescheduledTo = repaymentsRescheduledTo;
+      $scope.reportdetail = result.data;
+      $scope.reportdetail.reportParameters = result.data.reportParameters || [];
+      $scope.reportDetails.useReport = result.data.useReport;
+      $scope.reportDetails.reportType = result.data.reportType;
     } catch (e) {
       console.log(e);
     }
   };
   //failure callback
-  var loadHolidayFail = function(result) {
-    console.log('Error : Return from HolidayService service.' + result);
+  var loadReportFail = function(result) {
+    console.log('Error : Return from ReportService service.' + result);
   };
-  HolidayService.getData(REST_URL.HOLIDAYS + '/' + $scope.id).then(loadHolidaySuccess, loadHolidayFail);
-  // Save holiday
-  $scope.updateHoliday = function() {
-    var saveHolidaySuccess = function() {
+  ReportService.getData(REST_URL.REPORTS + '/' + $scope.id).then(loadReportSuccess, loadReportFail);
+  // Update report
+  $scope.updateReport = function() {
+    var saveReportSuccess = function() {
       $scope.type = 'alert-success';
       $scope.message = 'Saved successfully';
       $scope.errors = [];
-      $location.url('/holidays');
+      $location.url('/reports');
     };
-    var saveHolidayFail = function(result) {
+    var saveReportFail = function(result) {
       $scope.type = 'error';
-      $scope.message = 'Holiday not saved: ' + result.data.defaultUserMessage;
+      $scope.message = 'Report not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
       $('html, body').animate({scrollTop: 0}, 800);
     };
-    $scope.formHoliday.locale = 'en';
-    $scope.formHoliday.dateFormat = 'dd/MM/yyyy';
-    if (!$scope.holidayStatusActive) {
-      if (typeof $scope.date.fromDate === 'object') {
-        $scope.formHoliday.fromDate = Utility.dataFormat($scope.date.fromDate);
-      }
-      if (typeof $scope.date.toDate === 'object') {
-        $scope.formHoliday.toDate = Utility.dataFormat($scope.date.toDate);
-      }
-    }
-    if (typeof $scope.date.repaymentsRescheduledTo === 'object') {
-      $scope.formHoliday.repaymentsRescheduledTo = Utility.dataFormat($scope.date.repaymentsRescheduledTo);
-    }
-    var json = angular.toJson($scope.formHoliday);
+    var json = angular.toJson($scope.reportDetails);
     console.log('json > ' + json);
-    HolidayService.updateHoliday(REST_URL.HOLIDAYS + '/' + $scope.id, json).then(saveHolidaySuccess, saveHolidayFail);
+    ReportService.updateReport(REST_URL.REPORTS + '/' + $scope.id, json).then(saveReportSuccess, saveReportFail);
   };
   //Validate form and save
   $scope.validate = function() {
     $scope.type = '';
     $scope.message = '';
     $scope.errors = [];
-    if ($scope.editHolidayForm.$valid) {
-      $scope.updateHoliday();
+    if ($scope.editReportForm.$valid) {
+      $scope.updateReport();
     } else {
       $scope.type = 'error';
       $scope.message = 'Highlighted fields are required';
       $scope.errors = [];
       $('html, body').animate({scrollTop: 0}, 800);
     }
-  };
-  //For date
-  $scope.openedFromDate = false;
-  $scope.openFromDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedFromDate = true;
-  };
-  $scope.openedToDate = false;
-  $scope.openToDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedToDate = true;
-  };
-  $scope.openedRepaymentDate = false;
-  $scope.openRepaymentDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedRepaymentDate = true;
   };
 });

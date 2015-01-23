@@ -4,8 +4,8 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-//    'host' : 'https://localhost:8443/mifosng-provider/',
+    //'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
+    'host' : 'https://localhost:8443/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
@@ -61,7 +61,7 @@ app.constant('REST_URL', {
     JOURANAL_ENTRY_REVERSE_NOTE:'api/v1/datatables/journal_entry_reverse_note/',
     HOLIDAYS: 'api/v1/holidays',
     HOLIDAYS_LIST:'api/v1/runreports/HolidayList',
-    REPORTS: 'api/v1/reports/'
+    REPORTS: 'api/v1/reports'
 });
 
 app.constant('PAGE_URL', {

@@ -20,6 +20,7 @@ var app = angular.module('angularjsApp', [
   'loanService',
   'journalService',
   'holidayService',
+  'reportService',
   'Constants',
   'ui.bootstrap',
   'angularFileUpload',
@@ -328,10 +329,10 @@ app.config(['$routeProvider', function($routeProvider) {
       templateUrl: 'views/reports/reports.html',
       controller: 'ReportsController'
     }).when('/reports/create_report', {
-      templateUrl: 'views/reports/create.report.html',
+      templateUrl: 'views/reports/create.reports.html',
       controller: 'CreateReportsController'
     }).when('/reports/edit/:id', {
-      templateUrl: 'views/reports/edit.report.html',
+      templateUrl: 'views/reports/edit.reports.html',
       controller: 'EditReportController'
     }).when('/loan_reassignment', {
       templateUrl: 'views/loans/loan_reassignment.html',
