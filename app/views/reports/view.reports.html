@@ -1,0 +1,64 @@
+<div ng-include="'views/common/header.html'"></div> 
+<div class="container post-login" ng-controller="ViewReportsController">
+    <div ng-include src="'/views/alert.html'"></div>   
+    <div class="shortcuts">
+        <ul role="tablist">
+        </ul>
+    </div>
+    <div class="list">
+    <table st-table="displayed" st-safe-src="rowCollection" class="table">
+      <thead>
+        <tr>
+          <th colspan="3">
+              <div class="filters" >
+                <div class="search" style="float:right;">
+                    <input type="text" st-search="" class="search-box" placeholder="Search Reports" />
+                </div>
+             </div>  
+          </th>
+        </tr>
+        <tr>
+          <th st-sort="report_name">Report Name</th>
+          <th st-sort="report_type">Report Type</th>          
+          <th st-sort="report_category">Report Category</th>
+        </tr>
+      </thead>
+      <tbody ng-hide="isLoading">        
+        <tr class="pointer" ng-repeat="report in displayed">
+          <td data-ng-click="editReport(report)">{{report.report_name}}</td>
+          <td data-ng-click="editReport(report)">
+              <div class="name">
+                <a>{{report.report_type}} </a>
+              </div>
+          </td>
+          <td data-ng-click="editReport(report)">
+              <div class="name">
+                <a>{{report.report_category}}</a>
+              </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody ng-show="isLoading">
+        <tr>
+          <td colspan="8" class="text-center">
+            <div class="loading-indicator">Loading...</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="isLoading">
+          <tr>
+            <td colspan="8">
+              <div class="table-footer">
+                <div class="export">
+                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
+                </div>
+                <div class="paginate">
+                  <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+    </table>
+  </div>
+</div>

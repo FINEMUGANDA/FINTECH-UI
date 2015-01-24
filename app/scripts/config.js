@@ -61,7 +61,8 @@ app.constant('REST_URL', {
     JOURANAL_ENTRY_REVERSE_NOTE:'api/v1/datatables/journal_entry_reverse_note/',
     HOLIDAYS: 'api/v1/holidays',
     HOLIDAYS_LIST:'api/v1/runreports/HolidayList',
-    REPORTS: 'api/v1/reports'
+    REPORTS: 'api/v1/reports',
+    RUN_REPORTS: 'api/v1/runreports',
 });
 
 app.constant('PAGE_URL', {
@@ -91,7 +92,8 @@ app.constant('PAGE_URL', {
     'JOURNALENTRIES_DETAILS':'/journalentries/details',
     ADMIN :'/admin',
     HOLIDAYS : '/holidays',
-    REPORTS : '/reports'
+    REPORTS : '/reports',
+    VIEW_REPORTS : '/vreports'
 });
 
 app.constant('AUTH_EVENTS', {

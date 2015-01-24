@@ -334,6 +334,9 @@ app.config(['$routeProvider', function($routeProvider) {
     }).when('/reports/edit/:id', {
       templateUrl: 'views/reports/edit.reports.html',
       controller: 'EditReportsController'
+    }).when('/vreports/:type', {
+      templateUrl: 'views/reports/view.reports.html',
+      controller: 'ViewReportsController'
     }).when('/loan_reassignment', {
       templateUrl: 'views/loans/loan_reassignment.html',
       controller: 'LoansReassignmentCtrl',
@@ -478,6 +481,9 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
     var LOCATION_PATH = '/' + SPLIT_LOCATION_PATH[1];
     //add active /selection class for open view menu item
     switch (LOCATION_PATH) {
+      case PAGE_URL.VIEW_REPORTS:
+        $topNavigation.find('.reports').parent().addClass('active');
+        break;
       case PAGE_URL.CLIENTS:
       case PAGE_URL.LOANS:
       case PAGE_URL.LOANSAWAITINGDISBURSEMENT:

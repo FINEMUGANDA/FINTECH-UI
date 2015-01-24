@@ -21,7 +21,18 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/#/dashboard" class="home">Home</a></li>
         <li><a href="/#/clients" class="clients">Clients</a></li>
-        <li><a class="reports">Reports</a></li>
+        <li class="dropdown">
+          <a class="reports dropdown-toggle pointer" data-toggle="dropdown">Reports<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/#/vreports/all"> All</a></li>
+            <li><a href="/#/vreports/clients"> Clients</a></li>
+            <li><a href="/#/vreports/loans"> Loans</a></li>
+            <li><a href="/#/vreports/savings"> Savings</a></li>
+            <li><a href="/#/vreports/funds"> Funds</a></li>
+            <li><a href="/#/vreports/accounting"> Accounting</a></li>
+            <li><a href="/#/vreports/xbrl"> XBRL</a></li>
+          </ul>
+        </li>
         <li class="dropdown">
           <a class="accounting dropdown-toggle pointer" data-toggle="dropdown">Accounting<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -37,7 +48,7 @@
             <li><a href="/#/admin/users" >Users</a></li>
             <li><a href="/#/admin/staff" >Staff</a></li>
             <li><a href="/#/holidays" >Holidays</a></li>
-            <li><a href="/#/reports" >Reports</a></li>
+            <li><a href="/#/reports" >Manage Reports</a></li>
             <li><a href="/#/loan_reassignment">Loan reassignment</a></li>
           </ul>
         </li>
