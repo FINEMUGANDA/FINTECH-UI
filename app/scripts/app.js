@@ -333,7 +333,7 @@ app.config(['$routeProvider', function($routeProvider) {
       controller: 'CreateReportsController'
     }).when('/reports/edit/:id', {
       templateUrl: 'views/reports/edit.reports.html',
-      controller: 'EditReportController'
+      controller: 'EditReportsController'
     }).when('/loan_reassignment', {
       templateUrl: 'views/loans/loan_reassignment.html',
       controller: 'LoansReassignmentCtrl',

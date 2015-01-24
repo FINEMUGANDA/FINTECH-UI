@@ -31,11 +31,14 @@ angular.module('angularjsApp').controller('ReportsController', function($route, 
   $scope.removeReport = function(report) {
     var msg = 'You are about to remove Report <strong>' + report.reportName + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
+    dialog.result.then(function(result) {      
       if (result) {
+        $scope.isLoading = true;
         ReportService.removeReport(REST_URL.REPORTS + '/' + report.id).then(function() {
+          $scope.isLoading = false;
           $route.reload();
         }, function(result) {
+          $scope.isLoading = false;
           $scope.type = 'error';
           $scope.message = 'Report not deleted: ' + result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
@@ -104,8 +107,7 @@ angular.module('angularjsApp').controller('CreateReportsController', function($l
   };
   ReportService.getData(REST_URL.REPORTS +'/template').then(loadReportsSuccess, loadReportsFail);
   // Save report
-  $scope.saveReport = function() {
-    deepCopy('obj');
+  $scope.saveReport = function() {    
     console.log('saveReport`');
     var saveReportSuccess = function(result) {
       console.log('saveReportSuccess' + result);
@@ -120,7 +122,12 @@ angular.module('angularjsApp').controller('CreateReportsController', function($l
       $scope.message = 'Report not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
       $('html, body').animate({scrollTop: 0}, 800);
-    };    
+    };
+    $scope.temp = deepCopy($scope.reportParameters);
+    for (var i in $scope.temp) {
+        delete $scope.temp[i].allowedParameterName;
+    }
+    this.reportDetails.reportParameters = $scope.temp;
     var json = angular.toJson($scope.reportDetails);
     console.log('json > ' + json);
     ReportService.saveReport(REST_URL.REPORTS, json).then(saveReportSuccess, saveReportFail);
@@ -143,12 +150,46 @@ angular.module('angularjsApp').controller('CreateReportsController', function($l
 });
 
 // Edit Report
-angular.module('angularjsApp').controller('EditReportController', function($route, $location, $scope, 
+angular.module('angularjsApp').controller('EditReportsController', function($route, $location, $scope, 
   REST_URL, ReportService) {
-  console.log('EditReportController');
+  console.log('EditReportsController');
   $scope.isLoading = true;
   $scope.reportDetails = {};
   $scope.id = $route.current.params.id;
+  $scope.parameterSelected = function (allowedParameterId) {
+      for (var i in $scope.reportdetail.allowedParameters) {
+          if ($scope.reportdetail.allowedParameters[i].id === parseInt(allowedParameterId)) {
+              $scope.reportdetail.reportParameters.push({parameterId: allowedParameterId,
+                  id: '',
+                  parameterName: $scope.reportdetail.allowedParameters[i].parameterName
+              });
+          }
+      }
+      $scope.allowedParameterId = '';
+    };
+
+  function deepCopy(obj) {
+      if (Object.prototype.toString.call(obj) === '[object Array]') {
+          var out1 = [], i = 0, len = obj.length;
+          for (; i < len; i++) {
+              out1[i] = deepCopy(obj[i]);
+          }
+          return out1;
+      }
+      if (typeof obj === 'object') {
+          var out2 = {}, j;
+          for (j in obj) {
+              out2[j] = deepCopy(obj[j]);
+          }
+          return out2;
+      }
+      return obj;
+  }
+
+  $scope.deleteParameter = function (index) {
+      $scope.reportdetail.reportParameters.splice(index, 1);
+  };
+
   //Success callback
   var loadReportSuccess = function(result) {
     console.log('loadReportSuccess');
@@ -166,7 +207,7 @@ angular.module('angularjsApp').controller('EditReportController', function($rout
   var loadReportFail = function(result) {
     console.log('Error : Return from ReportService service.' + result);
   };
-  ReportService.getData(REST_URL.REPORTS + '/' + $scope.id).then(loadReportSuccess, loadReportFail);
+  ReportService.getData(REST_URL.REPORTS + '/' + $scope.id + '?template=true').then(loadReportSuccess, loadReportFail);
   // Update report
   $scope.updateReport = function() {
     var saveReportSuccess = function() {
@@ -181,6 +222,25 @@ angular.module('angularjsApp').controller('EditReportController', function($rout
       $scope.errors = result.data.errors;
       $('html, body').animate({scrollTop: 0}, 800);
     };
+    if ($scope.reportdetail.coreReport === true) {
+        this.reportDetails.reportParameters = $scope.temp;
+    } else {
+        $scope.temp = deepCopy($scope.reportdetail.reportParameters);
+        //$scope.reportdetail.reportParameters = $scope.temp;
+        for (var i in $scope.temp) {
+            delete $scope.temp[i].parameterName;
+        }
+        this.reportDetails = {
+            reportName: $scope.reportdetail.reportName,
+            reportType: $scope.reportdetail.reportType,
+            reportSubType: $scope.reportdetail.reportSubType,
+            reportCategory: $scope.reportdetail.reportCategory,
+            useReport: $scope.reportdetail.useReport,
+            description: $scope.reportdetail.description,
+            reportSql: $scope.reportdetail.reportSql,
+            reportParameters: $scope.temp
+        };
+    }
     var json = angular.toJson($scope.reportDetails);
     console.log('json > ' + json);
     ReportService.updateReport(REST_URL.REPORTS + '/' + $scope.id, json).then(saveReportSuccess, saveReportFail);

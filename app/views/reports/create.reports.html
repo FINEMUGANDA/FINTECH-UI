@@ -15,7 +15,7 @@
         </div>
       </div>      
       <div>
-          <form name="createreportform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
+          <form name="createReportForm" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
             <div class="form-group">
               <label class="control-label col-md-2">Report name<span class="required">*</span></label>
               <div class="validate col-md-3">
@@ -29,9 +29,9 @@
               </div>
             </div>  
             <div class="form-group">
-              <label class="control-label col-md-2">Report category<span class="required">*</span></label>
-              <div class="validate col-md-3">
-                  <input id="reportCategory" class="form-control" type="text" ng-model="reportDetails.reportCategory" required />
+              <label class="control-label col-md-2">Report category</label>
+              <div class="col-md-3">
+                  <input id="reportCategory" class="form-control" type="text" ng-model="reportDetails.reportCategory"/>
               </div>
               <div class="col-md-1"></div>
               <label class="control-label col-md-2">Report sub type</label>
@@ -42,7 +42,7 @@
               </div>              
             </div>
             <div class="form-group">
-              <label class="control-label col-md-2">Description<span class="required">*</span></label>
+              <label class="control-label col-md-2">Description</label>
              <div class="col-md-3">                  
                   <textarea id="description" class="form-control" rows="2" ng-model="reportDetails.description"></textarea>
               </div>
@@ -93,7 +93,7 @@
                             <input type="text" class="form-control" ng-model="reportParameter.reportParameterName">
                         </td>
                         <td>
-                          <a ng-click="deleteReport($index)">                      
+                          <a ng-click="deleteParameter($index)">                      
                               <span class="glyphicon glyphicon-remove pointer"></span>
                           </a>
                         </td>
@@ -104,7 +104,7 @@
             </div>    
             <div class="col-md-offset-5 paddedtop">                                
               <a id="cancel" href="#/reports" class="btn btn-warning">Cancel</a>
-              <button id="save" type="submit" class="btn btn-primary" ng-click="validateReport(loanProductDetails)">Save</button>
+              <button id="save" type="submit" class="btn btn-primary" ng-click="validate()">Save</button>
             </div>
           </form>
       </div>      

@@ -1,5 +1,5 @@
 <div ng-include="'views/common/header.html'"></div>
-<div class="container post-login" ng-controller="EditReportController">
+<div class="container post-login" ng-controller="EditReportsController">
   <div ng-include src="'/views/alert.html'"></div>
   <br/>
   <div class="rows">
@@ -19,32 +19,32 @@
             <div class="form-group">
               <label class="control-label col-md-2">Report name<span class="required">*</span></label>
               <div class="validate col-md-3">
-                  <input id="reportName" name="reportName" class="form-control" type="text" ng-model="reportDetails.reportName" required />
+                  <input id="reportName" name="reportName" class="form-control" type="text" ng-model="reportdetail.reportName" required />
               </div>
               <div class="col-md-1"></div>
               <label class="control-label col-md-2">Report type<span class="required">*</span></label>
               <div class="col-md-3">                  
-                  <select id="reportType" ng-model="reportDetails.reportType" class="form-control" ng-options="reportType for reportType in reportdetail.allowedReportTypes" value="">
+                  <select id="reportType" ng-model="reportdetail.reportType" class="form-control" ng-options="reportType for reportType in reportdetail.allowedReportTypes" value="">
                   </select>
               </div>
             </div>  
             <div class="form-group">
-              <label class="control-label col-md-2">Report category<span class="required">*</span></label>
-              <div class="validate col-md-3">
-                  <input id="reportCategory" name="reportCategory" class="form-control" type="text" ng-model="reportDetails.reportCategory" required />
+              <label class="control-label col-md-2">Report category</label>
+              <div class="col-md-3">
+                  <input id="reportCategory" class="form-control" type="text" ng-model="reportdetail.reportCategory"/>
               </div>
               <div class="col-md-1"></div>
               <label class="control-label col-md-2">Report sub type</label>
               <div class="col-md-3">                  
-                  <select id="reportSubType" ng-model="reportDetails.reportSubType" class="form-control" ng-options="reportSubType for reportSubType in reportdetail.allowedReportSubTypes" value="">
+                  <select id="reportSubType" ng-model="reportdetail.reportSubType" class="form-control" ng-options="reportSubType for reportSubType in reportdetail.allowedReportSubTypes" value="">
                     <option value="">Select one</option>
                   </select>
               </div>              
             </div>
             <div class="form-group">
-              <label class="control-label col-md-2">Description<span class="required">*</span></label>
+              <label class="control-label col-md-2">Description</label>
              <div class="col-md-3">                  
-                  <textarea id="description" class="form-control" rows="2" ng-model="reportDetails.description"></textarea>
+                  <textarea id="description" class="form-control" rows="2" ng-model="reportdetail.description"></textarea>
               </div>
               <div class="col-md-1"></div>                
               <div class="col-xs-2 text-right">
@@ -53,10 +53,10 @@
               <label class="control-label col-md-3 text-left">Use report(UI)</label>                
             </div>
             <hr/>            
-            <div ng-hide="reportDetails.reportType=='Pentaho'" class="form-group">
+            <div ng-hide="reportdetail.reportType=='Pentaho'" class="form-group">
               <label class="control-label col-md-2">Sql<span class="required"> *</span></label>
               <div class="col-md-9 validate">                    
-                <textarea class="form-control" id="reportSql" rows="4" name="sql" ng-model="reportDetails.reportSql" required></textarea>
+                <textarea class="form-control" id="reportSql" rows="4" name="sql" ng-model="reportdetail.reportSql" required></textarea>
               </div>
             </div>
             <hr/> 
@@ -78,7 +78,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"></label>
                 <div class="col-md-9">
-                  <table data-ng-show="flag" class="table">
+                  <table class="table" ng-hide="reportdetail.coreReport">
                     <thead>                
                       <tr>
                         <th>Parameter</th>
@@ -87,13 +87,13 @@
                       </tr>
                     </thead>
                     <tbody>        
-                      <tr ng-repeat="reportParameter in reportParameters">
-                        <td>{{reportParameter.allowedParameterName}}</td>
+                      <tr ng-repeat="reportParameter in reportdetail.reportParameters">
+                        <td>{{reportParameter.parameterName}}</td>
                         <td>
                             <input type="text" class="form-control" ng-model="reportParameter.reportParameterName">
                         </td>
                         <td>
-                          <a ng-click="deleteReport($index)">                      
+                          <a ng-click="deleteParameter($index)">                      
                               <span class="glyphicon glyphicon-remove pointer"></span>
                           </a>
                         </td>
@@ -104,7 +104,7 @@
             </div>    
             <div class="col-md-offset-5 paddedtop">                                
               <a id="cancel" href="#/reports" class="btn btn-warning">Cancel</a>
-              <button id="save" type="submit" class="btn btn-primary" ng-click="validateReport(loanProductDetails)">Save</button>
+              <button id="save" type="submit" class="btn btn-primary" ng-click="validate()">Save</button>
             </div>
           </form>
       </div>      
