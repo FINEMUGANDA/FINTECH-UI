@@ -168,7 +168,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     }
     if (typeof data.expectedDisbursementDate === 'object') {
       var expectedDisbursementDate = new Date(data.expectedDisbursementDate);
-      data.submittedOnDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
+      data.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
     }
 
     function saveLoanSuccess(result) {

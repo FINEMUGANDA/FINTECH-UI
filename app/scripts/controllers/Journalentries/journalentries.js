@@ -3,7 +3,7 @@
 angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
   console.log('JournalEntriesCtrl');
   $scope.isLoading = false;
-  $scope.itemsByPage = 5;
+  $scope.itemsByPage = 10;
 
   //Success callback
   var loadJournalEntriesSuccess = function(result) {
