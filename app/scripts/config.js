@@ -6,13 +6,15 @@ var app = angular.module('Constants', []);
 app.constant('APPLICATION', {
     'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
 //    'host' : 'https://localhost:8443/mifosng-provider/',
+//    'host' : 'https://demo.openmf.org/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',
     'role' : 'role',
     'PAGE_SIZE' : 5,
     'DISPLAYED_PAGES' : 5,
-    'NO_IMAGE_THUMB' : 'images/noPhoto.jpg'
+    'NO_IMAGE_THUMB' : 'images/noPhoto.jpg',
+    'API_VERSION' : 'api/v1'
 });
 
 app.constant('REST_URL', {
@@ -62,7 +64,7 @@ app.constant('REST_URL', {
     HOLIDAYS: 'api/v1/holidays',
     HOLIDAYS_LIST:'api/v1/runreports/HolidayList',
     REPORTS: 'api/v1/reports',
-    RUN_REPORTS: 'api/v1/runreports',
+    RUN_REPORTS: 'api/v1/runreports'
 });
 
 app.constant('PAGE_URL', {
@@ -93,7 +95,8 @@ app.constant('PAGE_URL', {
     ADMIN :'/admin',
     HOLIDAYS : '/holidays',
     REPORTS : '/reports',
-    VIEW_REPORTS : '/vreports'
+    VIEW_REPORTS : '/vreports',
+    RUN_REPORTS : '/run_reports',
 });
 
 app.constant('AUTH_EVENTS', {

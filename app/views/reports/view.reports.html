@@ -25,13 +25,13 @@
       </thead>
       <tbody ng-hide="isLoading">        
         <tr class="pointer" ng-repeat="report in displayed">
-          <td data-ng-click="editReport(report)">{{report.report_name}}</td>
-          <td data-ng-click="editReport(report)">
+          <td data-ng-click="routeTo(report)">{{report.report_name}}</td>
+          <td data-ng-click="routeTo(report)">
               <div class="name">
                 <a>{{report.report_type}} </a>
               </div>
           </td>
-          <td data-ng-click="editReport(report)">
+          <td data-ng-click="routeTo(report)">
               <div class="name">
                 <a>{{report.report_category}}</a>
               </div>

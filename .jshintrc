@@ -26,6 +26,8 @@
     "_": true,
     "APPLICATION": true,
     "google": true,
-    "async": true
+    "async": true,
+    "nv":true,
+    "d3":true
   }
 }

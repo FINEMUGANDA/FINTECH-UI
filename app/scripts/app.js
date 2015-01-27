@@ -10,6 +10,7 @@
  */
 var app = angular.module('angularjsApp', [
   'ngRoute',
+  'nvd3ChartDirectives',
   'loginController',
   'dashboardController',
   'clientsController',
@@ -31,7 +32,8 @@ var app = angular.module('angularjsApp', [
   'dialogs.main',
   'ng.deviceDetector',
   'ui.router',
-  'roleService'
+  'roleService',
+  'ngCsv'
 ]);
 
 // Angular supports chaining, so here we chain the config function onto
@@ -337,6 +339,9 @@ app.config(['$routeProvider', function($routeProvider) {
     }).when('/vreports/:type', {
       templateUrl: 'views/reports/view.reports.html',
       controller: 'ViewReportsController'
+    }).when('/run_reports/:name/:reportId/:type', {
+      templateUrl: 'views/reports/run.reports.html',
+      controller: 'RunReportsController'
     }).when('/loan_reassignment', {
       templateUrl: 'views/loans/loan_reassignment.html',
       controller: 'LoansReassignmentCtrl',
@@ -482,6 +487,7 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
     //add active /selection class for open view menu item
     switch (LOCATION_PATH) {
       case PAGE_URL.VIEW_REPORTS:
+      case PAGE_URL.RUN_REPORTS:
         $topNavigation.find('.reports').parent().addClass('active');
         break;
       case PAGE_URL.CLIENTS:
@@ -680,6 +686,20 @@ app.directive('onlyDigits', function() {
     }
   };
 });
+
+//format number
+app.filter('FormatNumber', ['$filter', function($filter) {
+    return function (input, fractionSize) {
+        if (isNaN(input)) {
+            return input;
+        } else {
+            //TODO- Add number formatting also
+            if (input !== '' && input !== undefined) {
+                return $filter('number')(input, fractionSize);
+            }
+        }
+    };
+}]);
 
 //color code status for each data tables
 app.filter('status', [function() {
