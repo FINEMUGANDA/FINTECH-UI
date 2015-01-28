@@ -26,6 +26,10 @@
         <div ng-repeat="charge in data.charges">{{charge.name}}</div>
       </dd>
     </dl>
+    <dl class="dl-horizontal">
+      <dt>Disbursement Date</dt>
+      <dd><input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="baseLoan.actualDisbursementDate" is-open="datepicker.actualDisbursementDate" datepicker-options="dateOptions" close-text="Close" required ng-click="open($event, 'actualDisbursementDate')" readonly="true" /></dd>
+    </dl>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" ng-click="undoApproval()">Undo Approval</button>

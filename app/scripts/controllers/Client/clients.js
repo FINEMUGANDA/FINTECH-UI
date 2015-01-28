@@ -454,8 +454,15 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeou
 clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, dialogs, data) {
   console.log('LoansActionDialogCtrl', $scope);
   $scope.baseLoan = data.loan;
+  $scope.baseLoan.actualDisbursementDate = new Date();
   $scope.info = {};
   $scope.data = {};
+  $scope.datepicker = {};
+  $scope.open = function($event, target) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.datepicker[target] = true;
+  };
   ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '/charges').then(function(result) {
     if (result.data) {
       $scope.data.charges = result.data;
@@ -495,27 +502,21 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
     });
   };
   $scope.disburse = function() {
-    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'disburse'}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        var actualDisbursementDate = new Date(result.actualDisbursementDate);
-        var json = {
-          dateFormat: 'dd/MM/yyyy',
-          locale: 'en',
-          actualDisbursementDate: actualDisbursementDate.getDate() + '/' + (actualDisbursementDate.getMonth() + 1) + '/' + actualDisbursementDate.getFullYear(),
-          note: result.note
-        };
-        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=disburse', json).then(function(result) {
-          $scope.type = 'alert-success';
-          $scope.message = 'Loan disbursed successfuly';
-          $scope.errors = result.data.errors;
-          $modalInstance.close(true);
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
+    var actualDisbursementDate = new Date($scope.baseLoan.actualDisbursementDate);
+    var json = {
+      dateFormat: 'dd/MM/yyyy',
+      locale: 'en',
+      actualDisbursementDate: actualDisbursementDate.getDate() + '/' + (actualDisbursementDate.getMonth() + 1) + '/' + actualDisbursementDate.getFullYear()
+    };
+    CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=disburse', json).then(function(result) {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan disbursed successfuly';
+      $scope.errors = result.data.errors;
+      $modalInstance.close(true);
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
     });
   };
 
