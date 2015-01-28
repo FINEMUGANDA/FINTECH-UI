@@ -327,27 +327,21 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
     });
   };
   $scope.approve = function() {
-    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'approve'}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        var currentDate = new Date();
-        var json = {
-          dateFormat: 'dd/MM/yyyy',
-          locale: 'en',
-          approvedOnDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear(),
-          note: result.note
-        };
-        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=approve', json).then(function(result) {
-          $scope.type = 'alert-success';
-          $scope.message = 'Loan approved successfuly';
-          $scope.errors = result.data.errors;
-          $modalInstance.close(true);
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Loan not approved: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
+    var currentDate = new Date();
+    var json = {
+      dateFormat: 'dd/MM/yyyy',
+      locale: 'en',
+      approvedOnDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear()
+    };
+    CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=approve', json).then(function(result) {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan approved successfuly';
+      $scope.errors = result.data.errors;
+      $modalInstance.close(true);
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Loan not approved: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
     });
   };
 
