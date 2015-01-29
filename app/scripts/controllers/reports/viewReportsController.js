@@ -235,7 +235,8 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
   function removeErrors() {
       var $inputs = $(':input');
       $inputs.each(function () {
-          $(this).removeClass('validationerror');
+          //$(this).removeClass('validationerror');
+          $(this).parent().removeClass('has-error');
       });
   }
 
@@ -255,7 +256,8 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   if (selectedVal === undefined || selectedVal === 0) {
                       fieldId = '#' + paramDetails.inputName;
                       //Chnage class name
-                      $(fieldId).addClass('validationerror');
+                      //$(fieldId).addClass('validationerror');
+                      $(fieldId).parent().addClass('has-error');
                       errorObj = {};
                       errorObj.field = paramDetails.inputName;
                       errorObj.code = 'The parameter '+paramDetails.inputName+' is required';
@@ -268,7 +270,8 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   var tmpDate = $scope.formData[paramDetails.inputName];
                   if (tmpDate === undefined || tmpDate === '') {
                       fieldId = '#' + paramDetails.inputName;
-                      $(fieldId).addClass('validationerror');
+                      //$(fieldId).addClass('validationerror');
+                      $(fieldId).parent().addClass('has-error');
                       errorObj = {};
                       errorObj.field = paramDetails.inputName;
                       errorObj.code = 'The parameter ' + paramDetails.inputName + ' is required';
@@ -278,7 +281,8 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   }
                   if (tmpDate && invalidDate(tmpDate) === true) {
                       fieldId = '#' + paramDetails.inputName;
-                      $(fieldId).addClass('validationerror');
+                      //$(fieldId).addClass('validationerror');
+                      $(fieldId).parent().addClass('has-error');
                       errorObj = {};
                       errorObj.field = paramDetails.inputName;
                       errorObj.code = 'Invalid value for the field' + paramDetails.inputName;
@@ -298,7 +302,8 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   selectedVal = $scope.formData[paramDetails.inputName];
                   if (selectedVal === undefined || selectedVal === 0) {
                       fieldId = '#' + paramDetails.inputName;
-                      $(fieldId).addClass('validationerror');
+                      //$(fieldId).addClass('validationerror');
+                      $(fieldId).parent().addClass('has-error');
                       errorObj = {};
                       errorObj.field = paramDetails.inputName;
                       errorObj.code = 'The parameter ' + paramDetails.inputName + ' is required';

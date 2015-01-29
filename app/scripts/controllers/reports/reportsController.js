@@ -95,6 +95,7 @@ angular.module('angularjsApp').controller('CreateReportsController', function($l
     $scope.isLoading = false;   
     try {
       $scope.reportdetail = result.data;
+      $scope.reportDetails.reportCategory = 'Client';
       $scope.reportDetails.reportType = result.data.allowedReportTypes[0];
     } catch (e) {
       console.log(e);
@@ -197,7 +198,7 @@ angular.module('angularjsApp').controller('EditReportsController', function($rou
     try {
       $scope.reportdetail = result.data;
       $scope.reportdetail.reportParameters = result.data.reportParameters || [];
-      $scope.reportDetails.useReport = result.data.useReport;
+      $scope.reportDetails.useReport = result.data.useReport ? 'true' : 'false';
       $scope.reportDetails.reportType = result.data.reportType;
     } catch (e) {
       console.log(e);
@@ -235,7 +236,7 @@ angular.module('angularjsApp').controller('EditReportsController', function($rou
             reportType: $scope.reportdetail.reportType,
             reportSubType: $scope.reportdetail.reportSubType,
             reportCategory: $scope.reportdetail.reportCategory,
-            useReport: $scope.reportdetail.useReport,
+            useReport: $scope.reportDetails.useReport,
             description: $scope.reportdetail.description,
             reportSql: $scope.reportdetail.reportSql,
             reportParameters: $scope.temp

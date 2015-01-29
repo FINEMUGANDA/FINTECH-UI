@@ -31,7 +31,14 @@
             <div class="form-group">
               <label class="control-label col-md-2">Report category</label>
               <div class="col-md-3">
-                  <input id="reportCategory" class="form-control" type="text" ng-model="reportdetail.reportCategory"/>
+                  <!-- <input id="reportCategory" class="form-control" type="text" ng-model="reportDetail.reportCategory"/> -->
+                  <select id="reportCategory" class="form-control" type="text" ng-model="reportdetail.reportCategory">                      
+                      <option value="Client">Client</option>
+                      <option value="Loan">Loan</option>
+                      <option value="Saving">Saving</option>
+                      <option value="Fund">Fund</option>
+                      <option value="Accounting">Accounting</option>
+                  </select>
               </div>
               <div class="col-md-1"></div>
               <label class="control-label col-md-2">Report sub type</label>
