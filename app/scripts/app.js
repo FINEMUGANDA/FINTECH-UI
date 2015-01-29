@@ -33,7 +33,8 @@ var app = angular.module('angularjsApp', [
   'ng.deviceDetector',
   'ui.router',
   'roleService',
-  'ngCsv'
+  'ngCsv',
+  'modified.datepicker'
 ]);
 
 // Angular supports chaining, so here we chain the config function onto

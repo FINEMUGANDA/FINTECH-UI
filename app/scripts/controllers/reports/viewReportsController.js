@@ -91,11 +91,10 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
   $scope.pentahoReportParameters = [];
   $scope.type = 'pie';
 
-  $scope.open = function($event) {
+  $scope.open = function($event, which) {
     $event.preventDefault();
     $event.stopPropagation();
-    $($event.currentTarget).attr('is-open', 'true');
-    //$scope.opened = true;
+    $scope.opened[which]= false;
   };
 
   $scope.highlight = function (id) {
