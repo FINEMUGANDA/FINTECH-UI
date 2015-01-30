@@ -60,14 +60,33 @@
               <label class="control-label col-md-3 text-left">Use report(UI)</label>                
             </div>
             <hr/>            
-            <div ng-hide="reportdetail.reportType=='Pentaho'" class="form-group">
+            <div ng-if="reportdetail.reportType!='Pentaho'" class="form-group">
               <label class="control-label col-md-2">Sql<span class="required"> *</span></label>
               <div class="col-md-9 validate">                    
                 <textarea class="form-control" id="reportSql" rows="4" name="sql" ng-model="reportdetail.reportSql" required></textarea>
               </div>
             </div>
-            <hr/> 
+            <hr/>
             <div class="form-group">
+                <label class="control-label col-md-2 col-xs-12">Report Parameter</label>
+                <div class="col-md-9">
+                  <table class="table" ng-show="reportdetail.coreReport">
+                    <thead>                
+                      <tr>
+                        <th>Parameter</th>
+                        <th>Parameter Name passed to Pentaho</th>
+                      </tr>
+                    </thead>
+                    <tbody>        
+                      <tr ng-repeat="reportParameter in reportdetail.reportParameters">
+                        <td>{{reportParameter.parameterName}}</td>
+                        <td>{{reportParameter.allowedParameterName}}</td>
+                      </tr>
+                    </tbody>              
+                  </table>
+                </div>  
+            </div>     
+            <div class="form-group" ng-hide="reportdetail.coreReport">
               <label class="control-label col-md-2 col-xs-12">Report Parameter</label>
               <div class="col-md-3 col-xs-6">
                 <select ng-model="allowedParameterId" class="form-control">
@@ -82,10 +101,10 @@
                 </button>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-hide="reportdetail.coreReport">
                 <label class="control-label col-md-2"></label>
                 <div class="col-md-9">
-                  <table class="table" ng-hide="reportdetail.coreReport">
+                  <table class="table">
                     <thead>                
                       <tr>
                         <th>Parameter</th>

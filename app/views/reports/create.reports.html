@@ -60,7 +60,7 @@
               <label class="control-label col-md-3 text-left">Use report(UI)</label>                
             </div>
             <hr/>            
-            <div ng-hide="reportDetails.reportType=='Pentaho'" class="form-group">
+            <div ng-if="reportDetails.reportType!='Pentaho'" class="form-group">
               <label class="control-label col-md-2">Sql<span class="required"> *</span></label>
               <div class="col-md-9 validate">                    
                 <textarea class="form-control" id="reportSql" rows="4" name="sql" ng-model="reportDetails.reportSql" required></textarea>
