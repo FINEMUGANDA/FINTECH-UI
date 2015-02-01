@@ -57,7 +57,7 @@
           </th>
         </tr>
         <tr>
-          <th st-sort="id">Entry ID</th>
+          <th st-sort="id">GL Code</th>
           <th st-sort="comments">Type</th>
           <th st-sort="transactionDate">Account</th>        
           <th st-sort="officeName" class="number">Debit</th>
@@ -66,7 +66,7 @@
       </thead>
       <tbody ng-hide="isLoading">
         <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
-          <td>{{journal.id}}</td>
+          <td>{{journal.glAccountCode}}</td>
           <td>{{journal.glAccountType.value}}</td>
           <td>{{journal.glAccountName}}</td>          
           <td class="number">

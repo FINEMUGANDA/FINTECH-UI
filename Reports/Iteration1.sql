@@ -35,7 +35,7 @@ SELECT  ci.id 'identifier_id', ci.client_id 'client_id', ci.document_type_id 'do
 #Report number 167
 #Report name JournalEntryList
 #Description : To display data on the journal entry list
-SELECT  m.id, description, entry_date, o.name as office_name, transaction_id, SUM(case when type_enum=1 then amount ELSE 0 END) as \'Credit\', SUM(case when type_enum=2 then amount ELSE 0 END) as \'Debit\' FROM `mifostenant-default`.acc_gl_journal_entry m Left join m_office o on o.id=m.office_id group by  transaction_id order by entry_date desc', 'To display data on journal entry list';
+SELECT m.id,  DATE_FORMAT(m.created_date,'%d/%m/%Y') createdOn, c.display_name clientName, c.id clientId, l.id loanId, l.account_no loanAccountNumber, description, entry_date, o.name as office_name, transaction_id, SUM(case when type_enum=1 then amount ELSE 0 END) as 'Credit', SUM(case when type_enum=2 then amount ELSE 0 END) as 'Debit' FROM `mifostenant-default`.acc_gl_journal_entry m left join m_office o on o.id=m.office_id left join m_loan l on l.id=m.entity_id left join m_client c on c.id=l.client_id group by transaction_id order by entry_date desc;
 #Date - 2014/12/26
 #Report number 169
 #Report name HolidayList
