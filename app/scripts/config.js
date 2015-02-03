@@ -4,8 +4,8 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {
-    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
-//    'host' : 'https://localhost:8443/mifosng-provider/',
+//    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
+    'host' : 'https://localhost:8443/mifosng-provider/',
 //    'host' : 'https://demo.openmf.org/mifosng-provider/',
     'sessionName': 'ang_session',
     'authToken': 'token',
@@ -34,6 +34,7 @@ app.constant('REST_URL', {
     'LOANS_EXTRA_DETAILS': 'api/v1/datatables/extra_loan_details/',
     'CHARGES': 'api/v1/charges',
     'LOAN_PRODUCTS_TEMPLATE':'api/v1/loanproducts/template',
+    LOAN_PRODUCTS_TEMPLATE_EXTRA:'api/v1/datatables/loanprodAccMap/',
     'CHARGE_TEMPLATE':'api/v1/charges/template',
     'CREATE_CHARGE':'api/v1/charges',
     'LOANS_PRODUCTS_LIST_BY_ID':'api/v1/loanproducts/',

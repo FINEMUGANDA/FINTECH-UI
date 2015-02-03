@@ -31,7 +31,7 @@
         </div>
       </div>
       <form name="mapAccountingLoanform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation ng-submit="updateLoanProduct()">
-        <div class="col-md-12 ">
+        <div class="col-md-12 " ng-hide='true'>
           <div class="radio-inline">          
               <input type="radio" ng-model="mapAccountingForm.accountingRule" value="1"/>
               None          
@@ -97,11 +97,11 @@
                 </select>
               </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-hide='true'>
             <label class="control-label col-sm-2">Transfer in suspense</label>
             <div class="col-sm-3">
               <select id="transfersInSuspenseAccountId" class="form-control" ng-model="mapAccountingForm.transfersInSuspenseAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in transferSuspenseOption" value="{{assetAccount.id}}" >
-                <option class="displaynone" value="">-- Select -- </option>                
+                <option class="displaynone" value="0">-- Select -- </option>                
               </select>
             </div>              
           </div>
@@ -130,10 +130,10 @@
                 </select>
               </div>
               <div class="col-sm-1"></div>
-              <label class="control-label col-sm-2">Income from Recovery Repayments</label>            
-              <div class="col-sm-3">
+              <label class="control-label col-sm-2" ng-hide='true'>Income from Recovery Repayments</label>
+              <div class="col-sm-3" ng-hide='true'>
                 <select id="incomeFromRecoveryAccountId" class="form-control" ng-model="mapAccountingForm.incomeFromRecoveryAccountId" ng-change="changeIncomeOptions();"  ng-options="incomeAccount.id as incomeAccount.name for incomeAccount in incomeFromRecoveryOption" value="{{incomeAccount.id}}">
-                  <option class="displaynone" value="">-- Select -- </option>
+                  <option class="displaynone" value="0">-- Select -- </option>
                 </select>
               </div>
           </div>
@@ -142,18 +142,33 @@
             <h4>Expenses</h4>
             <label class="control-label col-sm-2">Loses written off</label>            
             <div class="col-sm-3">
-              <select id="writeOffAccountId" class="form-control" ng-model="mapAccountingForm.writeOffAccountId" chosen="expenseAccountOptions" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in expenseAccountOptions" value="{{expenseAccount.id}}">
+              <select id="writeOffAccountId" class="form-control" ng-model="mapAccountingForm.writeOffAccountId" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in losesexpenseAccountOptions" value="{{expenseAccount.id}}">
+                <option class="displaynone" value="">-- Select -- </option>
+              </select>
+            </div>
+            <div class="col-sm-1"></div>
+            <label class="control-label col-sm-2">Interest written off</label>
+            <div class="col-sm-3">
+              <select id="interestWrittenOffId" class="form-control" ng-model="mapAccExtraForm.interestWrittenOff" ng-change="changeExpenseOptions();"  ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in interestexpenseAccountOptions" value="{{expenseAccount.id}}">
+                <option class="displaynone" value="">-- Select -- </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">LPI written off</label>            
+            <div class="col-sm-3">
+              <select id="lpiwrittenoffId" class="form-control" ng-model="mapAccExtraForm.lpiwrittenoff" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in lpiexpenseAccountOptions" value="{{expenseAccount.id}}">
                 <option class="displaynone" value="">-- Select -- </option>
               </select>
             </div>
           </div>
           <hr/>
-          <div class="form-group">
+          <div class="form-group" ng-hide='true'>
             <h4>Liabilities</h4>
             <label class="control-label col-sm-2">Over payment liability</label>            
             <div class="col-sm-3">
               <select id="overpaymentLiabilityAccountId" class="form-control" ng-model="mapAccountingForm.overpaymentLiabilityAccountId" chosen="liabilityAccountOptions" ng-options="liabilityAccount.id as liabilityAccount.name for liabilityAccount in liabilityAccountOptions"value="{{liabilityAccount.id}}">
-                <option class="displaynone" value="">-- Select -- </option>
+                <option class="displaynone" value="0">-- Select -- </option>
               </select>
             </div>
           </div>

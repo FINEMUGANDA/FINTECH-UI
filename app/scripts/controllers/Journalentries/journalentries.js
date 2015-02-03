@@ -49,12 +49,27 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
   $scope.itemsByPage = 5;
   $scope.id = $route.current.params.id;
 
+  var loadReversalEntrySuccess = function(result) {
+    try {
+      for (var i in result.data) {
+        if(result.data[i].journalentry === $scope.id) {
+          $scope.reversenote = result.data[i].reversenote;
+          break;
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    $scope.isLoading = false;
+  };
   //Success callback
   var loadJournalEntriesDetailsSuccess = function(result) {
-    $scope.isLoading = false;
+    $scope.isLoading = true;
     try {
       $scope.rowCollection = result.data.pageItems;
       if(!Utility.isUndefinedOrNull(result.data.pageItems)){
+        var url = REST_URL.JOURANAL_ENTRY_REVERSE_NOTE + '1';
+        JournalService.getData(url).then(loadReversalEntrySuccess, loadJournalEntriesDetailsFail);
         $scope.officeName = $scope.rowCollection[0].officeName;
         $scope.officeId = $scope.rowCollection[0].officeId;
         $scope.transactionDate = $scope.rowCollection[0].transactionDate[2] + '/';

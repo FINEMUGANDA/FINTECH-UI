@@ -23,7 +23,7 @@ utils.factory('Utility', function($q, APPLICATION) {
   // initialize to whatever is in the cookie, if anything
   return {
     isUndefinedOrNull: function(obj) {
-      return !angular.isDefined(obj) || obj === null;
+      return !angular.isDefined(obj) || obj === null || obj === '';
     },
     getImage: function(src) {
       var deferred = $q.defer();
