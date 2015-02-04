@@ -7,7 +7,8 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
   $scope.mapAccExtraForm = {};
   $scope.mapAccExtraForm = {
     lpiwrittenoff: '',
-    interestWrittenOff: ''
+    interestWrittenOff: '',
+    feesWrittenOff:''
   };
   $scope.id = $route.current.params.id;
   //Filter on Assests Options
@@ -48,12 +49,15 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     var form = $scope.mapAccountingForm;
     form.lpiwrittenoff = $scope.mapAccExtraForm.lpiwrittenoff;
     form.interestWrittenOff = $scope.mapAccExtraForm.interestWrittenOff;
+    form.feesWrittenOff = $scope.mapAccExtraForm.feesWrittenOff;
     Utility.setSelectedOptions(selectedExpense, form.writeOffAccountId);
     Utility.setSelectedOptions(selectedExpense, form.lpiwrittenoff);
     Utility.setSelectedOptions(selectedExpense, form.interestWrittenOff);
+    Utility.setSelectedOptions(selectedExpense, form.feesWrittenOff);
     $scope.losesexpenseAccountOptions = Utility.filterOptions($scope.expenseAccountOptions, form.writeOffAccountId, selectedExpense);
     $scope.lpiexpenseAccountOptions = Utility.filterOptions($scope.expenseAccountOptions, form.lpiwrittenoff, selectedExpense);
     $scope.interestexpenseAccountOptions = Utility.filterOptions($scope.expenseAccountOptions, form.interestWrittenOff, selectedExpense);
+    $scope.feesexpenseAccountOptions = Utility.filterOptions($scope.expenseAccountOptions, form.feesWrittenOff, selectedExpense);
   };
   //To move on edit loan product page
   $scope.setStep = function(step) {
@@ -123,7 +127,8 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
         isExtraInfo = true; 
         $scope.mapAccExtraForm = {
           lpiwrittenoff: result.data[0].lpiwrittenoff || '',
-          interestWrittenOff: result.data[0].interestWrittenOff || ''
+          interestWrittenOff: result.data[0].interestWrittenOff || '',
+          feesWrittenOff: result.data[0].feesWrittenOff || ''
         };        
       }      
     } catch (e) {
@@ -151,7 +156,8 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     this.mapAccountingForm.locale = 'en';
     this.mapAccountingForm.accountingRule = parseInt(this.mapAccountingForm.accountingRule);
     if (Utility.isUndefinedOrNull($scope.mapAccExtraForm.lpiwrittenoff) ||
-     Utility.isUndefinedOrNull($scope.mapAccExtraForm.interestWrittenOff ) ) {
+     Utility.isUndefinedOrNull($scope.mapAccExtraForm.interestWrittenOff ) ||
+     Utility.isUndefinedOrNull($scope.mapAccExtraForm.feesWrittenOff )) {
       $scope.type = 'error';
       $scope.message = 'All parameters are required';
       $scope.errors = [];
@@ -198,6 +204,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     };
     delete this.mapAccountingForm.interestWrittenOff;
     delete this.mapAccountingForm.lpiwrittenoff;
+    delete this.mapAccountingForm.feesWrittenOff;
     this.mapAccountingForm.transfersInSuspenseAccountId = $scope.product.accountingMappingOptions.assetAccountOptions[0].id;
     this.mapAccountingForm.incomeFromRecoveryAccountId = $scope.product.accountingMappingOptions.incomeAccountOptions[0].id;
     this.mapAccountingForm.overpaymentLiabilityAccountId = $scope.product.accountingMappingOptions.liabilityAccountOptions[0].id;

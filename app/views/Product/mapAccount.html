@@ -140,7 +140,7 @@
           <hr/>
           <div class="form-group">
             <h4>Expenses</h4>
-            <label class="control-label col-sm-2">Loses written off</label>            
+            <label class="control-label col-sm-2">Principal written off</label>            
             <div class="col-sm-3">
               <select id="writeOffAccountId" class="form-control" ng-model="mapAccountingForm.writeOffAccountId" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in losesexpenseAccountOptions" value="{{expenseAccount.id}}">
                 <option class="displaynone" value="">-- Select -- </option>
@@ -158,6 +158,13 @@
             <label class="control-label col-sm-2">LPI written off</label>            
             <div class="col-sm-3">
               <select id="lpiwrittenoffId" class="form-control" ng-model="mapAccExtraForm.lpiwrittenoff" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in lpiexpenseAccountOptions" value="{{expenseAccount.id}}">
+                <option class="displaynone" value="">-- Select -- </option>
+              </select>
+            </div>
+            <div class="col-sm-1"></div>
+            <label class="control-label col-sm-2">Fees written off</label>
+            <div class="col-sm-3">
+              <select id="feesWrittenOffId" class="form-control" ng-model="mapAccExtraForm.feesWrittenOff" ng-change="changeExpenseOptions();"  ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in feesexpenseAccountOptions" value="{{expenseAccount.id}}">
                 <option class="displaynone" value="">-- Select -- </option>
               </select>
             </div>
