@@ -1,0 +1,16 @@
+#Create data table to save extra parameters for loan product
+#loanprodAccMap
+{
+    "datatableName": "loanprodAccMap",
+    "apptableName": "m_product_loan",
+    "columns": [      
+        {
+            "name": "lpiwrittenoff",
+            "type": "Number"
+        },
+        {
+            "name": "interestWrittenOff",
+            "type": "Number"
+        }
+    ]
+}

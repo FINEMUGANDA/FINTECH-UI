@@ -20,14 +20,12 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     Utility.setSelectedOptions(selectedAssets, form.loanPortfolioAccountId);
     Utility.setSelectedOptions(selectedAssets, form.receivableInterestAccountId);
     Utility.setSelectedOptions(selectedAssets, form.receivableFeeAccountId);
-    Utility.setSelectedOptions(selectedAssets, form.receivablePenaltyAccountId);
-    Utility.setSelectedOptions(selectedAssets, form.transfersInSuspenseAccountId);    
+    Utility.setSelectedOptions(selectedAssets, form.receivablePenaltyAccountId);    
     $scope.fundSourceOption = Utility.filterOptions($scope.assetAccountOptions, form.fundSourceAccountId, selectedAssets);
     $scope.loanPortfolioOption = Utility.filterOptions($scope.assetAccountOptions, form.loanPortfolioAccountId, selectedAssets);
     $scope.interestReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivableInterestAccountId, selectedAssets);
     $scope.feesReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivableFeeAccountId, selectedAssets);
     $scope.penaltiesReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivablePenaltyAccountId, selectedAssets);
-    $scope.transferSuspenseOption = Utility.filterOptions($scope.assetAccountOptions, form.transfersInSuspenseAccountId, selectedAssets);
     console.log('selectedAssets = ' + selectedAssets);    
   };
   //Filter on Income Options
@@ -37,11 +35,9 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     Utility.setSelectedOptions(selectedIncome, form.interestOnLoanAccountId);
     Utility.setSelectedOptions(selectedIncome, form.incomeFromFeeAccountId);
     Utility.setSelectedOptions(selectedIncome, form.incomeFromPenaltyAccountId);
-    Utility.setSelectedOptions(selectedIncome, form.incomeFromRecoveryAccountId);
     $scope.interestOnLoanOption = Utility.filterOptions($scope.incomeAccountOptions, form.interestOnLoanAccountId, selectedIncome);
     $scope.incomeFromFeeOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromFeeAccountId, selectedIncome);
     $scope.incomeFromPenaltyOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromPenaltyAccountId, selectedIncome);
-    $scope.incomeFromRecoveryOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromRecoveryAccountId, selectedIncome);
   };
   //Filter on Expense Options
   $scope.changeExpenseOptions = function () {
@@ -97,14 +93,11 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
           $scope.mapAccountingForm.receivableInterestAccountId = $scope.product.accountingMappings.receivableInterestAccount.id;
           $scope.mapAccountingForm.receivableFeeAccountId = $scope.product.accountingMappings.receivableFeeAccount.id;
           $scope.mapAccountingForm.receivablePenaltyAccountId = $scope.product.accountingMappings.receivablePenaltyAccount.id;
-        }
-        $scope.mapAccountingForm.transfersInSuspenseAccountId = $scope.product.accountingMappings.transfersInSuspenseAccount.id;
+        }        
         $scope.mapAccountingForm.interestOnLoanAccountId = $scope.product.accountingMappings.interestOnLoanAccount.id;
         $scope.mapAccountingForm.incomeFromFeeAccountId = $scope.product.accountingMappings.incomeFromFeeAccount.id;
         $scope.mapAccountingForm.incomeFromPenaltyAccountId = $scope.product.accountingMappings.incomeFromPenaltyAccount.id;
-        $scope.mapAccountingForm.incomeFromRecoveryAccountId = $scope.product.accountingMappings.incomeFromRecoveryAccount.id;
         $scope.mapAccountingForm.writeOffAccountId = $scope.product.accountingMappings.writeOffAccount.id;
-        $scope.mapAccountingForm.overpaymentLiabilityAccountId = $scope.product.accountingMappings.overpaymentLiabilityAccount.id;
       }
       //Todo Set accountin rule default
       $scope.mapAccountingForm.accountingRule = '4';
