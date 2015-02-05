@@ -688,6 +688,22 @@ app.directive('onlyDigits', function() {
   };
 });
 
+//Directive for the select box
+app.directive('chosen', function() {
+  var linker = function (scope, element, attrs) {
+      var list = attrs.chosen;
+      scope.$watch(list, function () {
+          element.trigger('liszt:updated');
+          element.trigger('chosen:updated');
+      });
+
+      element.chosen({search_contains:true});
+  };
+  return {
+    restrict: 'A',
+    link: linker
+  };
+});
 //format number
 app.filter('FormatNumber', ['$filter', function($filter) {
     return function (input, fractionSize) {

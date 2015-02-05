@@ -58,6 +58,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
   //To move on edit loan product page
   $scope.setStep = function(step) {
     $scope.editStep = step;
+    LoanProductService.setEditStep(step);
     $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + $scope.id);
   };
   $scope.isAccountingEnabled = function () {
@@ -105,7 +106,6 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
       $rootScope.type = '';
       $scope.changeAssetsOptions();
       $scope.changeIncomeOptions();
-      $scope.changeExpenseOptions();
     } catch (e) {
       console.log(e);
     }
@@ -122,8 +122,9 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
           lpiwrittenoff: result.data[0].lpiwrittenoff || '',
           interestWrittenOff: result.data[0].interestWrittenOff || '',
           feesWrittenOff: result.data[0].feesWrittenOff || ''
-        };        
+        };
       }      
+      $scope.changeExpenseOptions();   
     } catch (e) {
       console.log(e);
     }
@@ -168,7 +169,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
       $scope.type = 'alert-success';
       $scope.message = 'Loan product Updated successfully';
       $scope.errors = '';
-      $route.reload();
+      $location.url('/loanProducts');
     };
 
     var updateloanProductSuccess = function() {

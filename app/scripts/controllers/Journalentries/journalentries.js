@@ -198,7 +198,8 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     var selectedCreditOptions = [];
     for (var i = 0; i < $scope.journalEntryForm.crAccounts.length; i++) {        
         if($scope.journalEntryForm.crAccounts[i].select){
-          selectedCreditOptions.push($scope.journalEntryForm.crAccounts[i].select.id);
+          Utility.setSelectedOptions(selectedCreditOptions, $scope.journalEntryForm.crAccounts[i].select.id);
+          //selectedCreditOptions.push($scope.journalEntryForm.crAccounts[i].select.id);
         }
     }
     $scope.debitOptions = Utility.filterOptions($scope.glAccounts, null, selectedCreditOptions);
@@ -208,7 +209,8 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     var selectedDebitOptions = [];
     for (var i = 0; i < $scope.journalEntryForm.dbAccounts.length; i++) {        
         if($scope.journalEntryForm.dbAccounts[i].select){
-          selectedDebitOptions.push($scope.journalEntryForm.dbAccounts[i].select.id);
+          Utility.setSelectedOptions(selectedDebitOptions, $scope.journalEntryForm.dbAccounts[i].select.id);
+          //selectedDebitOptions.push($scope.journalEntryForm.dbAccounts[i].select.id);
         }
     }
     $scope.creditOptions = Utility.filterOptions($scope.glAccounts, null, selectedDebitOptions);

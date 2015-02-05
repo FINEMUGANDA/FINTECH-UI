@@ -3,6 +3,7 @@
 var loanProductService = angular.module('loanProductService', ['delegatorServices']);
 
 loanProductService.factory('LoanProductService', function($http, Remote) {
+  var editStep;
   return {
     getData: function(url) {
       console.log('Get Data using loanProductService...');
@@ -18,6 +19,12 @@ loanProductService.factory('LoanProductService', function($http, Remote) {
       console.log('Put Data using loanProductService...');
       var promise = Remote.put(url, jsondata);
       return promise;
+    },
+    getEditStep: function() {      
+      return editStep;
+    },
+    setEditStep: function(step) {
+      editStep = step;
     }
   };
 });

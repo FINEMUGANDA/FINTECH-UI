@@ -41,7 +41,7 @@
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
-                    <select chosen="glAccounts" ng-model="dbAccount.select" ng-options="(debitAccount.name +'('+ debitAccount.glCode +')') for debitAccount in debitOptions" class="form-control" ng-change="changeDebitOptions()">
+                    <select chosen="debitOptions" ng-model="dbAccount.select" ng-options="(debitAccount.name +'('+ debitAccount.glCode +')') for debitAccount in debitOptions" class="form-control" ng-change="changeDebitOptions();">
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>                      
                   </div>
@@ -68,7 +68,7 @@
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
-                    <select chosen="glAccounts" ng-model="crAccount.select" ng-options="(creditAccount.name +'('+ creditAccount.glCode +')') for creditAccount in creditOptions" class="form-control" ng-change="changeCreditOptions()">
+                    <select chosen="creditOptions" ng-model="crAccount.select" ng-options="(creditAccount.name +'('+ creditAccount.glCode +')') for creditAccount in creditOptions" class="form-control" ng-change="changeCreditOptions()">
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>                      
                   </div>

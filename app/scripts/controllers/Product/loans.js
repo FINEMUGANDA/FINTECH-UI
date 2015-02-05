@@ -205,16 +205,22 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
     $scope.step = step;
     $scope.newProTab = '';
     $scope.charTab = '';
-    if (step === 1) {
-      $scope.newProTab = 'active';
-    } else {
+    if (step === 2) {
       $scope.charTab = 'active';
+    } else {
+      $scope.newProTab = 'active';
+      $scope.step = 1;
     }
   };
-  $scope.step = 1;
+  //$scope.step = 1;
   if($scope.editStep && $scope.editStep !== 'undefined'){
     $scope.step = $scope.editStep;
   }
+  if(LoanProductService.getEditStep()){
+    $scope.step = LoanProductService.getEditStep();
+    LoanProductService.setEditStep('');
+  }
+  
   $scope.setStep($scope.step);
 
   //To load the loadproducts page
