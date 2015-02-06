@@ -50,6 +50,8 @@ app.constant('REST_URL', {
     'CLIENT_IDENTIFICATION_TEMPLATE_REPORT':'api/v1/runreports/ClientIdentification',
     ACCOUNT_LIST: 'api/v1/glaccounts',
     ACCOUNT_BY_ID: 'api/v1/glaccounts/',
+    JOBS: 'api/v1/jobs',
+    SCHEDULER: 'api/v1/scheduler',
     ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template',
     ACCOUNT_UPDATE_BY_ID: 'api/v1/glaccounts/',
     ACCOUNT_CREATE: 'api/v1/glaccounts',
@@ -98,6 +100,7 @@ app.constant('PAGE_URL', {
     REPORTS : '/reports',
     VIEW_REPORTS : '/vreports',
     RUN_REPORTS : '/run_reports',
+    JOBS: '/jobs'
 });
 
 app.constant('AUTH_EVENTS', {

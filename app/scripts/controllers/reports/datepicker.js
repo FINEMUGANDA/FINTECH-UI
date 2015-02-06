@@ -6,7 +6,7 @@ angular.module('strap.position', [])
  * relation to other, existing elements (this is the case for tooltips, popovers,
  * typeahead suggestions etc.).
  */
-    .factory('$position', ['$document', '$window', function ($document, $window) {
+    .factory('$datepickerPosition', ['$document', '$window', function ($document, $window) {
 
         function getStyle(el, cssprop) {
             if (el.currentStyle) { //IE
@@ -358,8 +358,8 @@ angular.module('modified.datepicker', ['strap.position'])
         closeOnDateSelection: true
     })
 
-    .directive('datepickerPop', ['$compile', '$parse', '$document', '$position', 'dateFilter', 'datepickerPopConfig',
-        function ($compile, $parse, $document, $position, dateFilter, datepickerPopConfig) {
+    .directive('datepickerPop', ['$compile', '$parse', '$document', '$datepickerPosition', 'dateFilter', 'datepickerPopConfig',
+        function ($compile, $parse, $document, $datepickerPosition, dateFilter, datepickerPopConfig) {
             return {
                 restrict: 'EA',
                 require: 'ngModel',
@@ -487,7 +487,7 @@ angular.module('modified.datepicker', ['strap.position'])
                     }
 
                     function updatePosition() {
-                        scope.position = $position.position(element);
+                        scope.position = $datepickerPosition.position(element);
                         scope.position.top = scope.position.top + element.prop('offsetHeight');
                     }
 

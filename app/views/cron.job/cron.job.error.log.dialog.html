@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h4 class="modal-title">Error Log for "{{job.displayName}}"</h4>
+</div>
+
+<div class="modal-body">
+  <h4>Error message:</h4>
+  <div style="overflow: auto">
+    {{jobRunErrorMessage}}
+  </div>
+  <h4>Error details:</h4>
+  <div style="overflow: auto" ng-bind-html="jobRunErrorLog | nl2br">
+    <!--{{job.jobRunErrorLog | nl2br}}-->
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" ng-click="close()">Close</button>
+</div>

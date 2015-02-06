@@ -260,7 +260,7 @@ body.pre-login {
   position: relative;
 }
 
-.tooltip {
+.cusomTooltip {
   top: -30px;
   position: absolute;
   z-index: 100;
@@ -271,7 +271,7 @@ body.pre-login {
   border-radius: 8px;
   box-shadow: 0 0 6px 0 rgba(0,0,0,.16);
 }
-.tooltip:before {
+.cusomTooltip:before {
   left: 18px;
   top: -9px;
   content: ' ';
@@ -290,7 +290,7 @@ body.pre-login {
   z-index: -1;
 }
 
-.tooltip .tooltip__container {
+.cusomTooltip .tooltip__container {
   border-radius: 8px;
   background: #fff;
   -moz-box-sizing: border-box;
@@ -323,5 +323,12 @@ body.pre-login {
   }
   .closed {
     color: $closed;
+  }
+}
+
+.scheduler {
+  color: $hold;
+  &.active {
+    color: $tertiary-color;
   }
 }

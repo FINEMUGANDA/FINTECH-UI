@@ -22,6 +22,7 @@ var app = angular.module('angularjsApp', [
   'journalService',
   'holidayService',
   'reportService',
+  'jobService',
   'Constants',
   'ui.bootstrap',
   'angularFileUpload',
@@ -349,6 +350,18 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/jobs', {
+      templateUrl: 'views/cron.job/cron.job.html',
+      controller: 'CronJobCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/jobs/details/:jobId', {
+      templateUrl: 'views/cron.job/cron.job.details.html',
+      controller: 'CronJobDetailsCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).otherwise({
       redirectTo: '/'
     });
@@ -516,6 +529,7 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
       case PAGE_URL.ADMIN:
       case PAGE_URL.HOLIDAYS:
       case PAGE_URL.REPORTS:
+      case PAGE_URL.JOBS:
         $topNavigation.find('.configuration').parent().addClass('active');
         break;
       case PAGE_URL.ACCOUNTING:
