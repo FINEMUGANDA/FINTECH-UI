@@ -13,7 +13,7 @@
     {{message}}
     <ul>
       <li ng-repeat="error in errors">
-        {{error.defaultUserMessage}}
+        {{error.defaultUserMessage.length? error.defaultUserMessage : error.message}}
       </li>    
     </ul>
 </div>

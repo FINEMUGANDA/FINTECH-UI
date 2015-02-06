@@ -45,7 +45,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
     }
   };
 
-  //Set loan officer 
+  //Set loan officer
   $scope.changeOffice = function(officeId) {
     var changeOfficeSuccess = function(result) {
       console.log('Success : Return from createClientsService.');
@@ -402,7 +402,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       });
     }
   };
-  //Set loan officer 
+  //Set loan officer
   $scope.changeOffice = function(officeId) {
     var changeOfficeSuccess = function(result) {
       console.log('Success : Return from createClientsService.');
@@ -503,7 +503,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       if ($scope.client.imagePresent) {
         $scope.displayImage($route.current.params.id);
       }
-      //Call to fill up the data from the custom datatables i.e. client_extra_information                       
+      //Call to fill up the data from the custom datatables i.e. client_extra_information
       var $url = REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id + '?genericResultSet=true';
       console.log($url);
       CreateClientsService.getData($url).then(editClientExtraInformationTemplateSuccess, editClientExtraInformationTemplateFail);
@@ -808,7 +808,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
 CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientIdentificationCtrl');
   $scope.button_name = 'Add';
-  $scope.isLoading = false;
+  $scope.isLoading = true;
   $scope.clientIdentification = {};
   $scope.clientIdentificationExtra = {};
   $scope.rowCollection = [];
@@ -944,10 +944,17 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
 
   loadCreateClientIdentificationTemplate();
 
-  $scope.validateClientIdentification = function(clientIdentification, clientIdentificationExtra) {
+  $scope.saveAndNext = function() {
+    $scope.validateClientIdentification(function() {
+      $location.url(PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN + '/' + $route.current.params.id);
+    });
+  };
+
+  $scope.validateClientIdentification = function(callback) {
+    callback = callback || angular.noop;
     console.log('CreateClientCtrl : CreateClient : validateClientIdentification');
     if ($scope.ClientIdentificationForm.$valid) {
-      $scope.saveClientIdentification(clientIdentification, clientIdentificationExtra);
+      $scope.saveClientIdentification(callback);
     } else {
       $scope.invalidateForm();
       $scope.type = 'error';
@@ -1002,7 +1009,8 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 
   //function for saving the client identification details
-  $scope.saveClientIdentification = function(clientIdentification, clientIdentificationExtra) {
+  $scope.saveClientIdentification = function(callback) {
+    callback = callback || angular.noop;
     console.log('CreateClientCtrl : CreateClient : saveClientIdentification');
     $scope.type = '';
     $scope.errors = [];
@@ -1015,7 +1023,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
         $scope.uploadDocuments(result.data.resourceId, result.data.clientId);
       }
       $scope.clientIdentificationExtra.identifier_id = result.data.resourceId;
-      $scope.saveClientIdentificationExtra(clientIdentificationExtra);
+      $scope.saveClientIdentificationExtra(callback);
       $scope.button_name = 'Add';
     };
 
@@ -1044,7 +1052,8 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 
   //function for saving the client identification extra details
-  $scope.saveClientIdentificationExtra = function() {
+  $scope.saveClientIdentificationExtra = function(callback) {
+    callback = callback || angular.noop;
     console.log('CreateClientCtrl : CreateClient : saveClientIdentificationExtra');
     //Set the Client identification extra information
     $scope.clientIdentificationExtra.locale = 'en';
@@ -1060,6 +1069,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.type = 'alert-success';
       $scope.errors = [];
       $scope.message = 'Client Identification Detail saved successfully';
+      callback();
       loadCreateClientIdentificationTemplate();
     };
 
@@ -1084,7 +1094,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     }
   };
 
-  //function for deleting the client details 
+  //function for deleting the client details
   $scope.deleteClientIdentification = function(ClientId) {
     console.log('CreateClientCtrl : CreateClient : deleteClientIdentification');
 
@@ -1155,7 +1165,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     }
   };
 
-  //function for editing the client identification details 
+  //function for editing the client identification details
   $scope.editClientIdentification = function(ClientId) {
     $scope.button_name = 'Edit';
     var editClientIdentificationSuccess = function(result) {
@@ -1231,7 +1241,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
 CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientNextToKeenCtrl');
   //To load the loadproducts page
-  $scope.isLoading = false;
+  $scope.isLoading = true;
   $scope.clientNextToKeen = {};
   $scope.clientData = {};
   $scope.rowCollection = [];
@@ -1318,13 +1328,14 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
 
   loadCreateClientNextToKeenTemplate();
 
-  $scope.validateClientNextToKeen = function(clientNextToKeen) {
+  $scope.validateClientNextToKeen = function(callback) {
+    callback = callback || angular.noop;
     console.log('CreateClientCtrl : CreateClient : validateClientNextToKeen');
     $scope.type = '';
     $scope.message = '';
     $scope.errors = [];
     if ($scope.ClientNextToKeenForm.$valid) {
-      $scope.saveClientNextToKeen(clientNextToKeen);
+      $scope.saveClientNextToKeen(callback);
     } else {
       $scope.invalidateForm();
       $scope.type = 'error';
@@ -1339,7 +1350,14 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
     $scope.ClientNextToKeenForm.invalidate = false;
   };
 
-  $scope.saveClientNextToKeen = function() {
+  $scope.saveAndNext = function() {
+    $scope.validateClientNextToKeen(function() {
+      $location.url(PAGE_URL.EDIT_CLIENT_BUSINESS_DETAILS + '/' + $scope.id);
+    });
+  };
+
+  $scope.saveClientNextToKeen = function(callback) {
+    callback = callback || angular.noop;
     console.log('CreateClientCtrl : CreateClient : saveClientNextToKeen');
 
     //Covert date format
@@ -1357,6 +1375,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
       $scope.message = 'Client Next To Keen Details saved successfully';
       $scope.errors = [];
       loadCreateClientNextToKeenTemplate();
+      callback();
     };
 
     var saveClientNextToKeenFail = function(result) {
@@ -1469,7 +1488,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
 CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientBusinessActivityCtrl');
   //To load the loadproducts page
-  $scope.isLoading = false;
+  $scope.isLoading = true;
   $scope.clientBusinessActivity = {};
   $scope.rowCollection = [];
   $scope.displayed = [];
@@ -1516,6 +1535,75 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     $scope.type = '';
     $scope.message = '';
   };
+
+  $scope.finish = function() {
+    validateAllTabs(function(errors) {
+      if (errors && errors.length) {
+        $scope.type = 'error';
+        $scope.message = 'Unable to finish Client saving, following forms contain errors:';
+        $scope.errors = errors;
+      } else {
+        var d = new Date();
+        var jsonData = {
+          'locale': 'en',
+          'dateFormat': 'dd/MM/yyyy',
+          'activationDate': d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
+        };
+        var handleResult = function() {
+          $location.url(PAGE_URL.CLIENTS);
+        };
+        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData).then(handleResult, handleResult);
+      }
+    });
+  };
+
+  $scope.saveAndFinish = function() {
+    $scope.type = '';
+    $scope.message = '';
+    $scope.errors = [];
+    $scope.validateClientBusinessActivity(function() {
+      $scope.finish();
+    });
+  };
+
+  function validateAllTabs(callback) {
+    callback = callback || angular.noop;
+    var clientId = $scope.id;
+
+    var formErrors = {
+      basicClientInfo: new Error('"Basic Client info" form contains mandatory fields'),
+      additionalClientInfo: new Error('"Additional Client Info" form contains mandatory fields'),
+      clientIdentification: new Error('"Client ID" form contains mandatory fields'),
+      nextOfKin: new Error('"Emergency Contacts/Next of Kin" form contains mandatory fields'),
+      businessDetails: new Error('"Business Details" form contains mandatory fields')
+    };
+
+    var tasks = [
+      {key: 'basicClientInfo', url: REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + clientId},
+      {key: 'additionalClientInfo', url: REST_URL.CREATE_ADDITIONAL_CLIENT_INFO + clientId},
+      {key: 'clientIdentification', url: REST_URL.CREATE_CLIENT_IDENTIFICATION + clientId},
+      {key: 'nextOfKin', url: REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + clientId},
+      {key: 'businessDetails', url: REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + clientId}
+    ];
+
+    var resultErrors = [];
+
+
+    async.each(tasks, function(task, cb) {
+      console.log('Check data for', task.key);
+      CreateClientsService.getData(task.url).then(function(result) {
+        if (!result.data.length) {
+          resultErrors.push(formErrors[task.key]);
+        }
+        cb();
+      }, cb);
+    }, function(result) {
+      console.log('result', result);
+      callback(resultErrors);
+    });
+  }
+
+
   //failur callback
   var createClientBusinessActivityTemplateFail = function(result) {
     $scope.isLoading = false;
@@ -1553,7 +1641,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     var loadTableDataFail = function(result) {
       console.log('Error : Return from CreateClientsService service.');
       $scope.type = 'error';
-      $scope.message = 'Client Next To Keen Detail not retrived: ' + result.data.defaultUserMessage;
+      $scope.message = 'Client Business Details not retrived: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
@@ -1571,11 +1659,12 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
   loadCreateClientBusinessActivityTemplate();
 
-  $scope.validateClientBusinessActivity = function(clientBusinessActivity) {
+  $scope.validateClientBusinessActivity = function(callback) {
+    callback = callback || angular.noop;
     console.log('CreateClientCtrl : CreateClient : validateClientBusinessActivity');
     $scope.message = undefined;
     if ($scope.ClientBusinessActivityForm.$valid) {
-      $scope.saveClientBusinessActivity(clientBusinessActivity);
+      $scope.saveClientBusinessActivity(callback);
     } else {
       $scope.invalidateForm();
       $scope.type = 'error';
@@ -1589,7 +1678,8 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     $scope.ClientBusinessActivityForm.invalidate = false;
   };
 
-  $scope.saveClientBusinessActivity = function() {
+  $scope.saveClientBusinessActivity = function(callback) {
+    callback = callback || angular.noop;
     console.log('CreateClientCtrl : CreateClient : saveClientBusinessActivity');
 
     //Covert date format
@@ -1599,13 +1689,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     var saveClientBusinessActivitySuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      d = new Date();
-      var jsonData = {
-        'locale': 'en',
-        'dateFormat': 'dd/MM/yyyy',
-        'activationDate': d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
-      };
-      CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData);
+      callback();
       $scope.type = 'alert-success';
       if ($scope.$requestMethodCreate) {
         $scope.message = 'Client Business Activity Detail saved successfully';
@@ -1676,7 +1760,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     });
   };
 
-  //Function to get the data from the business_activity table to edit it 
+  //Function to get the data from the business_activity table to edit it
   $scope.editBusinessActivity = function(ClientId) {
     console.log('CreateClientCtrl : CreateClient : editNextToKeen');
 
