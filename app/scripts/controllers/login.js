@@ -29,11 +29,8 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, Auth, 
           Session.create(Base64.encode(loginDetails.username + ':' + loginDetails.password), result.data.username, result.data.roles[0]);
           //Redirect Dashboard page
           $location.url(PAGE_URL.DASHBOARD);
-         };
-        
-        AuthService.authentication(authURL).then(authenticationSuccess,$scope.authenticationFail);
-
-        
+         };        
+        AuthService.authentication(authURL).then(authenticationSuccess,$scope.authenticationFail);        
       }else{
         $scope.authenticationFail();
       }

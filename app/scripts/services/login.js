@@ -6,6 +6,7 @@ userServices.factory('AuthService', function($http, $filter, Remote, Session) {
     return {
 	  	    authentication: function(url) { 
                 console.log('Authentication service...'); 
+                delete $http.defaults.headers.common.Authorization; 
                 var promise = Remote.post(url); 
 		  	    return promise;
 		  	},

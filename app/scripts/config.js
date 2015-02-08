@@ -67,7 +67,8 @@ app.constant('REST_URL', {
     HOLIDAYS: 'api/v1/holidays',
     HOLIDAYS_LIST:'api/v1/runreports/HolidayList',
     REPORTS: 'api/v1/reports',
-    RUN_REPORTS: 'api/v1/runreports'
+    RUN_REPORTS: 'api/v1/runreports',
+    AUDIT: 'api/v1/audits'
 });
 
 app.constant('PAGE_URL', {
@@ -100,7 +101,8 @@ app.constant('PAGE_URL', {
     REPORTS : '/reports',
     VIEW_REPORTS : '/vreports',
     RUN_REPORTS : '/run_reports',
-    JOBS: '/jobs'
+    JOBS: '/jobs',
+    AUDIT: '/audit'
 });
 
 app.constant('AUTH_EVENTS', {

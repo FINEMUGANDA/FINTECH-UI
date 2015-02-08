@@ -23,6 +23,7 @@ var app = angular.module('angularjsApp', [
   'holidayService',
   'reportService',
   'jobService',
+  'auditService',
   'Constants',
   'ui.bootstrap',
   'angularFileUpload',
@@ -362,6 +363,12 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/audit', {
+      templateUrl: 'views/audit/audit.html',
+      controller: 'AuditCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).otherwise({
       redirectTo: '/'
     });
@@ -530,6 +537,7 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
       case PAGE_URL.HOLIDAYS:
       case PAGE_URL.REPORTS:
       case PAGE_URL.JOBS:
+      case PAGE_URL.AUDIT:
         $topNavigation.find('.configuration').parent().addClass('active');
         break;
       case PAGE_URL.ACCOUNTING:
