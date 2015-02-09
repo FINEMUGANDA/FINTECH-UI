@@ -49,7 +49,7 @@ angular.module('angularjsApp').controller('CronJobStacktraceDialog', function($r
 
 });
 
-angular.module('angularjsApp').controller('CronJobDetailsCtrl', function($route, REST_URL, JobService, $scope, dialogs) {
+angular.module('angularjsApp').controller('CronJobDetailsCtrl', function($route, REST_URL, JobService, $scope, $interval, dialogs) {
   console.log('CronJobEditDialogCtrl');
   $scope.isLoading = true;
   $scope.jobId = $route.current.params.jobId;
@@ -65,6 +65,7 @@ angular.module('angularjsApp').controller('CronJobDetailsCtrl', function($route,
     });
   }
   updateJobDetails();
+  $interval(updateJobDetails, 10000);
 
   function updateHistoryData() {
     JobService.getData(REST_URL.JOBS + '/' + $scope.jobId + '/runhistory').then(function(result) {
@@ -82,6 +83,16 @@ angular.module('angularjsApp').controller('CronJobDetailsCtrl', function($route,
 
   $scope.openStacktraceDialog = function(job) {
     dialogs.create('/views/cron.job/cron.job.error.log.dialog.html', 'CronJobStacktraceDialog', {job: job, jobRunErrorMessage: job.jobRunErrorMessage, jobRunErrorLog: job.jobRunErrorLog}, {size: 'lg', keyboard: true, backdrop: true});
+  };
+
+  $scope.runJob = function() {
+    JobService.save(REST_URL.JOBS + '/' + $scope.jobId + '?command=executeJob').then(function() {
+      $scope.message = 'Job runned successfully';
+      $scope.type = 'alert-success';
+      $scope.errors = [];
+      updateJobDetails();
+    });
+    console.log($scope.jobId);
   };
 });
 

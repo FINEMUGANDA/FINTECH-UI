@@ -1,6 +1,7 @@
 <div ng-include="'views/common/header.html'"></div>
 
 <div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
   <div ng-hide="isLoading">
     <div class="span gray-head summary" style="margin-left:0%;">
       <div class="clearfix">
@@ -8,6 +9,7 @@
           <strong class="loans-details">Job Details :: {{job.displayName}}</strong>
         </span>
         <div class="pull-right">
+          <button class="btn btn-sm primary" ng-click="runJob()">Run Job</button>
           <button class="btn btn-sm primary" ng-click="openEditDialog()">Edit Job</button>
         </div>
       </div>
@@ -32,7 +34,7 @@
           <dd>{{job.lastRunHistory.status}}</dd>
         </dl>
         <dl class="dl-horizontal">
-          <dt>Previous Run Status:</dt>
+          <dt>Currently Running:</dt>
           <dd>{{job.currentlyRunning}}</dd>
         </dl>
         <dl class="dl-horizontal">
@@ -59,7 +61,7 @@
             </tr>
 
             <tr>
-              <th st-sort="version">Version</th>
+              <th st-sort="version" st-sort-default="reverse">Version</th>
               <th st-sort="jobRunStartTime">Run Start Time</th>
               <th st-sort="jobRunEndTime">Run End Time</th>
               <th st-sort="status">Status</th>
