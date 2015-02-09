@@ -4,22 +4,30 @@
 var dashboardCtrl = angular.module('dashboardController',['dashboardService','Constants', 'GraphUtils']);
   
 dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, REST_URL, PAGE_URL, CHART_TYPE, APPLICATION, Session, Graph) {
-  //To load the dashboard page
+  // To load the dashboard page
+  $scope.isBorrowerReady = false;
+  $scope.isDueReady = false;
+  $scope.isParReady = false;
   $scope.loadDashboard = function(){
     console.log('DashboardCtrl : loadDashboard');
     $scope.username = Session.getValue(APPLICATION.username);
-    //Set header values 
-    $scope.getHeaderStatistics();    
-    //Dummy Charts
-    $scope.borrowerPerLoanOfficer = Graph.getColumnChart(CHART_TYPE.ACTIVE_BORROWERS);
-    $scope.PARPerLoanOfficer = Graph.getparPerLoanChart(CHART_TYPE.PAR_PER_LOAN);
+    // Get header values 
+    $scope.getHeaderStatistics();
+    // Get borrowers per loan officer
+    $scope.getBorrowerPerLoanOfficer();
+    // Get Due vs. Collected previous week
+    $scope.getDueCollectedpreWeek();
+    // Get PAR per Loan Officer
+    $scope.getPARperLoanOfficer();
+    // Dummy Charts
     $scope.loanPortfolioCurrentMonth = Graph.getColumnChart(CHART_TYPE.LOANPORTFOLIO_UPDATES);
-    $scope.dueVsCollectedLastWeek = Graph.getPieChart();
+    //$scope.dueVsCollectedLastWeek = Graph.getPieChart();
   };
 
+  // Get header statistic values
   $scope.getHeaderStatistics = function(){
     console.log('DashboardCtrl : getHomePageHeaderStatic');
-     //Success callback
+     // Success callback
     var headerStatisticsSuccess = function(result){
       console.log('Success : Return from headerStatistics service.');
       $scope.totalActiveClient = result.data[0].totalActiveClient;
@@ -27,9 +35,9 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, RE
       $scope.loansInBadStanding = result.data[0].loansInBadStanding;      
       $scope.repaymentsDueThisWeek = result.data[0].repaymentsDueThisWeek;
     };
-    //failur callback
+    // failur callback
     var headerStatisticsFail = function(result){
-      console.log('Error : Return from headerStatistics service.'+result);
+      console.log('Error : Return from headerStatistics service.' + result);
       $scope.totalActiveClient = 0;
       $scope.totalBorrowers = 0;
       $scope.loansInBadStanding = 0;      
@@ -37,7 +45,228 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, RE
     };
     //service to get Statistics value from server
     DashboardService.headerStatistics(REST_URL.DASHBOARD_HEADER_STATISTIC).then(headerStatisticsSuccess,headerStatisticsFail);
-   
+  };
+
+  // Get borrowers per loan officer
+  $scope.getBorrowerPerLoanOfficer = function(){
+    console.log('DashboardCtrl : getBorrowerPerLoanOfficer');
+     var data = {};
+     data.maxValue = 500;
+     data.cols = [
+      {
+        'id': 'name',
+        'label': 'Name',
+        'type': 'string'
+      },
+      {
+        'id': 'borrowers',
+        'label': 'Borrowers',
+        'type': 'number'
+      },
+      {
+        'id': 'barHeaders',
+        'role': 'annotation',
+        'type': 'string',
+        'p': {
+          'role': 'annotation',
+          'html': true
+        }
+      }
+    ];
+    data.rows = [];
+    // Success callback
+    var borrowerPerLoanOfficerSuccess = function(result){
+      console.log('Success : Return from dashboardService service.');
+      $scope.isBorrowerReady = true;
+      var temp = '';
+      for (var i in result.data) {
+        temp = {
+          'c': [
+            {
+                'v': result.data[i].loanOfficer
+            },
+            {
+                'v': result.data[i].borrowers
+            },
+            {
+                'v': result.data[i].borrowers
+            }
+          ]
+        };
+        data.rows.push(temp);
+      }
+      $scope.borrowerPerLoanOfficer = Graph.getColumnChart(data);
+    };
+    // failur callback
+    var borrowerPerLoanOfficerFail = function(result){
+      console.log('Error : Return from dashboardService service.' + result);
+      $scope.isBorrowerReady = true;
+      $scope.borrowerPerLoanOfficer = Graph.getColumnChart(data);
+    };
+    //service to get Active Borrowers per Loan Officer
+    DashboardService.getData(REST_URL.ACTIVE_BORROWERS_PER_LOAN_OFFICER).then(borrowerPerLoanOfficerSuccess, borrowerPerLoanOfficerFail);   
+  };
+
+  // Get Due vs. Collected previous week
+  $scope.getDueCollectedpreWeek = function() {
+    console.log('DashboardCtrl : getDueCollectedpreWeek');
+     var data = {};
+     data.cols = [
+      {
+        'id': 'status',
+        'label': 'Status',
+        'type': 'string',
+        'p': {}
+      },
+      {
+        'id': 'total',
+        'label': 'Total',
+        'type': 'number',
+        'p': {}
+      }
+    ];
+    data.rows = [];
+    // Success callback
+    var dueCollectedpreWeekSuccess = function(result){
+      console.log('Success : Return from dashboardService service.' + result);
+      $scope.isDueReady = true;     
+      data.rows = [
+        {
+          'c': [
+            {
+              'v': 'Collected'
+            },
+            {
+              'v': 85
+            }
+          ]
+        },
+        {
+          'c': [
+            {
+              'v': 'Due'
+            },
+            {
+              'v': 15
+            }
+          ]
+        }
+      ];
+      $scope.dueVsCollectedLastWeek = Graph.getPieChart(data);
+    };
+    // failur callback
+    var dueCollectedpreWeekFail = function(result){
+      $scope.isDueReady = true;
+      console.log('Error : Return from dashboardService service.'+result);
+      $scope.dueVsCollectedLastWeek = Graph.getColumnChart(data);
+    };
+    //service to get Active Borrowers per Loan Officer
+    DashboardService.getData(REST_URL.ACTIVE_BORROWERS_PER_LOAN_OFFICER).then(dueCollectedpreWeekSuccess, dueCollectedpreWeekFail);   
+  };
+
+  // Get PAR per Loan Officer
+  $scope.getPARperLoanOfficer = function() {
+    console.log('DashboardCtrl : getPARperLoanOfficer');
+     var data = {};
+     data.cols = [
+      {
+        'id': 'name',
+        'label': 'Name',
+        'type': 'string'
+      },
+      {
+        'id': 'borrowers',
+        'label': 'Borrowers',
+        'type': 'number'
+      },
+      {
+        'id': 'barHeaders',
+        'role': 'annotation',
+        'type': 'string'
+      }
+    ];
+    data.rows = [];
+    // Success callback
+    var PARperLoanOfficerSuccess = function(result){
+      console.log('Success : Return from dashboardService service.' + result);
+      $scope.isParReady = true;     
+      data.rows = [
+        {
+          'c': [
+            {
+              'v': 'John S.'
+            },
+            {
+              'v': 14
+            },
+            {
+              'v': 14
+            }
+          ]
+        },
+        {
+          'c': [
+            {
+              'v': 'Philip L.'
+            },
+            {
+              'v': 4
+            },
+            {
+              'v': 4
+            }
+          ]
+        },
+        {
+          'c': [
+            {
+              'v': 'Philip R.'
+            },
+            {
+              'v': 10
+            },
+            {
+              'v': 10
+            }
+          ]
+        },
+        {
+          'c': [
+            {
+              'v': 'John E.'
+            },
+            {
+              'v': 17
+            },
+            {
+              'v': 17
+            }
+          ]
+        },
+        {
+          'c': [
+            {
+              'v': 'Vincent C.'
+            },
+            {
+              'v': 5
+            },
+            {
+              'v': 5
+            }
+          ]
+        }
+      ];
+      $scope.PARPerLoanOfficer = Graph.getparPerLoanChart(data);
+    };
+    // failur callback
+    var PARperLoanOfficerFail = function(result){
+      $scope.isParReady = true;
+      console.log('Error : Return from dashboardService service.' + result);
+      $scope.PARPerLoanOfficer = Graph.getparPerLoanChart(data);
+    };
+    //service to get Active Borrowers per Loan Officer
+    DashboardService.getData(REST_URL.ACTIVE_BORROWERS_PER_LOAN_OFFICER).then(PARperLoanOfficerSuccess, PARperLoanOfficerFail);   
   };
 
   //will fire on every page load

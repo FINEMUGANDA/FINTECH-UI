@@ -7,188 +7,6 @@ var GraphUtils = angular.module('GraphUtils', ['googlechart']);
  */
 GraphUtils.factory('Graph', function() {
   // initialize to whatever is in the cookie, if anything
-  var activeBorrowers = function() {
-    return {
-      'cols': [
-        {
-          'id': 'name',
-          'label': 'Name',
-          'type': 'string'
-        },
-        {
-          'id': 'borrowers',
-          'label': 'Borrowers',
-          'type': 'number'
-        },
-        {
-          'id': 'barHeaders',
-          'role': 'annotation',
-          'type': 'string',
-          'p': {
-            'role': 'annotation',
-            'html': true
-          }
-        }
-      ],
-      'rows': [
-        {
-          'c': [
-            {
-              'v': 'John S.'
-            },
-            {
-              'v': 149
-            },
-            {
-              'v': 149
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Philip L.'
-            },
-            {
-              'v': 255
-            },
-            {
-              'v': 255
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Philip R.'
-            },
-            {
-              'v': 475
-            },
-            {
-              'v': 475
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'John E.'
-            },
-            {
-              'v': 201
-            },
-            {
-              'v': 201
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Vincent C.'
-            },
-            {
-              'v': 290
-            },
-            {
-              'v': 290
-            }
-          ]
-        }
-      ]
-    };
-  };
-
-  var parPerLoan = function() {
-    return {
-      'cols': [
-        {
-          'id': 'name',
-          'label': 'Name',
-          'type': 'string'
-        },
-        {
-          'id': 'borrowers',
-          'label': 'Borrowers',
-          'type': 'number'
-        },
-        {
-          'id': 'barHeaders',
-          'role': 'annotation',
-          'type': 'string'
-        }
-      ],
-      'rows': [
-        {
-          'c': [
-            {
-              'v': 'John S.'
-            },
-            {
-              'v': 14
-            },
-            {
-              'v': 14
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Philip L.'
-            },
-            {
-              'v': 4
-            },
-            {
-              'v': 4
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Philip R.'
-            },
-            {
-              'v': 10
-            },
-            {
-              'v': 10
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'John E.'
-            },
-            {
-              'v': 17
-            },
-            {
-              'v': 17
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Vincent C.'
-            },
-            {
-              'v': 5
-            },
-            {
-              'v': 5
-            }
-          ]
-        }
-      ]
-    };
-  };
-
   var changesInLoanPortfolio = function() {
     return {
       'cols': [
@@ -294,13 +112,13 @@ GraphUtils.factory('Graph', function() {
             }
           ]
         }
-      ]
+      ],
+      maxValue: 25
     };
   };
 
   return {
-    getparPerLoanChart: function() {
-      var data = parPerLoan();
+    getparPerLoanChart: function(data) {
       return {
         'type': 'ColumnChart',
         'cssStyle': 'height:180px; width:100%;',
@@ -329,10 +147,10 @@ GraphUtils.factory('Graph', function() {
     },
     getColumnChart: function(chartData) {
       var data;
-      if (chartData === 'activeBorrowers') {
-        data = activeBorrowers();
-      } else if (chartData === 'changesInLoanPortfolio') {
+      if (chartData === 'changesInLoanPortfolio') {
         data = changesInLoanPortfolio();
+      } else {
+        data = chartData;
       }
 
       return {
@@ -352,7 +170,7 @@ GraphUtils.factory('Graph', function() {
               'count': 6
             },
             'minValue': 0,
-            'maxValue': 25
+            'maxValue': data.maxValue
           },
           'hAxis': {
           }
@@ -600,48 +418,11 @@ GraphUtils.factory('Graph', function() {
         'displayed': true
       };
     },
-    getPieChart: function() {
+    getPieChart: function(data) {
       return {
         'type': 'PieChart',
         'cssStyle': 'height:180px; width:100%;',
-        'data': {
-          'cols': [
-            {
-              'id': 'month',
-              'label': 'Month',
-              'type': 'string',
-              'p': {}
-            },
-            {
-              'id': 'laptop-id',
-              'label': 'Laptop',
-              'type': 'number',
-              'p': {}
-            }
-          ],
-          'rows': [
-            {
-              'c': [
-                {
-                  'v': 'Collected'
-                },
-                {
-                  'v': 85
-                }
-              ]
-            },
-            {
-              'c': [
-                {
-                  'v': 'Due'
-                },
-                {
-                  'v': 15
-                }
-              ]
-            }
-          ]
-        },
+        'data': data,
         'options': {
           'colors': ['#88cac6', '#e28b00'],
           'pieHole': 0.4,

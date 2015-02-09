@@ -68,7 +68,8 @@ app.constant('REST_URL', {
     HOLIDAYS_LIST:'api/v1/runreports/HolidayList',
     REPORTS: 'api/v1/reports',
     RUN_REPORTS: 'api/v1/runreports',
-    AUDIT: 'api/v1/audits'
+    AUDIT: 'api/v1/audits',
+    ACTIVE_BORROWERS_PER_LOAN_OFFICER: 'api/v1/runreports/Active Borrowers per Loan Officer'
 });
 
 app.constant('PAGE_URL', {

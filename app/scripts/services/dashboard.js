@@ -8,6 +8,11 @@ dashboardService.factory('DashboardService', function($http, Remote) {
                 console.log('Get total active clients...');
                 var promise = Remote.get(url);
                 return promise;
+            },
+            getData: function(url){
+                console.log('Get total active clients...');
+                var promise = Remote.get(url);
+                return promise;
             }
 	};
 });

@@ -31,13 +31,24 @@
     <div class="charts">
       <div class="portlet">
         <div class="heading">Active Borrowers per Loan Officer</div> 
-        <div class="body"><div google-chart chart="borrowerPerLoanOfficer" style="{{borrowerPerLoanOfficer.cssStyle}}"></div></div>
+        <div class="body">
+          <div ng-show="isBorrowerReady" google-chart chart="borrowerPerLoanOfficer" style="{{borrowerPerLoanOfficer.cssStyle}}">
+          </div>
+          <div ng-hide="isBorrowerReady">
+            Loading...
+          </div>
+        </div>
       </div>
     </div>
     <div class="charts">
       <div class="portlet">
-        <div class="heading">PAR per Loan Officer</div> 
-        <div class="body"><div google-chart chart="PARPerLoanOfficer" style="{{PARPerLoanOfficer.cssStyle}}"></div></div>
+        <div class="heading">PAR per Loan Officer</div>         
+        <div class="body">
+          <div ng-hide="isParReady">
+            Loading...
+          </div>
+          <div ng-show="isParReady" google-chart chart="PARPerLoanOfficer" style="{{PARPerLoanOfficer.cssStyle}}"></div>
+        </div>
       </div>
     </div>
     <div class="charts">
@@ -49,7 +60,12 @@
     <div class="charts">
       <div class="portlet">
         <div class="heading">Due vs. Collected previous week</div> 
-        <div class="body"><div google-chart chart="dueVsCollectedLastWeek" style="{{dueVsCollectedLastWeek.cssStyle}}"></div></div>
+        <div class="body">
+          <div ng-hide="isDueReady">
+              Loading...
+          </div>
+          <div ng-show="isDueReady" google-chart chart="dueVsCollectedLastWeek" style="{{dueVsCollectedLastWeek.cssStyle}}"></div>
+        </div>
       </div>
     </div>
   </div>
