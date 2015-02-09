@@ -102,7 +102,8 @@ app.constant('PAGE_URL', {
     VIEW_REPORTS : '/vreports',
     RUN_REPORTS : '/run_reports',
     JOBS: '/jobs',
-    AUDIT: '/audit'
+    AUDIT: '/audit',
+    AUDIT_DETAILS : '/audit/details/' 
 });
 
 app.constant('AUTH_EVENTS', {

@@ -369,6 +369,12 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/audit/details/:id', {
+      templateUrl: 'views/audit/viewaudit.html',
+      controller: 'ViewAuditCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).otherwise({
       redirectTo: '/'
     });

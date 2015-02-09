@@ -1,0 +1,85 @@
+<div ng-include="'views/common/header.html'"></div>
+  <div class="container post-login"> 
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="page-header">
+    <div class="header">
+      <h3>View Audit Entry : {{details.id}}</h3>
+      <div class="action"></div>
+    </div>
+    </div>    
+    <table ng-show="isLoading" class="table">
+      <thead>
+        <tr>
+          <th colspan="2">
+            <div class="form-group col-xs-12">
+              <div class="filters" >
+                <div style="float:left;">            
+                  <ul role="tablist">
+                    <li role="presentation">
+                      <div class="action">                      
+                        <a href='#/audit' class="btn primary btn-warning">
+                            <span class="glyphicon glyphicon-arrow-left"></span>
+                            Back
+                        </a>
+                      </div>
+                    </li>
+                 </ul>
+                </div>               
+              </div> 
+            </div>
+            <div class="form-group col-xs-12">
+              <div class="col-xs-2"> <b>Status</b></div>
+              <div class="col-xs-3"> {{details.processingResult}}</div>
+              <div class="col-xs-1"></div>              
+              <div class="col-xs-2"> <b>User</b></div>
+              <div class="col-xs-3"> {{details.maker}}</div>              
+            </div>            
+            <div class="form-group col-xs-12">
+              <div class="col-xs-2"> <b>Action</b></div>
+              <div class="col-xs-3"> {{details.actionName}}</div>
+              <div class="col-xs-1"></div> 
+              <div class="col-xs-2"> <b>Date</b></div>
+              <div class="col-xs-3"> {{details.madeOnDate}}</div>
+            </div>
+            <div class="form-group col-xs-12">
+              <div class="col-xs-2"> <b>Entity</b></div>
+              <div class="col-xs-3"> {{details.entityName}}</div>
+              <div class="col-xs-1"></div>
+              <div class="col-xs-2" data-ng-show="details.resourceId"> <b>Resource ID</b></div>
+              <div class="col-xs-3" data-ng-show="details.resourceId"> {{details.resourceId}}</div>
+            </div>
+            <div class="form-group col-xs-12">
+              <div class="col-xs-2" data-ng-show="details.officeName"> <b>Office</b></div>
+              <div class="col-xs-3" data-ng-show="details.officeName"> {{details.officeName}}</div>
+              <div class="col-xs-1" data-ng-show="details.officeName"></div>              
+              <div class="col-xs-2" data-ng-show="details.savingsAccountNo"> <b>Savings Account #</b></div>
+              <div class="col-xs-3" data-ng-show="details.savingsAccountNo"> 
+                {{details.savingsAccountNo}}
+              </div>
+            </div>
+            <div class="form-group col-xs-12" data-ng-show="details.groupLevelName">
+              <div class="col-xs-2"> <b>Level Name</b></div>
+              <div class="col-xs-3"> {{details.groupName}}</div>
+            </div>
+          </th>
+        </tr>
+        <tr data-ng-show="details.commandAsJson" >
+          <th colspan="2"> <b>Command</b></th>
+        </tr>
+      </thead>
+      <tbody data-ng-show="details.commandAsJson" >
+        <tr data-ng-repeat="json in jsondata">
+          <td width="35%">{{json.name}}</td>
+          <td width="65%">{{json.property}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table ng-hide="isLoading" class="table">
+      <thead>
+        <tr>
+          <th colspan="2"> Loading...</th>
+        </tr>
+      </thead>
+   <table>
+  </div>
+</div>

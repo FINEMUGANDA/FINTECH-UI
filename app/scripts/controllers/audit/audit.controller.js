@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, REST_URL, 
-  AuditService, Utility) {
+  AuditService, Utility, PAGE_URL, $location) {
   console.log('AuditCtrl');
   $scope.formData = {};
   $scope.formDate = {};
@@ -74,4 +74,48 @@ angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, 
     getAuditList($scope.url);    
   };
 
+  $scope.viewAudit = function (audit) {
+      $location.path(PAGE_URL.AUDIT_DETAILS + audit.id);
+  };
+  
+});
+
+// View audit in detail
+angular.module('angularjsApp').controller('ViewAuditCtrl', function($route, $scope, REST_URL, 
+  PAGE_URL, AuditService, $location) {
+  console.log('ViewAuditCtrl');
+  $scope.isLoading = false;
+  $scope.id = $route.current.params.id;
+
+  //Success callback
+  var loadAuditDetailSuccess = function(result) {
+    $scope.isLoading = true;
+    try {
+      $scope.details = result.data;
+      $scope.commandAsJson = result.data.commandAsJson;
+      var obj = JSON.parse($scope.commandAsJson);
+      $scope.jsondata = [];      
+      angular.forEach(obj, function (value, key) {
+          $scope.jsondata.push({name: key, property: value});
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  //failur callback
+  var loadAuditDetailFail = function(result) {
+    $scope.isLoading = true;    
+    console.log('Error : Return from AuditService service.' + result);
+    $location.path(PAGE_URL.AUDIT);
+  };
+  
+  var url = REST_URL.AUDIT;
+  if ($scope.id) {
+    url = url + '/' + $scope.id; 
+  } else {
+    $location.path(PAGE_URL.AUDIT);
+  }
+  //service to get accounts from server    
+  AuditService.getData(url).then(loadAuditDetailSuccess, loadAuditDetailFail);
 });

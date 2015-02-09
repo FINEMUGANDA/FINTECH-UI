@@ -117,16 +117,16 @@
       </thead>
       <tbody ng-hide="isLoading">        
         <tr class="pointer" ng-repeat="audit in displayed">
-          <td data-ng-click="editHoliday(audit)">{{audit.id}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.resourceId}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.processingResult}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.maker}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.actionName}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.entityName}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.officeName}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.madeOnDate | date:'dd/MM/yyyy'}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.checker}}</td>
-          <td data-ng-click="editHoliday(audit)">{{audit.checkedOnDate | date:'dd/MM/yyyy'}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.id}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.resourceId}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.processingResult}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.maker}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.actionName}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.entityName}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.officeName}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.madeOnDate | date:'dd/MM/yyyy'}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.checker}}</td>
+          <td data-ng-click="viewAudit(audit)">{{audit.checkedOnDate | date:'dd/MM/yyyy'}}</td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">
