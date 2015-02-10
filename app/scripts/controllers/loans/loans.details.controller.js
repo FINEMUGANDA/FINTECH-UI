@@ -61,7 +61,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
           _.extend($scope.loanDetails, result.data[0]);
         }
       });
-      updateActiveState(result.data.status.id || 300);
+      updateActiveState(result.data.status.id || 300 || 800 || 900);
       $scope.isLoading = false;
     });
   }

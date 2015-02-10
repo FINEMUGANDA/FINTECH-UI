@@ -758,8 +758,8 @@ app.filter('status', [function() {
       '601': 'status closed', //grey
       '602': 'status active', //green
       '700': 'status active', //green
-      '800': 'status active', //green
-      '900': 'status active'//green
+      '800': 'status active activeGoodStanding', //red
+      '900': 'status active activeBadStanding'//green
     };
     return function(statusCode) {
       return STATUS_COLOR_CODE[statusCode];

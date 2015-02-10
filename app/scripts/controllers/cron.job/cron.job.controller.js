@@ -3,7 +3,7 @@
 
 angular.module('angularjsApp').controller('CronJobCtrl', function($route, REST_URL, JobService, $timeout, $scope, dialogs, $location) {
   console.log('CronJobCtrl');
-  $scope.itemsByPage = 10;
+  $scope.itemsByPage = 20;
   $scope.isLoading = true;
   function updateJobList() {
     $scope.isLoading = true;
@@ -49,7 +49,7 @@ angular.module('angularjsApp').controller('CronJobStacktraceDialog', function($r
 
 });
 
-angular.module('angularjsApp').controller('CronJobDetailsCtrl', function($route, REST_URL, JobService, $scope, $interval, dialogs) {
+angular.module('angularjsApp').controller('CronJobDetailsCtrl', function($route, REST_URL, JobService, $scope, dialogs) {
   console.log('CronJobEditDialogCtrl');
   $scope.isLoading = true;
   $scope.jobId = $route.current.params.jobId;
@@ -65,7 +65,6 @@ angular.module('angularjsApp').controller('CronJobDetailsCtrl', function($route,
     });
   }
   updateJobDetails();
-  $interval(updateJobDetails, 10000);
 
   function updateHistoryData() {
     JobService.getData(REST_URL.JOBS + '/' + $scope.jobId + '/runhistory').then(function(result) {
