@@ -172,6 +172,7 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, RE
   $scope.getPARperLoanOfficer = function() {
     console.log('DashboardCtrl : getPARperLoanOfficer');
      var data = {};
+     data.maxValue = 5;
      data.cols = [
       {
         'id': 'name',
@@ -193,84 +194,34 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, RE
     // Success callback
     var PARperLoanOfficerSuccess = function(result){
       console.log('Success : Return from dashboardService service.' + result);
-      $scope.isParReady = true;     
-      data.rows = [
-        {
+      $scope.isParReady = true;
+      var temp = '';
+      for (var i in result.data) {
+        temp = {
           'c': [
             {
-              'v': 'John S.'
+                'v': result.data[i].loanOfficerFirstName + ' ' + result.data[i].loanOfficerLastName
             },
             {
-              'v': 14
+                'v': result.data[i].par
             },
             {
-              'v': 14
+                'v': result.data[i].par
             }
           ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Philip L.'
-            },
-            {
-              'v': 4
-            },
-            {
-              'v': 4
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Philip R.'
-            },
-            {
-              'v': 10
-            },
-            {
-              'v': 10
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'John E.'
-            },
-            {
-              'v': 17
-            },
-            {
-              'v': 17
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Vincent C.'
-            },
-            {
-              'v': 5
-            },
-            {
-              'v': 5
-            }
-          ]
-        }
-      ];
-      $scope.PARPerLoanOfficer = Graph.getparPerLoanChart(data);
+        };
+        data.rows.push(temp);
+      }
+      $scope.PARPerLoanOfficer = Graph.getColumnChart(data);
     };
     // failur callback
     var PARperLoanOfficerFail = function(result){
       $scope.isParReady = true;
       console.log('Error : Return from dashboardService service.' + result);
-      $scope.PARPerLoanOfficer = Graph.getparPerLoanChart(data);
+      $scope.PARPerLoanOfficer = Graph.getColumnChart(data);
     };
     //service to get Active Borrowers per Loan Officer
-    DashboardService.getData(REST_URL.ACTIVE_BORROWERS_PER_LOAN_OFFICER).then(PARperLoanOfficerSuccess, PARperLoanOfficerFail);   
+    DashboardService.getData(REST_URL.PAR_PER_LOAN_OFFICER).then(PARperLoanOfficerSuccess, PARperLoanOfficerFail);   
   };
 
   //will fire on every page load

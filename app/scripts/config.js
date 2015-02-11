@@ -70,6 +70,7 @@ app.constant('REST_URL', {
     RUN_REPORTS: 'api/v1/runreports',
     AUDIT: 'api/v1/audits',
     DUEVSCOLLECTED: 'api/v1/runreports/DueVsCollected',
+    PAR_PER_LOAN_OFFICER: 'api/v1/runreports/PAR per Loan Officer',
     ACTIVE_BORROWERS_PER_LOAN_OFFICER: 'api/v1/runreports/Active Borrowers per Loan Officer'
 });
 
