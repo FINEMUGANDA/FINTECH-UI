@@ -129,39 +129,43 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, RE
     // Success callback
     var dueCollectedpreWeekSuccess = function(result){
       console.log('Success : Return from dashboardService service.' + result);
-      $scope.isDueReady = true;     
-      data.rows = [
-        {
-          'c': [
-            {
-              'v': 'Collected'
-            },
-            {
-              'v': 85
-            }
-          ]
-        },
-        {
-          'c': [
-            {
-              'v': 'Due'
-            },
-            {
-              'v': 15
-            }
-          ]
-        }
-      ];
+      $scope.isDueReady = true;
+      var collected = parseFloat(result.data[0].collected);
+      var due = parseFloat(result.data[0].due);
+      if(due > 0 || collected > 0){
+        data.rows = [
+          {
+            'c': [
+              {
+                'v': 'Collected'
+              },
+              {
+                'v': collected
+              }
+            ]
+          },
+          {
+            'c': [
+              {
+                'v': 'Due'
+              },
+              {
+                'v': due
+              }
+            ]
+          }
+        ];
+      }      
       $scope.dueVsCollectedLastWeek = Graph.getPieChart(data);
     };
     // failur callback
     var dueCollectedpreWeekFail = function(result){
       $scope.isDueReady = true;
       console.log('Error : Return from dashboardService service.'+result);
-      $scope.dueVsCollectedLastWeek = Graph.getColumnChart(data);
+      $scope.dueVsCollectedLastWeek = Graph.getPieChart(data);
     };
     //service to get Active Borrowers per Loan Officer
-    DashboardService.getData(REST_URL.ACTIVE_BORROWERS_PER_LOAN_OFFICER).then(dueCollectedpreWeekSuccess, dueCollectedpreWeekFail);   
+    DashboardService.getData(REST_URL.DUEVSCOLLECTED).then(dueCollectedpreWeekSuccess, dueCollectedpreWeekFail);   
   };
 
   // Get PAR per Loan Officer
