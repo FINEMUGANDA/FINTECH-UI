@@ -313,14 +313,13 @@ body.pre-login {
   .status {
   }
   .active {
+    color: $tertiary-color;
     &.activeBadStanding {
       color: $bad;
     }
     &.activeGoodStanding {
       color: $tertiary-color;
     }
-
-    color: $tertiary-color;
   }
   .bad {
     color: $bad;
