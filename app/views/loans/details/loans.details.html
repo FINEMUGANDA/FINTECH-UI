@@ -51,6 +51,14 @@
           <dt>External ID:</dt>
           <dd>{{loanDetails.externalId? loanDetails.externalId : 'Not Provided'}}</dd>
         </dl>
+        <dl class="dl-horizontal">
+          <dt># of payments:</dt>
+          <dd>{{loanDetails.additionalLoanInfo.paymentCount| number}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt># of missed payments:</dt>
+          <dd>{{loanDetails.additionalLoanInfo.missedPaymentCount| number}}</dd>
+        </dl>
       </div>
       <div class="col-md-6">
         <dl class="dl-horizontal">
@@ -68,6 +76,14 @@
         <dl class="dl-horizontal">
           <dt>Arrears By:</dt>
           <dd>{{loanDetails.summary.totalOverdue? loanDetails.summary.totalOverdue : 'Not Provided'}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Days in Arrears:</dt>
+          <dd>{{loanDetails.daysInArrears| number}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Loan maturity date:</dt>
+          <dd>{{loanDetails.additionalLoanInfo.maturityDate| DateFormat}}</dd>
         </dl>
       </div>
     </div>

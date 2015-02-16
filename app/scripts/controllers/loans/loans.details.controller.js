@@ -60,6 +60,22 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
         if (result && result.data && result.data.length) {
           _.extend($scope.loanDetails, result.data[0]);
         }
+        window.loanDetails = angular.copy($scope.loanDetails);
+        var paymentCount = _.filter($scope.loanDetails.repaymentSchedule.periods, function(p) {
+          return p.complete;
+        }).length;
+
+        var missedPaymentCount = _.filter($scope.loanDetails.repaymentSchedule.periods, function(p) {
+          return p.totalPaidLateForPeriod > 0;
+        }).length;
+
+        var lastScheduledPayment = _.max($scope.loanDetails.repaymentSchedule.periods, 'period');
+
+        $scope.loanDetails.additionalLoanInfo = {
+          paymentCount: paymentCount,
+          missedPaymentCount: missedPaymentCount,
+          maturityDate: lastScheduledPayment.dueDate
+        };
       });
       updateActiveState(result.data.status.id || 300 || 800 || 900);
       $scope.isLoading = false;
