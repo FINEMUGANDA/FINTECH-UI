@@ -1,53 +1,54 @@
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login">
-  <div ng-include src="'/views/alert.html'"></div>
-  <div class="rows">
-    <div class="page-header">
-      <div class="header">
-        <h3>Admin</h3>
-      </div>
-    </div>
-    <div class="row">
-      <form name="roleForm" ng-hide="isLoading" class="role-form form-horizontal" ng-submit="validateRole()" novalidate show-validation>
-        <div class="col-md-12">
-          <div class="col-md-8">
-            <div class="form-group">
-              <label class="control-label col-md-4">name<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-                <input name="roleName" class="form-control"  type="text" ng-model="form.role.name" required />
-              </div>
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="rows">
+        <div class="page-header">
+            <div class="header">
+                <h3>Admin</h3>
             </div>
-            <div class="form-group">
-              <label class="control-label col-md-4">description<span class="required"> *</span></label>
-              <div class="validate col-md-6">
-                <input name="roleDescription" class="form-control" type="text" ng-model="form.role.description" required/>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="col-md-offset-5 paddedtop">
-          <button id="save" type="submit" class="btn btn-primary">Save</button>
-          <a id="cancel" href="#/admin/roles" class="btn btn-warning">Cancel</a>
-        </div>
+        <div class="row">
+            <form name="roleForm" ng-hide="isLoading" class="role-form form-horizontal" ng-submit="validateRole()"
+                  novalidate show-validation>
+                <div class="col-md-12">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">name<span class="required"> *</span></label>
 
-<!--        <div class="col-md-2">
-          <ul class="list-unstyled">
-            <li  ng-repeat="permission_group in prem_out_list">
-              <span ng-click="change_group_permission($index)">{{permission_group.grouping}}</span>
-            </li>
-          </ul>
+                            <div class="validate col-md-6">
+                                <input name="roleName" class="form-control" type="text" ng-model="form.role.name" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">description<span class="required"> *</span></label>
+
+                            <div class="validate col-md-6">
+                                <input name="roleDescription" class="form-control" type="text" ng-model="form.role.description" required/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-offset-5 paddedtop">
+                    <button id="save" type="submit" class="btn btn-primary">Save</button>
+                    <a id="cancel" href="#/admin/roles" class="btn btn-warning">Cancel</a>
+                </div>
+
+                <div class="col-md-2">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="permission_group in prem_out_list">
+                            <a href="" ng-click="change_group_permission($index)">{{permission_group.grouping}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li class="form-group" ng-repeat="permission in prem_out_list[current_group_permission].prem_list">
+                            <span>{{permission.actionName}} {{permission.entityName}} <input type="checkbox" ng-model="permission.selected"></span>
+                        </li>
+                    </ul>
+                </div>
+                <hr/>
+            </form>
         </div>
-        <div class="col-md-6">
-          <ul class="list-unstyled">
-            <li ng-repeat="permission in prem_out_list[current_group_permission].prem_list">
-              <span>{{permission.actionName}} {{permission.entityName}}
-                <input type="checkbox" ng-model="permission.selected">
-              </span>
-            </li>
-          </ul>
-        </div>-->
-        <hr/>
-      </form>
     </div>
-  </div>
 </div>
