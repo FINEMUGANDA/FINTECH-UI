@@ -34,7 +34,7 @@
 
 
     <div class="summary clearfix">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <dl class="dl-horizontal">
           <dt>Disbursement Date:</dt>
           <dd>{{loanDetails.timeline.actualDisbursementDate ? (loanDetails.timeline.actualDisbursementDate | DateFormat) : 'Not Provided'}}</dd>
@@ -51,16 +51,8 @@
           <dt>External ID:</dt>
           <dd>{{loanDetails.externalId? loanDetails.externalId : 'Not Provided'}}</dd>
         </dl>
-        <dl class="dl-horizontal">
-          <dt># of payments:</dt>
-          <dd>{{loanDetails.additionalLoanInfo.paymentCount| number}}</dd>
-        </dl>
-        <dl class="dl-horizontal">
-          <dt># of missed payments:</dt>
-          <dd>{{loanDetails.additionalLoanInfo.missedPaymentCount| number}}</dd>
-        </dl>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <dl class="dl-horizontal">
           <dt>Loan Purpose:</dt>
           <dd>{{loanDetails.loanPurpose? loanDetails.loanPurpose : 'Not Provided'}}</dd>
@@ -76,6 +68,16 @@
         <dl class="dl-horizontal">
           <dt>Arrears By:</dt>
           <dd>{{loanDetails.summary.totalOverdue? loanDetails.summary.totalOverdue : 'Not Provided'}}</dd>
+        </dl>
+      </div>
+      <div class="col-md-4">
+        <dl class="dl-horizontal">
+          <dt># of payments:</dt>
+          <dd>{{loanDetails.additionalLoanInfo.paymentCount| number}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt># of missed payments:</dt>
+          <dd>{{loanDetails.additionalLoanInfo.missedPaymentCount| number}}</dd>
         </dl>
         <dl class="dl-horizontal">
           <dt>Days in Arrears:</dt>
