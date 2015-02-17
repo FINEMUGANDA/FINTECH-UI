@@ -1,6 +1,10 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="cancel()">&times;</button>
-  <h4 class="modal-title">{{action === 'prepay'? 'Prepay Loan' : 'Make Payment'}}</h4>
+  <h4 class="modal-title" ng-switch="action">
+    <span ng-switch-when="prepay">Prepay Loan</span>
+    <span ng-switch-when="adjust">Adjust Transaction</span>
+    <span ng-switch-default>Make Payment</span>
+  </h4>
 </div>
 
 <form name="loanDetailsFormPrepay" class="form form-horizontal" ng-submit="submit()" novalidate show-validation>
@@ -101,7 +105,7 @@
 
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-success" ng-hide="isLoading">Save</button>
+    <button type="submit" class="btn btn-success" ng-hide="isLoading">{{action === 'adjust'? 'Adjust': 'Save'}}</button>
     <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
   </div>
 </form>
