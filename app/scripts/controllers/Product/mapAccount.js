@@ -20,13 +20,13 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     Utility.setSelectedOptions(selectedAssets, form.loanPortfolioAccountId);
     Utility.setSelectedOptions(selectedAssets, form.receivableInterestAccountId);
     Utility.setSelectedOptions(selectedAssets, form.receivableFeeAccountId);
-    Utility.setSelectedOptions(selectedAssets, form.receivablePenaltyAccountId);    
+    Utility.setSelectedOptions(selectedAssets, form.receivablePenaltyAccountId);
     $scope.fundSourceOption = Utility.filterOptions($scope.assetAccountOptions, form.fundSourceAccountId, selectedAssets);
     $scope.loanPortfolioOption = Utility.filterOptions($scope.assetAccountOptions, form.loanPortfolioAccountId, selectedAssets);
     $scope.interestReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivableInterestAccountId, selectedAssets);
     $scope.feesReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivableFeeAccountId, selectedAssets);
     $scope.penaltiesReceivableOption = Utility.filterOptions($scope.assetAccountOptions, form.receivablePenaltyAccountId, selectedAssets);
-    console.log('selectedAssets = ' + selectedAssets);    
+    console.log('selectedAssets = ', selectedAssets);
   };
   //Filter on Income Options
   $scope.changeIncomeOptions = function () {
@@ -74,8 +74,8 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     return false;
   };
   //Success callback : Map Accounting Template;
-  var mapAccountingTemplateSuccess = function(result) {    
-    console.log('Success : Return from loanProducts service.');    
+  var mapAccountingTemplateSuccess = function(result) {
+    console.log('Success : Return from loanProducts service.');
     try {
       $scope.product = result.data;
       $scope.assetAccountOptions = $scope.product.accountingMappingOptions.assetAccountOptions || [];
@@ -83,7 +83,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
       $scope.incomeAccountOptions = $scope.product.accountingMappingOptions.incomeAccountOptions || [];
       $scope.expenseAccountOptions = $scope.product.accountingMappingOptions.expenseAccountOptions || [];
       $scope.liabilityAccountOptions = $scope.product.accountingMappingOptions.liabilityAccountOptions || [];
-      $scope.mapAccountingForm.accountingRule = '4';      
+      $scope.mapAccountingForm.accountingRule = '4';
       $scope.mapAccountingForm = {
         accountingRule: $scope.product.accountingRule.id,
       };
@@ -94,7 +94,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
           $scope.mapAccountingForm.receivableInterestAccountId = $scope.product.accountingMappings.receivableInterestAccount.id;
           $scope.mapAccountingForm.receivableFeeAccountId = $scope.product.accountingMappings.receivableFeeAccount.id;
           $scope.mapAccountingForm.receivablePenaltyAccountId = $scope.product.accountingMappings.receivablePenaltyAccount.id;
-        }        
+        }
         $scope.mapAccountingForm.interestOnLoanAccountId = $scope.product.accountingMappings.interestOnLoanAccount.id;
         $scope.mapAccountingForm.incomeFromFeeAccountId = $scope.product.accountingMappings.incomeFromFeeAccount.id;
         $scope.mapAccountingForm.incomeFromPenaltyAccountId = $scope.product.accountingMappings.incomeFromPenaltyAccount.id;
@@ -113,24 +113,24 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
   };
   //success map accounting template
   var isExtraInfo = false;
-  var mapAccountingTemplateExtraSuccess = function(result) {    
+  var mapAccountingTemplateExtraSuccess = function(result) {
     console.log('Success : Return from loanProducts service.');
     try {
       if(result.data && result.data.length > 0){
-        isExtraInfo = true; 
+        isExtraInfo = true;
         $scope.mapAccExtraForm = {
           lpiwrittenoff: result.data[0].lpiwrittenoff || '',
           interestWrittenOff: result.data[0].interestWrittenOff || '',
           feesWrittenOff: result.data[0].feesWrittenOff || ''
         };
-      }      
-      $scope.changeExpenseOptions();   
+      }
+      $scope.changeExpenseOptions();
     } catch (e) {
       console.log(e);
     }
   };
   //failure callback : Map Accounting Template
-  var mapAccountingTemplateFail = function() {    
+  var mapAccountingTemplateFail = function() {
     $scope.isLoading = false;
     console.log('Error : Return from loanProducts service.');
   };
@@ -160,7 +160,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
-      $('html, body').animate({scrollTop: 0}, 800);      
+      $('html, body').animate({scrollTop: 0}, 800);
       return;
     }
 
@@ -178,10 +178,10 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
       var json = angular.toJson($scope.mapAccExtraForm);
       var $url = REST_URL.LOAN_PRODUCTS_TEMPLATE_EXTRA + $route.current.params.id;
       if (isExtraInfo) {
-        LoanProductService.updateProduct($url, json).then(updateloanProductExtraSuccess, updateloanProductFail);       
+        LoanProductService.updateProduct($url, json).then(updateloanProductExtraSuccess, updateloanProductFail);
       } else {
-        LoanProductService.saveProduct($url, json).then(updateloanProductExtraSuccess, updateloanProductFail);       
-      }      
+        LoanProductService.saveProduct($url, json).then(updateloanProductExtraSuccess, updateloanProductFail);
+      }
     };
 
     var updateloanProductFail = function(result) {
@@ -199,9 +199,9 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     delete this.mapAccountingForm.interestWrittenOff;
     delete this.mapAccountingForm.lpiwrittenoff;
     delete this.mapAccountingForm.feesWrittenOff;
-    this.mapAccountingForm.transfersInSuspenseAccountId = $scope.product.accountingMappingOptions.assetAccountOptions[0].id;
-    this.mapAccountingForm.incomeFromRecoveryAccountId = $scope.product.accountingMappingOptions.incomeAccountOptions[0].id;
-    this.mapAccountingForm.overpaymentLiabilityAccountId = $scope.product.accountingMappingOptions.liabilityAccountOptions[0].id;
+//    this.mapAccountingForm.transfersInSuspenseAccountId = $scope.product.accountingMappingOptions.assetAccountOptions[0].id;
+//    this.mapAccountingForm.incomeFromRecoveryAccountId = $scope.product.accountingMappingOptions.incomeAccountOptions[0].id;
+//    this.mapAccountingForm.overpaymentLiabilityAccountId = $scope.product.accountingMappingOptions.liabilityAccountOptions[0].id;
     console.log(angular.toJson(this.mapAccountingForm));
     var $url = REST_URL.LOANS_PRODUCTS_LIST_BY_ID + $route.current.params.id;
     LoanProductService.updateProduct($url, angular.toJson(this.mapAccountingForm)).then(updateloanProductSuccess, updateloanProductFail);
