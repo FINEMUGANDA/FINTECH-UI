@@ -338,3 +338,10 @@ body.pre-login {
     color: $tertiary-color;
   }
 }
+
+.strikeoff {
+  &.pointer td {
+    text-decoration: line-through;
+    color: red !important;
+  }
+}

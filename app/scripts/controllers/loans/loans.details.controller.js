@@ -7,6 +7,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   $scope.loanId = $route.current.params.loanId;
   $scope.step = 'create';
   $scope.isLoading = true;
+  $scope.itemsByPage = 10;
 
   function updateActiveState(statusCode) {
     var STATUS_CODE = {
@@ -52,7 +53,9 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   };
 
   $scope.selectTab($route.current.params.tab);
-  function updateLoanDetails() {
+
+  function updateLoanDetails(cb) {
+    cb = cb || angular.noop;
     $scope.isLoading = true;
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
       $scope.loanDetails = result.data;
@@ -79,6 +82,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       });
       updateActiveState(result.data.status.id || 300 || 800 || 900);
       $scope.isLoading = false;
+      cb();
     });
   }
   updateLoanDetails();
@@ -193,10 +197,10 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       }
     });
   };
-  $scope.openTransactionDialog = function(action) {
-    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.repayment.dialog.html', 'LoanDeatilsRepaymentDialog', {loan: $scope.loanDetails, action: action}, {size: 'lg', keyboard: true, backdrop: true});
+  $scope.openTransactionDialog = function(action, transaction) {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.repayment.dialog.html', 'LoanDeatilsRepaymentDialog', {loan: $scope.loanDetails, action: action, transaction: transaction}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function() {
-      updateLoanDetails();
+      updateLoanDetails(filterTransactions);
     });
   };
   $scope.openWriteOffDialog = function() {
@@ -231,11 +235,15 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
 angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.loan = data.loan;
   $scope.action = data.action;
+  $scope.transaction = data.transaction;
   $scope.formData = {};
   $scope.isLoading = true;
   var url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/template?command=repayment';
   if ($scope.action === 'prepay') {
     url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/template?command=prepayLoan';
+  }
+  if ($scope.action === 'adjust') {
+    url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/' + $scope.transaction.id;
   }
 
   LoanService.getData(url).then(function(result) {
@@ -285,7 +293,11 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
       $scope.type = 'error';
       $scope.errors = result.data.errors;
     }
-    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+    if ($scope.transaction && $scope.transaction.id) {
+      LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/' + $scope.transaction.id, data).then(handleSuccess, handleFail);
+    } else {
+      LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+    }
   };
   $scope.cancel = function() {
     $modalInstance.dismiss();
