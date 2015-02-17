@@ -26,7 +26,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="pointer" ng-class="{strikeoff : transaction.manuallyReversed == true}" ng-repeat="transaction in transactionTab.displayed" ng-click="openTransactionDialog('adjust', transaction)">
+    <tr ng-class="{strikeoff : transaction.manuallyReversed == true, pointer: transaction.manuallyReversed == false && transaction.type.repayment}" ng-repeat="transaction in transactionTab.displayed" ng-click="transaction.manuallyReversed == false && transaction.type.repayment? openTransactionDialog('adjust', transaction) : void(0)">
       <td>{{transaction.id}}</td>
       <td>{{transaction.officeName}}</td>
       <td>{{transaction.date| DateFormat}}</td>

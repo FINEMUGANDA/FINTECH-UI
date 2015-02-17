@@ -340,7 +340,7 @@ body.pre-login {
 }
 
 .strikeoff {
-  &.pointer td {
+  & td {
     text-decoration: line-through;
     color: red !important;
   }
