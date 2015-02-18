@@ -5,7 +5,6 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     $scope.form = {};
     $scope.form.role = {};
     $scope.form.permissions = {};
-    $scope.roleId = $route.current.params.id;
     $scope.itemsByPage = 10;
     $scope.currentPermissionGroup = 0;
 
@@ -47,14 +46,18 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         $scope.currentPermissionGroup = i;
     };
 
-    $scope.editRole = function (id_role) {
+    $scope.editRole = function (roleId) {
+        $scope.isLoading = true;
+
         var editPermissions;
 
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
-                RoleService.updateData(REST_URL.BASE + 'roles/' + id_role + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
+                RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
+                    $scope.isLoading = false;
                     $scope.showSuccess('Role saved successfully', '/admin/roles');
                 }, function(result) {
+                    $scope.isLoading = false;
                     $scope.showError('Permissions not saved: ' + result.data.defaultUserMessage, result.data.errors);
                 });
             };
@@ -64,13 +67,15 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             if(editPermissions) {
                 editPermissions();
             } else {
+                $scope.isLoading = false;
                 $scope.showSuccess('Role saved successfully', '/admin/roles');
             }
         };
         var editRoleFail = function (result) {
+            $scope.isLoading = false;
             $scope.showError('Role not saved: ' + result.data.defaultUserMessage, result.data.errors);
         };
-        RoleService.updateData(REST_URL.BASE + 'roles/' + id_role, angular.toJson($scope.form.role)).then(editRoleSuccess, editRoleFail);
+        RoleService.updateData(REST_URL.BASE + 'roles/' + roleId, angular.toJson($scope.form.role)).then(editRoleSuccess, editRoleFail);
     };
 
     $scope.createRole = function () {
@@ -101,7 +106,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     };
 
 
-    if ($scope.roleId) {
+    if ($route.current.params.id) {
         var loadPermissionsSuccess = function (result) {
             var permissionGroup = [];
             var data = $scope.data = result.data;
@@ -127,7 +132,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         var loadPermissionsFail = function () {
             $scope.showError('Error : Return from loadPermissions.');
         };
-        RoleService.getData(REST_URL.BASE + 'roles/' + $scope.roleId + '/permissions/?tenantIdentifier=default').then(loadPermissionsSuccess, loadPermissionsFail);
+        RoleService.getData(REST_URL.BASE + 'roles/' + $route.current.params.id + '/permissions/?tenantIdentifier=default').then(loadPermissionsSuccess, loadPermissionsFail);
     } else {
         var loadRoleSuccess = function (result) {
             $scope.isLoading = false;
