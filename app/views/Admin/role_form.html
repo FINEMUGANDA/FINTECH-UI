@@ -32,20 +32,39 @@
                     <button id="save" type="submit" class="btn btn-primary">Save</button>
                     <a id="cancel" href="#/admin/roles" class="btn btn-warning">Cancel</a>
                 </div>
-
                 <div class="col-md-2">
-                    <ul class="list-unstyled">
-                        <li ng-repeat="permission_group in prem_out_list">
-                            <a href="" ng-click="change_group_permission($index)">{{permission_group.grouping}}</a>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" ng-class="{'active': $index==currentGroupPermission}" ng-repeat="permission_group in prem_out_list">
+                            <a href="" ng-click="changeGroupPermission($index)">{{permission_group.grouping}}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <ul class="list-unstyled">
-                        <li class="form-group" ng-repeat="permission in prem_out_list[current_group_permission].prem_list">
-                            <span>{{permission.actionName}} {{permission.entityName}} <input type="checkbox" ng-model="permission.selected"></span>
-                        </li>
-                    </ul>
+                    <div class="row">
+                        <div class="col-md-2" style="padding-left: 2px">
+                            <div class="btn-group btn-group-xs pull-left">
+                                <button type="button" class="btn btn-xs btn-success" ng-click="select(true)">
+                                    <i class="glyphicon glyphicon-ok-circle"></i>
+                                </button>
+                                <button type="button" class="btn btn-xs btn-danger" ng-click="select(true)">
+                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="permission in prem_out_list[currentGroupPermission].prem_list">
+                        <div class="col-md-1" style="padding: 2px">
+                            <button type="button" class="btn btn-xs" ng-class="{'btn-success': permission.selected, 'btn-danger': !permission.selected}" ng-click="permission.selected=!permission.selected">
+                                <i class="glyphicon" ng-class="{'glyphicon-ok-circle': permission.selected, 'glyphicon-ban-circle': !permission.selected}"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-11">
+                            <span ng-show="permission.actionName">{{permission.actionName}}&nbsp;{{permission.entityName}}</span>
+                            <span ng-hide="permission.actionName">{{permission.code}}</span>
+                        </div>
+                    </div>
                 </div>
                 <hr/>
             </form>

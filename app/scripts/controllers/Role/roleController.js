@@ -4,18 +4,32 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
     $scope.form = {};
     $scope.form.role = {};
-    $scope.params_id = $route.current.params.id;
+    $scope.roleId = $route.current.params.id;
     $scope.itemsByPage = 10;
-    $scope.current_group_permission = 0;
-    $scope.change_group_permission = function (i) {
-        $scope.current_group_permission = i;
-    };
+    $scope.currentGroupPermission = 0;
+
+    $scope.type = '';
+    $scope.message = '';
+    $scope.errors = false;
 
     $scope.isLoading = true;
-    var $url = '';
-    var group_list = [];
-    if ($scope.params_id) {
+
+    $scope.showSuccess = function (message, url) {
+        $scope.type = 'alert-success';
+        $scope.message = message;
+        $scope.errors = [];
+        $location.url(url);
+    };
+
+    $scope.showError = function (message, errors) {
+        $scope.type = 'error';
+        $scope.message = message;
+        $scope.errors = errors ? errors : [];
+    };
+
+    if ($scope.roleId) {
         var loadPermissionsSuccess = function (result) {
+            var permissionGroups = [];
             $scope.isLoading = false;
             var data = $scope.data = result.data;
             $scope.form.role.name = data.name;
@@ -24,65 +38,53 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             $scope.prem_out_list = [];
             for (var i = 0; i < $scope.data.permissionUsageData.length; i++) {
                 if ($scope.data.permissionUsageData[i].grouping === current_grouping) {
-                    group_list.push($scope.data.permissionUsageData[i]);
+                    permissionGroups.push($scope.data.permissionUsageData[i]);
                 } else {
                     if (current_grouping) {
-                        $scope.prem_out_list.push({grouping: current_grouping, prem_list: group_list});
+                        $scope.prem_out_list.push({grouping: current_grouping, prem_list: permissionGroups});
                     }
                     current_grouping = $scope.data.permissionUsageData[i].grouping;
-                    group_list = [];
+                    permissionGroups = [];
                 }
             }
         };
         var loadPermissionsFail = function () {
-            console.log('Error : Return from loadPermissions.');
+            $scope.showError('Error : Return from loadPermissions.');
         };
-        $url = REST_URL.BASE + 'roles/' + $scope.params_id + '/permissions/?tenantIdentifier=default&pretty=true';
-        RoleService.getData($url).then(loadPermissionsSuccess, loadPermissionsFail);
+        RoleService.getData(REST_URL.BASE + 'roles/' + $scope.roleId + '/permissions/?tenantIdentifier=default').then(loadPermissionsSuccess, loadPermissionsFail);
     } else {
         var loadRoleSuccess = function (result) {
             $scope.isLoading = false;
             $scope.rowCollection = result.data;
         };
         var loadRoleFail = function () {
-            console.log('Error : Return from loadRole.');
+            $scope.showError('Error : Return from loadRole.');
         };
-        $url = REST_URL.BASE + 'roles?tenantIdentifier=default&pretty=true';
-        RoleService.getData($url).then(loadRoleSuccess, loadRoleFail);
+        RoleService.getData(REST_URL.BASE + 'roles?tenantIdentifier=default').then(loadRoleSuccess, loadRoleFail);
     }
+
+    $scope.changeGroupPermission = function (i) {
+        $scope.currentGroupPermission = i;
+    };
 
     $scope.editRole = function (id_role) {
         var editRoleSuccess = function () {
-            $scope.type = 'alert-success';
-            $scope.message = 'Role saved successfully';
-            $scope.errors = [];
-            $location.url('/admin/roles');
+            $scope.showSuccess('Role saved successfully', '/admin/roles');
         };
         var editRoleFail = function (result) {
-            console.log('Error : Return from loadRole.');
-            $scope.type = 'error';
-            $scope.message = 'Role not saved: ' + result.data.defaultUserMessage;
-            $scope.errors = result.data.errors;
+            $scope.showError('Role not saved: ' + result.data.defaultUserMessage, result.data.errors);
         };
-        var $url = REST_URL.BASE + 'roles/' + id_role;
-        RoleService.updateData($url, angular.toJson($scope.form.role)).then(editRoleSuccess, editRoleFail);
+        RoleService.updateData(REST_URL.BASE + 'roles/' + id_role, angular.toJson($scope.form.role)).then(editRoleSuccess, editRoleFail);
     };
 
     $scope.createRole = function () {
         var createRoleSuccess = function () {
-            $scope.type = 'alert-success';
-            $scope.message = 'Role saved successfully';
-            $scope.errors = [];
-            $location.url('/admin/roles');
+            $scope.showSuccess('Role saved successfully', '/admin/roles');
         };
         var createRoleFail = function (result) {
-            console.log('Error : Return from loadRole.');
-            $scope.type = 'error';
-            $scope.message = 'Role not saved: ' + result.data.defaultUserMessage;
-            $scope.errors = result.data.errors;
+            $scope.showError('Role not saved: ' + result.data.defaultUserMessage, result.data.errors);
         };
-        var $url = REST_URL.BASE + 'roles';
-        RoleService.createData($url, angular.toJson($scope.form.role)).then(createRoleSuccess, createRoleFail);
+        RoleService.createData(REST_URL.BASE + 'roles', angular.toJson($scope.form.role)).then(createRoleSuccess, createRoleFail);
     };
 
     $scope.validateRole = function () {
@@ -97,11 +99,8 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                 $scope.editRole(id);
             }
         } else {
-            $scope.type = 'error';
-            $scope.message = 'Highlighted fields are required';
-            $scope.errors = [];
+            $scope.showError('Highlighted fields are required');
             $('html, body').animate({scrollTop: 0}, 800);
         }
     };
-
 });
