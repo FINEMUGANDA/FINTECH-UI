@@ -4,6 +4,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
     $scope.form = {};
     $scope.form.role = {};
+    $scope.form.permissions = {};
     $scope.roleId = $route.current.params.id;
     $scope.itemsByPage = 10;
     $scope.currentPermissionGroup = 0;
@@ -27,10 +28,19 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         $scope.errors = errors ? errors : [];
     };
 
-    $scope.select = function (selected) {
+    $scope.selectPermissions = function (selected) {
         angular.forEach($scope.permissionGroups[$scope.currentPermissionGroup].permissions, function(permission) {
-            permission.selected = selected;
+            $scope.selectPermission(permission, selected);
         });
+    };
+
+    $scope.selectPermission = function (permission, selected) {
+        permission.selected = selected;
+
+        if(!$scope.form.permissions.permissions) {
+            $scope.form.permissions.permissions = {};
+        }
+        $scope.form.permissions.permissions[permission.code] = selected;
     };
 
     $scope.changeGroupPermission = function (i) {
@@ -38,8 +48,24 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     };
 
     $scope.editRole = function (id_role) {
+        var editPermissions;
+
+        if($scope.form.permissions.permissions) {
+            editPermissions = function() {
+                RoleService.updateData(REST_URL.BASE + 'roles/' + id_role + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
+                    $scope.showSuccess('Role saved successfully', '/admin/roles');
+                }, function(result) {
+                    $scope.showError('Permissions not saved: ' + result.data.defaultUserMessage, result.data.errors);
+                });
+            };
+        }
+
         var editRoleSuccess = function () {
-            $scope.showSuccess('Role saved successfully', '/admin/roles');
+            if(editPermissions) {
+                editPermissions();
+            } else {
+                $scope.showSuccess('Role saved successfully', '/admin/roles');
+            }
         };
         var editRoleFail = function (result) {
             $scope.showError('Role not saved: ' + result.data.defaultUserMessage, result.data.errors);

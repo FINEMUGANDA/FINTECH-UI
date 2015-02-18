@@ -41,22 +41,21 @@
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-2" style="padding-left: 2px">
+                        <div class="col-md-12" style="padding-left: 2px">
                             <div class="btn-group btn-group-xs pull-left">
-                                <button type="button" class="btn btn-xs btn-success" ng-click="select(true)">
+                                <button type="button" class="btn btn-xs btn-success" ng-click="selectPermissions(true)">
                                     <i class="glyphicon glyphicon-ok-circle"></i>
                                 </button>
-                                <button type="button" class="btn btn-xs btn-danger" ng-click="select(false)">
+                                <button type="button" class="btn btn-xs btn-danger" ng-click="selectPermissions(false)">
                                     <i class="glyphicon glyphicon-ban-circle"></i>
                                 </button>
                             </div>
-                        </div>
-                        <div class="col-md-10">
+                            <hr>
                         </div>
                     </div>
                     <div class="row" ng-repeat="permission in permissionGroups[currentPermissionGroup].permissions">
                         <div class="col-md-1" style="padding: 2px">
-                            <button type="button" class="btn btn-xs" ng-class="{'btn-success': permission.selected, 'btn-danger': !permission.selected}" ng-click="permission.selected=!permission.selected">
+                            <button type="button" class="btn btn-xs" ng-class="{'btn-success': permission.selected, 'btn-danger': !permission.selected}" ng-click="selectPermission(permission, !permission.selected)">
                                 <i class="glyphicon" ng-class="{'glyphicon-ok-circle': permission.selected, 'glyphicon-ban-circle': !permission.selected}"></i>
                             </button>
                         </div>
