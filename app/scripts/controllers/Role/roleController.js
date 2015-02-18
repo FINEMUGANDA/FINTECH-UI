@@ -6,11 +6,11 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     $scope.form.role = {};
     $scope.roleId = $route.current.params.id;
     $scope.itemsByPage = 10;
-    $scope.currentGroupPermission = 0;
+    $scope.currentPermissionGroup = 0;
 
     $scope.type = '';
     $scope.message = '';
-    $scope.errors = false;
+    $scope.errors = undefined;
 
     $scope.isLoading = true;
 
@@ -27,44 +27,14 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         $scope.errors = errors ? errors : [];
     };
 
-    if ($scope.roleId) {
-        var loadPermissionsSuccess = function (result) {
-            var permissionGroups = [];
-            $scope.isLoading = false;
-            var data = $scope.data = result.data;
-            $scope.form.role.name = data.name;
-            $scope.form.role.description = data.description;
-            var current_grouping = '';
-            $scope.prem_out_list = [];
-            for (var i = 0; i < $scope.data.permissionUsageData.length; i++) {
-                if ($scope.data.permissionUsageData[i].grouping === current_grouping) {
-                    permissionGroups.push($scope.data.permissionUsageData[i]);
-                } else {
-                    if (current_grouping) {
-                        $scope.prem_out_list.push({grouping: current_grouping, prem_list: permissionGroups});
-                    }
-                    current_grouping = $scope.data.permissionUsageData[i].grouping;
-                    permissionGroups = [];
-                }
-            }
-        };
-        var loadPermissionsFail = function () {
-            $scope.showError('Error : Return from loadPermissions.');
-        };
-        RoleService.getData(REST_URL.BASE + 'roles/' + $scope.roleId + '/permissions/?tenantIdentifier=default').then(loadPermissionsSuccess, loadPermissionsFail);
-    } else {
-        var loadRoleSuccess = function (result) {
-            $scope.isLoading = false;
-            $scope.rowCollection = result.data;
-        };
-        var loadRoleFail = function () {
-            $scope.showError('Error : Return from loadRole.');
-        };
-        RoleService.getData(REST_URL.BASE + 'roles?tenantIdentifier=default').then(loadRoleSuccess, loadRoleFail);
-    }
+    $scope.select = function (selected) {
+        angular.forEach($scope.permissionGroups[$scope.currentPermissionGroup].permissions, function(permission) {
+            permission.selected = selected;
+        });
+    };
 
     $scope.changeGroupPermission = function (i) {
-        $scope.currentGroupPermission = i;
+        $scope.currentPermissionGroup = i;
     };
 
     $scope.editRole = function (id_role) {
@@ -103,4 +73,43 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             $('html, body').animate({scrollTop: 0}, 800);
         }
     };
+
+
+    if ($scope.roleId) {
+        var loadPermissionsSuccess = function (result) {
+            var permissionGroup = [];
+            var data = $scope.data = result.data;
+            var currentGrouping = '';
+
+            $scope.isLoading = false;
+            $scope.form.role.name = data.name;
+            $scope.form.role.description = data.description;
+            $scope.permissionGroups = [];
+
+            for (var i = 0; i < $scope.data.permissionUsageData.length; i++) {
+                if ($scope.data.permissionUsageData[i].grouping === currentGrouping) {
+                    permissionGroup.push($scope.data.permissionUsageData[i]);
+                } else {
+                    if (currentGrouping) {
+                        $scope.permissionGroups.push({grouping: currentGrouping, permissions: permissionGroup});
+                    }
+                    currentGrouping = $scope.data.permissionUsageData[i].grouping;
+                    permissionGroup = [];
+                }
+            }
+        };
+        var loadPermissionsFail = function () {
+            $scope.showError('Error : Return from loadPermissions.');
+        };
+        RoleService.getData(REST_URL.BASE + 'roles/' + $scope.roleId + '/permissions/?tenantIdentifier=default').then(loadPermissionsSuccess, loadPermissionsFail);
+    } else {
+        var loadRoleSuccess = function (result) {
+            $scope.isLoading = false;
+            $scope.rowCollection = result.data;
+        };
+        var loadRoleFail = function () {
+            $scope.showError('Error : Return from loadRole.');
+        };
+        RoleService.getData(REST_URL.BASE + 'roles?tenantIdentifier=default').then(loadRoleSuccess, loadRoleFail);
+    }
 });

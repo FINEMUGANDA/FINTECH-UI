@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-2">
                     <ul class="nav nav-pills nav-stacked">
-                        <li role="presentation" ng-class="{'active': $index==currentGroupPermission}" ng-repeat="permission_group in prem_out_list">
+                        <li role="presentation" ng-class="{'active': $index==currentPermissionGroup}" ng-repeat="permission_group in permissionGroups">
                             <a href="" ng-click="changeGroupPermission($index)">{{permission_group.grouping}}</a>
                         </li>
                     </ul>
@@ -46,7 +46,7 @@
                                 <button type="button" class="btn btn-xs btn-success" ng-click="select(true)">
                                     <i class="glyphicon glyphicon-ok-circle"></i>
                                 </button>
-                                <button type="button" class="btn btn-xs btn-danger" ng-click="select(true)">
+                                <button type="button" class="btn btn-xs btn-danger" ng-click="select(false)">
                                     <i class="glyphicon glyphicon-ban-circle"></i>
                                 </button>
                             </div>
@@ -54,7 +54,7 @@
                         <div class="col-md-10">
                         </div>
                     </div>
-                    <div class="row" ng-repeat="permission in prem_out_list[currentGroupPermission].prem_list">
+                    <div class="row" ng-repeat="permission in permissionGroups[currentPermissionGroup].permissions">
                         <div class="col-md-1" style="padding: 2px">
                             <button type="button" class="btn btn-xs" ng-class="{'btn-success': permission.selected, 'btn-danger': !permission.selected}" ng-click="permission.selected=!permission.selected">
                                 <i class="glyphicon" ng-class="{'glyphicon-ok-circle': permission.selected, 'glyphicon-ban-circle': !permission.selected}"></i>
