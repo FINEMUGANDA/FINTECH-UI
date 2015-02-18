@@ -26,36 +26,36 @@
     </div>
     <div class="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
-        <div class="form-group">          
-          <div class="loading-indicator">Loading...</div>        
+        <div class="form-group">
+          <div class="loading-indicator">Loading...</div>
         </div>
       </div>
       <form name="mapAccountingLoanform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation ng-submit="updateLoanProduct()">
         <div class="col-md-12 " ng-hide='true'>
-          <div class="radio-inline">          
+          <div class="radio-inline">
               <input type="radio" ng-model="mapAccountingForm.accountingRule" value="1"/>
-              None          
+              None
           </div>
           <!--
-          <div class="radio-inline">          
+          <div class="radio-inline">
               <input type="radio" ng-model="mapAccountingForm.accountingRule" value="2"/>
               Cash
           </div>
-          <div class="radio-inline">          
+          <div class="radio-inline">
               <input type="radio" ng-model="mapAccountingForm.accountingRule" value="3"/>
               Accrual (periodic)
           </div>
           -->
-          <div class="radio-inline">          
+          <div class="radio-inline">
               <input type="radio" ng-model="mapAccountingForm.accountingRule" value="4"/>
               Accrual (upfront)
           </div>
           <hr/>
-        </div>      
+        </div>
         <div class="col-md-12" ng-show="isAccountingEnabled()">
           <div class="form-group">
             <h4>Assets</h4>
-            <label class="control-label col-sm-2">Fund source</label>          
+            <label class="control-label col-sm-2">Fund source</label>
             <div class="col-sm-3">
               <select id="fundSourceAccountId" chosen="fundSourceOption" class="form-control" ng-model="mapAccountingForm.fundSourceAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in fundSourceOption" value="{{assetAccount.id}}" >
                 <!--
@@ -66,27 +66,27 @@
               </select>
             </div>
             <div class="col-sm-1"></div>
-            <label class="control-label col-sm-2">Loan portfolio</label>            
+            <label class="control-label col-sm-2">Loan portfolio</label>
             <div class="col-sm-3">
-              <select id="loanPortfolioAccountId" chosen="loanPortfolioOption" class="form-control" ng-model="mapAccountingForm.loanPortfolioAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in loanPortfolioOption" value="{{assetAccount.id}}" >                
+              <select id="loanPortfolioAccountId" chosen="loanPortfolioOption" class="form-control" ng-model="mapAccountingForm.loanPortfolioAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in loanPortfolioOption" value="{{assetAccount.id}}" >
               </select>
-            </div>              
+            </div>
           </div>
           <div class="form-group" ng-show="isAccrualAccountingEnabled()">
-            <label class="control-label col-sm-2">Interest Receivable</label>            
+            <label class="control-label col-sm-2">Interest Receivable</label>
             <div class="col-sm-3">
               <select id="receivableInterestAccountId" chosen="interestReceivableOption" class="form-control" ng-model="mapAccountingForm.receivableInterestAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in interestReceivableOption" value="{{assetAccount.id}}" >
               </select>
             </div>
             <div class="col-sm-1"></div>
-            <label class="control-label col-sm-2">Fees Receivable</label>           
+            <label class="control-label col-sm-2">Fees Receivable</label>
             <div class="col-sm-3">
               <select id="receivableFeeAccountId" chosen="feesReceivableOption" class="form-control" ng-model="mapAccountingForm.receivableFeeAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in feesReceivableOption" value="{{assetAccount.id}}" >
               </select>
-            </div>              
+            </div>
           </div>
           <div class="form-group" ng-show="isAccrualAccountingEnabled()">
-              <label class="control-label col-sm-2">Penalties Receivable</label>            
+              <label class="control-label col-sm-2">Penalties Receivable</label>
               <div class="col-sm-3">
                 <select id="receivablePenaltyAccountId" chosen="penaltiesReceivableOption" class="form-control" ng-model="mapAccountingForm.receivablePenaltyAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in penaltiesReceivableOption" value="{{assetAccount.id}}" >
                 </select>
@@ -101,14 +101,14 @@
               </select>
             </div>
             <div class="col-sm-1"></div>
-            <label class="control-label col-sm-2">Income from fees</label>          
+            <label class="control-label col-sm-2">Income from fees</label>
             <div class="col-sm-3">
               <select id="incomeFromFeeAccountId" chosen="incomeFromFeeOption" class="form-control" ng-model="mapAccountingForm.incomeFromFeeAccountId" ng-change="changeIncomeOptions();"  ng-options="incomeAccount.id as incomeAccount.name for incomeAccount in incomeFromFeeOption"value="{{incomeAccount.id}}">
               </select>
-            </div>              
+            </div>
           </div>
           <div class="form-group">
-              <label class="control-label col-sm-2">Income from penalties</label>            
+              <label class="control-label col-sm-2">Income from penalties</label>
               <div class="col-sm-3">
                 <select id="incomeFromPenaltyAccountId" chosen="incomeFromPenaltyOption" class="form-control" ng-model="mapAccountingForm.incomeFromPenaltyAccountId" ng-change="changeIncomeOptions();"  ng-options="incomeAccount.id as incomeAccount.name for incomeAccount in incomeFromPenaltyOption" value="{{incomeAccount.id}}">
                 </select>
@@ -117,32 +117,32 @@
           <hr/>
           <div class="form-group">
             <h4>Expenses</h4>
-            <label class="control-label col-sm-2">Principal written off</label>            
+            <label class="control-label col-sm-2">Principal written off</label>
             <div class="col-sm-3">
-              <select id="writeOffAccountId" chosen="losesexpenseAccountOptions" class="form-control" ng-model="mapAccountingForm.writeOffAccountId" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in losesexpenseAccountOptions" value="{{expenseAccount.id}}">
+              <select id="writeOffAccountId" chosen="losesexpenseAccountOptions" class="form-control" ng-model="mapAccountingForm.principalWriteOffAccountId" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in losesexpenseAccountOptions" value="{{expenseAccount.id}}">
               </select>
             </div>
             <div class="col-sm-1"></div>
             <label class="control-label col-sm-2">Interest written off</label>
             <div class="col-sm-3">
-              <select id="interestWrittenOffId" chosen="interestexpenseAccountOptions" class="form-control" ng-model="mapAccExtraForm.interestWrittenOff" ng-change="changeExpenseOptions();"  ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in interestexpenseAccountOptions" value="{{expenseAccount.id}}">
+              <select id="interestWrittenOffId" chosen="interestexpenseAccountOptions" class="form-control" ng-model="mapAccountingForm.interestWriteOffAccountId" ng-change="changeExpenseOptions();"  ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in interestexpenseAccountOptions" value="{{expenseAccount.id}}">
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-2">LPI written off</label>            
+            <label class="control-label col-sm-2">LPI written off</label>
             <div class="col-sm-3">
-              <select id="lpiwrittenoffId" chosen="lpiexpenseAccountOptions" class="form-control" ng-model="mapAccExtraForm.lpiwrittenoff" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in lpiexpenseAccountOptions" value="{{expenseAccount.id}}">
+              <select id="lpiwrittenoffId" chosen="lpiexpenseAccountOptions" class="form-control" ng-model="mapAccountingForm.LPIWriteOffAccountId" ng-change="changeExpenseOptions();" ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in lpiexpenseAccountOptions" value="{{expenseAccount.id}}">
               </select>
             </div>
             <div class="col-sm-1"></div>
             <label class="control-label col-sm-2">Fees written off</label>
             <div class="col-sm-3">
-              <select id="feesWrittenOffId" chosen="feesexpenseAccountOptions" class="form-control" ng-model="mapAccExtraForm.feesWrittenOff" ng-change="changeExpenseOptions();"  ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in feesexpenseAccountOptions" value="{{expenseAccount.id}}">
+              <select id="feesWrittenOffId" chosen="feesexpenseAccountOptions" class="form-control" ng-model="mapAccountingForm.feeWriteOffAccountId" ng-change="changeExpenseOptions();"  ng-options="expenseAccount.id as expenseAccount.name for expenseAccount in feesexpenseAccountOptions" value="{{expenseAccount.id}}">
               </select>
             </div>
           </div>
-        </div>        
+        </div>
         <hr/>
         <div class="col-md-offset-5 paddedtop">
           <a id="cancel" ng-click="setStep(2)" class="btn btn-warning pointer">Back</a>
