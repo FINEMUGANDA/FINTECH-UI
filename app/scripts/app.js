@@ -34,6 +34,7 @@ var app = angular.module('angularjsApp', [
   'dialogs.main',
   'ng.deviceDetector',
   'ui.router',
+  'permissionService',
   'roleService',
   'ngCsv',
   'modified.datepicker'
@@ -237,6 +238,24 @@ app.config(['$routeProvider', function($routeProvider) {
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/admin/permissions', {
+        templateUrl: 'views/Admin/permissions.html',
+        controller: 'PermissionController',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/admin/create_permission', {
+        templateUrl: 'views/Admin/permission_form.html',
+        controller: 'PermissionController',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/admin/edit_permission/:id', {
+        templateUrl: 'views/Admin/permission_form.html',
+        controller: 'PermissionController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/roles', {
       templateUrl: 'views/Admin/roles.html',
       controller: 'RoleController',
