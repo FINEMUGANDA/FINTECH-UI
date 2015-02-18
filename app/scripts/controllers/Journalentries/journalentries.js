@@ -46,7 +46,7 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
 angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route, $scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
   console.log('JournalEntriesDetailsCtrl');
   $scope.isLoading = false;
-  $scope.itemsByPage = 5;
+  $scope.itemsByPage = 10;
   $scope.id = $route.current.params.id;
 
   var loadReversalEntrySuccess = function(result) {
