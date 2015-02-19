@@ -1,0 +1,38 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="container post-login">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="rows">
+        <div class="page-header">
+            <div class="header">
+                <h3>Admin - Permissions</h3>
+                <br>
+                <h4>{{form.permissions}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <form name="permissionForm" ng-hide="isLoading" class="role-form form-horizontal" ng-submit="validatePermission()" novalidate show-validation>
+                <div class="col-md-12">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">action<span class="required"> *</span></label>
+                            <div class="validate col-md-6">
+                                <input name="actionName" class="form-control" type="text" ng-model="form.permission.actionName" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">entity<span class="required"> *</span></label>
+
+                            <div class="validate col-md-6">
+                                <input name="entityName" class="form-control" type="text" ng-model="form.permission.entityName" required/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-offset-5 paddedtop">
+                    <button id="save" type="submit" class="btn btn-primary">Save</button>
+                    <a id="cancel" href="#/admin/permissions" class="btn btn-warning">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

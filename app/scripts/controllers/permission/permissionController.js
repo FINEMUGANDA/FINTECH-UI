@@ -16,6 +16,10 @@ angular.module('angularjsApp').controller('PermissionController', function ($rou
         $scope.errors = errors ? errors : [];
     };
 
+    $scope.validatePermission = function () {
+        // TODO: implement this
+    };
+
     if ($route.current.params.id) {
         // TODO: implement this
     } else {

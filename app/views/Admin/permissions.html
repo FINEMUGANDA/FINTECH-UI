@@ -26,7 +26,7 @@
                 <tbody ng-hide="isLoading" class="">
                 <tr ng-repeat="permission in displayed">
                     <td>{{permission.grouping}}</td>
-                    <td><a ng-href="/#/admin/edit_permission/{{permission.id}}" href="/#createClient">{{permission.code}}</a></td>
+                    <td><a ng-href="/#/admin/edit_permission/{{permission.code}}" href="/#createClient">{{permission.code}}</a></td>
                 </tr>
                 </tbody>
                 <tbody ng-show="isLoading" class="ng-hide">
