@@ -125,9 +125,28 @@ app.constant('USER_ROLES', {
   guest: 'guest'
 });
 
-
 app.constant('CHART_TYPE', {
     'ACTIVE_BORROWERS': 'activeBorrowers',
     'PAR_PER_LOAN': 'parPerLoan',
     'LOANPORTFOLIO_UPDATES': 'changesInLoanPortfolio'
 });
+
+app.constant('PERMISSION_GROUPING_MAPPING', {
+        fin_account: 'Chart of Accounts',
+        fin_audit: 'Audit',
+        fin_charge: 'Fees & Charges',
+        fin_client: 'Client',
+        fin_holiday: 'Holidays',
+        fin_journal: 'Journal Entries',
+        fin_loan: 'Loan',
+        fin_loan_assign: 'Loan Reassignment',
+        fin_loan_product: 'Loan Product',
+        fin_permission: 'Permissions',
+        fin_role: 'Roles',
+        fin_user: 'User',
+        fin_staff: 'Staff',
+        fin_note_general: 'General Notes',
+        fin_note_follow: 'Follow up Notes',
+        report: 'Manage Reports'
+    }
+);

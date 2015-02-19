@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, REST_URL, $location) {
+angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, REST_URL, $location, PERMISSION_GROUPING_MAPPING) {
 
     $scope.form = {};
     $scope.form.role = {};
@@ -43,6 +43,10 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         }
 
         $scope.form.permissions.permissions[permission.code] = selected;
+    };
+
+    $scope.groupingLabel = function(grouping) {
+        return PERMISSION_GROUPING_MAPPING[grouping];
     };
 
     $scope.changeGroupPermission = function (i) {
@@ -144,7 +148,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                 if ($scope.data.permissionUsageData[i].grouping === currentGrouping) {
                     permissionGroup.push($scope.data.permissionUsageData[i]);
                 } else {
-                    if (currentGrouping && currentGrouping.indexOf('fin')===0) {
+                    if (currentGrouping && (currentGrouping.indexOf('fin')===0 || currentGrouping.indexOf('report')===0)) {
                         $scope.permissionGroups.push({grouping: currentGrouping, permissions: permissionGroup});
                     }
                     currentGrouping = $scope.data.permissionUsageData[i].grouping;
