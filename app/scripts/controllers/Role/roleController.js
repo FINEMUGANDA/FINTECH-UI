@@ -7,6 +7,8 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     $scope.form.permissions = {};
     $scope.itemsByPage = 10;
     $scope.currentPermissionGroup = 0;
+    $scope.actionNames = [];
+    $scope.permissionMatrix = {};
 
     $scope.type = '';
     $scope.message = '';
@@ -39,11 +41,32 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         if(!$scope.form.permissions.permissions) {
             $scope.form.permissions.permissions = {};
         }
+
         $scope.form.permissions.permissions[permission.code] = selected;
     };
 
     $scope.changeGroupPermission = function (i) {
         $scope.currentPermissionGroup = i;
+
+        var actionNames = {};
+
+        $scope.permissionMatrix = {};
+
+        for(var j=0; j<$scope.permissionGroups[$scope.currentPermissionGroup].permissions.length; j++) {
+            var action = $scope.permissionGroups[$scope.currentPermissionGroup].permissions[j].actionName;
+            var entity = $scope.permissionGroups[$scope.currentPermissionGroup].permissions[j].entityName;
+
+            if(!$scope.permissionMatrix[entity]) {
+                $scope.permissionMatrix[entity] = {};
+            }
+            $scope.permissionMatrix[entity][action] = $scope.permissionGroups[$scope.currentPermissionGroup].permissions[j];
+
+            if(action!=='all') {
+                actionNames[action] = '';
+            }
+        }
+
+        $scope.actionNames = Object.keys(actionNames).sort();
     };
 
     $scope.editRole = function (roleId) {
@@ -121,13 +144,15 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                 if ($scope.data.permissionUsageData[i].grouping === currentGrouping) {
                     permissionGroup.push($scope.data.permissionUsageData[i]);
                 } else {
-                    if (currentGrouping) {
+                    if (currentGrouping && currentGrouping.indexOf('fin')===0) {
                         $scope.permissionGroups.push({grouping: currentGrouping, permissions: permissionGroup});
                     }
                     currentGrouping = $scope.data.permissionUsageData[i].grouping;
                     permissionGroup = [];
+                    permissionGroup.push($scope.data.permissionUsageData[i]);
                 }
             }
+            $scope.changeGroupPermission(0);
         };
         var loadPermissionsFail = function () {
             $scope.showError('Error : Return from loadPermissions.');
