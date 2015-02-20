@@ -39,31 +39,7 @@
                     <button id="save" type="submit" class="btn btn-primary">Save</button>
                     <a id="cancel" href="#/admin/roles" class="btn btn-warning">Cancel</a>
                 </div>
-                <!--
-                <div class="col-md-2">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li role="presentation" ng-class="{'active': $index==currentPermissionGroup}" ng-repeat="permissionGroup in permissionGroups">
-                            <a href="" ng-click="changeGroupPermission($index)">{{groupingLabel(permissionGroup.grouping)}}</a>
-                        </li>
-                    </ul>
-                </div>
-                -->
-                <div class="col-md-12">
-                    <!--
-                    <div class="row" ng-show="permissionGroups">
-                        <div class="col-md-12" style="padding-left: 2px">
-                            <div class="btn-group btn-group-xs pull-left">
-                                <button type="button" class="btn btn-xs btn-success" ng-click="selectPermissions(true)">
-                                    <i class="glyphicon glyphicon-ok-circle"></i>
-                                </button>
-                                <button type="button" class="btn btn-xs btn-danger" ng-click="selectPermissions(false)">
-                                    <i class="glyphicon glyphicon-ban-circle"></i>
-                                </button>
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-                    -->
+                <div class="col-md-12" ng-show="actionNames.length>0">
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table-permission">
@@ -75,11 +51,6 @@
                                     <td colspan="{{actionNames.length}}" class="text-center">
                                         <h3>Permissions</h3>
                                     </td>
-                                    <!--
-                                    <td ng-repeat="actionName in actionNames" class="text-center">
-                                        <small>{{actionName}}</small>
-                                    </td>
-                                    -->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -93,18 +64,6 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <!--
-                                    <tr ng-repeat="(grouping, permissions) in permissionMatrix">
-                                        <td>
-                                            <small>{{groupingLabel(grouping)}}</small>
-                                        </td>
-                                        <td ng-repeat="actionName in actionNames" class="text-center">
-                                            <button type="button" class="btn btn-sm" ng-show="permissions[actionName]" ng-class="{'btn-success': permissions[actionName].selected, 'btn-danger': !permissions[actionName].selected}" ng-click="selectPermission(permissions[actionName], !permissions[actionName].selected)">
-                                                {{actionName}}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    -->
                                 </tbody>
                             </table>
                         </div>
@@ -124,32 +83,6 @@
                             <h3>Override/Approval</h3>
                         </div>
                     </div>
-                    <!--
-                    <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-md-1" ng-repeat="actionName in actionNames">
-                                    <h5>{{actionName}}</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-repeat="(entity, permissions) in permissionMatrix">
-                        <div class="col-md-3">
-                            <h5>{{entity}}</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-xs-1" ng-repeat="actionName in actionNames" class="text-center">
-                                    <button type="button" class="btn" ng-show="permissions[actionName]" ng-class="{'btn-success': permissions[actionName].selected, 'btn-danger': !permissions[actionName].selected}" ng-click="selectPermission(permissions[actionName], !permissions[actionName].selected)">
-                                        <i class="glyphicon" ng-class="{'glyphicon-ok-circle': permissions[actionName].selected, 'glyphicon-ban-circle': !permissions[actionName].selected}"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    -->
                 </div>
                 <hr/>
             </form>
