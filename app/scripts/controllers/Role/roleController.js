@@ -1,20 +1,33 @@
 'use strict';
 
-angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER) {
+angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS) {
 
     $scope.form = {};
     $scope.form.role = {};
     $scope.form.permissions = {};
+    $scope.form.expressions = {};
     $scope.itemsByPage = 10;
     $scope.actionNames = [];
     $scope.permissionMatrix = {};
     $scope.permissionGroupsOrdered = PERMISSION_GROUPS_SORT_ORDER;
+    $scope.permissionExpressions = PERMISSION_EXPRESSIONS;
+    $scope.permissionExpressionData = {};
 
     $scope.type = '';
     $scope.message = '';
     $scope.errors = undefined;
 
     $scope.isLoading = true;
+
+    $scope.format = function(format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function(match, number) {
+            return typeof args[number] != 'undefined'
+                ? args[number]
+                : match
+                ;
+        });
+    };
 
     $scope.showSuccess = function (message, url) {
         $scope.type = 'alert-success';
@@ -43,6 +56,24 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         }
 
         $scope.form.permissions.permissions[permission.code] = selected;
+    };
+
+    $scope.selectPermissionExpression = function (code, expression) {
+        console.log($scope.permissionExpressionData[code].min + ' - ' + $scope.permissionExpressionData[code].max);
+        if($scope.permissionExpressionData[code].min!==null &&
+            $scope.permissionExpressionData[code].max!==null &&
+            $scope.permissionExpressionData[code].min!==undefined &&
+            $scope.permissionExpressionData[code].max!==undefined) {
+            // select
+            $scope.form.expressions[code] = $scope.format(expression, $scope.permissionExpressionData[code].min, $scope.permissionExpressionData[code].max);
+        } else {
+            // unselect
+            try {
+                delete $scope.form.expressions[code];
+            } catch(err) {
+                $scope.form.expressions[code] = null;
+            }
+        }
     };
 
     $scope.groupingLabel = function(grouping) {

@@ -212,3 +212,81 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         REVERSE: 21
     }
 );
+
+app.constant('PERMISSION_EXPRESSIONS', {
+        LOAN: [
+            {
+                code: 'CREATE_LOAN',
+                label: 'Can Create Loan',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            },
+            {
+                code: 'APPROVE_LOAN',
+                label: 'Can Approve Loan',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            },
+            {
+                code: 'DISBURSE_LOAN',
+                label: 'Can Disburse Loan',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            },
+            {
+                code: 'WRITEOFF_LOAN',
+                label: 'Can Write Off Loan',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            },
+            {
+                code: 'UNDOAPPROVAL_LOAN',
+                label: 'Can Undo Loan Approval',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            },
+            {
+                code: 'UNDODISBURSAL_LOAN',
+                label: 'Can Undo Loan Disbursement',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            },
+            {
+                code: 'CLOSE_LOAN',
+                label: 'Can Close Loan',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            },
+            {
+                code: 'RESCHEDULE_LOAN',
+                label: 'Can Reschedule Loan',
+                expression: 'json.amount >= {0} && json.amount <={1}',
+                defaults: {
+                    min: 0,
+                    max: 10000
+                }
+            }
+        ]
+    }
+);
