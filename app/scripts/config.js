@@ -131,7 +131,7 @@ app.constant('CHART_TYPE', {
     'LOANPORTFOLIO_UPDATES': 'changesInLoanPortfolio'
 });
 
-app.constant('PERMISSION_GROUPING_MAPPING', {
+app.constant('PERMISSION_GROUP_LABELS', {
         fin_account: 'Chart of Accounts',
         fin_audit: 'Audit',
         fin_charge: 'Fees & Charges',
@@ -147,6 +147,68 @@ app.constant('PERMISSION_GROUPING_MAPPING', {
         fin_staff: 'Staff',
         fin_note_general: 'General Notes',
         fin_note_follow: 'Follow up Notes',
-        report: 'Manage Reports'
+        fin_report: 'Manage Reports'
+    }
+);
+
+app.constant('PERMISSION_GROUP_LABELS', {
+        fin_account: 'Chart&nbsp;of&nbsp;Accounts',
+        fin_audit: 'Audit',
+        fin_charge: 'Fees&nbsp;and&nbsp;Charges',
+        fin_client: 'Client',
+        fin_holiday: 'Holidays',
+        fin_journal: 'Journal&nbsp;Entries',
+        fin_loan: 'Loan',
+        fin_loan_assign: 'Loan&nbsp;Reassignment',
+        fin_loan_product: 'Loan&nbsp;Product',
+        fin_permission: 'Permissions',
+        fin_role: 'Roles',
+        fin_user: 'User',
+        fin_staff: 'Staff',
+        fin_note_general: 'General&nbsp;Notes',
+        fin_note_follow: 'Follow&nbsp;up&nbsp;Notes',
+        fin_report: 'Manage&nbsp;Reports'
+    }
+);
+
+app.constant('PERMISSION_GROUPS_SORT_ORDER', [
+        'fin_loan',
+        'fin_client',
+        'fin_note_general',
+        'fin_note_followup',
+        'fin_account',
+        'fin_journal',
+        'fin_loan_product',
+        'fin_charge',
+        'fin_staff',
+        'fin_user',
+        'fin_role',
+        'fin_permission',
+        'fin_holiday',
+        'fin_report',
+        'fin_loan_reassignment',
+        'fin_audit',
+        'fin_survey'
+    ]
+);
+
+app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
+        READ: 0,
+        CREATE: 1,
+        UPDATE: 2,
+        DELETE: 3,
+        CLOSE: 4,
+        REACTIVATE: 10,
+        APPROVE: 11,
+        REJECT: 12,
+        DISBURSE: 13,
+        APPROVALUNDO: 14,
+        DISBURSALUNDO: 15,
+        REPAYMENT: 16,
+        ADJUST: 17,
+        WRITEOFF: 18,
+        UNDOWRITEOFF: 19,
+        RESCHEDULE: 20,
+        REVERSE: 21
     }
 );

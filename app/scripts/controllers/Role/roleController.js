@@ -1,14 +1,14 @@
 'use strict';
 
-angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, REST_URL, $location, PERMISSION_GROUPING_MAPPING) {
+angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER) {
 
     $scope.form = {};
     $scope.form.role = {};
     $scope.form.permissions = {};
     $scope.itemsByPage = 10;
-    $scope.currentPermissionGroup = 0;
     $scope.actionNames = [];
     $scope.permissionMatrix = {};
+    $scope.permissionGroupsOrdered = PERMISSION_GROUPS_SORT_ORDER;
 
     $scope.type = '';
     $scope.message = '';
@@ -46,31 +46,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     };
 
     $scope.groupingLabel = function(grouping) {
-        return PERMISSION_GROUPING_MAPPING[grouping];
-    };
-
-    $scope.changeGroupPermission = function (i) {
-        $scope.currentPermissionGroup = i;
-
-        var actionNames = {};
-
-        $scope.permissionMatrix = {};
-
-        for(var j=0; j<$scope.permissionGroups[$scope.currentPermissionGroup].permissions.length; j++) {
-            var action = $scope.permissionGroups[$scope.currentPermissionGroup].permissions[j].actionName;
-            var entity = $scope.permissionGroups[$scope.currentPermissionGroup].permissions[j].entityName;
-
-            if(!$scope.permissionMatrix[entity]) {
-                $scope.permissionMatrix[entity] = {};
-            }
-            $scope.permissionMatrix[entity][action] = $scope.permissionGroups[$scope.currentPermissionGroup].permissions[j];
-
-            if(action!=='all') {
-                actionNames[action] = '';
-            }
-        }
-
-        $scope.actionNames = Object.keys(actionNames).sort();
+        return PERMISSION_GROUP_LABELS[grouping];
     };
 
     $scope.editRole = function (roleId) {
@@ -144,19 +120,52 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             $scope.form.role.description = data.description;
             $scope.permissionGroups = [];
 
+            var actionNames = {};
+
             for (var i = 0; i < $scope.data.permissionUsageData.length; i++) {
                 if ($scope.data.permissionUsageData[i].grouping === currentGrouping) {
                     permissionGroup.push($scope.data.permissionUsageData[i]);
                 } else {
-                    if (currentGrouping && (currentGrouping.indexOf('fin')===0 || currentGrouping.indexOf('report')===0)) {
+                    if (currentGrouping && (currentGrouping.indexOf('fin')===0)) {
                         $scope.permissionGroups.push({grouping: currentGrouping, permissions: permissionGroup});
+
+                        // create matrix
+                        for(var j=0; j<permissionGroup.length; j++) {
+                            var action = permissionGroup[j].actionName;
+
+                            actionNames[action] = '';
+
+                            if(!$scope.permissionMatrix[currentGrouping]) {
+                                $scope.permissionMatrix[currentGrouping] = {};
+                            }
+                            $scope.permissionMatrix[currentGrouping][action] = permissionGroup[j];
+                        }
                     }
                     currentGrouping = $scope.data.permissionUsageData[i].grouping;
                     permissionGroup = [];
                     permissionGroup.push($scope.data.permissionUsageData[i]);
                 }
             }
-            $scope.changeGroupPermission(0);
+
+            $scope.actionNames = Object.keys(actionNames).sort(function(a, b) {
+                if(PERMISSION_ACTIONS_SORT_ORDER[a]!==null && PERMISSION_ACTIONS_SORT_ORDER[b]!==null) {
+                    if(PERMISSION_ACTIONS_SORT_ORDER[a] > PERMISSION_ACTIONS_SORT_ORDER[b]) {
+                        return 1;
+                    } else if(PERMISSION_ACTIONS_SORT_ORDER[a] < PERMISSION_ACTIONS_SORT_ORDER[b]) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    if(a > b) {
+                        return 1;
+                    } else if(a < b) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
         };
         var loadPermissionsFail = function () {
             $scope.showError('Error : Return from loadPermissions.');

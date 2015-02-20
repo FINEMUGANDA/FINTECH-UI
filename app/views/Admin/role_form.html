@@ -10,6 +10,8 @@
                 <h4>{{form.permissions}}</h4>
                 <br>
                 <h4>{{actionNames}}</h4>
+                <br>
+                <h4>{{permissionMatrix}}</h4>
                 -->
             </div>
         </div>
@@ -20,7 +22,6 @@
                     <div class="col-md-8">
                         <div class="form-group">
                             <label class="control-label col-md-4">name<span class="required"> *</span></label>
-
                             <div class="validate col-md-6">
                                 <input name="roleName" class="form-control" type="text" ng-model="form.role.name" required/>
                             </div>
@@ -38,6 +39,7 @@
                     <button id="save" type="submit" class="btn btn-primary">Save</button>
                     <a id="cancel" href="#/admin/roles" class="btn btn-warning">Cancel</a>
                 </div>
+                <!--
                 <div class="col-md-2">
                     <ul class="nav nav-pills nav-stacked">
                         <li role="presentation" ng-class="{'active': $index==currentPermissionGroup}" ng-repeat="permissionGroup in permissionGroups">
@@ -45,7 +47,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-10">
+                -->
+                <div class="col-md-12">
+                    <!--
                     <div class="row" ng-show="permissionGroups">
                         <div class="col-md-12" style="padding-left: 2px">
                             <div class="btn-group btn-group-xs pull-left">
@@ -59,30 +63,65 @@
                             <hr>
                         </div>
                     </div>
+                    -->
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table.table-responsive">
+                            <table class="table-permission">
                                 <thead>
-                                    <tr>
-                                        <td></td>
-                                        <td ng-repeat="actionName in actionNames">
-                                            <small>{{actionName}}</small>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td style="padding-right: 10px">
+                                        <h3>Features</h3>
+                                    </td>
+                                    <td colspan="{{actionNames.length}}" class="text-center">
+                                        <h3>Permissions</h3>
+                                    </td>
+                                    <!--
+                                    <td ng-repeat="actionName in actionNames" class="text-center">
+                                        <small>{{actionName}}</small>
+                                    </td>
+                                    -->
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="(entity, permissions) in permissionMatrix">
-                                        <td>
-                                            <small>{{entity}}</small>
+                                    <tr ng-repeat="group in permissionGroupsOrdered">
+                                        <td style="vertical-align: middle">
+                                            <small>{{groupingLabel(group)}}</small>
                                         </td>
                                         <td ng-repeat="actionName in actionNames" class="text-center">
-                                            <button type="button" class="btn" ng-show="permissions[actionName]" ng-class="{'btn-success': permissions[actionName].selected, 'btn-danger': !permissions[actionName].selected}" ng-click="selectPermission(permissions[actionName], !permissions[actionName].selected)">
-                                                <i class="glyphicon" ng-class="{'glyphicon-ok-circle': permissions[actionName].selected, 'glyphicon-ban-circle': !permissions[actionName].selected}"></i>
+                                            <button type="button" class="btn btn-sm" ng-show="permissionMatrix[group][actionName]" ng-class="{'btn-success': permissionMatrix[group][actionName].selected, 'btn-danger': !permissionMatrix[group][actionName].selected}" ng-click="selectPermission(permissionMatrix[group][actionName], !permissionMatrix[group][actionName].selected)">
+                                                {{actionName}}
                                             </button>
                                         </td>
                                     </tr>
+                                    <!--
+                                    <tr ng-repeat="(grouping, permissions) in permissionMatrix">
+                                        <td>
+                                            <small>{{groupingLabel(grouping)}}</small>
+                                        </td>
+                                        <td ng-repeat="actionName in actionNames" class="text-center">
+                                            <button type="button" class="btn btn-sm" ng-show="permissions[actionName]" ng-class="{'btn-success': permissions[actionName].selected, 'btn-danger': !permissions[actionName].selected}" ng-click="selectPermission(permissions[actionName], !permissions[actionName].selected)">
+                                                {{actionName}}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    -->
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Reports</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Dashboard</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Override/Approval</h3>
                         </div>
                     </div>
                     <!--
