@@ -81,9 +81,9 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active">
-                                    <div class="container">
+                                    <div class="container" style="height: 250px; overflow-y: auto;">
                                         <div class="row">
-                                            <div class="col-md-4" ng-repeat="permissionReport in permissionsReport[currentReportCategory]" style="padding: 1px; text-overflow: ellipsis;">
+                                            <div class="col-md-4" ng-repeat="permissionReport in permissionsReport[currentReportCategory]" style="padding: 1px;">
                                                 <button type="button" class="btn btn-sm" ng-class="{'btn-success': permissionReport.selected, 'btn-danger': !permissionReport.selected}" ng-click="selectPermission(permissionReport, !permissionReport.selected)">
                                                     {{permissionReport.actionName}}
                                                 </button>
@@ -93,31 +93,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--
-                            <table class="table-permission">
-                                <thead>
-                                    <tr>
-                                        <td style="padding-right: 10px">
-                                            <h3>Reports</h3>
-                                        </td>
-                                        <td class="text-center">
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="permissionReport in permissionsReport">
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-sm" ng-class="{'btn-success': permissionReport.selected, 'btn-danger': !permissionReport.selected}" ng-click="selectPermission(permissionReport, !permissionReport.selected)">
-                                                {{permissionReport.actionName}}
-                                            </button>
-                                        </td>
-                                        <td style="vertical-align: middle">
-                                            <small>{{permissionReport.entityName}}</small>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            -->
                         </div>
                     </div>
                     <div class="row">
