@@ -83,7 +83,11 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     };
 
     $scope.groupingLabel = function(grouping) {
-        return PERMISSION_GROUP_LABELS[grouping];
+        if(PERMISSION_GROUP_LABELS[grouping]) {
+            return PERMISSION_GROUP_LABELS[grouping];
+        } else {
+            return grouping;
+        }
     };
 
     $scope.editRole = function (roleId) {
@@ -167,27 +171,69 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                 } else if (currentGrouping && (currentGrouping.indexOf('report')===0)) {
                     reportGroup = permissionGroup;
                 } else {
+                    var matrix;
                     if (currentGrouping && (currentGrouping.indexOf('fin_dashboard')===0)) {
-                        // TODO: implement this
+                        matrix = 'dashboard';
                     } else if (currentGrouping && (currentGrouping.indexOf('fin')===0)) {
+                        matrix = 'general';
+                    }
+
+                    if(matrix) {
                         $scope.permissionGroups.push({grouping: currentGrouping, permissions: permissionGroup});
+
+                        if(!actionNames[matrix]) {
+                            actionNames[matrix] = {};
+                        }
+
+                        if(!$scope.permissionMatrix[matrix]) {
+                            $scope.permissionMatrix[matrix] = {};
+                        }
 
                         // create matrix
                         for(var j=0; j<permissionGroup.length; j++) {
                             var action = permissionGroup[j].actionName;
 
-                            actionNames[action] = '';
+                            // only display permissions that we can sort; otherwise too many for horizontal display
+                            if(PERMISSION_ACTIONS_SORT_ORDER[action]) {
+                                actionNames[matrix][action] = '';
 
-                            if(!$scope.permissionMatrix[currentGrouping]) {
-                                $scope.permissionMatrix[currentGrouping] = {};
+                                if(!$scope.permissionMatrix[matrix][currentGrouping]) {
+                                    $scope.permissionMatrix[matrix][currentGrouping] = {};
+                                }
+                                $scope.permissionMatrix[matrix][currentGrouping][action] = permissionGroup[j];
                             }
-                            $scope.permissionMatrix[currentGrouping][action] = permissionGroup[j];
                         }
                     }
                     currentGrouping = $scope.data.permissionUsageData[i].grouping;
                     permissionGroup = [];
                     permissionGroup.push($scope.data.permissionUsageData[i]);
                 }
+            }
+
+            var matrices = Object.keys(actionNames);
+
+            var sortFunction = function(a, b) {
+                if(PERMISSION_ACTIONS_SORT_ORDER[a]!==null && PERMISSION_ACTIONS_SORT_ORDER[b]!==null) {
+                    if(PERMISSION_ACTIONS_SORT_ORDER[a] > PERMISSION_ACTIONS_SORT_ORDER[b]) {
+                        return 1;
+                    } else if(PERMISSION_ACTIONS_SORT_ORDER[a] < PERMISSION_ACTIONS_SORT_ORDER[b]) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    if(a > b) {
+                        return 1;
+                    } else if(a < b) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            };
+
+            for(var k=0; k<matrices.length; k++) {
+                $scope.actionNames[matrices[k]] = Object.keys(actionNames[matrices[k]]).sort(sortFunction);
             }
 
             if(reportGroup.length>0) {
@@ -214,26 +260,6 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                     $scope.showError('Error : Cannot load reports.');
                 });
             }
-
-            $scope.actionNames = Object.keys(actionNames).sort(function(a, b) {
-                if(PERMISSION_ACTIONS_SORT_ORDER[a]!==null && PERMISSION_ACTIONS_SORT_ORDER[b]!==null) {
-                    if(PERMISSION_ACTIONS_SORT_ORDER[a] > PERMISSION_ACTIONS_SORT_ORDER[b]) {
-                        return 1;
-                    } else if(PERMISSION_ACTIONS_SORT_ORDER[a] < PERMISSION_ACTIONS_SORT_ORDER[b]) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                } else {
-                    if(a > b) {
-                        return 1;
-                    } else if(a < b) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
         };
         var loadPermissionsFail = function () {
             $scope.showError('Error : Return from loadPermissions.');
