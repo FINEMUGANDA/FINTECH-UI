@@ -629,18 +629,50 @@ app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-app.controller('ApplicationController', function($scope, $location, USER_ROLES, AuthService) {
-  $scope.currentUser = null;
-  $scope.userRoles = USER_ROLES;
-  $scope.isAuthorized = AuthService.isAuthorized;
+app.controller('ApplicationController', function($scope, $location, USER_ROLES, REST_URL, AuthService, RoleService, Session, APPLICATION, AUTH_EVENTS) {
+    $scope.currentUser = null;
+    $scope.userRoles = USER_ROLES;
+    $scope.isAuthorized = AuthService.isAuthorized;
+    $scope.userPermissions = {};
 
-  $scope.setCurrentUser = function(user) {
-    $scope.currentUser = user;
-  };
+    $scope.setCurrentUser = function(user) {
+        $scope.currentUser = user;
+    };
 
-  $scope.changeView = function(view) {
-    $location.path(view);
-  };
+    $scope.changeView = function(view) {
+        $location.path(view);
+    };
+
+    $scope.hasPermission = function(permission) {
+        return ($scope.userPermissions[permission]===true || $scope.userPermissions.ALL_FUNCTIONS===true);
+    };
+
+    $scope.reloadPermissions = function() {
+        var role = Session.getValue(APPLICATION.role);
+        if(role) {
+            RoleService.getData(REST_URL.BASE + 'roles/' + role.id + '/permissions').then(function(result) {
+                for(var i=0; i<result.data.permissionUsageData.length; i++) {
+                    var permission = result.data.permissionUsageData[i].code;
+                    var selected = result.data.permissionUsageData[i].selected;
+                    $scope.userPermissions[permission] = selected;
+                }
+            }, function() {
+                // TODO: do we need this?
+            });
+        }
+    };
+
+    $scope.$on(AUTH_EVENTS.loginSuccess, function() {
+        $scope.reloadPermissions();
+    });
+    $scope.$on(AUTH_EVENTS.logoutSuccess, function() {
+        $scope.reloadPermissions();
+    });
+    $scope.$on(AUTH_EVENTS.sessionTimeout, function() {
+        $scope.reloadPermissions();
+    });
+
+    $scope.reloadPermissions();
 });
 
 //Factory to manage the session related things for the application
