@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS) {
+angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, ReportService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS) {
 
     $scope.form = {};
     $scope.form.role = {};
@@ -12,6 +12,8 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     $scope.permissionGroupsOrdered = PERMISSION_GROUPS_SORT_ORDER;
     $scope.permissionExpressions = PERMISSION_EXPRESSIONS;
     $scope.permissionExpressionData = {};
+    $scope.permissionsReport = [];
+    $scope.currentReportCategory = '';
 
     $scope.type = '';
     $scope.message = '';
@@ -39,6 +41,10 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         $scope.errors = errors ? errors : [];
     };
 
+    $scope.selectReportCategory = function (category) {
+        $scope.currentReportCategory = category;
+    };
+
     $scope.selectPermissions = function (selected) {
         angular.forEach($scope.permissionGroups[$scope.currentPermissionGroup].permissions, function(permission) {
             $scope.selectPermission(permission, selected);
@@ -56,19 +62,22 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     };
 
     $scope.selectPermissionExpression = function (code, expression) {
-        console.log($scope.permissionExpressionData[code].min + ' - ' + $scope.permissionExpressionData[code].max);
+        if(!$scope.form.permissions.expressions) {
+            $scope.form.permissions.expressions = {};
+        }
+
         if($scope.permissionExpressionData[code].min!==null &&
             $scope.permissionExpressionData[code].max!==null &&
             $scope.permissionExpressionData[code].min!==undefined &&
             $scope.permissionExpressionData[code].max!==undefined) {
             // select
-            $scope.form.expressions[code] = $scope.format(expression, $scope.permissionExpressionData[code].min, $scope.permissionExpressionData[code].max);
+            $scope.form.permissions.expressions[code] = $scope.format(expression, $scope.permissionExpressionData[code].min, $scope.permissionExpressionData[code].max);
         } else {
             // unselect
             try {
-                delete $scope.form.expressions[code];
+                delete $scope.form.permissions.expressions[code];
             } catch(err) {
-                $scope.form.expressions[code] = null;
+                $scope.form.permissions.expressions[code] = null;
             }
         }
     };
@@ -82,7 +91,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
         var editPermissions;
 
-        if($scope.form.permissions.permissions) {
+        if($scope.form.permissions.permissions || $scope.form.permissions.expressions) {
             editPermissions = function() {
                 RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
                     $scope.isLoading = false;
@@ -150,11 +159,17 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
             var actionNames = {};
 
+            var reportGroup = [];
+
             for (var i = 0; i < $scope.data.permissionUsageData.length; i++) {
                 if ($scope.data.permissionUsageData[i].grouping === currentGrouping) {
                     permissionGroup.push($scope.data.permissionUsageData[i]);
+                } else if (currentGrouping && (currentGrouping.indexOf('report')===0)) {
+                    reportGroup = permissionGroup;
                 } else {
-                    if (currentGrouping && (currentGrouping.indexOf('fin')===0)) {
+                    if (currentGrouping && (currentGrouping.indexOf('fin_dashboard')===0)) {
+                        // TODO: implement this
+                    } else if (currentGrouping && (currentGrouping.indexOf('fin')===0)) {
                         $scope.permissionGroups.push({grouping: currentGrouping, permissions: permissionGroup});
 
                         // create matrix
@@ -173,6 +188,31 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                     permissionGroup = [];
                     permissionGroup.push($scope.data.permissionUsageData[i]);
                 }
+            }
+
+            if(reportGroup.length>0) {
+                ReportService.getData(REST_URL.BASE + 'reports' + '?tenantIdentifier=default').then(function(result) {
+                    $scope.permissionsReport = {};
+                    $scope.currentReportCategory = '';
+                    for(var j=0; j<result.data.length; j++) {
+                        var report = result.data[j];
+                        if(report.reportCategory) {
+                            if(j===0) {
+                                $scope.currentReportCategory = report.reportCategory;
+                            }
+                            for(var i=0; i<reportGroup.length; i++) {
+                                if(reportGroup[i].entityName===report.reportName) {
+                                    if(!$scope.permissionsReport[report.reportCategory]) {
+                                        $scope.permissionsReport[report.reportCategory] = [];
+                                    }
+                                    $scope.permissionsReport[report.reportCategory].push(reportGroup[i]);
+                                }
+                            }
+                        }
+                    }
+                }, function() {
+                    $scope.showError('Error : Cannot load reports.');
+                });
             }
 
             $scope.actionNames = Object.keys(actionNames).sort(function(a, b) {

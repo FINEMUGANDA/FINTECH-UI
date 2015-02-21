@@ -13,8 +13,10 @@
                 <br>
                 <h4>{{permissionMatrix}}</h4>
                 <br>
-                <h4>{{form.expressions}}</h4>
+                <h4>{{permissionsReport}}</h4>
                 -->
+                <br>
+                <h4>{{form.permissions.expressions}}</h4>
             </div>
         </div>
         <div class="row">
@@ -30,7 +32,6 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-4">description<span class="required"> *</span></label>
-
                             <div class="validate col-md-6">
                                 <input name="roleDescription" class="form-control" type="text" ng-model="form.role.description" required/>
                             </div>
@@ -72,7 +73,51 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Reports</h3>
+                            <h3>Reports - {{currentReportCategory}}</h3>
+                            <ul class="nav nav-tabs">
+                                <li role="presentation" ng-repeat="(key, value) in permissionsReport" ng-class="{'active': currentReportCategory==key, 'inactive': currentReportCategory!=key}">
+                                    <a href="" ng-click="selectReportCategory(key)">{{key}}</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4" ng-repeat="permissionReport in permissionsReport[currentReportCategory]" style="padding: 1px; text-overflow: ellipsis;">
+                                                <button type="button" class="btn btn-sm" ng-class="{'btn-success': permissionReport.selected, 'btn-danger': !permissionReport.selected}" ng-click="selectPermission(permissionReport, !permissionReport.selected)">
+                                                    {{permissionReport.actionName}}
+                                                </button>
+                                                <small>{{permissionReport.entityName}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            <table class="table-permission">
+                                <thead>
+                                    <tr>
+                                        <td style="padding-right: 10px">
+                                            <h3>Reports</h3>
+                                        </td>
+                                        <td class="text-center">
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="permissionReport in permissionsReport">
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm" ng-class="{'btn-success': permissionReport.selected, 'btn-danger': !permissionReport.selected}" ng-click="selectPermission(permissionReport, !permissionReport.selected)">
+                                                {{permissionReport.actionName}}
+                                            </button>
+                                        </td>
+                                        <td style="vertical-align: middle">
+                                            <small>{{permissionReport.entityName}}</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            -->
                         </div>
                     </div>
                     <div class="row">

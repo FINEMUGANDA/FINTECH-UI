@@ -218,7 +218,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'CREATE_LOAN',
                 label: 'Can Create Loan',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -227,7 +227,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'APPROVE_LOAN',
                 label: 'Can Approve Loan',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -236,7 +236,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'DISBURSE_LOAN',
                 label: 'Can Disburse Loan',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -245,7 +245,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'WRITEOFF_LOAN',
                 label: 'Can Write Off Loan',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -254,7 +254,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'UNDOAPPROVAL_LOAN',
                 label: 'Can Undo Loan Approval',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -263,7 +263,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'UNDODISBURSAL_LOAN',
                 label: 'Can Undo Loan Disbursement',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -272,16 +272,16 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'CLOSE_LOAN',
                 label: 'Can Close Loan',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
                 }
             },
             {
-                code: 'RESCHEDULE_LOAN',
+                code: 'RESCHEDULE_LOANSCHEDULE',
                 label: 'Can Reschedule Loan',
-                expression: 'json.amount >= {0} && json.amount <={1}',
+                expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
