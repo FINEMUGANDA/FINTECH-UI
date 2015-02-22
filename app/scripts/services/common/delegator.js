@@ -7,6 +7,9 @@ delegatorServices.factory('Remote', function($http, APPLICATION, Session) {
     setHeader: function() {
       $http.defaults.headers.common.Authorization = 'Basic ' + Session.getValue(APPLICATION.authToken);
     },
+    cancelAuthorization: function() {
+         delete $http.defaults.headers.common.Authorization;
+    },
     get: function(url) {
       console.log('Delegator GET :' + APPLICATION.host + url);
       this.setHeader();

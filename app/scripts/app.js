@@ -656,6 +656,7 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
                     var selected = result.data.permissionUsageData[i].selected;
                     $scope.userPermissions[permission] = selected;
                 }
+                console.log('AUTH (permissions): ' + angular.toJson($scope.userPermissions));
             }, function() {
                 // TODO: do we need this?
             });
@@ -663,12 +664,16 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
     };
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function() {
+        console.log('AUTH: ' + AUTH_EVENTS.loginSuccess);
         $scope.reloadPermissions();
     });
+    // TODO: this is never fired
     $scope.$on(AUTH_EVENTS.logoutSuccess, function() {
+        console.log('AUTH: ' + AUTH_EVENTS.logoutSuccess);
         $scope.reloadPermissions();
     });
     $scope.$on(AUTH_EVENTS.sessionTimeout, function() {
+        console.log('AUTH: ' + AUTH_EVENTS.sessionTimeout);
         $scope.reloadPermissions();
     });
 
