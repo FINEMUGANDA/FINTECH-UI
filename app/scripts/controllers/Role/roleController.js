@@ -99,17 +99,8 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
                 RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
-                    console.log('expressions: davor');
                     if(editExpressions) {
-                        console.log('expressions: drin');
-                        editExpressions().then(function() {
-                            console.log('expressions: losssss');
-                            $scope.isLoading = false;
-                            $scope.showSuccess('Role saved successfully', '/admin/roles');
-                        }, function(result) {
-                            $scope.isLoading = false;
-                            $scope.showError('Permissions not saved: ' + result.data.defaultUserMessage, result.data.errors);
-                        });
+                        editExpressions();
                     } else {
                         $scope.isLoading = false;
                         $scope.showSuccess('Role saved successfully', '/admin/roles');
@@ -123,7 +114,13 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
         if($scope.form.expressions.expressions) {
             editExpressions = function() {
-                return RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/expressions', angular.toJson($scope.form.expressions));
+                RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/expressions', angular.toJson($scope.form.expressions)).then(function() {
+                    $scope.isLoading = false;
+                    $scope.showSuccess('Role saved successfully', '/admin/roles');
+                }, function(result) {
+                    $scope.isLoading = false;
+                    $scope.showError('Permissions not saved: ' + result.data.defaultUserMessage, result.data.errors);
+                });
             };
         }
 
