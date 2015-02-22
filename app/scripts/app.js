@@ -644,12 +644,14 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
 
     $scope.reloadPermissions = function() {
         var role = Session.getValue(APPLICATION.role);
+        $scope.userPermissions = {};
         if(role) {
             RoleService.getData(REST_URL.BASE + 'roles/' + role.id + '/permissions').then(function(result) {
                 for(var i=0; i<result.data.permissionUsageData.length; i++) {
                     var permission = result.data.permissionUsageData[i].code;
                     var selected = result.data.permissionUsageData[i].selected;
                     $scope.userPermissions[permission] = selected;
+                    console.log('PERMISSIONS: ' + angular.toJson($scope.userPermissions));
                 }
             }, function() {
                 // TODO: do we need this?
