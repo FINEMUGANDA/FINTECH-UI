@@ -452,11 +452,6 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   }
   total_loans_info();
 
-  $rootScope.logout = function() {
-    delete localStorage.ang_session;
-    $location.url('/');
-  };
-
   $rootScope.change_pass = function() {
     var msg = 'You are about to remove User ';
     var dialog = dialogs.create('/views/change-password.html', 'passwordController', {msg: msg}, {size: 'md', keyboard: true, backdrop: true});
