@@ -20,7 +20,7 @@
     <div class="main-nav nav-collapse" id="main-navbar-collapse">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/#/dashboard" class="home">Home</a></li>
-        <li><a href="/#/clients" class="clients">Clients</a></li>
+        <li ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients" class="clients">Clients</a></li>
         <li class="dropdown">
           <a class="reports dropdown-toggle pointer" data-toggle="dropdown">Reports<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -34,24 +34,24 @@
         <li class="dropdown">
           <a class="accounting dropdown-toggle pointer" data-toggle="dropdown">Accounting<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/#/accounting/chart">Chart of Accounts</a></li>
-            <li><a href="/#/journalentries">Journal Entries</a></li>
+            <li ng-show="hasPermission('UPDATE_GLACCOUNT')"><a href="/#/accounting/chart">Chart of Accounts</a></li>
+            <li ng-show="hasPermission('UPDATE_JOURNAL')"><a href="/#/journalentries">Journal Entries</a></li>
           </ul>
         </li>
         <li class="dropdown" >
           <a class="configuration dropdown-toggle pointer" data-toggle="dropdown">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/#/loanProducts">Products</a></li>
+            <li ng-show="hasPermission('UPDATE_LOANPRODUCT')"><a href="/#/loanProducts">Products</a></li>
             <!--
             <li><a href="/#/admin/permissions">Permissions</a></li>
             -->
-            <li ng-show="hasPermission('READ_ROLE')"><a href="/#/admin/roles" >Roles</a></li>
-            <li ng-show="hasPermission('READ_USER')"><a href="/#/admin/users" >Users</a></li>
-            <li ng-show="hasPermission('READ_STAFF')"><a href="/#/admin/staff" >Staff</a></li>
-            <li ng-show="hasPermission('READ_HOLIDAY')"><a href="/#/holidays" >Holidays</a></li>
-            <li ng-show="hasPermission('READ_REPORT')"><a href="/#/reports" >Manage Reports</a></li>
-            <li><a href="/#/loan_reassignment">Loan reassignment</a></li>
-            <li><a href="/#/jobs">Jobs Schedule</a></li>
+            <li ng-show="hasPermission('UPDATE_ROLE')"><a href="/#/admin/roles" >Roles</a></li>
+            <li ng-show="hasPermission('UPDATE_USER')"><a href="/#/admin/users" >Users</a></li>
+            <li ng-show="hasPermission('UPDATE_STAFF')"><a href="/#/admin/staff" >Staff</a></li>
+            <li ng-show="hasPermission('UPDATE_HOLIDAY')"><a href="/#/holidays" >Holidays</a></li>
+            <li ng-show="hasPermission('UPDATE_REPORT')"><a href="/#/reports" >Manage Reports</a></li>
+            <li ng-show="hasPermission('BULKREASSIGN_LOAN')"><a href="/#/loan_reassignment">Loan reassignment</a></li>
+            <li ng-show="hasPermission('READ_RESCHEDULELOAN')"><a href="/#/jobs">Jobs Schedule</a></li>
             <li ng-show="hasPermission('READ_AUDIT')"><a href="/#/audit">Audit trail</a></li>
           </ul>
         </li>

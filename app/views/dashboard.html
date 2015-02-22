@@ -4,12 +4,12 @@
   <div class="shortcuts">
     <ul role="tablist">
       <li role="presentation" class="label">Shortcuts:</li>
-      <li role="presentation"><a href="/#createClient">New Client</a></li>
-      <li role="presentation"><a href="#">New Loan</a></li>
+      <li role="presentation" ng-show="hasPermission('CREATE_CLIENT')"><a href="/#createClient">New Client</a></li>
+      <li role="presentation" ng-show="hasPermission('CREATE_LOAN')"><a href="#">New Loan</a></li>
       <li role="presentation"><a href="#">New Repayment</a></li>
       <li role="presentation"><a href="#">New Note</a></li>
-      <li role="presentation"><a href="#">New Survey</a></li>
-      <li role="presentation"><a href="#">Upload Documents</a></li>
+      <li role="presentation" ng-show="hasPermission('REGISTER_SURVEY')"><a href="#">New Survey</a></li>
+      <li role="presentation" ng-show="hasPermission('CREATE_DOCUMENT')"><a href="#">Upload Documents</a></li>
     </ul>
   </div>
 
