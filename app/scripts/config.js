@@ -212,6 +212,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             },
             {
@@ -221,6 +229,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             },
             {
@@ -230,6 +246,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             },
             {
@@ -239,6 +263,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             },
             {
@@ -248,6 +280,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             },
             {
@@ -257,6 +297,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             },
             {
@@ -266,6 +314,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             },
             {
@@ -275,6 +331,14 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 defaults: {
                     min: 0,
                     max: 10000
+                },
+                extractors: {
+                    min: function(expression) {
+                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                    },
+                    max: function(expression) {
+                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                    }
                 }
             }
         ]

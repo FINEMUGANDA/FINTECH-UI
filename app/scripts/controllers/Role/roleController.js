@@ -62,8 +62,8 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
     };
 
     $scope.selectPermissionExpression = function (code, expression) {
-        if(!$scope.form.permissions.expressions) {
-            $scope.form.permissions.expressions = {};
+        if(!$scope.form.expressions.expressions) {
+            $scope.form.expressions.expressions = {};
         }
 
         if($scope.permissionExpressionData[code].min!==null &&
@@ -71,13 +71,13 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             $scope.permissionExpressionData[code].min!==undefined &&
             $scope.permissionExpressionData[code].max!==undefined) {
             // select
-            $scope.form.permissions.expressions[code] = $scope.format(expression, $scope.permissionExpressionData[code].min, $scope.permissionExpressionData[code].max);
+            $scope.form.expressions.expressions[code] = $scope.format(expression, $scope.permissionExpressionData[code].min, $scope.permissionExpressionData[code].max);
         } else {
             // unselect
             try {
-                delete $scope.form.permissions.expressions[code];
+                delete $scope.form.expressions.expressions[code];
             } catch(err) {
-                $scope.form.permissions.expressions[code] = null;
+                $scope.form.expressions.expressions[code] = null;
             }
         }
     };
@@ -94,12 +94,26 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         $scope.isLoading = true;
 
         var editPermissions;
+        var editExpressions;
 
-        if($scope.form.permissions.permissions || $scope.form.permissions.expressions) {
+        if($scope.form.permissions.permissions) {
             editPermissions = function() {
                 RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
-                    $scope.isLoading = false;
-                    $scope.showSuccess('Role saved successfully', '/admin/roles');
+                    console.log('expressions: davor');
+                    if(editExpressions) {
+                        console.log('expressions: drin');
+                        editExpressions().then(function() {
+                            console.log('expressions: losssss');
+                            $scope.isLoading = false;
+                            $scope.showSuccess('Role saved successfully', '/admin/roles');
+                        }, function(result) {
+                            $scope.isLoading = false;
+                            $scope.showError('Permissions not saved: ' + result.data.defaultUserMessage, result.data.errors);
+                        });
+                    } else {
+                        $scope.isLoading = false;
+                        $scope.showSuccess('Role saved successfully', '/admin/roles');
+                    }
                 }, function(result) {
                     $scope.isLoading = false;
                     $scope.showError('Permissions not saved: ' + result.data.defaultUserMessage, result.data.errors);
@@ -107,9 +121,17 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             };
         }
 
+        if($scope.form.expressions.expressions) {
+            editExpressions = function() {
+                return RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/expressions', angular.toJson($scope.form.expressions));
+            };
+        }
+
         var editRoleSuccess = function () {
             if(editPermissions) {
                 editPermissions();
+            } else if(editExpressions) {
+                editExpressions();
             } else {
                 $scope.isLoading = false;
                 $scope.showSuccess('Role saved successfully', '/admin/roles');
@@ -265,6 +287,37 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             $scope.showError('Error : Return from loadPermissions.');
         };
         RoleService.getData(REST_URL.BASE + 'roles/' + $route.current.params.id + '/permissions/?tenantIdentifier=default').then(loadPermissionsSuccess, loadPermissionsFail);
+        RoleService.getData(REST_URL.BASE + 'roles/' + $route.current.params.id + '/expressions/?tenantIdentifier=default').then(function(result) {
+            $scope.test = result;
+
+            for(var i=0; i<result.data.permissionExpressionUsageData.length; i++) {
+                if(!$scope.form.expressions.expressions) {
+                    $scope.form.expressions.expressions = {};
+                }
+
+                var code = result.data.permissionExpressionUsageData[i].code;
+                var expression = result.data.permissionExpressionUsageData[i].expression;
+                $scope.form.expressions.expressions[code] = expression;
+
+                if(!$scope.permissionExpressionData[code]) {
+                    $scope.permissionExpressionData[code] = {};
+                }
+
+                for(var j=0; j<PERMISSION_EXPRESSIONS.LOAN.length; j++) {
+                    if(PERMISSION_EXPRESSIONS.LOAN[j].code===code) {
+                        // TODO: could be optimized of Object.keys
+                        var extractors = Object.keys(PERMISSION_EXPRESSIONS.LOAN[j].extractors);
+
+                        for(var k=0; k<extractors.length; k++) {
+                            $scope.permissionExpressionData[code][extractors[k]] = PERMISSION_EXPRESSIONS.LOAN[j].extractors[extractors[k]](expression);
+                        }
+                        break;
+                    }
+                }
+            }
+        }, function() {
+            $scope.showError('Error : Return from loadExpressions.');
+        });
     } else {
         var loadRoleSuccess = function (result) {
             $scope.isLoading = false;
