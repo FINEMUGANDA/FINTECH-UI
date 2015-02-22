@@ -59,7 +59,7 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
     };
 
     //authentication fail callback
-    $scope.authenticationFail = function (result) {
+    $scope.authenticationFail = function () {
         //Broadcast a login failed event
         $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
         $scope.error = true;
