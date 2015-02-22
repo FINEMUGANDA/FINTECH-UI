@@ -8,7 +8,6 @@ var LoginCtrl = angular.module('loginController', ['userServices', 'Utils', 'Con
 LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth, AuthService, Utility, AUTH_EVENTS, REST_URL, PAGE_URL, Session, Base64, Remote) {
     //Authentication controller
     $scope.authenticate = function (loginDetails) {
-        console.log('LoginCtrl : authenticate');
         //reset error value
         $scope.error = false;
         //Validate login form
@@ -22,7 +21,6 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
 
                 //authentication success callback
                 var authenticationSuccess = function (result) {
-                    console.log('Success : Return from login service.');
                     //Create a new user session
                     Session.create(Base64.encode(loginDetails.username + ':' + loginDetails.password), result.data.username, result.data.roles[0]);
                     //Broadcast a login success event
@@ -62,8 +60,6 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
 
     //authentication fail callback
     $scope.authenticationFail = function (result) {
-        console.log('Error : Return from login service.');
-        console.log(result);
         //Broadcast a login failed event
         $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
         $scope.error = true;
