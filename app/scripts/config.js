@@ -160,13 +160,13 @@ app.constant('PERMISSION_GROUP_LABELS', {
 app.constant('PERMISSION_GROUPS_SORT_ORDER', {
         general: [
             'fin_loan',
+            'fin_loan_product',
             'fin_loan_reschedule',
             'fin_client',
             'fin_note_general',
             'fin_note_followup',
             'fin_account',
             'fin_journal',
-            'fin_loan_product',
             'fin_charge',
             'fin_staff',
             'fin_user',
