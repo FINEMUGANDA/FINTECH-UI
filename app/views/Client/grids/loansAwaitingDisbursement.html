@@ -3,7 +3,7 @@
   <div class="page-header">
     <div class="header">
       <h3>Loans Awaiting Disbursement</h3>
-      <div class="action">
+      <div class="action" ng-show="hasPermission('CREATE_CLIENT')">
         <a ng-href="/#createClient" class="btn primary">Create Client</a>
       </div>
     </div>

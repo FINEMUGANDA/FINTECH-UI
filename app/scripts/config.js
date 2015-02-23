@@ -203,6 +203,21 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
     }
 );
 
+app.constant('PERMISSION_MAPPING', {
+        READ_CLIENT: [
+            'READ_CLIENTIMAGE',
+            'READ_PageClientsScreenClients',
+            'READ_PageClientsScreenLoans',
+            'READ_PageClientsScreenLoansPA',
+            'READ_PageClientsScreenLoansAD',
+            'READ_PageClientsScreenLoansRejected',
+            'READ_PageClientsScreenLoansWritten',
+            'READ_PageClientsScreenLoansClosed',
+            'READ_client_extra_information'
+        ]
+    }
+);
+
 app.constant('PERMISSION_EXPRESSIONS', {
         LOAN: [
             {

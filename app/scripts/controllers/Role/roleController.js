@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, ReportService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS) {
+angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, ReportService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS, PERMISSION_MAPPING) {
 
     $scope.form = {};
     $scope.form.role = {};
@@ -59,6 +59,12 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         }
 
         $scope.form.permissions.permissions[permission.code] = selected;
+
+        if(PERMISSION_MAPPING[permission.code]) {
+            angular.forEach(PERMISSION_MAPPING[permission.code], function(p) {
+                $scope.form.permissions.permissions[p] = selected;
+            });
+        }
     };
 
     $scope.selectPermissionExpression = function (code, expression) {

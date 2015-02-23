@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, Utility, dialogs) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -17,10 +17,10 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $timeout, ClientsService,
     try {
       $scope.rowCollection = result.data;
       angular.forEach($scope.rowCollection, function(client) {
-        client.image = APPLICATION.NO_IMAGE_THUMB;
-        Utility.getImage(APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + client.id + '/images?tenantIdentifier=default&output=inline_octet').then(function(result) {
-          client.image = result;
-        });
+            client.image = APPLICATION.NO_IMAGE_THUMB;
+            CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(function(result) {
+                client.image = result.data;
+            });
       });
     } catch (e) {
     }
@@ -120,7 +120,7 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
 });
 
 
-clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
+clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
   console.log('LoansCtrl : Loans');
   //To load the loans page
 
@@ -134,10 +134,10 @@ clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, Client
     try {
       $scope.rowCollection = result.data;
       angular.forEach($scope.rowCollection, function(loan) {
-        loan.image = APPLICATION.NO_IMAGE_THUMB;
-        Utility.getImage(APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images?tenantIdentifier=default&output=inline_octet').then(function(result) {
-          loan.image = result;
-        });
+          loan.image = APPLICATION.NO_IMAGE_THUMB;
+          CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function(result) {
+              loan.image = result.data;
+          });
       });
     } catch (e) {
     }
@@ -166,7 +166,7 @@ clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, Client
   loadLoans();
 });
 
-clientsCtrl.controller('LoansClosedCtrl', function($scope, $location, $timeout, ClientsService, REST_URL, APPLICATION, Utility) {
+clientsCtrl.controller('LoansClosedCtrl', function($scope, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
   console.log('LoansClosedCtrl : Loans');
   //To load the loans page
 
@@ -180,10 +180,10 @@ clientsCtrl.controller('LoansClosedCtrl', function($scope, $location, $timeout, 
     try {
       $scope.rowCollection = result.data;
       angular.forEach($scope.rowCollection, function(loan) {
-        loan.image = APPLICATION.NO_IMAGE_THUMB;
-        Utility.getImage(APPLICATION.host + REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images?tenantIdentifier=default&output=inline_octet').then(function(result) {
-          loan.image = result;
-        });
+          loan.image = APPLICATION.NO_IMAGE_THUMB;
+          CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function(result) {
+              loan.image = result.data;
+          });
       });
     } catch (e) {
     }

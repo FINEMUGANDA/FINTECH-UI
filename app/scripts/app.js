@@ -629,6 +629,7 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
     $scope.userRoles = USER_ROLES;
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.userPermissions = {};
+    $scope.userEntityPermissions = {};
 
     $scope.setCurrentUser = function(user) {
         $scope.currentUser = user;
@@ -642,6 +643,16 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
         return ($scope.userPermissions[permission]===true || $scope.userPermissions.ALL_FUNCTIONS===true);
     };
 
+    $scope.hasAnyPermission = function(permissions) {
+        for(var i=0; i<permissions.length; i++) {
+            if($scope.hasPermission(permissions[i])) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
     $scope.reloadPermissions = function() {
         var role = Session.getValue(APPLICATION.role);
         $scope.userPermissions = {};
@@ -649,9 +660,18 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
             RoleService.getData(REST_URL.BASE + 'roles/' + role.id + '/permissions').then(function(result) {
                 for(var i=0; i<result.data.permissionUsageData.length; i++) {
                     var permission = result.data.permissionUsageData[i].code;
+                    var entity = result.data.permissionUsageData[i].entityName;
                     var selected = result.data.permissionUsageData[i].selected;
                     $scope.userPermissions[permission] = selected;
-                    console.log('PERMISSIONS: ' + angular.toJson($scope.userPermissions));
+
+                    if(entity) {
+                        if(!$scope.userEntityPermissions[entity]) {
+                            $scope.userEntityPermissions[entity] = selected;
+                        }
+                    }
+                    if(selected) {
+                        console.log('PERMISSIONS: ' + entity + ' - ' + permission + ' - ' + selected);
+                    }
                 }
             }, function() {
                 // TODO: do we need this?
