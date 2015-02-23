@@ -230,18 +230,15 @@ app.constant('PERMISSION_MAPPING', {
         READ_LOAN: [
             'READ_TEMPLATE',
             'READ_OFFICE',
-            'READ_GROUP'
-        ],
-        CREATE_LOAN: [
-            'READ_TEMPLATE',
-            'READ_OFFICE',
-            'READ_GROUP'
+            'READ_GROUP',
+            'READ_LOANNOTE',
+            'READ_extra_guarantor_details',
+            'READ_extra_loan_details'
         ],
         UPDATE_LOAN: [
             'BULKREASSIGN_LOAN',
-            'READ_TEMPLATE',
-            'READ_OFFICE',
-            'READ_GROUP'
+            'UPDATE_extra_guarantor_details',
+            'UPDATE_extra_loan_details'
         ]
     }
 );

@@ -1,9 +1,9 @@
 <ul role="tablist">
   <li role="presentation"><a href="#/clients" ng-class="active === 'clients'? 'active' : ''">Clients</a></li>
-  <li role="presentation"><a href="#/loans" ng-class="active === 'loans'? 'active' : ''">Active Loans</a></li>
-  <li role="presentation"><a href="#/loansPendingApproval" ng-class="active === 'loansPendingApproval'? 'active' : ''">Loans Pending Approval</a></li>
-  <li role="presentation"><a href="#/loansAwaitingDisbursement" ng-class="active === 'loansAwaitingDisbursement'? 'active' : ''">Loans Awaiting Disbursement</a></li>
-  <li role="presentation"><a href="#/loansRejected" ng-class="active === 'loansRejected'? 'active' : ''">Loans Rejected</a></li>
-  <li role="presentation"><a href="#/loansWrittenOff" ng-class="active === 'loansWrittenOff'? 'active' : ''">Loans Written-Off</a></li>
-  <li role="presentation"><a href="#/loansClosed" ng-class="active === 'closed'? 'active' : ''">Closed/Paid up loans</a></li>
+  <li role="presentation"><a href="#/loans" ng-class="active === 'loans'? 'active' : ''" ng-show="hasPermission('READ_LOAN')">Active Loans</a></li>
+  <li role="presentation"><a href="#/loansPendingApproval" ng-class="active === 'loansPendingApproval'? 'active' : ''" ng-show="hasPermission('READ_LOAN')">Loans Pending Approval</a></li>
+  <li role="presentation"><a href="#/loansAwaitingDisbursement" ng-class="active === 'loansAwaitingDisbursement'? 'active' : ''" ng-show="hasPermission('READ_LOAN')">Loans Awaiting Disbursement</a></li>
+  <li role="presentation"><a href="#/loansRejected" ng-class="active === 'loansRejected'? 'active' : ''" ng-show="hasPermission('READ_LOAN')">Loans Rejected</a></li>
+  <li role="presentation"><a href="#/loansWrittenOff" ng-class="active === 'loansWrittenOff'? 'active' : ''" ng-show="hasPermission('READ_LOAN')">Loans Written-Off</a></li>
+  <li role="presentation"><a href="#/loansClosed" ng-class="active === 'closed'? 'active' : ''" ng-show="hasPermission('READ_LOAN')">Closed/Paid up loans</a></li>
 </ul>

@@ -2,11 +2,11 @@
 <form ng-submit="saveNote()">
   <div class="form-group">
     <div class="col-sm-9 col-md-9">
-      <textarea rows="1" class="form-control" id="textarea" placeholder="Enter Note" ng-model="notesTab.formData.note"></textarea>
+      <textarea rows="1" class="form-control" id="textarea" placeholder="Enter Note" ng-model="notesTab.formData.note" ng-show="hasPermission('UPDATE_LOAN')"></textarea>
 
     </div>
     <div class="col-md-3">
-      <button class="btn btn-primary" type="submit">Add</button>
+      <button class="btn btn-primary" type="submit" ng-show="hasPermission('UPDATE_LOAN')">Add</button>
     </div>
   </div>
 </form>
