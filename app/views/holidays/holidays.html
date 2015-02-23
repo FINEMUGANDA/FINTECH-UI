@@ -64,7 +64,7 @@
                 <a>{{holiday.status}}</a>
               </div>
           </td>
-          <td class="actions"><a href="javascript:void(0);" ng-click="removeHoliday(holiday)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+          <td class="actions"><a href="javascript:void(0);" ng-click="removeHoliday(holiday)" ng-show="hasPermission('DELETE_HOLIDAY')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">

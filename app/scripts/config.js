@@ -220,6 +220,9 @@ app.constant('PERMISSION_MAPPING', {
         ],
         READ_JOURNALENTRY: [
             'READ_JournalEntryList'
+        ],
+        READ_HOLIDAY: [
+            'READ_HolidayList'
         ]
     }
 );
