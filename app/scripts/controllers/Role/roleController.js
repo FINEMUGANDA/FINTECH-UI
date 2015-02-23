@@ -102,6 +102,12 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         var editPermissions;
         var editExpressions;
 
+        if(!$scope.form.permissions.permissions) {
+            $scope.form.permissions.permissions = {};
+        }
+        // we always need this!
+        $scope.form.permissions.permissions.READ_PERMISSION = true;
+
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
                 RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
