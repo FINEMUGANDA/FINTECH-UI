@@ -140,6 +140,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_holiday: 'Holidays',
         fin_journal: 'Journal Entries',
         fin_loan: 'Loan',
+        fin_loan_reschedule: 'Loan Reschedule',
         fin_loan_reassignment: 'Loan Reassignment',
         fin_loan_product: 'Loan Product',
         fin_permission: 'Permissions',
@@ -159,6 +160,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
 app.constant('PERMISSION_GROUPS_SORT_ORDER', {
         general: [
             'fin_loan',
+            'fin_loan_reschedule',
             'fin_client',
             'fin_note_general',
             'fin_note_followup',
@@ -190,17 +192,17 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         UPDATE: 3,
         DELETE: 4,
         CLOSE: 5,
-        REACTIVATE: 10,
-        APPROVE: 11,
-        REJECT: 12,
-        DISBURSE: 13,
-        APPROVALUNDO: 14,
-        DISBURSALUNDO: 15,
-        REPAYMENT: 16,
-        ADJUST: 17,
-        WRITEOFF: 18,
-        UNDOWRITEOFF: 19,
-        RESCHEDULE: 20,
+        DISBURSE: 10,
+        APPROVALUNDO: 11,
+        DISBURSALUNDO: 12,
+        REPAYMENT: 13,
+        ADJUST: 14,
+        WRITEOFF: 15,
+        UNDOWRITEOFF: 16,
+        RESCHEDULE: 17,
+        APPROVE: 18,
+        REJECT: 19,
+        REACTIVATE: 20,
         REVERSE: 21,
         EXECUTEJOB: 22
     }
@@ -223,6 +225,10 @@ app.constant('PERMISSION_MAPPING', {
         ],
         READ_HOLIDAY: [
             'READ_HolidayList'
+        ],
+        READ_LOAN: [
+            'READ_TEMPLATE',
+            'READ_OFFICE'
         ],
         UPDATE_LOAN: [
             'BULKREASSIGN_LOAN'
