@@ -150,6 +150,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_note_followup: 'Follow up Notes',
         fin_report: 'Manage Reports',
         fin_dashboard_document: 'Upload',
+        fin_job: 'Jobs',
         fin_survey: 'Survey',
         fin_dashboard_survey: 'Survey'
     }
@@ -172,6 +173,7 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_holiday',
             'fin_report',
             'fin_loan_reassignment',
+            'fin_job',
             'fin_audit',
             'fin_survey'
         ],
@@ -199,7 +201,8 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         WRITEOFF: 18,
         UNDOWRITEOFF: 19,
         RESCHEDULE: 20,
-        REVERSE: 21
+        REVERSE: 21,
+        EXECUTEJOB: 22
     }
 );
 
