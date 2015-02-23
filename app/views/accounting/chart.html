@@ -12,7 +12,7 @@
       <div class="header">
         <h3 style="width: 50%;">Chart of Accounts</h3>
         <div class="action" style="width: 50%;">
-          <a href="#/accounting/create" class="btn primary">Add Account</a>
+          <a href="#/accounting/create" class="btn primary" ng-show="hasPermission('CREATE_GLACCOUNT')">Add Account</a>
           <a href="javascript:void(0);" class="btn primary" ng-click="isTreeview = true" ng-show='!isTreeview'>Tree View</a>
           <a href="javascript:void(0);" class="btn primary" ng-click="isTreeview = false" ng-show='isTreeview'>List View</a>
         </div>
