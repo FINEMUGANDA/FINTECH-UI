@@ -21,12 +21,14 @@
         <tr>
           <th st-sort="name">Name</th>
           <th st-sort="description">Description</th>
+          <th width="1%">&nbsp;</th>
         </tr>
         </thead>
         <tbody ng-hide="isLoading" class="">
           <tr ng-repeat="role in displayed">
             <td><a ng-href="/#/admin/edit_role/{{role.id}}" href="/#createClient">{{role.name}}</a></td>
             <td>{{role.description}}</td>
+            <td class="actions"><a href="javascript:void(0);" ng-click="removeRole(role.id)" ng-show="hasPermission('DELETE_ROLE')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
           </tr>
         </tbody>
         <tbody ng-show="isLoading" class="ng-hide">

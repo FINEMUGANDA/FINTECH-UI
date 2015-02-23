@@ -106,7 +106,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             $scope.form.permissions.permissions = {};
         }
         // we always need this!
-        $scope.form.permissions.permissions.READ_PERMISSION = true;
+        $scope.form.permissions.permissions.READ_ROLES = true;
 
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
@@ -181,6 +181,13 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         }
     };
 
+    $scope.removeRole = function(roleId) {
+        RoleService.removeData(REST_URL.BASE + 'roles' + '/' + roleId).then(function() {
+            $scope.showSuccess('Role removed successfuly', '/admin/roles');
+        }, function(result) {
+            $scope.showError('Role delete error: ' + result.data.defaultUserMessage, result.data.errors);
+        });
+    };
 
     if ($route.current.params.id) {
         var loadPermissionsSuccess = function (result) {
