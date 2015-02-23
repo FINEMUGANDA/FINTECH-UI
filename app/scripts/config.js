@@ -217,6 +217,9 @@ app.constant('PERMISSION_MAPPING', {
             'READ_PageClientsScreenLoansWritten',
             'READ_PageClientsScreenLoansClosed',
             'READ_client_extra_information'
+        ],
+        READ_JOURNALENTRY: [
+            'READ_JournalEntryList'
         ]
     }
 );
