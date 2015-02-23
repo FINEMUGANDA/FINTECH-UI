@@ -640,7 +640,11 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
     };
 
     $scope.hasPermission = function(permission) {
-        return ($scope.userPermissions[permission]===true || $scope.userPermissions.ALL_FUNCTIONS===true);
+        if($scope.userPermissions) {
+            return ($scope.userPermissions[permission]===true || $scope.userPermissions.ALL_FUNCTIONS===true);
+        } else {
+            return false;
+        }
     };
 
     $scope.hasAnyPermission = function(permissions) {
