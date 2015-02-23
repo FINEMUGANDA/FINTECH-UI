@@ -143,7 +143,7 @@
               <hr/>
               <div class="col-md-offset-5 paddedtop">
                 <a id="cancel" href="#/loanProducts" class="btn btn-warning">Cancel</a>                
-                 <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)">Next</button>
+                 <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Next</button>
               </div>
             </form>
         </div>
@@ -185,7 +185,7 @@
                     </span>
                   </td>
                   <td>
-                    <a ng-click="deleteCharge($index)" ng-show="hasPermission('UPDATE_LOANPRODUCT')">
+                    <a ng-click="deleteCharge($index)" ng-show="hasPermission('DELETE_LOANPRODUCT')">
                         <span class="glyphicon glyphicon-remove pointer"></span>
                     </a>
                   </td>
@@ -195,7 +195,7 @@
             <hr/>
             <div class="col-md-offset-5 paddedtop">
               <button class="btn btn-warning" ng-click="setStep(1)">back</button>              
-              <a id="save" class="btn btn-primary" href="#/mapAccount/{{id}}">Next</a>
+              <a id="save" class="btn btn-primary" href="#/mapAccount/{{id}}" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Next</a>
             </div>
           </form>
         </div>

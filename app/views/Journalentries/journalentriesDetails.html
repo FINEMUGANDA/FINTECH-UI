@@ -28,7 +28,7 @@
                 <div style="float:right;">            
                   <ul role="tablist">
                     <li role="presentation">
-                      <div class="action">                      
+                      <div class="action" ng-show="hasPermission('REVERSE_JOURNALENTRY')">
                         <a data-ng-show="flag" ng-click="reverseJournalEntry()" class="btn primary">
                             <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
                             <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>

@@ -221,17 +221,27 @@ app.constant('PERMISSION_MAPPING', {
             'READ_client_extra_information'
         ],
         READ_JOURNALENTRY: [
-            'READ_JournalEntryList'
+            'READ_JournalEntryList',
+            'READ_journal_entry_reverse_note'
         ],
         READ_HOLIDAY: [
             'READ_HolidayList'
         ],
         READ_LOAN: [
             'READ_TEMPLATE',
-            'READ_OFFICE'
+            'READ_OFFICE',
+            'READ_GROUP'
+        ],
+        CREATE_LOAN: [
+            'READ_TEMPLATE',
+            'READ_OFFICE',
+            'READ_GROUP'
         ],
         UPDATE_LOAN: [
-            'BULKREASSIGN_LOAN'
+            'BULKREASSIGN_LOAN',
+            'READ_TEMPLATE',
+            'READ_OFFICE',
+            'READ_GROUP'
         ]
     }
 );

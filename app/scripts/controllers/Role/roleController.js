@@ -60,11 +60,38 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
         $scope.form.permissions.permissions[permission.code] = selected;
 
-        if(PERMISSION_MAPPING[permission.code]) {
-            angular.forEach(PERMISSION_MAPPING[permission.code], function(p) {
+        $scope.selectAssociatedPermissions(permission.code, selected);
+    };
+
+    $scope.selectAssociatedPermissions = function(code, selected) {
+        if(PERMISSION_MAPPING[code]) {
+            angular.forEach(PERMISSION_MAPPING[code], function(p) {
                 $scope.form.permissions.permissions[p] = selected;
             });
         }
+    };
+
+    $scope.fillAllSelected = function() {
+        angular.forEach(Object.keys($scope.permissionMatrix), function(key) {
+            //console.log('ALL: ' + key);
+            angular.forEach($scope.permissionMatrix[key], function(group) {
+                //console.log('ALL: ' + angular.toJson(group));
+                angular.forEach(Object.keys(group), function(action) {
+                    //console.log('ALL: ' + angular.toJson(group[action]));
+                    var permission = group[action];
+                    if(permission) {
+                        //console.log('ALL: ' + angular.toJson(permission));
+                        if(permission.selected) {
+                            if(!$scope.form.permissions.permissions) {
+                                $scope.form.permissions.permissions = {};
+                            }
+                            $scope.selectPermission(permission, permission.selected);
+                            //$scope.form.permissions.permissions[permission.code] = permission.selected;
+                        }
+                    }
+                });
+            });
+        });
     };
 
     $scope.selectPermissionExpression = function (code, expression) {
@@ -107,6 +134,8 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         }
         // we always need this!
         $scope.form.permissions.permissions.READ_ROLE = true;
+        // this is to make sure that common associated permissions are not deleted by coincidence
+        $scope.fillAllSelected();
 
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
