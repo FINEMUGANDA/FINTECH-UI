@@ -106,7 +106,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             $scope.form.permissions.permissions = {};
         }
         // we always need this!
-        $scope.form.permissions.permissions.READ_ROLES = true;
+        $scope.form.permissions.permissions.READ_ROLE = true;
 
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
