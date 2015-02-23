@@ -153,12 +153,12 @@
               <div class="col-sm-3">
                   <select id="chargeId" ng-model="chargeId" class="form-control"
                              ng-options="charge.id as charge.name for charge in product.filteredChargeOptions | filter:loanProductDetails.currencyCode:strict"
-                             value="{{charge.id}}">
+                             value="{{charge.id}}" ng-show="hasPermission('UPDATE_LOANPRODUCT')">
                          <option value="">-- Select Charge --</option>
                   </select>
               </div>
               <div class="col-sm-1">
-                <button type="button" class="btn btn-primary" ng-click="chargeSelected(chargeId)">Add
+                <button type="button" class="btn btn-primary" ng-click="chargeSelected(chargeId)" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Add
                 </button>
               </div>
             </div>
@@ -185,7 +185,7 @@
                     </span>
                   </td>
                   <td>
-                    <a ng-click="deleteCharge($index)">                      
+                    <a ng-click="deleteCharge($index)" ng-show="hasPermission('UPDATE_LOANPRODUCT')">
                         <span class="glyphicon glyphicon-remove pointer"></span>
                     </a>
                   </td>
