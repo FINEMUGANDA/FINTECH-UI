@@ -223,6 +223,9 @@ app.constant('PERMISSION_MAPPING', {
         ],
         READ_HOLIDAY: [
             'READ_HolidayList'
+        ],
+        UPDATE_LOAN: [
+            'BULKREASSIGN_LOAN'
         ]
     }
 );
