@@ -50,7 +50,7 @@
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.disabled}}</a></td>
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.manualEntriesAllowed}}</a></td>
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.usage.value}}</a></td>
-          <td class="actions"><a href="javascript:void(0);" ng-click="removeAccount(account)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+          <td class="actions"><a href="javascript:void(0);" ng-click="removeAccount(account)" ng-show="hasPermission('DELETE_GLACCOUNT')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">

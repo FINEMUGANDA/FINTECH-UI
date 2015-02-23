@@ -10,7 +10,7 @@
     <div class="page-header" ng-hide="isLoading">
       <div class="header">
         <h4 style="width: 50%; margin-left: 16px;">Scheduler Status: <span class="scheduler" ng-class="{active: scheduler.active}">{{scheduler.active? 'Active' : 'Suspended'}}</span>
-          <button type="button" class="btn btn-xs" ng-class="{'btn-warning': scheduler.active, 'btn-success': !scheduler.active}" ng-click="toggleScheduler(scheduler.active)">{{scheduler.active? 'Suspend' : 'Activate'}}</button>
+          <button type="button" class="btn btn-xs" ng-show="hasPermission('UPDATE_SCHEDULER')" ng-class="{'btn-warning': scheduler.active, 'btn-success': !scheduler.active}" ng-click="toggleScheduler(scheduler.active)">{{scheduler.active? 'Suspend' : 'Activate'}}</button>
         </h4>
       </div>
     </div>

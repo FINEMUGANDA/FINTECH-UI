@@ -3,8 +3,8 @@
     <div ng-include src="'/views/alert.html'"></div>   
     <div class="shortcuts">
         <ul role="tablist"> 
-          <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
-          <li role="presentation"><a href="#/charges" class="active">Charges</a></li>
+          <li role="presentation" ng-show="hasPermission('READ_LOANPRODUCT')"><a href="#/loanProducts">Loan Products</a></li>
+          <li role="presentation" ng-show="hasPermission('READ_CHARGE')"><a href="#/charges" class="active">Charges</a></li>
         </ul>
     </div>
     <div class="list">
@@ -55,7 +55,7 @@
               </span> 
             </span>
           </td>
-          <td class="actions"><a href="javascript:void(0);" ng-click="removeCharge(charges)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+          <td class="actions"><a href="javascript:void(0);" ng-click="removeCharge(charges)" ng-show="hasPermission('DELETE_CHARGE')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">

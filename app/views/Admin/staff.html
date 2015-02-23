@@ -5,7 +5,7 @@
     <div class="page-header">
       <div class="header">
         <h3>Staff</h3>
-        <div class="action">
+        <div class="action" ng-show="hasPermission('CREATE_STAFF')">
           <a ng-href="/#/admin/create_staff" class="btn primary" href="/#/admin/create_staff">Create Staff</a>
         </div>
       </div>
