@@ -657,6 +657,15 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
         return false;
     };
 
+    $scope.hasAllPermissions = function(permissions) {
+        var result = true;
+        for(var i=0; i<permissions.length; i++) {
+            result = result && $scope.hasPermission(permissions[i]);
+        }
+
+        return result;
+    };
+
     $scope.reloadPermissions = function() {
         var role = Session.getValue(APPLICATION.role);
         $scope.userPermissions = {};
