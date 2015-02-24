@@ -21,6 +21,26 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
     $scope.isLoading = true;
 
+    var sortFunction = function(a, b) {
+        if(PERMISSION_ACTIONS_SORT_ORDER[a]!==null && PERMISSION_ACTIONS_SORT_ORDER[b]!==null) {
+            if(PERMISSION_ACTIONS_SORT_ORDER[a] > PERMISSION_ACTIONS_SORT_ORDER[b]) {
+                return 1;
+            } else if(PERMISSION_ACTIONS_SORT_ORDER[a] < PERMISSION_ACTIONS_SORT_ORDER[b]) {
+                return -1;
+            } else {
+                return 0;
+            }
+        } else {
+            if(a > b) {
+                return 1;
+            } else if(a < b) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+    };
+
     $scope.format = function(format) {
         var args = Array.prototype.slice.call(arguments, 1);
         return format.replace(/{(\d+)}/g, function(match, number) {
@@ -120,6 +140,14 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             return PERMISSION_GROUP_LABELS[grouping];
         } else {
             return grouping;
+        }
+    };
+
+    $scope.groupActionNames = function(group, actionNameGroup) {
+        if(actionNameGroup) {
+            return $scope.actionNames['dashboard'];
+        } else {
+            return Object.keys(group).sort(sortFunction);
         }
     };
 
@@ -259,13 +287,15 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                         for(var j=0; j<permissionGroup.length; j++) {
                             var action = permissionGroup[j].actionName;
 
-                            // only display permissions that we can sort; otherwise too many for horizontal display
-                            if(PERMISSION_ACTIONS_SORT_ORDER[action]) {
+                            // only display permissions that we can sort and that are in groups we have labels for;
+                            // otherwise too many for horizontal display
+                            if(PERMISSION_ACTIONS_SORT_ORDER[action] && PERMISSION_GROUP_LABELS[currentGrouping]) {
                                 actionNames[matrix][action] = '';
 
                                 if(!$scope.permissionMatrix[matrix][currentGrouping]) {
                                     $scope.permissionMatrix[matrix][currentGrouping] = {};
                                 }
+                                console.log('MATRIX: ' + angular.toJson(permissionGroup[j]));
                                 $scope.permissionMatrix[matrix][currentGrouping][action] = permissionGroup[j];
                             }
                         }
@@ -277,26 +307,6 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
             }
 
             var matrices = Object.keys(actionNames);
-
-            var sortFunction = function(a, b) {
-                if(PERMISSION_ACTIONS_SORT_ORDER[a]!==null && PERMISSION_ACTIONS_SORT_ORDER[b]!==null) {
-                    if(PERMISSION_ACTIONS_SORT_ORDER[a] > PERMISSION_ACTIONS_SORT_ORDER[b]) {
-                        return 1;
-                    } else if(PERMISSION_ACTIONS_SORT_ORDER[a] < PERMISSION_ACTIONS_SORT_ORDER[b]) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                } else {
-                    if(a > b) {
-                        return 1;
-                    } else if(a < b) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            };
 
             for(var k=0; k<matrices.length; k++) {
                 $scope.actionNames[matrices[k]] = Object.keys(actionNames[matrices[k]]).sort(sortFunction);
