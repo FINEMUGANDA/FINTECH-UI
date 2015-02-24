@@ -22,9 +22,9 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
                 //authentication success callback
                 var authenticationSuccess = function (result) {
                     //Create a new user session
-                    Session.create(Base64.encode(loginDetails.username + ':' + loginDetails.password), result.data.username, result.data.roles[0]);
+                    Session.create(Base64.encode(loginDetails.username + ':' + loginDetails.password), result.data.username, result.data.roles[0], result.data.permissions);
                     //Broadcast a login success event
-                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
                     //Redirect Dashboard page
                     $location.url(PAGE_URL.DASHBOARD);
                 };

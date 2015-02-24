@@ -11,6 +11,7 @@ app.constant('APPLICATION', {
     'authToken': 'token',
     'username' : 'username',
     'role' : 'role',
+    'permissions' : 'permissions',
     'PAGE_SIZE' : 5,
     'DISPLAYED_PAGES' : 5,
     'NO_IMAGE_THUMB' : 'images/noPhoto.jpg',

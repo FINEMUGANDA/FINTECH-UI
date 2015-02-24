@@ -691,10 +691,11 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
     };
 
     $scope.reloadPermissions = function() {
-        // roles
-        var role = Session.getValue(APPLICATION.role);
-        $scope.userPermissions = {};
-        if(role) {
+        /**
+         // roles
+         var role = Session.getValue(APPLICATION.role);
+         $scope.userPermissions = {};
+         if(role) {
             RoleService.getData(REST_URL.BASE + 'roles/' + role.id + '/permissions').then(function(result) {
                 for(var i=0; i<result.data.permissionUsageData.length; i++) {
                     var permission = result.data.permissionUsageData[i].code;
@@ -715,6 +716,13 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
                 // TODO: do we need this?
             });
         }
+         */
+
+        angular.forEach(Session.getValue('permissions'), function(permission) {
+            // TODO: remove this
+            console.log('LOGIN: ' + permission);
+            $scope.userPermissions[permission] = true;
+        });
 
         // report categories
         ReportService.getData(REST_URL.RUN_REPORTS +'/' + 'FullReportList?parameterType=true').then(function(result) {
@@ -727,10 +735,17 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
         });
     };
 
-    $scope.$on(AUTH_EVENTS.loginSuccess, function() {
+    $scope.$on(AUTH_EVENTS.loginSuccess, function(/** event, data */) {
+        /**
+        angular.forEach(data.permissions, function(permission) {
+            console.log('LOGIN: ' + permission);
+            //$scope.userPermissions[permission] = true;
+        });
+         */
         $scope.reloadPermissions();
     });
     $scope.$on(AUTH_EVENTS.logoutSuccess, function() {
+        $scope.userPermissions = {};
         $scope.reloadPermissions();
     });
     $scope.$on(AUTH_EVENTS.sessionTimeout, function() {
@@ -745,11 +760,12 @@ app.factory('Session', function(APPLICATION) {
 
 
   var Session = {
-    create: function(sessionId, userName, userRole) {
+    create: function(sessionId, userName, userRole, permissions) {
       var data = {};
       data[APPLICATION.authToken] = sessionId;
       data[APPLICATION.username] = userName;
       data[APPLICATION.role] = userRole;
+      data[APPLICATION.permissions] = permissions ? permissions : {};
       window.localStorage.setItem('ang_session', JSON.stringify(data));
     },
     setValue: function(key, value) {

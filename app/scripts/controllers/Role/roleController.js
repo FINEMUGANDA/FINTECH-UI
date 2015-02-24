@@ -132,8 +132,6 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         if(!$scope.form.permissions.permissions) {
             $scope.form.permissions.permissions = {};
         }
-        // we always need this!
-        $scope.form.permissions.permissions.READ_ROLE = true;
         // this is to make sure that common associated permissions are not deleted by coincidence
         $scope.fillAllSelected();
 
