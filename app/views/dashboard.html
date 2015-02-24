@@ -29,7 +29,7 @@
   
   <div class="kpis">
     <div class="charts">
-      <div class="portlet">
+      <div class="portlet" ng-show="hasPermission('ABPLO_UIDASHBOARD')">
         <div class="heading">Active Borrowers per Loan Officer</div> 
         <div class="body">
           <div ng-show="isBorrowerReady" google-chart chart="borrowerPerLoanOfficer" style="{{borrowerPerLoanOfficer.cssStyle}}">
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="charts">
-      <div class="portlet">
+      <div class="portlet" ng-show="hasPermission('PPLO_UIDASHBOARD')">
         <div class="heading">PAR per Loan Officer</div>         
         <div class="body">
           <div ng-hide="isParReady">
@@ -52,13 +52,13 @@
       </div>
     </div>
     <div class="charts">
-      <div class="portlet">
+      <div class="portlet" ng-show="hasPermission('CILPCM_UIDASHBOARD')">
         <div class="heading">Changes in Loan Portfolio current month</div> 
         <div class="body"><div google-chart chart="loanPortfolioCurrentMonth" style="{{loanPortfolioCurrentMonth.cssStyle}}"></div></div>
       </div>
     </div>
     <div class="charts">
-      <div class="portlet">
+      <div class="portlet" ng-show="hasPermission('DVCPW_UIDASHBOARD')">
         <div class="heading">Due vs. Collected previous week</div> 
         <div class="body">
           <div ng-hide="isDueReady">

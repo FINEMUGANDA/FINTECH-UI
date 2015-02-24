@@ -153,6 +153,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_report: 'Manage Reports',
         fin_dashboard_document: 'Upload',
         fin_dashboard_summary: 'Summary',
+        fin_dashboard_charts: 'Graph/Charts',
         fin_job: 'Jobs',
         fin_survey: 'Survey',
         fin_dashboard_survey: 'Survey'
@@ -184,7 +185,8 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
         dashboard: [
             'fin_dashboard_document',
             'fin_dashboard_survey',
-            'fin_dashboard_summary'
+            'fin_dashboard_summary',
+            'fin_dashboard_charts'
         ]
     }
 );
@@ -211,7 +213,11 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         TAC: 30,
         TB: 31,
         LIBS: 32,
-        RDTW: 33
+        RDTW: 33,
+        ABPLO: 40,
+        PPLO: 41,
+        CILPCM: 42,
+        DVCPW: 43
     }
 );
 
@@ -258,6 +264,15 @@ app.constant('PERMISSION_MAPPING', {
         ],
         RDTW_UIDASHBOARD: [
             'READ_Home page header statistic'
+        ],
+        ABPLO_UIDASHBOARD: [
+            'READ_Active Borrowers per Loan Officer'
+        ],
+        PPLO_UIDASHBOARD: [
+            'READ_PAR per Loan Officer'
+        ],
+        DVCPW_UIDASHBOARD: [
+            'READ_DueVsCollected'
         ]
     }
 );
