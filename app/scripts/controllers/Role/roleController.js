@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, ReportService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS, PERMISSION_MAPPING) {
+angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, ReportService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS, PERMISSION_MAPPING, PERMISSION_REPORT_CATEGORIES) {
 
     $scope.form = {};
     $scope.form.role = {};
@@ -313,7 +313,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                                 $scope.currentReportCategory = report.reportCategory;
                             }
                             for(var i=0; i<reportGroup.length; i++) {
-                                if(reportGroup[i].entityName===report.reportName) {
+                                if(reportGroup[i].entityName===report.reportName && PERMISSION_REPORT_CATEGORIES[report.reportCategory]) {
                                     if(!$scope.permissionsReport[report.reportCategory]) {
                                         $scope.permissionsReport[report.reportCategory] = [];
                                     }

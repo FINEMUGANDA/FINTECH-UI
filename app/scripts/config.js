@@ -226,6 +226,15 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
     }
 );
 
+app.constant('PERMISSION_REPORT_CATEGORIES', {
+        Loan: true,
+        Client: true,
+        Accounting: true,
+        Home: false,
+        UI: false
+    }
+);
+
 app.constant('PERMISSION_MAPPING', {
         READ_CLIENT: [
             'READ_CLIENTIMAGE',
