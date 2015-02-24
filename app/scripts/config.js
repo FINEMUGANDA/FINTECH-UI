@@ -152,6 +152,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_note_followup: 'Follow up Notes',
         fin_report: 'Manage Reports',
         fin_dashboard_document: 'Upload',
+        fin_dashboard_summary: 'Summary',
         fin_job: 'Jobs',
         fin_survey: 'Survey',
         fin_dashboard_survey: 'Survey'
@@ -182,7 +183,8 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
         ],
         dashboard: [
             'fin_dashboard_document',
-            'fin_dashboard_survey'
+            'fin_dashboard_survey',
+            'fin_dashboard_summary'
         ]
     }
 );
@@ -205,7 +207,11 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         REJECT: 19,
         REACTIVATE: 20,
         REVERSE: 21,
-        EXECUTEJOB: 22
+        EXECUTEJOB: 22,
+        TAC: 30,
+        TB: 31,
+        LIBS: 32,
+        RDTW: 33
     }
 );
 
@@ -240,6 +246,18 @@ app.constant('PERMISSION_MAPPING', {
             'BULKREASSIGN_LOAN',
             'UPDATE_extra_guarantor_details',
             'UPDATE_extra_loan_details'
+        ],
+        TAC_UIDASHBOARD: [
+            'READ_Home page header statistic'
+        ],
+        TB_UIDASHBOARD: [
+            'READ_Home page header statistic'
+        ],
+        LIBS_UIDASHBOARD: [
+            'READ_Home page header statistic'
+        ],
+        RDTW_UIDASHBOARD: [
+            'READ_Home page header statistic'
         ]
     }
 );
