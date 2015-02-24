@@ -687,7 +687,7 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
     };
 
     $scope.hasReportCategoryPermission = function(category) {
-        return $scope.reportPermissions[category];
+        return $scope.reportPermissions[category]===true || $scope.userPermissions.ALL_FUNCTIONS===true;
     };
 
     $scope.reloadPermissions = function() {
