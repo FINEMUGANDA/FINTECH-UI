@@ -624,11 +624,12 @@ app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-app.controller('ApplicationController', function($scope, $location, USER_ROLES, REST_URL, AuthService, RoleService, Session, APPLICATION, AUTH_EVENTS) {
+app.controller('ApplicationController', function($scope, $location, USER_ROLES, REST_URL, AuthService, RoleService, ReportService, Session, APPLICATION, AUTH_EVENTS) {
     $scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.userPermissions = {};
+    $scope.reportPermissions = {};
     $scope.userEntityPermissions = {};
 
     $scope.setCurrentUser = function(user) {
@@ -666,7 +667,31 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
         return result;
     };
 
+    $scope.hasAllReportCategoryPermissions = function(categories) {
+        var result = true;
+        for(var i=0; i<categories.length; i++) {
+            result = result && $scope.hasReportCategoryPermission(categories[i]);
+        }
+
+        return result;
+    };
+
+    $scope.hasAnyReportCategoryPermission = function(categories) {
+        for(var i=0; i<categories.length; i++) {
+            if($scope.hasReportCategoryPermission(categories[i])) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    $scope.hasReportCategoryPermission = function(category) {
+        return $scope.reportPermissions[category];
+    };
+
     $scope.reloadPermissions = function() {
+        // roles
         var role = Session.getValue(APPLICATION.role);
         $scope.userPermissions = {};
         if(role) {
@@ -690,6 +715,16 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
                 // TODO: do we need this?
             });
         }
+
+        // report categories
+        ReportService.getData(REST_URL.RUN_REPORTS +'/' + 'FullReportList?parameterType=true').then(function(result) {
+            //console.log('REPORTS: ' + angular.toJson(result));
+            angular.forEach(result.data, function(report) {
+                $scope.reportPermissions[report.report_category] = true;
+            });
+        }, function(){
+            // TODO: do we need this?
+        });
     };
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function() {

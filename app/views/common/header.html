@@ -21,13 +21,13 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/#/dashboard" class="home">Home</a></li>
         <li ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients" class="clients">Clients</a></li>
-        <li ng-show="hasPermission('READ_CLIENT', 'READ_LOAN', 'READ_GLACCOUNT')" class="dropdown">
+        <li ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])" class="dropdown">
           <a class="reports dropdown-toggle pointer" data-toggle="dropdown">Reports<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li ng-show="hasAllPermissions('READ_CLIENT', 'READ_LOAN', 'READ_GLACCOUNT')"><a href="/#/vreports/all"> All</a></li>
-            <li ng-show="hasPermission('READ_CLIENT')"><a href="/#/vreports/clients"> Clients</a></li>
-            <li ng-show="hasPermission('READ_LOAN')"><a href="/#/vreports/loans"> Loans</a></li>
-            <li ng-show="hasPermission('READ_GLACCOUNT')"><a href="/#/vreports/accounting"> Accounting</a></li>
+            <li ng-show="hasAllReportCategoryPermissions(['Client', 'Loan', 'Account'])"><a href="/#/vreports/all"> All</a></li>
+            <li ng-show="hasReportCategoryPermission('Client')"><a href="/#/vreports/clients"> Clients</a></li>
+            <li ng-show="hasReportCategoryPermission('Loan')"><a href="/#/vreports/loans"> Loans</a></li>
+            <li ng-show="hasReportCategoryPermission('Account')"><a href="/#/vreports/accounting"> Accounting</a></li>
             <!-- <li><a href="/#/vreports/xbrl"> XBRL</a></li> -->
           </ul>
         </li>
