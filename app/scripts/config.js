@@ -152,6 +152,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_note_followup: 'Follow up Notes',
         fin_report: 'Manage Reports',
         fin_dashboard_document: 'Upload',
+        fin_dashboard_shortcuts: 'Shortcuts',
         fin_dashboard_summary: 'Summary',
         fin_dashboard_charts: 'Graph/Charts',
         fin_job: 'Jobs',
@@ -183,8 +184,7 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_survey'
         ],
         dashboard: [
-            'fin_dashboard_document',
-            'fin_dashboard_survey',
+            'fin_dashboard_shortcuts',
             'fin_dashboard_summary',
             'fin_dashboard_charts'
         ]
@@ -210,14 +210,17 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         REACTIVATE: 20,
         REVERSE: 21,
         EXECUTEJOB: 22,
-        TAC: 30,
-        TB: 31,
-        LIBS: 32,
-        RDTW: 33,
-        ABPLO: 40,
-        PPLO: 41,
-        CILPCM: 42,
-        DVCPW: 43
+        UPLOAD: 30,
+        SURVEY: 31,
+        NOTE: 32,
+        TAC: 40,
+        TB: 41,
+        LIBS: 42,
+        RDTW: 43,
+        ABPLO: 50,
+        PPLO: 51,
+        CILPCM: 52,
+        DVCPW: 53
     }
 );
 
@@ -273,6 +276,12 @@ app.constant('PERMISSION_MAPPING', {
         ],
         DVCPW_UIDASHBOARD: [
             'READ_DueVsCollected'
+        ],
+        UPLOAD_UIDASHBOARD: [
+            'CREATE_DOCUMENT'
+        ],
+        SURVEY_UIDASHBOARD: [
+            'REGISTER_SURVEY'
         ]
     }
 );
