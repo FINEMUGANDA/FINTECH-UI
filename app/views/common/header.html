@@ -32,20 +32,20 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a class="accounting dropdown-toggle pointer" data-toggle="dropdown">Accounting<span class="caret"></span></a>
+          <a class="accounting dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_JOURNALENTRY', 'READ_GLACCOUNT'])">Accounting<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li ng-show="hasPermission('READ_GLACCOUNT')"><a href="/#/accounting/chart">Chart of Accounts</a></li>
             <li ng-show="hasPermission('READ_JOURNALENTRY')"><a href="/#/journalentries">Journal Entries</a></li>
           </ul>
         </li>
         <li class="dropdown" >
-          <a class="configuration dropdown-toggle pointer" data-toggle="dropdown">Configuration<span class="caret"></span></a>
+          <a class="configuration dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_LOANPRODUCT', 'READ_ROLE', 'READ_USER', 'READ_STAFF', 'READ_HOLIDAY', 'BULKREASSIGN_LOAN', 'READ_SCHEDULER', 'READ_REPORT', 'READ_AUDIT'])">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li ng-show="hasPermission('READ_LOANPRODUCT')"><a href="/#/loanProducts">Products</a></li>
             <!--
             <li><a href="/#/admin/permissions">Permissions</a></li>
             -->
-            <li ng-show="hasPermission('UPDATE_ROLE')"><a href="/#/admin/roles" >Roles</a></li>
+            <li ng-show="hasPermission('READ_ROLE')"><a href="/#/admin/roles" >Roles</a></li>
             <li ng-show="hasPermission('READ_USER')"><a href="/#/admin/users" >Users</a></li>
             <li ng-show="hasPermission('READ_STAFF')"><a href="/#/admin/staff" >Staff</a></li>
             <li ng-show="hasPermission('READ_HOLIDAY')"><a href="/#/holidays" >Holidays</a></li>
