@@ -261,7 +261,12 @@ app.constant('PERMISSION_MAPPING', {
             'READ_CLIENTIDENTIFIER',
             'CREATE_CLIENTIDENTIFIER',
             'UPDATE_CLIENTIDENTIFIER',
-            'DELETE_CLIENTIDENTIFIER'
+            'DELETE_CLIENTIDENTIFIER',
+            'UPDATE_client_identification_details',
+            'UPDATE_client_extra_information',
+            'UPDATE_client_additional_details',
+            'UPDATE_client_next_to_keen_details',
+            'UPDATE_business_details'
         ],
         CREATE_CLIENT: [
             'READ_CLIENTIMAGE',
@@ -270,11 +275,21 @@ app.constant('PERMISSION_MAPPING', {
             'READ_CLIENTIDENTIFIER',
             'CREATE_CLIENTIDENTIFIER',
             'UPDATE_CLIENTIDENTIFIER',
-            'DELETE_CLIENTIDENTIFIER'
+            'DELETE_CLIENTIDENTIFIER',
+            'CREATE_client_identification_details',
+            'CREATE_client_extra_information',
+            'CREATE_client_additional_details',
+            'CREATE_client_next_to_keen_details',
+            'CREATE_business_details'
         ],
         DELETE_CLIENT: [
             'DELETE_CLIENTIMAGE',
-            'DELETE_CLIENTIDENTIFIER'
+            'DELETE_CLIENTIDENTIFIER',
+            'DELETE_client_identification_details',
+            'DELETE_client_extra_information',
+            'DELETE_client_additional_details',
+            'DELETE_client_next_to_keen_details',
+            'DELETE_business_details'
         ],
         READ_JOURNALENTRY: [
             'READ_JournalEntryList',
