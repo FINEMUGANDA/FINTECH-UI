@@ -145,9 +145,14 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
 
     $scope.groupActionNames = function(group, actionNameGroup) {
         if(actionNameGroup) {
-            return $scope.actionNames['dashboard'];
+            return $scope.actionNames[actionNameGroup];
         } else {
-            return Object.keys(group).sort(sortFunction);
+            if(group) {
+                var keys = Object.keys(group);
+                return (keys ? keys : []).sort(sortFunction);
+            } else {
+                return [];
+            }
         }
     };
 
