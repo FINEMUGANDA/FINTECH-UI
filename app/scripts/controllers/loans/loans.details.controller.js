@@ -36,9 +36,8 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     {name: 'charges', view: 'views/loans/details/loans.details.charges.html', title: 'Charges', active: false, disabled: false},
     {name: 'collateral', view: 'views/loans/details/loans.details.collateral.html', title: 'Collateral', active: false, disabled: false},
     {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.html', title: 'Guarantor Info', active: false, disabled: false},
-    {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Notes', active: false, disabled: false}
+    {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Follow Up Notes', active: false, disabled: false}
   ];
-
   $scope.selectTab = function(name) {
     _.each($scope.tabs, function(tab) {
       tab.active = tab.name === name;
@@ -100,8 +99,6 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       initCharges();
     } else if (tab.name === 'guarantor') {
       initGuarantor();
-    } else if (tab.name === 'notes') {
-      initNotes();
     }
   };
 
@@ -148,15 +145,6 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
         }
         $scope.guarantorTab.loading = false;
       });
-    });
-  }
-
-  function initNotes() {
-    $scope.notesTab = {};
-    $scope.notesTab.loading = true;
-    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/notes').then(function(result) {
-      $scope.notesTab.notes = result.data;
-      $scope.notesTab.loading = false;
     });
   }
 
@@ -207,27 +195,6 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.writeoff.dialog.html', 'LoanDeatilsWriteOffDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       updateLoanDetails();
-    });
-  };
-  $scope.saveNote = function() {
-    console.log('save');
-    if (!$scope.notesTab || !$scope.notesTab.formData.note || !$scope.notesTab.formData.note.length) {
-      $scope.type = 'error';
-      $scope.message = 'You must enter note';
-      $scope.errors = [];
-      return;
-    }
-    var jsonData = {};
-    jsonData.note = $scope.notesTab.formData.note;
-    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/notes', jsonData).then(function() {
-      $scope.type = 'alert-success';
-      $scope.message = 'Note created successfully.';
-      $scope.errors = [];
-      initNotes();
-    }, function(result) {
-      $scope.message = 'Cant create note:' + result.data.defaultUserMessage;
-      $scope.type = 'error';
-      $scope.errors = result.data.errors;
     });
   };
 });
@@ -473,6 +440,121 @@ angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function
       LoanService.updateLoan(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loan.id + '?tenantidentifier=default', angular.toJson(json)).then(saveGuarantorSuccess, saveGuarantorFail);
     } else {
       LoanService.saveLoan(REST_URL.LOANS_GUARANTOR_DETAILS + $scope.loan.id + '?tenantidentifier=default', angular.toJson(json)).then(saveGuarantorSuccess, saveGuarantorFail);
+    }
+  };
+  $scope.open = function($event, target) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.datepicker[target] = true;
+  };
+});
+
+
+angular.module('angularjsApp').controller('LoanDetailsNoteCtrl', function($scope, REST_URL, LoanService, dialogs) {
+  $scope.notesTab = {};
+  $scope.notesTab.itemsByPage = 10;
+  $scope.notesTab.loading = true;
+
+  function updateNotes() {
+    $scope.notesTab.loading = true;
+    LoanService.getData(REST_URL.NOTES + $scope.loanId + '').then(function(result) {
+      $scope.rowCollection = result.data;
+      $scope.notesTab.loading = false;
+    });
+  }
+
+  updateNotes();
+
+  $scope.openNoteDialog = function(note) {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.note.dialog.html', 'LoanDeatilsNoteDialog', {note: note, loan: $scope.loanDetails, data: $scope.notesTab.data}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateNotes();
+    });
+  };
+  $scope.removeNote = function(note) {
+    var msg = 'You are about to remove Note created by <strong>' + note.createdByUserName + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        var index = $scope.rowCollection.indexOf(note);
+        LoanService.removeLoan(REST_URL.NOTES + $scope.loanDetails.id + '/' + note.id).then(function() {
+          $scope.type = 'alert-success';
+          $scope.message = 'Note removed successfully.';
+          $scope.errors = [];
+          if (index >= -1) {
+            $scope.rowCollection.splice(index, 1);
+          } else {
+            updateNotes();
+          }
+        }, function(result) {
+          $scope.message = 'Cant remove note:' + result.data.defaultUserMessage;
+          $scope.type = 'error';
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
+  };
+});
+
+
+angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST_URL, LoanService, $timeout, $scope, $modalInstance, Session, APPLICATION, data) {
+  $scope.loan = data.loan;
+  $scope.note = data.note || {};
+  $scope.data = data.data;
+
+  if ($scope.note.followUpDate) {
+    $scope.note.followUpDate = new Date($scope.note.followUpDate);
+  }
+  if (!$scope.note.createdDate) {
+    $scope.note.createdDate = new Date();
+  } else {
+    $scope.note.createdDate = new Date($scope.note.createdDate);
+  }
+
+  $scope.datepicker = {};
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+
+  $scope.saveNote = function() {
+    if (!$scope.noteForm.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+    var json = angular.copy($scope.note);
+    json.locale = 'en';
+    json.dateFormat = 'dd/MM/yyyy';
+    var date;
+    if (typeof json.followUpDate === 'object') {
+      date = new Date(json.followUpDate);
+      json.followUpDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    }
+    if (typeof json.createdDate === 'object') {
+      date = new Date(json.createdDate);
+      json.createdDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    }
+    if (!json.created_by) {
+      json.createdByUsername = Session.getValue(APPLICATION.username);
+    }
+    function saveNoteSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Note saved successfully.';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.close();
+      }, 2000);
+    }
+    function saveNoteFail(result) {
+      $scope.message = 'Cant save note:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    if ($scope.note.id) {
+      LoanService.updateLoan(REST_URL.NOTES + $scope.loan.id + '/' + $scope.note.id, angular.toJson(json)).then(saveNoteSuccess, saveNoteFail);
+    } else {
+      LoanService.saveLoan(REST_URL.NOTES + $scope.loan.id, angular.toJson(json)).then(saveNoteSuccess, saveNoteFail);
     }
   };
   $scope.open = function($event, target) {

@@ -66,6 +66,7 @@ app.constant('REST_URL', {
     PERMISSIONS_LIST:'api/v1/permissions',
     BASE : 'api/v1/',
     JOURANAL_ENTRY_REVERSE_NOTE:'api/v1/datatables/journal_entry_reverse_note/',
+    NOTES:'api/v1/datatables/notes/',
     HOLIDAYS: 'api/v1/holidays',
     HOLIDAYS_LIST:'api/v1/runreports/HolidayList',
     REPORTS: 'api/v1/reports',
