@@ -1,23 +1,48 @@
-<div ng-include src="'/views/alert.html'"></div>
-<form ng-submit="saveNote()" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">
-  <div class="form-group">
-    <div class="col-sm-9 col-md-9">
-      <textarea rows="1" class="form-control" id="textarea" placeholder="Enter Note" ng-model="notesTab.formData.note"></textarea>
-
+<div ng-controller="LoanDetailsNoteCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div ng-show="notesTab.loading">Loading...</div>
+  <div ng-hide="notesTab.loading">
+    <div class="clearfix" style="margin-bottom: 10px;">
+      <span ng-show="!rowCollection.length">Notes not founded</span>
+      <div class="pull-right">
+        <button class="btn btn-sm primary" ng-click="openNoteDialog()">Add Note</button>
+      </div>
     </div>
-    <div class="col-md-3">
-      <button class="btn btn-primary" type="submit">Add</button>
-    </div>
-  </div>
-</form>
-<div class="col-md-12">
-  <br/>
-  <div ng-repeat="loanNote in notesTab.notes| orderBy:predicate:reverse">
-    <blockquote>
-      <p>{{loanNote.note}}</p>
-      {{loanNote.id}}
-      <small>Created By :&nbsp;{{loanNote.createdByUsername}}</small>
-      <small>Created On :&nbsp;{{loanNote.createdOn| DateFormat}}</small>
-    </blockquote>
+    <table st-table="displayed" st-safe-src="rowCollection" class="table width100" ng-hide="!rowCollection.length">
+      <thead>
+        <tr class="graybg pointer">
+          <th st-sort="createdDate">Date Created</th>
+          <th st-sort="description">Notes/Description</th>
+          <th st-sort="followUpDate">Follow Up Date</th>
+          <th st-sort="createdByUserName">Created by</th>
+          <th style="width: 1%">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="note in displayed" class="pointer-main">
+          <td ng-click="openNoteDialog(note)" class="pointer">{{note.createdDate| DateFormat}}</td>
+          <td ng-click="openNoteDialog(note)" class="pointer">{{note.description}}</td>
+          <td ng-click="openNoteDialog(note)" class="pointer">{{note.followUpDate| DateFormat}}</td>
+          <td ng-click="openNoteDialog(note)" class="pointer">{{note.createdByUserName}}</td>
+          <td class="actions">
+            <a href="javascript:void(0);" title="Remove Note" ng-click="removeNote(note)"><i class="glyphicon glyphicon-remove"></i></a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot ng-hide="notesTab.loading">
+        <tr>
+          <td colspan="5">
+            <div class="table-footer">
+              <div class="export">
+                <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('0')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('0')" target="_blank">Excel</a></strong>
+              </div>
+              <div class="paginate">
+                <div st-pagination="" class="pagination" st-items-by-page="notesTab.itemsByPage" st-displayed-pages="displayedPages"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>

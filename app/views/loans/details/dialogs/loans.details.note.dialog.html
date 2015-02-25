@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h4 class="modal-title">{{note.id? 'Edit': 'Add'}} Note</h4>
+</div>
+
+<form name="noteForm" ng-hide="isLoading" class="form-horizontal" ng-submit="saveNote()" novalidate show-validation>
+  <div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="clearfix">
+
+      <div class="form-group">
+        <label class="control-label col-md-5">Date Created<span class="required"> *</span></label>
+        <div class="validate col-md-6">
+          <input type="text" class="form-control" datepicker-popup="dd MMMM yyyy" ng-model="note.createdDate" is-open="datepicker.createdDate" datepicker-options="dateOptions" close-text="Close" required ng-click="open($event, 'createdDate')" readonly="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-5">Description / Notes<span class="required"> *</span></label>
+        <div class="col-md-6">
+          <textarea id="businessLocation" name="businessLocation" class="form-control" ng-model="note.description" required></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-md-5">Follow Up Date<span class="required"> *</span></label>
+        <div class="validate col-md-6">
+          <input type="text" class="form-control" datepicker-popup="dd MMMM yyyy" ng-model="note.followUpDate" is-open="datepicker.followUpDate" datepicker-options="dateOptions" close-text="Close" required ng-click="open($event, 'followUpDate')" readonly="true" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+  </div>
+</form>
+
