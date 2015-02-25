@@ -24,7 +24,7 @@
           <div class="loading-indicator">Loading...</div>
         </div>
       </div>
-      <form name="ClientBusinessActivityForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientBusinessActivity(clientBusinessActivity)" novalidate show-validation>
+      <form name="ClientBusinessActivityForm" ng-hide="isLoading || !hasPermission('UPDATE_CLIENT')" class="form-horizontal" ng-submit="validateClientBusinessActivity(clientBusinessActivity)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
             <label class="control-label col-md-4">Business Activity<span class="required"> *</span></label>
@@ -131,7 +131,7 @@
                 {{row.BusinessActivity_cd_other_income_business_activity| getDropdownValues:otherIncomeBusinessActivity}}
               </div>
             </td>
-            <td class="actions"><a href="javascript:void(0);" ng-click="deleteBusinessDetails($index)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+            <td class="actions"><a href="javascript:void(0);" ng-click="deleteBusinessDetails($index)" ng-show="hasPermission('UPDATE_CLIENT')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
           </tr>
         </tbody>
         <tfoot ng-hide="isLoading">
@@ -153,7 +153,7 @@
       <div class="col-md-12">
         <div class="col-md-offset-5 paddedtop">
           <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning">Back</a>
-          <button id="save" type="button" class="btn btn-primary" ng-click="saveAndFinish()">Finish</button>
+          <button id="save" type="button" class="btn btn-primary" ng-click="saveAndFinish()" ng-show="hasPermission('UPDATE_CLIENT')">Finish</button>
           <!--<button id="save" type="button" class="btn btn-primary" ng-click="finish()">Finish</button>-->
         </div>
       </div>

@@ -238,6 +238,8 @@ app.constant('PERMISSION_REPORT_CATEGORIES', {
 app.constant('PERMISSION_MAPPING', {
         READ_CLIENT: [
             'READ_CLIENTIMAGE',
+            'READ_CLIENTIDENTIFIER',
+            'READ_GROUP',
             'READ_PageClientsScreenClients',
             'READ_PageClientsScreenLoans',
             'READ_PageClientsScreenLoansPA',
@@ -245,7 +247,36 @@ app.constant('PERMISSION_MAPPING', {
             'READ_PageClientsScreenLoansRejected',
             'READ_PageClientsScreenLoansWritten',
             'READ_PageClientsScreenLoansClosed',
-            'READ_client_extra_information'
+            'READ_ClientIdentification',
+            'READ_client_identification_details',
+            'READ_client_extra_information',
+            'READ_client_additional_details',
+            'READ_client_next_to_keen_details',
+            'READ_business_details'
+        ],
+        UPDATE_CLIENT: [
+            'READ_CLIENTIMAGE',
+            'CREATE_CLIENTIMAGE',
+            'UPDATE_CLIENTIMAGE',
+            'DELETE_CLIENTIMAGE',
+            'READ_CLIENTIDENTIFIER',
+            'CREATE_CLIENTIDENTIFIER',
+            'UPDATE_CLIENTIDENTIFIER',
+            'DELETE_CLIENTIDENTIFIER'
+        ],
+        CREATE_CLIENT: [
+            'READ_CLIENTIMAGE',
+            'CREATE_CLIENTIMAGE',
+            'UPDATE_CLIENTIMAGE',
+            'DELETE_CLIENTIMAGE',
+            'READ_CLIENTIDENTIFIER',
+            'CREATE_CLIENTIDENTIFIER',
+            'UPDATE_CLIENTIDENTIFIER',
+            'DELETE_CLIENTIDENTIFIER'
+        ],
+        DELETE_CLIENT: [
+            'DELETE_CLIENTIMAGE',
+            'DELETE_CLIENTIDENTIFIER'
         ],
         READ_JOURNALENTRY: [
             'READ_JournalEntryList',

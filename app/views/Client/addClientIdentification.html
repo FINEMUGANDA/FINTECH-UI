@@ -24,7 +24,7 @@
           <div class="loading-indicator">Loading...</div>
         </div>
       </div>
-      <form name="ClientIdentificationForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateClientIdentification()" novalidate show-validation>
+      <form name="ClientIdentificationForm" ng-hide="isLoading || !hasPermission('UPDATE_CLIENT')" class="form-horizontal" ng-submit="validateClientIdentification()" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group">
             <label class="control-label col-md-4">Identification Type<span class="required"> *</span></label>
@@ -111,7 +111,7 @@
               </div>
             </td>
             <td class="number actions">
-              <a ng-click="deleteClientIdentification($index)">
+              <a ng-click="deleteClientIdentification($index)" ng-show="hasPermission('UPDATE_CLIENT')">
                 <span class="glyphicon glyphicon-remove-circle"></span>
               </a>
             </td>
@@ -143,7 +143,7 @@
       <div class="col-md-12">
         <div class="col-md-offset-5 paddedtop">
           <a id="cancel" href="#/editadditionalclientinfo/{{id}}" class="btn btn-warning">Back</a>
-          <a id="save-btn" class="btn btn-primary" ng-click="saveAndNext()">Next</a>
+          <a id="save-btn" class="btn btn-primary" ng-click="saveAndNext()" ng-show="hasPermission('UPDATE_CLIENT')">Next</a>
           <!--<a id="saveBtn"  href="#/editnextofkeen/{{id}}" class="btn btn-primary">Next</a>-->
         </div>
       </div>
