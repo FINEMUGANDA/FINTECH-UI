@@ -505,7 +505,9 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   };
 
   $rootScope.$on('$routeChangeSuccess', function(event, current) {
-    $rootScope.page.setHclass(current.$$route.hclass);
+      if(current.$$route) {
+          $rootScope.page.setHclass(current.$$route.hclass);
+      }
   });
 
   //To update after view reloaded
