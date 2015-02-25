@@ -257,7 +257,6 @@ app.constant('PERMISSION_MAPPING', {
         UPDATE_CLIENT: [
             'READ_CLIENTIMAGE',
             'CREATE_CLIENTIMAGE',
-            'UPDATE_CLIENTIMAGE',
             'DELETE_CLIENTIMAGE',
             'READ_CLIENTIDENTIFIER',
             'CREATE_CLIENTIDENTIFIER',
@@ -267,7 +266,6 @@ app.constant('PERMISSION_MAPPING', {
         CREATE_CLIENT: [
             'READ_CLIENTIMAGE',
             'CREATE_CLIENTIMAGE',
-            'UPDATE_CLIENTIMAGE',
             'DELETE_CLIENTIMAGE',
             'READ_CLIENTIDENTIFIER',
             'CREATE_CLIENTIDENTIFIER',
