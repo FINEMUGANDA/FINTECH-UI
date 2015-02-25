@@ -153,7 +153,7 @@
       <div class="col-md-12">
         <div class="col-md-offset-5 paddedtop">
           <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning">Back</a>
-          <button id="save" type="button" class="btn btn-primary" ng-click="saveAndFinish()" ng-show="hasPermission('UPDATE_CLIENT')">Finish</button>
+          <button id="save" type="button" class="btn btn-primary" ng-click="saveAndFinish()" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])">Finish</button>
           <!--<button id="save" type="button" class="btn btn-primary" ng-click="finish()">Finish</button>-->
         </div>
       </div>

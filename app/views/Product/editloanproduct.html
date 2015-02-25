@@ -149,16 +149,16 @@
         </div>
         <div ng-switch-when="2">
           <form name="createloanproductform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
-            <div class="form-group">
+            <div class="form-group" ng-show="hasAnyPermission(['CREATE_LOANPRODUCT', 'UPDATE_LOANPRODUCT'])">
               <div class="col-sm-3">
                   <select id="chargeId" ng-model="chargeId" class="form-control"
                              ng-options="charge.id as charge.name for charge in product.filteredChargeOptions | filter:loanProductDetails.currencyCode:strict"
-                             value="{{charge.id}}" ng-show="hasPermission('UPDATE_LOANPRODUCT')">
+                             value="{{charge.id}}">
                          <option value="">-- Select Charge --</option>
                   </select>
               </div>
               <div class="col-sm-1">
-                <button type="button" class="btn btn-primary" ng-click="chargeSelected(chargeId)" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Add
+                <button type="button" class="btn btn-primary" ng-click="chargeSelected(chargeId)">Add
                 </button>
               </div>
             </div>

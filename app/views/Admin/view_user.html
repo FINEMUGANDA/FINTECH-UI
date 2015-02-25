@@ -12,10 +12,10 @@
         <div class="well">
           <div class="pull-right">
             <div class="btn-group">
-              <a href="#/admin/edit_user/{{formData.id}}" class="btn btn-primary ng-binding" has-permission="UPDATE_USER">
+              <a href="#/admin/edit_user/{{formData.id}}" class="btn btn-primary ng-binding" ng-show="hasPermission('UPDATE_USER')">
                 <i class="icon-edit icon-white"></i>Edit
               </a>
-              <button type="button" ng-click="deleteUser(formData.id, formData.username)" class="btn btn-primary ng-binding" has-permission="DELETE_USER">
+              <button type="button" ng-click="deleteUser(formData.id, formData.username)" class="btn btn-primary ng-binding" ng-show="hasPermission('DELETE_USER')">
                 <i class="icon-trash icon-white"></i>Delete
               </button>
             </div>

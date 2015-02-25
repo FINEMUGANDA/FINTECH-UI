@@ -178,7 +178,7 @@
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
             <a id="cancel" href="/#/clients" class="btn btn-warning">Cancel</a>
-            <button id="save" type="submit" class="btn btn-primary" ng-show="hasPermission('UPDATE_CLIENT')">Next</button>
+            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])">Next</button>
           </div>
         </div>
       </form>

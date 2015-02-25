@@ -1,12 +1,12 @@
 <div ng-include src="'/views/alert.html'"></div>
-<form ng-submit="saveNote()">
+<form ng-submit="saveNote()" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">
   <div class="form-group">
     <div class="col-sm-9 col-md-9">
-      <textarea rows="1" class="form-control" id="textarea" placeholder="Enter Note" ng-model="notesTab.formData.note" ng-show="hasPermission('UPDATE_LOAN')"></textarea>
+      <textarea rows="1" class="form-control" id="textarea" placeholder="Enter Note" ng-model="notesTab.formData.note"></textarea>
 
     </div>
     <div class="col-md-3">
-      <button class="btn btn-primary" type="submit" ng-show="hasPermission('UPDATE_LOAN')">Add</button>
+      <button class="btn btn-primary" type="submit">Add</button>
     </div>
   </div>
 </form>

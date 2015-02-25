@@ -52,7 +52,7 @@
           <hr/>
           <div class="col-md-offset-3 paddedtop">
             <a id="cancel" href="#/holidays" class="btn btn-warning">Cancel</a>
-            <button id="save" type="submit" class="btn btn-primary" ng-show="hasPermission('UPDATE_HOLIDAY')">Update</button>
+            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_HOLIDAY', 'UPDATE_HOLIDAY'])">Update</button>
           </div>
         </div>         
       </form>

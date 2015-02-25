@@ -65,7 +65,7 @@
 
           <hr/>
           <div class="col-md-offset-5 paddedtop">                                
-            <button id="save" type="submit" class="btn btn-primary" ng-show="hasPermission('UPDATE_GLACCOUNT')">Save</button>
+            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_GLACCOUNT', 'UPDATE_GLACCOUNT'])">Save</button>
             <a id="cancel" href="#/accounting/chart" class="btn btn-warning">Cancel</a>
           </div>
         </form>

@@ -146,7 +146,7 @@
         <hr/>
         <div class="col-md-offset-5 paddedtop">
           <a id="cancel" ng-click="setStep(2)" class="btn btn-warning pointer">Back</a>
-          <button id="save" type="submit" class="btn btn-primary" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Save / Finish</button>
+          <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_LOANPRODUCT', 'UPDATE_LOANPRODUCT'])">Save / Finish</button>
         </div>
       </form>
     </div>

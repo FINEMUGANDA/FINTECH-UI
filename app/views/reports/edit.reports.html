@@ -128,7 +128,7 @@
             </div>    
             <div class="col-md-offset-5 paddedtop">                                
               <a id="cancel" href="#/reports" class="btn btn-warning">Cancel</a>
-              <button id="save" type="submit" class="btn btn-primary" ng-click="validate()" ng-show="hasPermission('UPDATE_REPORT')">Save</button>
+              <button id="save" type="submit" class="btn btn-primary" ng-click="validate()" ng-show="hasAnyPermission(['CREATE_REPORT', 'UPDATE_REPORT'])">Save</button>
             </div>
           </form>
       </div>      

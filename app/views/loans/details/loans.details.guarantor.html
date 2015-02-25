@@ -40,4 +40,4 @@
     </tr>
   </tbody>
 </table>
-<button class="btn primary" ng-click="openGuarantorDialog()" ng-hide="guarantorTab.loading || !hasPermission('UPDATE_LOAN')">Edit Guarantor</button>
+<button class="btn primary" ng-click="openGuarantorDialog()" ng-hide="guarantorTab.loading || !hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Edit Guarantor</button>
