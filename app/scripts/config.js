@@ -311,6 +311,15 @@ app.constant('PERMISSION_MAPPING', {
             'UPDATE_extra_guarantor_details',
             'UPDATE_extra_loan_details'
         ],
+        READ_ROLE: [
+            'READ_REPORT'
+        ],
+        CREATE_ROLE: [
+            'PERMISSIONS_ROLE'
+        ],
+        UPDATE_ROLE: [
+            'PERMISSIONS_ROLE'
+        ],
         TAC_UIDASHBOARD: [
             'READ_Home page header statistic'
         ],

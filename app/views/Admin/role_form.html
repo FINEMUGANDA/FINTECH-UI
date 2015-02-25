@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="col-md-offset-5 paddedtop">
-                    <button id="save" type="submit" class="btn btn-primary" ng-show="hasPermission('UPDATE_ROLE')">Save</button>
+                    <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_ROLE', 'UPDATE_ROLE'])">Save</button>
                     <a id="cancel" href="#/admin/roles" class="btn btn-warning">Cancel</a>
                 </div>
                 <div class="col-md-12" ng-show="actionNames['general'].length>0">
