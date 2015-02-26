@@ -242,8 +242,9 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       $scope.loanProductDetails.amortizationType = $scope.product.amortizationType.id;
       $scope.loanProductDetails.interestType = $scope.product.interestType.id;
       $scope.charges = $scope.product.charges || [];
+      var chargeOptions = _.union($scope.product.chargeOptions, $scope.product.penaltyOptions);
       //Filter charge options
-      $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.charges);
+      $scope.product.filteredChargeOptions = Utility.filterOptions(chargeOptions, null, $scope.charges);
       //$scope.loanProductDetails.transactionProcessingStrategyId = $scope.product.transactionProcessingStrategyOptions[0].id;
 
       //set the values from the response on the edit page
@@ -390,8 +391,9 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       $scope.chargesSelected.push(temp);
     }
 
+    var chargeOptions = _.union($scope.product.chargeOptions, $scope.product.penaltyOptions);
     //Filterd charge options
-    $scope.product.filteredChargeOptions = Utility.filterOptions($scope.product.chargeOptions, null, $scope.chargesSelected);
+    $scope.product.filteredChargeOptions = Utility.filterOptions(chargeOptions, null, $scope.chargesSelected);
 
     var updateloanProductChargesSuccess = function() {
       console.log('Success : Return from loanProducts service.');
