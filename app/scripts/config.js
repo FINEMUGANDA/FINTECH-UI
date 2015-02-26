@@ -321,6 +321,9 @@ app.constant('PERMISSION_MAPPING', {
         UPDATE_ROLE: [
             'PERMISSIONS_ROLE'
         ],
+        READ_UIREPORT: [
+            'READ_REPORT'
+        ],
         TAC_UIDASHBOARD: [
             'READ_Home page header statistic'
         ],
