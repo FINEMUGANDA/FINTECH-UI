@@ -5,7 +5,7 @@ var LoginCtrl = angular.module('loginController', ['userServices', 'Utils', 'Con
 
 // The controller function let's us give our controller a name: MainCtrl
 // We'll then pass an anonymous function to serve as the controller itself.
-LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth, AuthService, Utility, APPLICATION, AUTH_EVENTS, REST_URL, PAGE_URL, Session, Base64, Remote) {
+LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth, AuthService, Utility, APPLICATION, AUTH_EVENTS, REST_URL, PAGE_URL, Session, Base64) {
     //Authentication controller
     $scope.authenticate = function (loginDetails) {
         //reset error value
@@ -39,23 +39,8 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
 
     //Authentication logout controller
     $scope.logout = function () {
-        Remote.cancelAuthorization();
-        Session.remove();
-        $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+        AuthService.logout();
         $location.url('/');
-
-        /**
-         AuthService.logout(REST_URL.AUTHENTICATION).then(function(result){
-            Session.remove();
-            $location.url(PAGE_URL.ROOT);
-            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-            console.log(result);
-            $location.url('/');
-        },function(result){
-            console.log(result);
-            console.log('Error : Return from logout service.');
-        });
-         */
     };
 
     //authentication fail callback
@@ -74,18 +59,4 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
     $scope.clearError = function () {
         $scope.loginForm.invalidate = false;
     };
-
-    $scope.$on(AUTH_EVENTS.permissionUpdate, function(event, data) {
-        //console.log('ROLE: ' + angular.toJson(Session.getValue(APPLICATION.role)) + ' - ' + data.role);
-        if(Session.getValue(APPLICATION.role).name===data.role) {
-            var permissions = [];
-            var keys = Object.keys(data.permissions);
-            for(var i=0; i<keys.length; i++) {
-                if(data[keys[i]]) {
-                    permissions.push(keys[i]);
-                }
-            }
-            Session.setValue(APPLICATION.permissions, permissions);
-        }
-    });
 });
