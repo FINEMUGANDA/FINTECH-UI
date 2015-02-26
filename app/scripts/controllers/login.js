@@ -5,7 +5,7 @@ var LoginCtrl = angular.module('loginController', ['userServices', 'Utils', 'Con
 
 // The controller function let's us give our controller a name: MainCtrl
 // We'll then pass an anonymous function to serve as the controller itself.
-LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth, AuthService, Utility, AUTH_EVENTS, REST_URL, PAGE_URL, Session, Base64, Remote) {
+LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth, AuthService, Utility, APPLICATION, AUTH_EVENTS, REST_URL, PAGE_URL, Session, Base64, Remote) {
     //Authentication controller
     $scope.authenticate = function (loginDetails) {
         //reset error value
@@ -74,4 +74,15 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
     $scope.clearError = function () {
         $scope.loginForm.invalidate = false;
     };
+
+    $scope.$on(AUTH_EVENTS.permissionUpdate, function(event, data) {
+        var permissions = [];
+        var keys = Object.keys(data);
+        for(var i=0; i<keys.length; i++) {
+            if(data[keys[i]]) {
+                permissions.push(keys[i]);
+            }
+        }
+        Session.setValue(APPLICATION.permissions, permissions);
+    });
 });

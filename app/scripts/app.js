@@ -746,6 +746,9 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
          */
         $scope.reloadPermissions();
     });
+    $scope.$on(AUTH_EVENTS.permissionUpdate, function(event, data) {
+        $scope.userPermissions = data;
+    });
     $scope.$on(AUTH_EVENTS.logoutSuccess, function() {
         $scope.userPermissions = {};
         $scope.reloadPermissions();

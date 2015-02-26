@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('RoleController', function ($route, $scope, RoleService, ReportService, REST_URL, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS, PERMISSION_MAPPING, PERMISSION_REPORT_CATEGORIES) {
+angular.module('angularjsApp').controller('RoleController', function ($route, $rootScope, $scope, RoleService, ReportService, REST_URL, AUTH_EVENTS, $location, PERMISSION_GROUP_LABELS, PERMISSION_GROUPS_SORT_ORDER, PERMISSION_ACTIONS_SORT_ORDER, PERMISSION_EXPRESSIONS, PERMISSION_MAPPING, PERMISSION_REPORT_CATEGORIES) {
 
     $scope.form = {};
     $scope.form.role = {};
@@ -171,6 +171,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
                 RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
+                    $rootScope.$broadcast(AUTH_EVENTS.permissionUpdate, $scope.form.permissions.permissions);
                     if(editExpressions) {
                         editExpressions();
                     } else {
@@ -300,7 +301,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $s
                                 if(!$scope.permissionMatrix[matrix][currentGrouping]) {
                                     $scope.permissionMatrix[matrix][currentGrouping] = {};
                                 }
-                                console.log('MATRIX: ' + angular.toJson(permissionGroup[j]));
+                                //console.log('MATRIX: ' + angular.toJson(permissionGroup[j]));
                                 $scope.permissionMatrix[matrix][currentGrouping][action] = permissionGroup[j];
                             }
                         }

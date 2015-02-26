@@ -118,7 +118,8 @@ app.constant('AUTH_EVENTS', {
   logoutSuccess: 'auth-logout-success',
   sessionTimeout: 'auth-session-timeout',
   notAuthenticated: 'auth-not-authenticated',
-  notAuthorized: 'auth-not-authorized'
+  notAuthorized: 'auth-not-authorized',
+  permissionUpdate: 'auth-permission-update'
 });
 
 app.constant('USER_ROLES', {
