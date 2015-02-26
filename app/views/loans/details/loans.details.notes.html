@@ -5,7 +5,7 @@
     <div class="clearfix" style="margin-bottom: 10px;">
       <span ng-show="!rowCollection.length">Notes not founded</span>
       <div class="pull-right">
-        <button class="btn btn-sm primary" ng-click="openNoteDialog()">Add Note</button>
+        <button class="btn btn-sm primary" ng-click="openNoteDialog()" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Add Note</button>
       </div>
     </div>
     <table st-table="displayed" st-safe-src="rowCollection" class="table width100" ng-hide="!rowCollection.length">
@@ -25,7 +25,7 @@
           <td ng-click="openNoteDialog(note)" class="pointer">{{note.followUpDate| DateFormat}}</td>
           <td ng-click="openNoteDialog(note)" class="pointer">{{note.createdByUserName}}</td>
           <td class="actions">
-            <a href="javascript:void(0);" title="Remove Note" ng-click="removeNote(note)"><i class="glyphicon glyphicon-remove"></i></a>
+            <a href="javascript:void(0);" title="Remove Note" ng-click="removeNote(note)" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])"><i class="glyphicon glyphicon-remove"></i></a>
           </td>
         </tr>
       </tbody>
