@@ -156,7 +156,10 @@
         </div>
         <div collapse="hidePentahoReport" class="row alert-block span tab-content">
             <br>
-            <div ng-show="reportContentHtml" ng-bind-html="reportContentHtml"></div>
+            <div ng-show="reportContentHtml" style="height: 600px; overflow: auto;">
+                <div ng-bind-html="reportContentHtml"></div>
+            </div>
+            <textarea class="form-control" ng-show="reportContentCsv" ng-bind="reportContentCsv" style="height: 600px"></textarea>
             <!--
             NOTE: this is just wrong; whoever did this: you cannot just make shortcuts here, you have to respect the security infrastructure
             <iframe id="rptLoadingFrame" ng-src="{{baseURL}}" frameborder="0" width="100%" height="600px"></iframe>

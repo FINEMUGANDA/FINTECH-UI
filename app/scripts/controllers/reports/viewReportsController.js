@@ -385,7 +385,20 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
   };
   $scope.getReportContent = function() {
       ReportService.getData($scope.baseURL).then(function(content) {
-      $scope.reportContentHtml = $sce.trustAsHtml(content.data);
+      console.log('JESUS: ' + $scope.formData.outputType);
+      $scope.reportContentHtml = undefined;
+      $scope.reportContentPdf = undefined;
+      $scope.reportContentCsv = undefined;
+      $scope.reportContentExcel = undefined;
+      if($scope.formData.outputType==='CSV') {
+        $scope.reportContentCsv = content.data;
+      } else if($scope.formData.outputType==='XLS') {
+        $scope.reportContentExcel = content.data;
+      } else if($scope.formData.outputType==='PDF') {
+        $scope.reportContentPdf = content.data;
+      } else {
+        $scope.reportContentHtml = $sce.trustAsHtml(content.data);
+      }
     }, function() {
       return '<h3>Error retrieving report!</h3>';
     });
