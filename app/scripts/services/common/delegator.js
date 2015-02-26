@@ -10,13 +10,18 @@ delegatorServices.factory('Remote', function($http, APPLICATION, Session) {
     cancelAuthorization: function() {
          delete $http.defaults.headers.common.Authorization;
     },
-    get: function(url) {
+    get: function(url, responseType) {
       console.log('Delegator GET :' + APPLICATION.host + url);
       this.setHeader();
 
       // com_thisnt below code to check with device id
-      //TODO : 'genericResultSet':false will be removed 
-      var promise = $http.get(APPLICATION.host + url, {params: {'tenantIdentifier': 'default', 'pretty': true, 'genericResultSet': false}})
+      //TODO : 'genericResultSet':false will be removed
+      var params = {params: {'tenantIdentifier': 'default', 'pretty': true, 'genericResultSet': false}};
+
+      if(responseType) {
+        params.responseType = responseType;
+      }
+      var promise = $http.get(APPLICATION.host + url, params)
         .success(function(data, status) {
           console.log('Success from server. Status:', status);
           return data; //this success data will be used in then _thisthod of controller call 

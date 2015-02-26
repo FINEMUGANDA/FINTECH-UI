@@ -1,3 +1,5 @@
+/* global saveAs */
+
 'use strict';
 
 angular.module('angularjsApp').controller('ViewReportsController', function($location, $route, $scope, 
@@ -384,8 +386,8 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       };
   };
   $scope.getReportContent = function() {
-      ReportService.getData($scope.baseURL).then(function(content) {
-      console.log('JESUS: ' + $scope.formData.outputType);
+      var responseType = $scope.formData.outputType==='PDF' || $scope.formData.outputType==='XLS' ? 'arraybuffer' : undefined;
+      ReportService.getData($scope.baseURL, responseType).then(function(content) {
       $scope.reportContentHtml = undefined;
       $scope.reportContentPdf = undefined;
       $scope.reportContentCsv = undefined;
@@ -393,9 +395,11 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       if($scope.formData.outputType==='CSV') {
         $scope.reportContentCsv = content.data;
       } else if($scope.formData.outputType==='XLS') {
-        $scope.reportContentExcel = content.data;
+        saveAs(new Blob([content.data], {type: 'application/vnd.ms-excel'}), 'report.xls');
       } else if($scope.formData.outputType==='PDF') {
-        $scope.reportContentPdf = content.data;
+        //saveAs(new Blob([content.data], {type: 'application/pdf'}), 'report.pdf');
+        var file = new Blob([content.data], {type: 'application/pdf'});
+        $scope.reportContentPdf = $sce.trustAsResourceUrl(URL.createObjectURL(file));
       } else {
         $scope.reportContentHtml = $sce.trustAsHtml(content.data);
       }
