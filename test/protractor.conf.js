@@ -34,4 +34,5 @@ exports.config = {
 // Required by Snap CI. Refer to https://docs.snap-ci.com/the-ci-environment/testing-with-browsers/
 if (process.env.SNAP_CI) {
     exports.config.chromeDriver = '/usr/local/bin/chromedriver';
+    exports.config.baseUrl = 'http://test.finemfi.org';
 }
