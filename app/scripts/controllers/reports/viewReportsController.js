@@ -38,6 +38,9 @@ angular.module('angularjsApp').controller('ViewReportsController', function($loc
     url += 'reportCategoryList?R_reportCategory=Fund&parameterType=true';
   } else if ($routeParams.type === 'accounting') {
     url += 'reportCategoryList?R_reportCategory=Accounting&parameterType=true';
+  } else {
+      console.log('NO MATCH');
+      return;
   }
 
   // Remove the duplicate entries from the array. The reports api returns same report multiple times if it have more than one parameter.
@@ -64,7 +67,7 @@ angular.module('angularjsApp').controller('ViewReportsController', function($loc
 });
 
 //Run report
-angular.module('angularjsApp').controller('RunReportsController', function($sce, $route, $scope, 
+angular.module('angularjsApp').controller('RunReportsController', function($sce, $route, $scope,
   REST_URL, ReportService, $rootScope, APPLICATION, $routeParams, dateFilter) {
   console.log('RunReportsController');
   var colorArrayPie = ['#008000', '#ff4500'];
@@ -380,6 +383,13 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
           return colorArrayPie[i];
       };
   };
+  $scope.getReportContent = function() {
+      ReportService.getData($scope.baseURL).then(function(content) {
+      $scope.reportContentHtml = $sce.trustAsHtml(content.data);
+    }, function() {
+      return '<h3>Error retrieving report!</h3>';
+    });
+  };
   $scope.runReport = function () {
       //clear the previous errors
       $scope.errorDetails = [];
@@ -437,7 +447,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   $scope.hideTable = true;
                   $scope.hidePentahoReport = false;
                   $scope.hideChart = true;
-                  $scope.baseURL = APPLICATION.host + APPLICATION.API_VERSION + '/runreports/' + encodeURIComponent($scope.reportName);
+                  $scope.baseURL = REST_URL.BASE + 'runreports/' + encodeURIComponent($scope.reportName);
                   $scope.baseURL += '?output-type=' + encodeURIComponent($scope.formData.outputType) + '&tenantIdentifier=default&locale=en&dateFormat=dd/MMMM/yyyy';
 
                   var inQueryParameters = buildReportParms();
@@ -445,7 +455,8 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                     $scope.baseURL += '&' + inQueryParameters;
                   }
                   // allow untrusted urls for iframe http://docs.angularjs.org/error/$sce/insecurl
-                  $scope.baseURL = $sce.trustAsResourceUrl($scope.baseURL);
+                  //$scope.baseURL = $sce.trustAsResourceUrl($scope.baseURL);
+                  $scope.getReportContent();
                   break;
               case 'Chart':
                   $scope.hideTable = true;
