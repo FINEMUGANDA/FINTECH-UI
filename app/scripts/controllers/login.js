@@ -12,10 +12,12 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, $idle
         $scope.logout();
         $idle.unwatch();
     });
+    /**
     window.onunload = function () {
         $scope.logout();
         $idle.unwatch();
     };
+     */
 
     // watch for if the user is not active
     $idle.watch();
