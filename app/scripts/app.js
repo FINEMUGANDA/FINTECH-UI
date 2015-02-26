@@ -44,6 +44,7 @@ var app = angular.module('angularjsApp', [
 // Angular supports chaining, so here we chain the config function onto
 // the module we're configuring.
 app.config(['$routeProvider', '$sceDelegateProvider', function($routeProvider, $sceDelegateProvider) {
+    // TODO: remove this once a proper CORS configuration is in place
     $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
         'self',
@@ -416,11 +417,53 @@ app.config(['$httpProvider', function($httpProvider) {
 ]);
 
 //function to be called when the application gets running
-app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs, RoleService, REST_URL) {
+app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs, RoleService, REST_URL, PERMISSION_ROUTE_MAPPING) {
   //total number of records in single page
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
   //total number of page in single page
   $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
+
+    $rootScope.$on('$locationChangeStart',function(event, next /**, current */) {
+        var n = next && next.indexOf('#/') >= 0 ? next.substr(next.indexOf('#/')+1) : next;
+        if(PERMISSION_ROUTE_MAPPING[n] && PERMISSION_ROUTE_MAPPING[n].permissions && PERMISSION_ROUTE_MAPPING[n].permissions.length > 0) {
+            var allowed = false;
+            var type = PERMISSION_ROUTE_MAPPING[n].type;
+            var check = PERMISSION_ROUTE_MAPPING[n].check;
+
+            try {
+                if(type==='report') {
+                    switch (check) {
+                        case 'any':
+                            allowed = AuthService.hasAnyReportCategoryPermission(PERMISSION_ROUTE_MAPPING[n].permissions);
+                            break;
+                        case 'all':
+                            allowed = AuthService.hasAllReportCategoryPermissions(PERMISSION_ROUTE_MAPPING[n].permissions);
+                            break;
+                        default:
+                            allowed = AuthService.hasReportCategoryPermission(PERMISSION_ROUTE_MAPPING[n].permissions[0]);
+                    }
+                } else {
+                    switch (check) {
+                        case 'any':
+                            allowed = AuthService.hasAnyPermission(PERMISSION_ROUTE_MAPPING[n].permissions);
+                            break;
+                        case 'all':
+                            allowed = AuthService.hasAllPermissions(PERMISSION_ROUTE_MAPPING[n].permissions);
+                            break;
+                        default:
+                            allowed = AuthService.hasPermission(PERMISSION_ROUTE_MAPPING[n].permissions[0]);
+                    }
+                }
+                console.log('ROUTE PERMISSION: ' + allowed + ' - ' + angular.toJson(PERMISSION_ROUTE_MAPPING[n]));
+            } catch(err) {
+                // ignore
+            }
+            if(!allowed) {
+                //Do your things
+                //event.preventDefault();
+            }
+        }
+    });
 
   var url = '';
 
@@ -633,13 +676,10 @@ app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-app.controller('ApplicationController', function($scope, $location, USER_ROLES, REST_URL, AuthService, RoleService, ReportService, Session, APPLICATION, AUTH_EVENTS) {
+app.controller('ApplicationController', function($scope, $location, USER_ROLES, REST_URL, AuthService, RoleService, ReportService, Session) {
     $scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
     $scope.isAuthorized = AuthService.isAuthorized;
-    $scope.userPermissions = {};
-    $scope.reportPermissions = {};
-    $scope.userEntityPermissions = {};
 
     $scope.setCurrentUser = function(user) {
         $scope.currentUser = user;
@@ -649,126 +689,21 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
         $location.path(view);
     };
 
-    $scope.hasPermission = function(permission) {
-        if($scope.userPermissions) {
-            return ($scope.userPermissions[permission]===true || $scope.userPermissions.ALL_FUNCTIONS===true);
-        } else {
-            return false;
-        }
-    };
+    $scope.hasPermission = AuthService.hasPermission;
 
-    $scope.hasAnyPermission = function(permissions) {
-        for(var i=0; i<permissions.length; i++) {
-            if($scope.hasPermission(permissions[i])) {
-                return true;
-            }
-        }
+    $scope.hasAnyPermission = AuthService.hasAnyPermission;
 
-        return false;
-    };
+    $scope.hasAllPermissions = AuthService.hasAllPermissions;
 
-    $scope.hasAllPermissions = function(permissions) {
-        var result = true;
-        for(var i=0; i<permissions.length; i++) {
-            result = result && $scope.hasPermission(permissions[i]);
-        }
+    $scope.hasAllReportCategoryPermissions = AuthService.hasAllReportCategoryPermissions;
 
-        return result;
-    };
+    $scope.hasAnyReportCategoryPermission = AuthService.hasAnyReportCategoryPermission;
 
-    $scope.hasAllReportCategoryPermissions = function(categories) {
-        var result = true;
-        for(var i=0; i<categories.length; i++) {
-            result = result && $scope.hasReportCategoryPermission(categories[i]);
-        }
+    $scope.hasReportCategoryPermission = AuthService.hasReportCategoryPermission;
 
-        return result;
-    };
+    $scope.username = Session.getValue('username');
 
-    $scope.hasAnyReportCategoryPermission = function(categories) {
-        for(var i=0; i<categories.length; i++) {
-            if($scope.hasReportCategoryPermission(categories[i])) {
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    $scope.hasReportCategoryPermission = function(category) {
-        return $scope.reportPermissions[category]===true || $scope.userPermissions.ALL_FUNCTIONS===true;
-    };
-
-    $scope.reloadPermissions = function() {
-        /**
-         // roles
-         var role = Session.getValue(APPLICATION.role);
-         $scope.userPermissions = {};
-         if(role) {
-            RoleService.getData(REST_URL.BASE + 'roles/' + role.id + '/permissions').then(function(result) {
-                for(var i=0; i<result.data.permissionUsageData.length; i++) {
-                    var permission = result.data.permissionUsageData[i].code;
-                    var entity = result.data.permissionUsageData[i].entityName;
-                    var selected = result.data.permissionUsageData[i].selected;
-                    $scope.userPermissions[permission] = selected;
-
-                    if(entity) {
-                        if(!$scope.userEntityPermissions[entity]) {
-                            $scope.userEntityPermissions[entity] = selected;
-                        }
-                    }
-                    if(selected) {
-                        console.log('PERMISSIONS: ' + entity + ' - ' + permission + ' - ' + selected);
-                    }
-                }
-            }, function() {
-                // TODO: do we need this?
-            });
-        }
-         */
-
-        $scope.username = Session.getValue('username');
-
-        angular.forEach(Session.getValue('permissions'), function(permission) {
-            // TODO: remove this
-            console.log('LOGIN: ' + permission);
-            $scope.userPermissions[permission] = true;
-        });
-
-        // report categories
-        ReportService.getData(REST_URL.RUN_REPORTS +'/' + 'FullReportList?parameterType=true').then(function(result) {
-            //console.log('REPORTS: ' + angular.toJson(result));
-            angular.forEach(result.data, function(report) {
-                $scope.reportPermissions[report.report_category] = true;
-            });
-        }, function(){
-            // TODO: do we need this?
-        });
-    };
-
-    $scope.$on(AUTH_EVENTS.loginSuccess, function(/** event, data */) {
-        /**
-        angular.forEach(data.permissions, function(permission) {
-            console.log('LOGIN: ' + permission);
-            //$scope.userPermissions[permission] = true;
-        });
-         */
-        $scope.reloadPermissions();
-    });
-    $scope.$on(AUTH_EVENTS.permissionUpdate, function(event, data) {
-        if(Session.getValue(APPLICATION.role).name===data.role) {
-            $scope.userPermissions = data.permissions;
-        }
-    });
-    $scope.$on(AUTH_EVENTS.logoutSuccess, function() {
-        $scope.userPermissions = {};
-        $scope.reloadPermissions();
-    });
-    $scope.$on(AUTH_EVENTS.sessionTimeout, function() {
-        $scope.reloadPermissions();
-    });
-
-    $scope.reloadPermissions();
+    AuthService.reloadPermissions();
 });
 
 //Factory to manage the session related things for the application

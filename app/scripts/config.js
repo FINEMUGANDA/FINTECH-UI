@@ -355,6 +355,27 @@ app.constant('PERMISSION_MAPPING', {
     }
 );
 
+app.constant('PERMISSION_ROUTE_MAPPING', {
+    '/clients': {
+        check: 'any',
+        permissions: [
+            'READ_CLIENT'
+        ]
+    },
+    '/loans': {
+        check: 'any',
+        permissions: [
+            'READ_LOAN'
+        ]
+    },
+    '/vreports/clients': {
+        type: 'report',
+        permissions: [
+            'Client'
+        ]
+    }
+});
+
 app.constant('PERMISSION_EXPRESSIONS', {
         LOAN: [
             {
