@@ -720,6 +720,8 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
         }
          */
 
+        $scope.username = Session.getValue('username');
+
         angular.forEach(Session.getValue('permissions'), function(permission) {
             // TODO: remove this
             console.log('LOGIN: ' + permission);
