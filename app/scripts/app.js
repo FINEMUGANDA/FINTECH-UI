@@ -10,6 +10,7 @@
  */
 var app = angular.module('angularjsApp', [
   'ngRoute',
+  'ngSanitize',
   'nvd3ChartDirectives',
   'loginController',
   'dashboardController',
@@ -42,7 +43,13 @@ var app = angular.module('angularjsApp', [
 
 // Angular supports chaining, so here we chain the config function onto
 // the module we're configuring.
-app.config(['$routeProvider', function($routeProvider) {
+app.config(['$routeProvider', '$sceDelegateProvider', function($routeProvider, $sceDelegateProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist([
+        // Allow same origin resource loads.
+        'self',
+        // Allow loading from our assets domain.  Notice the difference between * and **.
+        'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/api/v1/**']);
+
     $routeProvider.when('/', {
       hclass: 'pre-login',
       templateUrl: 'views/login.html',
