@@ -76,13 +76,16 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, Auth,
     };
 
     $scope.$on(AUTH_EVENTS.permissionUpdate, function(event, data) {
-        var permissions = [];
-        var keys = Object.keys(data);
-        for(var i=0; i<keys.length; i++) {
-            if(data[keys[i]]) {
-                permissions.push(keys[i]);
+        //console.log('ROLE: ' + angular.toJson(Session.getValue(APPLICATION.role)) + ' - ' + data.role);
+        if(Session.getValue(APPLICATION.role).name===data.role) {
+            var permissions = [];
+            var keys = Object.keys(data.permissions);
+            for(var i=0; i<keys.length; i++) {
+                if(data[keys[i]]) {
+                    permissions.push(keys[i]);
+                }
             }
+            Session.setValue(APPLICATION.permissions, permissions);
         }
-        Session.setValue(APPLICATION.permissions, permissions);
     });
 });
