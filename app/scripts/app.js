@@ -11,6 +11,7 @@
 var app = angular.module('angularjsApp', [
   'ngRoute',
   'ngSanitize',
+  'ngIdle',
   'nvd3ChartDirectives',
   'loginController',
   'dashboardController',
@@ -43,13 +44,18 @@ var app = angular.module('angularjsApp', [
 
 // Angular supports chaining, so here we chain the config function onto
 // the module we're configuring.
-app.config(['$routeProvider', '$sceDelegateProvider', function($routeProvider, $sceDelegateProvider) {
+app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$idleProvider', function($routeProvider, $sceDelegateProvider, $keepaliveProvider, $idleProvider) {
     // TODO: remove this once a proper CORS configuration is in place
     $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
         'self',
         // Allow loading from our assets domain.  Notice the difference between * and **.
         'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/api/v1/**']);
+
+    // automatically timeout after 10min
+    $idleProvider.idleDuration(600);
+    $idleProvider.warningDuration(600);
+    $keepaliveProvider.interval(1800);
 
     $routeProvider.when('/', {
       hclass: 'pre-login',
@@ -708,8 +714,6 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
 
 //Factory to manage the session related things for the application
 app.factory('Session', function(APPLICATION) {
-
-
   var Session = {
     create: function(sessionId, userName, userRole, permissions) {
       var data = {};

@@ -13,7 +13,7 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
             var promise = Remote.post(url);
             return promise;
         },
-        logout: function(){
+        logout: function() {
             Remote.cancelAuthorization();
             Session.remove();
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
