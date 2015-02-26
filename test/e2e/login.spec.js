@@ -11,8 +11,4 @@ describe('Finem Login', function() {
     expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
   });
 
-  it('should fail', function() {
-    expect(browser.getLocationAbsUrl()).toMatch('/invalid');
-  });
-
 });
