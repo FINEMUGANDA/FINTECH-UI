@@ -171,6 +171,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
         if($scope.form.permissions.permissions) {
             editPermissions = function() {
                 RoleService.updateData(REST_URL.BASE + 'roles/' + roleId + '/permissions', angular.toJson($scope.form.permissions)).then(function() {
+                    // TODO: if we do another login here we get all the relevant permissions for all roles! that's the way to go
                     $rootScope.$broadcast(AUTH_EVENTS.permissionUpdate, {role: $scope.form.role.name, permissions: $scope.form.permissions.permissions});
                     if(editExpressions) {
                         editExpressions();
