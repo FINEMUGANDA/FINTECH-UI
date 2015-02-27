@@ -685,7 +685,7 @@ app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-app.controller('ApplicationController', function($rootScope, $scope, $location, USER_ROLES, REST_URL, AuthService) {
+app.controller('ApplicationController', function($rootScope, $scope, $location, USER_ROLES, REST_URL, AuthService, Session) {
     //$scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
 
