@@ -279,7 +279,7 @@ clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, L
   loadLoansPendingApprovals();
 });
 
-clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, dialogs, data) {
+clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance, REST_URL, AuthService, ClientsService, CreateClientsService, dialogs, data) {
   console.log('LoansActionDialogCtrl', $scope);
   $scope.baseLoan = data.loan;
   $scope.info = {};
@@ -344,6 +344,8 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
       $scope.errors = result.data.errors;
     });
   };
+
+    $scope.hasPermission = AuthService.hasPermission;
 
 });
 
