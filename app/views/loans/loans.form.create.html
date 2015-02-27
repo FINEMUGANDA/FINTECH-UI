@@ -134,7 +134,7 @@
     <hr />
     <div class="col-md-offset-5 paddedtop">
       <!--<a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>-->
-      <button id="save-btn" class="btn btn-primary" ng-click="saveLoan()">Next</button>
+      <button id="save-btn" class="btn btn-primary" ng-click="saveLoan()" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Next</button>
     </div>
   </div>
 </div>

@@ -18,7 +18,7 @@
           <th style="width: 1%">&nbsp;</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">
         <tr ng-repeat="note in displayed" class="pointer-main">
           <td ng-click="openNoteDialog(note)" class="pointer">{{note.createdDate| DateFormat}}</td>
           <td ng-click="openNoteDialog(note)" class="pointer">{{note.description}}</td>
@@ -27,6 +27,16 @@
           <td class="actions">
             <a href="javascript:void(0);" title="Remove Note" ng-click="removeNote(note)" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])"><i class="glyphicon glyphicon-remove"></i></a>
           </td>
+        </tr>
+      </tbody>
+      <tbody ng-hide="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">
+        <tr ng-repeat="note in displayed" class="pointer-main">
+            <td>{{note.createdDate| DateFormat}}</td>
+            <td>{{note.description}}</td>
+            <td>{{note.followUpDate| DateFormat}}</td>
+            <td>{{note.createdByUserName}}</td>
+            <td class="actions">
+            </td>
         </tr>
       </tbody>
       <tfoot ng-hide="notesTab.loading">
