@@ -64,8 +64,8 @@
     </dl>-->
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="reject()">Reject</button>
-    <button type="button" class="btn btn-success" ng-click="approve()">Approve</button>
+    <button type="button" class="btn btn-danger" ng-click="reject()" ng-show="hasPermission('APPROVE_LOAN')">Reject</button>
+    <button type="button" class="btn btn-success" ng-click="approve()" ng-show="hasPermission('REJECT_LOAN')">Approve</button>
     <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
   </div>
 </form>

@@ -34,7 +34,8 @@
         <tr ng-repeat="loansWrittenOff in displayed">
            <td>
               <div class="name">
-                <a ng-href="#editbasicclientinfo/{{loansWrittenOff.id}}">{{loansWrittenOff.name}}</a>
+                  <a ng-href="#editbasicclientinfo/{{loansWrittenOff.id}}" ng-show="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loansWrittenOff.name}}</a>
+                  <span ng-hide="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loansWrittenOff.name}}</span>
               </div>
               <div class="meta">
                 File No.: {{loansWrittenOff.file_no}}

@@ -32,8 +32,8 @@
     </dl>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="undoApproval()">Undo Approval</button>
-    <button type="button" class="btn btn-success" ng-click="disburse()">Disburse</button>
+    <button type="button" class="btn btn-danger" ng-click="undoApproval()" ng-show="hasPermission('APPROVALUNDO_LOAN')">Undo Approval</button>
+    <button type="button" class="btn btn-success" ng-click="disburse()" ng-show="hasPermission('DISBURSE_LOAN')">Disburse</button>
     <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
   </div>
 </form>
