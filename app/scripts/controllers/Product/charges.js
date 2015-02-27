@@ -117,10 +117,6 @@ chargesController.controller('CreateChargeCtrl', function($scope, $location, $ti
     //
     this.chargeDetails.active='true';
     //Set amount according to charge type
-    this.chargeDetails.amount = $scope.flat;
-    if(this.chargeDetails.chargeCalculationType==='2'){
-      this.chargeDetails.amount = $scope.percentage;
-    }
     var saveChargeSuccess = function() {
       console.log('Success : Return from charge service.');
       $scope.type = 'alert-success';

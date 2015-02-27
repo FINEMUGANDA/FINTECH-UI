@@ -1,34 +1,34 @@
 <div ng-include="'views/common/header.html'"></div>
 <div class="container post-login" ng-controller="ChargesCtrl">
-    <div ng-include src="'/views/alert.html'"></div>   
-    <div class="shortcuts">
-        <ul role="tablist"> 
-          <li role="presentation" ng-show="hasPermission('READ_LOANPRODUCT')"><a href="#/loanProducts">Loan Products</a></li>
-          <li role="presentation" ng-show="hasPermission('READ_CHARGE')"><a href="#/charges" class="active">Charges</a></li>
-        </ul>
-    </div>
-    <div class="list">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="shortcuts">
+    <ul role="tablist">
+      <li role="presentation" ng-show="hasPermission('READ_LOANPRODUCT')"><a href="#/loanProducts">Loan Products</a></li>
+      <li role="presentation" ng-show="hasPermission('READ_CHARGE')"><a href="#/charges" class="active">Charges</a></li>
+    </ul>
+  </div>
+  <div class="list">
     <table st-table="displayed" st-safe-src="rowCollection" class="table">
       <thead>
         <tr>
-          <th colspan="4">
-              <div class="filters" >
-                <div style="float:right;">            
-                  <ul role="tablist">
-                    <li role="presentation">
+          <td colspan="4">
+            <div class="filters" >
+              <div style="float:right;">
+                <ul role="tablist">
+                  <li role="presentation">
                     <div class="action" ng-show="hasPermission('CREATE_CHARGE')">
-                        <a href="#/createCharge" class="btn grid-button">
-                            Create Charge
-                        </a>
+                      <a href="#/createCharge" class="btn grid-button">
+                        Create Charge
+                      </a>
                     </div>
-                    </li>
-                 </ul> 
-                </div>
-                <div class="search" style="float:right;">
-                    <input type="text" st-search="" class="search-box" placeholder="Search Charges" />
-                </div>
-             </div>  
-          </th>
+                  </li>
+                </ul>
+              </div>
+              <div class="search" style="float:right;">
+                <input type="text" st-search="" class="search-box" placeholder="Search Charges" />
+              </div>
+            </div>
+          </td>
         </tr>
         <tr>
           <th st-sort="name">Charge Name</th>
@@ -37,22 +37,21 @@
           <th width="1%">&nbsp;</th>
         </tr>
       </thead>
-      <tbody ng-hide="isLoading">        
+      <tbody ng-hide="isLoading">
         <tr class="pointer" ng-repeat="charges in displayed">
           <td data-ng-click="routeTo(charges.id)">{{charges.name}}</td>
           <td data-ng-click="routeTo(charges.id)">
-              <div class="name">
-                <a>{{charges.penalty | getChargeType}}</a>
-              </div>
+            <div class="name">
+              <a>{{charges.penalty| getChargeType}}</a>
+            </div>
           </td>
           <td class="number" data-ng-click="routeTo(charges.id)">
             <span>
-              <span ng-show="charges.chargeCalculationType.id==1">
-                {{charges.currency.displaySymbol}}{{charges.amount}}
-              </span>              
-              <span ng-show="charges.chargeCalculationType.id==2">
-                {{charges.amount}}% 
-              </span> 
+              <span ng-show="charges.chargeCalculationType.id == 1">
+                {{charges.currency.displaySymbol}}
+              </span>
+              {{charges.amount}}
+              <span ng-hide="charges.chargeCalculationType.id == 1">%</span>
             </span>
           </td>
           <td class="actions"><a href="javascript:void(0);" ng-click="removeCharge(charges)" ng-show="hasPermission('DELETE_CHARGE')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
@@ -60,25 +59,25 @@
       </tbody>
       <tbody ng-show="isLoading">
         <tr>
-          <td colspan="8" class="text-center">
+          <td colspan="4" class="text-center">
             <div class="loading-indicator">Loading...</div>
           </td>
         </tr>
       </tbody>
       <tfoot ng-hide="isLoading">
-          <tr>
-            <td colspan="8">
-              <div class="table-footer">
-                <div class="export">
-                    <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
-                </div>
-                <div class="paginate">
-                  <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
-                </div>
+        <tr>
+          <td colspan="4">
+            <div class="table-footer">
+              <div class="export">
+                <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
               </div>
-            </td>
-          </tr>
-        </tfoot>
+              <div class="paginate">
+                <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </div>
