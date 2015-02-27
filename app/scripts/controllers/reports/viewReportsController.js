@@ -52,7 +52,7 @@ angular.module('angularjsApp').controller('ViewReportsController', function($loc
       var reports = [];
       for (var i = 0; i < data.length; i++) {
           currId = data[i].report_id;
-          if (currId !== prevId) {
+          if (currId !== prevId && (data[i].report_category==='Client' || data[i].report_category==='Loan' || data[i].report_category==='Accounting')) {
               reports.push(data[i]);
           }
           prevId = currId;
