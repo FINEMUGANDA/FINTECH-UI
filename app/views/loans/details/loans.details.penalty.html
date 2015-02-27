@@ -1,0 +1,17 @@
+<div ng-show="penaltyTab.loading">Loading...</div>
+<table class="table width100" ng-hide="penaltyTab.loading">
+  <tr class="graybg">
+    <th>Name</th>
+    <th>Fee/Penalty</th>
+    <th>Payment due at</th>
+    <th>Calculation Type</th>
+    <th>Amount</th>
+  </tr>
+  <tr ng-repeat="charge in penaltyTab.charges" class="pointer-main">
+    <td>{{charge.name}}</td>
+    <td>{{charge.penalty? "Penalty" : "Fee"}}</td>
+    <td>{{charge.chargeTimeType.value}}</td>
+    <td>{{charge.chargeCalculationType.value}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amount| number}}</td>
+  </tr>
+</table>

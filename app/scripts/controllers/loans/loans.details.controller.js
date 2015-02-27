@@ -34,6 +34,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     {name: 'repayment', view: 'views/loans/details/loans.details.repayment.html', title: 'Repayment Schedule', active: false, disabled: false},
     {name: 'transaction', view: 'views/loans/details/loans.details.transaction.html', title: 'Transaction History', active: false, disabled: false},
     {name: 'charges', view: 'views/loans/details/loans.details.charges.html', title: 'Charges', active: false, disabled: false},
+    {name: 'penalty', view: 'views/loans/details/loans.details.penalty.html', title: 'Late Payment Interest', active: false, disabled: false},
     {name: 'collateral', view: 'views/loans/details/loans.details.collateral.html', title: 'Collateral', active: false, disabled: false},
     {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.html', title: 'Guarantor Info', active: false, disabled: false},
     {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Follow Up Notes', active: false, disabled: false}
@@ -99,6 +100,8 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       initCharges();
     } else if (tab.name === 'guarantor') {
       initGuarantor();
+    } else if (tab.name === 'penalty') {
+      initPenalty();
     }
   };
 
@@ -128,6 +131,17 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges').then(function(result) {
       $scope.chargesTab.charges = result.data;
       $scope.chargesTab.loading = false;
+    });
+  }
+  function initPenalty() {
+    $scope.penaltyTab = {};
+    $scope.penaltyTab.loading = true;
+
+    LoanService.getData(REST_URL.LOANS_PRODUCTS_LIST_BY_ID + $scope.loanDetails.loanProductId).then(function(result) {
+      $scope.penaltyTab.charges = _.filter(result.data.charges, function(charge) {
+        return charge.penalty;
+      });
+      $scope.penaltyTab.loading = false;
     });
   }
 
