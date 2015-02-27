@@ -27,7 +27,7 @@
             <li ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])"><a href="/#/vreports/all"> All</a></li>
             <li ng-show="hasReportCategoryPermission('Client')"><a href="/#/vreports/clients"> Clients</a></li>
             <li ng-show="hasReportCategoryPermission('Loan')"><a href="/#/vreports/loans"> Loans</a></li>
-            <li ng-show="hasReportCategoryPermission('Account')"><a href="/#/vreports/accounting"> Accounting</a></li>
+            <li ng-show="hasReportCategoryPermission('Accounting')"><a href="/#/vreports/accounting"> Accounting</a></li>
             <!-- <li><a href="/#/vreports/xbrl"> XBRL</a></li> -->
           </ul>
         </li>
@@ -41,6 +41,7 @@
         <!--
         <li>{{hasAnyPermission(['READ_LOANPRODUCT', 'READ_ROLE', 'READ_USER', 'READ_STAFF', 'READ_HOLIDAY', 'BULKREASSIGN_LOAN', 'READ_SCHEDULER', 'READ_REPORT', 'READ_AUDIT'])}}</li>
         <li>{{userPermissions()}}</li>
+        <li>{{reportPermissions()}}</li>
         -->
         <li class="dropdown" >
           <a class="configuration dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_LOANPRODUCT', 'READ_ROLE', 'READ_USER', 'READ_STAFF', 'READ_HOLIDAY', 'BULKREASSIGN_LOAN', 'READ_SCHEDULER', 'READ_REPORT', 'READ_AUDIT'])">Configuration<span class="caret"></span></a>

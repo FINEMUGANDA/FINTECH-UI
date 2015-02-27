@@ -14,6 +14,8 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
             return promise;
         },
         logout: function() {
+            userPermissions = {};
+            reportPermissions = {};
             Remote.cancelAuthorization();
             Session.remove();
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
@@ -86,13 +88,13 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
             // report categories
             ReportService.getData(REST_URL.RUN_REPORTS +'/' + 'FullReportList?parameterType=true').then(function(result) {
                 angular.forEach(result.data, function(report) {
-                    //console.log('yyy ROUTE: ' + report.report_category);
+                    console.log('yyy ROUTE: ' + report.report_category);
                     reportPermissions[report.report_category] = true;
                 });
                 //$rootScope.$broadcast(AUTH_EVENTS.reportPermissionUpdate);
             }, function(){
                 // TODO: do we need this?
-                reportPermissions = {};
+                //reportPermissions = {};
             });
         },
         userPermissions: function() {
