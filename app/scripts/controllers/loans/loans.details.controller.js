@@ -104,9 +104,8 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       initPenalty();
     }
   };
-
+  $scope.transactionTab = {};
   function initTransactions() {
-    $scope.transactionTab = {};
     $scope.transactionTab.hideAccrualTransactions = true;
     filterTransactions();
   }
