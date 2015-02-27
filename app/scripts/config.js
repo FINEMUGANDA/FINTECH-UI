@@ -369,10 +369,12 @@ app.constant('PERMISSION_MAPPING', {
             'READ_REPORT'
         ],
         CREATE_ROLE: [
-            'PERMISSIONS_ROLE'
+            'PERMISSIONS_ROLE',
+            'EXPRESSIONS_ROLE'
         ],
         UPDATE_ROLE: [
-            'PERMISSIONS_ROLE'
+            'PERMISSIONS_ROLE',
+            'EXPRESSIONS_ROLE'
         ],
         READ_UIREPORT: [
             'READ_REPORT'
