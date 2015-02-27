@@ -305,13 +305,25 @@ app.constant('PERMISSION_MAPPING', {
             'READ_OFFICE',
             'READ_GROUP',
             'READ_LOANNOTE',
+            'READ_notes',
             'READ_extra_guarantor_details',
             'READ_extra_loan_details'
         ],
         UPDATE_LOAN: [
             'BULKREASSIGN_LOAN',
+            'UPDATE_notes',
             'UPDATE_extra_guarantor_details',
             'UPDATE_extra_loan_details'
+        ],
+        CREATE_LOAN: [
+            'CREATE_notes',
+            'CREATE_extra_guarantor_details',
+            'CREATE_extra_loan_details'
+        ],
+        DELETE_LOAN: [
+            'DELETE_notes',
+            'DELETE_extra_guarantor_details',
+            'DELETE_extra_loan_details'
         ],
         READ_ROLE: [
             'READ_REPORT'
