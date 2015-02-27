@@ -430,6 +430,9 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
 
     $rootScope.$on('$locationChangeStart',function(event, next /**, current */) {
+        // brute force
+        $rootScope.username = Session.getValue('username');
+
         var n = next && next.indexOf('#/') >= 0 ? next.substr(next.indexOf('#/')+1) : next;
         if(PERMISSION_ROUTE_MAPPING[n] && PERMISSION_ROUTE_MAPPING[n].permissions && PERMISSION_ROUTE_MAPPING[n].permissions.length > 0) {
             var allowed = false;
@@ -682,18 +685,21 @@ app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-app.controller('ApplicationController', function($scope, $location, USER_ROLES, REST_URL, AuthService, RoleService, ReportService, Session) {
-    $scope.currentUser = null;
+app.controller('ApplicationController', function($scope, $location, USER_ROLES, REST_URL, AuthService) {
+    //$scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
-    $scope.isAuthorized = AuthService.isAuthorized;
 
+    /**
     $scope.setCurrentUser = function(user) {
         $scope.currentUser = user;
     };
+     */
 
     $scope.changeView = function(view) {
         $location.path(view);
     };
+
+    $scope.isAuthorized = AuthService.isAuthorized;
 
     $scope.hasPermission = AuthService.hasPermission;
 
@@ -707,9 +713,12 @@ app.controller('ApplicationController', function($scope, $location, USER_ROLES, 
 
     $scope.hasReportCategoryPermission = AuthService.hasReportCategoryPermission;
 
-    $scope.username = Session.getValue('username');
+    $scope.userPermissions = AuthService.userPermissions;
 
-    AuthService.reloadPermissions();
+    $scope.reportPermissions = AuthService.reportPermissions;
+
+    //$scope.username = Session.getValue('username');
+    //AuthService.reloadPermissions();
 });
 
 //Factory to manage the session related things for the application

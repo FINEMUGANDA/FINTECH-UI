@@ -89,10 +89,18 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
                     //console.log('yyy ROUTE: ' + report.report_category);
                     reportPermissions[report.report_category] = true;
                 });
-                $rootScope.$broadcast(AUTH_EVENTS.reportPermissionUpdate);
+                //$rootScope.$broadcast(AUTH_EVENTS.reportPermissionUpdate);
             }, function(){
                 // TODO: do we need this?
+                reportPermissions = {};
             });
+        },
+        userPermissions: function() {
+            //return Session.getValue(APPLICATION.permissions);
+            return userPermissions;
+        },
+        reportPermissions: function() {
+            return reportPermissions;
         }
     };
 
@@ -116,11 +124,14 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
     });
     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
         userPermissions = {};
-        service.reloadPermissions();
+        //service.reloadPermissions();
     });
     $rootScope.$on(AUTH_EVENTS.sessionTimeout, function() {
-        service.reloadPermissions();
+        userPermissions = {};
+        //service.reloadPermissions();
     });
+
+    service.reloadPermissions();
 
     return service;
 });
