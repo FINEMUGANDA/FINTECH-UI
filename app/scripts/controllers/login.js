@@ -29,6 +29,7 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, $idle
         if ($scope.loginForm.$valid) {
             //check for null details
             if (!Utility.isUndefinedOrNull(loginDetails)) {
+                AuthService.logout();
                 //Set the credentials in header
                 Auth.setCredentials(loginDetails.username, loginDetails.password);
                 //Fired authentication call to server
