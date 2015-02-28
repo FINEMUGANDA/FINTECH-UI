@@ -334,7 +334,9 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
                                     if(!$scope.permissionsReport[report.reportCategory]) {
                                         $scope.permissionsReport[report.reportCategory] = [];
                                     }
-                                    $scope.permissionsReport[report.reportCategory].push(reportGroup[i]);
+                                    if(report.useReport===true) {
+                                        $scope.permissionsReport[report.reportCategory].push(reportGroup[i]);
+                                    }
                                 }
                             }
                         }
