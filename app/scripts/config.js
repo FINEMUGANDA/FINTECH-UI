@@ -310,12 +310,14 @@ app.constant('PERMISSION_MAPPING', {
             'READ_GROUP',
             'READ_LOANNOTE',
             'READ_COLLATERAL',
+            'READ_LOANPRODUCT',
             'READ_notes',
             'READ_extra_guarantor_details',
             'READ_extra_loan_details'
         ],
         UPDATE_LOAN: [
             'BULKREASSIGN_LOAN',
+            'READ_LOANPRODUCT',
             'READ_COLLATERAL',
             'CREATE_COLLATERAL',
             'UPDATE_COLLATERAL',
@@ -334,6 +336,7 @@ app.constant('PERMISSION_MAPPING', {
             'DELETE_extra_loan_details'
         ],
         CREATE_LOAN: [
+            'READ_LOANPRODUCT',
             'READ_COLLATERAL',
             'CREATE_COLLATERAL',
             'UPDATE_COLLATERAL',
