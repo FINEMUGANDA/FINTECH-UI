@@ -453,7 +453,7 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeou
 });
 
 
-clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, dialogs, data) {
+clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, AuthService, dialogs, data) {
   console.log('LoansActionDialogCtrl', $scope);
   $scope.baseLoan = data.loan;
   $scope.baseLoan.actualDisbursementDate = new Date();
@@ -520,6 +520,9 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
       $scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
     });
+  };
+  $scope.hasPermission = function(permission) {
+    return AuthService.hasPermission(permission);
   };
 
 });
