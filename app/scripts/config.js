@@ -209,9 +209,10 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         RESCHEDULE: 17,
         APPROVE: 18,
         REJECT: 19,
-        REACTIVATE: 20,
-        REVERSE: 21,
-        EXECUTEJOB: 22,
+        ACTIVATE: 20,
+        REACTIVATE: 21,
+        REVERSE: 22,
+        EXECUTEJOB: 23,
         CLIENT: 30,
         LOAN: 31,
         UPLOAD: 32,
@@ -294,6 +295,9 @@ app.constant('PERMISSION_MAPPING', {
             'DELETE_business_details'
         ],
         READ_JOURNALENTRY: [
+            'READ_CURRENCY',
+            'READ_CODE',
+            'READ_CODEVALUE',
             'READ_JournalEntryList',
             'READ_journal_entry_reverse_note'
         ],
