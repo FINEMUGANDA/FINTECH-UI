@@ -87,13 +87,13 @@
     </div>
   </div>
 </nav>
-<div class="clearfix" id="loans_info_wrapper" style="display: none;">
+<div class="clearfix" id="loans_info_wrapper" style="display: none;" ng-show="hasAnyPermission(['DISBURSE_LOAN', 'APPROVE_LOAN'])">
   <div class="cusomTooltip tooltip_light loans_info_tooltip">
     <div class="tooltip__container">
       <div class="tooltip__content">
         <div>Total loans requiring actions: {{loans_total}}</div>
-        <div><a href="/#/loansPendingApproval">Loans pending approval: {{loans_PAcount}}</a></div>
-        <div><a href="/#/loansAwaitingDisbursement">Loans awaiting disbursement:  {{loans_ADcount}}</a></div>
+        <div><a href="/#/loansPendingApproval" ng-show="hasPermission('APPROVE_LOAN')">Loans pending approval: {{loans_PAcount}}</a></div>
+        <div><a href="/#/loansAwaitingDisbursement" ng-show="hasPermission('DISBURSE_LOAN')">Loans awaiting disbursement:  {{loans_ADcount}}</a></div>
       </div>
       <div class="tooltip__navigate">
         <a href="javascript: void(0);" class="button button_gray left" ng-click="loans_info_show(); $event.stopPropagation();">Close</a>
