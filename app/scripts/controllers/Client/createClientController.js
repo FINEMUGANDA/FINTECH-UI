@@ -1375,7 +1375,15 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
       $scope.message = 'Client Next To Keen Details saved successfully';
       $scope.errors = [];
       loadCreateClientNextToKeenTemplate();
-      callback();
+
+      // TODO: someone check this please; callback never seems to be a function
+      if(callback) {
+          try {
+              callback();
+          } catch(err) {
+
+          }
+      }
     };
 
     var saveClientNextToKeenFail = function(result) {
