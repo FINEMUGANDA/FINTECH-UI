@@ -206,13 +206,13 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         ADJUST: 14,
         WRITEOFF: 15,
         UNDOWRITEOFF: 16,
-        RESCHEDULE: 17,
-        APPROVE: 18,
-        REJECT: 19,
-        ACTIVATE: 20,
-        REACTIVATE: 21,
-        REVERSE: 22,
-        EXECUTEJOB: 23,
+        //RESCHEDULE: 17,
+        APPROVE: 19,
+        REJECT: 20,
+        ACTIVATE: 21,
+        REACTIVATE: 22,
+        REVERSE: 23,
+        EXECUTEJOB: 24,
         CLIENT: 30,
         LOAN: 31,
         UPLOAD: 32,
@@ -505,7 +505,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 }
             },
             {
-                code: 'UNDOAPPROVAL_LOAN',
+                code: 'APPROVALUNDO_LOAN',
                 label: 'Can Undo Loan Approval',
                 expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
@@ -522,7 +522,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 }
             },
             {
-                code: 'UNDODISBURSAL_LOAN',
+                code: 'DISBURSALUNDO_LOAN',
                 label: 'Can Undo Loan Disbursement',
                 expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
@@ -556,7 +556,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 }
             },
             {
-                code: 'RESCHEDULE_LOANSCHEDULE',
+                code: 'CREATE_RESCHEDULELOAN',
                 label: 'Can Reschedule Loan',
                 expression: 'json.get("amount").getAsDouble() >= {0} && json.get("amount").getAsDouble() <={1}',
                 defaults: {
