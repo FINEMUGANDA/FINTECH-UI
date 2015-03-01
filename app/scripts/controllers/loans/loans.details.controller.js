@@ -29,15 +29,15 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   }
 
   $scope.tabs = [
-    {name: 'account', view: 'views/loans/details/loans.details.account.html', title: 'Loan Details', active: true, disabled: false},
-    {name: 'summary', view: 'views/loans/details/loans.details.summary.html', title: 'Loan Summary', active: false, disabled: false},
-    {name: 'repayment', view: 'views/loans/details/loans.details.repayment.html', title: 'Repayment Schedule', active: false, disabled: false},
-    {name: 'transaction', view: 'views/loans/details/loans.details.transaction.html', title: 'Transaction History', active: false, disabled: false},
-    {name: 'charges', view: 'views/loans/details/loans.details.charges.html', title: 'Charges', active: false, disabled: false},
-    {name: 'penalty', view: 'views/loans/details/loans.details.penalty.html', title: 'Late Payment Interest', active: false, disabled: false},
-    {name: 'collateral', view: 'views/loans/details/loans.details.collateral.html', title: 'Collateral', active: false, disabled: false},
-    {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.html', title: 'Guarantor Info', active: false, disabled: false},
-    {name: 'notes', view: 'views/loans/details/loans.details.notes.html', title: 'Follow Up Notes', active: false, disabled: false}
+    {name: 'account', view: 'views/loans/details/loans.details.account.tpl.html', title: 'Loan Details', active: true, disabled: false},
+    {name: 'summary', view: 'views/loans/details/loans.details.summary.tpl.html', title: 'Loan Summary', active: false, disabled: false},
+    {name: 'repayment', view: 'views/loans/details/loans.details.repayment.tpl.html', title: 'Repayment Schedule', active: false, disabled: false},
+    {name: 'transaction', view: 'views/loans/details/loans.details.transaction.tpl.html', title: 'Transaction History', active: false, disabled: false},
+    {name: 'charges', view: 'views/loans/details/loans.details.charges.tpl.html', title: 'Charges', active: false, disabled: false},
+    {name: 'penalty', view: 'views/loans/details/loans.details.penalty.tpl.html', title: 'Late Payment Interest', active: false, disabled: false},
+    {name: 'collateral', view: 'views/loans/details/loans.details.collateral.tpl.html', title: 'Collateral', active: false, disabled: false},
+    {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.tpl.html', title: 'Guarantor Info', active: false, disabled: false},
+    {name: 'notes', view: 'views/loans/details/loans.details.notes.tpl.html', title: 'Follow Up Notes', active: false, disabled: false}
   ];
   $scope.selectTab = function(name) {
     _.each($scope.tabs, function(tab) {
