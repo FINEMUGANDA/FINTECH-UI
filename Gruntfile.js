@@ -32,6 +32,16 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: appConfig,
 
+    html2js: {
+      options: {
+        base: '<%= yeoman.app %>/'
+      },
+      main: {
+        src: ['<%= yeoman.app %>/views/**/*.tpl.html'],
+        dest: '.tmp/scripts/templates.js'
+      }
+    },
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       bower: {
@@ -62,6 +72,7 @@ module.exports = function (grunt) {
         },
         files: [
           '<%= yeoman.app %>/{,**/}*.html',
+          '!<%= yeoman.app %>/{,**/}*.tpl.html',
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
@@ -346,6 +357,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,**/}*.html',
+            '!views/{,**/}*.tpl.html',
             'images/*',
             'fonts/*'
           ]
@@ -433,6 +445,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'html2js',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
@@ -460,6 +473,7 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
+    'html2js',
     'concat',
     'ngAnnotate',
     'copy:dist',

@@ -11,6 +11,7 @@
 var app = angular.module('angularjsApp', [
   'ngRoute',
   'ngSanitize',
+  'templates-main',
   'ngIdle',
   'nvd3ChartDirectives',
   'loginController',
