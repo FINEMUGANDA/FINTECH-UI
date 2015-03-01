@@ -700,7 +700,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
         $scope.createClientAdditionalInfo.YesNo_cd_bank_account = parseInt($scope.clientAdditionalInfo.data[0].row[1]);
         $scope.createClientAdditionalInfo.bank_account_with = $scope.clientAdditionalInfo.data[0].row[2];
         $scope.createClientAdditionalInfo.branch = $scope.clientAdditionalInfo.data[0].row[3];
-        $scope.createClientAdditionalInfo.bank_account_number = parseInt($scope.clientAdditionalInfo.data[0].row[4]);
+        $scope.createClientAdditionalInfo.bank_account_number = $scope.clientAdditionalInfo.data[0].row[4];
         $scope.createClientAdditionalInfo.CitizenShip_cd_citizenship = parseInt($scope.clientAdditionalInfo.data[0].row[5]);
         $scope.createClientAdditionalInfo.Education_cd_education_level = parseInt($scope.clientAdditionalInfo.data[0].row[6]);
         $scope.createClientAdditionalInfo.Poverty_cd_poverty_status = parseInt($scope.clientAdditionalInfo.data[0].row[7]);
