@@ -7,10 +7,10 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
   $scope.step = 'create';
 
   $scope.tabs = [
-    {name: 'create', view: 'views/loans/loans.form.create.html', title: 'Loan Application', active: true, disabled: true},
-//    {name: 'charges', view: 'views/loans/loans.form.charges.html', title: 'Charges', active: false, disabled: true},
-    {name: 'collateral', view: 'views/loans/loans.form.collateral.html', title: 'Collateral', active: false, disabled: true},
-    {name: 'guarantor', view: 'views/loans/loans.form.guarantor.html', title: 'Guarantor', active: false, disabled: true}
+    {name: 'create', view: 'views/loans/loans.form.create.tpl.html', title: 'Loan Application', active: true, disabled: true},
+//    {name: 'charges', view: 'views/loans/loans.form.charges.tpl.html', title: 'Charges', active: false, disabled: true},
+    {name: 'collateral', view: 'views/loans/loans.form.collateral.tpl.html', title: 'Collateral', active: false, disabled: true},
+    {name: 'guarantor', view: 'views/loans/loans.form.guarantor.tpl.html', title: 'Guarantor', active: false, disabled: true}
   ];
 
   $scope.selectTab = function(name) {
