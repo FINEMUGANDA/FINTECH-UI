@@ -66,13 +66,16 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
+      html2js: {
+        files: ['<%= yeoman.app %>/{,**/}*.tpl.html'],
+        tasks: ['html2js']
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
           '<%= yeoman.app %>/{,**/}*.html',
-          '!<%= yeoman.app %>/{,**/}*.tpl.html',
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
