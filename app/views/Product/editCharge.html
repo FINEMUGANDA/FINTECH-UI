@@ -11,7 +11,7 @@
   <div class="rows">
     <div class="page-header">
       <div class="header">
-        <h3>Edit Charge</h3>
+        <h3>{{charge.id? 'Edit' : 'Create'}} Charge</h3>
         <div class="action"></div>
       </div>
     </div>
@@ -26,13 +26,13 @@
           <div class="form-group">
             <label class="control-label col-md-3">Name<span class="required">*</span></label>
             <div class="validate col-md-3">
-              <input id="name" name="name" class="form-control" type="text" ng-model="chargeDetails.name" required></input>
+              <input id="name" name="name" class="form-control" type="text" ng-model="chargeDetails.name" required>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-3">Currency<span class="required">*</span></label>
             <div class="validate col-md-3">
-              <select id="currencyCode" ng-model="chargeDetails.currencyCode" class="form-control" ng-options="currency.code as currency.name for currency in product.currencyOptions">
+              <select id="currencyCode" ng-model="chargeDetails.currencyCode" class="form-control" ng-options="currency.code as currency.name for currency in charge.currencyOptions">
               </select>
             </div>
           </div>
@@ -40,7 +40,7 @@
             <label class="control-label col-md-3">Type<span class="required">*</span></label>
             <div class="col-md-3">
               <select id="type" ng-model="chargeDetails.penalty" class="form-control">
-                <option value="false">Charge</option>
+                <option value="false">Fee</option>
                 <option value="true">Penalty</option>
               </select>
             </div>
@@ -54,16 +54,16 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3">Charge Type<span class="required">*</span></label>
+            <label class="control-label col-md-3">Charge Time Type<span class="required">*</span></label>
             <div class="col-md-3">
-              <select id="chargeTimeType" name="chargetimetype" ng-model="chargeDetails.chargeTimeType" class="form-control" ng-options="chargeTimeType.id as chargeTimeType.value for chargeTimeType in product.chargeTimeTypeOptions">
+              <select id="chargeTimeType" name="chargetimetype" ng-model="chargeDetails.chargeTimeType" class="form-control" ng-options="chargeTimeType.id as chargeTimeType.value for chargeTimeType in charge.chargeTimeTypeOptions">
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-3">Charge Calculation Type<span class="required">*</span></label>
             <div class="col-md-3">
-              <select id="chargeCalculationType" name="chargecalculation" ng-model="chargeDetails.chargeCalculationType" class="form-control" ng-options="chargeCalculationType.id as chargeCalculationType.value for chargeCalculationType in product.loanChargeCalculationTypeOptions">
+              <select id="chargeCalculationType" name="chargecalculation" ng-model="chargeDetails.chargeCalculationType" class="form-control" ng-options="chargeCalculationType.id as chargeCalculationType.value for chargeCalculationType in charge.loanChargeCalculationTypeOptions">
               </select>
             </div>
           </div>
@@ -73,13 +73,13 @@
               <span class="required">*</span>
             </label>
             <div class="validate col-md-3">
-              <input id="flat" name="flat" type="text" ng-model="chargeDetails.amount" class="form-control" only-digits required>
+              <input id="amount" name="amount" type="text" ng-model="chargeDetails.amount" class="form-control" only-digits required>
             </div>
           </div>
           <hr/>
           <div class="col-md-offset-3 paddedtop">
             <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
-            <button id="save" type="submit" class="btn btn-primary" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Save</button>
+            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_CHARGE', 'UPDATE_CHARGE'])">Save</button>
           </div>
         </div>
       </form>

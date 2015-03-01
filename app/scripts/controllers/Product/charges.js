@@ -52,7 +52,7 @@ chargesController.controller('ChargesCtrl', function(dialogs, $scope, $location,
     dialog.result.then(function(result) {
       if (result) {
         var index = $scope.rowCollection.indexOf(charge);
-        ChargesService.removeCharge(REST_URL.CHARGES + '/' +charge.id).then(function() {
+        ChargesService.removeCharge(REST_URL.CHARGES + '/' + charge.id).then(function() {
           if (index >= -1) {
             $scope.rowCollection.splice(index, 1);
           }
@@ -67,118 +67,49 @@ chargesController.controller('ChargesCtrl', function(dialogs, $scope, $location,
   };
 });
 
-chargesController.controller('CreateChargeCtrl', function($scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL) {
-  console.log('chargesController : CreateChargeCtrl');
-  //To load create charge page
-  $scope.isLoading = false;
-  $scope.chargeDetails = {};
-  $scope.message = '';
-  //Success callback
-  var chargeTeplateSuccess = function(result) {
-    $scope.isLoading = false;
-    console.log('chargesController : CreateChargeCtrl : chargeTeplateSuccess');
-    try {
-      $scope.product = result.data;
-      $scope.chargeDetails.penalty = 'true';
-      $scope.chargeDetails.chargeAppliesTo = $scope.product.chargeAppliesToOptions[0].id;
-      $scope.chargeDetails.locale = 'en';
-      //Application Frequency
-      $scope.chargeDetails.chargeTimeType = '8';
-      //Charge Type
-      $scope.chargeDetails.chargeCalculationType = '1';
-      $scope.chargeDetails.currencyCode = $scope.product.currencyOptions[7].code;
-      $scope.chargeDetails.chargePaymentMode = '0';
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  //failur callback
-  var chargeTemplateFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from charge service.');
-  };
-
-  var loadchargeTemplate = function getData() {
-    $scope.isLoading = true;
-    $timeout(function() {
-      $scope.rowCollection = [];
-      ChargesService.getData(REST_URL.CHARGE_TEMPLATE).then(chargeTeplateSuccess, chargeTemplateFail);
-    }, 500);
-  };
-
-  loadchargeTemplate();
-
-  //Save block
-  $scope.saveCharge = function() {
-    console.log('chargesController : CreateChargeCtrl : saveCharge');
-    $scope.type = '';
-    $scope.message = '';
-    //
-    this.chargeDetails.active='true';
-    //Set amount according to charge type
-    var saveChargeSuccess = function() {
-      console.log('Success : Return from charge service.');
-      $scope.type = 'alert-success';
-      $scope.message = 'Charge saved successfully';
-      $location.url(PAGE_URL.CHARGES);
-    };
-
-    var saveChargeFail = function(result) {
-      console.log('Error : Return from charge service.');
-      $scope.type = 'error';      
-      $scope.message = 'Charge not saved: ' + result.data.defaultUserMessage;     
-      $scope.errors = result.data.errors;
-      if (result.data.errors && result.data.errors.length > 0) {
-        for (var i = 0; i < result.data.errors.length; i++) {
-          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.must.be.penalty'){
-            $scope.message = 'Charge not saved: Overdue Charge must be a penalty ';
-          }
-          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.frequency.cannot.be.updated.it.is.used.in.loan'){
-            $scope.message = 'Charge not saved: Charge frequency can\'t be updated as it is used in Loan Products ';
-          }
-          $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
-        }
-      }
-    };
-    if(this.chargeDetails.chargeCalculationType==='2' && $scope.percentage > 100){
-      $scope.type = 'error';
-      $scope.message = 'Amount(%) must be or equal to 100';
-    }else{
-      console.log('JSON.toJson(chargeDetails) > ' + angular.toJson(this.chargeDetails));
-      ChargesService.saveCharge(REST_URL.CREATE_CHARGE, angular.toJson(this.chargeDetails)).then(saveChargeSuccess, saveChargeFail);
-    }
-  };
-});
-
 chargesController.controller('EditChargeCtrl', function($scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL, $route) {
   console.log('chargesController : EditChargeCtrl');
   //To load create charge page
   $scope.isLoading = false;
   $scope.chargeDetails = {};
   $scope.message = '';
+  var ignoreChargeTimeTypeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 10, 11]; //TODO: filter this on REST API
   //Success callback
   var chargeTeplateSuccess = function(result) {
     $scope.isLoading = false;
     console.log('chargesController : EditChargeCtrl : chargeTeplateSuccess');
     try {
-      $scope.product = result.data;
-      $scope.chargeDetails.name = $scope.product.name;
-      $scope.chargeDetails.amount = $scope.product.amount;
-      $scope.chargeDetails.penalty = String($scope.product.penalty);
-      $scope.chargeDetails.chargeAppliesTo = $scope.product.chargeAppliesTo.id;
-      $scope.chargeDetails.locale = 'en';
-      $scope.chargeDetails.currencyCode = $scope.product.currency.code;
-      //Application Frequency
-      $scope.chargeDetails.chargeTimeType = $scope.product.chargeTimeType.id;
-      //Charge Type
-      $scope.chargeDetails.chargeCalculationType = $scope.product.chargeCalculationType.id;
-      $scope.chargeDetails.chargePaymentMode = '0';
-      //Set charge type
-      $scope.flat = $scope.chargeDetails.amount;
-      if($scope.product.chargeCalculationType.id===2){        
-        $scope.percentage = $scope.chargeDetails.amount <=100 ? $scope.chargeDetails.amount : 100;
+      $scope.charge = result.data;
+      $scope.charge.chargeTimeTypeOptions = _.filter($scope.charge.chargeTimeTypeOptions, function(chargeTimeTypeOption) {
+        return ignoreChargeTimeTypeOptions.indexOf(parseInt(chargeTimeTypeOption.id)) === -1;
+      });
+      console.log($scope.charge.chargeTimeTypeOptions);
+      if ($scope.charge.id) {
+        $scope.chargeDetails.name = $scope.charge.name;
+        $scope.chargeDetails.amount = $scope.charge.amount;
+        $scope.chargeDetails.penalty = String($scope.charge.penalty);
+        $scope.chargeDetails.chargeAppliesTo = $scope.charge.chargeAppliesTo.id;
+        $scope.chargeDetails.locale = 'en';
+        $scope.chargeDetails.currencyCode = $scope.charge.currency.code;
+        //Application Frequency
+        $scope.chargeDetails.chargeTimeType = $scope.charge.chargeTimeType.id;
+        //Charge Type
+        $scope.chargeDetails.chargeCalculationType = $scope.charge.chargeCalculationType.id;
+        $scope.chargeDetails.chargePaymentMode = '0';
+      } else {
+        $scope.chargeDetails.penalty = 'false';
+        $scope.chargeDetails.chargeAppliesTo = $scope.charge.chargeAppliesToOptions[0].id;
+        $scope.chargeDetails.locale = 'en';
+        $scope.chargeDetails.currencyCode = $scope.charge.currencyOptions[7].code;
+        $scope.chargeDetails.chargeCalculationType = 1;
+        $scope.chargeDetails.chargeTimeType = 8;
+        $scope.chargeDetails.chargePaymentMode = 0;
       }
+      //Set charge type
+//      $scope.flat = $scope.chargeDetails.amount;
+//      if($scope.product.chargeCalculationType.id===2){        
+//        $scope.percentage = $scope.chargeDetails.amount <=100 ? $scope.chargeDetails.amount : 100;
+//      }
     } catch (e) {
       console.log(e);
     }
@@ -194,8 +125,13 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
     $scope.isLoading = true;
     $timeout(function() {
       $scope.rowCollection = [];
-      var $url = REST_URL.RETRIVE_CHARGE_BY_ID + $route.current.params.id + '?template=true';
-      ChargesService.getData($url).then(chargeTeplateSuccess, chargeTemplateFail);
+      var chargeId = $route.current.params.id;
+
+      if (chargeId) {
+        ChargesService.getData(REST_URL.RETRIVE_CHARGE_BY_ID + chargeId + '?template=true').then(chargeTeplateSuccess, chargeTemplateFail);
+      } else {
+        ChargesService.getData(REST_URL.CHARGE_TEMPLATE).then(chargeTeplateSuccess, chargeTemplateFail);
+      }
     }, 500);
   };
 
@@ -206,11 +142,6 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
     console.log('chargesController : EditChargeCtrl : updateCharge');
     $scope.type = '';
     $scope.message = '';
-    //Set amount according to charge type
-    this.chargeDetails.amount = $scope.flat;
-    if(this.chargeDetails.chargeCalculationType==='2'){
-      this.chargeDetails.amount = $scope.percentage;
-    }
 
     var updateChargeSuccess = function() {
       console.log('Success : Return from charge service.');
@@ -226,23 +157,28 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
       $scope.errors = result.data.errors;
       if (result.data.errors && result.data.errors.length > 0) {
         for (var i = 0; i < result.data.errors.length; i++) {
-          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.must.be.penalty'){
+          if ($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.must.be.penalty') {
             $scope.message = 'Charge not saved: After final maturity Charge must be a penalty ';
           }
-          if($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.frequency.cannot.be.updated.it.is.used.in.loan'){
+          if ($scope.errors[i].userMessageGlobalisationCode === 'error.msg.charge.frequency.cannot.be.updated.it.is.used.in.loan') {
             $scope.message = 'Charge not saved: Charge frequency can\'t be updated as it is used in Loan Products ';
           }
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
     };
-    if(this.chargeDetails.chargeCalculationType==='2' && $scope.percentage > 100){
+    if (this.chargeDetails.chargeCalculationType !== '1' && $scope.chargeDetails.amount > 100) {
       $scope.type = 'error';
       $scope.message = 'Amount(%) must be or equal to 100';
-    }else{
-      console.log('JSON.toJson(chargeDetails) > ' + angular.toJson(this.chargeDetails));
-      var $url = REST_URL.RETRIVE_CHARGE_BY_ID + $route.current.params.id;
-      ChargesService.updateCharge($url, angular.toJson(this.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
-    }    
+      $('html, body').animate({scrollTop: 0}, 800);
+    } else {
+      console.log('JSON.toJson(chargeDetails) > ' + angular.toJson($scope.chargeDetails));
+
+      if ($route.current.params.id) {
+        ChargesService.updateCharge(REST_URL.RETRIVE_CHARGE_BY_ID + $route.current.params.id, angular.toJson($scope.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
+      } else {
+        ChargesService.saveCharge(REST_URL.CREATE_CHARGE, angular.toJson($scope.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
+      }
+    }
   };
 });
