@@ -44,9 +44,9 @@
         <li>{{reportPermissions()}}</li>
         -->
         <li class="dropdown" >
-          <a class="configuration dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_LOANPRODUCT', 'READ_ROLE', 'READ_USER', 'READ_STAFF', 'READ_HOLIDAY', 'BULKREASSIGN_LOAN', 'READ_SCHEDULER', 'READ_REPORT', 'READ_AUDIT'])">Configuration<span class="caret"></span></a>
+          <a class="configuration dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_UILOANPRODUCT', 'READ_ROLE', 'READ_USER', 'READ_STAFF', 'READ_HOLIDAY', 'BULKREASSIGN_LOAN', 'READ_SCHEDULER', 'READ_REPORT', 'READ_AUDIT'])">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li ng-show="hasPermission('READ_LOANPRODUCT')"><a href="/#/loanProducts">Products</a></li>
+            <li ng-show="hasPermission('READ_UILOANPRODUCT')"><a href="/#/loanProducts">Products</a></li>
             <!--
             <li><a href="/#/admin/permissions">Permissions</a></li>
             -->

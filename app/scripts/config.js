@@ -144,7 +144,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_journal: 'Journal Entries',
         fin_loan: 'Loan',
         fin_loan_reschedule: 'Loan Reschedule',
-        fin_loan_reassignment: 'Loan Reassignment',
+        fin_loan_assign: 'Loan Reassign.',
         fin_loan_product: 'Loan Product',
         fin_permission: 'Permissions',
         fin_role: 'Roles',
@@ -166,6 +166,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
 app.constant('PERMISSION_GROUPS_SORT_ORDER', {
         general: [
             'fin_loan',
+            'fin_loan_assign',
             'fin_loan_product',
             'fin_loan_reschedule',
             'fin_client',
@@ -225,7 +226,8 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         ABPLO: 50,
         PPLO: 51,
         CILPCM: 52,
-        DVCPW: 53
+        DVCPW: 53,
+        BULKREASSIGN: 60
     }
 );
 
@@ -316,7 +318,6 @@ app.constant('PERMISSION_MAPPING', {
             'READ_extra_loan_details'
         ],
         UPDATE_LOAN: [
-            'BULKREASSIGN_LOAN',
             'READ_LOANPRODUCT',
             'READ_COLLATERAL',
             'CREATE_COLLATERAL',
@@ -385,6 +386,9 @@ app.constant('PERMISSION_MAPPING', {
         ],
         READ_UIREPORT: [
             'READ_REPORT'
+        ],
+        READ_UILOANPRODUCT: [
+            'READ_LOANPRODUCT'
         ],
         TAC_UIDASHBOARD: [
             'READ_Home page header statistic'
