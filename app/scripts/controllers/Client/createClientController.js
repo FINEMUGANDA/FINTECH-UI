@@ -894,6 +894,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     var loadTableDataSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
       $scope.rowCollection = result.data;
+      if ($scope.rowCollection.length) {
+        $scope.editClientIdentification($scope.rowCollection[0]);
+      }
     };
 
     var loadTableDataFail = function() {
@@ -966,7 +969,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
 
   //invalidate login form
   $scope.invalidateForm = function() {
-    $scope.ClientIdentificationForm.invalidate = false;
+    if ($scope.ClientIdentificationForm) {
+      $scope.ClientIdentificationForm.invalidate = false;
+    }
   };
 
   //Upload document
@@ -1095,14 +1100,14 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 
   //function for deleting the client details
-  $scope.deleteClientIdentification = function(ClientId) {
+  $scope.deleteClientIdentification = function(clientIdentification) {
     console.log('CreateClientCtrl : CreateClient : deleteClientIdentification');
 
     var deleteClientIdentificationSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
       $scope.type = 'alert-success';
       $scope.message = 'Client Identification deleted successfully';
-      $scope.deleteClientIdentificationExtra(ClientId);
+      $scope.deleteClientIdentificationExtra(clientIdentification);
     };
 
     var deleteClientIdentificationFail = function(result) {
@@ -1117,13 +1122,13 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       }
       $('html, body').animate({scrollTop: 0}, 800);
     };
-    var msg = 'You are about to remove client identifiers <strong>' + $scope.rowCollection[ClientId].documentKey + '</strong>';
+    var msg = 'You are about to remove client identifiers <strong>' + clientIdentification.documentKey + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
         console.log('Successfully saved the client Next To Keen Information');
         //Id must be the the id of client_identifier id i.e identifier id
-        var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + $scope.rowCollection[ClientId].identifier_id;
+        var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + clientIdentification.identifier_id;
         console.log($url);
         CreateClientsService.deleteClient($url).then(deleteClientIdentificationSuccess, deleteClientIdentificationFail);
       }
@@ -1131,7 +1136,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 
   //function for deleteing the client identification extra details
-  $scope.deleteClientIdentificationExtra = function(ClientId) {
+  $scope.deleteClientIdentificationExtra = function(clientIdentification) {
     console.log('CreateClientCtrl : CreateClient : deleteClientIdentificationExtra');
 
     var deleteClientIdentificationExtraSuccess = function() {
@@ -1156,9 +1161,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     };
     console.log('Successfully saved the client Next To Keen Information');
     //id must be the specific id i.e extra id
-    var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + $scope.rowCollection[ClientId].extra_id;
+    var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + clientIdentification.extra_id;
     console.log($url);
-    if (!Utility.isUndefinedOrNull($scope.rowCollection[ClientId].extra_id)) {
+    if (!Utility.isUndefinedOrNull(clientIdentification.extra_id)) {
       CreateClientsService.deleteClient($url).then(deleteClientIdentificationExtraSuccess, deleteClientIdentificationExtraFail);
     } else {
       loadCreateClientIdentificationTemplate();
@@ -1166,7 +1171,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 
   //function for editing the client identification details
-  $scope.editClientIdentification = function(ClientId) {
+  $scope.editClientIdentification = function(clientIdentification) {
     $scope.button_name = 'Edit';
     var editClientIdentificationSuccess = function(result) {
       $('#issue_document').val('');
@@ -1180,7 +1185,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.loadDocuments($scope.Identifier_id, function(data) {
         $scope.files = data;
       });
-      $scope.editClientIdentificationExtra(ClientId);
+      $scope.editClientIdentificationExtra(clientIdentification);
     };
 
     var editClientIdentificationFail = function(result) {
@@ -1197,13 +1202,13 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     };
     console.log('Successfully saved the client Next To Keen Information');
     //Id for the client identifer table i.e identifier id from the report
-    var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + $scope.rowCollection[ClientId].identifier_id;
+    var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + clientIdentification.identifier_id;
     console.log($url);
     CreateClientsService.getData($url).then(editClientIdentificationSuccess, editClientIdentificationFail);
   };
 
   //Function for editing the client identification extra details
-  $scope.editClientIdentificationExtra = function(ClientId) {
+  $scope.editClientIdentificationExtra = function(clientIdentification) {
     console.log('CreateClientCtrl : CreateClient : editClientIdentificationExtra');
 
     var editClientIdentificationExtraSuccess = function(result) {
@@ -1230,9 +1235,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     };
     console.log('Successfully saved the client Next To Keen Information');
     //id must be the specific id i.e extra id
-    var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + $scope.rowCollection[ClientId].extra_id;
+    var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + clientIdentification.extra_id;
 
-    if (!Utility.isUndefinedOrNull($scope.rowCollection[ClientId].extra_id)) {
+    if (!Utility.isUndefinedOrNull(clientIdentification.extra_id)) {
       CreateClientsService.getData($url).then(editClientIdentificationExtraSuccess, editClientIdentificationExtraFail);
     }
   };
@@ -1302,6 +1307,9 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
         //Setting the id for the headers
         $scope.id = $route.current.params.id;
         $scope.rowCollection = result.data;
+        if ($scope.rowCollection.length) {
+          $scope.editNextToKeen($scope.rowCollection[0]);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -1347,7 +1355,9 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
 
   //invalidate login form
   $scope.invalidateForm = function() {
-    $scope.ClientNextToKeenForm.invalidate = false;
+    if ($scope.ClientNextToKeenForm) {
+      $scope.ClientNextToKeenForm.invalidate = false;
+    }
   };
 
   $scope.saveAndNext = function() {
@@ -1412,7 +1422,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
     }
   };
 
-  $scope.deleteNextToKeen = function(doc, index) {
+  $scope.deleteNextToKeen = function(doc) {
     console.log('CreateClientCtrl : CreateClient : deleteNextToKeen');
     var name = '';
     if (doc && doc.firstname && doc.lastname) {
@@ -1444,13 +1454,13 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
           $('html, body').animate({scrollTop: 0}, 800);
         };
         console.log('Successfully saved the client Next To Keen Information');
-        var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '/' + $scope.rowCollection[index].id;
+        var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '/' + doc.id;
         console.log($url);
         CreateClientsService.deleteClient($url).then(deleteNextToKeenSuccess, deleteNextToKeenFail);
       }
     });
   };
-  $scope.editNextToKeen = function(ClientId) {
+  $scope.editNextToKeen = function(doc) {
     console.log('CreateClientCtrl : CreateClient : editNextToKeen');
 
     var editNextToKeenSuccess = function(result) {
@@ -1487,7 +1497,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
       $('html, body').animate({scrollTop: 0}, 800);
     };
     console.log('Successfully saved the client Next To Keen Information');
-    var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '/' + $scope.rowCollection[ClientId].id;
+    var $url = REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '/' + doc.id;
 
     CreateClientsService.getData($url).then(editNextToKeenSuccess, editNextToKeenFail);
   };
@@ -1641,6 +1651,9 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
         //Setting the id for the headers
         $scope.id = $route.current.params.id;
         $scope.rowCollection = result.data;
+        if ($scope.rowCollection.length) {
+          $scope.editBusinessActivity($scope.rowCollection[0]);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -1683,7 +1696,9 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
   //invalidate login form
   $scope.invalidateForm = function() {
-    $scope.ClientBusinessActivityForm.invalidate = false;
+    if ($scope.ClientBusinessActivityForm) {
+      $scope.ClientBusinessActivityForm.invalidate = false;
+    }
   };
 
   $scope.saveClientBusinessActivity = function(callback) {
@@ -1734,7 +1749,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   };
 
   //Function to delete the business activity details for the user
-  $scope.deleteBusinessDetails = function(ClientId) {
+  $scope.deleteBusinessDetails = function(row) {
     console.log('CreateClientCtrl : CreateClient : deleteBusinessDetails');
 
     var msg = 'You are about to remove Business Details';
@@ -1762,14 +1777,14 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
           $('html, body').animate({scrollTop: 0}, 800);
         };
         console.log('Successfully saved the Business Activity Information');
-        var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '/' + $scope.rowCollection[ClientId].id;
+        var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '/' + row.id;
         CreateClientsService.deleteClient($url).then(deleteBusinessDetailsSuccess, deleteBusinessDetailsFail);
       }
     });
   };
 
   //Function to get the data from the business_activity table to edit it
-  $scope.editBusinessActivity = function(ClientId) {
+  $scope.editBusinessActivity = function(doc) {
     console.log('CreateClientCtrl : CreateClient : editNextToKeen');
 
     var editBusinessActivitySuccess = function(result) {
@@ -1801,7 +1816,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
       $('html, body').animate({scrollTop: 0}, 800);
     };
     console.log('Successfully saved the client Next To Keen Information');
-    var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '/' + $scope.rowCollection[ClientId].id;
+    var $url = REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '/' + doc.id;
     CreateClientsService.getData($url).then(editBusinessActivitySuccess, editBusinessActivityFail);
   };
 

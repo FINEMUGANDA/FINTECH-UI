@@ -90,28 +90,28 @@
         </thead>
         <tbody ng-hide="isLoading">
           <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
-            <td data-ng-click="editClientIdentification($index)">
+            <td data-ng-click="editClientIdentification(row)">
               <div class="name">
                 {{row.documentTypeId| getDropdownNames:identificationType}}
               </div>
             </td>
-            <td data-ng-click="editClientIdentification($index)">
+            <td data-ng-click="editClientIdentification(row)">
               <div class="name">
                 {{row.documentKey}}
               </div>
             </td>
-            <td data-ng-click="editClientIdentification($index)">
+            <td data-ng-click="editClientIdentification(row)">
               <div class="name">
                 {{row.issue_place}}
               </div>
             </td>
-            <td data-ng-click="editClientIdentification($index)">
+            <td data-ng-click="editClientIdentification(row)">
               <div class="name" ng-show="{{row.issue_date[2]}}">
                 {{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}
               </div>
             </td>
             <td class="number actions">
-              <a ng-click="deleteClientIdentification($index)" ng-show="hasPermission('UPDATE_CLIENT')">
+              <a ng-click="deleteClientIdentification(row)" ng-show="hasPermission('UPDATE_CLIENT')">
                 <span class="glyphicon glyphicon-remove-circle"></span>
               </a>
             </td>

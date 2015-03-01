@@ -101,37 +101,37 @@
         </thead>
         <tbody>
           <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
-            <td data-ng-click="editBusinessActivity($index)">
+            <td data-ng-click="editBusinessActivity(row)">
               <div class="name">
                 {{row.BusinessActivity_cd_business_activity| getDropdownValues:businessActivityOptions}}
               </div>
             </td>
-            <td data-ng-click="editBusinessActivity($index)">
+            <td data-ng-click="editBusinessActivity(row)">
               <div class="name">
                 {{row.business_name}}
               </div>
             </td>
-            <td data-ng-click="editBusinessActivity($index)">
+            <td data-ng-click="editBusinessActivity(row)">
               <div class="name" ng-show="{{row.operating_since[2]}}">
                 {{row.operating_since[2]}}/{{row.operating_since[1]}}/{{row.operating_since[0]}}
               </div>
             </td>
-            <td data-ng-click="editBusinessActivity($index)">
+            <td data-ng-click="editBusinessActivity(row)">
               <div class="name">
                 {{row.YesNo_cd_book_keeping| getDropdownValues:BookingKeeping}}
               </div>
             </td>
-            <td data-ng-click="editBusinessActivity($index)">
+            <td data-ng-click="editBusinessActivity(row)">
               <div class="name">
                 {{row.business_address}}
               </div>
             </td>
-            <td data-ng-click="editBusinessActivity($index)">
+            <td data-ng-click="editBusinessActivity(row)">
               <div class="name">
                 {{row.BusinessActivity_cd_other_income_business_activity| getDropdownValues:otherIncomeBusinessActivity}}
               </div>
             </td>
-            <td class="actions"><a href="javascript:void(0);" ng-click="deleteBusinessDetails($index)" ng-show="hasPermission('UPDATE_CLIENT')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+            <td class="actions"><a href="javascript:void(0);" ng-click="deleteBusinessDetails(row)" ng-show="hasPermission('UPDATE_CLIENT')"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
           </tr>
         </tbody>
         <tfoot ng-hide="isLoading">

@@ -99,25 +99,25 @@
         </thead>
         <tbody ng-hide="isLoading">
           <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
-            <td data-ng-click="editNextToKeen($index)">
+            <td data-ng-click="editNextToKeen(nextOfKin)">
               {{row.GuarantorRelationship_cd_relationship| getDropdownValues:relationship}}
             </td>
-            <td data-ng-click="editNextToKeen($index)">
+            <td data-ng-click="editNextToKeen(nextOfKin)">
               <div class="name" >
                 {{row.firstname}} {{row.lastname}}
               </div>
             </td>
-            <td data-ng-click="editNextToKeen($index)">
+            <td data-ng-click="editNextToKeen(nextOfKin)">
               <div class="name" ng-show="{{row.date_of_birth[2]}}">
                 {{row.date_of_birth[2]}}/{{row.date_of_birth[1]}}/{{row.date_of_birth[0]}}
               </div>
             </td>
-            <td data-ng-click="editNextToKeen($index)">
+            <td data-ng-click="editNextToKeen(nextOfKin)">
               <div class="name">
                 {{row.address}}
               </div>
             </td>
-            <td class="number" data-ng-click="editNextToKeen($index)">
+            <td class="number" data-ng-click="editNextToKeen(nextOfKin)">
               <div class="name">
                 {{row.telephone}}
               </div>
