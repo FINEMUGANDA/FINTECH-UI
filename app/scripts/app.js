@@ -140,7 +140,7 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         authorizedRoles: ['admin']
       }
     }).when('/createCharge', {
-      templateUrl: 'views/Product/createCharge.html',
+      templateUrl: 'views/Product/editCharge.html',
       controller: '',
       data: {
         authorizedRoles: ['admin']

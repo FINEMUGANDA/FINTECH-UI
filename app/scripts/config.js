@@ -12,7 +12,7 @@ app.constant('APPLICATION', {
     'username' : 'username',
     'role' : 'role',
     'permissions' : 'permissions',
-    'PAGE_SIZE' : 5,
+    'PAGE_SIZE' : 10,
     'DISPLAYED_PAGES' : 5,
     'NO_IMAGE_THUMB' : 'images/noPhoto.jpg',
     'API_VERSION' : 'api/v1'
