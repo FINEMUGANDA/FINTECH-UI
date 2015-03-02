@@ -11,7 +11,7 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, RE
 
   $scope.showRepaymentsDueThisWeek = function() {
     $scope.payments = undefined;
-    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.repayment.week.dialog.tpl.html', 'LoanDeatilsRepaymentWeekDialog', {msg: 'Repayments test'}, {size: 'lg', keyboard: true, backdrop: true});
+    var dialog = dialogs.create('views/loans/details/dialogs/loans.details.repayment.week.dialog.tpl.html', 'LoanDeatilsRepaymentWeekDialog', {msg: 'Repayments test'}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       $scope.payments = result.data;
       console.log('REPAYMENTS: ' + angular.toJson(result));
