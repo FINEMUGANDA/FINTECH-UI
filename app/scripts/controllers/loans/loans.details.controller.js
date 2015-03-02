@@ -284,6 +284,20 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
   };
 });
 
+angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', function(REST_URL, LoanService, $scope, $modalInstance) {
+  $scope.isLoading = true;
+
+  LoanService.getData('api/v1/runreports/Repayments Due This Week').then(function(result) {
+    console.log('WEEK: ' + angular.toJson(result));
+    $scope.payments = result.data;
+    $scope.isLoading = false;
+  });
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+});
+
 angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.loan = data.loan;
   $scope.action = data.action;

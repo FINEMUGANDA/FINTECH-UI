@@ -400,6 +400,7 @@ app.constant('PERMISSION_MAPPING', {
             'READ_Home page header statistic'
         ],
         RDTW_UIDASHBOARD: [
+            'READ_Repayments Due This Week',
             'READ_Home page header statistic'
         ],
         ABPLO_UIDASHBOARD: [

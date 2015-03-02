@@ -37,7 +37,7 @@ module.exports = function (grunt) {
         base: '<%= yeoman.app %>/'
       },
       main: {
-        src: ['<%= yeoman.app %>/views/**/*.tpl.html'],
+        src: ['<%= yeoman.app %>/**/*.tpl.html'],
         dest: '.tmp/scripts/templates.js'
       }
     },
@@ -359,6 +359,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
+            '!*.tpl.html',
             'views/{,**/}*.html',
             '!views/{,**/}*.tpl.html',
             'images/*',

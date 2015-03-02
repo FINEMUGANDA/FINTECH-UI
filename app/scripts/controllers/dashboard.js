@@ -3,11 +3,21 @@
   // Here we attach this controller to our testApp module
 var dashboardCtrl = angular.module('dashboardController',['dashboardService','Constants', 'GraphUtils']);
   
-dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, REST_URL, PAGE_URL, CHART_TYPE, APPLICATION, Session, Graph) {
+dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, REST_URL, PAGE_URL, CHART_TYPE, APPLICATION, Session, Graph, dialogs) {
   // To load the dashboard page
   $scope.isBorrowerReady = false;
   $scope.isDueReady = false;
   $scope.isParReady = false;
+
+  $scope.showRepaymentsDueThisWeek = function() {
+    $scope.payments = undefined;
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.repayment.week.dialog.tpl.html', 'LoanDeatilsRepaymentWeekDialog', {msg: 'Repayments test'}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      $scope.payments = result.data;
+      console.log('REPAYMENTS: ' + angular.toJson(result));
+    });
+  };
+
   $scope.loadDashboard = function(){
     console.log('DashboardCtrl : loadDashboard');
     $scope.username = Session.getValue(APPLICATION.username);
