@@ -58,6 +58,9 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.numberOfRepayments = data.numberOfRepayments;
           $scope.loan.interestRatePerPeriod = data.interestRatePerPeriod;
           $scope.loan.repaymentEvery = data.repaymentEvery;
+          $scope.loan.charges = _.map(data.charges, function(charge) {
+            return _.pick(charge, ['amount', 'chargeId', 'chargeTimeType', 'chargeCalculationType']);
+          });
 
           $scope.loan.loanTermFrequency = data.termFrequency;
           $scope.loan.loanTermFrequencyType = data.termPeriodFrequencyType.id;
@@ -174,38 +177,24 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     function saveLoanSuccess(result) {
       console.log('Saved successfuly...', result);
 
-      async.each($scope.chargesCollection, function(charge, callback) {
-        var data = {};
-        data.chargeId = charge.chargeId;
-        data.amount = charge.amount;
-        data.locale = 'en';
-        LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + result.data.loanId + '/charges', data).then(function() {
-          callback();
-        }, function() {
-          callback();
-        });
-      }, function() {
-        var loanDetails = angular.copy($scope.loanDetails);
-        var resultSuccess = function() {
-          $scope.type = 'alert-success';
-          $scope.message = 'Loan saved successfuly';
-          $scope.errors = [];
-          $location.url('/loans/' + $scope.clientId + '/form/collateral/' + result.data.loanId);
-        };
-        var resultFail = function() {
-          $scope.type = 'error';
-          $scope.message = 'Cant save loan details';
-          $scope.errors = [];
-        };
-        var url = REST_URL.LOANS_EXTRA_DETAILS + result.data.loanId;
-        if ($scope.isAvailableLoanDetails) {
-          LoanService.updateLoan(url, loanDetails).then(resultSuccess, resultFail);
-        } else {
-          LoanService.saveLoan(url, loanDetails).then(resultSuccess, resultFail);
-        }
-
-      });
-
+      var loanDetails = angular.copy($scope.loanDetails);
+      var resultSuccess = function() {
+        $scope.type = 'alert-success';
+        $scope.message = 'Loan saved successfuly';
+        $scope.errors = [];
+        $location.url('/loans/' + $scope.clientId + '/form/collateral/' + result.data.loanId);
+      };
+      var resultFail = function() {
+        $scope.type = 'error';
+        $scope.message = 'Cant save loan details';
+        $scope.errors = [];
+      };
+      var url = REST_URL.LOANS_EXTRA_DETAILS + result.data.loanId;
+      if ($scope.isAvailableLoanDetails) {
+        LoanService.updateLoan(url, loanDetails).then(resultSuccess, resultFail);
+      } else {
+        LoanService.saveLoan(url, loanDetails).then(resultSuccess, resultFail);
+      }
     }
 
     function saveLoanFail(result) {
