@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, dialogs) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -15,12 +15,16 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $timeout, ClientsService,
   var allClientsSuccess = function(result) {
     $scope.isLoading = false;
     try {
-      $scope.rowCollection = result.data;
-      angular.forEach($scope.rowCollection, function(client) {
-            client.image = APPLICATION.NO_IMAGE_THUMB;
-            CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(function(result) {
-                client.image = result.data;
-            });
+      $scope.rowCollection = [];
+      //$scope.rowCollection = result.data;
+      angular.forEach(result.data, function(client) {
+        if(!$route.current.params.status || client.status===$route.current.params.status) {
+          $scope.rowCollection.push(client);
+          client.image = APPLICATION.NO_IMAGE_THUMB;
+          CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(function(result) {
+            client.image = result.data;
+          });
+        }
       });
     } catch (e) {
     }

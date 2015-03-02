@@ -69,11 +69,17 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         authorizedRoles: ['admin']
       }
     }).when('/clients', {
-      templateUrl: 'views/Client/grids/clients.html',
-      controller: 'ClientsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/grids/clients.html',
+        controller: 'ClientsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/clients/:status', {
+        templateUrl: 'views/Client/grids/clients.html',
+        controller: 'ClientsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loans', {
       templateUrl: 'views/Client/grids/loans.html',
       controller: 'LoansCtrl',
