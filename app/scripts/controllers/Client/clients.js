@@ -124,7 +124,7 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
 });
 
 
-clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
+clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
   console.log('LoansCtrl : Loans');
   //To load the loans page
 
@@ -136,12 +136,31 @@ clientsCtrl.controller('LoansCtrl', function($scope, $location, $timeout, Client
   var allLoansSuccess = function(result) {
     $scope.isLoading = false;
     try {
-      $scope.rowCollection = result.data;
-      angular.forEach($scope.rowCollection, function(loan) {
-          loan.image = APPLICATION.NO_IMAGE_THUMB;
+      $scope.rowCollection = [];
+      angular.forEach(result.data, function(loan) {
+        loan.image = APPLICATION.NO_IMAGE_THUMB;
+        var added = false;
+        //console.log('LoansCtrl : ' + $location.path() + ' - ' + $route.current.params.loanStatus + ' - ' + loan.loanStatus + ' - ' + loan.status);
+        if($location.path().indexOf('/loans/borrowers')===0) {
+          // /loans/borrowers
+          if($route.current.params.loanStatus==='total' && (loan.loanStatus==='ActiveInGoodStanding' || loan.loanStatus==='ActiveInBadStanding')) {
+            $scope.rowCollection.push(loan);
+            added = true;
+          } else if($route.current.params.loanStatus==='bad' && loan.loanStatus==='ActiveInBadStanding') {
+            $scope.rowCollection.push(loan);
+            added = true;
+          }
+        } else if($location.path()==='/loans') {
+          // /loans
+          $scope.rowCollection.push(loan);
+          added = true;
+        }
+
+        if(added) {
           CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function(result) {
-              loan.image = result.data;
+            loan.image = result.data;
           });
+        }
       });
     } catch (e) {
     }

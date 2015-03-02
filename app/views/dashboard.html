@@ -16,11 +16,11 @@
   <div class="summary">
     <dl class="horizontal">
       <dt ng-show="hasPermission('TAC_UIDASHBOARD')">{{totalActiveClient}}</dt>
-      <dd ng-show="hasPermission('TAC_UIDASHBOARD')"><a href="/#clients/Active">Total Active Clients</a></dd>
+      <dd ng-show="hasPermission('TAC_UIDASHBOARD')"><a href="/#clients/status/Active">Total Active Clients</a></dd>
       <dt ng-show="hasPermission('TB_UIDASHBOARD')">{{totalBorrowers}}</dt>
-      <dd ng-show="hasPermission('TB_UIDASHBOARD')"><a href="#">Total Borrowers</a></dd>
+      <dd ng-show="hasPermission('TB_UIDASHBOARD')"><a href="/#loans/borrowers/total">Total Borrowers</a></dd>
       <dt ng-show="hasPermission('LIBS_UIDASHBOARD')">{{loansInBadStanding}}</dt>
-      <dd ng-show="hasPermission('LIBS_UIDASHBOARD')"><a href="#">Loans in Bad Standing</a></dd>
+      <dd ng-show="hasPermission('LIBS_UIDASHBOARD')"><a href="/#loans/borrowers/bad">Loans in Bad Standing</a></dd>
       <dt ng-show="hasPermission('RDTW_UIDASHBOARD')">{{repaymentsDueThisWeek}}</dt>
       <dd ng-show="hasPermission('RDTW_UIDASHBOARD')"><a href="#">Repayments Due This Week</a></dd>
     </dl>

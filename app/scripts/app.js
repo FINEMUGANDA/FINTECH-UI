@@ -74,7 +74,7 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         data: {
             authorizedRoles: ['admin']
         }
-    }).when('/clients/:status', {
+    }).when('/clients/status/:status', {
         templateUrl: 'views/Client/grids/clients.html',
         controller: 'ClientsCtrl',
         data: {
@@ -86,6 +86,12 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/loans/borrowers/:loanStatus', {
+        templateUrl: 'views/Client/grids/loans.html',
+        controller: 'LoansCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loansClosed', {
       templateUrl: 'views/Client/grids/loansClosed.html',
       controller: 'LoansClosedCtrl',
