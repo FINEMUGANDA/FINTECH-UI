@@ -289,8 +289,16 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
 
   LoanService.getData('api/v1/runreports/Repayments Due This Week').then(function(result) {
     $scope.payments = result.data;
+    $scope.principalTotal = 0;
+    $scope.interestTotal = 0;
+    $scope.feesTotal = 0;
+    $scope.lpiTotal = 0;
     $scope.paymentTotal = 0;
     angular.forEach($scope.payments, function(payment) {
+      $scope.principalTotal = $scope.principalTotal + payment.principal_amount;
+      $scope.interestTotal = $scope.interestTotal + payment.interest_amount;
+      $scope.feesTotal = $scope.feesTotal + payment.fee_charges_amount;
+      $scope.lpiTotal = $scope.lpiTotal + payment.penalty_charges_charged_derived;
       $scope.paymentTotal = $scope.paymentTotal + payment.principal_amount + payment.interest_amount + payment.fee_charges_amount + payment.penalty_charges_charged_derived;
       //$scope.paymentTotal = $scope.paymentTotal + payment.principal_amount;
       console.log('PAYMENT: ' + $scope.paymentTotal);

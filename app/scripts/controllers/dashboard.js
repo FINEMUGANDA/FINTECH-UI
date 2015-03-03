@@ -13,7 +13,7 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     $scope.payments = undefined;
     $scope.paymentTotal = 0;
     var dialog = dialogs.create('views/loans/details/dialogs/loans.details.repayment.week.dialog.tpl.html', 'LoanDeatilsRepaymentWeekDialog', {msg: 'Repayments Due This Week'}, {size: 'lg', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
+    dialog.result.then(function() {
       //$scope.payments = result.data;
     });
   };
