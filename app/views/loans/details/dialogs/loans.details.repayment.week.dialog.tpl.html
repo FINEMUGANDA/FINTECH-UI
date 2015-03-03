@@ -40,7 +40,7 @@
                     <td class="text-right">{{payment.interest_amount | currency:''}}</td>
                     <td class="text-right">{{payment.fee_charges_amount | currency:''}}</td>
                     <td class="text-right">{{payment.penalty_charges_charged_derived | currency:''}}</td>
-                    <td class="text-right">---</td>
+                    <td class="text-right"><b>{{payment.principal_amount+payment.interest_amount+payment.fee_charges_amount+payment.penalty_charges_charged_derived | currency:''}}</b></td>
                 </tr>
             </tbody>
         </table>
