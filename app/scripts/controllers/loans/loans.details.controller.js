@@ -288,7 +288,6 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
   $scope.isLoading = true;
 
   LoanService.getData('api/v1/runreports/Repayments Due This Week').then(function(result) {
-    console.log('WEEK: ' + angular.toJson(result));
     $scope.payments = result.data;
     $scope.isLoading = false;
   });
