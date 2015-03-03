@@ -32,7 +32,6 @@
             </thead>
             <tbody>
                 <tr ng-repeat="payment in payments">
-                    <!-- TODO: implement this -->
                     <td>{{payment.account_no}}</td>
                     <td>{{payment.firstname}}&nbsp;{{payment.lastname}}</td>
                     <td>{{payment.duedate | DateFormat}}</td>
@@ -43,6 +42,16 @@
                     <td class="text-right"><b>{{payment.principal_amount+payment.interest_amount+payment.fee_charges_amount+payment.penalty_charges_charged_derived | currency:''}}</b></td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" class="text-right">
+                        <b>Total:</b>
+                    </td>
+                    <td class="text-right">
+                        <b>{{paymentTotal | currency:''}}</b>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

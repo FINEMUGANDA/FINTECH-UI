@@ -289,6 +289,12 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
 
   LoanService.getData('api/v1/runreports/Repayments Due This Week').then(function(result) {
     $scope.payments = result.data;
+    $scope.paymentTotal = 0;
+    angular.forEach($scope.payments, function(payment) {
+      $scope.paymentTotal = $scope.paymentTotal + payment.principal_amount + payment.interest_amount + payment.fee_charges_amount + payment.penalty_charges_charged_derived;
+      //$scope.paymentTotal = $scope.paymentTotal + payment.principal_amount;
+      console.log('PAYMENT: ' + $scope.paymentTotal);
+    });
     $scope.isLoading = false;
   });
 
