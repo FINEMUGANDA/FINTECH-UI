@@ -85,6 +85,35 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   loadClients();
 });
 
+clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST_URL, ClientsService, data) {
+  $scope.isLoading = true;
+  $scope.msg = data.msg;
+  $scope.action = data.action;
+  $scope.clientId = null;
+  $scope.clients = null;
+
+  $scope.select = function() {
+    $modalInstance.close($scope.clientId);
+  };
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+
+  ClientsService.getData(REST_URL.ALL_CLIENTS).then(function(result) {
+    $scope.clients = [];
+
+    angular.forEach(result.data, function(client) {
+      if(!client.loanStatus || client.loanStatus==='') {
+        $scope.clients.push(client);
+      }
+    });
+    $scope.isLoading = false;
+  }, function() {
+    // TODO: do we need this?
+  });
+});
+
 clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, data) {
   $scope.client = data.client;
   $scope.info = {};

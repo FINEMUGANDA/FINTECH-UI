@@ -3,7 +3,7 @@
   // Here we attach this controller to our testApp module
 var dashboardCtrl = angular.module('dashboardController',['dashboardService','Constants', 'GraphUtils']);
   
-dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, REST_URL, PAGE_URL, CHART_TYPE, APPLICATION, Session, Graph, dialogs) {
+dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, DashboardService, REST_URL, PAGE_URL, CHART_TYPE, APPLICATION, Session, Graph, dialogs) {
   // To load the dashboard page
   $scope.isBorrowerReady = false;
   $scope.isDueReady = false;
@@ -11,10 +11,17 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, DashboardService, RE
 
   $scope.showRepaymentsDueThisWeek = function() {
     $scope.payments = undefined;
-    var dialog = dialogs.create('views/loans/details/dialogs/loans.details.repayment.week.dialog.tpl.html', 'LoanDeatilsRepaymentWeekDialog', {msg: 'Repayments test'}, {size: 'lg', keyboard: true, backdrop: true});
+    var dialog = dialogs.create('views/loans/details/dialogs/loans.details.repayment.week.dialog.tpl.html', 'LoanDeatilsRepaymentWeekDialog', {msg: 'Repayments Due This Week'}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       $scope.payments = result.data;
-      console.log('REPAYMENTS: ' + angular.toJson(result));
+    });
+  };
+
+  $scope.showClientSelect = function() {
+    var dialog = dialogs.create('views/Client/clients.select.dialog.tpl.html', 'ClientSelectCtrl', {msg: 'Select Client for new Loan', action: 'New Loan', loanStatus: ''}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      console.log('CLIENT: ' + angular.toJson(result));
+      $location.path( '/loans/' + result + '/form' );
     });
   };
 
