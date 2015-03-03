@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION, dialogs) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, ClientsService, CreateClientsService, SearchService, REST_URL, APPLICATION, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -11,22 +11,33 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   $scope.rowCollection = [];
   $scope.displayed = [];
 
+  var addClient = function(client) {
+    $scope.rowCollection.push(client);
+    client.image = APPLICATION.NO_IMAGE_THUMB;
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(function(result) {
+      client.image = result.data;
+    });
+  };
+
   //Success callback
   var allClientsSuccess = function(result) {
     $scope.isLoading = false;
+
+    console.log('SEARCH POS: ' + SearchService.get());
+
     try {
       $scope.rowCollection = [];
-      //$scope.rowCollection = result.data;
-      angular.forEach(result.data, function(client) {
-        if(!$route.current.params.status || client.status===$route.current.params.status) {
-          $scope.rowCollection.push(client);
-          client.image = APPLICATION.NO_IMAGE_THUMB;
-          CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(function(result) {
-            client.image = result.data;
-          });
+      for(var i=0; i<result.data.length; i++) {
+        var client = result.data[i];
+        if(SearchService.get() && SearchService.get().indexOf(client.id)>=0) {
+          addClient(client);
+        } else if(!SearchService.get() && !$route.current.params.status || client.status===$route.current.params.status) {
+          addClient(client);
         }
-      });
+      }
+      SearchService.set(undefined);
     } catch (e) {
+      console.log(e);
     }
   };
 
@@ -109,9 +120,56 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
       }
     });
     $scope.isLoading = false;
-  }, function() {
-    // TODO: do we need this?
   });
+});
+
+clientsCtrl.controller('ClientSearchCtrl', function($scope, $location, REST_URL, ClientsService, SearchService) {
+  $scope.isLoading = true;
+  $scope.selected = null;
+  $scope.clients = null;
+  $scope.selectedClients = [];
+
+  $scope.go = function() {
+    if($scope.selectedClients.length===1) {
+      $location.path('/editbasicclientinfo/' + $scope.selectedClients[0]);
+    } else {
+      SearchService.set($scope.selectedClients);
+      // TODO: pass ids
+      $location.path('/clients');
+    }
+  };
+
+  $scope.clear = function() {
+    angular.forEach($scope.clients, function(client) {
+      client._selected = undefined;
+    });
+    $scope.selectedClients = [];
+  };
+
+  $scope.onSelect = function ($item, $model, $label) {
+    $scope.$item = $item;
+    $scope.$model = $model;
+    $scope.$label = $label;
+
+    $scope.selected = null;
+    $model._selected = !$model._selected;
+    if($model._selected) {
+      //console.log('SEARCH SELECT: ' + angular.toJson($model));
+      $scope.selectedClients.push($model.id);
+    } else {
+      // TODO: splice
+    }
+  };
+
+  $scope.search = function(/** val */) {
+    return ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
+      $scope.clients = result.data;
+      $scope.isLoading = false;
+      return result.data;
+    });
+  };
+
+  $scope.search();
 });
 
 clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, data) {

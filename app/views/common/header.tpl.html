@@ -63,9 +63,21 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="hidden-sm">
-          <form role="search">
+          <form role="search" ng-controller="ClientSearchCtrl">
             <div class="search">
+              <!--
               <input type="text" class="search-box" placeholder="Search"/>
+              typeahead="item as item.title + ' (' + item.type + ')' for item in titles | filter:{title:$viewValue}"
+              -->
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default" ng-click="go()" ng-show="selectedClients.length>0">
+                  <span class="glyphicon glyphicon-ok-circle text-primary"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="clear()" ng-show="selectedClients.length>0">
+                  <span class="glyphicon glyphicon-remove-circle text-danger"></span>
+                </button>
+              </div>
+              <input type="text" class="search-box" ng-model="selected" ng-hide="isLoading" typeahead-loading="isLoading" typeahead="client as client.name for client in clients | filter:$viewValue | limitTo:10" typeahead-template-url="views/Client/search.match.tpl.html" typeahead-on-select="onSelect($item, $model, $label)" typeahead-focus-first="true" placeholder="Search">
             </div>
           </form>
         </li>

@@ -27,7 +27,8 @@
     "angularjs-nvd3-directives": "~0.0.7",
     "chosen_v1.3.0": "https://github.com/harvesthq/chosen/releases/download/v1.3.0/chosen_v1.3.0.zip",
     "file-saver": "latest",
-    "ng-idle": "0.3.5"
+    "ng-idle": "0.3.5",
+    "ui-bootstrap": "~0.12.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.28",

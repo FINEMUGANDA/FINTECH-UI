@@ -1,0 +1,8 @@
+<a tabindex="-1" ng-class="{'search-selected': match.model._selected}">
+    <span ng-bind-html="match.label | typeaheadHighlight:query"></span>
+    <!--
+    <span class="glyphicon glyphicon-minus" ng-hide="match.model._selected"></span>
+    <span class="glyphicon glyphicon-ok" ng-show="match.model._selected"></span>
+    <span>{{match.model}}</span>
+    -->
+</a>

@@ -187,6 +187,10 @@ td.actions {
   }
 }
 
+.search-selected {
+  background-color: $hold;
+}
+
 .attachment_file{
   .glyphicon-remove-circle {
       color: #d9534f;
