@@ -137,14 +137,17 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     }
     $scope.clear();
 
-    var path;
+    var path = '/clients';
+    SearchService.set(ids);
 
+    /**
     if(ids.length===1) {
       path = '/editbasicclientinfo/' + ids[0];
     } else {
       path = '/clients';
       SearchService.set(ids);
     }
+     */
     if($location.path()===path) {
       $route.reload();
     } else {
