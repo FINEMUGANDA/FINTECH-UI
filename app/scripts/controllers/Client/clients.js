@@ -189,7 +189,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
   $scope.search = function(val) {
     $scope.selectedClients = [];
 
-    if(val && val.length>0) {
+    if(val && val!=='') {
       var criteria = val.split(' ');
 
       //console.log('SEARCH: ' + angular.toJson(criteria));
