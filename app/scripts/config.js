@@ -23,6 +23,7 @@ app.constant('REST_URL', {
     'DASHBOARD_HEADER_STATISTIC': 'api/v1/runreports/Home page header statistic',
     'ALL_CLIENTS': 'api/v1/runreports/PageClientsScreenClients',
     'SEARCH_CLIENTS': 'api/v1/runreports/Search Clients',
+    'CLIENTS_LOAN_REPAYMENT': 'api/v1/runreports/DialogClientsLoanRepayment',
     'LOANS': 'api/v1/runreports/PageClientsScreenLoans',
     'LOANS_CLOSED': 'api/v1/runreports/PageClientsScreenLoansClosed',
     'LOANS_PENDING_APPROVALS': 'api/v1/runreports/PageClientsScreenLoansPA',
@@ -315,6 +316,7 @@ app.constant('PERMISSION_MAPPING', {
             'READ_LOANNOTE',
             'READ_COLLATERAL',
             'READ_LOANPRODUCT',
+            'READ_DialogClientsLoanRepayment',
             'READ_notes',
             'READ_extra_guarantor_details',
             'READ_extra_loan_details'

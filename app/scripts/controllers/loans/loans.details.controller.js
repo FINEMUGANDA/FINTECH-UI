@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, $timeout, $scope, dialogs) {
+angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, DataTransferService, $timeout, $scope, dialogs) {
   console.log('LoansDetailsCtrl');
   $scope.clientId = $route.current.params.clientId;
   $scope.loanId = $route.current.params.loanId;
@@ -210,6 +210,13 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails();
     });
   };
+
+  if(DataTransferService.get('loan.payment.code')) {
+    $timeout(function() {
+      //console.log('DIALOG: ' + DataTransferService.get('loan.payment.code'));
+      $scope.openTransactionDialog(DataTransferService.get('loan.payment.code'));
+    }, 2000);
+  }
 });
 
 angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {

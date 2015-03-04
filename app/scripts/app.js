@@ -27,6 +27,7 @@ var app = angular.module('angularjsApp', [
   'reportService',
   'jobService',
   'auditService',
+  'dataTransferService',
   'searchService',
   'Constants',
   'ui.bootstrap',

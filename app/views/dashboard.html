@@ -6,10 +6,10 @@
       <li role="presentation" class="label">Shortcuts:</li>
       <li role="presentation" ng-show="hasPermission('CLIENT_UIDASHBOARD')"><a href="/#createClient">New Client</a></li>
       <li role="presentation" ng-show="hasPermission('LOAN_UIDASHBOARD')"><a href="" ng-click="showClientSelect()">New Loan</a></li>
-      <li role="presentation" ng-show="hasPermission('REPAYMENT_UIDASHBOARD')"><a href="#">New Repayment</a></li>
-      <li role="presentation" ng-show="hasPermission('NOTE_UIDASHBOARD')"><a href="#">New Note</a></li>
-      <li role="presentation" ng-show="hasPermission('SURVEY_UIDASHBOARD')"><a href="#">New Survey</a></li>
-      <li role="presentation" ng-show="hasPermission('UPLOAD_UIDASHBOARD')"><a href="#">Upload Documents</a></li>
+      <li role="presentation" ng-show="hasPermission('REPAYMENT_UIDASHBOARD')"><a href="" ng-click="showNewRepayment()">New Repayment</a></li>
+      <li role="presentation" ng-show="hasPermission('NOTE_UIDASHBOARD')"><a href="">New Note</a></li>
+      <li role="presentation" ng-show="hasPermission('SURVEY_UIDASHBOARD')"><a href="">New Survey</a></li>
+      <li role="presentation" ng-show="hasPermission('UPLOAD_UIDASHBOARD')"><a href="">Upload Documents</a></li>
     </ul>
   </div>
 

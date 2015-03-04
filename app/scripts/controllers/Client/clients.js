@@ -123,6 +123,50 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
   });
 });
 
+clientsCtrl.controller('ClientsRepaymentDialogCtrl', function($scope, $location, $modalInstance, REST_URL, ClientsService, DataTransferService, data) {
+  $scope.isLoading = true;
+  $scope.msg = data.msg;
+  $scope.action = data.action;
+  $scope.client = null;
+  $scope.paymentCode = null;
+  $scope.clients = null;
+  $scope.paymentOptions = [
+    {
+      code: 'prepay',
+      name: 'Prepay loan'
+    },
+    {
+      code: 'payment',
+      name: 'Make loan payment'
+    }
+  ];
+
+  $scope.proceed = function() {
+    $modalInstance.dismiss();
+    $location.path('/loans/' + $scope.client.id + '/details/' + $scope.client.loanId);
+
+    DataTransferService.set('loan.payment.code', $scope.paymentCode);
+    //$scope.$broadcast('loan.show.dialog', $scope.paymentCode);
+  };
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+
+  ClientsService.getData(REST_URL.CLIENTS_LOAN_REPAYMENT).then(function(result) {
+    $scope.clients = result.data;
+
+    /**
+    angular.forEach(result.data, function(client) {
+      if( client.loanStatus && client.status==='Active') {
+        $scope.clients.push(client);
+      }
+    });
+     */
+    $scope.isLoading = false;
+  });
+});
+
 clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, REST_URL, ClientsService, SearchService) {
   $scope.isLoading = true;
   $scope.selected = null;
