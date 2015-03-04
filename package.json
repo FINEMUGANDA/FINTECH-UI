@@ -6,7 +6,7 @@
     "url": "https://github.com/FINEMUGANDA/FINTECH-UI.git"
   },
   "dependencies": {
-    "archiver": "^0.14.3",
+    "archiver": "^0.12.0",
     "grunt-war": "^0.4.4",
     "jpegtran-bin": "^2.0.2"
   },
@@ -34,6 +34,9 @@
     "grunt-usemin": "^3.0.0",
     "grunt-wiredep": "^2.0.0",
     "jshint-stylish": "^1.0.1",
+    "archiver": "^0.12.0",
+    "grunt-war": "^0.4.4",
+    "jpegtran-bin": "^2.0.2",
     "karma": "~0.12.31",
     "karma-jasmine": "~0.3.5",
     "karma-phantomjs-launcher": "~0.1.4",
