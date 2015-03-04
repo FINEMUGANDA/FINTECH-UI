@@ -162,6 +162,10 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
 
   $scope.onSelect = function ($item, $model /** , $label */) {
     $scope.clear();
+    $scope.selectedClients.push($model);
+    $scope.go();
+    /**
+    $scope.clear();
 
     var path = '/editbasicclientinfo/' + $model.id;
 
@@ -170,6 +174,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     } else {
       $location.path(path);
     }
+     */
   };
 
   var check = function(client, property, val) {
