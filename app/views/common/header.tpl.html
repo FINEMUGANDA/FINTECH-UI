@@ -68,7 +68,6 @@
               <!--
               <input type="text" class="search-box" placeholder="Search"/>
               typeahead="item as item.title + ' (' + item.type + ')' for item in titles | filter:{title:$viewValue}"
-
               <input type="text" class="search-box" ng-model="selected" ng-hide="isLoading" typeahead-loading="isLoading" typeahead="client as client.name for client in clients | filter:$viewValue | limitTo:10" typeahead-template-url="views/Client/search.match.tpl.html" typeahead-on-select="onSelect($item, $model, $label)" typeahead-focus-first="true" placeholder="Search">
               -->
               <div class="btn-group btn-group-sm">
