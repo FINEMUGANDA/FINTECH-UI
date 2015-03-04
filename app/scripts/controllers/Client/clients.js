@@ -155,14 +155,129 @@ clientsCtrl.controller('ClientsRepaymentDialogCtrl', function($scope, $location,
 
   ClientsService.getData(REST_URL.CLIENTS_LOAN_REPAYMENT).then(function(result) {
     $scope.clients = result.data;
+    $scope.isLoading = false;
+  });
+});
 
-    /**
-    angular.forEach(result.data, function(client) {
-      if( client.loanStatus && client.status==='Active') {
-        $scope.clients.push(client);
-      }
-    });
-     */
+clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstance, $upload, $timeout, APPLICATION, REST_URL, CreateClientsService, ClientsService, data) {
+  $scope.isLoading = true;
+  $scope.msg = data.msg;
+  $scope.client = null;
+  $scope.doc = {};
+  $scope.extra = {};
+  $scope.clients = null;
+  $scope.file = null;
+  $scope.docTypes = [];
+
+  $scope.$watch('client', function() {
+    if($scope.client) {
+      $scope.docTypes = null;
+      CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '/identifiers/template').then(function(result) {
+        $scope.docTypes = result.data.allowedDocumentTypes;
+        if($scope.docTypes && $scope.docTypes.length>0) {
+          $scope.doc.documentTypeId = $scope.docTypes[0].id;
+        }
+      }, function() {
+        // TODO: do we need this?
+      });
+    }
+  });
+
+  $scope.onFileSelect = function($files) {
+    if ($files[0].size / 1024 > 2048) {
+      $scope.type = 'error';
+      $scope.message = 'File is too large! File size must be less then or equal to 2MB';
+      $scope.file = null;
+    } else {
+      $scope.file = $files[0];
+    }
+  };
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.upload = function() {
+    if($scope.file) {
+
+      $scope.isLoading = true;
+
+      CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '/identifiers', angular.toJson($scope.doc)).then(function(result) {
+        var clientId = result.data.clientId;
+        var resourceId = result.data.resourceId;
+
+        var formData = {};
+        formData.name = 'client_id_' + clientId;
+
+        $scope.doc = {};
+        //console.log('UPLOAD: ' + angular.toJson(result));
+
+        // extra
+        $scope.extra.identifier_id = resourceId;
+        $scope.extra.locale = 'en';
+        $scope.extra.dateFormat = 'dd/MM/yyyy';
+        if ($scope.extra.issue_date) {
+          var d = new Date($scope.extra.issue_date);
+          $scope.extra.issue_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+        }
+
+        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + clientId, angular.toJson($scope.extra)).then(function() {
+          $scope.type = 'alert-success';
+          $scope.errors = [];
+          $scope.message = 'Client Identification Detail saved successfully';
+          $scope.extra = {};
+
+          // upload
+          $upload.upload({
+            url: APPLICATION.host + 'api/v1/client_identifiers/' + resourceId + '/documents',
+            data: formData,
+            file: $scope.file
+          }).then(function() {
+            $scope.type = 'alert-success';
+            $scope.errors = [];
+            $scope.message = 'Client Identifications Detail saved successfully';
+            $scope.isLoading = false;
+
+            $timeout($scope.cancel, 3000);
+          }, function(r) {
+            $scope.type = 'error';
+            $scope.message = 'Document attachment not uploaded not saved, please try again!';
+            $scope.errors = r.data.errors;
+            $scope.isLoading = false;
+
+            $timeout($scope.cancel, 3000);
+          });
+        }, function(r) {
+          $scope.type = 'error';
+          $scope.message = 'Document Extras not saved, please try again!';
+          $scope.errors = r.data.errors;
+          $scope.isLoading = false;
+
+          $timeout($scope.cancel, 3000);
+        });
+      }, function(result) {
+        $scope.type = 'error';
+        $scope.message = 'Document not saved, please try again!';
+        $scope.errors = result.data.errors;
+        $scope.isLoading = false;
+
+        $timeout($scope.cancel, 3000);
+      });
+    }
+  };
+
+  $scope.cancel = function() {
+    $scope.client = null;
+    $scope.docTypes = [];
+    $scope.file = null;
+    $scope.isLoading = false;
+    $modalInstance.dismiss();
+  };
+
+  ClientsService.getData(REST_URL.ALL_CLIENTS).then(function(result) {
+    $scope.clients = result.data;
     $scope.isLoading = false;
   });
 });

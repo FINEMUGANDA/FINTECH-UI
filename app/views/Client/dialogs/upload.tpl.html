@@ -1,0 +1,54 @@
+<style>
+    .chosen-container {
+        width: 100% !important;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h3>{{msg}}</h3>
+</div>
+<div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div ng-show="isLoading">Loading...</div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form ng-hide="isLoading" class="form-horizontal" novalidate>
+                <div class="form-group">
+                    <label>Client <span class="required">*</span></label>
+                    <select id="selectClient" class="form-control" chosen="clients" ng-model="client" ng-options="client as client.name for client in clients" required>
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Identification Type <span class="required">*</span></label>
+                    <select class="form-control" chosen="docTypes" ng-model="doc.documentTypeId" ng-options="docType.id as docType.name for docType in docTypes" required>
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Identification Number <span class="required">*</span></label>
+                    <input class="form-control" type="text" ng-model="doc.documentKey" ng-disabled="!client" required>
+                </div>
+                <div class="form-group">
+                    <label>Place of Issue</label>
+                    <input class="form-control" type="text" ng-model="extra.issue_place" ng-disabled="!client">
+                </div>
+                <div class="form-group">
+                    <label>Date of Issue</label>
+                    <input class="form-control" type="text" ng-model="extra.issue_date" datepicker-popup="dd/MM/yyyy" is-open="opened" close-text="Close" ng-click="open($event)" readonly="true">
+                </div>
+                <div class="form-group">
+                    <label>Document</label>
+                    <input type="file" ng-model="doc.issue_document" ng-file-select="onFileSelect($files)" ng-disabled="!client" required>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="upload()" ng-show="client && file">Upload</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()">Close</button>
+</div>
+
+
+

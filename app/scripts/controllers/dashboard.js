@@ -27,6 +27,15 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     });
   };
 
+  $scope.showUploadDocuments = function() {
+    $scope.payments = undefined;
+    $scope.paymentTotal = 0;
+    var dialog = dialogs.create('views/Client/dialogs/upload.tpl.html', 'ClientsUploadDialogCtrl', {msg: 'Upload Documents'}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      //$scope.payments = result.data;
+    });
+  };
+
   $scope.showClientSelect = function() {
     var dialog = dialogs.create('views/Client/clients.select.dialog.tpl.html', 'ClientSelectCtrl', {msg: 'Select Client for new Loan', action: 'New Loan', loanStatus: ''}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
