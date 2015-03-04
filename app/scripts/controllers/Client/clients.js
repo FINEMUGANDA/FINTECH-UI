@@ -123,45 +123,97 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
   });
 });
 
-clientsCtrl.controller('ClientSearchCtrl', function($scope, $location, REST_URL, ClientsService, SearchService) {
+clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, REST_URL, ClientsService, SearchService) {
   $scope.isLoading = true;
   $scope.selected = null;
   $scope.clients = null;
   $scope.selectedClients = [];
 
   $scope.go = function() {
-    if($scope.selectedClients.length===1) {
-      $location.path('/editbasicclientinfo/' + $scope.selectedClients[0]);
+    var ids = [];
+
+    for(var i=0; i<$scope.selectedClients.length; i++) {
+      ids.push($scope.selectedClients[i].id);
+    }
+    $scope.clear();
+
+    var path;
+
+    if(ids.length===1) {
+      path = '/editbasicclientinfo/' + ids[0];
     } else {
-      SearchService.set($scope.selectedClients);
-      // TODO: pass ids
-      $location.path('/clients');
+      path = '/clients';
+      SearchService.set(ids);
+    }
+    if($location.path()===path) {
+      $route.reload();
+    } else {
+      $location.path(path);
     }
   };
 
   $scope.clear = function() {
-    angular.forEach($scope.clients, function(client) {
-      client._selected = undefined;
-    });
+    $scope.selected = null;
     $scope.selectedClients = [];
   };
 
-  $scope.onSelect = function ($item, $model, $label) {
-    $scope.$item = $item;
-    $scope.$model = $model;
-    $scope.$label = $label;
+  $scope.onSelect = function ($item, $model /** , $label */) {
+    $scope.clear();
 
-    $scope.selected = null;
-    $model._selected = !$model._selected;
-    if($model._selected) {
-      //console.log('SEARCH SELECT: ' + angular.toJson($model));
-      $scope.selectedClients.push($model.id);
+    var path = '/editbasicclientinfo/' + $model.id;
+
+    if($location.path()===path) {
+      $route.reload();
     } else {
-      // TODO: splice
+      $location.path(path);
     }
   };
 
-  $scope.search = function(/** val */) {
+  var check = function(client, property, val) {
+    if(client && client[property]) {
+      return client[property].toLowerCase().indexOf(val)>=0;
+    }
+
+    return false;
+  };
+
+  $scope.onKeypress = function($event) {
+    if ($event.which === 13) {
+      $scope.go();
+    }
+  };
+
+  $scope.search = function(val) {
+    $scope.selectedClients = [];
+
+    if(val && val.length>0) {
+      var criteria = val.split(' ');
+
+      //console.log('SEARCH: ' + angular.toJson(criteria));
+
+      for(var i=0; i<$scope.clients.length; i++) {
+        var client = $scope.clients[i];
+        for(var j=0; j<criteria.length; j++) {
+          var criterium = criteria[j];
+          //console.log('SEARCH: ' + criterium + ' - ' + check(client, 'name', criterium));
+          if(check(client, 'name', criterium) ||
+              check(client, 'middlename', criterium) ||
+              check(client, 'file_no', criterium) ||
+              check(client, 'activation_date', criterium) ||
+              check(client, 'date_of_birth', criterium) ||
+              check(client, 'mobile_no', criterium) ||
+              check(client, 'gender', criterium)) {
+            $scope.selectedClients.push(client);
+            break;
+          }
+        }
+      }
+    }
+
+    return $scope.selectedClients;
+  };
+
+  $scope.load = function(/** val */) {
     return ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
       $scope.clients = result.data;
       $scope.isLoading = false;
@@ -169,7 +221,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $location, REST_URL,
     });
   };
 
-  $scope.search();
+  $scope.load();
 });
 
 clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, REST_URL, ClientsService, CreateClientsService, data) {
