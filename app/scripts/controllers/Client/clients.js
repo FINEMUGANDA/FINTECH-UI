@@ -128,7 +128,7 @@ clientsCtrl.controller('ClientsRepaymentDialogCtrl', function($scope, $location,
   $scope.msg = data.msg;
   $scope.action = data.action;
   $scope.client = null;
-  $scope.paymentCode = null;
+  $scope.paymentCode = 'payment';
   $scope.clients = null;
   $scope.paymentOptions = [
     {
