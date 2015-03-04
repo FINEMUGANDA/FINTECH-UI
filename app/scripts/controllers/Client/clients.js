@@ -174,7 +174,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
 
   var check = function(client, property, val) {
     if(client && client[property]) {
-      return client[property].toLowerCase().indexOf(val)>=0;
+      return client[property].toLowerCase().indexOf(val.toLowerCase())>=0;
     }
 
     return false;
