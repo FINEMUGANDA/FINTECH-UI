@@ -224,9 +224,6 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
         }
 
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + clientId, angular.toJson($scope.extra)).then(function() {
-          $scope.type = 'alert-success';
-          $scope.errors = [];
-          $scope.message = 'Client Identification Detail saved successfully';
           $scope.extra = {};
 
           // upload
@@ -237,13 +234,13 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
           }).then(function() {
             $scope.type = 'alert-success';
             $scope.errors = [];
-            $scope.message = 'Client Identifications Detail saved successfully';
+            $scope.message = 'Document uploaded';
             $scope.isLoading = false;
 
             $timeout($scope.cancel, 3000);
           }, function(r) {
             $scope.type = 'error';
-            $scope.message = 'Document attachment not uploaded not saved, please try again!';
+            $scope.message = 'Document attachment not uploaded!';
             $scope.errors = r.data.errors;
             $scope.isLoading = false;
 
@@ -251,7 +248,7 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
           });
         }, function(r) {
           $scope.type = 'error';
-          $scope.message = 'Document Extras not saved, please try again!';
+          $scope.message = 'Document Extras not saved!';
           $scope.errors = r.data.errors;
           $scope.isLoading = false;
 
@@ -259,7 +256,7 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
         });
       }, function(result) {
         $scope.type = 'error';
-        $scope.message = 'Document not saved, please try again!';
+        $scope.message = 'Document not saved!';
         $scope.errors = result.data.errors;
         $scope.isLoading = false;
 
