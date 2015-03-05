@@ -23,6 +23,7 @@ app.constant('REST_URL', {
     'DASHBOARD_HEADER_STATISTIC': 'api/v1/runreports/Home page header statistic',
     'ALL_CLIENTS': 'api/v1/runreports/PageClientsScreenClients',
     'SEARCH_CLIENTS': 'api/v1/runreports/Search Clients',
+    'SMS_NOTIFICATION_LOG': 'api/v1/runreports/SmsNotificationLog',
     'CLIENTS_LOAN_REPAYMENT': 'api/v1/runreports/DialogClientsLoanRepayment',
     'LOANS': 'api/v1/runreports/PageClientsScreenLoans',
     'LOANS_CLOSED': 'api/v1/runreports/PageClientsScreenLoansClosed',
@@ -160,6 +161,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_dashboard_summary: 'Summary',
         fin_dashboard_charts: 'Graph/Charts',
         fin_job: 'Jobs',
+        fin_notification: 'Notification Logs',
         fin_survey: 'Survey',
         fin_dashboard_survey: 'Survey'
     }
@@ -186,6 +188,7 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_loan_reassignment',
             'fin_job',
             'fin_audit',
+            'fin_notification',
             'fin_survey'
         ],
         dashboard: [
@@ -387,6 +390,9 @@ app.constant('PERMISSION_MAPPING', {
         UPDATE_ROLE: [
             'PERMISSIONS_ROLE',
             'EXPRESSIONS_ROLE'
+        ],
+        READ_UINOTIFICATION: [
+            'READ_SmsNotificationLog'
         ],
         READ_UIREPORT: [
             'READ_REPORT'

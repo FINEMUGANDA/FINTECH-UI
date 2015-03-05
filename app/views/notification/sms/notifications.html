@@ -1,0 +1,69 @@
+<div ng-include="'views/common/header.tpl.html'"></div>
+<div class="container post-login">
+    <div ng-include src="'/views/alert.html'"></div>   
+    <div class="shortcuts">
+        <ul role="tablist">
+        </ul>
+    </div>
+    <div class="list">
+        <table st-table="displayed" st-safe-src="logs" class="table">
+            <thead>
+            <tr>
+                <th colspan="10">
+                    <div class="filters">
+                        <div class="search" style="float:right;">
+                            <input st-search="" class="search-box ng-isolate-scope" placeholder="Search notifications" type="text">
+                        </div>
+                    </div>
+                </th>
+            </tr>            <tr>
+                <th st-sort="id">Ext. ID</th>
+                <th st-sort="name">Client</th>
+                <th st-sort="mobile_no">Phone</th>
+                <th st-sort="duedate">Due</th>
+                <th st-sort="principal_amount">Amount</th>
+                <th st-sort="loan_officer_name">Officer</th>
+                <th st-sort="sent">Sent</th>
+                <th st-sort="sent_at">Sent at</th>
+                <th st-sort="sms_error">SMS error</th>
+            </tr>
+            </thead>
+            <tbody ng-hide="isLoading">
+            <tr class="pointer" ng-repeat="log in displayed">
+                <td>{{log.external_id}}</td>
+                <td>{{log.name}}</td>
+                <td>{{log.mobile_no}}</td>
+                <td>{{toDate(log.duedate) | date:'dd/MM/yyyy'}}</td>
+                <td>{{log.principal_amount}}</td>
+                <td>{{log.loan_officer_name}}</td>
+                <td>
+                    <span class="glyphicon" ng-class="{'glyphicon-ok-sign': log.sent=1, 'glyphicon-exclamation-sign': log.sent!=1}"></span>
+                </td>
+                <td>{{toDate(log.sent_at) | date:'dd/MM/yyyy'}}</td>
+                <td>{{log.sms_error}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-show="isLoading">
+            <tr>
+                <td colspan="10" class="text-center">
+                    <div class="loading-indicator">Loading...</div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot ng-hide="isLoading">
+            <tr>
+                <td colspan="10">
+                    <div class="table-footer">
+                        <div class="export">
+                            <strong>Export:</strong> <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a>
+                        </div>
+                        <div class="paginate">
+                            <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

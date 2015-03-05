@@ -419,11 +419,17 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         authorizedRoles: ['admin']
       }
     }).when('/audit/details/:id', {
-      templateUrl: 'views/audit/viewaudit.html',
-      controller: 'ViewAuditCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/audit/viewaudit.html',
+        controller: 'ViewAuditCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/notifications/sms', {
+        templateUrl: 'views/notification/sms/notifications.html',
+        controller: 'NotificationSmsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).otherwise({
       redirectTo: '/'
     });
