@@ -331,6 +331,9 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
     }
     $scope.loanProductDetails.charges = $scope.chargesSelected;
 
+    // TODO: find out why this magic number is necessary; this is hard coded in MapAccountingCtrl
+    $scope.loanProductDetails.accountingRule = '4';
+
     var updateloanProductSuccess = function() {
       console.log('Success : Return from loanProducts service.');
       $scope.type = 'alert-success';
