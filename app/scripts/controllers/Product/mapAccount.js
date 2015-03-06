@@ -76,7 +76,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
       $scope.liabilityAccountOptions = $scope.product.accountingMappingOptions.liabilityAccountOptions || [];
       $scope.mapAccountingForm.accountingRule = '4';
       $scope.mapAccountingForm = {
-        accountingRule: $scope.product.accountingRule.id,
+        accountingRule: $scope.product.accountingRule.id
       };
       if (parseInt($scope.mapAccountingForm.accountingRule) === 2 || parseInt($scope.mapAccountingForm.accountingRule) === 3 || parseInt($scope.mapAccountingForm.accountingRule) === 4) {
         $scope.mapAccountingForm.fundSourceAccountId = $scope.product.accountingMappings.fundSourceAccount.id;
