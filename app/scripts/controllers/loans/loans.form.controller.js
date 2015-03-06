@@ -324,7 +324,7 @@ angular.module('angularjsApp').controller('LoansFormChargesCtrl', function($rout
 
 });
 
-angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($route, $scope, REST_URL, $timeout, LoanService, dialogs) {
+angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($route, $location, $scope, REST_URL, $timeout, LoanService, dialogs) {
   console.log('LoansFormCreateCtrl');
   $scope.rowCollection = [];
   $scope.loan = {};
@@ -345,6 +345,16 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
         return result;
       });
     });
+  };
+
+  $scope.resetCollateral = function() {
+    $scope.collateral = {};
+  };
+
+  $scope.goGuarantor = function() {
+    console.log('GUARANTOR...' + $scope.clientId);
+    $scope.saveCollateral();
+    $location.path('/loans/' + $scope.clientId + '/form/guarantor/' + $scope.loanId);
   };
 
   LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
@@ -414,7 +424,7 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
 
 });
 
-angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($route, $scope, REST_URL, $timeout, LoanService) {
+angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($route, $location, $scope, REST_URL, $timeout, LoanService) {
   console.log('LoansFormCreateCtrl');
   $scope.rowCollection = [];
   $scope.loan = {};
@@ -463,6 +473,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
       $scope.message = 'Guarantor saved successfully.';
       $scope.errors = [];
       $scope.charge = {};
+      $location.path('/clients');
 //      updateLoanCharges();
     }
     function saveGuarantorFail(result) {
