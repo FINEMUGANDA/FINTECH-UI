@@ -145,6 +145,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
     console.log('LoanProductsCtrl : CreateLoanProducts : authenticateLoanProduct');
     if ($scope.createloanproductform.$valid) {
       $scope.saveLoanProduct(loanProductDetails);
+      $scope.setStep(2)
     } else {
       $scope.invalidateForm();
       $scope.type = 'error';
