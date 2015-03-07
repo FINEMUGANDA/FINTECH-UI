@@ -51,8 +51,11 @@
             </span>
           </td>
           <td>
-            <span class="{{client.loanStatusCode| status}}">
+            <span class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors) || client.loanStatus!='Submitted and awaiting approval'">
               {{client.loanStatus}}
+            </span>
+            <span class="{{client.loanStatusCode| status}}" ng-show="(!client.collaterals || !client.guarantors) && client.loanStatus=='Submitted and awaiting approval'">
+              Pending
             </span>
           </td>
           <td>{{client.education}}</td>
