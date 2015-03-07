@@ -352,9 +352,13 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
   };
 
   $scope.goGuarantor = function() {
-    console.log('GUARANTOR...' + $scope.clientId);
-    $scope.saveCollateral();
-    $location.path('/loans/' + $scope.clientId + '/form/guarantor/' + $scope.loanId);
+    if($scope.saveCollateral()) {
+      $location.path('/loans/' + $scope.clientId + '/form/guarantor/' + $scope.loanId);
+    } else {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+    }
   };
 
   LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId).then(function(result) {
@@ -370,6 +374,10 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
   function updateLoanCollaterals() {
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals').then(function(result) {
       $scope.rowCollection = result.data;
+      if($scope.rowCollection && $scope.rowCollection.length>0) {
+        $scope.collateral = $scope.rowCollection[0];
+        $scope.collateral.collateralTypeId = $scope.collateral.type.id;
+      }
     });
   }
   updateLoanCollaterals();
@@ -380,7 +388,7 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
       $scope.message = 'Highlighted fields are required';
       $scope.errors = [];
       $('html, body').animate({scrollTop: 0}, 800);
-      return;
+      return false;
     }
     var data = angular.copy($scope.collateral);
     data.locale = 'en';
@@ -395,6 +403,7 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
       $scope.type = 'error';
       $scope.errors = result.data.errors;
     });
+    return true;
   };
 
   $scope.removeCollateral = function(collateral) {

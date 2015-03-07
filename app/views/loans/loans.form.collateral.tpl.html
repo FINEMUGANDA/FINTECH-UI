@@ -8,7 +8,10 @@
           <label class="control-label col-md-5">Collateral Type<span class="required"> *</span></label>
           <div class="validate col-md-6">
             <select class="form-control" required ng-model="collateral.collateralTypeId">
+              <!--
               <option ng-repeat="collateralTypeOption in filterCollateralOptions(data.allowedCollateralTypes)" value="{{collateralTypeOption.id}}" ng-selected="collateralTypeOption.id == collateral.collateralTypeId">{{collateralTypeOption.name}}</option>
+              -->
+              <option ng-repeat="collateralTypeOption in data.allowedCollateralTypes" value="{{collateralTypeOption.id}}" ng-selected="collateralTypeOption.id == collateral.collateralTypeId">{{collateralTypeOption.name}}</option>
             </select>
           </div>
         </div>
