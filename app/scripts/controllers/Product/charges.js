@@ -96,6 +96,7 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         //Charge Type
         $scope.chargeDetails.chargeCalculationType = $scope.charge.chargeCalculationType.id;
         $scope.chargeDetails.chargePaymentMode = '0';
+        $scope.chargeDetails.active = true;
       } else {
         $scope.chargeDetails.penalty = 'false';
         $scope.chargeDetails.chargeAppliesTo = $scope.charge.chargeAppliesToOptions[0].id;
@@ -104,6 +105,7 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         $scope.chargeDetails.chargeCalculationType = 1;
         $scope.chargeDetails.chargeTimeType = 8;
         $scope.chargeDetails.chargePaymentMode = 0;
+        $scope.chargeDetails.active = true;
       }
       //Set charge type
 //      $scope.flat = $scope.chargeDetails.amount;
