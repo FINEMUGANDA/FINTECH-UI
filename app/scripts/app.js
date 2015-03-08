@@ -144,7 +144,7 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
       }
     }).when('/createloanproduct', {
       templateUrl: 'views/Product/createLoanProduct.html',
-      controller: 'CreateLoanProductsCtrl',
+      controller: 'LoansWrittenOffCtrl',
       data: {
         authorizedRoles: ['admin']
       }

@@ -142,10 +142,11 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
   };
 
   $scope.validateLoanProduct = function(loanProductDetails) {
-    console.log('LoanProductsCtrl : CreateLoanProducts : authenticateLoanProduct');
+    console.log('LoanProductsCtrl : CreateLoanProducts : authenticateLoanProduct' + angular.toJson($scope.createloanproductform));
+    $scope.message = '';
+    $scope.errors = [];
     if ($scope.createloanproductform.$valid) {
       $scope.saveLoanProduct(loanProductDetails);
-      $scope.setStep(2);
     } else {
       $scope.invalidateForm();
       $scope.type = 'error';
@@ -177,6 +178,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
       $scope.type = 'alert-success';
       $scope.message = 'Loan product saved successfully';
       $scope.isCreated = true;
+      LoanProductService.setEditStep(2);
       $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + result.data.resourceId);
     };
 
@@ -221,7 +223,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
     $scope.step = LoanProductService.getEditStep();
     LoanProductService.setEditStep('');
   }
-  
+
   $scope.setStep($scope.step);
 
   //To load the loadproducts page
