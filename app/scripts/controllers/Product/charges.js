@@ -169,6 +169,13 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         }
       }
     };
+    if ($route.current.params.id) {
+      ChargesService.updateCharge(REST_URL.RETRIVE_CHARGE_BY_ID + $route.current.params.id, angular.toJson($scope.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
+    } else {
+      ChargesService.saveCharge(REST_URL.CREATE_CHARGE, angular.toJson($scope.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
+    }
+    // TODO: find out why?!? see above, they commented the code out, but forgot it here
+    /**
     if (this.chargeDetails.chargeCalculationType !== '1' && $scope.chargeDetails.amount > 100) {
       $scope.type = 'error';
       $scope.message = 'Amount(%) must be or equal to 100';
@@ -182,5 +189,6 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         ChargesService.saveCharge(REST_URL.CREATE_CHARGE, angular.toJson($scope.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
       }
     }
+    */
   };
 });
