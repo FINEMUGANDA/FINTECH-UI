@@ -74,7 +74,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
     try {
       $scope.product = result.data;
       $scope.loanProductDetails.digitsAfterDecimal = '2';
-      $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions[7].code; 
+      $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions && $scope.product.currencyOptions.length>0 ? $scope.product.currencyOptions[0].code : null;
       //Days and weeks options are hidden
       $scope.loanProductDetails.repaymentFrequencyType = $scope.product.repaymentFrequencyType.id;
       //Per month option is hidden

@@ -101,7 +101,7 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         $scope.chargeDetails.penalty = 'false';
         $scope.chargeDetails.chargeAppliesTo = $scope.charge.chargeAppliesToOptions[0].id;
         $scope.chargeDetails.locale = 'en';
-        $scope.chargeDetails.currencyCode = $scope.charge.currencyOptions[7].code;
+        $scope.chargeDetails.currencyCode = $scope.charge.currencyOptions && $scope.charge.currencyOptions.length>0 ? $scope.charge.currencyOptions[0].code : null;
         $scope.chargeDetails.chargeCalculationType = 1;
         $scope.chargeDetails.chargeTimeType = 8;
         $scope.chargeDetails.chargePaymentMode = 0;
