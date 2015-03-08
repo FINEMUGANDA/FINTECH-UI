@@ -180,9 +180,9 @@
                       </div>
                   </td>
                   <td class="number">
-                    <span>
-                      {{charge.currency.displaySymbol}}{{charge.amount}}
-                    </span>
+                      <span ng-show="charge.chargeCalculationType.id==1">{{charge.currency.displaySymbol}} </span>
+                      <span>{{charge.amount}}</span>
+                      <span ng-hide="charge.chargeCalculationType.id==1"> %</span>
                   </td>
                   <td>
                     <a ng-click="deleteCharge($index)" ng-show="hasPermission('DELETE_LOANPRODUCT')">
