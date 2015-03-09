@@ -174,7 +174,7 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   $scope.sourceOptions = [];
   $scope.datepicker = {};
 
-  $scope.resetNote = function($event, target) {
+  $scope.resetNote = function() {
     $scope.note = {created_at: new Date(), client_id: data.client.id, dateFormat: 'dd/MM/yyyy', locale: 'en', staff_username: Session.getValue('username')};
     $scope.source = null;
   };
