@@ -1556,18 +1556,19 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
   $scope.finish = function() {
     validateAllTabs(function(errors) {
-      if (errors && errors.length) {
+      if (errors && errors.length>0) {
         $scope.type = 'error';
         $scope.message = 'Unable to finish Client saving, following forms contain errors:';
         $scope.errors = errors;
       } else {
         var d = new Date();
+        d.setHours(d.getHours()+10); // TODO: find a real solution; this is just a hack, because the server is timezone GMT+10
         var jsonData = {
           'locale': 'en',
           'dateFormat': 'dd/MM/yyyy',
-          'activationDate': d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
+          'activationDate': Utility.dataFormat(d)
         };
-        var handleResult = function() {
+        var handleResult = function(result) {
           $location.url(PAGE_URL.CLIENTS);
         };
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData).then(handleResult, handleResult);

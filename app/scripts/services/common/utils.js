@@ -68,7 +68,9 @@ utils.factory('Utility', function($q, APPLICATION) {
       }
     },
     dataFormat: function(date) {
-      date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      var days = date.getDate()<10 ? '0' + date.getDate() : date.getDate();
+      var month = (date.getMonth() + 1)<10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+      date = days + '/' + month + '/' + date.getFullYear();
       return date;
     }
   };
