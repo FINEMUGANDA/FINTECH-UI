@@ -51,6 +51,7 @@ app.constant('REST_URL', {
     'CREATE_CLIENT_BUSINESS_ACTIVITY':'api/v1/datatables/business_details/',
     'CREATE_CLIENT_IDENTIFICATION':'api/v1/datatables/client_identification_details/',
     'CREATE_CLIENT_NEXT_TO_KEEN':'api/v1/datatables/client_next_to_keen_details/',
+    'CLIENT_NOTE_GENERAL':'api/v1/datatables/client_note_general/',
     'CLIENT_IDENTIFICATION_TEMPLATE_REPORT':'api/v1/runreports/ClientIdentification',
     ACCOUNT_LIST: 'api/v1/glaccounts',
     ACCOUNT_BY_ID: 'api/v1/glaccounts/',
@@ -263,6 +264,7 @@ app.constant('PERMISSION_MAPPING', {
             'READ_client_extra_information',
             'READ_client_additional_details',
             'READ_client_next_to_keen_details',
+            'READ_client_note_general',
             'READ_business_details'
         ],
         UPDATE_CLIENT: [
@@ -277,6 +279,7 @@ app.constant('PERMISSION_MAPPING', {
             'UPDATE_client_extra_information',
             'UPDATE_client_additional_details',
             'UPDATE_client_next_to_keen_details',
+            'UPDATE_client_note_general',
             'UPDATE_business_details'
         ],
         CREATE_CLIENT: [
@@ -291,6 +294,7 @@ app.constant('PERMISSION_MAPPING', {
             'CREATE_client_extra_information',
             'CREATE_client_additional_details',
             'CREATE_client_next_to_keen_details',
+            'CREATE_client_note_general',
             'CREATE_business_details'
         ],
         DELETE_CLIENT: [
@@ -300,6 +304,7 @@ app.constant('PERMISSION_MAPPING', {
             'DELETE_client_extra_information',
             'DELETE_client_additional_details',
             'DELETE_client_next_to_keen_details',
+            'DELETE_client_note_general',
             'DELETE_business_details'
         ],
         READ_JOURNALENTRY: [

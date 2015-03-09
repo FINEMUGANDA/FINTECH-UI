@@ -66,6 +66,13 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
     });
   };
 
+  $scope.createNote = function(client) {
+    var dialog = dialogs.create('/views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: client}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      // TODO: do we need this?
+    });
+  };
+
   $scope.activateClient = function(client) {
     var msg = 'Are You sure want to re-activate client <strong>' + client.name + '</strong>?';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Activate', submitBtn: {value: 'Activate', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
@@ -157,6 +164,127 @@ clientsCtrl.controller('ClientsRepaymentDialogCtrl', function($scope, $location,
     $scope.clients = result.data;
     $scope.isLoading = false;
   });
+});
+
+clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, REST_URL, CreateClientsService, Session, data) {
+  $scope.isLoading = false;
+  $scope.msg = data.msg;
+  $scope.notes = [];
+  $scope.client = data.client;
+  $scope.sourceOptions = [];
+  $scope.datepicker = {};
+
+  $scope.resetNote = function($event, target) {
+    $scope.note = {created_at: new Date(), client_id: data.client.id, dateFormat: 'dd/MM/yyyy', locale: 'en', staff_username: Session.getValue('username')};
+    $scope.source = null;
+  };
+
+  $scope.open = function($event, target) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.datepicker[target] = true;
+  };
+
+  $scope.selectNote = function(note) {
+    $scope.note = note;
+    for(var i=0; i<$scope.sourceOptions.length; i++) {
+      if($scope.sourceOptions[i].id===parseInt(note.NoteSource_cd_source)) {
+        $scope.source = $scope.sourceOptions[i];
+        break;
+      }
+    }
+  };
+
+  $scope.removeNote = function(note) {
+    CreateClientsService.deleteClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + note.id).then(function(result) {
+      if($scope.note.id===note.id) {
+        $scope.resetNote();
+      }
+      console.log('NOTE DELETE: ' + angular.toJson(result));
+      $scope.reloadNotes();
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
+  };
+
+  $scope.save = function() {
+    var d;
+    if($scope.note.created_at) {
+      d = new Date($scope.note.created_at);
+      $scope.note.created_at = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    }
+    if($scope.note.called_at) {
+      d = new Date($scope.note.called_at);
+      $scope.note.called_at = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    }
+    if($scope.note.visited_at) {
+      d = new Date($scope.note.visited_at);
+      $scope.note.visited_at = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    }
+    if($scope.source) {
+      $scope.note.NoteSource_cd_source = $scope.source.id;
+    }
+
+    $scope.note.dateFormat = 'dd/MM/yyyy';
+    $scope.note.locale = 'en';
+
+    if($scope.note.id) {
+      // update
+      CreateClientsService.updateClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson($scope.note)).then(function() {
+        $modalInstance.dismiss();
+      }, function(result) {
+        $scope.type = 'error';
+        $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
+        $scope.errors = result.data.errors;
+      });
+    } else {
+      // create
+      CreateClientsService.saveClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson($scope.note)).then(function() {
+        //console.log('NOTES SAVE: ' + angular.toJson(result));
+        $modalInstance.dismiss();
+      }, function(result) {
+        $scope.type = 'error';
+        $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
+        $scope.errors = result.data.errors;
+      });
+    }
+  };
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+
+  $scope.reloadNotes = function() {
+    CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '?genericResultSet=true').then(function(result) {
+      //console.log('NOTES: ' + angular.toJson(result));
+      var columns = [];
+      for(var i=0; i<result.data.columnHeaders.length; i++) {
+        columns.push(result.data.columnHeaders[i].columnName);
+        if(result.data.columnHeaders[i].columnName==='NoteSource_cd_source') {
+          $scope.sourceOptions = result.data.columnHeaders[i].columnValues;
+          break;
+        }
+      }
+      $scope.notes = [];
+      angular.forEach(result.data.data, function(row) {
+        var note = {};
+        for(var j=0; j<columns.length; j++) {
+          note[columns[j]] = row.row[j];
+        }
+        $scope.notes.push(note);
+      });
+      //$scope.notes = result.data.data;
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Cannot retrieve client notes: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
+  };
+
+  $scope.resetNote();
+  $scope.reloadNotes();
 });
 
 clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstance, $upload, $timeout, APPLICATION, REST_URL, CreateClientsService, ClientsService, data) {
