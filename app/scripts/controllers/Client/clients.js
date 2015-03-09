@@ -166,6 +166,58 @@ clientsCtrl.controller('ClientsRepaymentDialogCtrl', function($scope, $location,
   });
 });
 
+clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $modalInstance, REST_URL, dialogs, ClientsService, DataTransferService, data) {
+  $scope.isLoading = true;
+  $scope.msg = data.msg;
+  $scope.action = data.action;
+  $scope.client = null;
+  $scope.noteType = 'followup';
+  $scope.clients = null;
+  $scope.noteTypes = [
+    {
+      code: 'followup',
+      name: 'Follow up Note'
+    },
+    {
+      code: 'general',
+      name: 'General Note'
+    }
+  ];
+
+  $scope.$watch('noteType', function() {
+    if($scope.noteType==='followup') {
+      ClientsService.getData(REST_URL.LOANS).then(function(result) {
+        $scope.clients = result.data;
+        $scope.isLoading = false;
+      });
+    } else {
+      ClientsService.getData(REST_URL.ALL_CLIENTS).then(function(result) {
+        $scope.clients = result.data;
+        $scope.isLoading = false;
+      });
+    }
+  });
+
+  $scope.proceed = function() {
+    if($scope.noteType==='followup') {
+      if($scope.client && $scope.client.clientId && $scope.client.loanId) {
+        DataTransferService.set('loan.detail.tab', 'notes');
+        $location.path('/loans/' + $scope.client.clientId + '/details/' + $scope.client.loanId);
+      }
+    } else {
+      var dialog = dialogs.create('views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: $scope.client}, {size: 'lg', keyboard: true, backdrop: true});
+      dialog.result.then(function() {
+        // TODO: do we need this?
+      });
+    }
+    $modalInstance.dismiss();
+  };
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+});
+
 clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, REST_URL, CreateClientsService, Session, data) {
   $scope.isLoading = false;
   $scope.msg = data.msg;
@@ -196,11 +248,10 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   };
 
   $scope.removeNote = function(note) {
-    CreateClientsService.deleteClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + note.id).then(function(result) {
+    CreateClientsService.deleteClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + note.id).then(function() {
       if($scope.note.id===note.id) {
         $scope.resetNote();
       }
-      console.log('NOTE DELETE: ' + angular.toJson(result));
       $scope.reloadNotes();
     }, function(result) {
       $scope.type = 'error';
@@ -242,7 +293,6 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
     } else {
       // create
       CreateClientsService.saveClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson($scope.note)).then(function() {
-        //console.log('NOTES SAVE: ' + angular.toJson(result));
         $modalInstance.dismiss();
       }, function(result) {
         $scope.type = 'error';
@@ -258,7 +308,6 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
 
   $scope.reloadNotes = function() {
     CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '?genericResultSet=true').then(function(result) {
-      //console.log('NOTES: ' + angular.toJson(result));
       var columns = [];
       for(var i=0; i<result.data.columnHeaders.length; i++) {
         columns.push(result.data.columnHeaders[i].columnName);
@@ -275,7 +324,6 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
         }
         $scope.notes.push(note);
       });
-      //$scope.notes = result.data.data;
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Cannot retrieve client notes: ' + result.data.defaultUserMessage;

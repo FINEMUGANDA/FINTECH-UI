@@ -27,6 +27,15 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     });
   };
 
+  $scope.showNewNote = function() {
+    $scope.payments = undefined;
+    $scope.paymentTotal = 0;
+    var dialog = dialogs.create('views/Client/dialogs/note.new.tpl.html', 'ClientsNewNoteDialogCtrl', {msg: 'New Note'}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      //$scope.payments = result.data;
+    });
+  };
+
   $scope.showUploadDocuments = function() {
     $scope.payments = undefined;
     $scope.paymentTotal = 0;

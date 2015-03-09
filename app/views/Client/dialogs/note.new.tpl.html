@@ -1,0 +1,38 @@
+<style>
+    .chosen-container {
+        width: 100% !important;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h3>{{msg}}</h3>
+</div>
+<div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div ng-show="isLoading">Loading...</div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form ng-hide="isLoading" class="form-horizontal" novalidate>
+                <div class="form-group">
+                    <label>Note Type <span class="required">*</span></label>
+                    <select chosen="noteTypes" class="form-control" ng-model="noteType" ng-options="noteType.code as noteType.name for noteType in noteTypes" value="{{noteType}}">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="clients">
+                    <label>Client <span class="required">*</span></label>
+                    <select chosen="clients" class="form-control" ng-model="client" ng-options="client as client.name for client in clients">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="proceed()">Proceed</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()">Close</button>
+</div>
+
+
+
