@@ -67,7 +67,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   };
 
   $scope.createNote = function(client) {
-    var dialog = dialogs.create('/views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: client}, {size: 'lg', keyboard: true, backdrop: true});
+    var dialog = dialogs.create('views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: client}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       // TODO: do we need this?
     });
