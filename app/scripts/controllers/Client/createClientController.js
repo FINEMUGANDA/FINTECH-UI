@@ -1568,7 +1568,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
           'dateFormat': 'dd/MM/yyyy',
           'activationDate': Utility.dataFormat(d)
         };
-        var handleResult = function(result) {
+        var handleResult = function() {
           $location.url(PAGE_URL.CLIENTS);
         };
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData).then(handleResult, handleResult);
