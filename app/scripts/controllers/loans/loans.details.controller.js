@@ -500,7 +500,7 @@ angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function
 });
 
 
-angular.module('angularjsApp').controller('LoanDetailsNoteCtrl', function($scope, REST_URL, LoanService, DataTransferService, dialogs) {
+angular.module('angularjsApp').controller('LoanDetailsNoteCtrl', function($scope, $timeout, REST_URL, LoanService, DataTransferService, dialogs) {
   $scope.notesTab = {};
   $scope.notesTab.itemsByPage = 10;
   $scope.notesTab.loading = true;
@@ -545,8 +545,10 @@ angular.module('angularjsApp').controller('LoanDetailsNoteCtrl', function($scope
     });
   };
   if(DataTransferService.get('loan.detail.tab')) {
-    $scope.openNoteDialog();
-    DataTransferService.set('loan.detail.tab', null);
+    $timeout(function() {
+      $scope.openNoteDialog();
+      DataTransferService.set('loan.detail.tab', null);
+    }, 2000);
   }
 });
 
