@@ -1,0 +1,72 @@
+<div ng-include="'views/common/header.tpl.html'"></div>
+<div class="container post-login">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="rows">
+        <div class="page-header">
+            <div class="header">
+                <h3>Exchange Rates</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form name="roleForm" ng-hide="isLoading" class="role-form form-horizontal" novalidate show-validation>
+                    <div class="form-group">
+                        <label>Home Currency</label>
+                        <select class="form-control" ng-model="rate.base_code" ng-options="currency.code as currency.displayLabel for currency in currencyOptions" required disabled>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Target Currency <span class="required"> *</span></label>
+                        <select class="form-control" ng-model="rate.target_code" ng-options="currency.code as currency.displayLabel for currency in currencyOptions" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6" style="padding-left: 0;">
+                            <label>Month <span class="required"> *</span></label>
+                            <select class="form-control" ng-model="rate.rate_month" ng-options="month for month in months" required>
+                            </select>
+                        </div>
+                        <div class="col-md-6" style="padding-right: 0;">
+                            <label>Year <span class="required"> *</span></label>
+                            <input type="number" class="form-control" ng-model="rate.rate_year" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Rate <span class="required"> *</span></label>
+                        <input type="number" class="form-control" ng-model="rate.rate" required>
+                    </div>
+                    <div class="form-group">
+                        <a href="#/dashboard" class="btn btn-default">Cancel</a>
+                        <button type=button" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_exchange_rate', 'UPDATE_exchange_rate'])" ng-click="save()">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row"  ng-show="rates.length>0">
+            <div class="col-md-8 col-md-offset-3">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Base</th>
+                        <th>Target</th>
+                        <th>Month</th>
+                        <th>Year</th>
+                        <th>Rate</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="rate in rates" ng-click="selectRate(rate)" style="cursor: pointer">
+                        <td>{{rate.base_code}}</td>
+                        <td>{{rate.target_code}}</td>
+                        <td>{{rate.month | number}}</td>
+                        <td>{{rate.year | number}}</td>
+                        <td>{{rate.rate | number}}</td>
+                        <td class="actions"><a href="" ng-click="removeRate(rate)" ng-show="hasAnyPermission(['DELETE_exchange_rate'])"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
