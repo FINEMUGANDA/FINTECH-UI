@@ -133,6 +133,17 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
                 $scope.form.expressions.expressions[code] = null;
             }
         }
+
+        // 'resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null'
+        if($scope.permissionExpressionData[code].selfAssign) {
+            if($scope.form.expressions.expressions[code]) {
+                $scope.form.expressions.expressions[code] += ' resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
+            } else {
+                $scope.form.expressions.expressions[code] = 'resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
+            }
+        }
+
+        console.log('EXPRESSION: ' + $scope.form.expressions.expressions[code]);
     };
 
     $scope.groupingLabel = function(grouping) {
