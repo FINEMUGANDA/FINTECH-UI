@@ -67,7 +67,7 @@ chargesController.controller('ChargesCtrl', function(dialogs, $scope, $location,
   };
 });
 
-chargesController.controller('EditChargeCtrl', function($scope, $location, $timeout, ChargesService, REST_URL, APPLICATION, PAGE_URL, $route) {
+chargesController.controller('EditChargeCtrl', function($scope, $location, $timeout, ChargesService, CurrencyService, REST_URL, APPLICATION, PAGE_URL, $route) {
   console.log('chargesController : EditChargeCtrl');
   //To load create charge page
   $scope.isLoading = false;
@@ -106,6 +106,11 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         $scope.chargeDetails.chargeTimeType = 8;
         $scope.chargeDetails.chargePaymentMode = 0;
         $scope.chargeDetails.active = true;
+        CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
+          $scope.chargeDetails.currencyCode = result.data.base;
+        }, function() {
+          $scope.chargeDetails.currencyCode = $scope.charge.currencyOptions && $scope.charge.currencyOptions.length>0 ? $scope.charge.currencyOptions[0].code : null;
+        });
       }
       //Set charge type
 //      $scope.flat = $scope.chargeDetails.amount;

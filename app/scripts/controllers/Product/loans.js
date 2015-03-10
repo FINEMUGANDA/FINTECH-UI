@@ -46,7 +46,7 @@ LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $location, $time
   };
 });
 
-LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService) {
+LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location, $timeout, LoanProductService, CurrencyService, REST_URL, APPLICATION, PAGE_URL, ChargesService) {
   console.log('LoanProductsCtrl : CreateLoanProducts');
 
   //To highlight selected tab
@@ -99,6 +99,11 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
       $scope.loanProductDetails.daysInMonthType = 1;
       $scope.loanProductDetails.locale = 'en';
       $scope.step = 1;
+      CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
+        $scope.loanProductDetails.currencyCode = result.data.base;
+      }, function() {
+        $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions && $scope.product.currencyOptions.length>0 ? $scope.product.currencyOptions[0].code : null;
+      });
     } catch (e) {
     }
   };

@@ -222,9 +222,9 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     $scope.changeDebitOptions();
   });
   //Get all currency
-  JournalService.getData(REST_URL.CURRENCY_LIST + '?fields=selectedCurrencyOptions').then(function(result){
+  JournalService.getData(REST_URL.CURRENCY_LIST + '?fields=selectedCurrencyOptions,base').then(function(result){
     $scope.currencyOptions = result.data.selectedCurrencyOptions;
-    $scope.journalEntryForm.currencyCode = $scope.currencyOptions[0].code;
+    $scope.journalEntryForm.currencyCode = result.data.base;
   });
   //Get all code values
   JournalService.getData(REST_URL.CODE_LIST + '/12/codevalues').then(function(result){
