@@ -158,4 +158,17 @@ angular.module('angularjsApp').controller('UserController', function($route, $sc
     });
   };
 
+  $scope.$watch('formData.staffId', function() {
+    console.log('STAFF CHANGE...');
+    if($scope.staff_vars && $scope.staff_vars.length>0) {
+      for(var i=0; i<$scope.staff_vars.length; i++) {
+        if($scope.staff_vars[i].id===$scope.formData.staffId) {
+          $scope.formData.firstname = $scope.staff_vars[i].firstname;
+          $scope.formData.lastname = $scope.staff_vars[i].lastname;
+          break;
+        }
+      }
+    }
+  });
+
 });

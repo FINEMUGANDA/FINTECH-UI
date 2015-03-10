@@ -16,18 +16,6 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2" for="firstname">First name<span class="required">*</span></label>
-          <div class="validate col-sm-3">
-            <input type="text" id="firstname" name="firstname" ng-model="formData.firstname" class="form-control" required late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="lastname">Last name<span class="required">*</span></label>
-          <div class="validate col-sm-3">
-            <input type="text" id="lastname" name="lastname" ng-model="formData.lastname" class="form-control" required late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
           <label class="control-label col-sm-2" for="email1">Email<span class="required">*</span></label>
           <div class="validate col-sm-3">
             <input type="email" id="email1" name="email1" class="form-control" ng-model="formData.email" required late-validate="">
@@ -61,16 +49,28 @@
           <label class="control-label col-sm-2">Office<span class="required">*</span></label>
           <div class="validate col-sm-3">
             <select chosen="offices" id="officeId" ng-model="formData.officeId" class="form-control" data-ng-change="getOfficeStaff()" ng-options="office.id as office.name for office in offices">
-              <option value="" class="ng-binding">--Select Office--</option>
+              <option value="">--Select Office--</option>
             </select>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2">Staff</label>
           <div class="col-sm-3">
-            <select chosen="staffs" id="staffId" ng-model="formData.staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in staff_vars" value="">
-              <option value="" class="ng-binding">--Select Staff--</option>
+            <select chosen="staff_vars" id="staffId" ng-model="formData.staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in staff_vars">
+              <option value="">--Select Staff--</option>
             </select>
+          </div>
+        </div>
+        <div class="form-group" ng-show="formData.staffId">
+          <label class="control-label col-sm-2" for="firstname">First name<span class="required">*</span></label>
+          <div class="validate col-sm-3">
+            <input type="text" id="firstname" name="firstname" ng-model="formData.firstname" class="form-control" required late-validate="" disabled>
+          </div>
+        </div>
+        <div class="form-group" ng-show="formData.staffId">
+          <label class="control-label col-sm-2" for="lastname">Last name<span class="required">*</span></label>
+          <div class="validate col-sm-3">
+            <input type="text" id="lastname" name="lastname" ng-model="formData.lastname" class="form-control" required late-validate="" disabled>
           </div>
         </div>
         <div class="form-group">
