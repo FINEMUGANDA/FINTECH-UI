@@ -462,7 +462,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'CREATE_LOAN',
                 label: 'Can Create Loan',
-                expression: 'json.get("principal").getAsDouble() >= {0} && json.get("principal").getAsDouble() <={1}',
+                expression: 'resource.principal_amount >= {0} && resource.principal_amount <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -479,7 +479,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'UPDATE_LOAN',
                 label: 'Can Update Loan',
-                expression: 'json.get("principal").getAsDouble() >= {0} && json.get("principal").getAsDouble() <={1}',
+                expression: 'resource.principal_amount >= {0} && resource.principal_amount <={1}',
                 defaults: {
                     min: 0,
                     max: 10000
@@ -509,7 +509,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
                         return Number(/<=\s*(\d+)/g.exec(expression)[1]);
                     },
                     selfAssign: function(expression) {
-                        return /resource\.loan_officer_id!=appUser\.getStaffId\(\)/g.exec(expression)!==null;
+                        return expression===null || expression===undefined || /resource\.loan_officer_id!=appUser\.getStaffId\(\)/g.exec(expression)===null;
                     }
                 }
             },
