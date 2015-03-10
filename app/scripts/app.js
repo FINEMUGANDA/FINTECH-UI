@@ -19,6 +19,8 @@ var app = angular.module('angularjsApp', [
   'clientsController',
   'loanProductController',
   'chargesController',
+  'currencyService',
+  'currencyController',
   'createClientController',
   'userServices',
   'loanService',
@@ -304,6 +306,12 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/admin/currencies', {
+        templateUrl: 'views/Admin/currencies.html',
+        controller: 'CurrencyCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loans/:clientId/form/:tab/:loanId', {
       templateUrl: 'views/loans/loans.form.html',
       controller: 'LoansFormCtrl',
