@@ -516,7 +516,7 @@ angular.module('angularjsApp').controller('LoanDetailsNoteCtrl', function($scope
   updateNotes();
 
   $scope.openNoteDialog = function(note) {
-    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.note.dialog.html', 'LoanDeatilsNoteDialog', {note: note, loan: $scope.loanDetails, data: $scope.notesTab.data}, {size: 'md', keyboard: true, backdrop: true});
+    var dialog = dialogs.create('views/loans/details/dialogs/loans.details.note.dialog.html', 'LoanDeatilsNoteDialog', {note: note, loan: $scope.loanDetails, data: $scope.notesTab.data}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       updateNotes();
     });
