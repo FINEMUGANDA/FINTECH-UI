@@ -509,7 +509,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
                         return Number(/<=\s*(\d+)/g.exec(expression)[1]);
                     },
                     selfAssign: function(expression) {
-                        return /resource\.loan_officer_id!=appUser\.getStaffId\(\)/g.exec(expression)!=null;
+                        return /resource\.loan_officer_id!=appUser\.getStaffId\(\)/g.exec(expression)!==null;
                     }
                 }
             },
