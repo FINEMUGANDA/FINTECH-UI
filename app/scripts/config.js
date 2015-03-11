@@ -165,6 +165,8 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_job: 'Jobs',
         fin_notification: 'Notification Logs',
         fin_survey: 'Survey',
+        fin_currency: 'Currencies',
+        fin_exchange_rate: 'Exchange Rates',
         fin_dashboard_survey: 'Survey'
     }
 );
@@ -191,7 +193,9 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_job',
             'fin_audit',
             'fin_notification',
-            'fin_survey'
+            'fin_survey',
+            'fin_currency',
+            'fin_exchange_rate'
         ],
         dashboard: [
             'fin_dashboard_shortcuts',
@@ -396,6 +400,9 @@ app.constant('PERMISSION_MAPPING', {
         UPDATE_ROLE: [
             'PERMISSIONS_ROLE',
             'EXPRESSIONS_ROLE'
+        ],
+        READ_exchange_rate: [
+            'READ_CURRENCY'
         ],
         READ_UINOTIFICATION: [
             'READ_SmsNotificationLog'
