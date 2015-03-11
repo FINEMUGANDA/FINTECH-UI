@@ -202,6 +202,8 @@ clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $
     if($scope.noteType==='followup') {
       if($scope.client && $scope.client.clientId && $scope.client.loanId) {
         DataTransferService.set('loan.detail.tab', 'notes');
+        DataTransferService.set('loan.id', $scope.client.loanId);
+        //DataTransferService.set('client.id', $scope.client.clientId);
         $location.path('/loans/' + $scope.client.clientId + '/details/' + $scope.client.loanId);
       }
     } else {

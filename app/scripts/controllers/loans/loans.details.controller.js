@@ -545,15 +545,13 @@ angular.module('angularjsApp').controller('LoanDetailsNoteCtrl', function($scope
     });
   };
   if(DataTransferService.get('loan.detail.tab')) {
-    $timeout(function() {
-      $scope.openNoteDialog();
-      DataTransferService.set('loan.detail.tab', null);
-    }, 2000);
+    $scope.openNoteDialog();
+    DataTransferService.set('loan.detail.tab', null);
   }
 });
 
 
-angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST_URL, LoanService, $timeout, $scope, $modalInstance, Session, APPLICATION, data) {
+angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST_URL, LoanService, DataTransferService, $timeout, $scope, $modalInstance, Session, APPLICATION, data) {
   $scope.loan = data.loan;
   $scope.note = data.note || {};
   $scope.data = data.data;
@@ -607,10 +605,18 @@ angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST
       $scope.type = 'error';
       $scope.errors = result.data.errors;
     }
+    var loanId;
+    if($scope.loan) {
+      loanId = $scope.loan.id;
+    }
+    if(!loanId) {
+      loanId = DataTransferService.get('loan.id');
+      DataTransferService.set('loan.id', null);
+    }
     if ($scope.note.id) {
-      LoanService.updateLoan(REST_URL.NOTES + $scope.loan.id + '/' + $scope.note.id, angular.toJson(json)).then(saveNoteSuccess, saveNoteFail);
+      LoanService.updateLoan(REST_URL.NOTES + loanId + '/' + $scope.note.id, angular.toJson(json)).then(saveNoteSuccess, saveNoteFail);
     } else {
-      LoanService.saveLoan(REST_URL.NOTES + $scope.loan.id, angular.toJson(json)).then(saveNoteSuccess, saveNoteFail);
+      LoanService.saveLoan(REST_URL.NOTES + loanId, angular.toJson(json)).then(saveNoteSuccess, saveNoteFail);
     }
   };
   $scope.open = function($event, target) {
