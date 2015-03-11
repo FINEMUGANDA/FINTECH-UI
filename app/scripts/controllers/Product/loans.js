@@ -205,7 +205,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
 });
 
 
-LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
+LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $timeout, LoanProductService, CurrencyService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
   console.log('LoanProductsCtrl : EditLoanProductsCtrl');
   $scope.id = $route.current.params.id;
   //To highlight selected tab
@@ -287,6 +287,11 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       $scope.loanProductDetails.locale = 'en';
       //To hide message
       $scope.message = '';
+      CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
+        $scope.loanProductDetails.currencyCode = result.data.base;
+      }, function() {
+        $scope.loanProductDetails.currencyCode = $scope.product.currency.code;
+      });
     } catch (e) {
       console.log(e);
     }
