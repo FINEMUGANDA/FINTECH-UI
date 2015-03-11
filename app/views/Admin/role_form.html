@@ -73,6 +73,11 @@
                                                 {{actionName | limitTo : 11}}
                                             </button>
                                         </td>
+                                        <td ng-if="group=='fin_loan'">
+                                            <button type="button" class="btn btn-xs" style="width: 95px" ng-class="{'btn-success': permissionExpressionData['APPROVE_LOAN'].selfAssign, 'btn-danger': !permissionExpressionData['APPROVE_LOAN'].selfAssign}" ng-click="selectPermissionExpressionSelfAssign(permissionExpressions.LOAN[2])">
+                                                APPROVEOWN
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -150,7 +155,7 @@
                                             <h4>Max Limit</h4>
                                         </td>
                                         <td class="text-center">
-                                            <h4>Self Assign</h4>
+                                            <h4></h4>
                                         </td>
                                     </tr>
                                 </thead>
@@ -166,7 +171,11 @@
                                             <input type="number" class="form-control" ng-model="permissionExpressionData[permissionExpression.code].max" ng-change="selectPermissionExpression(permissionExpression.code, permissionExpression.expression)">
                                         </td>
                                         <td>
-                                            <input type="checkbox" ng-show="permissionExpression.code=='APPROVE_LOAN'" ng-model="permissionExpressionData[permissionExpression.code].selfAssign" ng-change="selectPermissionExpression(permissionExpression.code, permissionExpression.expression)">
+                                            <!--
+                                            <button type="button" class="btn btn-sm" style="width: 145px" ng-if="permissionExpression.code=='APPROVE_LOAN'" ng-class="{'btn-success': permissionExpressionData[permissionExpression.code].selfAssign, 'btn-danger': !permissionExpressionData[permissionExpression.code].selfAssign}" ng-click="selectPermissionExpressionSelfAssign(permissionExpression)">
+                                                Can approve own loan
+                                            </button>
+                                            -->
                                         </td>
                                     </tr>
                                 </tbody>

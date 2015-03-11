@@ -114,6 +114,19 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
         });
     };
 
+    $scope.selectPermissionExpressionSelfAssign = function (permissionExpression) {
+        var code = permissionExpression.code;
+
+        if($scope.permissionExpressionData[code]) {
+            $scope.permissionExpressionData[code].selfAssign = !$scope.permissionExpressionData[code].selfAssign;
+        } else {
+            $scope.permissionExpressionData[code] = {};
+            $scope.permissionExpressionData[code].selfAssign = true;
+        }
+
+        $scope.selectPermissionExpression(permissionExpression.code, permissionExpression.expression);
+    };
+
     $scope.selectPermissionExpression = function (code, expression) {
         if(!$scope.form.expressions.expressions) {
             $scope.form.expressions.expressions = {};
@@ -134,12 +147,23 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
             }
         }
 
-        // 'resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null'
-        if($scope.permissionExpressionData[code].selfAssign) {
+        var pos = -1;
+
+        if($scope.form.expressions.expressions[code]) {
+            pos = $scope.form.expressions.expressions[code].indexOf('resource.loan_officer_id!=appUser.getStaffId()');
+        }
+
+        if(!$scope.permissionExpressionData[code].selfAssign) {
             if($scope.form.expressions.expressions[code]) {
-                $scope.form.expressions.expressions[code] += ' resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
+                if(pos===-1) {
+                    $scope.form.expressions.expressions[code] += ' resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
+                }
             } else {
                 $scope.form.expressions.expressions[code] = 'resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
+            }
+        } else {
+            if(pos>=0) {
+                $scope.form.expressions.expressions[code] = $scope.form.expressions.expressions[code].substr(0, pos).trim();
             }
         }
 
@@ -380,6 +404,8 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
                 for(var j=0; j<PERMISSION_EXPRESSIONS.LOAN.length; j++) {
                     if(PERMISSION_EXPRESSIONS.LOAN[j].code===code) {
                         // TODO: could be optimized of Object.keys
+                        $scope.permissionExpressionData[code].selfAssign = true;
+
                         var extractors = Object.keys(PERMISSION_EXPRESSIONS.LOAN[j].extractors);
 
                         for(var k=0; k<extractors.length; k++) {
