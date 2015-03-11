@@ -60,8 +60,8 @@
                         <td>{{rate.base_code}}</td>
                         <td>{{rate.target_code}}</td>
                         <td>{{rate.month | number}}</td>
-                        <td>{{rate.year | number}}</td>
-                        <td>{{rate.rate | number}}</td>
+                        <td>{{rate.rate_year | number}}</td>
+                        <td>{{rate.rate_rate | number}}</td>
                         <td class="actions"><a href="" ng-click="removeRate(rate)" ng-show="hasAnyPermission(['DELETE_exchange_rate'])"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
                     </tr>
                     </tbody>
