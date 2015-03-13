@@ -21,7 +21,7 @@ currencyController.controller('CurrencyCtrl', function($scope, $location, Curren
 
     $scope.save = function() {
         CurrencyService.updateCurrency(REST_URL.CURRENCY_LIST, angular.toJson($scope.formData)).then(function(result) {
-            console.log(angular.toJson('CURRENCY SUCCESS: ' + result));
+            //console.log(angular.toJson('CURRENCY SUCCESS: ' + result));
             $scope.showSuccess('Currencies update success');
         }, function(result) {
             // TODO: error handling
@@ -34,7 +34,7 @@ currencyController.controller('CurrencyCtrl', function($scope, $location, Curren
         $scope.formData.base = result.data.base;
         $scope.currencyOptions = result.data.currencyOptions;
         angular.forEach(result.data.selectedCurrencyOptions, function(currency) {
-            console.log('CURRENCY: ' + currency.code);
+            //console.log('CURRENCY: ' + currency.code);
             $scope.currencyOptions.push(currency);
             $scope.formData.currencies.push(currency.code);
         });
