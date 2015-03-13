@@ -95,6 +95,8 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         $scope.chargeDetails.chargeTimeType = $scope.charge.chargeTimeType.id;
         //Charge Type
         $scope.chargeDetails.chargeCalculationType = $scope.charge.chargeCalculationType.id;
+        $scope.chargeDetails.feeFrequency = $scope.charge.feeFrequency? $scope.charge.feeFrequency.id : 2;
+        $scope.chargeDetails.feeInterval = $scope.charge.feeInterval || 1;
         $scope.chargeDetails.chargePaymentMode = '0';
         $scope.chargeDetails.active = true;
       } else {
@@ -105,6 +107,8 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
         $scope.chargeDetails.chargeCalculationType = 1;
         $scope.chargeDetails.chargeTimeType = 8;
         $scope.chargeDetails.chargePaymentMode = 0;
+        $scope.chargeDetails.feeFrequency = 2;
+        $scope.chargeDetails.feeInterval = 1;
         $scope.chargeDetails.active = true;
         CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
           $scope.chargeDetails.currencyCode = result.data.base;
@@ -180,7 +184,10 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
       $('html, body').animate({scrollTop: 0}, 800);
     } else {
       console.log('JSON.toJson(chargeDetails) > ' + angular.toJson($scope.chargeDetails));
-
+      if (parseInt($scope.chargeDetails.chargeTimeType) !== 12) { //remove feeInterval for not Overdue maturity date charges
+        $scope.chargeDetails.feeFrequency = null;
+        $scope.chargeDetails.feeInterval = null;
+      }
       if ($route.current.params.id) {
         ChargesService.updateCharge(REST_URL.RETRIVE_CHARGE_BY_ID + $route.current.params.id, angular.toJson($scope.chargeDetails)).then(updateChargeSuccess, updateChargeFail);
       } else {
