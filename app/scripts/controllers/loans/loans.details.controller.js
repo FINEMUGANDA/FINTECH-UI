@@ -34,7 +34,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     {name: 'repayment', view: 'views/loans/details/loans.details.repayment.tpl.html', title: 'Repayment Schedule', active: false, disabled: false},
     {name: 'transaction', view: 'views/loans/details/loans.details.transaction.tpl.html', title: 'Transaction History', active: false, disabled: false},
     {name: 'charges', view: 'views/loans/details/loans.details.charges.tpl.html', title: 'Charges', active: false, disabled: false},
-    {name: 'penalty', view: 'views/loans/details/loans.details.penalty.tpl.html', title: 'Late Payment Interest', active: false, disabled: false},
+    {name: 'penalty', view: 'views/loans/details/loans.details.penalty.tpl.html', title: 'Late Payment Interest', active: false, disabled: true},
     {name: 'collateral', view: 'views/loans/details/loans.details.collateral.tpl.html', title: 'Collateral', active: false, disabled: false},
     {name: 'guarantor', view: 'views/loans/details/loans.details.guarantor.tpl.html', title: 'Guarantor Info', active: false, disabled: false},
     {name: 'notes', view: 'views/loans/details/loans.details.notes.tpl.html', title: 'Follow Up Notes', active: false, disabled: false}
@@ -79,6 +79,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
           missedPaymentCount: missedPaymentCount,
           maturityDate: lastScheduledPayment.dueDate
         };
+        initCharges();
       });
       updateActiveState(result.data.status.id || 300 || 800 || 900);
       $scope.isLoading = false;
@@ -96,12 +97,8 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     }
     if (tab.name === 'transaction') {
       initTransactions();
-    } else if (tab.name === 'charges') {
-      initCharges();
     } else if (tab.name === 'guarantor') {
       initGuarantor();
-    } else if (tab.name === 'penalty') {
-      initPenalty();
     }
   };
   $scope.transactionTab = {};
@@ -127,19 +124,24 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   function initCharges() {
     $scope.chargesTab = {};
     $scope.chargesTab.loading = true;
-    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges').then(function(result) {
-      $scope.chargesTab.charges = result.data;
-      $scope.chargesTab.loading = false;
-    });
-  }
-  function initPenalty() {
     $scope.penaltyTab = {};
     $scope.penaltyTab.loading = true;
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges').then(function(result) {
+      var charges = result.data;
 
-    LoanService.getData(REST_URL.LOANS_PRODUCTS_LIST_BY_ID + $scope.loanDetails.loanProductId).then(function(result) {
-      $scope.penaltyTab.charges = _.filter(result.data.charges, function(charge) {
+      $scope.chargesTab.charges = _.filter(charges, function(charge) {
+        return !charge.penalty;
+      });
+      $scope.penaltyTab.charges = _.filter(charges, function(charge) {
         return charge.penalty;
       });
+      var penaltyTab = _.find($scope.tabs, function(tab) {
+        return tab.name === 'penalty';
+      });
+      console.log($scope.penaltyTab.charges);
+      penaltyTab.disabled = !$scope.penaltyTab.charges.length;
+
+      $scope.chargesTab.loading = false;
       $scope.penaltyTab.loading = false;
     });
   }
@@ -211,13 +213,13 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     });
   };
 
-  if(DataTransferService.get('loan.payment.code')) {
+  if (DataTransferService.get('loan.payment.code')) {
     $timeout(function() {
       //console.log('DIALOG: ' + DataTransferService.get('loan.payment.code'));
       $scope.openTransactionDialog(DataTransferService.get('loan.payment.code'));
       DataTransferService.set('loan.payment.code', null);
     }, 2000);
-  } else if(DataTransferService.get('loan.detail.tab')) {
+  } else if (DataTransferService.get('loan.detail.tab')) {
     $scope.selectTab(DataTransferService.get('loan.detail.tab'));
   }
 });
@@ -544,7 +546,7 @@ angular.module('angularjsApp').controller('LoanDetailsNoteCtrl', function($scope
       }
     });
   };
-  if(DataTransferService.get('loan.detail.tab')) {
+  if (DataTransferService.get('loan.detail.tab')) {
     $scope.openNoteDialog();
     DataTransferService.set('loan.detail.tab', null);
   }
@@ -606,10 +608,10 @@ angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST
       $scope.errors = result.data.errors;
     }
     var loanId;
-    if($scope.loan) {
+    if ($scope.loan) {
       loanId = $scope.loan.id;
     }
-    if(!loanId) {
+    if (!loanId) {
       loanId = DataTransferService.get('loan.id');
       DataTransferService.set('loan.id', null);
     }

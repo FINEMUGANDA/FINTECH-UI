@@ -1,17 +1,27 @@
-<div ng-show="penaltyTab.loading">Loading...</div>
-<table class="table width100" ng-hide="penaltyTab.loading">
+<div ng-show="chargesTab.loading">Loading...</div>
+<table class="table width100" ng-hide="chargesTab.loading">
   <tr class="graybg">
     <th>Name</th>
-    <th>Fee/Penalty</th>
+    <!--<th>Fee/Penalty</th>-->
     <th>Payment due at</th>
+    <th>Due as of</th>
+    <th>Outstanding Balance</th>
     <th>Calculation Type</th>
-    <th>Amount</th>
+    <th>Due</th>
+    <th>Paid</th>
+    <th>Waived</th>
+    <th>Outstanding</th>
   </tr>
   <tr ng-repeat="charge in penaltyTab.charges" class="pointer-main">
     <td>{{charge.name}}</td>
-    <td>{{charge.penalty? "Penalty" : "Fee"}}</td>
+    <!--<td>{{charge.penalty? "Penalty" : "Fee"}}</td>-->
     <td>{{charge.chargeTimeType.value}}</td>
+    <td>{{charge.dueDate| DateFormat}}</td>
+    <td>{{charge.amountPercentageAppliedTo| number}}</td>
     <td>{{charge.chargeCalculationType.value}}</td>
     <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amount| number}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountPaid| number}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountWaived| number}}</td>
+    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountOutstanding| number}}</td>
   </tr>
 </table>
