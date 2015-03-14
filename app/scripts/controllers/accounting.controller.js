@@ -204,7 +204,7 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
   CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
     //$scope.formData.base = result.data.base;
     $scope.currencyOptions = result.data.selectedCurrencyOptions;
-  }, function(result) {
+  }, function() {
     // TODO: error handling
   });
 });

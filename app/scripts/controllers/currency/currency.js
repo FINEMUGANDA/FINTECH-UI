@@ -20,7 +20,7 @@ currencyController.controller('CurrencyCtrl', function($scope, $location, Curren
     };
 
     $scope.save = function() {
-        CurrencyService.updateCurrency(REST_URL.CURRENCY_LIST, angular.toJson($scope.formData)).then(function(result) {
+        CurrencyService.updateCurrency(REST_URL.CURRENCY_LIST, angular.toJson($scope.formData)).then(function() {
             //console.log(angular.toJson('CURRENCY SUCCESS: ' + result));
             $scope.showSuccess('Currencies update success');
         }, function(result) {
