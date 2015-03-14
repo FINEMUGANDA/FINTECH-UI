@@ -690,7 +690,7 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
     $location.url(PAGE_URL.ROOT);
   });
 
-  if (Session.getValue(APPLICATION.authToken) !== null) {
+  if (Session.getValue(APPLICATION.authToken)) {
     if ($location.path() === PAGE_URL.ROOT || $location.path() === '') {
       $location.url(PAGE_URL.DASHBOARD);
     }
