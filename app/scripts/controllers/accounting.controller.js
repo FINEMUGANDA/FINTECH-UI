@@ -87,7 +87,7 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
   };
 });
 
-angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope, REST_URL, AccountService, $timeout, $route) {
+angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope, REST_URL, AccountService, CurrencyService, $timeout, $route) {
   console.log('AccountingEditCtrl');
   $scope.isLoading = false;
   $scope.id = $route.current.params.id;
@@ -100,6 +100,7 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
       $scope.rowCollection = result.data;
       $scope.account = {
         name: result.data.name,
+        currencyCode: result.data.currencyCode,
         glCode: result.data.glCode,
         manualEntriesAllowed: result.data.manualEntriesAllowed,
         type: result.data.type.id,
@@ -199,4 +200,11 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
   };
 
   loadAccount();
+
+  CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
+    //$scope.formData.base = result.data.base;
+    $scope.currencyOptions = result.data.selectedCurrencyOptions;
+  }, function(result) {
+    // TODO: error handling
+  });
 });

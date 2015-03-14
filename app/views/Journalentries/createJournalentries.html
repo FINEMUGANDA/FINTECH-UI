@@ -22,12 +22,14 @@
                           ng-options="office.id as office.name for office in offices" value="{{office.id}}">
                   </select>
               </div>
+              <!--
               <div class="col-md-1"></div>
               <label class="control-label col-md-2">Currency<span class="required"> *</span></label>
               <div class="validate col-md-3">
                   <select id="currencyCode" name="currency" ng-model="journalEntryForm.currencyCode" class="form-control" ng-options="currency.code as (currency.name+' ('+ currency.displaySymbol +')') for currency in currencyOptions" value="{{currency.code}}">
                   </select>
-              </div>                
+              </div>
+              -->
           </div>
           <div class="form-group">                
               <label class="control-label col-md-2 col-xs-2">Affected GL entries<span class="required"> *</span></label>                
@@ -41,7 +43,7 @@
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
-                    <select chosen="debitOptions" ng-model="dbAccount.select" ng-options="(debitAccount.name +'('+ debitAccount.glCode +')') for debitAccount in debitOptions" class="form-control" ng-change="changeDebitOptions();">
+                    <select chosen="debitOptions" ng-model="dbAccount.select" ng-options="(debitAccount.name + ' - ' + debitAccount.currencyCode +' ('+ debitAccount.glCode +')') for debitAccount in debitOptions" class="form-control" ng-change="changeDebitOptions();">
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>                      
                   </div>
@@ -68,7 +70,7 @@
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
-                    <select chosen="creditOptions" ng-model="crAccount.select" ng-options="(creditAccount.name +'('+ creditAccount.glCode +')') for creditAccount in creditOptions" class="form-control" ng-change="changeCreditOptions()">
+                    <select chosen="creditOptions" ng-model="crAccount.select" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in creditOptions" class="form-control" ng-change="changeCreditOptions()">
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>                      
                   </div>

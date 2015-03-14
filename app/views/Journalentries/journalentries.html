@@ -35,7 +35,8 @@
         <th st-sort="entry_date">Transaction Date</th>
         <th st-sort="office_name">Office</th>
         <th st-sort="Credit" class="number">Debit</th>
-        <th st-sort="Debit" class="number">Credit</th>        
+        <th st-sort="Debit" class="number">Credit</th>
+        <th st-sort="currencies">Currencies</th>
       </tr>
       </thead>
       <tbody ng-hide="isLoading">
@@ -46,6 +47,7 @@
           <td ng-click="viewDetail(journal)">{{journal.office_name}}</td>
           <td ng-click="viewDetail(journal)" class="number">{{journal.Debit}}</td>
           <td ng-click="viewDetail(journal)" class="number">{{journal.Credit}}</td>
+          <td ng-click="viewDetail(journal)">{{journal.currencies}}</td>
           <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
         </tr>
       </tbody>

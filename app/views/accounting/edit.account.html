@@ -5,7 +5,7 @@
     <div class="page-header">
       <div class="header">
         <h3>{{id? 'Edit' : 'Create'}} Account</h3>
-      </div>      
+      </div>
     </div>
     <div class="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
@@ -60,6 +60,12 @@
             <label class="control-label col-md-2" for='manualEntriesAllowed'>Manual entries allowed</label>
             <div class="validate col-md-3">
               <input type='checkbox' class="form-control" id='manualEntriesAllowed' ng-model='account.manualEntriesAllowed'>
+            </div>
+            <div class="col-md-1"></div>
+            <label class="control-label col-md-2" for='parent'>Currency<span class="required">*</span></label>
+            <div class="validate col-md-3">
+              <select class="form-control" ng-model="account.currencyCode" ng-options="currency.code as currency.displayLabel for currency in currencyOptions" required>
+              </select>
             </div>
           </div>
 

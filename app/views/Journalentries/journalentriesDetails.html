@@ -60,9 +60,11 @@
           <th st-sort="id">GL Code</th>
           <th st-sort="comments">Type</th>
           <th st-sort="transactionDate">Account</th>        
-          <th st-sort="officeName" class="number">Debit</th>
-          <th st-sort="officeName" class="number">Credit</th>        
-          <th st-sort="officeName" >Reversal Note</th>        
+          <th st-sort="amount" class="number">Debit</th>
+          <th st-sort="amount" class="number">Credit</th>
+          <th st-sort="currency">Currency</th>
+          <th st-sort="exchangeRate">Exchange Rate</th>
+          <th st-sort="officeName" >Reversal Note</th>
         </tr>
       </thead>
       <tbody ng-hide="isLoading">
@@ -79,6 +81,12 @@
             <div ng-if="journal.entryType.value == 'CREDIT'">
               {{journal.amount}}
             </div>
+          </td>
+          <td>
+            {{journal.currency.code}}
+          </td>
+          <td>
+            {{journal.exchangeRate}}
           </td>
           <td>
             <div>

@@ -35,6 +35,7 @@
       <tr>
         <th st-sort="name">Account</th>
         <th st-sort="glCode">GL Code</th>
+        <th st-sort="currencyCode">Currency</th>
         <th st-sort="type.value">Account Type</th>
         <th st-sort="disabled">Disabled?</th>
         <th st-sort="manualEntriesAllowed">Manual Entries Allowed</th>
@@ -46,6 +47,7 @@
         <tr st-select-row="row" st-select-mode="single" ng-repeat="account in displayed" class="pointer">
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.name}}</a></td>
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}" class="number">{{account.glCode}}</a></td>
+          <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}" class="number">{{account.currencyCode}}</a></td>
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.type.value}}</a></td>
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.disabled}}</a></td>
           <td ng-click="editAccount(account)"><a ng-href="#/accounting/edit/{{account.id}}">{{account.manualEntriesAllowed}}</a></td>
