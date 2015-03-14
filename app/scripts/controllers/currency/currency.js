@@ -38,7 +38,7 @@ currencyController.controller('CurrencyCtrl', function($scope, $location, Curren
             $scope.currencyOptions.push(currency);
             $scope.formData.currencies.push(currency.code);
         });
-    }, function(result) {
+    }, function() {
         // TODO: error handling
     });
 });

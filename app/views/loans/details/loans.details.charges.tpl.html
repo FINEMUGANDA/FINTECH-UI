@@ -2,7 +2,7 @@
 <table class="table width100" ng-hide="chargesTab.loading">
   <tr class="graybg">
     <th>Name</th>
-    <th>Fee/Penalty</th>
+    <!--<th>Fee/Penalty</th>-->
     <th>Payment due at</th>
     <th>Due as of</th>
     <th>Calculation Type</th>
@@ -10,11 +10,10 @@
     <th>Paid</th>
     <th>Waived</th>
     <th>Outstanding</th>
-    <!--<th>Actions</th>-->
   </tr>
   <tr ng-repeat="charge in chargesTab.charges" class="pointer-main">
     <td>{{charge.name}}</td>
-    <td>{{charge.penalty? "Penalty" : "Fee"}}</td>
+    <!--<td>{{charge.penalty? "Penalty" : "Fee"}}</td>-->
     <td>{{charge.chargeTimeType.value}}</td>
     <td>{{charge.dueDate| DateFormat}}</td>
     <td>{{charge.chargeCalculationType.value}}</td>
@@ -22,11 +21,5 @@
     <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountPaid| number}}</td>
     <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountWaived| number}}</td>
     <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountOutstanding| number}}</td>
-<!--    <td>
-      <a title="Edit" ng-show="loanDetails.status.id == 100" href="#/loanaccountcharge/{{loanDetails.id}}/editcharge/{{charge.id}}"><i class="glyphicon glyphicon-pencil"></i></a>
-      <a title="Remove" ng-show="loanDetails.status.id == 100" ng-click="delCharge(charge.id)"><i class="glyphicon glyphicon-remove"></i></a>
-      <a ng-hide="charge.actionFlag" href="#/loanaccountcharge/{{loanDetails.id}}/waivecharge/{{charge.id}}"><i class="glyphicon glyphicon-flag"></i></a>
-      <a class="btn btn-sm btn-success" ng-show="charge.chargePayable && loanDetails.status.id == 300" href="#/loanaccountcharge/{{loanDetails.id}}/paycharge/{{charge.id}}">Pay</a>
-    </td>-->
   </tr>
 </table>

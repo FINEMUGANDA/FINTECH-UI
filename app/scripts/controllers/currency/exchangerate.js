@@ -73,7 +73,7 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
         angular.forEach(result.data.selectedCurrencyOptions, function(currency) {
             $scope.currencyOptions.push(currency);
         });
-    }, function(result) {
+    }, function() {
         // TODO: error handling
     });
 
@@ -85,7 +85,7 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
                 $scope.reloadRates();
             }
         });
-    }, function(result) {
+    }, function() {
         // TODO: error handling
     });
     $scope.resetRate();

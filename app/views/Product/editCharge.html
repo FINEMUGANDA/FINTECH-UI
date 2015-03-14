@@ -76,6 +76,19 @@
               <input id="amount" name="amount" type="text" ng-model="chargeDetails.amount" class="form-control" only-digits required>
             </div>
           </div>
+          <div class="form-group" ng-if="chargeDetails.chargeTimeType == 12">
+            <label class="control-label col-md-3">Charge Interval<span class="required">*</span></label>
+            <div class="col-md-3">
+              <input id="amount" name="feeFrequency" type="text" ng-model="chargeDetails.feeInterval" class="form-control" only-digits required>
+            </div>
+          </div>
+          <div class="form-group" ng-if="chargeDetails.chargeTimeType == 12">
+            <label class="control-label col-md-3">Charge Frequency<span class="required">*</span></label>
+            <div class="col-md-3">
+              <select id="chargeCalculationType" name="chargeinterval" ng-model="chargeDetails.feeFrequency" class="form-control" ng-options="feeFrequency.id as feeFrequency.value for feeFrequency in charge.feeFrequencyOptions">
+              </select>
+            </div>
+          </div>
           <hr/>
           <div class="col-md-offset-3 paddedtop">
             <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>

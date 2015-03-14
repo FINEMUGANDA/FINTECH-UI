@@ -67,7 +67,11 @@
         </dl>
         <dl class="dl-horizontal">
           <dt>Arrears By:</dt>
-          <dd>{{loanDetails.summary.totalOverdue? loanDetails.summary.totalOverdue : 'Not Provided'}}</dd>
+          <dd>{{loanDetails.summary.totalOverdue? (loanDetails.summary.totalOverdue | number) : 'Not Provided'}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Total LPI:</dt>
+          <dd>{{loanDetails.summary.penaltyChargesOutstanding? (loanDetails.summary.penaltyChargesOutstanding | number) : 'Not Provided'}}</dd>
         </dl>
       </div>
       <div class="col-md-4">
