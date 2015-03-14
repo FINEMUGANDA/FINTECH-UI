@@ -814,6 +814,10 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   $scope.rowCollection = [];
   $scope.displayed = [];
   //Date of issue
+  $scope.reset = function() {
+    $scope.clientIdentification = {};
+    $scope.clientIdentificationExtra = {};
+  };
   $scope.open = function($event) {
     $event.preventDefault();
     $event.stopPropagation();
@@ -1252,6 +1256,9 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
   $scope.rowCollection = [];
   $scope.displayed = [];
   //For date of birth calendar
+  $scope.reset = function() {
+    $scope.clientNextToKeen = {};
+  };
   $scope.open = function($event) {
     $event.preventDefault();
     $event.stopPropagation();
@@ -1511,6 +1518,9 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   $scope.rowCollection = [];
   $scope.displayed = [];
   //For date of birth calendar
+  $scope.reset = function() {
+    $scope.clientBusinessActivity = {};
+  };
   $scope.open = function($event) {
     $event.preventDefault();
     $event.stopPropagation();
