@@ -69,8 +69,32 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     console.log('Success : Return from loanProducts service.');
     try {
       $scope.product = result.data;
-      $scope.assetAccountOptions = $scope.product.accountingMappingOptions.assetAccountOptions || [];
-      $scope.assetAccountOptionsGlobal = $scope.product.accountingMappingOptions.assetAccountOptions || [];
+      //$scope.assetAccountOptions = $scope.product.accountingMappingOptions.assetAccountOptions || [];
+      //$scope.assetAccountOptionsGlobal = $scope.product.accountingMappingOptions.assetAccountOptions || [];
+      // TODO: the chosen directive is completely broken and doesn't react to updated models; until this is fixed hard code home currency
+      /**
+      CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
+        $scope.assetAccountOptions = [];
+        for(var i=0; $scope.product.accountingMappingOptions.assetAccountOptions && i<$scope.product.accountingMappingOptions.assetAccountOptions.length; i++) {
+          var opt = $scope.product.accountingMappingOptions.assetAccountOptions[i];
+          console.log('MAP: ' + result.data.base + ' - ' + opt.currencyCode);
+          if(opt.currencyCode===result.data.base) {
+            $scope.assetAccountOptions.push(opt);
+          }
+        }
+        $scope.assetAccountOptionsGlobal = $scope.assetAccountOptions || [];
+      }, function() {
+        // TODO: error handling
+      });
+       */
+      $scope.assetAccountOptions = [];
+      for(var i=0; $scope.product.accountingMappingOptions.assetAccountOptions && i<$scope.product.accountingMappingOptions.assetAccountOptions.length; i++) {
+        var opt = $scope.product.accountingMappingOptions.assetAccountOptions[i];
+        if(opt.currencyCode==='UGX') {
+          $scope.assetAccountOptions.push(opt);
+        }
+      }
+      $scope.assetAccountOptionsGlobal = $scope.assetAccountOptions || [];
       $scope.incomeAccountOptions = $scope.product.accountingMappingOptions.incomeAccountOptions || [];
       $scope.expenseAccountOptions = $scope.product.accountingMappingOptions.expenseAccountOptions || [];
       $scope.liabilityAccountOptions = $scope.product.accountingMappingOptions.liabilityAccountOptions || [];
