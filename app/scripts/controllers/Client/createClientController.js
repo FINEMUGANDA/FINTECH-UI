@@ -1723,7 +1723,14 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     var saveClientBusinessActivitySuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
-      callback();
+      if(callback) {
+        // NOTE: this is a JSON result object, not a function; quick hack!!!
+        try {
+          callback();
+        } catch(err) {
+          // ignore
+        }
+      }
       $scope.type = 'alert-success';
       if ($scope.$requestMethodCreate) {
         $scope.message = 'Client Business Activity Detail saved successfully';
