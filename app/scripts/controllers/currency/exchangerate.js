@@ -21,7 +21,7 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
     };
 
     $scope.resetRate = function() {
-        $scope.rate = {dateFormat: 'dd/MM/yyyy', locale: 'en', rate_year: new Date().getUTCFullYear(), rate_month: new Date().getUTCMonth()+1};
+        $scope.rate = {base_code: $scope.base, dateFormat: 'dd/MM/yyyy', locale: 'en', rate_year: new Date().getUTCFullYear(), rate_month: new Date().getUTCMonth()+1};
     };
 
     $scope.reloadRates = function() {
@@ -48,18 +48,24 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
     };
 
     $scope.save = function() {
+        if (!$scope.exchangeRateForm.$valid) {
+            $scope.showError('Highlighted fields are required');
+            return;
+        }
         if($scope.rate.id) {
             // update
             ExchangeRateService.updateRate(REST_URL.EXCHANGE_RATE + $scope.office.id, angular.toJson($scope.rate)).then(function() {
                 $scope.showSuccess('Exchange rate updated');
+                $scope.reloadRates();
             }, function(result) {
                 $scope.showError('Cannot update exchange rate: ' + result.data.defaultUserMessage, result.data.errors);
             });
         } else {
             // create
-            ExchangeRateService.saveRate(REST_URL.EXCHANGE_RATE + $scope.office.id, angular.toJson($scope.rate)).then(function(result) {
-                $scope.showSuccess('Exchange rate created ' + angular.toJson(result.config.data));
+            ExchangeRateService.saveRate(REST_URL.EXCHANGE_RATE + $scope.office.id, angular.toJson($scope.rate)).then(function() {
+                $scope.showSuccess('Exchange rate created.');
                 $scope.resetRate();
+                $scope.reloadRates();
             }, function(result) {
                 $scope.showError('Cannot create exchange rate: ' + result.data.defaultUserMessage, result.data.errors);
             });
@@ -67,11 +73,16 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
     };
 
     CurrencyService.getData(REST_URL.CURRENCY_LIST).then(function(result) {
+        $scope.base = result.data.base;
         $scope.rate.base_code = result.data.base;
         //$scope.rate.target_code = result.data.base;
         $scope.currencyOptions = [];
+        $scope.targetCurrencyOptions = [];
         angular.forEach(result.data.selectedCurrencyOptions, function(currency) {
             $scope.currencyOptions.push(currency);
+            if(currency.code!==result.data.base) {
+                $scope.targetCurrencyOptions.push(currency);
+            }
         });
     }, function() {
         // TODO: error handling
