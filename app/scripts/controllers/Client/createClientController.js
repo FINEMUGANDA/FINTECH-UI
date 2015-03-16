@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 //Module for the Create Client functionality
@@ -1571,8 +1573,9 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
         $scope.message = 'Unable to finish Client saving, following forms contain errors:';
         $scope.errors = errors;
       } else {
-        var d = new Date();
-        d.setHours(d.getHours()+10); // TODO: find a real solution; this is just a hack, because the server is timezone GMT+10
+        var d = moment.utc().add(10, 'hours').toDate();
+        //console.log('ACTIVATION DATE: ' + angular.toJson(d));
+        //d.setHours(d.getHours()+10); // TODO: find a real solution; this is just a hack, because the server is timezone GMT+10
         var jsonData = {
           'locale': 'en',
           'dateFormat': 'dd/MM/yyyy',
@@ -1729,6 +1732,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
           callback();
         } catch(err) {
           // ignore
+          //console.log('WRONG: ' + angular.toJson(callback));
         }
       }
       $scope.type = 'alert-success';
