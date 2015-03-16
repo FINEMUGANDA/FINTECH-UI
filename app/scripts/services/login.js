@@ -8,7 +8,7 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
     var service = {
         authentication: function(url) {
             // TODO: put all the business logic here instead of the controller!
-            console.log('Authentication service...');
+            //console.log('Authentication service...');
             delete $http.defaults.headers.common.Authorization;
             var promise = Remote.post(url);
             return promise;
@@ -88,7 +88,7 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
             // report categories
             ReportService.getData(REST_URL.RUN_REPORTS +'/' + 'FullReportList?parameterType=true').then(function(result) {
                 angular.forEach(result.data, function(report) {
-                    console.log('yyy ROUTE: ' + report.report_category);
+                    //console.log('yyy ROUTE: ' + report.report_category);
                     reportPermissions[report.report_category] = true;
                 });
                 //$rootScope.$broadcast(AUTH_EVENTS.reportPermissionUpdate);
