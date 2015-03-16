@@ -22,23 +22,23 @@
         </div>
       </div>
       <form name="editChargeForm" ng-hide="isLoading" class="form-horizontal" ng-submit="updateCharge(chargeDetails)" novalidate show-validation>
-        <div class="col-md-12">
+        <div class="col-md-6">
           <div class="form-group">
-            <label class="control-label col-md-3">Name<span class="required">*</span></label>
-            <div class="validate col-md-3">
+            <label class="control-label col-md-6">Name<span class="required">*</span></label>
+            <div class="validate col-md-6">
               <input id="name" name="name" class="form-control" type="text" ng-model="chargeDetails.name" required>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3">Currency<span class="required">*</span></label>
-            <div class="validate col-md-3">
+            <label class="control-label col-md-6">Currency<span class="required">*</span></label>
+            <div class="validate col-md-6">
               <select id="currencyCode" ng-model="chargeDetails.currencyCode" class="form-control" ng-options="currency.code as currency.name for currency in charge.currencyOptions" disabled>
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3">Type<span class="required">*</span></label>
-            <div class="col-md-3">
+            <label class="control-label col-md-6">Type<span class="required">*</span></label>
+            <div class="col-md-6">
               <select id="type" ng-model="chargeDetails.penalty" class="form-control">
                 <option value="false">Fee</option>
                 <option value="true">Penalty</option>
@@ -46,51 +46,52 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3">Applies To</label>
-            <div class="col-md-3">
+            <label class="control-label col-md-6">Applies To</label>
+            <div class="col-md-6">
               <select id="chargeAppliesTo" name="chargeappliesto" ng-model="chargeDetails.chargeAppliesTo" class="form-control">
                 <option value="1" >Loan</option>
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3">Charge Time Type<span class="required">*</span></label>
-            <div class="col-md-3">
+            <label class="control-label col-md-6">Charge Time Type<span class="required">*</span></label>
+            <div class="col-md-6">
               <select id="chargeTimeType" name="chargetimetype" ng-model="chargeDetails.chargeTimeType" class="form-control" ng-options="chargeTimeType.id as chargeTimeType.value for chargeTimeType in charge.chargeTimeTypeOptions">
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3">Charge Calculation Type<span class="required">*</span></label>
-            <div class="col-md-3">
+            <label class="control-label col-md-6">Charge Calculation Type<span class="required">*</span></label>
+            <div class="col-md-6">
               <select id="chargeCalculationType" name="chargecalculation" ng-model="chargeDetails.chargeCalculationType" class="form-control" ng-options="chargeCalculationType.id as chargeCalculationType.value for chargeCalculationType in charge.loanChargeCalculationTypeOptions">
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3">Amount
+            <label class="control-label col-md-6">Amount
               <span ng-show="chargeDetails.chargeCalculationType != 1">(%)</span>
               <span class="required">*</span>
             </label>
-            <div class="validate col-md-3">
+            <div class="validate col-md-6">
               <input id="amount" name="amount" type="text" ng-model="chargeDetails.amount" class="form-control" only-digits required>
             </div>
           </div>
           <div class="form-group" ng-if="chargeDetails.chargeTimeType == 12">
-            <label class="control-label col-md-3">Charge Interval<span class="required">*</span></label>
-            <div class="col-md-3">
+            <label class="control-label col-md-6">
+              <i class="glyphicon glyphicon-info-sign label-info-sign-tooltip" tooltip="Used to define interval, upon which charges to loan will be added"></i>
+              <span>Apply LPI each</span>
+              <span class="required">*</span>
+            </label>
+            <div class="col-md-2">
               <input id="amount" name="feeFrequency" type="text" ng-model="chargeDetails.feeInterval" class="form-control" only-digits required>
             </div>
-          </div>
-          <div class="form-group" ng-if="chargeDetails.chargeTimeType == 12">
-            <label class="control-label col-md-3">Charge Frequency<span class="required">*</span></label>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <select id="chargeCalculationType" name="chargeinterval" ng-model="chargeDetails.feeFrequency" class="form-control" ng-options="feeFrequency.id as feeFrequency.value for feeFrequency in charge.feeFrequencyOptions">
               </select>
             </div>
           </div>
           <hr/>
-          <div class="col-md-offset-3 paddedtop">
+          <div class="col-md-offset-6 paddedtop">
             <a id="cancel" href="#/charges" class="btn btn-warning">Cancel</a>
             <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_CHARGE', 'UPDATE_CHARGE'])">Save</button>
           </div>
