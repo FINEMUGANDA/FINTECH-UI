@@ -15,7 +15,8 @@ app.constant('APPLICATION', {
     'PAGE_SIZE' : 10,
     'DISPLAYED_PAGES' : 5,
     'NO_IMAGE_THUMB' : 'images/noPhoto.jpg',
-    'API_VERSION' : 'api/v1'
+    'API_VERSION' : 'api/v1',
+    'TIMEZONE': 10
 });
 
 app.constant('REST_URL', {
@@ -79,6 +80,7 @@ app.constant('REST_URL', {
     AUDIT: 'api/v1/audits',
     DUEVSCOLLECTED: 'api/v1/runreports/DueVsCollected',
     PAR_PER_LOAN_OFFICER: 'api/v1/runreports/PAR per Loan Officer',
+    CHANGES_LOAN_PORTFOLIO: 'api/v1/runreports/ChangesLoanPortfolio',
     ACTIVE_BORROWERS_PER_LOAN_OFFICER: 'api/v1/runreports/Active Borrowers per Loan Officer'
 });
 

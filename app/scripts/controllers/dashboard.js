@@ -64,8 +64,10 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     $scope.getDueCollectedpreWeek();
     // Get PAR per Loan Officer
     $scope.getPARperLoanOfficer();
+    // Get Changes Loan Portfolio
+    $scope.getChangesLoanPortfolio();
     // Dummy Charts
-    $scope.loanPortfolioCurrentMonth = Graph.getColumnChart(CHART_TYPE.LOANPORTFOLIO_UPDATES);
+    //$scope.loanPortfolioCurrentMonth = Graph.getColumnChart(CHART_TYPE.LOANPORTFOLIO_UPDATES);
     //$scope.dueVsCollectedLastWeek = Graph.getPieChart();
   };
 
@@ -267,6 +269,71 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     };
     //service to get Active Borrowers per Loan Officer
     DashboardService.getData(REST_URL.PAR_PER_LOAN_OFFICER).then(PARperLoanOfficerSuccess, PARperLoanOfficerFail);   
+  };
+
+
+  // Get Changes in Loan Portfolio current month
+  $scope.getChangesLoanPortfolio = function() {
+    console.log('DashboardCtrl : getChangesLoanPortfolio');
+    var data = {};
+    data.maxValue = 5;
+    data.cols = [
+      {
+        'id': 'name',
+        'label': 'Name',
+        'type': 'string'
+      },
+      {
+        'id': 'new',
+        'label': 'New',
+        'type': 'number'
+      },
+      {
+        'id': 'rollover',
+        'label': 'Roll-over',
+        'type': 'number'
+      },
+      {
+        'id': 'repaid',
+        'label': 'Repaid',
+        'type': 'number'
+      }
+    ];
+    data.rows = [];
+    // Success callback
+    var ChangesLoanPortfolioSuccess = function(result){
+      console.log('Success : Return from dashboardService service.' + result);
+      $scope.isLoanReady = true;
+      for (var i in result.data) {
+        var temp = {
+          'c': [
+            {
+              'v': result.data[i].name
+            },
+            {
+              'v': result.data[i].new
+            },
+            {
+              'v': result.data[i].rollover
+            },
+            {
+              'v': result.data[i].repaid
+            }
+          ]
+        };
+        data.rows.push(temp);
+      }
+      $scope.ChangesLoanPortfolio = Graph.getColumnChart(data);
+    };
+    // failur callback
+    var ChangesLoanPortfolioFail = function(result){
+      $scope.isLoanReady = true;
+      console.log('Error : Return from dashboardService service.' + angular.toJson(result));
+      $scope.ChangesLoanPortfolio = Graph.getColumnChart(data);
+    };
+    //service
+    // TODO: change this
+    DashboardService.getData(REST_URL.CHANGES_LOAN_PORTFOLIO).then(ChangesLoanPortfolioSuccess, ChangesLoanPortfolioFail);
   };
 
   //will fire on every page load
