@@ -1573,13 +1573,14 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
         $scope.message = 'Unable to finish Client saving, following forms contain errors:';
         $scope.errors = errors;
       } else {
-        var d = moment.utc().toDate();
+        console.log('TIMEZONE: ' + moment.utc().format('l'));
+        //var d = moment.utc().toDate();
         //console.log('ACTIVATION DATE: ' + angular.toJson(d));
         //d.setHours(d.getHours()+10); // TODO: find a real solution; this is just a hack, because the server is timezone GMT+10
         var jsonData = {
           'locale': 'en',
           'dateFormat': 'dd/MM/yyyy',
-          'activationDate': Utility.dataFormat(d)
+          'activationDate': moment.utc().format('l')
         };
         var handleResult = function() {
           $location.url(PAGE_URL.CLIENTS);
