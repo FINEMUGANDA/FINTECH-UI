@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 // Here we attach this controller to our testApp module
@@ -810,11 +812,10 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
     var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'reject'}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
-        var currentDate = new Date();
         var json = {
           dateFormat: 'dd/MM/yyyy',
           locale: 'en',
-          rejectedOnDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear(),
+          rejectedOnDate: moment.utc().format('DD/MM/YYYY'),
           note: result.note
         };
         CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=reject', json).then(function(result) {
@@ -831,11 +832,10 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
     });
   };
   $scope.approve = function() {
-    var currentDate = new Date();
     var json = {
       dateFormat: 'dd/MM/yyyy',
       locale: 'en',
-      approvedOnDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear()
+      approvedOnDate: moment.utc().format('DD/MM/YYYY')
     };
     CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=approve', json).then(function(result) {
       $scope.type = 'alert-success';
@@ -1008,11 +1008,10 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
     });
   };
   $scope.disburse = function() {
-    var actualDisbursementDate = new Date($scope.baseLoan.actualDisbursementDate);
     var json = {
       dateFormat: 'dd/MM/yyyy',
       locale: 'en',
-      actualDisbursementDate: actualDisbursementDate.getDate() + '/' + (actualDisbursementDate.getMonth() + 1) + '/' + actualDisbursementDate.getFullYear()
+      actualDisbursementDate: moment.utc($scope.baseLoan.actualDisbursementDate).format('DD/MM/YYYY')
     };
     CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=disburse', json).then(function(result) {
       $scope.type = 'alert-success';
