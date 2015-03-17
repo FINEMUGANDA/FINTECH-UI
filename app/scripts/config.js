@@ -437,6 +437,9 @@ app.constant('PERMISSION_MAPPING', {
         DVCPW_UIDASHBOARD: [
             'READ_DueVsCollected'
         ],
+        CILPCM_UIDASHBOARD: [
+            'READ_ChangesLoanPortfolio'
+        ],
         UPLOAD_UIDASHBOARD: [
             'CREATE_DOCUMENT'
         ],
