@@ -274,9 +274,9 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
 
   // Get Changes in Loan Portfolio current month
   $scope.getChangesLoanPortfolio = function() {
-    console.log('DashboardCtrl : getChangesLoanPortfolio');
+    //console.log('DashboardCtrl : getChangesLoanPortfolio');
     var data = {};
-    data.maxValue = 5;
+    data.maxValue = 20;
     data.cols = [
       {
         'id': 'name',
@@ -302,7 +302,7 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     data.rows = [];
     // Success callback
     var ChangesLoanPortfolioSuccess = function(result){
-      console.log('Success : Return from dashboardService service.' + result);
+      //console.log('Success : Return from dashboardService service.' + result);
       $scope.isLoanReady = true;
       for (var i in result.data) {
         var temp = {
@@ -328,11 +328,10 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     // failur callback
     var ChangesLoanPortfolioFail = function(result){
       $scope.isLoanReady = true;
-      console.log('Error : Return from dashboardService service.' + angular.toJson(result));
+      //console.log('Error : Return from dashboardService service.' + angular.toJson(result));
       $scope.ChangesLoanPortfolio = Graph.getColumnChart(data);
     };
     //service
-    // TODO: change this
     DashboardService.getData(REST_URL.CHANGES_LOAN_PORTFOLIO).then(ChangesLoanPortfolioSuccess, ChangesLoanPortfolioFail);
   };
 
