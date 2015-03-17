@@ -15,8 +15,7 @@ app.constant('APPLICATION', {
     'PAGE_SIZE' : 10,
     'DISPLAYED_PAGES' : 5,
     'NO_IMAGE_THUMB' : 'images/noPhoto.jpg',
-    'API_VERSION' : 'api/v1',
-    'TIMEZONE': 10
+    'API_VERSION' : 'api/v1'
 });
 
 app.constant('REST_URL', {

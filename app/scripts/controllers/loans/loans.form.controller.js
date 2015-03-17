@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $scope) {
@@ -166,11 +168,17 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     data.clientId = $scope.clientId;
 
     if (typeof data.submittedOnDate === 'object') {
-      var submittedDate = new Date(data.submittedOnDate);
+      // TODO: use UTC values
+      //var submittedDate = new Date(data.submittedOnDate);
+      var submittedDate = moment.utc(data.submittedOnDate).toDate();
+      console.log('DATE S: ' + angular.toJson(submittedDate));
       data.submittedOnDate = submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear();
     }
     if (typeof data.expectedDisbursementDate === 'object') {
-      var expectedDisbursementDate = new Date(data.expectedDisbursementDate);
+      // TODO: use UTC values
+      //var expectedDisbursementDate = new Date(data.expectedDisbursementDate);
+      var expectedDisbursementDate = moment.utc(data.expectedDisbursementDate).add(10, 'hours').toDate();
+      console.log('DATE D: ' + angular.toJson(expectedDisbursementDate));
       data.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
     }
 
