@@ -75,8 +75,9 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       $scope.createClient.genderId = 22;
       $scope.createClient.active = 'false';
       $scope.createClient.dateFormat = 'dd/MM/yyyy';
-      var d = new Date();
-      var activationDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+      //var d = new Date();
+      //var activationDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+      var activationDate = moment.utc().format('l');
       console.log('activationDate' + activationDate);
       //$scope.createClient.activationDate= activationDate;
       $scope.createClient.locale = 'en';
@@ -1568,6 +1569,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
   $scope.finish = function() {
     validateAllTabs(function(errors) {
+      console.log('TIMEZONE: ' + moment.utc().format('l'));
       if (errors && errors.length>0) {
         $scope.type = 'error';
         $scope.message = 'Unable to finish Client saving, following forms contain errors:';
