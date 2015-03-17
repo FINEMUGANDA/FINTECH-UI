@@ -168,18 +168,10 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     data.clientId = $scope.clientId;
 
     if (typeof data.submittedOnDate === 'object') {
-      // TODO: use UTC values
-      //var submittedDate = new Date(data.submittedOnDate);
-      var submittedDate = moment.utc(data.submittedOnDate).toDate();
-      console.log('DATE S: ' + angular.toJson(submittedDate));
-      data.submittedOnDate = submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear();
+      data.submittedOnDate = moment.utc(data.submittedOnDate).format('DD/MM/YYYY');
     }
     if (typeof data.expectedDisbursementDate === 'object') {
-      // TODO: use UTC values
-      //var expectedDisbursementDate = new Date(data.expectedDisbursementDate);
-      var expectedDisbursementDate = moment.utc(data.expectedDisbursementDate).add(10, 'hours').toDate();
-      console.log('DATE D: ' + angular.toJson(expectedDisbursementDate));
-      data.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
+      data.expectedDisbursementDate = moment.utc(data.expectedDisbursementDate).format('DD/MM/YYYY');
     }
 
     function saveLoanSuccess(result) {
