@@ -326,7 +326,7 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
       $scope.ChangesLoanPortfolio = Graph.getColumnChart(data);
     };
     // failur callback
-    var ChangesLoanPortfolioFail = function(result){
+    var ChangesLoanPortfolioFail = function(){
       $scope.isLoanReady = true;
       //console.log('Error : Return from dashboardService service.' + angular.toJson(result));
       $scope.ChangesLoanPortfolio = Graph.getColumnChart(data);
