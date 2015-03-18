@@ -68,8 +68,13 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
           return p.complete;
         }).length;
 
+        var currentTime = (new Date()).getTime();
         var missedPaymentCount = _.filter($scope.loanDetails.repaymentSchedule.periods, function(p) {
-          return p.totalPaidLateForPeriod > 0;
+          if (p.complete) {
+            return p.totalPaidLateForPeriod > 0;
+          } else {
+            return p.period && (currentTime > (new Date(p.dueDate)).getTime());
+          }
         }).length;
 
         var lastScheduledPayment = _.max($scope.loanDetails.repaymentSchedule.periods, 'period');
