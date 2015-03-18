@@ -547,7 +547,9 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
     url = REST_URL.BASE + 'runreports/PageClientsScreenLoansPA?genericResultSet=false&pretty=true&tenantIdentifier=default';
     RoleService.getData(url).then(loadPASuccess, loadPAFail);
   }
-  total_loans_info();
+  if(AuthService.isAuthenticated()) {
+    total_loans_info();
+  }
 
   $rootScope.change_pass = function() {
     var msg = 'You are about to remove User ';

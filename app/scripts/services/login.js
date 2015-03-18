@@ -85,17 +85,22 @@ userServices.factory('AuthService', function($rootScope, $http, $filter, Remote,
                 userPermissions[permission] = true;
             });
 
-            // report categories
-            ReportService.getData(REST_URL.RUN_REPORTS +'/' + 'FullReportList?parameterType=true').then(function(result) {
-                angular.forEach(result.data, function(report) {
-                    //console.log('yyy ROUTE: ' + report.report_category);
-                    reportPermissions[report.report_category] = true;
+            if(this.isAuthenticated()) {
+                // report categories
+                ReportService.getData(REST_URL.RUN_REPORTS +'/' + 'FullReportList?parameterType=true').then(function(result) {
+                    angular.forEach(result.data, function(report) {
+                        //console.log('yyy ROUTE: ' + report.report_category);
+                        reportPermissions[report.report_category] = true;
+                    });
+                    //$rootScope.$broadcast(AUTH_EVENTS.reportPermissionUpdate);
+                }, function(){
+                    // TODO: do we need this?
+                    //reportPermissions = {};
                 });
-                //$rootScope.$broadcast(AUTH_EVENTS.reportPermissionUpdate);
-            }, function(){
+            } else {
                 // TODO: do we need this?
                 //reportPermissions = {};
-            });
+            }
         },
         userPermissions: function() {
             //return Session.getValue(APPLICATION.permissions);
