@@ -75,9 +75,10 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       $scope.createClient.genderId = 22;
       $scope.createClient.active = 'false';
       $scope.createClient.dateFormat = 'dd/MM/yyyy';
+      $scope.createClient.submittedOnDate = moment.utc().format('DD/MM/YYYY');
       //var d = new Date();
       //var activationDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
-      var activationDate = moment.utc().format('l');
+      var activationDate = moment.utc().format('DD/MM/YYYY');
       console.log('activationDate' + activationDate);
       //$scope.createClient.activationDate= activationDate;
       $scope.createClient.locale = 'en';
