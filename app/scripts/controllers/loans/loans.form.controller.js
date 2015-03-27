@@ -39,7 +39,7 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
   $scope.selectTab($route.current.params.tab);
 });
 
-angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, REST_URL, LoanService, $timeout, $location) {
+angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, APPLICATION, REST_URL, LoanService, $timeout, $location) {
   console.log('LoansFormCreateCtrl', $scope);
   $scope.loan = {};
 
@@ -163,15 +163,17 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     }
     var data = angular.copy($scope.loan);
     data.locale = 'en';
-    data.dateFormat = 'dd/MM/yyyy';
+    data.dateFormat = APPLICATION.DF_MIFOS;
     data.loanType = 'individual';
     data.clientId = $scope.clientId;
 
     if (typeof data.submittedOnDate === 'object') {
-      data.submittedOnDate = moment.utc(data.submittedOnDate).format('DD/MM/YYYY');
+      data.submittedOnDate = moment(data.submittedOnDate).format(APPLICATION.DF_MOMENT);
+      console.log('TADA: '+ data.submittedOnDate);
     }
     if (typeof data.expectedDisbursementDate === 'object') {
-      data.expectedDisbursementDate = moment.utc(data.expectedDisbursementDate).format('DD/MM/YYYY');
+      data.expectedDisbursementDate = moment(data.expectedDisbursementDate).format(APPLICATION.DF_MOMENT);
+      console.log('TADA: '+ data.expectedDisbursementDate);
     }
 
     function saveLoanSuccess(result) {
@@ -433,7 +435,7 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
 
 });
 
-angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($route, $location, $scope, REST_URL, $timeout, LoanService) {
+angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($route, $location, $scope, APPLICATION, REST_URL, $timeout, LoanService) {
   console.log('LoansFormCreateCtrl');
   $scope.rowCollection = [];
   $scope.loan = {};
@@ -472,10 +474,9 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
     }
     var json = angular.copy($scope.guarantor);
     json.locale = 'en';
-    json.dateFormat = 'dd/MM/yyyy';
+    json.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof json.dateOfBirth === 'object') {
-      var date = new Date(json.dateOfBirth);
-      json.dateOfBirth = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      json.dateOfBirth = moment(json.dateOfBirth).format(APPLICATION.DF_MOMENT);
     }
     function saveGuarantorSuccess() {
       $scope.type = 'alert-success';
