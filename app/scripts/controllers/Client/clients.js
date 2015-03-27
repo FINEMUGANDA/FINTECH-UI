@@ -81,11 +81,10 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
     dialog.result.then(function(result) {
       if (result) {
         $scope.message = '';
-        var currentDate = new Date();
         var json = {
-          dateFormat: 'dd/MM/yyyy',
+          dateFormat: APPLICATION.DF_MIFOS,
           locale: 'en',
-          activationDate: currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear()
+          activationDate: moment().format(APPLICATION.DF_MOMENT)
         };
         var url = REST_URL.CREATE_CLIENT + '/' + client.id + '?command=activate';
         CreateClientsService.saveClient(url, json).then(function(result) {

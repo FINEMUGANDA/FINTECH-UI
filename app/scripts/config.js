@@ -15,7 +15,9 @@ app.constant('APPLICATION', {
     'PAGE_SIZE' : 10,
     'DISPLAYED_PAGES' : 5,
     'NO_IMAGE_THUMB' : 'images/noPhoto.jpg',
-    'API_VERSION' : 'api/v1'
+    'API_VERSION' : 'api/v1',
+    'DF_MIFOS': 'dd/MM/yyyy/Z',
+    'DF_MOMENT': 'DD/MM/YYYY/Z'
 });
 
 app.constant('REST_URL', {
