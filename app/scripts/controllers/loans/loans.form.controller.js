@@ -73,8 +73,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
-            var expectedDisbursementDate = new Date(data.timeline.expectedDisbursementDate);
-            $scope.loan.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
+            $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).format(APPLICATION.DF_MOMENT);
           }
         });
       }
@@ -124,12 +123,10 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
         if (data.timeline) {
           if (data.timeline.expectedDisbursementDate) {
-            var expectedDisbursementDate = new Date(data.timeline.expectedDisbursementDate);
-            $scope.loan.expectedDisbursementDate = expectedDisbursementDate.getDate() + '/' + (expectedDisbursementDate.getMonth() + 1) + '/' + expectedDisbursementDate.getFullYear();
+            $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).format(APPLICATION.DF_MOMENT);
           }
           if (data.timeline.submittedOnDate) {
-            var submittedOnDate = new Date(data.timeline.submittedOnDate);
-            $scope.loan.submittedOnDate = submittedOnDate.getDate() + '/' + (submittedOnDate.getMonth() + 1) + '/' + submittedOnDate.getFullYear();
+            $scope.loan.submittedOnDate = moment(data.timeline.submittedOnDate).format(APPLICATION.DF_MOMENT);
           }
         }
         LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
@@ -169,11 +166,12 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
     if (typeof data.submittedOnDate === 'object') {
       data.submittedOnDate = moment(data.submittedOnDate).format(APPLICATION.DF_MOMENT);
-      console.log('TADA: '+ data.submittedOnDate);
+      console.log('TADA submitted: '+ data.submittedOnDate);
     }
+    console.log('TADA type: ' + (typeof data.expectedDisbursementDate));
     if (typeof data.expectedDisbursementDate === 'object') {
       data.expectedDisbursementDate = moment(data.expectedDisbursementDate).format(APPLICATION.DF_MOMENT);
-      console.log('TADA: '+ data.expectedDisbursementDate);
+      console.log('TADA expected: '+ data.expectedDisbursementDate);
     }
 
     function saveLoanSuccess(result) {
