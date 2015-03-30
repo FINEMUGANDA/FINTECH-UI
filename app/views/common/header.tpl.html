@@ -64,15 +64,6 @@
           </ul>
         </li>
       </ul>
-      <ul class="nav navbar-nav">
-        <li class="dropdown" >
-          <a class="dropdown-toggle pointer" data-toggle="dropdown">Time<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="">S: {{serverTime | amDateFormat:'DD.MM.YYYY, hh:mm:ss Z'}}</a></li>
-            <li><a href="">L: {{localTime | amDateFormat:'DD.MM.YYYY, hh:mm:ss Z'}}</a></li>
-          </ul>
-        </li>
-      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="hidden-sm">
           <form role="search" ng-controller="ClientSearchCtrl">
@@ -93,6 +84,13 @@
               <input type="text" class="search-box" ng-keypress="onKeypress($event)" ng-model="selected" ng-hide="isLoading" typeahead-loading="isLoading" typeahead="client as client.name for client in search($viewValue) | limitTo:10" typeahead-template-url="views/Client/search.match.tpl.html" typeahead-on-select="onSelect($item, $model, $label)" typeahead-focus-first="false" placeholder="Search">
             </div>
           </form>
+        </li>
+        <li class="dropdown" >
+          <a class="dropdown-toggle pointer" data-toggle="dropdown" style="border-left: none; border-right: none;margin: 0;">Time<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="">S: {{serverTime | amDateFormat:'DD.MM.YYYY, hh:mm:ss Z'}}</a></li>
+            <li><a href="">L: {{localTime | amDateFormat:'DD.MM.YYYY, hh:mm:ss Z'}}</a></li>
+          </ul>
         </li>
         <li>
           <a href="javascript: void(0);" class="notifications" ng-click="loans_info_show();
