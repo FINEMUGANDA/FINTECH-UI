@@ -79,8 +79,8 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       //var activationDate = moment.utc().format(APPLICATION.DF_MOMENT);
       $scope.createClient.locale = 'en';
       //Set default value for extra client information
-      $scope.createClientWithDataTable.numberOfChildren = 0;
-      $scope.createClientWithDataTable.numberOfLoanDependents = 0;
+      //$scope.createClientWithDataTable.numberOfChildren = 0;
+      //$scope.createClientWithDataTable.numberOfLoanDependents = 0;
       $scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus = 54;
       $scope.createClientWithDataTable.locale = 'en';
     } catch (e) {
@@ -111,7 +111,12 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
   //Validate create client
   $scope.validateCreateClient = function(createClient, createClientWithDataTable) {
     console.log('CreateClientCtrl : CreateClient : validateCreateClient');
-    if ($scope.createBasicClientForm.$valid && ($scope.file || $scope.cameraFile)) {
+
+    if($scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus==='55' && (!$scope.createClientWithDataTable.nameOfSpouse || $scope.createClientWithDataTable.nameOfSpouse==='')) {
+      $scope.invalidateForm();
+      $scope.type = 'error';
+      $scope.message = 'Please enter name of spouse!';
+    } else if ($scope.createBasicClientForm.$valid && ($scope.file || $scope.cameraFile)) {
       $scope.saveBasicClient(createClient, createClientWithDataTable);
     } else {
       $scope.invalidateForm();
@@ -537,7 +542,11 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
     console.log('CreateClientCtrl : CreateClient : validateEditClient');
 
     $scope.message = undefined;
-    if ($scope.editBasicClientForm.$valid) {
+    if($scope.editClientWithDataTable.MaritalStatus_cd_maritalStatus==='55' && (!$scope.editClientWithDataTable.nameOfSpouse || $scope.editClientWithDataTable.nameOfSpouse==='')) {
+      $scope.invalidateForm();
+      $scope.type = 'error';
+      $scope.message = 'Please enter name of spouse!';
+    } else  if ($scope.editBasicClientForm.$valid) {
       $scope.editBasicClient(editClient, editClientWithDataTable);
     } else {
       $scope.invalidateForm();
@@ -740,7 +749,17 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
   $scope.validateCreateClientAdditionalInfo = function(createClientAdditionalInfo) {
     console.log('CreateClientCtrl : CreateClient : validateCreateClientAdditionalInfo');
     $scope.message = undefined;
-    if ($scope.createAdditionalClientForm.$valid) {
+    if($scope.createClientAdditionalInfo.YesNo_cd_bank_account===33 &&
+        (!$scope.createClientAdditionalInfo.bank_account_with || $scope.createClientAdditionalInfo.bank_account_with==='' || !$scope.createClientAdditionalInfo.branch || $scope.createClientAdditionalInfo.branch==='' || !$scope.createClientAdditionalInfo.bank_account_number || $scope.createClientAdditionalInfo.bank_account_number==='')
+    ) {
+      $scope.invalidateForm();
+      $scope.type = 'error';
+      $scope.message = 'Please enter all bank related information';
+    } else if($scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by===47 && (!$scope.createClientAdditionalInfo.introducer_other || $scope.createClientAdditionalInfo.introducer_other==='')) {
+      $scope.invalidateForm();
+      $scope.type = 'error';
+      $scope.message = 'Please enter the name of the introducer';
+    } else if ($scope.createAdditionalClientForm.$valid) {
       $scope.saveClientAdditionalInfo(createClientAdditionalInfo);
     } else {
       $scope.invalidateForm();

@@ -92,15 +92,15 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-4">Number Of Children</label>
+            <label class="control-label col-md-4">Number Of Children<span class="required"> *</span></label>
             <div class="col-md-6">
-              <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfChildren" />
+              <input id="numberOfChildren" name="numberOfChildren" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfChildren" only-digits required />
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-4">Number of loan dependants<span class="required"> *</span></label>
+            <label class="control-label col-md-4">Number of loan dependants (Excl.Client)<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <input id="numberOfLoanDependents" name="numberOfLoanDependents" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfLoanDependents" required />
+              <input id="numberOfLoanDependents" name="numberOfLoanDependents" class="form-control" type="text" ng-model="createClientWithDataTable.numberOfLoanDependents" only-digits required />
             </div>
           </div>
         </div>
@@ -162,9 +162,9 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-4">Main Telephone No.</label>
+            <label class="control-label col-md-4">Main Telephone No.<span class="required"> *</span></label>
             <div class="col-md-6">
-              <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="createClient.mobileNo" only-digits />
+              <input id="mobileNo" name="mobileNo" class="form-control" type="text" ng-model="createClient.mobileNo" only-digits required />
             </div>
           </div>
           <div class="form-group">
