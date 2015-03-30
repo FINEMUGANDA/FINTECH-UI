@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('angularjsApp').controller('UserController', function($route, $scope, RoleService, REST_URL, $location, $timeout, dialogs) {
+var appModule = angular.module('angularjsApp');
+
+appModule.controller('UserController', function($route, $scope, RoleService, REST_URL, $location, $timeout, dialogs) {
 
   $scope.formData = {};
   $scope.params_id = $route.current.params.id;
@@ -171,4 +173,27 @@ angular.module('angularjsApp').controller('UserController', function($route, $sc
     }
   });
 
+});
+
+appModule.controller('UserPasswordController', function($route, $scope, RoleService, REST_URL) {
+  $scope.formData = {sendPasswordToEmail: true};
+
+  $scope.reset = function() {
+    RoleService.updateData(REST_URL.USERS + $scope.userId, angular.toJson($scope.formData)).then(function(result) {
+      $scope.type = 'alert-success';
+      $scope.message = 'User saved successfully';
+      $scope.errors = [];
+      //$location.url('/admin/users');
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
+  };
+
+  RoleService.getData(REST_URL.USERS).then(function(result) {
+    $scope.users = result.data;
+  }, function() {
+    // TODO: do we really need this?
+  });
 });

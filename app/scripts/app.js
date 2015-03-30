@@ -365,6 +365,12 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/admin/passwords', {
+        templateUrl: 'views/Admin/users_password.html',
+        controller: 'UserPasswordController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/staff', {
       templateUrl: 'views/Admin/staff.html',
       controller: 'StaffController',
