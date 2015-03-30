@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 angular.module('angularjsApp').controller('HolidayController', function($route, $scope, REST_URL, 
@@ -59,7 +61,7 @@ angular.module('angularjsApp').controller('HolidayController', function($route, 
 });
 
 // Create Holiday
-angular.module('angularjsApp').controller('CreateHolidayController', function($location, $scope, REST_URL, HolidayService, $timeout, Utility) {
+angular.module('angularjsApp').controller('CreateHolidayController', function($location, $scope, APPLICATION, REST_URL, HolidayService) {
   console.log('CreateHolidayController');
   $scope.offices = [];
   $scope.formHoliday = {};
@@ -169,15 +171,15 @@ angular.module('angularjsApp').controller('CreateHolidayController', function($l
       $scope.formHoliday.offices.push(temp);
     }
     $scope.formHoliday.locale = 'en';
-    $scope.formHoliday.dateFormat = 'dd/MM/yyyy';
+    $scope.formHoliday.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof $scope.formHoliday.fromDate === 'object') {
-      $scope.formHoliday.fromDate = Utility.dataFormat($scope.formHoliday.fromDate);
+      $scope.formHoliday.fromDate = moment($scope.formHoliday.fromDate).format(APPLICATION.DF_MOMENT);
     }
     if (typeof $scope.formHoliday.toDate === 'object') {
-      $scope.formHoliday.toDate = Utility.dataFormat($scope.formHoliday.toDate);
+      $scope.formHoliday.toDate = moment($scope.formHoliday.toDate).format(APPLICATION.DF_MOMENT);
     }
     if (typeof $scope.formHoliday.repaymentsRescheduledTo === 'object') {
-      $scope.formHoliday.repaymentsRescheduledTo = Utility.dataFormat($scope.formHoliday.repaymentsRescheduledTo);
+      $scope.formHoliday.repaymentsRescheduledTo = moment($scope.formHoliday.repaymentsRescheduledTo).format(APPLICATION.DF_MOMENT);
     }
     var json = angular.toJson($scope.formHoliday);
     console.log('json > ' + json);
@@ -234,7 +236,7 @@ angular.module('angularjsApp').controller('CreateHolidayController', function($l
 });
 
 // Edit Holiday
-angular.module('angularjsApp').controller('EditHolidayController', function($route, $location, $scope, REST_URL, HolidayService, $timeout, Utility) {
+angular.module('angularjsApp').controller('EditHolidayController', function($route, $location, $scope, APPLICATION, REST_URL, HolidayService) {
   console.log('EditHolidayController');
   $scope.formHoliday = {};
   $scope.date = {};
@@ -246,7 +248,7 @@ angular.module('angularjsApp').controller('EditHolidayController', function($rou
     try {
       $scope.formHoliday = {
         name: result.data.name,
-        description: result.data.description,
+        description: result.data.description
       };
       $scope.holidayStatusActive = false;
       if (result.data.status.value === 'Active') {
@@ -287,17 +289,17 @@ angular.module('angularjsApp').controller('EditHolidayController', function($rou
       $('html, body').animate({scrollTop: 0}, 800);
     };
     $scope.formHoliday.locale = 'en';
-    $scope.formHoliday.dateFormat = 'dd/MM/yyyy';
+    $scope.formHoliday.dateFormat = APPLICATION.DF_MIFOS;
     if (!$scope.holidayStatusActive) {
       if (typeof $scope.date.fromDate === 'object') {
-        $scope.formHoliday.fromDate = Utility.dataFormat($scope.date.fromDate);
+        $scope.formHoliday.fromDate = moment($scope.date.fromDate).format(APPLICATION.DF_MOMENT);
       }
       if (typeof $scope.date.toDate === 'object') {
-        $scope.formHoliday.toDate = Utility.dataFormat($scope.date.toDate);
+        $scope.formHoliday.toDate = moment($scope.date.toDate).format(APPLICATION.DF_MOMENT);
       }
     }
     if (typeof $scope.date.repaymentsRescheduledTo === 'object') {
-      $scope.formHoliday.repaymentsRescheduledTo = Utility.dataFormat($scope.date.repaymentsRescheduledTo);
+      $scope.formHoliday.repaymentsRescheduledTo = moment($scope.date.repaymentsRescheduledTo).format(APPLICATION.DF_MOMENT);
     }
     var json = angular.toJson($scope.formHoliday);
     console.log('json > ' + json);

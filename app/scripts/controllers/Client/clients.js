@@ -221,7 +221,7 @@ clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $
   };
 });
 
-clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, REST_URL, CreateClientsService, Session, data) {
+clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, CreateClientsService, Session, data) {
   $scope.isLoading = false;
   $scope.msg = data.msg;
   $scope.notes = [];
@@ -230,7 +230,7 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   $scope.datepicker = {};
 
   $scope.resetNote = function() {
-    $scope.note = {created_at: new Date(), client_id: data.client.id, dateFormat: 'dd/MM/yyyy', locale: 'en', staff_username: Session.getValue('username')};
+    $scope.note = {created_at: new Date(), client_id: data.client.id, dateFormat: APPLICATION.DF_MIFOS, locale: 'en', staff_username: Session.getValue('username')};
     $scope.source = null;
   };
 
@@ -264,24 +264,20 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   };
 
   $scope.save = function() {
-    var d;
     if($scope.note.created_at) {
-      d = new Date($scope.note.created_at);
-      $scope.note.created_at = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+      $scope.note.created_at = moment($scope.note.created_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
     if($scope.note.called_at) {
-      d = new Date($scope.note.called_at);
-      $scope.note.called_at = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+      $scope.note.called_at = moment($scope.note.called_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
     if($scope.note.visited_at) {
-      d = new Date($scope.note.visited_at);
-      $scope.note.visited_at = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+      $scope.note.visited_at = moment($scope.note.visited_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
     if($scope.source) {
       $scope.note.NoteSource_cd_source = $scope.source.id;
     }
 
-    $scope.note.dateFormat = 'dd/MM/yyyy';
+    $scope.note.dateFormat = APPLICATION.DF_MIFOS;
     $scope.note.locale = 'en';
 
     if($scope.note.id) {
@@ -396,10 +392,9 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
         // extra
         $scope.extra.identifier_id = resourceId;
         $scope.extra.locale = 'en';
-        $scope.extra.dateFormat = 'dd/MM/yyyy';
+        $scope.extra.dateFormat = APPLICATION.DF_MIFOS;
         if ($scope.extra.issue_date) {
-          var d = new Date($scope.extra.issue_date);
-          $scope.extra.issue_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+          $scope.extra.issue_date = moment($scope.extra.issue_date).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
         }
 
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + clientId, angular.toJson($scope.extra)).then(function() {

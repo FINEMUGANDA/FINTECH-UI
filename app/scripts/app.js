@@ -1,4 +1,6 @@
-'use strict'; 
+/* global moment */
+
+'use strict';
 
 /**
  * @ngdoc overview
@@ -47,7 +49,8 @@ var app = angular.module('angularjsApp', [
   'permissionService',
   'roleService',
   'ngCsv',
-  'modified.datepicker'
+  'modified.datepicker',
+  'angularMoment'
 ]);
 
 // Angular supports chaining, so here we chain the config function onto
@@ -725,7 +728,7 @@ app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-app.controller('ApplicationController', function($rootScope, $scope, $location, USER_ROLES, REST_URL, AuthService, Session) {
+app.controller('ApplicationController', function($rootScope, $scope, $location, $interval, USER_ROLES, APPLICATION, REST_URL, AuthService, Session) {
     //$scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
 
@@ -760,6 +763,14 @@ app.controller('ApplicationController', function($rootScope, $scope, $location, 
     //$scope.username = Session.getValue('username');
     //AuthService.reloadPermissions();
     $rootScope.username = Session.getValue('username');
+
+    $scope.serverTime = moment().tz(APPLICATION.TIMEZONE);
+    $scope.localTime = moment();
+
+    $interval(function() {
+        $scope.serverTime = moment().tz(APPLICATION.TIMEZONE);
+        $scope.localTime = moment();
+    }, 5000);
 });
 
 //Factory to manage the session related things for the application
@@ -957,5 +968,15 @@ app.filter('getChargeType', [ function() {
 app.filter('checkEmptyString', [ function() {
     return function(value) {
       return value==='';
+    };
+}]);
+
+//UTC to local date
+app.filter('localDate', [ function() {
+    return function(date, format) {
+        if(!format) {
+            format = 'DD MMM YY';
+        }
+        return moment.utc(date, format).add(moment().utcOffset(), 'minutes').format(format);
     };
 }]);

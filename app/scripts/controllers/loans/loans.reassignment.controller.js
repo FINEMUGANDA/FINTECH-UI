@@ -1,7 +1,9 @@
+/* global moment */
+
 'use strict';
 
 angular.module('angularjsApp').controller('LoansReassignmentCtrl',
-  function($scope, REST_URL, RoleService) {
+  function($scope, APPLICATION, REST_URL, RoleService) {
 
     var url = '';
     $scope.formData = {};
@@ -95,16 +97,12 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
         });
       }
       send.locale = 'en';
-      send.dateFormat = 'dd/MM/yyyy';
+      send.dateFormat = APPLICATION.DF_MIFOS;
       if (typeof $scope.formData.assignmentDate === 'object') {
-        var date = $scope.formData.assignmentDate;
-        date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-        send.assignmentDate = date;
+        send.assignmentDate = moment($scope.formData.assignmentDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
       }
       send.fromLoanOfficerId = $scope.formData.fromLoanOfficerId;
       send.toLoanOfficerId = $scope.formData.toLoanOfficerId;
-
-      //    console.log($scope.formData,   send);
 
       url = REST_URL.BASE + 'loans/loanreassignment';
       RoleService.createData(url, angular.toJson(send)).then(saveSuccess, saveFail);

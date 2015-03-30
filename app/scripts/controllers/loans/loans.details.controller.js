@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 
@@ -229,7 +231,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   }
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.loan = data.loan;
   $scope.action = data.action;
   $scope.transaction = data.transaction;
@@ -272,10 +274,9 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 
     var data = angular.copy($scope.formData);
     data.locale = 'en';
-    data.dateFormat = 'dd/MM/yyyy';
+    data.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof data.transactionDate === 'object') {
-      var transactionDate = data.transactionDate;
-      data.transactionDate = transactionDate.getDate() + '/' + (transactionDate.getMonth() + 1) + '/' + transactionDate.getFullYear();
+      data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
     function handleSuccess() {
       $scope.type = 'alert-success';
@@ -317,8 +318,6 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
       $scope.feesTotal = $scope.feesTotal + payment.fee_charges_amount;
       $scope.lpiTotal = $scope.lpiTotal + payment.penalty_charges_charged_derived;
       $scope.paymentTotal = $scope.paymentTotal + payment.principal_amount + payment.interest_amount + payment.fee_charges_amount + payment.penalty_charges_charged_derived;
-      //$scope.paymentTotal = $scope.paymentTotal + payment.principal_amount;
-      console.log('PAYMENT: ' + $scope.paymentTotal);
     });
     $scope.isLoading = false;
   });
@@ -328,7 +327,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
   };
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.loan = data.loan;
   $scope.action = data.action;
   $scope.formData = {};
@@ -362,10 +361,9 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
 
     var data = angular.copy($scope.formData);
     data.locale = 'en';
-    data.dateFormat = 'dd/MM/yyyy';
+    data.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof data.transactionDate === 'object') {
-      var transactionDate = data.transactionDate;
-      data.transactionDate = transactionDate.getDate() + '/' + (transactionDate.getMonth() + 1) + '/' + transactionDate.getFullYear();
+      data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
     function handleSuccess() {
       $scope.type = 'alert-success';
@@ -454,7 +452,7 @@ angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', functio
   };
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function($route, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.loan = data.loan;
   $scope.guarantor = data.guarantor || {};
   $scope.data = data.data;
@@ -475,10 +473,9 @@ angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function
     }
     var json = angular.copy($scope.guarantor);
     json.locale = 'en';
-    json.dateFormat = 'dd/MM/yyyy';
+    json.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof json.dateOfBirth === 'object') {
-      var date = new Date(json.dateOfBirth);
-      json.dateOfBirth = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      json.dateOfBirth = moment(json.dateOfBirth).format(APPLICATION.DF_MOMENT);
     }
     function saveGuarantorSuccess() {
       $scope.type = 'alert-success';
@@ -586,15 +583,12 @@ angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST
     }
     var json = angular.copy($scope.note);
     json.locale = 'en';
-    json.dateFormat = 'dd/MM/yyyy';
-    var date;
+    json.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof json.followUpDate === 'object') {
-      date = new Date(json.followUpDate);
-      json.followUpDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      json.followUpDate = moment(json.followUpDate).format(APPLICATION.DF_MOMENT);
     }
     if (typeof json.createdDate === 'object') {
-      date = new Date(json.createdDate);
-      json.createdDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      json.createdDate = moment(json.createdDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
     if (!json.created_by) {
       json.createdByUsername = Session.getValue(APPLICATION.username);

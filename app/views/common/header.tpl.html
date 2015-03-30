@@ -64,6 +64,15 @@
           </ul>
         </li>
       </ul>
+      <ul class="nav navbar-nav">
+        <li class="dropdown" >
+          <a class="dropdown-toggle pointer" data-toggle="dropdown">Time<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="">S: {{serverTime | amDateFormat:'DD.MM.YYYY, hh:mm:ss Z'}}</a></li>
+            <li><a href="">L: {{localTime | amDateFormat:'DD.MM.YYYY, hh:mm:ss Z'}}</a></li>
+          </ul>
+        </li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="hidden-sm">
           <form role="search" ng-controller="ClientSearchCtrl">

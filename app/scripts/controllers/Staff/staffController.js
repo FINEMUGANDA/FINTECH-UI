@@ -1,6 +1,8 @@
+/* global moment */
+
 'use strict';
  
-angular.module('angularjsApp').controller('StaffController', function($route, $scope, RoleService, REST_URL, $location) {
+angular.module('angularjsApp').controller('StaffController', function($route, $scope, RoleService, APPLICATION, REST_URL, $location) {
   var url = '';
   $scope.formData = {};
   $scope.itemsByPage = 10;
@@ -68,11 +70,9 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
     };
 
     $scope.formData.locale = 'en';
-    $scope.formData.dateFormat = 'dd/MM/yyyy';
+    $scope.formData.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof $scope.formData.joiningDate === 'object') {
-      var date = $scope.formData.joiningDate;
-      date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-      $scope.formData.joiningDate = date;
+      $scope.formData.joiningDate = moment($scope.formData.joiningDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
 
     if ($scope.params_id) {

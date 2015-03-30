@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
@@ -43,7 +45,7 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
 });
 
 //View Journal Entry in Details
-angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route, $scope, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
+angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function($route, $scope, APPLICATION, REST_URL, JournalService, $timeout, $location, dialogs, Utility, PAGE_URL) {
   console.log('JournalEntriesDetailsCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 10;
@@ -118,12 +120,11 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
   var reverseTransactionSuccess = function(result) {
     console.log('reverseTransactionSuccess : ' + result);
     var form = {};
-    var d = new  Date();
     form.journalentry = $scope.id;
     form.reversenote = $scope.note;        
-    form.createdDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    form.createdDate = moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     form.locale = 'en';
-    form.dateFormat = 'dd/MM/yyyy';
+    form.dateFormat = APPLICATION.DF_MIFOS;
     var json = angular.toJson(form);
     console.log(json);
     var url = REST_URL.JOURANAL_ENTRY_REVERSE_NOTE + $scope.officeId;
@@ -180,7 +181,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
 });
 
 //Create Journal Entry
-angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($scope, REST_URL, JournalService, $location, PAGE_URL, Utility) {
+angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($scope, APPLICATION, REST_URL, JournalService, $location, PAGE_URL, Utility) {
   console.log('CreateJournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.journalEntryForm = {};
@@ -285,10 +286,9 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   $scope.saveJournalEntry = function() {
     console.log('CreateJournalEntriesCtrl : saveJournalEntry');
     var jeTransaction = new Object({});
-    var d = new Date(this.journalEntryForm.transationDate);
-    jeTransaction.transactionDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();    
+    jeTransaction.transactionDate = moment(this.journalEntryForm.transationDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     jeTransaction.locale = 'en';
-    jeTransaction.dateFormat = 'dd/MM/yyyy';
+    jeTransaction.dateFormat = APPLICATION.DF_MIFOS;
     jeTransaction.officeId = this.journalEntryForm.officeId;
     //jeTransaction.transactionDate = this.journalEntryForm.transactionDate ;
     jeTransaction.referenceNumber = this.journalEntryForm.referenceNumber;

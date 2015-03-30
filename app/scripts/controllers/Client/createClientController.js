@@ -74,13 +74,9 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       $scope.createClient.officeId = 1;
       $scope.createClient.genderId = 22;
       $scope.createClient.active = 'false';
-      $scope.createClient.dateFormat = 'dd/MM/yyyy';
-      $scope.createClient.submittedOnDate = moment.utc().format('DD/MM/YYYY');
-      //var d = new Date();
-      //var activationDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
-      var activationDate = moment.utc().format('DD/MM/YYYY');
-      console.log('activationDate' + activationDate);
-      //$scope.createClient.activationDate= activationDate;
+      $scope.createClient.dateFormat = APPLICATION.DF_MIFOS;
+      $scope.createClient.submittedOnDate = moment().format(APPLICATION.DF_MOMENT);
+      //var activationDate = moment.utc().format(APPLICATION.DF_MOMENT);
       $scope.createClient.locale = 'en';
       //Set default value for extra client information
       $scope.createClientWithDataTable.numberOfChildren = 0;
@@ -135,8 +131,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
   //Start - Save Basic Client Infromation
   $scope.saveBasicClient = function(createClient, createClientWithDataTable) {
     console.log('CreateClientCtrl : CreateClient : saveBasicClient');
-    var d = new Date($scope.createClient.dateOfBirth);
-    $scope.createClient.dateOfBirth = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    $scope.createClient.dateOfBirth = moment($scope.createClient.dateOfBirth).format(APPLICATION.DF_MOMENT);
     $scope.createClient.active = false;
 
     var saveBasicClientSuccess = function(result) {
@@ -482,7 +477,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       $scope.message = '';
       //setting the id for the header for the navigation
       $scope.id = $route.current.params.id;
-      $scope.editClient.dateFormat = 'dd/MM/yyyy';
+      $scope.editClient.dateFormat = APPLICATION.DF_MIFOS;
       $scope.editClient.locale = 'en';
       //filling the dropdowns
       $scope.client = result.data;
@@ -498,7 +493,8 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       $scope.editClient.middlename = $scope.client.middlename;
       $scope.editClient.lastname = $scope.client.lastname;
       if (!Utility.isUndefinedOrNull($scope.client.dateOfBirth)) {
-        $scope.editClient.dateOfBirth = $scope.client.dateOfBirth[2] + '/' + $scope.client.dateOfBirth[1] + '/' + $scope.client.dateOfBirth[0];
+        //$scope.editClient.dateOfBirth = $scope.client.dateOfBirth[2] + '/' + $scope.client.dateOfBirth[1] + '/' + $scope.client.dateOfBirth[0];
+        $scope.editClient.dateOfBirth = moment($scope.client.dateOfBirth).format(APPLICATION.DF_MOMENT);
       }
       $scope.editClient.genderId = $scope.client.gender.id;
       $scope.editClient.mobileNo = $scope.client.mobileNo;
@@ -566,8 +562,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
     //TODO Set the client active false for the clients
     $scope.editClient.active = false;
     console.log('CreateClientCtrl : CreateClient : saveBasicClient');
-    var d = new Date($scope.editClient.dateOfBirth);
-    $scope.editClient.dateOfBirth = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    $scope.editClient.dateOfBirth = moment($scope.editClient.dateOfBirth).format(APPLICATION.DF_MOMENT);
 
     var editBasicClientSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
@@ -764,11 +759,9 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
     console.log('CreateClientCtrl : CreateClient : saveClientAdditionalInfo');
 
     //Covert date format
-    $scope.createClientAdditionalInfo.dateFormat = 'dd/MM/yyyy';
-    var d = new Date($scope.createClientAdditionalInfo.knownToIntroducerSince);
-    $scope.createClientAdditionalInfo.knownToIntroducerSince = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
-    d = new Date($scope.createClientAdditionalInfo.visitingDate);
-    $scope.createClientAdditionalInfo.visitingDate = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    $scope.createClientAdditionalInfo.dateFormat = APPLICATION.DF_MIFOS;
+    $scope.createClientAdditionalInfo.knownToIntroducerSince = moment($scope.createClientAdditionalInfo.knownToIntroducerSince).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+    $scope.createClientAdditionalInfo.visitingDate = moment($scope.createClientAdditionalInfo.visitingDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     $scope.createClientAdditionalInfo.locale = 'en';
 
     var saveClientAdditionalInfoSuccess = function() {
@@ -1071,10 +1064,9 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     //Set the Client identification extra information
     $scope.clientIdentificationExtra.locale = 'en';
     //Covert date format
-    $scope.clientIdentificationExtra.dateFormat = 'dd/MM/yyyy';
+    $scope.clientIdentificationExtra.dateFormat = APPLICATION.DF_MIFOS;
     if ($scope.clientIdentificationExtra.issue_date) {
-      var d = new Date($scope.clientIdentificationExtra.issue_date);
-      $scope.clientIdentificationExtra.issue_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+      $scope.clientIdentificationExtra.issue_date = moment($scope.clientIdentificationExtra.issue_date).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
 
     var saveClientIdentificationExtraSuccess = function() {
@@ -1382,12 +1374,11 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
     console.log('CreateClientCtrl : CreateClient : saveClientNextToKeen');
 
     //Covert date format
-    $scope.clientNextToKeen.dateFormat = 'dd/MM/yyyy';
+    $scope.clientNextToKeen.dateFormat = APPLICATION.DF_MIFOS;
     $scope.clientNextToKeen.locale = 'en';
 
     if (!Utility.isUndefinedOrNull($scope.clientNextToKeen.date_of_birth)) {
-      var d = new Date($scope.clientNextToKeen.date_of_birth);
-      $scope.clientNextToKeen.date_of_birth = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+      $scope.clientNextToKeen.date_of_birth = moment($scope.clientNextToKeen.date_of_birth).format(APPLICATION.DF_MOMENT);
     }
 
     var saveClientNextToKeenSuccess = function() {
@@ -1556,7 +1547,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
       $scope.clientBusinessActivity.BusinessActivity_cd_business_activity = 30;
       $scope.clientBusinessActivity.YesNo_cd_book_keeping = 33;
       $scope.clientBusinessActivity.YesNo_cd_other_income = 34;
-      $scope.clientBusinessActivity.dateFormat = 'dd/MM/yyyy';
+      $scope.clientBusinessActivity.dateFormat = APPLICATION.DF_MIFOS;
       $scope.clientBusinessActivity.locale = 'en';
       $scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = 30;
 
@@ -1578,8 +1569,8 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
         //console.log('TIMEZONE: ' + moment.utc().format('DD/MM/YYYY'));
         var jsonData = {
           'locale': 'en',
-          'dateFormat': 'dd/MM/yyyy',
-          'activationDate': moment.utc().format('DD/MM/YYYY')
+          'dateFormat': APPLICATION.DF_MIFOS,
+          'activationDate': moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
         };
         var handleResult = function() {
           $location.url(PAGE_URL.CLIENTS);
@@ -1720,9 +1711,8 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     console.log('CreateClientCtrl : CreateClient : saveClientBusinessActivity');
 
     //Covert date format
-    $scope.clientBusinessActivity.dateFormat = 'dd/MM/yyyy';
-    var d = new Date($scope.clientBusinessActivity.operating_since);
-    $scope.clientBusinessActivity.operating_since = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    $scope.clientBusinessActivity.dateFormat = APPLICATION.DF_MIFOS;
+    $scope.clientBusinessActivity.operating_since = moment($scope.clientBusinessActivity.operating_since).format(APPLICATION.DF_MOMENT);
 
     var saveClientBusinessActivitySuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
