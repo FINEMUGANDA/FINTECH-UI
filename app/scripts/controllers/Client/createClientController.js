@@ -75,7 +75,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       $scope.createClient.genderId = 22;
       $scope.createClient.active = 'false';
       $scope.createClient.dateFormat = APPLICATION.DF_MIFOS;
-      $scope.createClient.submittedOnDate = moment().format(APPLICATION.DF_MOMENT);
+      $scope.createClient.submittedOnDate = moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
       //var activationDate = moment.utc().format(APPLICATION.DF_MOMENT);
       $scope.createClient.locale = 'en';
       //Set default value for extra client information
