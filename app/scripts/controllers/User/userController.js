@@ -175,19 +175,27 @@ appModule.controller('UserController', function($route, $scope, RoleService, RES
 
 });
 
-appModule.controller('UserPasswordController', function($route, $scope, RoleService, REST_URL) {
-  $scope.formData = {sendPasswordToEmail: true};
+appModule.controller('UserPasswordController', function($route, $scope, $location, RoleService, REST_URL) {
+  $scope.loading = false;
+  $scope.formData = {resetPassword: true};
+
+  $scope.cancel = function() {
+    $location.url('/admin/users');
+  };
 
   $scope.reset = function() {
-    RoleService.updateData(REST_URL.USERS + $scope.userId, angular.toJson($scope.formData)).then(function(result) {
+    $scope.loading = true;
+    RoleService.updateData(REST_URL.USERS + $scope.userId, angular.toJson($scope.formData)).then(function() {
       $scope.type = 'alert-success';
       $scope.message = 'User saved successfully';
       $scope.errors = [];
+      $scope.loading = false;
       //$location.url('/admin/users');
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      $scope.loading = false;
     });
   };
 
