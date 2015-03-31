@@ -68,8 +68,9 @@ codeCtrl.controller('CodeListCtrl', function ($scope, REST_URL, CodeService) {
         });
     };
 
-    $scope.$watch('codeId', function(data) {
+    $scope.$watch('codeId', function() {
         if($scope.codeId) {
+            $scope.codeValue = {};
             $scope.loadCodeValues();
         }
     });
