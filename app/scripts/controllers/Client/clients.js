@@ -562,7 +562,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
   $scope.load();
 });
 
-clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, CreateClientsService, data) {
+clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, AuthService, CreateClientsService, data) {
   $scope.client = data.client;
   $scope.info = {};
   var $url = REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=close';
@@ -595,6 +595,10 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
 
   $scope.cancel = function() {
     $modalInstance.close(false);
+  };
+  $scope.hasPermission = function(permission) {
+    console.log('PERMISSION: ' + permission);
+    return AuthService.hasPermission(permission);
   };
 
 });
