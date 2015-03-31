@@ -179,7 +179,8 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_survey: 'Survey',
         fin_currency: 'Currencies',
         fin_exchange_rate: 'Exchange Rates',
-        fin_dashboard_survey: 'Survey'
+        fin_dashboard_survey: 'Survey',
+        fin_codevalue: 'Code Values'
     }
 );
 
@@ -207,7 +208,8 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_notification',
             'fin_survey',
             'fin_currency',
-            'fin_exchange_rate'
+            'fin_exchange_rate',
+            'fin_codevalue'
         ],
         dashboard: [
             'fin_dashboard_shortcuts',
