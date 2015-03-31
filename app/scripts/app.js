@@ -33,6 +33,7 @@ var app = angular.module('angularjsApp', [
   'reportService',
   'jobService',
   'auditService',
+  'codeService',
   'dataTransferService',
   'searchService',
   'Constants',
@@ -395,6 +396,9 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/codes', {
+        templateUrl: 'views/code/codes.html',
+        controller: 'CodeListCtrl'
     }).when('/holidays', {
       templateUrl: 'views/holidays/holidays.html',
       controller: 'HolidayController'

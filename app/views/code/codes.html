@@ -1,0 +1,89 @@
+<div ng-include="'views/common/header.tpl.html'"></div>
+<div class="container post-login">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="shortcuts">
+        <ul role="tablist">
+            <!--
+            <li role="presentation"><a href="#/loanProducts">Loan Products</a></li>
+            <li role="presentation"><a href="#/charges" class="active">Charges</a></li>
+            -->
+        </ul>
+        <div class="row">
+            <div class="col-md-6">
+                <select ng-model="codeId" class="form-control" ng-options="code.id as code.name for code in codes">
+                    <option value="">--Select Code--</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-inline">
+                    <div class="validate form-group">
+                        <label>Position<span class="required">*</span></label>
+                        <input class="form-control" type="number" placeholder="Position" ng-model="codeValue.position">
+                    </div>
+                    <div class="validate form-group">
+                        <label>Name<span class="required">*</span></label>
+                        <input class="form-control" type="text" placeholder="Name" ng-model="codeValue.name">
+                    </div>
+                    <div class="validate form-group">
+                        <label>Description</label>
+                        <input class="form-control" type="text" placeholder="Description" ng-model="codeValue.description">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" ng-show="codeValue.id" ng-click="save()" ng-disabled="loading"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>
+                        <button type="button" class="btn btn-primary" ng-hide="codeValue.id" ng-click="save()" ng-disabled="loading"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="list">
+        <table st-table="displayed" st-safe-src="codeValues" class="table">
+            <thead>
+            <tr>
+                <th st-sort="position">Position</th>
+                <th st-sort="name">Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="codeValue in displayed">
+                <td>{{codeValue.position}}</td>
+                <td>{{codeValue.name}}</td>
+                <td>
+                    <button class="btn btn-primary" type="button" ng-click="select(codeValue)" ng-disabled="loading"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-danger pull-right" type="button" ng-click="remove(codeValue)" ng-disabled="loading"><span class="glyphicon glyphicon-minus"></span></button>
+                    <!--
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+                    </div>
+                    -->
+                </td>
+            </tr>
+            </tbody>
+            <tfoot ng-hide="loading">
+            <tr>
+                <td colspan="8">
+                    <div class="table-footer">
+                        <div class="paginate">
+                            <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

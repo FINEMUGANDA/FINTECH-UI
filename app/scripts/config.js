@@ -66,6 +66,7 @@ app.constant('REST_URL', {
     ACCOUNT_LIST: 'api/v1/glaccounts',
     ACCOUNT_BY_ID: 'api/v1/glaccounts/',
     JOBS: 'api/v1/jobs',
+    CODES: 'api/v1/codes',
     SCHEDULER: 'api/v1/scheduler',
     ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template',
     ACCOUNT_UPDATE_BY_ID: 'api/v1/glaccounts/',
