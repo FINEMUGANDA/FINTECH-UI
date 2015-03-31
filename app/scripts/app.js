@@ -734,7 +734,7 @@ app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-app.controller('ApplicationController', function($rootScope, $scope, $location, $interval, USER_ROLES, APPLICATION, REST_URL, AuthService, Session) {
+app.controller('ApplicationController', function($rootScope, $scope, $location, USER_ROLES, APPLICATION, REST_URL, AuthService, Session) {
     //$scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
 
@@ -770,6 +770,7 @@ app.controller('ApplicationController', function($rootScope, $scope, $location, 
     //AuthService.reloadPermissions();
     $rootScope.username = Session.getValue('username');
 
+    /**
     $scope.serverTime = moment().tz(APPLICATION.TIMEZONE);
     $scope.localTime = moment();
 
@@ -777,6 +778,7 @@ app.controller('ApplicationController', function($rootScope, $scope, $location, 
         $scope.serverTime = moment().tz(APPLICATION.TIMEZONE);
         $scope.localTime = moment();
     }, 5000);
+     */
 });
 
 //Factory to manage the session related things for the application
