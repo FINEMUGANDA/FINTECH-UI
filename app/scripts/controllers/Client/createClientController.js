@@ -1234,6 +1234,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.client = result.data;
       //Setting the values for the edit client next to keen page
       $scope.clientIdentificationExtra.issue_place = $scope.client[0].issue_place;
+      $scope.clientIdentificationExtra.description = $scope.client[0].description;
       if (!Utility.isUndefinedOrNull($scope.client[0].issue_date)) {
         $scope.clientIdentificationExtra.issue_date = $scope.client[0].issue_date[2] + '/' + $scope.client[0].issue_date[1] + '/' + $scope.client[0].issue_date[0];
       }
