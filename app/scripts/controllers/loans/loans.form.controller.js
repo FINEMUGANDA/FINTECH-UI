@@ -73,6 +73,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
+            data.timeline.expectedDisbursementDate[1] = data.timeline.expectedDisbursementDate[1]-1;
             $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
         });
@@ -123,9 +124,11 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
         if (data.timeline) {
           if (data.timeline.expectedDisbursementDate) {
+            data.timeline.expectedDisbursementDate[1] = data.timeline.expectedDisbursementDate[1]-1;
             $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
           if (data.timeline.submittedOnDate) {
+            data.timeline.submittedOnDate[1] = data.timeline.submittedOnDate[1]-1;
             $scope.loan.submittedOnDate = moment(data.timeline.submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
         }
