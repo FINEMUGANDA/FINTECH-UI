@@ -84,7 +84,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
         var json = {
           dateFormat: APPLICATION.DF_MIFOS,
           locale: 'en',
-          activationDate: moment.utc().format(APPLICATION.DF_MOMENT)
+          activationDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
         };
         var url = REST_URL.CREATE_CLIENT + '/' + client.id + '?command=activate';
         CreateClientsService.saveClient(url, json).then(function(result) {
@@ -579,7 +579,7 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
     var json = {
       dateFormat: APPLICATION.DF_MIFOS,
       locale: 'en',
-      closureDate: moment.utc().format(APPLICATION.DF_MOMENT),
+      closureDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT),
       closureReasonId: $scope.info.closureReason
     };
     var url = REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=close';
@@ -808,7 +808,7 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
         var json = {
           dateFormat: APPLICATION.DF_MIFOS,
           locale: 'en',
-          rejectedOnDate: moment.utc().format(APPLICATION.DF_MOMENT),
+          rejectedOnDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT),
           note: result.note
         };
         CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=reject', json).then(function(result) {
@@ -828,7 +828,7 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
     var json = {
       dateFormat: APPLICATION.DF_MIFOS,
       locale: 'en',
-      approvedOnDate: moment.utc().format(APPLICATION.DF_MOMENT)
+      approvedOnDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
     };
     CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=approve', json).then(function(result) {
       $scope.type = 'alert-success';
@@ -1004,7 +1004,7 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
     var json = {
       dateFormat: APPLICATION.DF_MIFOS,
       locale: 'en',
-      actualDisbursementDate: moment.utc($scope.baseLoan.actualDisbursementDate).format(APPLICATION.DF_MOMENT)
+      actualDisbursementDate: moment($scope.baseLoan.actualDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
     };
     CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=disburse', json).then(function(result) {
       $scope.type = 'alert-success';

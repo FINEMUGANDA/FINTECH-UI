@@ -73,7 +73,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
-            $scope.loan.expectedDisbursementDate = moment.utc(data.timeline.expectedDisbursementDate).format(APPLICATION.DF_MOMENT);
+            $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
         });
       }
@@ -123,10 +123,10 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
         if (data.timeline) {
           if (data.timeline.expectedDisbursementDate) {
-            $scope.loan.expectedDisbursementDate = moment.utc(data.timeline.expectedDisbursementDate).format(APPLICATION.DF_MOMENT);
+            $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
           if (data.timeline.submittedOnDate) {
-            $scope.loan.submittedOnDate = moment.utc(data.timeline.submittedOnDate).format(APPLICATION.DF_MOMENT);
+            $scope.loan.submittedOnDate = moment(data.timeline.submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
         }
         LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
@@ -165,13 +165,10 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     data.clientId = $scope.clientId;
 
     if (typeof data.submittedOnDate === 'object') {
-      data.submittedOnDate = moment.utc(data.submittedOnDate).format(APPLICATION.DF_MOMENT);
-      console.log('TADA submitted: '+ data.submittedOnDate);
+      data.submittedOnDate = moment(data.submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
-    console.log('TADA type: ' + (typeof data.expectedDisbursementDate));
     if (typeof data.expectedDisbursementDate === 'object') {
-      data.expectedDisbursementDate = moment.utc(data.expectedDisbursementDate).format(APPLICATION.DF_MOMENT);
-      console.log('TADA expected: '+ data.expectedDisbursementDate);
+      data.expectedDisbursementDate = moment(data.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
 
     function saveLoanSuccess(result) {
@@ -474,7 +471,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
     json.locale = 'en';
     json.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof json.dateOfBirth === 'object') {
-      json.dateOfBirth = moment.utc(json.dateOfBirth).format(APPLICATION.DF_MOMENT);
+      json.dateOfBirth = moment(json.dateOfBirth).format(APPLICATION.DF_MOMENT);
     }
     function saveGuarantorSuccess() {
       $scope.type = 'alert-success';

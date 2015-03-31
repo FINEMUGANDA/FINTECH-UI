@@ -76,7 +76,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       $scope.createClient.active = 'false';
       $scope.createClient.dateFormat = APPLICATION.DF_MIFOS;
       $scope.createClient.submittedOnDate = moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
-      //var activationDate = moment.utc().format(APPLICATION.DF_MOMENT);
+      //var activationDate = moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
       $scope.createClient.locale = 'en';
       //Set default value for extra client information
       //$scope.createClientWithDataTable.numberOfChildren = 0;
@@ -1585,7 +1585,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
         $scope.message = 'Unable to finish Client saving, following forms contain errors:';
         $scope.errors = errors;
       } else {
-        //console.log('TIMEZONE: ' + moment.utc().format('DD/MM/YYYY'));
+        //console.log('TIMEZONE: ' + moment().tz(APPLICATION.TIMEZONE).format('DD/MM/YYYY'));
         var jsonData = {
           'locale': 'en',
           'dateFormat': APPLICATION.DF_MIFOS,
