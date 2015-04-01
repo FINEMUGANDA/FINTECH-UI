@@ -403,7 +403,7 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
   };
 });
 
-angular.module('angularjsApp').controller('LoanDetailsDisbursalUndoDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, Utility) {
+angular.module('angularjsApp').controller('LoanDetailsDisbursalUndoDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
   $scope.loan = data.loan;
   $scope.action = data.action;
   $scope.formData = {};
