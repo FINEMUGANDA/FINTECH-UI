@@ -499,8 +499,10 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       $scope.editClient.lastname = $scope.client.lastname;
       if (!Utility.isUndefinedOrNull($scope.client.dateOfBirth)) {
         //$scope.editClient.dateOfBirth = $scope.client.dateOfBirth[2] + '/' + $scope.client.dateOfBirth[1] + '/' + $scope.client.dateOfBirth[0];
-        $scope.client.dateOfBirth[1] = $scope.client.dateOfBirth[1]-1;
-        $scope.editClient.dateOfBirth = moment($scope.client.dateOfBirth).format(APPLICATION.DF_MOMENT);
+
+        //$scope.client.dateOfBirth[1] = $scope.client.dateOfBirth[1]-1;
+        //$scope.editClient.dateOfBirth = moment($scope.client.dateOfBirth).format(APPLICATION.DF_MOMENT);
+        $scope.editClient.dateOfBirth = Utility.toLocalDate($scope.client.dateOfBirth, true);
       }
       $scope.editClient.genderId = $scope.client.gender.id;
       $scope.editClient.mobileNo = $scope.client.mobileNo;
@@ -1496,8 +1498,10 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
       $scope.clientNextToKeen.lastname = $scope.client[0].lastname;
       if (!Utility.isUndefinedOrNull($scope.client[0].date_of_birth)) {
         //$scope.clientNextToKeen.date_of_birth = $scope.client[0].date_of_birth[2] + '/' + $scope.client[0].date_of_birth[1] + '/' + $scope.client[0].date_of_birth[0];
-        $scope.client[0].date_of_birth[1] = $scope.client[0].date_of_birth[1]-1;
-        $scope.clientNextToKeen.date_of_birth = moment($scope.client[0].date_of_birth).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+
+        //$scope.client[0].date_of_birth[1] = $scope.client[0].date_of_birth[1]-1;
+        //$scope.clientNextToKeen.date_of_birth = moment($scope.client[0].date_of_birth).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+        $scope.clientNextToKeen.date_of_birth = Utility.toLocalDate($scope.client[0].date_of_birth, true);
       }
       $scope.clientNextToKeen.address = $scope.client[0].address;
       $scope.clientNextToKeen.telephone = $scope.client[0].telephone;
@@ -1832,8 +1836,10 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
       $scope.clientBusinessActivity.YesNo_cd_book_keeping = parseInt($scope.client[0].YesNo_cd_book_keeping);
       if (!Utility.isUndefinedOrNull($scope.client[0].operating_since)) {
         //$scope.clientBusinessActivity.operating_since = $scope.client[0].operating_since[2] + '/' + $scope.client[0].operating_since[1] + '/' + $scope.client[0].operating_since[0];
-        $scope.client[0].operating_since[1] = $scope.client[0].operating_since[1]-1;
-        $scope.clientBusinessActivity.operating_since = moment($scope.client[0].operating_since).format(APPLICATION.DF_MOMENT);
+
+        //$scope.client[0].operating_since[1] = $scope.client[0].operating_since[1]-1;
+        //$scope.clientBusinessActivity.operating_since = moment($scope.client[0].operating_since).format(APPLICATION.DF_MOMENT);
+        $scope.clientBusinessActivity.operating_since = Utility.toLocalDate($scope.client[0].operating_since, true);
       }
       $scope.clientBusinessActivity.YesNo_cd_other_income = parseInt($scope.client[0].YesNo_cd_other_income);
       $scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = parseInt($scope.client[0].BusinessActivity_cd_other_income_business_activity);

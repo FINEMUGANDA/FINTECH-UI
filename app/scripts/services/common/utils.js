@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 var utils = angular.module('Utils', []);
@@ -72,6 +74,45 @@ utils.factory('Utility', function($q, APPLICATION) {
       var month = (date.getMonth() + 1)<10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
       date = days + '/' + month + '/' + date.getFullYear();
       return date;
+    },
+    toLocalDate: function(date, noTimezone) {
+      // TODO: additional checks to ensure it's an array
+      if(date) {
+        var d = angular.copy(date);
+        console.log('DEBUG U: ' + angular.toJson(date) + ' - ' + angular.toJson(d));
+        d[1] = d[1]-1;
+
+        if(!noTimezone) {
+          return moment(d).format(APPLICATION.DF_MOMENT);
+        } else {
+          return moment.tz(d, APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+        }
+      } else {
+        return date;
+      }
+    },
+    toServerDate: function(date, noTimezone) {
+      console.log('DEBUG U: ' + angular.toJson(date) + ' - ' + (typeof date));
+
+      if(typeof date === 'string') {
+        date = moment(date, APPLICATION.DF_MOMENT).toDate();
+      }
+
+      if(!noTimezone) {
+        var now = new Date();
+
+        // NOTE: this is necessary, otherwise midnight is assumed and we get completely wrong stuff
+        date.setHours(now.getHours());
+        date.setMinutes(now.getMinutes());
+      }
+
+      var result = moment(date);
+
+      if(!noTimezone) {
+          result = result.tz(APPLICATION.TIMEZONE);
+      }
+
+      return result.format(APPLICATION.DF_MOMENT);
     }
   };
 });

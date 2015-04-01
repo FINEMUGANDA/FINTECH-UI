@@ -39,7 +39,7 @@ angular.module('angularjsApp').controller('LoansFormCtrl', function($route, $sco
   $scope.selectTab($route.current.params.tab);
 });
 
-angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, APPLICATION, REST_URL, LoanService, $timeout, $location) {
+angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route, $scope, APPLICATION, REST_URL, LoanService, $timeout, $location, Utility) {
   console.log('LoansFormCreateCtrl', $scope);
   $scope.loan = {};
 
@@ -73,9 +73,10 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
-            var expectedDisbursementDate = angular.copy(data.timeline.expectedDisbursementDate);
-            expectedDisbursementDate[1] = expectedDisbursementDate[1]-1;
-            $scope.loan.expectedDisbursementDate = moment(expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            //var expectedDisbursementDate = angular.copy(data.timeline.expectedDisbursementDate);
+            //expectedDisbursementDate[1] = expectedDisbursementDate[1]-1;
+            //$scope.loan.expectedDisbursementDate = moment.tz(expectedDisbursementDate, APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            $scope.loan.expectedDisbursementDate = Utility.toLocalDate(data.timeline.expectedDisbursementDate);
           }
         });
       }
@@ -125,14 +126,16 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
         if (data.timeline) {
           if (data.timeline.expectedDisbursementDate) {
-            var expectedDisbursementDate = angular.copy(data.timeline.expectedDisbursementDate);
-            expectedDisbursementDate[1] = expectedDisbursementDate[1]-1;
-            $scope.loan.expectedDisbursementDate = moment(expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            //var expectedDisbursementDate = angular.copy(data.timeline.expectedDisbursementDate);
+            //expectedDisbursementDate[1] = expectedDisbursementDate[1]-1;
+            //$scope.loan.expectedDisbursementDate = moment.tz(expectedDisbursementDate, APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            $scope.loan.expectedDisbursementDate = Utility.toLocalDate(data.timeline.expectedDisbursementDate);
           }
           if (data.timeline.submittedOnDate) {
-            var submittedOnDate = angular.copy(data.timeline.submittedOnDate);
-            submittedOnDate[1] = submittedOnDate[1]-1;
-            $scope.loan.submittedOnDate = moment(submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            //var submittedOnDate = angular.copy(data.timeline.submittedOnDate);
+            //submittedOnDate[1] = submittedOnDate[1]-1;
+            //$scope.loan.submittedOnDate = moment.tz(submittedOnDate, APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            $scope.loan.submittedOnDate = Utility.toLocalDate(data.timeline.submittedOnDate);
           }
         }
         LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
@@ -171,10 +174,14 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     data.clientId = $scope.clientId;
 
     if (typeof data.submittedOnDate === 'object') {
-      data.submittedOnDate = moment(data.submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      console.log('DEBUG S: ' + data.submittedOnDate + ' - ' + Utility.toServerDate(data.submittedOnDate));
+      //data.submittedOnDate = moment(data.submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      data.submittedOnDate = Utility.toServerDate(data.submittedOnDate);
     }
     if (typeof data.expectedDisbursementDate === 'object') {
-      data.expectedDisbursementDate = moment(data.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      console.log('DEBUG E: ' + data.expectedDisbursementDate + ' - ' + Utility.toServerDate(data.expectedDisbursementDate));
+      //data.expectedDisbursementDate = moment(data.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      data.expectedDisbursementDate = Utility.toServerDate(data.expectedDisbursementDate);
     }
 
     function saveLoanSuccess(result) {
