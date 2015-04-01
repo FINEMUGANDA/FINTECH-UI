@@ -219,6 +219,18 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails();
     });
   };
+  $scope.openDisbursalUndoDialog = function() {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.disbursalundo.dialog.html', 'LoanDetailsDisbursalUndoDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateLoanDetails();
+    });
+  };
+  $scope.openRescheduleDialog = function() {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.reschedule.dialog.html', 'LoanDetailsRescheduleDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateLoanDetails();
+    });
+  };
 
   if (DataTransferService.get('loan.payment.code')) {
     $timeout(function() {
@@ -385,6 +397,48 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
       $scope.errors = result.data.errors;
     }
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=writeoff', data).then(handleSuccess, handleFail);
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+});
+
+angular.module('angularjsApp').controller('LoanDetailsDisbursalUndoDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, Utility) {
+  $scope.loan = data.loan;
+  $scope.action = data.action;
+  $scope.formData = {};
+  $scope.isLoading = false;
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.errors = [];
+    if (!$scope.loanDetailsFormDisbursalUndo.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+
+    function handleSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan disbursal undo was processed successfully';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.close();
+      }, 2000);
+    }
+    function handleFail(result) {
+      $scope.message = 'Cannot undo loan disbursal: ' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '?command=undoDisbursal', $scope.formData).then(handleSuccess, handleFail);
   };
   $scope.cancel = function() {
     $modalInstance.dismiss();

@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h4 class="modal-title">Undo Disbursal</h4>
+</div>
+
+<form name="loanDetailsFormDisbursalUndo" class="form form-horizontal" ng-submit="submit()" novalidate show-validation>
+  <div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div ng-show="isLoading">Loading...</div>
+    <div class="clearfix" ng-hide="isLoading">
+      <div class="form-group">
+        <label class="control-label col-sm-5" >Reason(s)</label>
+        <div class="col-sm-6">
+          <textarea name="principal" ng-model="formData.note" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" ng-hide="isLoading">Undo</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+  </div>
+</form>
+
+
+
