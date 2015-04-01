@@ -111,7 +111,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       }
   };
   if ($scope.reportType === 'Pentaho') {
-      $scope.formData.outputType = 'HTML';
+      $scope.formData.outputType = 'PDF';
   }
 
   //Success callback
