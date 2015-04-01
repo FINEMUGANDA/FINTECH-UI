@@ -20,7 +20,7 @@ codeCtrl.controller('CodeListCtrl', function ($scope, REST_URL, CodeService) {
     $scope.save = function() {
         $scope.loading = true;
         if($scope.codeValue.id) {
-            CodeService.updateCode(REST_URL.CODES + '/' + $scope.codeId + '/codevalues/' + $scope.codeValue.id, angular.toJson($scope.codeValue)).then(function(result) {
+            CodeService.updateCode(REST_URL.CODES + '/' + $scope.codeId + '/codevalues/' + $scope.codeValue.id, angular.toJson($scope.codeValue)).then(function() {
                 $scope.loading = false;
                 $scope.codeValue = {};
                 if($scope.codeId) {
@@ -31,7 +31,7 @@ codeCtrl.controller('CodeListCtrl', function ($scope, REST_URL, CodeService) {
                 // TODO: do we really need this?
             });
         } else {
-            CodeService.saveCode(REST_URL.CODES + '/' + $scope.codeId + '/codevalues', angular.toJson($scope.codeValue)).then(function(result) {
+            CodeService.saveCode(REST_URL.CODES + '/' + $scope.codeId + '/codevalues', angular.toJson($scope.codeValue)).then(function() {
                 $scope.loading = false;
                 $scope.codeValue = {};
                 if($scope.codeId) {
@@ -57,7 +57,7 @@ codeCtrl.controller('CodeListCtrl', function ($scope, REST_URL, CodeService) {
 
     $scope.remove = function(codeValue) {
         $scope.loading = true;
-        CodeService.deleteCode(REST_URL.CODES + '/' + $scope.codeId + '/codevalues/' + codeValue.id).then(function(result) {
+        CodeService.deleteCode(REST_URL.CODES + '/' + $scope.codeId + '/codevalues/' + codeValue.id).then(function() {
             $scope.loading = false;
             if($scope.codeId) {
                 $scope.loadCodeValues();
