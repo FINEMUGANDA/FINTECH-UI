@@ -73,8 +73,9 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
-            data.timeline.expectedDisbursementDate[1] = data.timeline.expectedDisbursementDate[1]-1;
-            $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            var expectedDisbursementDate = angular.copy(data.timeline.expectedDisbursementDate);
+            expectedDisbursementDate[1] = expectedDisbursementDate[1]-1;
+            $scope.loan.expectedDisbursementDate = moment(expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
         });
       }
@@ -124,12 +125,14 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
         if (data.timeline) {
           if (data.timeline.expectedDisbursementDate) {
-            data.timeline.expectedDisbursementDate[1] = data.timeline.expectedDisbursementDate[1]-1;
-            $scope.loan.expectedDisbursementDate = moment(data.timeline.expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            var expectedDisbursementDate = angular.copy(data.timeline.expectedDisbursementDate);
+            expectedDisbursementDate[1] = expectedDisbursementDate[1]-1;
+            $scope.loan.expectedDisbursementDate = moment(expectedDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
           if (data.timeline.submittedOnDate) {
-            data.timeline.submittedOnDate[1] = data.timeline.submittedOnDate[1]-1;
-            $scope.loan.submittedOnDate = moment(data.timeline.submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+            var submittedOnDate = angular.copy(data.timeline.submittedOnDate);
+            submittedOnDate[1] = submittedOnDate[1]-1;
+            $scope.loan.submittedOnDate = moment(submittedOnDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
           }
         }
         LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
