@@ -231,7 +231,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   }
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, Utility) {
   $scope.loan = data.loan;
   $scope.action = data.action;
   $scope.transaction = data.transaction;
@@ -249,7 +249,9 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
     $scope.data = result.data;
     $timeout(function() {
       if (result.data.date && result.data.date.length) {
-        $scope.formData.transactionDate = new Date(result.data.date);
+        //$scope.formData.transactionDate = new Date(result.data.date);
+        console.log('DEBUG T: ' + angular.toJson(result.data.date));
+        $scope.formData.transactionDate = Utility.toLocalDate(result.data.date);
       }
       $scope.formData.transactionAmount = result.data.amount;
       $scope.isLoading = false;
@@ -276,7 +278,8 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
     data.locale = 'en';
     data.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof data.transactionDate === 'object') {
-      data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      //data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      data.transactionDate = Utility.toServerDate(data.transactionDate);
     }
     function handleSuccess() {
       $scope.type = 'alert-success';
@@ -327,7 +330,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
   };
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, Utility) {
   $scope.loan = data.loan;
   $scope.action = data.action;
   $scope.formData = {};
@@ -337,7 +340,9 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
     $scope.data = result.data;
     $timeout(function() {
       if (result.data.date && result.data.date.length) {
-        $scope.formData.transactionDate = new Date(result.data.date);
+        //$scope.formData.transactionDate = new Date(result.data.date);
+        console.log('DEBUG WO: ' + angular.toJson(result.data.date));
+        $scope.formData.transactionDate = Utility.toLocalDate(result.data.date);
       }
       $scope.isLoading = false;
     });
@@ -363,7 +368,8 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
     data.locale = 'en';
     data.dateFormat = APPLICATION.DF_MIFOS;
     if (typeof data.transactionDate === 'object') {
-      data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      //data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      data.transactionDate = Utility.toServerDate(data.transactionDate);
     }
     function handleSuccess() {
       $scope.type = 'alert-success';

@@ -74,13 +74,15 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
         JournalService.getData(url).then(loadReversalEntrySuccess, loadJournalEntriesDetailsFail);
         $scope.officeName = $scope.rowCollection[0].officeName;
         $scope.officeId = $scope.rowCollection[0].officeId;
-        $scope.transactionDate = $scope.rowCollection[0].transactionDate[2] + '/';
-        $scope.transactionDate +=$scope.rowCollection[0].transactionDate[1] + '/';
-        $scope.transactionDate +=$scope.rowCollection[0].transactionDate[0];
+        //$scope.transactionDate = $scope.rowCollection[0].transactionDate[2] + '/';
+        //$scope.transactionDate +=$scope.rowCollection[0].transactionDate[1] + '/';
+        //$scope.transactionDate +=$scope.rowCollection[0].transactionDate[0];
+        $scope.transactionDate = Utility.toLocalDate($scope.rowCollection[0].transactionDate);
         $scope.createdByUserName=$scope.rowCollection[0].createdByUserName;
-        $scope.createdDate = $scope.rowCollection[0].createdDate[2] + '/';
-        $scope.createdDate +=$scope.rowCollection[0].createdDate[1] + '/';
-        $scope.createdDate +=$scope.rowCollection[0].createdDate[0];
+        //$scope.createdDate = $scope.rowCollection[0].createdDate[2] + '/';
+        //$scope.createdDate +=$scope.rowCollection[0].createdDate[1] + '/';
+        //$scope.createdDate +=$scope.rowCollection[0].createdDate[0];
+        $scope.createdDate = Utility.toLocalDate($scope.rowCollection[0].createdDate);
       }
       for (var i in result.data.pageItems) {          
         if (result.data.pageItems[i].reversed === false) {
@@ -286,7 +288,8 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   $scope.saveJournalEntry = function() {
     console.log('CreateJournalEntriesCtrl : saveJournalEntry');
     var jeTransaction = new Object({});
-    jeTransaction.transactionDate = moment(this.journalEntryForm.transationDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+    //jeTransaction.transactionDate = moment(this.journalEntryForm.transationDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+    jeTransaction.transactionDate = Utility.toServerDate(this.journalEntryForm.transationDate);
     jeTransaction.locale = 'en';
     jeTransaction.dateFormat = APPLICATION.DF_MIFOS;
     jeTransaction.officeId = this.journalEntryForm.officeId;
