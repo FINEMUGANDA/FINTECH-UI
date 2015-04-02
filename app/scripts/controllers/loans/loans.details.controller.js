@@ -219,6 +219,15 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails();
     });
   };
+  $scope.undoWriteOff = function() {
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=undoWriteOff').then(function() {
+      updateLoanDetails();
+    }, function(result) {
+      $scope.message = 'Cannot undo write off:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    });
+  };
   $scope.openDisbursalUndoDialog = function() {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.disbursalundo.dialog.html', 'LoanDetailsDisbursalUndoDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function() {
