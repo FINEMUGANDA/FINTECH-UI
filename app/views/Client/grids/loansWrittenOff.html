@@ -34,27 +34,26 @@
         <tr ng-repeat="loansWrittenOff in displayed">
            <td>
               <div class="name">
-                  <a ng-href="#editbasicclientinfo/{{loansWrittenOff.id}}" ng-show="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loansWrittenOff.name}}</a>
-                  <span ng-hide="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loansWrittenOff.name}}</span>
+                  <span>{{loansWrittenOff.name}}</span>
               </div>
               <div class="meta">
-                <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">File No.: {{loansWrittenOff.file_no}}</a>
+                <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">File No.: {{loansWrittenOff.file_no}}</a>
               </div>
           </td>
           <td class="number">
-            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.loanAmount}}</a>
+            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.loanAmount}}</a>
           </td>
           <td class="number">
-            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.balanceWritten}}</a>
+            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.balanceWritten}}</a>
           </td>
           <td>
-            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.writtenoffon_date}}</a>
+            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.writtenoffon_date}}</a>
           </td>
           <td>
-            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.loanOfficer}}</a>
+            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.loanOfficer}}</a>
           </td>
           <td>
-            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.writtenoff_reason}}</a>
+            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.writtenoff_reason}}</a>
           </td>
         </tr>
       </tbody>
