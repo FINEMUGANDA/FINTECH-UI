@@ -38,14 +38,24 @@
                   <span ng-hide="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loansWrittenOff.name}}</span>
               </div>
               <div class="meta">
-                File No.: {{loansWrittenOff.file_no}}
+                <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">File No.: {{loansWrittenOff.file_no}}</a>
               </div>
           </td>
-          <td class="number">{{loansWrittenOff.loanAmount}}</td>
-          <td class="number">{{loansWrittenOff.balanceWritten}}</td>
-          <td>{{loansWrittenOff.writtenoffon_date}}</td>
-          <td>{{loansWrittenOff.loanOfficer}}</td>
-          <td>{{loansWrittenOff.writtenoff_reason}}</td>
+          <td class="number">
+            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.loanAmount}}</a>
+          </td>
+          <td class="number">
+            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.balanceWritten}}</a>
+          </td>
+          <td>
+            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.writtenoffon_date}}</a>
+          </td>
+          <td>
+            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.loanOfficer}}</a>
+          </td>
+          <td>
+            <a href="" ng-href="#loans/{{loansWrittenOff.clientId}}/details/{{loansWrittenOff.id}}">{{loansWrittenOff.writtenoff_reason}}</a>
+          </td>
         </tr>
       </tbody>
       <tbody ng-show="isLoading">
