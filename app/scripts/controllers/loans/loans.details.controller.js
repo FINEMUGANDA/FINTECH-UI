@@ -220,9 +220,12 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     });
   };
   $scope.undoWriteOff = function() {
+    $scope.isLoading = true;
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=undoWriteOff').then(function() {
+      $scope.isLoading = false;
       updateLoanDetails();
     }, function(result) {
+      $scope.isLoading = false;
       $scope.message = 'Cannot undo write off:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;

@@ -30,7 +30,7 @@
           <button class="btn btn-sm primary" ng-show="hasPermission('CLOSE_LOAN')">Close</button>
           -->
         </div>
-        <div class="pull-right" ng-hide="loanDetails.status.id == 300 || loanDetails.status.id == 800 || loanDetails.status.id == 900">
+        <div class="pull-right" ng-show="loanDetails.status.id == 601">
           <button class="btn btn-sm primary" ng-click="undoWriteOff()" ng-show="hasPermission('UNDOWRITEOFF_LOAN')">Undo Write Off</button>
         </div>
       </div>
