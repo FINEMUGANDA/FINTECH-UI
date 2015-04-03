@@ -32,8 +32,7 @@
         <tr ng-repeat="loansRejected in displayed">
            <td>
               <div class="name">
-                  <a ng-href="#editbasicclientinfo/{{loansRejected.id}}" ng-show="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loansRejected.name}}</a>
-                  <span ng-hide="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loansRejected.name}}</span>
+                  <span>{{loansRejected.name}}</span>
               </div>
               <div class="meta">
                 File No.: {{loansRejected.file_no}}

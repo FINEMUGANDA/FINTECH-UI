@@ -34,8 +34,7 @@
           <td><img ng-src="{{loan.image}}" class="Size"></td>
           <td ng-click="showLoanDetails(loan)">
             <div class="name">
-                <a ng-href="#editbasicclientinfo/{{loan.clientId}}" ng-show="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loan.name}}</a>
-                <span ng-hide="hasAnyPermission(['READ_CLIENT', 'UPDATE_CLIENT'])">{{loan.name}}</span>
+                <span>{{loan.name}}</span>
             </div>
             <div class="meta activity">
               {{loan.type}}

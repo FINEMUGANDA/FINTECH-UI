@@ -35,7 +35,7 @@
         <tr ng-repeat="loanPendingApproval in displayed" class="pointer">
           <td ng-click="editLoan(loanPendingApproval)">
             <div class="name">
-              <a ng-href="#editbasicclientinfo/{{loanPendingApproval.clientId}}">{{loanPendingApproval.name}}</a>
+              <span>{{loanPendingApproval.name}}</span>
             </div>
             <div class="meta">
               File No.: {{loanPendingApproval.file_no}}

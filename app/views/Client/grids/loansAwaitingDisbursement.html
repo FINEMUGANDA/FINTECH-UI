@@ -36,7 +36,7 @@
         <tr ng-repeat="loansAwaitingDisbursement in displayed" class="pointer">
           <td ng-click="editLoan(loansAwaitingDisbursement)">
             <div class="name">
-              <a ng-href="#editbasicclientinfo/{{loansAwaitingDisbursement.clientId}}">{{loansAwaitingDisbursement.name}}</a>
+              <span>{{loansAwaitingDisbursement.name}}</span>
             </div>
             <div class="meta">
               File No.: {{loansAwaitingDisbursement.file_no}}
