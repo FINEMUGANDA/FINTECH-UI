@@ -49,7 +49,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "bower install",
+    "postinstall": "npm install bower -g && bower install",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
