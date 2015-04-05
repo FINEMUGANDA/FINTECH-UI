@@ -1087,7 +1087,7 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, $locati
   };
 
 
-  $scope.showLoanDetails = function(loan) {
+  $scope.showLoan = function(loan) {
     $location.url('/loans/' + loan.id + '/details/' + loan.loanId);
   };
 

@@ -31,7 +31,7 @@
         </tr>
       </thead>
       <tbody ng-hide="isLoading">
-        <tr ng-repeat="loansWrittenOff in displayed" class="pointer" ng-click="showLoanDetails(loansWrittenOff)">
+        <tr ng-repeat="loansWrittenOff in displayed" class="pointer" ng-click="showLoan(loansWrittenOff)">
            <td>
               <div class="name">
                   <span>{{loansWrittenOff.name}}</span>
