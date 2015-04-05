@@ -1874,3 +1874,135 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   };
 
 });
+
+CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, PAGE_URL, Utility) {
+  $scope.isLoading = false;
+  $scope.client = {};
+  $scope.extra = {};
+  $scope.additional = {};
+  $scope.identifications = [];
+  $scope.nextOfKeens = [];
+  $scope.businessActivities = [];
+
+  $scope.editClient = function() {
+    $location.url(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + '/' + $scope.id);
+  };
+
+  $scope.displayImage = function(clientId) {
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + clientId + '/images').then(function(result) {
+      $scope.viewImage = result.data;
+    }, function() {
+      $scope.client.imagePresent = false;
+    });
+  };
+
+  $scope.loadExtra = function() {
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id + '?genericResultSet=true').then(function(result) {
+      $scope.isLoading = false;
+
+      if (result.data.data.length > 0) {
+        _.each(result.data.columnHeaders, function(header, index) {
+          $scope.extra[header.columnName] = result.data.data[0].row[index];
+        });
+      }
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.loadAdditional = function() {
+    // TODO: implement this
+    CreateClientsService.getData(REST_URL.CREATE_ADDITIONAL_CLIENT_INFO + $route.current.params.id + '?genericResultSet=true').then(function(result) {
+      if (result.data.data.length > 0) {
+        _.each(result.data.columnHeaders, function(header, index) {
+          $scope.additional[header.columnName] = result.data.data[0].row[index];
+          if(header.columnDisplayType==='CODELOOKUP') {
+            angular.forEach(header.columnValues, function(code) {
+              if(parseInt($scope.additional[header.columnName])===code.id) {
+                $scope.additional[header.columnName] = code.value;
+              }
+            });
+          }
+        });
+      }
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.loadIdentification = function() {
+    CreateClientsService.getData(REST_URL.CLIENT_IDENTIFICATION_TEMPLATE_REPORT + '?genericResultSet=false&R_client_id=' + $route.current.params.id).then(function(result) {
+      $scope.identifications = result.data;
+      angular.forEach($scope.identifications, function(identification) {
+        identification.issue_date = Utility.toLocalDate(identification.issue_date, true);
+      });
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.loadNextOfKeen = function() {
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '?genericResultSet=true').then(function(result) {
+      angular.forEach(result.data.data, function(row) {
+        $scope.nextOfKeens.push({});
+        _.each(result.data.columnHeaders, function(header, index) {
+          $scope.nextOfKeens[$scope.nextOfKeens.length-1][header.columnName] = row.row[index];
+          if(header.columnDisplayType==='CODELOOKUP') {
+            angular.forEach(header.columnValues, function(code) {
+              if(parseInt($scope.nextOfKeens[$scope.nextOfKeens.length-1][header.columnName])===code.id) {
+                $scope.nextOfKeens[$scope.nextOfKeens.length-1][header.columnName] = code.value;
+              }
+            });
+          }
+        });
+      });
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.loadBusiness = function() {
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '?genericResultSet=true').then(function(result) {
+      angular.forEach(result.data.data, function(row) {
+        $scope.businessActivities.push({});
+        _.each(result.data.columnHeaders, function(header, index) {
+          $scope.businessActivities[$scope.businessActivities.length-1][header.columnName] = row.row[index];
+          if(header.columnDisplayType==='CODELOOKUP') {
+            angular.forEach(header.columnValues, function(code) {
+              if(parseInt($scope.businessActivities[$scope.businessActivities.length-1][header.columnName])===code.id) {
+                $scope.businessActivities[$scope.businessActivities.length-1][header.columnName] = code.value;
+              }
+            });
+          }
+        });
+      });
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
+
+  CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true').then(function(result) {
+    $scope.isLoading = false;
+    try {
+      $scope.id = $route.current.params.id;
+      $scope.client = result.data;
+
+      $scope.client = result.data;
+      $scope.client.dateOfBirth = Utility.toLocalDate($scope.client.dateOfBirth, true);
+
+      if ($scope.client.imagePresent) {
+        $scope.displayImage($route.current.params.id);
+      }
+
+      $scope.loadExtra();
+      $scope.loadAdditional();
+      $scope.loadIdentification();
+      $scope.loadNextOfKeen();
+      $scope.loadBusiness();
+    } catch (e) {
+      console.log(e);
+    }
+  }, function() {
+    // TODO: do we need this?
+  });
+});

@@ -1,0 +1,439 @@
+<div ng-include="'views/common/header.tpl.html'"></div>
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+      <h3><button type="button" ng-click="editClient()" class="btn btn-primary ng-binding"><i class="icon-edit icon-white"></i>Edit</button></h3>
+    </div>
+
+    <!-- basic -->
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <h3>Basic</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-12" ng-show="isLoading">
+          <div class="loading-indicator">Loading...</div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>File Number</dt>
+                <dd>
+                  {{client.externalId}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Office</dt>
+                <dd>
+                  {{client.officeName}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Loan Officer</dt>
+                <dd>
+                  {{client.staffName}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>First Name</dt>
+                <dd>
+                  {{client.firstname}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Middle Name</dt>
+                <dd>
+                  {{client.middlename}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Last Name</dt>
+                <dd>
+                  {{client.lastname}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Date Of Birth</dt>
+                <dd>
+                  {{client.dateOfBirth}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Gender</dt>
+                <dd>
+                  {{client.gender.name}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Marital Status</dt>
+                <dd>
+                  {{extra.MaritalStatus_cd_maritalStatus}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row" ng-show="extra.MaritalStatus_cd_maritalStatus == 55">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Name Of Spouse</dt>
+                <dd>
+                  {{extra.nameOfSpouse}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Number Of Children</dt>
+                <dd>
+                  {{extra.numberOfChildren}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Number of loan dependants (Excl.Client)</dt>
+                <dd>
+                  {{extra.numberOfLoanDependents}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Home Contact Address</dt>
+                <dd>
+                  {{extra.homeContactAddress}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Home Contact Person</dt>
+                <dd>
+                  {{extra.homeContactPerson}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>E-Mail</dt>
+                <dd>
+                  {{extra.email}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Main Telephone No.</dt>
+                <dd>
+                  {{client.mobileNo}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>2nd Telephone No.</dt>
+                <dd>
+                  {{extra.SecondMobileNo}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- additional -->
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <h3>Additional</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row" ng-show="additional.YesNo_cd_bank_account=='Yes'">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Bank account:</dt>
+              <dd>
+                {{additional.YesNo_cd_bank_account}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row" ng-show="additional.YesNo_cd_bank_account=='Yes'">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Bank account with:</dt>
+              <dd>
+                {{additional.bank_account_with}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row" ng-show="additional.YesNo_cd_bank_account=='Yes'">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Bank branch:</dt>
+              <dd>
+                {{additional.branch}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row" ng-show="additional.YesNo_cd_bank_account=='Yes'">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Bank account #:</dt>
+              <dd>
+                {{additional.bank_account_number}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Citizenship:</dt>
+              <dd>
+                {{additional.CitizenShip_cd_citizenship}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Education:</dt>
+              <dd>
+                {{additional.Education_cd_education_level}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Poverty status:</dt>
+              <dd>
+                {{additional.Poverty_cd_poverty_status}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Introduced by:</dt>
+              <dd>
+                {{additional.Introduced_by_cd_introduced_by}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Introduced by client:</dt>
+              <dd>
+                {{additional.introducer_client}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Introduced by loan officer:</dt>
+              <dd>
+                {{additional.introducer_loanOfficer}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Introducer other:</dt>
+              <dd>
+                {{additional.introducer_other}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Known to introducer since:</dt>
+              <dd>
+                {{additional.knownToIntroducerSince}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Visited by:</dt>
+              <dd>
+                {{additional.visitedById}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Visiting date:</dt>
+              <dd>
+                  {{additional.visitingDate}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- identity -->
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <h3>Identifications</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table table-condensed table-striped">
+          <tbody>
+          <tr ng-repeat="identification in identifications">
+            <td>{{identification.documentTypeId}}</td>
+            <td>{{identification.documentKey}}</td>
+            <td>{{identification.issue_date}}</td>
+            <td>{{identification.issue_place}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- next of keen -->
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <h3>Next of Keen</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-condensed table-striped">
+          <thead>
+          <tr>
+            <th>Firstname</th>
+            <th>Middlename</th>
+            <th>Lastname</th>
+            <th>Relation</th>
+            <th>DOB</th>
+            <th>Tel. #1</th>
+            <th>Tel. #2</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="nextOfKeen in nextOfKeens">
+            <td>{{nextOfKeen.firstname}}</td>
+            <td>{{nextOfKeen.middlename}}</td>
+            <td>{{nextOfKeen.lastname}}</td>
+            <td>{{nextOfKeen.GuarantorRelationship_cd_relationship}}</td>
+            <td>{{nextOfKeen.date_of_birth}}</td>
+            <td>{{nextOfKeen.telephone}}</td>
+            <td>{{nextOfKeen.second_telephone}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- business -->
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <h3>Business Details</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-condensed table-striped">
+          <thead>
+          <tr>
+            <th>Activity</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Operating since</th>
+            <th>Book kepping</th>
+            <th>Income</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="businessActivity in businessActivities">
+            <td>{{businessActivity.BusinessActivity_cd_business_activity}}</td>
+            <td>{{businessActivity.business_name}}</td>
+            <td>{{businessActivity.business_address}}</td>
+            <td>{{businessActivity.operating_since}}</td>
+            <td>{{businessActivity.YesNo_cd_book_keeping}}</td>
+            <td>{{businessActivity.BusinessActivity_cd_other_income_business_activity}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
