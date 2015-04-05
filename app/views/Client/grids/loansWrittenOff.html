@@ -31,29 +31,29 @@
         </tr>
       </thead>
       <tbody ng-hide="isLoading">
-        <tr ng-repeat="loansWrittenOff in displayed">
+        <tr ng-repeat="loansWrittenOff in displayed" class="pointer" ng-click="showLoanDetails(loansWrittenOff)">
            <td>
               <div class="name">
                   <span>{{loansWrittenOff.name}}</span>
               </div>
               <div class="meta">
-                <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">File No.: {{loansWrittenOff.file_no}}</a>
+                File No.: {{loansWrittenOff.file_no}}
               </div>
           </td>
           <td class="number">
-            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.loanAmount}}</a>
+            {{loansWrittenOff.loanAmount}}
           </td>
           <td class="number">
-            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.balanceWritten}}</a>
+            {{loansWrittenOff.balanceWritten}}
           </td>
           <td>
-            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.writtenoffon_date}}</a>
+            {{loansWrittenOff.writtenoffon_date}}
           </td>
           <td>
-            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.loanOfficer}}</a>
+            {{loansWrittenOff.loanOfficer}}
           </td>
           <td>
-            <a href="" ng-href="#loans/{{loansWrittenOff.id}}/details/{{loansWrittenOff.loanId}}">{{loansWrittenOff.writtenoff_reason}}</a>
+            {{loansWrittenOff.writtenoff_reason}}
           </td>
         </tr>
       </tbody>

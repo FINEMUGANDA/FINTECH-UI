@@ -1064,7 +1064,7 @@ clientsCtrl.controller('LoansRejectedCtrl', function($scope, $timeout, ClientsSe
   loadLoansRejected();
 });
 
-clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, $location, ClientsService, REST_URL) {
   console.log('LoansWrittenOffCtrl : LoansWrittenOff');
   //To load the LoansWrittenOff page
 
@@ -1084,6 +1084,11 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, Clients
   var allLoansWrittenOffFail = function() {
     $scope.isLoading = false;
     console.log('Error : Return from LoansWrittenOff service.');
+  };
+
+
+  $scope.showLoanDetails = function(loan) {
+    $location.url('/loans/' + loan.id + '/details/' + loan.loanId);
   };
 
   var loadLoansWrittenOff = function getData() {
