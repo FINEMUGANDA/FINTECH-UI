@@ -2071,7 +2071,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.loans = result.data.pageItems;
       angular.forEach($scope.loans, function(loan) {
         loan.timeline.submittedOnDate = Utility.toLocalDate(loan.timeline.submittedOnDate);
-      })
+      });
       $scope.loansLoading = false;
     }, function() {
       $scope.loansLoading = false;
