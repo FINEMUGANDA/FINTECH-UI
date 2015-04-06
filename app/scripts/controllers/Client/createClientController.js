@@ -1976,8 +1976,6 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       if(document.type.indexOf('image')===0) {
         //var file = new Blob([content.data], {type: document.type});
         //$scope.preview = $sce.trustAsResourceUrl(URL.createObjectURL(file));
-        //$scope.preview = 'data:' + document.type + ';base64,' + btoa(content.data);
-        //$scope.preview = 'data:' + document.type + ';base64,' + base64.encode(content.data);
         var reader = new FileReader();
         reader.onload = function() {
           $scope.preview = reader.result;
