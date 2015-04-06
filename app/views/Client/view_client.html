@@ -456,9 +456,12 @@
         </table>
       </div>
     </div>
-    <div class="row" ng-show="preview">
-      <div class="col-md-12">
-        <h4>Document Preview</h4>
+    <div class="row">
+      <div class="col-md-12" ng-show="documentLoading">
+        <h4>Loading...</h4>
+      </div>
+      <div class="col-md-12" ng-show="preview">
+        <h4>Document Preview <button type="button" class="btn btn-sm btn-default" ng-click="clearPreview()">Clear</button></h4>
         <img ng-src="{{preview}}">
       </div>
     </div>

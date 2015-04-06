@@ -1972,6 +1972,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   };
 
   $scope.downloadDocument = function(document) {
+    $scope.documentLoading = true;
     ReportService.getData(REST_URL.BASE + 'client_identifiers/' + document.parentEntityId + '/documents/' + document.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
       if(document.type.indexOf('image')===0) {
         //var file = new Blob([content.data], {type: document.type});
@@ -1979,6 +1980,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
         var reader = new FileReader();
         reader.onload = function() {
           $scope.preview = reader.result;
+          $scope.documentLoading = false;
         };
         reader.readAsDataURL(new Blob([content.data], {type: document.type}));
       } else {
@@ -1987,6 +1989,10 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     }, function() {
       // TODO: do we need this?
     });
+  };
+
+  $scope.clearPreview = function(document) {
+    $scope.preview = null;
   };
 
   $scope.loadNextOfKeen = function() {
