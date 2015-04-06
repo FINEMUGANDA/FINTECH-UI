@@ -1,4 +1,4 @@
-/* global moment */
+/* global moment,saveAs */
 
 'use strict';
 
@@ -1875,7 +1875,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
 });
 
-CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, PAGE_URL, Utility) {
+CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location, $timeout, $sce, CreateClientsService, ReportService, REST_URL, PAGE_URL, Utility) {
   $scope.isLoading = false;
   $scope.client = {};
   $scope.extra = {};
@@ -1888,9 +1888,9 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     $location.url(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + '/' + $scope.id);
   };
 
-  $scope.displayImage = function(clientId) {
-    CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + clientId + '/images').then(function(result) {
-      $scope.viewImage = result.data;
+  $scope.loadImage = function() {
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/images').then(function(result) {
+      $scope.image = result.data;
     }, function() {
       $scope.client.imagePresent = false;
     });
@@ -1911,16 +1911,40 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   };
 
   $scope.loadAdditional = function() {
-    // TODO: implement this
     CreateClientsService.getData(REST_URL.CREATE_ADDITIONAL_CLIENT_INFO + $route.current.params.id + '?genericResultSet=true').then(function(result) {
       if (result.data.data.length > 0) {
         _.each(result.data.columnHeaders, function(header, index) {
           $scope.additional[header.columnName] = result.data.data[0].row[index];
+
           if(header.columnDisplayType==='CODELOOKUP') {
             angular.forEach(header.columnValues, function(code) {
               if(parseInt($scope.additional[header.columnName])===code.id) {
                 $scope.additional[header.columnName] = code.value;
               }
+            });
+          }
+
+          if(header.columnName==='introducer_loanOfficer') {
+            angular.forEach($scope.client.staffOptions, function(staff) {
+              if(parseInt($scope.additional.introducer_loanOfficer)===staff.id) {
+                $scope.additional.introducer_loanOfficer = staff;
+              }
+            });
+          }
+
+          if(header.columnName==='visitedById') {
+            angular.forEach($scope.client.staffOptions, function(staff) {
+              if(parseInt($scope.additional.visitedById)===staff.id) {
+                $scope.additional.visitedById = staff;
+              }
+            });
+          }
+
+          if(header.columnName==='introducer_client' && $scope.additional.introducer_client) {
+            CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true').then(function(r) {
+              $scope.additional.introducer_client = r.data;
+            }, function() {
+              // TODO: do we need this?
             });
           }
         });
@@ -1935,7 +1959,34 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.identifications = result.data;
       angular.forEach($scope.identifications, function(identification) {
         identification.issue_date = Utility.toLocalDate(identification.issue_date, true);
+
+        CreateClientsService.getData(REST_URL.BASE + 'client_identifiers/' + identification.identifier_id + '/documents').then(function(result) {
+          identification.documents = result.data;
+        }, function() {
+          // TODO: do we need this?
+        });
       });
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.downloadDocument = function(document) {
+    console.log('DOWNLOAD: ' + REST_URL.BASE + 'client_identifiers/' + document.parentEntityId + '/documents/' + document.id + '/attachment?tenantIdentifier=default');
+    ReportService.getData(REST_URL.BASE + 'client_identifiers/' + document.parentEntityId + '/documents/' + document.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
+      if(document.type.indexOf('image')===0) {
+        //var file = new Blob([content.data], {type: document.type});
+        //$scope.preview = $sce.trustAsResourceUrl(URL.createObjectURL(file));
+        //$scope.preview = 'data:' + document.type + ';base64,' + btoa(content.data);
+        //$scope.preview = 'data:' + document.type + ';base64,' + base64.encode(content.data);
+        var reader = new FileReader();
+        reader.onload = function() {
+          $scope.preview = reader.result;
+        };
+        reader.readAsDataURL(new Blob([content.data], {type: document.type}));
+      } else {
+        saveAs(new Blob([content.data], {type: document.type}), document.fileName);
+      }
     }, function() {
       // TODO: do we need this?
     });
@@ -1989,9 +2040,11 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
 
       $scope.client = result.data;
       $scope.client.dateOfBirth = Utility.toLocalDate($scope.client.dateOfBirth, true);
+      $scope.client.activationDate = Utility.toLocalDate($scope.client.activationDate);
+      $scope.client.timeline.submittedOnDate = Utility.toLocalDate($scope.client.timeline.submittedOnDate);
 
       if ($scope.client.imagePresent) {
-        $scope.displayImage($route.current.params.id);
+        $scope.loadImage();
       }
 
       $scope.loadExtra();

@@ -2,28 +2,55 @@
 <div class="container post-login">
   <div ng-include src="'/views/alert.html'"></div>
   <div class="rows">
-    <div class="page-header">
+    <div class="col-md-8 page-header">
       <h3><button type="button" ng-click="editClient()" class="btn btn-primary ng-binding"><i class="icon-edit icon-white"></i>Edit</button></h3>
     </div>
+    <div class="col-md-4 page-header">
+      <img ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
+      <img ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
+    </div>
 
-    <!-- basic -->
+    <!-- summary -->
     <div class="row">
       <div class="col-md-12 page-header">
-        <h3>Basic</h3>
+        <h3>Summary</h3>
       </div>
     </div>
     <div class="row">
+      <!--
       <div class="col-md-12">
-        <div class="col-md-12" ng-show="isLoading">
-          <div class="loading-indicator">Loading...</div>
-        </div>
+        {{client}}
+      </div>
+      -->
+      <div class="col-md-12">
+
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12">
               <dl class="dl-horizontal">
-                <dt>File Number</dt>
+                <dt>Activation date:</dt>
                 <dd>
-                  {{client.externalId}}
+                  {{client.activationDate}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Created date:</dt>
+                <dd>
+                  {{client.timeline.submittedOnDate}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>Created by:</dt>
+                <dd>
+                  {{client.timeline.submittedByFirstname}}&nbsp;{{client.timeline.submittedByLastname}}
                 </dd>
               </dl>
             </div>
@@ -44,6 +71,45 @@
                 <dt>Loan Officer</dt>
                 <dd>
                   {{client.staffName}}
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="thumbnail" style="max-height: none;">
+                    <img ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
+                    <img ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- basic -->
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <h3>Personal Information</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12">
+              <dl class="dl-horizontal">
+                <dt>File Number</dt>
+                <dd>
+                  {{client.externalId}}
                 </dd>
               </dl>
             </div>
@@ -123,7 +189,7 @@
           <div class="row">
             <div class="col-md-12">
               <dl class="dl-horizontal">
-                <dt>Number Of Children</dt>
+                <dt>Children</dt>
                 <dd>
                   {{extra.numberOfChildren}}
                 </dd>
@@ -133,7 +199,7 @@
           <div class="row">
             <div class="col-md-12">
               <dl class="dl-horizontal">
-                <dt>Number of loan dependants (Excl.Client)</dt>
+                <dt>Loan dependants</dt>
                 <dd>
                   {{extra.numberOfLoanDependents}}
                 </dd>
@@ -274,6 +340,7 @@
         </div>
       </div>
       <div class="col-md-6">
+        <!--
         <div class="row">
           <div class="col-md-12">
             <dl class="dl-horizontal">
@@ -284,27 +351,28 @@
             </dl>
           </div>
         </div>
-        <div class="row">
+        -->
+        <div class="row" ng-show="additional.introducer_client.displayName">
           <div class="col-md-12">
             <dl class="dl-horizontal">
               <dt>Introduced by client:</dt>
               <dd>
-                {{additional.introducer_client}}
+                {{additional.introducer_client.displayName}}
               </dd>
             </dl>
           </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="additional.introducer_loanOfficer.displayName">
           <div class="col-md-12">
             <dl class="dl-horizontal">
-              <dt>Introduced by loan officer:</dt>
+              <dt>Introduced by officer:</dt>
               <dd>
-                {{additional.introducer_loanOfficer}}
+                {{additional.introducer_loanOfficer.displayName}}
               </dd>
             </dl>
           </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="additional.introducer_other">
           <div class="col-md-12">
             <dl class="dl-horizontal">
               <dt>Introducer other:</dt>
@@ -317,7 +385,7 @@
         <div class="row">
           <div class="col-md-12">
             <dl class="dl-horizontal">
-              <dt>Known to introducer since:</dt>
+              <dt>Known since:</dt>
               <dd>
                 {{additional.knownToIntroducerSince}}
               </dd>
@@ -329,7 +397,7 @@
             <dl class="dl-horizontal">
               <dt>Visited by:</dt>
               <dd>
-                {{additional.visitedById}}
+                {{additional.visitedById.displayName}}
               </dd>
             </dl>
           </div>
@@ -350,21 +418,43 @@
     <!-- identity -->
     <div class="row">
       <div class="col-md-12 page-header">
-        <h3>Identifications</h3>
+        <h3>Documents and Identity</h3>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-8">
         <table class="table table-condensed table-striped">
+          <thead>
+          <tr>
+            <th>Type</th>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Place</th>
+            <th>Documents</th>
+          </tr>
+          </thead>
           <tbody>
           <tr ng-repeat="identification in identifications">
             <td>{{identification.documentTypeId}}</td>
             <td>{{identification.documentKey}}</td>
             <td>{{identification.issue_date}}</td>
             <td>{{identification.issue_place}}</td>
+            <td>
+              <!--
+              <p>{{identification.documents}}</p>
+              -->
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="document in identification.documents">
+                  <a href="" ng-click="downloadDocument(document)">{{document.fileName}}</a>
+                </li>
+              </ul>
+            </td>
           </tr>
           </tbody>
         </table>
+      </div>
+      <div class="col-md-4">
+        <img ng-src="{{preview}}" ng-show="preview">
       </div>
     </div>
 
