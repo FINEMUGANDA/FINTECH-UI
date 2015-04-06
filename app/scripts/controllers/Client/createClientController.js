@@ -1876,7 +1876,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 });
 
 CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location, $timeout, $sce, CreateClientsService, ReportService, REST_URL, PAGE_URL, Utility) {
-  $scope.isLoading = false;
+  $scope.clientLoading = true;
   $scope.client = {};
   $scope.extra = {};
   $scope.additional = {};
@@ -1889,14 +1889,18 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   };
 
   $scope.loadImage = function() {
+    $scope.imageLoading = true;
     CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/images').then(function(result) {
       $scope.image = result.data;
+      $scope.imageLoading = false;
     }, function() {
+      $scope.imageLoading = false;
       $scope.client.imagePresent = false;
     });
   };
 
   $scope.loadExtra = function() {
+    $scope.extraLoading = true;
     CreateClientsService.getData(REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id + '?genericResultSet=true').then(function(result) {
       $scope.isLoading = false;
 
@@ -1905,12 +1909,15 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
           $scope.extra[header.columnName] = result.data.data[0].row[index];
         });
       }
+      $scope.extraLoading = false;
     }, function() {
+      $scope.extraLoading = false;
       // TODO: do we need this?
     });
   };
 
   $scope.loadAdditional = function() {
+    $scope.additionalLoading = true;
     CreateClientsService.getData(REST_URL.CREATE_ADDITIONAL_CLIENT_INFO + $route.current.params.id + '?genericResultSet=true').then(function(result) {
       if (result.data.data.length > 0) {
         _.each(result.data.columnHeaders, function(header, index) {
@@ -1949,30 +1956,39 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
           }
         });
       }
+      $scope.additionalLoading = false;
     }, function() {
+      $scope.additionalLoading = false;
       // TODO: do we need this?
     });
   };
 
   $scope.loadIdentification = function() {
+    $scope.identityLoading = true;
     CreateClientsService.getData(REST_URL.CLIENT_IDENTIFICATION_TEMPLATE_REPORT + '?genericResultSet=false&R_client_id=' + $route.current.params.id).then(function(result) {
       $scope.identifications = result.data;
       angular.forEach($scope.identifications, function(identification) {
         identification.issue_date = Utility.toLocalDate(identification.issue_date, true);
 
+        $scope.documentsLoading = true;
         CreateClientsService.getData(REST_URL.BASE + 'client_identifiers/' + identification.identifier_id + '/documents').then(function(result) {
+          $scope.documentsLoading = false;
           identification.documents = result.data;
         }, function() {
+          $scope.documentsLoading = false;
           // TODO: do we need this?
         });
       });
+      $scope.identityLoading = false;
     }, function() {
+      $scope.identityLoading = false;
       // TODO: do we need this?
     });
   };
 
   $scope.downloadDocument = function(document) {
-    $scope.documentLoading = true;
+    $scope.clearPreview();
+    $scope.previewLoading = true;
     ReportService.getData(REST_URL.BASE + 'client_identifiers/' + document.parentEntityId + '/documents/' + document.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
       if(document.type.indexOf('image')===0) {
         //var file = new Blob([content.data], {type: document.type});
@@ -1980,22 +1996,24 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
         var reader = new FileReader();
         reader.onload = function() {
           $scope.preview = reader.result;
-          $scope.documentLoading = false;
+          $scope.previewLoading = false;
         };
         reader.readAsDataURL(new Blob([content.data], {type: document.type}));
       } else {
         saveAs(new Blob([content.data], {type: document.type}), document.fileName);
       }
     }, function() {
+      $scope.previewLoading = false;
       // TODO: do we need this?
     });
   };
 
-  $scope.clearPreview = function(document) {
+  $scope.clearPreview = function() {
     $scope.preview = null;
   };
 
   $scope.loadNextOfKeen = function() {
+    $scope.nextOfKeenLoading = true;
     CreateClientsService.getData(REST_URL.CREATE_CLIENT_NEXT_TO_KEEN + $route.current.params.id + '?genericResultSet=true').then(function(result) {
       angular.forEach(result.data.data, function(row) {
         $scope.nextOfKeens.push({});
@@ -2010,12 +2028,15 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
           }
         });
       });
+      $scope.nextOfKeenLoading = false;
     }, function() {
+      $scope.nextOfKeenLoading = false;
       // TODO: do we need this?
     });
   };
 
   $scope.loadBusiness = function() {
+    $scope.businessLoading = true;
     CreateClientsService.getData(REST_URL.CREATE_CLIENT_BUSINESS_ACTIVITY + $route.current.params.id + '?genericResultSet=true').then(function(result) {
       angular.forEach(result.data.data, function(row) {
         $scope.businessActivities.push({});
@@ -2030,13 +2051,29 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
           }
         });
       });
+      $scope.businessLoading = false;
     }, function() {
+      $scope.businessLoading = false;
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.loadLoans = function() {
+    $scope.loansLoading = true;
+    CreateClientsService.getData(REST_URL.LOANS_CREATE + '?genericResultSet=true&sqlSearch=client_id%3d' + $route.current.params.id).then(function(result) {
+      $scope.loans = result.data.pageItems;
+      angular.forEach($scope.loans, function(loan) {
+        loan.timeline.submittedOnDate = Utility.toLocalDate(loan.timeline.submittedOnDate);
+      })
+      $scope.loansLoading = false;
+    }, function() {
+      $scope.loansLoading = false;
       // TODO: do we need this?
     });
   };
 
   CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true').then(function(result) {
-    $scope.isLoading = false;
+    $scope.clientLoading = false;
     try {
       $scope.id = $route.current.params.id;
       $scope.client = result.data;
@@ -2055,10 +2092,12 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.loadIdentification();
       $scope.loadNextOfKeen();
       $scope.loadBusiness();
+      $scope.loadLoans();
     } catch (e) {
       console.log(e);
     }
   }, function() {
+    $scope.clientLoading = false;
     // TODO: do we need this?
   });
 });
