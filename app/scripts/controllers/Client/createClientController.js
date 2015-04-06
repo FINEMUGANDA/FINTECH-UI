@@ -1972,7 +1972,6 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   };
 
   $scope.downloadDocument = function(document) {
-    console.log('DOWNLOAD: ' + REST_URL.BASE + 'client_identifiers/' + document.parentEntityId + '/documents/' + document.id + '/attachment?tenantIdentifier=default');
     ReportService.getData(REST_URL.BASE + 'client_identifiers/' + document.parentEntityId + '/documents/' + document.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
       if(document.type.indexOf('image')===0) {
         //var file = new Blob([content.data], {type: document.type});
