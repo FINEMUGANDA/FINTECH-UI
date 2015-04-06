@@ -824,7 +824,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
   };
 });
 
-CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
+CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $location, $timeout, CreateClientsService, ReportService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientIdentificationCtrl');
   $scope.button_name = 'Add';
   $scope.isLoading = true;
@@ -832,6 +832,13 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   $scope.clientIdentificationExtra = {};
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.downloadDocument = function(document) {
+    ReportService.getData(REST_URL.BASE + 'client_identifiers/' + document.parentEntityId + '/documents/' + document.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
+      saveAs(new Blob([content.data], {type: document.type}), document.fileName);
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
   //Date of issue
   $scope.reset = function() {
     $scope.clientIdentification = {};
