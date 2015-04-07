@@ -2090,8 +2090,14 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     $scope.loansLoading = true;
     CreateClientsService.getData(REST_URL.LOANS_CREATE + '?genericResultSet=true&sqlSearch=client_id%3d' + $route.current.params.id).then(function(result) {
       $scope.loans = result.data.pageItems;
+      $scope.loanGroups = {};
       angular.forEach($scope.loans, function(loan) {
         loan.timeline.submittedOnDate = Utility.toLocalDate(loan.timeline.submittedOnDate);
+        if(!$scope.loanGroups[loan.loanProductName]) {
+          $scope.loanGroups[loan.loanProductName] = 1;
+        } else {
+          $scope.loanGroups[loan.loanProductName]++;
+        }
       });
       $scope.loansLoading = false;
     }, function() {
