@@ -1890,6 +1890,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   $scope.identifications = [];
   $scope.nextOfKeens = [];
   $scope.businessActivities = [];
+  $scope.notes = [];
   $scope.collapse = {
     summary: false,
     personal: false,
@@ -2092,7 +2093,20 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   $scope.loadNotes = function() {
     $scope.notesLoading = true;
     CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $route.current.params.id + '?genericResultSet=true').then(function(result) {
-      $scope.notes = result.data;
+      //$scope.notes = result.data;
+      angular.forEach(result.data.data, function(row) {
+        $scope.notes.push({});
+        _.each(result.data.columnHeaders, function(header, index) {
+          $scope.notes[$scope.notes.length-1][header.columnName] = row.row[index];
+          if(header.columnDisplayType==='CODELOOKUP') {
+            angular.forEach(header.columnValues, function(code) {
+              if(parseInt($scope.notes[$scope.notes.length-1][header.columnName])===code.id) {
+                $scope.notes[$scope.notes.length-1][header.columnName] = code.value;
+              }
+            });
+          }
+        });
+      });
       $scope.notesLoading = false;
     }, function() {
       $scope.notesLoading = false;

@@ -20,6 +20,14 @@
       </div>
     </div>
     -->
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <div class="col-md-12">
+          <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span>
+          <span ng-hide="notesLoading">{{notes}}</span>
+        </div>
+      </div>
+    </div>
 
     <!-- summary -->
     <div class="panel panel-default">
@@ -107,7 +115,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.loans=!collapse.loans"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.loans, 'glyphicon-minus': !collapse.loans}"></span></button>
-              <h4>Loans</h4>
+              <h4>Loans <span ng-show="collapse.loans">({{loans.length}})</span></h4>
             </div>
             <div class="panel-body" ng-class="{collapse: collapse.loans}">
               <table class="table table-condensed table-striped">
@@ -469,7 +477,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.identity=!collapse.identity"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.identity, 'glyphicon-minus': !collapse.identity}"></span></button>
-        <h3>Documents and Identity <span class="glyphicon glyphicon-hourglass" ng-show="identityLoading"></span></h3>
+        <h3>Documents and Identity <span ng-show="collapse.identity">({{identifications.length}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="identityLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="identityLoading" ng-class="{collapse: collapse.identity}">
         <div class="row">
@@ -523,7 +531,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.nextOfKeen=!collapse.nextOfKeen"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.nextOfKeen, 'glyphicon-minus': !collapse.nextOfKeen}"></span></button>
-        <h3>Next of Keen <span class="glyphicon glyphicon-hourglass" ng-show="nextOfKeenLoading"></span></h3>
+        <h3>Next of Keen <span ng-show="collapse.nextOfKeen">({{nextOfKeens.length}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="nextOfKeenLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="nextOfKeenLoading" ng-class="{collapse: collapse.nextOfKeen}">
         <div class="row">
@@ -561,7 +569,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.business=!collapse.business"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.business, 'glyphicon-minus': !collapse.business}"></span></button>
-        <h3>Business Details <span class="glyphicon glyphicon-hourglass" ng-show="businessLoading"></span></h3>
+        <h3>Business Details <span ng-show="collapse.business">({{businessActivities.length}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="businessLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="businessLoading" ng-class="{collapse: collapse.business}">
         <div class="row">
@@ -592,5 +600,45 @@
         </div>
       </div>
     </div>
+
+    <!-- notes -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.notes=!collapse.notes"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.notes, 'glyphicon-minus': !collapse.notes}"></span></button>
+        <h3>Notes <span ng-show="collapse.notes">({{notes.length}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="notesLoading" ng-class="{collapse: collapse.notes}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-condensed table-striped">
+              <thead>
+              <tr>
+                <th>Note</th>
+                <th>Phone</th>
+                <th>Called</th>
+                <th>Staff</th>
+                <th>Visited</th>
+                <th>Created</th>
+                <th>Source</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="note in notes">
+                <td>{{note.note}}</td>
+                <td>{{note.phone}}</td>
+                <td>{{note.called_at}}</td>
+                <td>{{note.staff_username}}</td>
+                <td>{{note.visited_at}}</td>
+                <td>{{note.created_at}}</td>
+                <td>{{note.NoteSource_cd_source}}</td>
+                <td>{{note}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
