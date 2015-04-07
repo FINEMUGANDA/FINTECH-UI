@@ -1922,9 +1922,19 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     CreateClientsService.getData(REST_URL.CREATE_CLIENT_EXTRA_INFORMATION + $route.current.params.id + '?genericResultSet=true').then(function(result) {
       $scope.isLoading = false;
 
+      $scope.extraTest = result.data;
+
       if (result.data.data.length > 0) {
         _.each(result.data.columnHeaders, function(header, index) {
           $scope.extra[header.columnName] = result.data.data[0].row[index];
+
+          if(header.columnDisplayType==='CODELOOKUP') {
+            angular.forEach(header.columnValues, function(code) {
+              if(parseInt($scope.extra[header.columnName])===code.id) {
+                $scope.extra[header.columnName] = code.value;
+              }
+            });
+          }
         });
       }
       $scope.extraLoading = false;
