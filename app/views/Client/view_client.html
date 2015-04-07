@@ -24,9 +24,10 @@
     <!-- summary -->
     <div class="panel panel-default">
       <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.summary=!collapse.summary"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.summary, 'glyphicon-minus': !collapse.summary}"></span></button>
         <h3>Summary <span class="glyphicon glyphicon-hourglass" ng-show="clientLoading"></span></h3>
       </div>
-      <div class="panel-body" ng-hide="clientLoading">
+      <div class="panel-body" ng-hide="clientLoading" ng-class="{collapse: collapse.summary}">
         <div class="row">
           <div class="col-md-12">
             <div class="col-md-6">
@@ -105,9 +106,10 @@
         <div class="col-md-12">
           <div class="panel panel-default">
             <div class="panel-heading">
+              <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.loans=!collapse.loans"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.loans, 'glyphicon-minus': !collapse.loans}"></span></button>
               <h4>Loans</h4>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" ng-class="{collapse: collapse.loans}">
               <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
@@ -140,9 +142,10 @@
     <!-- basic -->
     <div class="panel panel-default">
       <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.personal=!collapse.personal"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.personal, 'glyphicon-minus': !collapse.personal}"></span></button>
         <h3>Personal Information <span class="glyphicon glyphicon-hourglass" ng-show="clientLoading"></span></h3>
       </div>
-      <div class="panel-body" ng-hide="clientLoading">
+      <div class="panel-body" ng-hide="clientLoading" ng-class="{collapse: collapse.personal}">
         <div class="row">
           <div class="col-md-12">
             <div class="col-md-6">
@@ -307,9 +310,10 @@
     <!-- additional -->
     <div class="panel panel-default">
       <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.additional=!collapse.additional"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.additional, 'glyphicon-minus': !collapse.additional}"></span></button>
         <h3>Additional <span class="glyphicon glyphicon-hourglass" ng-show="additionalLoading"></span></h3>
       </div>
-      <div class="panel-body" ng-hide="additionalLoading">
+      <div class="panel-body" ng-hide="additionalLoading" ng-class="{collapse: collapse.additional}">
         <div class="row">
           <div class="col-md-6">
             <div class="row" ng-show="additional.YesNo_cd_bank_account=='Yes'">
@@ -464,9 +468,10 @@
     <!-- identity -->
     <div class="panel panel-default">
       <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.identity=!collapse.identity"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.identity, 'glyphicon-minus': !collapse.identity}"></span></button>
         <h3>Documents and Identity <span class="glyphicon glyphicon-hourglass" ng-show="identityLoading"></span></h3>
       </div>
-      <div class="panel-body" ng-hide="identityLoading">
+      <div class="panel-body" ng-hide="identityLoading" ng-class="{collapse: collapse.identity}">
         <div class="row">
           <div class="col-md-12">
             <table class="table table-condensed table-striped">
@@ -517,9 +522,10 @@
     <!-- next of keen -->
     <div class="panel panel-default">
       <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.nextOfKeen=!collapse.nextOfKeen"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.nextOfKeen, 'glyphicon-minus': !collapse.nextOfKeen}"></span></button>
         <h3>Next of Keen <span class="glyphicon glyphicon-hourglass" ng-show="nextOfKeenLoading"></span></h3>
       </div>
-      <div class="panel-body" ng-hide="nextOfKeenLoading">
+      <div class="panel-body" ng-hide="nextOfKeenLoading" ng-class="{collapse: collapse.nextOfKeen}">
         <div class="row">
           <div class="col-md-12">
             <table class="table table-condensed table-striped">
@@ -554,9 +560,10 @@
     <!-- business -->
     <div class="panel panel-default">
       <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.business=!collapse.business"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.business, 'glyphicon-minus': !collapse.business}"></span></button>
         <h3>Business Details <span class="glyphicon glyphicon-hourglass" ng-show="businessLoading"></span></h3>
       </div>
-      <div class="panel-body" ng-hide="businessLoading">
+      <div class="panel-body" ng-hide="businessLoading" ng-class="{collapse: collapse.business}">
         <div class="row">
           <div class="col-md-12">
             <table class="table table-condensed table-striped">

@@ -1890,6 +1890,16 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   $scope.identifications = [];
   $scope.nextOfKeens = [];
   $scope.businessActivities = [];
+  $scope.collapse = {
+    summary: false,
+    personal: false,
+    loans: false,
+    business: true,
+    nextOfKeen: true,
+    additional: true,
+    identity: true,
+    notes: true
+  };
 
   $scope.editClient = function() {
     $location.url(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION + '/' + $scope.id);
@@ -2079,6 +2089,17 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     });
   };
 
+  $scope.loadNotes = function() {
+    $scope.notesLoading = true;
+    CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $route.current.params.id + '?genericResultSet=true').then(function(result) {
+      $scope.notes = result.data;
+      $scope.notesLoading = false;
+    }, function() {
+      $scope.notesLoading = false;
+      // TODO: do we need this?
+    });
+  };
+
   CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true').then(function(result) {
     $scope.clientLoading = false;
     try {
@@ -2100,6 +2121,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.loadNextOfKeen();
       $scope.loadBusiness();
       $scope.loadLoans();
+      $scope.loadNotes();
     } catch (e) {
       console.log(e);
     }
