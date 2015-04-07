@@ -22,7 +22,7 @@
         <div class="pull-right" ng-show="loanDetails.status.id == 300 || loanDetails.status.id == 800 || loanDetails.status.id == 900">
           <button class="btn btn-sm primary" ng-click="openTransactionDialog('prepay')" ng-show="hasPermission('UPDATE_LOAN')">Prepay Loan</button>
           <button class="btn btn-sm primary" ng-click="openTransactionDialog('repayment')" ng-show="hasPermission('REPAYMENT_LOAN')">Make Payment</button>
-          <button class="btn btn-sm primary" ng-click="openDisbursalUndoDialog()" ng-show="hasPermission('DISBURSALUNDO_LOAN')">Undo Disbursement</button>
+          <button class="btn btn-sm primary" ng-click="openDisbursalUndoDialog()" ng-show="hasPermission('DISBURSALUNDO_LOAN') && loanDetails.additionalLoanInfo.paymentCount==0">Undo Disbursement</button>
           <!--<button class="btn btn-sm primary">Waive Interest</button>-->
           <button class="btn btn-sm primary" ng-click="openRescheduleDialog()" ng-show="hasPermission('CREATE_RESCHEDULELOAN')">Reschedule</button>
           <button class="btn btn-sm primary" ng-click="openWriteOffDialog()" ng-show="hasPermission('WRITEOFF_LOAN')">Write Off</button>
