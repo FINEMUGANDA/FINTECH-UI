@@ -6,7 +6,7 @@ var app = angular.module('Constants', []);
 app.constant('APPLICATION', {
     // NOTE: like this we never have to change this again; it automatically detects which backend to use (local or remote, if remote then with the correct domain)
     'host' : location.hostname.indexOf('0.0.0.0')>=0 || location.hostname.indexOf('localhost')>=0 ? 'https://localhost:8443/mifosng-provider/' :
-        location.hostname.indexOf('test.finemfi.org')>=0 ? 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/' :
+        location.hostname.indexOf('test.finemfi.org')>=0 ? 'https://test.finemfi.org/mifosng-provider/' :
             location.hostname.indexOf('finem.finemfi.org')>=0 ? 'https://finem.finemfi.org/mifosng-provider/' :
                 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
 //    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
