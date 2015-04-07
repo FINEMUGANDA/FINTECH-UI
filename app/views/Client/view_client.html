@@ -17,17 +17,13 @@
           <span class="glyphicon glyphicon-hourglass" ng-show="loansLoading"></span>
           <span ng-hide="loansLoading">{{loans}}</span>
         </div>
-      </div>
-    </div>
-    -->
-    <div class="row">
-      <div class="col-md-12 page-header">
         <div class="col-md-12">
           <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span>
           <span ng-hide="notesLoading">{{notes}}</span>
         </div>
       </div>
     </div>
+    -->
 
     <!-- summary -->
     <div class="panel panel-default">
@@ -106,45 +102,53 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
+        <div class="row">
+          <div class="col-md-12">
+            &nbsp;
+          </div>
+        </div>
+
+        <!-- basic -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.loans=!collapse.loans"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.loans, 'glyphicon-minus': !collapse.loans}"></span></button>
+                <h4>Loans <span ng-show="collapse.loans">({{loans.length}})</span></h4>
+              </div>
+              <div class="panel-body" ng-class="{collapse: collapse.loans}">
+                <table class="table table-condensed table-striped">
+                  <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Principal</th>
+                    <th>Date</th>
+                    <th>Officer</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="loan in loans">
+                    <td>{{loan.loanProductName}}</td>
+                    <td>{{loan.status.value}}</td>
+                    <td>{{loan.principal}} {{loan.currency.code}}</td>
+                    <td>{{loan.timeline.submittedOnDate}}</td>
+                    <td>{{loan.loanOfficerName}}</td>
+                    <!--
+                    <td>{{loan}}</td>
+                    -->
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.loans=!collapse.loans"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.loans, 'glyphicon-minus': !collapse.loans}"></span></button>
-              <h4>Loans <span ng-show="collapse.loans">({{loans.length}})</span></h4>
-            </div>
-            <div class="panel-body" ng-class="{collapse: collapse.loans}">
-              <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Status</th>
-                  <th>Principal</th>
-                  <th>Date</th>
-                  <th>Officer</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="loan in loans">
-                  <td>{{loan.loanProductName}}</td>
-                  <td>{{loan.status.value}}</td>
-                  <td>{{loan.principal}} {{loan.currency.code}}</td>
-                  <td>{{loan.timeline.submittedOnDate}}</td>
-                  <td>{{loan.loanOfficerName}}</td>
-                  <!--
-                  <td>{{loan}}</td>
-                  -->
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </div>
 
     <!-- basic -->
