@@ -549,11 +549,11 @@
       </div>
     </div>
 
-    <!-- next of keen -->
+    <!-- next of kin -->
     <div class="panel panel-default">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.nextOfKeen=!collapse.nextOfKeen"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.nextOfKeen, 'glyphicon-minus': !collapse.nextOfKeen}"></span></button>
-        <h3>Next of Keen <span ng-show="collapse.nextOfKeen">({{nextOfKeens.length}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="nextOfKeenLoading"></span></h3>
+        <h3>Next of Kin <span ng-show="collapse.nextOfKeen">({{nextOfKeens.length}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="nextOfKeenLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="nextOfKeenLoading" ng-class="{collapse: collapse.nextOfKeen}">
         <div class="row">
@@ -653,7 +653,6 @@
                 <td>{{note.visited_at}}</td>
                 <td>{{note.created_at}}</td>
                 <td>{{note.NoteSource_cd_source}}</td>
-                <td>{{note}}</td>
               </tr>
               </tbody>
             </table>
