@@ -54,9 +54,9 @@
             <span class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors) || client.loanStatus!='Submitted and awaiting approval'">
               {{client.loanStatus}}
             </span>
-            <span class="{{client.loanStatusCode| status}}" ng-show="(!client.collaterals || !client.guarantors) && client.loanStatus=='Submitted and awaiting approval'">
+            <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="(!client.collaterals || !client.guarantors) && client.loanStatus=='Submitted and awaiting approval'">
               Pending
-            </span>
+            </a>
           </td>
           <td>{{client.education}}</td>
           <td class="number">{{client.povertyLevel}}</td>
