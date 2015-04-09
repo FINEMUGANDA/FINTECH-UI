@@ -49,7 +49,9 @@
           <td class="actions">
             <span class="glyphicon glyphicon-exclamation-sign" ng-hide="loanPendingApproval.collaterals && loanPendingApproval.guarantors"></span>
             <button class="btn grid-button" ng-click="openActionDialog(loanPendingApproval)" ng-show="hasAnyPermission(['APPROVE_LOAN', 'REJECT_LOAN']) && loanPendingApproval.collaterals && loanPendingApproval.guarantors">Action</button>
+            <!--
             <a href="javascript:void(0);" ng-click="removeLoan(loanPendingApproval)" class="btn" ng-show="hasPermission('DELETE_LOAN')"><i class="glyphicon glyphicon-remove-circle"></i></a>
+            -->
           </td>
         </tr>
       </tbody>
