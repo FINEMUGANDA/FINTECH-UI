@@ -1891,7 +1891,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   $scope.nextOfKeens = [];
   $scope.businessActivities = [];
   $scope.notes = [];
-  $scope.loanNotes = [];
+  $scope.loanNotes = null;
   $scope.collapse = {
     summary: false,
     personal: false,
@@ -2111,8 +2111,10 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     $scope.loanNotesLoading = true;
     CreateClientsService.getData(REST_URL.NOTES + loanId + '?genericResultSet').then(function(result) {
       $scope.loanNotes = result.data;
-      $scope.loanNotes.followUpDate = Utility.toLocalDate($scope.loanNotes.followUpDate);
-      $scope.loanNotes.createdDate = Utility.toLocalDate($scope.loanNotes.createdDate);
+      angular.forEach($scope.loanNotes, function(note) {
+        note.followUpDate = Utility.toLocalDate(note.followUpDate);
+        note.createdDate = Utility.toLocalDate(note.createdDate);
+      });
       $scope.loanNotesLoading = false;
     }, function() {
       $scope.loanNotesLoading = false;

@@ -165,11 +165,12 @@
                     </table>
                   </div>
                 </div>
-                <div class="row" ng-show="loanNotes.length>0">
+                <div class="row" ng-show="loanNotes">
                   <div class="col-md-12">
-                    <button type="button" class="btn btn-sm btn-default pull-right" ng-click="loanNotes=[]"><span class="glyphicon glyphicon-remove"></span></button>
+                    <button type="button" class="btn btn-sm btn-default pull-right" ng-click="loanNotes=null"><span class="glyphicon glyphicon-remove"></span></button>
                   </div>
                   <div class="col-md-12">
+                    <p class="alert alert-danger" ng-show="!loanNotes || loanNotes.length==0">No results</p>
                     <table class="table table-condensed table-striped">
                       <thead>
                       <tr>
