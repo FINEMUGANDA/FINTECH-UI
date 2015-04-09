@@ -107,7 +107,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label class="control-label col-md-4">Upload Photo.<span class="required"> *</span></label>
-            <div class="col-md-6" ng-class="{'has-error': !(cameraFile || cameraImage || image)}">
+            <div class="col-md-6 alert" ng-class="{'alert-danger': !(cameraFile || cameraImage || image)}">
               <input type="file" ng-model='image' ng-file-select="onFileSelect($files)" accept="image/*;capture=camera" />
             </div>
             <div class="control-label col-md-2"></div>
