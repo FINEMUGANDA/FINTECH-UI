@@ -399,9 +399,15 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
       $scope.type = 'alert-success';
       $scope.message = 'Loan write off was processed successfully';
       $scope.errors = [];
-      $timeout(function() {
-        $modalInstance.close();
-      }, 2000);
+      LoanService.saveLoan(REST_URL.CREATE_CLIENT + '/' + $scope.loan.clientId + '?command=close', {locale: 'en', dateFormat: APPLICATION.DF_MIFOS, closureDate: Utility.toServerDate(new Date()), closureReasonId: '15'}).then(function() {
+        $timeout(function() {
+          $modalInstance.close();
+        }, 2000);
+      }, function() {
+        $timeout(function() {
+          $modalInstance.close();
+        }, 2000);
+      });
     }
     function handleFail(result) {
       $scope.message = 'Cant write off loan: ' + result.data.defaultUserMessage;
