@@ -1891,6 +1891,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
   $scope.nextOfKeens = [];
   $scope.businessActivities = [];
   $scope.notes = [];
+  $scope.loanNotes = [];
   $scope.collapse = {
     summary: false,
     personal: false,
@@ -2102,6 +2103,29 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.loansLoading = false;
     }, function() {
       $scope.loansLoading = false;
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.loadLoanNotes = function(loanId) {
+    $scope.loanNotesLoading = true;
+    CreateClientsService.getData(REST_URL.NOTES + loanId + '?genericResultSet').then(function(result) {
+      angular.forEach(result.data.data, function(row) {
+        $scope.loanNotes.push({});
+        _.each(result.data.columnHeaders, function(header, index) {
+          $scope.loanNotes[$scope.loanNotes.length-1][header.columnName] = row.row[index];
+          if(header.columnDisplayType==='CODELOOKUP') {
+            angular.forEach(header.columnValues, function(code) {
+              if(parseInt($scope.loanNotes[$scope.loanNotes.length-1][header.columnName])===code.id) {
+                $scope.loanNotes[$scope.loanNotes.length-1][header.columnName] = code.value;
+              }
+            });
+          }
+        });
+      });
+      $scope.loanNotesLoading = false;
+    }, function() {
+      $scope.loanNotesLoading = false;
       // TODO: do we need this?
     });
   };

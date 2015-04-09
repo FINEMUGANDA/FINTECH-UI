@@ -4,7 +4,6 @@
   <div class="rows">
     <div class="page-header">
       <h3><button type="button" ng-click="editClient()" class="btn btn-primary ng-binding"><i class="icon-edit icon-white"></i>Edit</button></h3>
-      <small>Test pipeline</small>
     </div>
 
     <!-- debug -->
@@ -148,6 +147,7 @@
                         <th>Principal</th>
                         <th>Date</th>
                         <th>Officer</th>
+                        <th>Note</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -157,6 +157,36 @@
                         <td>{{loan.principal}} {{loan.currency.code}}</td>
                         <td>{{loan.timeline.submittedOnDate}}</td>
                         <td>{{loan.loanOfficerName}}</td>
+                        <td>
+                          <button type="button" class="btn btn-sm btn-primary" ng-click="loadLoanNotes(loan.id)"><span class="glyphicon glyphicon-comment"></span></button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row" ng-show="loanNotes.length>0">
+                  <div class="col-md-12">
+                    <button type="button" class="btn btn-sm btn-default pull-right" ng-click="loanNotes=[]"><span class="glyphicon glyphicon-remove"></span></button>
+                  </div>
+                  <div class="col-md-12">
+                    <table class="table table-condensed table-striped">
+                      <thead>
+                      <tr>
+                        <th>Description</th>
+                        <th>Created by</th>
+                        <th>Created at</th>
+                        <th>Follow up</th>
+                        <th>Debug</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="note in loanNotes">
+                        <td>{{note.description}}</td>
+                        <td>{{note.createdByUserName}}</td>
+                        <td>{{note.createdDate}}</td>
+                        <td>{{note.followUpDate}}</td>
+                        <td>{{note}}</td>
                       </tr>
                       </tbody>
                     </table>
