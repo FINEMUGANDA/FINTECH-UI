@@ -107,7 +107,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label class="control-label col-md-4">Upload Photo.<span class="required"> *</span></label>
-            <div class="col-md-6" ng-hide="onCamera">
+            <div class="col-md-6" ng-hide="onCamera" ng-class="{'has-error': !(cameraFile || cameraImage || image)}">
               <div class="col-md-12 col-xs-6 padding0" ng-hide="onCamera">
                 <button type="button" class="col-md-2 col-xs-2 btn btn-primary" ng-click="showCamera()">
                   <span class="glyphicon glyphicon-camera" data-unicode="e046"></span>

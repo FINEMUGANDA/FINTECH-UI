@@ -251,8 +251,6 @@ td.actions {
 	margin-top: 5px;
 }
 
-.has-error .form-control:focus {
-  border-color: #843534;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 6px #CE8483;
-  background-color: #A94442;
+.has-error .form-control {
+  background-color: #CE8483;
 }
