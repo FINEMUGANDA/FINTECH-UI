@@ -1998,6 +1998,11 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.identifications = result.data;
       angular.forEach($scope.identifications, function(identification) {
         identification.issue_date = Utility.toLocalDate(identification.issue_date, true);
+        angular.forEach($scope.client.allowedDocumentTypes, function(docType) {
+          if (docType.id === identification.documentTypeId) {
+            identification.documentTypeName = docType.name;
+          }
+        });
 
         $scope.documentsLoading = true;
         CreateClientsService.getData(REST_URL.BASE + 'client_identifiers/' + identification.identifier_id + '/documents').then(function(result) {
