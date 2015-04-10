@@ -253,7 +253,8 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         PPLO: 51,
         CILPCM: 52,
         DVCPW: 53,
-        BULKREASSIGN: 60
+        BULKREASSIGN: 60,
+        BACKDATE: 70
     }
 );
 
