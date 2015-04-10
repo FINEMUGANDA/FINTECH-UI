@@ -86,9 +86,9 @@
             </div>
           </div>
           <div class="form-group" ng-show="createClientWithDataTable.MaritalStatus_cd_maritalStatus == 55">
-            <label class="control-label col-md-4">Name Of Spouse</label>
+            <label class="control-label col-md-4">Name Of Spouse<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <input id="nameOfSpouse" name="nameOfSpouse" class="form-control" type="text" ng-model="createClientWithDataTable.nameOfSpouse" required />
+              <input id="nameOfSpouse" name="nameOfSpouse" class="form-control" type="text" ng-model="createClientWithDataTable.nameOfSpouse"  ng-class="{'has-error': createClientWithDataTable.MaritalStatus_cd_maritalStatus==='55' && (!createClientWithDataTable.nameOfSpouse || createClientWithDataTable.nameOfSpouse=='')}"/>
             </div>
           </div>
           <div class="form-group">
