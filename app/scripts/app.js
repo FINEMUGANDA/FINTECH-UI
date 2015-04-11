@@ -34,6 +34,7 @@ var app = angular.module('angularjsApp', [
   'jobService',
   'auditService',
   'codeService',
+  'financialYearService',
   'dataTransferService',
   'searchService',
   'Constants',
@@ -402,6 +403,9 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
     }).when('/codes', {
         templateUrl: 'views/code/codes.html',
         controller: 'CodeListCtrl'
+    }).when('/financialyears', {
+        templateUrl: 'views/financialyear/financialyears.html',
+        controller: 'FinancialYearCtrl'
     }).when('/holidays', {
       templateUrl: 'views/holidays/holidays.html',
       controller: 'HolidayController'

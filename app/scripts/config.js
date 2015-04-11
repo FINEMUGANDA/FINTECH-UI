@@ -68,6 +68,7 @@ app.constant('REST_URL', {
     ACCOUNT_BY_ID: 'api/v1/glaccounts/',
     JOBS: 'api/v1/jobs',
     CODES: 'api/v1/codes',
+    FINANCIALYEARS: 'api/v1/financial_years',
     SCHEDULER: 'api/v1/scheduler',
     ACCOUNT_TEMPLATE: 'api/v1/glaccounts/template',
     ACCOUNT_UPDATE_BY_ID: 'api/v1/glaccounts/',
@@ -181,7 +182,8 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_currency: 'Currencies',
         fin_exchange_rate: 'Exchange Rates',
         fin_dashboard_survey: 'Survey',
-        fin_codevalue: 'Code Values'
+        fin_codevalue: 'Code Values',
+        fin_financialyear: 'Financial Year'
     }
 );
 
@@ -210,7 +212,8 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_survey',
             'fin_currency',
             'fin_exchange_rate',
-            'fin_codevalue'
+            'fin_codevalue',
+            'fin_financialyear'
         ],
         dashboard: [
             'fin_dashboard_shortcuts',
