@@ -4,7 +4,7 @@
     <div class="rows">
         <div class="page-header">
             <div class="header">
-                <h3>Financial Years {{selectedYear}}</h3>
+                <h3>Financial Years {{selectedYear}} <span class="glyphicon glyphicon-lock text-danger" ng-show="form.closed"></span></h3>
             </div>
         </div>
         <div class="row">
@@ -32,19 +32,18 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-4">Is Current <span class="required">*</span></label>
-                        <div class="validate col-md-6">
-                            <span class="glyphicon glyphicon-minus" ng-show="!form.current && form.id"></span>
-                            <button type="button" class="btn" ng-class="{'btn-success': form.current, 'btn-default': !form.current}" ng-click="form.current=!form.current" ng-hide="form.id"><span class="glyphicon" ng-class="{'glyphicon-ok': form.current, 'glyphicon-minus': !form.current}"></span></button>
-                            <button type="button" class="btn" ng-class="{'btn-success': form.current, 'btn-default': !form.current}" ng-click="endYear()" ng-show="form.id && form.current"><span class="glyphicon glyphicon-ok"></span> End Year</button>
-                            <p class="alert alert-warning" ng-show="form.current && form.id">
-                                When you click this button, it will end the financial year and no more posting shall be allowed. Be sure that this is what you want to do.
-                            </p>
+                        <div class="col-md-6">
+                            <button type="button" class="btn" ng-class="{'btn-success': form.current, 'btn-default': !form.current}" ng-click="form.current=!form.current"><span class="glyphicon" ng-class="{'glyphicon-ok': form.current, 'glyphicon-minus': !form.current}"></span></button>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_FINANCIALYEAR', 'UPDATE_FINANCIALYEAR']) && (form.current || !form.id)">Save</button>
+                            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_FINANCIALYEAR', 'UPDATE_FINANCIALYEAR']) && (!form.closed || !form.id)">Save</button>
                             <a id="cancel" href="" class="btn btn-warning" ng-click="clearFy()">Clear</a>
+                            <button type="button" class="btn btn-danger" ng-hide="form.closed || !form.id" ng-click="endYear()"><span class="glyphicon glyphicon-lock"></span> End Year</button>
+                            <p class="alert alert-warning" ng-hide="form.closed || !form.id">
+                                When you click this button, it will end the financial year and no more posting shall be allowed. Be sure that this is what you want to do.
+                            </p>
                         </div>
                     </div>
                 </form>
@@ -60,6 +59,7 @@
                             <th st-sort="startDate">Start Date</th>
                             <th st-sort="endDate">End Date</th>
                             <th st-sort="current">Current</th>
+                            <th st-sort="closed">Closed</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -68,6 +68,7 @@
                             <td>{{financialYear.startDate}}</td>
                             <td>{{financialYear.endDate}}</td>
                             <td><span class="glyphicon" ng-class="{'glyphicon-ok': financialYear.current, 'glyphicon-minus': !financialYear.current}"></span></td>
+                            <td><span class="glyphicon" ng-class="{'glyphicon-lock': financialYear.closed, 'glyphicon-play-circle': !financialYear.closed}"></span></td>
                         </tr>
                         </tbody>
                         <tfoot ng-hide="loading">

@@ -23,20 +23,23 @@ fyCtrl.controller('FinancialYearCtrl', function ($scope, FinancialYearService, A
     };
 
     $scope.clearFy = function() {
-        $scope.form = {locale: 'en', dateFormat: APPLICATION.DF_MIFOS, current: false};
+        $scope.form = {locale: 'en', dateFormat: APPLICATION.DF_MIFOS, current: false, closed: false};
 
-        $scope.years = [
-            {startYear: 2012, endYear: 2013},
-            {startYear: 2013, endYear: 2014},
-            {startYear: 2014, endYear: 2015},
-            {startYear: 2015, endYear: 2016}
-        ];
+        $scope.years = [];
+
+        for(var i=2005; i<=new Date().getUTCFullYear(); i++) {
+            $scope.years.push({startYear: i, endYear: i+1});
+        }
 
         $scope.$watch('form.startYear', function() {
             angular.forEach($scope.years, function (year) {
                 if($scope.form.startYear===year.startYear) {
                     $scope.form.startYear = year.startYear;
                     $scope.form.endYear = year.endYear;
+                    if(!$scope.form.id) {
+                        $scope.form.startDate = moment({year: year.startYear, month: 0, day: 1}).format(APPLICATION.DF_MOMENT);
+                        $scope.form.endDate = moment({year: year.endYear, month: 11, day: 31}).format(APPLICATION.DF_MOMENT);
+                    }
                 }
             });
         });
@@ -46,7 +49,7 @@ fyCtrl.controller('FinancialYearCtrl', function ($scope, FinancialYearService, A
     };
 
     $scope.endYear = function() {
-        $scope.form.current = false;
+        $scope.form.closed = true;
         $scope.validateFy();
     };
 
@@ -82,6 +85,7 @@ fyCtrl.controller('FinancialYearCtrl', function ($scope, FinancialYearService, A
         $scope.form.startDate = financialYear.startDate;
         $scope.form.endDate = financialYear.endDate;
         $scope.form.current = financialYear.current;
+        $scope.form.closed = financialYear.closed;
     };
 
     $scope.loadFinancialYears = function() {
