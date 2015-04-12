@@ -63,7 +63,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="financialYear in displayed" ng-click="selectFinancialYear(financialYear)" class="pointer">
+                        <tr ng-repeat="financialYear in displayed" ng-click="selectFinancialYear(financialYear)" class="pointer" ng-class="{'info': form.id==financialYear.id}">
                             <td>{{financialYear.startYear}}/{{financialYear.endYear}}</td>
                             <td>{{financialYear.startDate}}</td>
                             <td>{{financialYear.endDate}}</td>
