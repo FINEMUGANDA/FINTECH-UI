@@ -1,3 +1,5 @@
+/* global moment */
+
 'use strict';
 
 var fyCtrl = angular.module('angularjsApp');
