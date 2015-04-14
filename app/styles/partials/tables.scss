@@ -42,12 +42,12 @@
     }
   }
   .active {
-    color: $tertiary-color;
+    color: darkgreen;/*$tertiary-color;*/
     &.activeBadStanding {
-      color: $bad;
+      color: #990000;/*$bad;*/
     }
     &.activeGoodStanding {
-      color: $tertiary-color;
+      color: orange;/*$tertiary-color;*/
     }
   }
   .bad {
