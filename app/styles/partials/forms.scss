@@ -34,7 +34,8 @@ input[type=password]:focus {
 }
 
 .primary {
-  background: $primary-button;
+  background:color: #E28B00;
+  /*$primary-button;*/
   color: #fff !important;
 
   &:hover {
