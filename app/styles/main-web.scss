@@ -183,7 +183,7 @@ body.pre-login {
     /*font-weight:200;*/
     line-height: 29px;
     background: #DD9407;
-    width: auto;
+    width: auto!important;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     color: white;
@@ -196,7 +196,7 @@ body.pre-login {
     @include make-md-column(3);
     @include make-sm-column(3);
     text-align: right;
-    float: right;
+    float: right!important;
     .primary {
       padding:5px 20px !important;
       font-size:14px !important;
