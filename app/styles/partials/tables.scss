@@ -1,6 +1,9 @@
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_mixins.scss";
 @import "main-variables.scss";
 .table {
+  >thead>tr{
+    border-bottom:1px solid darkgreen;
+  }
   >thead>tr>th {
     background: lighten($background-web,0.8%);
     border: 1px solid $border-color;
