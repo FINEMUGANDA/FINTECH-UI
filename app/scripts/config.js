@@ -338,6 +338,9 @@ app.constant('PERMISSION_MAPPING', {
             'READ_JournalEntryList',
             'READ_journal_entry_reverse_note'
         ],
+        REVERSE_JOURNALENTRY: [
+            'CREATE_journal_entry_reverse_note'
+        ],
         READ_HOLIDAY: [
             'READ_HolidayList'
         ],
