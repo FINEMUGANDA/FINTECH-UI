@@ -68,8 +68,8 @@ body.pre-login {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     &:hover {
-    background: $primary-color!important;
-    background: lighten($primary-button,10%);
+    background: rgb(247, 201, 14)!important;
+    color:white;
   }
   }
 
