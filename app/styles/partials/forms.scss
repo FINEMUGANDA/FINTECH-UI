@@ -51,7 +51,12 @@ input[type=password]:focus {
   font-size:12px;
 }
 // NOTIFICATIONS 
-
+.alert-danger{
+  background-color: #FCF9F9;
+  border-color: #a94442;
+  color: #a94442;
+  border-bottom: 2px solid red;
+}
 .error {
   @extend .alert-danger;
   color: $error-text;
