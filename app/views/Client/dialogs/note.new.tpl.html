@@ -15,7 +15,7 @@
             <form ng-hide="isLoading" class="form-horizontal" novalidate>
                 <div class="form-group">
                     <label>Note Type <span class="required">*</span></label>
-                    <select chosen="noteTypes" class="form-control" ng-model="noteType" ng-options="noteType.code as noteType.name for noteType in noteTypes" value="{{noteType}}">
+                    <select chosen="noteTypes" class="form-control" ng-model="noteType" ng-options="noteType.code as noteType.name for noteType in noteTypes">
                         <option value=""></option>
                     </select>
                 </div>

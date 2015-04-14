@@ -172,7 +172,7 @@ clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $
   $scope.msg = data.msg;
   $scope.action = data.action;
   $scope.client = null;
-  $scope.noteType = 'followup';
+  $scope.noteType = 'general';
   $scope.clients = null;
   $scope.noteTypes = [
     {
@@ -221,7 +221,7 @@ clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $
   };
 });
 
-clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, CreateClientsService, Session, data) {
+clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, $location, APPLICATION, REST_URL, CreateClientsService, DataTransferService, Session, data) {
   $scope.isLoading = false;
   $scope.msg = data.msg;
   $scope.notes = [];
@@ -263,6 +263,36 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
     });
   };
 
+  $scope.showFollowup = function() {
+    if($scope.loan && $scope.loan.clientId===$scope.client.id) {
+      DataTransferService.set('loan.detail.tab', 'notes');
+      DataTransferService.set('loan.id', $scope.loan.loanId);
+      $location.path('/loans/' + $scope.loan.clientId + '/details/' + $scope.loan.loanId);
+      $modalInstance.dismiss();
+    }
+  };
+
+  $scope.showMessage = function() {
+    CreateClientsService.getData(REST_URL.LOANS).then(function(result) {
+      var data = result.data;
+
+      if(data) {
+        for(var i=0; i<data.length; i++) {
+          var loan = data[i];
+          if(loan.clientId===$scope.client.id) {
+            $scope.loan = loan;
+            $scope.messageVisible = true;
+            break;
+          }
+        }
+      }
+
+      if(!$scope.messageVisible) {
+        $modalInstance.dismiss();
+      }
+    });
+  };
+
   $scope.save = function() {
     if($scope.note.created_at) {
       $scope.note.created_at = moment($scope.note.created_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
@@ -283,7 +313,8 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
     if($scope.note.id) {
       // update
       CreateClientsService.updateClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson($scope.note)).then(function() {
-        $modalInstance.dismiss();
+        //$modalInstance.dismiss();
+        $scope.showMessage();
       }, function(result) {
         $scope.type = 'error';
         $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
@@ -292,7 +323,8 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
     } else {
       // create
       CreateClientsService.saveClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson($scope.note)).then(function() {
-        $modalInstance.dismiss();
+        //$modalInstance.dismiss();
+        $scope.showMessage();
       }, function(result) {
         $scope.type = 'error';
         $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;

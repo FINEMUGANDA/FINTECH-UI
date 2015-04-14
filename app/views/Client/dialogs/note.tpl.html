@@ -11,7 +11,12 @@
     <div ng-include src="'/views/alert.html'"></div>
     <div ng-show="isLoading">Loading...</div>
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3" ng-show="messageVisible">
+            <p class="alert alert-info">
+                Do you want to proceed to enter a follow up note?
+            </p>
+        </div>
+        <div class="col-md-6 col-md-offset-3" ng-hide="messageVisible">
             <form ng-hide="isLoading" class="form-horizontal" novalidate>
                 <div class="form-group">
                     <label>Created at</label>
@@ -77,8 +82,10 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
-    <button type="button" class="btn btn-warning" ng-click="cancel()">Close</button>
+    <button type="button" class="btn btn-primary" ng-click="showFollowup()" ng-show="messageVisible">Yes</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()" ng-show="messageVisible">No</button>
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-hide="messageVisible">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()" ng-hide="messageVisible">Close</button>
 </div>
 
 
