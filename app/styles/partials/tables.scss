@@ -66,6 +66,10 @@
     border-radius:50px;
     text-transform: uppercase;
     background-color: $grid-button;
+     &:hover {
+    background: darkolivegreen!important;
+    color:white;
+  }
   }
 }
 
