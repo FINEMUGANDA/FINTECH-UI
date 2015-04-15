@@ -2006,7 +2006,8 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
           $scope.clientActions = [
             //{code: 'activate', label: 'Activate'},
             {code: 'reject', label: 'Reject'},
-            {code: 'withdraw', label: 'Withdraw'}
+            {code: 'withdraw', label: 'Withdraw'},
+            {code: 'close', label: 'Close'}
           ];
           break;
         case 300:
