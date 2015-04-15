@@ -48,7 +48,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
         });
     };
 
-    $scope.showSuccess = function (message, url) {
+    $scope.showSuccess = function (message) {
         $scope.type = 'alert-success';
         $scope.message = message;
         $scope.errors = [];
