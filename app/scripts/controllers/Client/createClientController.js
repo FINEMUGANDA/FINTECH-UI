@@ -1903,81 +1903,134 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     notes: true
   };
 
-  $scope.setClientStatus = function(action) {
-    var data = {locale: 'en', dateFormat: APPLICATION.DF_MIFOS};
-    var now = new Date();
-    switch(action.code) {
-      case 'reactivate':
-        data.reactivationDate = Utility.toServerDate(now);
-        break;
-      case 'reject':
-        data.rejectionDate = Utility.toServerDate(now);
-        data.rejectionReasonId = 17; // TODO
-        break;
-      case 'withdraw':
-        data.withdrawalDate = Utility.toServerDate(now);
-        data.withdrawalReasonId = 17; // TODO
-        break;
-      case 'close':
-        data.closureDate = Utility.toServerDate(now);
-        //data.closureReasonId = 11; // TODO
-        break;
-    }
+  $scope.saveClientStatus = function() {
+    var code = $scope.clientStatus.code;
 
-    CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=' + action.code).then(function(result) {
-      if (result.data && result.data.narrations) {
-        $scope.statusReasons = result.data.narrations;
+    // cleanup
+    delete $scope.clientStatus.code;
+    delete $scope.clientStatus.reason;
+
+    CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=' + code, $scope.clientStatus).then(function() {
+      switch(code) {
+        case 'activate':
+          $scope.client.status.id = 300;
+          $scope.client.status.value = 'Active';
+          break;
+        case 'reactivate':
+          $scope.client.status.id = 100;
+          $scope.client.status.value = 'Pending';
+          break;
+        case 'reject':
+          $scope.client.status.id = 700;
+          $scope.client.status.value = 'Rejected';
+          break;
+        case 'withdraw':
+          $scope.client.status.id = 800;
+          $scope.client.status.value = 'Withdrawn';
+          break;
+        case 'close':
+          $scope.client.status.id = 600;
+          $scope.client.status.value = 'Closed';
+          break;
       }
-    }, function() {
-      console.log('Cant recieve closure reasons data');
-    });
-
-    CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=' + action.code, data).then(function(result) {
-      console.log('DEBUG: ' + angular.toJson(result));
+      $scope.updateClientActions();
+      $scope.cancelClientStatus();
     }, function(result) {
+      $scope.cancelClientStatus();
       $scope.type = 'error';
       $scope.message = 'Cannot change client status: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
     });
   };
 
+  $scope.cancelClientStatus = function() {
+    $scope.clientStatus = null;
+    $scope.statusReasons = null;
+  };
+
+  $scope.selectClientStatus = function(code) {
+    $scope.clientStatus = {code: code, locale: 'en', dateFormat: APPLICATION.DF_MIFOS};
+    var now = new Date();
+    var loadReason = false;
+    switch(code) {
+      case 'activate':
+        $scope.clientStatus.activationDate = Utility.toServerDate(now);
+        break;
+      case 'reactivate':
+        $scope.clientStatus.reactivationDate = Utility.toServerDate(now);
+        break;
+      case 'reject':
+        $scope.clientStatus.rejectionDate = Utility.toServerDate(now);
+        loadReason = true;
+        break;
+      case 'withdraw':
+        $scope.clientStatus.withdrawalDate = Utility.toServerDate(now);
+        loadReason = true;
+        break;
+      case 'close':
+        $scope.clientStatus.closureDate = Utility.toServerDate(now);
+        loadReason = true;
+        break;
+    }
+
+    if(loadReason) {
+      CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=' + code).then(function(result) {
+        if (result.data && result.data.narrations) {
+          $scope.statusReasons = result.data.narrations;
+        }
+      }, function() {
+        console.log('Cant recieve closure reasons data');
+      });
+    }
+  };
+
+  $scope.selectClientStatusReason = function(reason) {
+    $scope.clientStatus.reason = reason;
+    switch($scope.clientStatus.code) {
+      case 'reject':
+        $scope.clientStatus.rejectionReasonId = reason.id;
+        break;
+      case 'withdraw':
+        $scope.clientStatus.withdrawalReasonId = reason.id;
+        break;
+      case 'close':
+        $scope.clientStatus.closureReasonId = reason.id;
+        break;
+    }
+  };
+
   $scope.updateClientActions = function() {
-    // TODO: more sophistication based on current client status
     if($scope.client && $scope.client.status) {
       switch($scope.client.status.id) {
-        case 300:
+        case 100:
           $scope.clientActions = [
+            {code: 'activate', label: 'Activate'},
             {code: 'reject', label: 'Reject'},
             {code: 'withdraw', label: 'Withdraw'},
+            {code: 'close', label: 'Close'}
+          ];
+          break;
+        case 300:
+          $scope.clientActions = [
             {code: 'close', label: 'Close'}
           ];
           break;
         case 600:
           $scope.clientActions = [
-            {code: 'reactivate', label: 'Re-activate'},
-            {code: 'reject', label: 'Reject'},
-            {code: 'withdraw', label: 'Withdraw'},
-            {code: 'close', label: 'Close'}
+            {code: 'reactivate', label: 'Re-activate'}
           ];
           break;
         case 700:
           $scope.clientActions = [
-            {code: 'reactivate', label: 'Re-activate'},
-            {code: 'reject', label: 'Reject'},
-            {code: 'withdraw', label: 'Withdraw'},
-            {code: 'close', label: 'Close'}
+            {code: 'activate', label: 'Activate'}
           ];
           break;
         case 800:
           $scope.clientActions = [
-            {code: 'reactivate', label: 'Re-activate'},
-            {code: 'reject', label: 'Reject'},
-            {code: 'withdraw', label: 'Withdraw'},
-            {code: 'close', label: 'Close'}
+            {code: 'activate', label: 'Activate'}
           ];
           break;
       }
-      console.log('DEBUG: ' + angular.toJson($scope.client.status));
     }
   };
 
