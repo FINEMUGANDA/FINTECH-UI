@@ -13,18 +13,17 @@
           <div class="loading-indicator">Loading...</div>        
         </div>
       </div>
-      <div class="col-md-12" ng-hide="isLoading">
+      <div ng-hide="isLoading">
         <form class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-2">Opening Balance</label>
                 <button type="button" class="btn btn-sm" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening"><span ng-show="journalEntryForm.opening">Enabled</span><span ng-hide="journalEntryForm.opening">Disabled</span></button>
             </div>
             <div class="form-group" ng-show="journalEntryForm.opening">
-                <label class="control-label col-md-2">&nbsp;</label>
+                <label class="control-label col-md-2">Type</label>
                 <div class="col-md-3">
-                    <select chosen="" class="form-control" ng-model="openingBalanceType">
-                        <option value="debit">Debit Opening Balance</option>
-                        <option value="credit">Credit Opening Balance</option>
+                    <select chosen="openingBalanceTypes" class="form-control" ng-model="openingBalanceType" ng-options="bt.type as bt.name for bt in openingBalanceTypes">
+                        <option value="">Select...</option>
                     </select>
                 </div>
             </div>

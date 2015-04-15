@@ -190,7 +190,10 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   $scope.journalEntryForm.crAccounts = [{}];
   $scope.journalEntryForm.dbAccounts = [{}];
   $scope.showPaymentDetails = false;
-  $scope.openingBalanceType = {debit: false, credit: false};
+  $scope.openingBalanceTypes = [
+    {type: 'debit', name: 'Debit Opening Balance'},
+    {type: 'credit', name: 'Credit Opening Balance'}
+  ];
 
   //For date of transaction calendar  
   $scope.open = function($event) {
