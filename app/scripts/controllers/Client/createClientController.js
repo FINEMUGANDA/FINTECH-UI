@@ -2004,10 +2004,9 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       switch($scope.client.status.id) {
         case 100:
           $scope.clientActions = [
-            {code: 'activate', label: 'Activate'},
+            //{code: 'activate', label: 'Activate'},
             {code: 'reject', label: 'Reject'},
-            {code: 'withdraw', label: 'Withdraw'},
-            {code: 'close', label: 'Close'}
+            {code: 'withdraw', label: 'Withdraw'}
           ];
           break;
         case 300:
