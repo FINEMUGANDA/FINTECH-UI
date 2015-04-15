@@ -289,7 +289,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
 
   $scope.toggleOpeningBalance = function(type) {
     $scope.openingBalanceType[type] = !$scope.openingBalanceType[type];
-    $scope.journalEntryForm.opening = $scope.openingBalanceType['debit'] || $scope.openingBalanceType['credit'];
+    $scope.journalEntryForm.opening = $scope.openingBalanceType.debit || $scope.openingBalanceType.credit;
   };
 
   //Start - Save Journal Entry
