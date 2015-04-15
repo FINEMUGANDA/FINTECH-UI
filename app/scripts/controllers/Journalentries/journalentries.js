@@ -287,11 +287,6 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     $scope.createjournalentryForm.invalidate = false;
   };
 
-  $scope.toggleOpeningBalance = function(type) {
-    $scope.openingBalanceType[type] = !$scope.openingBalanceType[type];
-    $scope.journalEntryForm.opening = $scope.openingBalanceType.debit || $scope.openingBalanceType.credit;
-  };
-
   //Start - Save Journal Entry
   $scope.saveJournalEntry = function() {
     console.log('CreateJournalEntriesCtrl : saveJournalEntry');
