@@ -79,7 +79,6 @@ utils.factory('Utility', function($q, APPLICATION) {
       // TODO: additional checks to ensure it's an array
       if(date) {
         var d = angular.copy(date);
-        console.log('DEBUG U: ' + angular.toJson(date) + ' - ' + angular.toJson(d));
         d[1] = d[1]-1;
 
         if(!noTimezone) {
@@ -92,8 +91,6 @@ utils.factory('Utility', function($q, APPLICATION) {
       }
     },
     toServerDate: function(date, noTimezone) {
-      console.log('DEBUG U: ' + angular.toJson(date) + ' - ' + (typeof date));
-
       if(typeof date === 'string') {
         date = moment(date, APPLICATION.DF_MOMENT).toDate();
       }
