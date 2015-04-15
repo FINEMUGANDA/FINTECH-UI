@@ -17,12 +17,12 @@
         <form class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-2">Opening Balance</label>
-                <button type="button" class="btn btn-sm" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening"><span ng-show="journalEntryForm.opening">Enabled</span><span ng-hide="journalEntryForm.opening">Disabled</span></button>
+                <button type="button" class="btn btn-sm" style="margin-left: 15px;" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening"><span ng-show="journalEntryForm.opening">Enabled</span><span ng-hide="journalEntryForm.opening">Disabled</span></button>
             </div>
             <div class="form-group" ng-show="journalEntryForm.opening">
-                <label class="control-label col-md-2">Type</label>
+                <label class="control-label col-md-2">Type<span class="required"> *</span></label>
                 <div class="col-md-3">
-                    <select chosen="openingBalanceTypes" class="form-control" ng-model="openingBalanceType" ng-options="bt.type as bt.name for bt in openingBalanceTypes">
+                    <select id="openingBalanceType" chosen="openingBalanceTypes" class="form-control" ng-model="openingBalanceType" ng-options="bt.type as bt.name for bt in openingBalanceTypes" value="{{openingBalanceType}}">
                         <option value="">Select...</option>
                     </select>
                 </div>
