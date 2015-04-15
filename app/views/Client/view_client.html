@@ -102,6 +102,35 @@
                   </dl>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <dl class="dl-horizontal">
+                    <dt>Status:</dt>
+                    <dd>
+                      <div class="dropdown">
+                        <button class="btn dropdown-toggle" ng-class="{'btn-success': client.status.id==300, 'btn-danger': client.status.id!=300}" type="button" id="statusDropdown" data-toggle="dropdown" aria-expanded="true">
+                          {{client.status.value}}
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="statusDropdown">
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="action in clientActions" ng-click="setClientStatus(action)">{{action.label}}</a></li>
+                        </ul>
+                      </div>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="col-md-8">
+                  <div class="dropdown">
+                    <button class="btn dropdown-toggle btn-default" type="button" id=reasonDropdown" data-toggle="dropdown" aria-expanded="true">
+                      Reason: {{statusReason}}
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="reason in statusReasons" ng-click="setClientStatus(reason)">{{reason}}</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="col-md-6">
@@ -178,7 +207,6 @@
                         <th>Created by</th>
                         <th>Created at</th>
                         <th>Follow up</th>
-                        <th>Debug</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -187,7 +215,6 @@
                         <td>{{note.createdByUserName}}</td>
                         <td>{{note.createdDate}}</td>
                         <td>{{note.followUpDate}}</td>
-                        <td>{{note}}</td>
                       </tr>
                       </tbody>
                     </table>

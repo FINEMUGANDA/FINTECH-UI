@@ -1882,7 +1882,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
 });
 
-CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location, $timeout, $sce, CreateClientsService, ReportService, REST_URL, PAGE_URL, Utility) {
+CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location, $timeout, $sce, APPLICATION, CreateClientsService, ReportService, REST_URL, PAGE_URL, Utility) {
   $scope.clientLoading = true;
   $scope.client = {};
   $scope.extra = {};
@@ -1901,6 +1901,84 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     additional: true,
     identity: true,
     notes: true
+  };
+
+  $scope.setClientStatus = function(action) {
+    var data = {locale: 'en', dateFormat: APPLICATION.DF_MIFOS};
+    var now = new Date();
+    switch(action.code) {
+      case 'reactivate':
+        data.reactivationDate = Utility.toServerDate(now);
+        break;
+      case 'reject':
+        data.rejectionDate = Utility.toServerDate(now);
+        data.rejectionReasonId = 17; // TODO
+        break;
+      case 'withdraw':
+        data.withdrawalDate = Utility.toServerDate(now);
+        data.withdrawalReasonId = 17; // TODO
+        break;
+      case 'close':
+        data.closureDate = Utility.toServerDate(now);
+        //data.closureReasonId = 11; // TODO
+        break;
+    }
+
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=' + action.code).then(function(result) {
+      if (result.data && result.data.narrations) {
+        $scope.statusReasons = result.data.narrations;
+      }
+    }, function() {
+      console.log('Cant recieve closure reasons data');
+    });
+
+    CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=' + action.code, data).then(function(result) {
+      console.log('DEBUG: ' + angular.toJson(result));
+    }, function(result) {
+      $scope.type = 'error';
+      $scope.message = 'Cannot change client status: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
+  };
+
+  $scope.updateClientActions = function() {
+    // TODO: more sophistication based on current client status
+    if($scope.client && $scope.client.status) {
+      switch($scope.client.status.id) {
+        case 300:
+          $scope.clientActions = [
+            {code: 'reject', label: 'Reject'},
+            {code: 'withdraw', label: 'Withdraw'},
+            {code: 'close', label: 'Close'}
+          ];
+          break;
+        case 600:
+          $scope.clientActions = [
+            {code: 'reactivate', label: 'Re-activate'},
+            {code: 'reject', label: 'Reject'},
+            {code: 'withdraw', label: 'Withdraw'},
+            {code: 'close', label: 'Close'}
+          ];
+          break;
+        case 700:
+          $scope.clientActions = [
+            {code: 'reactivate', label: 'Re-activate'},
+            {code: 'reject', label: 'Reject'},
+            {code: 'withdraw', label: 'Withdraw'},
+            {code: 'close', label: 'Close'}
+          ];
+          break;
+        case 800:
+          $scope.clientActions = [
+            {code: 'reactivate', label: 'Re-activate'},
+            {code: 'reject', label: 'Reject'},
+            {code: 'withdraw', label: 'Withdraw'},
+            {code: 'close', label: 'Close'}
+          ];
+          break;
+      }
+      console.log('DEBUG: ' + angular.toJson($scope.client.status));
+    }
   };
 
   $scope.editClient = function() {
@@ -2173,6 +2251,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.loadBusiness();
       $scope.loadLoans();
       $scope.loadNotes();
+      $scope.updateClientActions();
     } catch (e) {
       console.log(e);
     }
