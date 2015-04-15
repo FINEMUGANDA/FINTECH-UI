@@ -20,11 +20,13 @@
                 <button type="button" class="btn btn-sm" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening"><span ng-show="journalEntryForm.opening">Enabled</span><span ng-hide="journalEntryForm.opening">Disabled</span></button>
             </div>
             <div class="form-group" ng-show="journalEntryForm.opening">
-                <label class="control-label col-md-2"></label>
-                <select class="form-control" ng-model="openingBalanceType">
-                    <option value="debit">Debit Opening Balance</option>
-                    <option value="credit">Credit Opening Balance</option>
-                </select>
+                <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-3">
+                    <select class="form-control" ng-model="openingBalanceType">
+                        <option value="debit">Debit Opening Balance</option>
+                        <option value="credit">Credit Opening Balance</option>
+                    </select>
+                </div>
             </div>
         </form>
       </div>
