@@ -31,10 +31,10 @@
               </div>
               -->
           </div>
-          <div class="form-group">                
+          <div class="form-group" ng-show="!journalEntryForm.opening || openingBalanceType.debit">
               <label class="control-label col-md-2 col-xs-2">Affected GL entries<span class="required"> *</span></label>                
               <div class="col-md-10 col-xs-10">
-                    <label class="control-label paddingleft0"> Debit </label>
+                    <label class="control-label paddingleft0"><button type="button" class="btn btn-sm" ng-class="{'btn-default': !openingBalanceType.debit, 'btn-success': openingBalanceType.debit}" ng-click="toggleOpeningBalance('debit')">Opening</button> Debit </label>
                     <a ng-click="addDebitAccount()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>                    
@@ -58,10 +58,10 @@
                 </div>
               </div>  
           </div>
-          <div class="form-group">                
+          <div class="form-group" ng-show="!journalEntryForm.opening || openingBalanceType.credit">
               <label class="control-label col-md-2 col-xs-2"></label>
               <div class="col-md-10 col-xs-10">
-                    <label class="control-label paddingleft0"> Credit </label>
+                    <label class="control-label paddingleft0"><button type="button" class="btn btn-sm" ng-class="{'btn-default': !openingBalanceType.credit, 'btn-success': openingBalanceType.credit}" ng-click="toggleOpeningBalance('credit')">Opening</button> Credit </label>
                     <a ng-click="addCrAccount()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>                    

@@ -190,6 +190,8 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   $scope.journalEntryForm.crAccounts = [{}];
   $scope.journalEntryForm.dbAccounts = [{}];
   $scope.showPaymentDetails = false;
+  $scope.openingBalanceType = {debit: false, credit: false};
+
   //For date of transaction calendar  
   $scope.open = function($event) {
     $event.preventDefault();
@@ -283,7 +285,13 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   //invalidate login form
   $scope.invalidateForm = function() {
     $scope.createjournalentryForm.invalidate = false;
-  };  
+  };
+
+  $scope.toggleOpeningBalance = function(type) {
+    $scope.openingBalanceType[type] = !$scope.openingBalanceType[type];
+    $scope.journalEntryForm.opening = $scope.openingBalanceType['debit'] || $scope.openingBalanceType['credit'];
+  };
+
   //Start - Save Journal Entry
   $scope.saveJournalEntry = function() {
     console.log('CreateJournalEntriesCtrl : saveJournalEntry');
@@ -291,6 +299,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     //jeTransaction.transactionDate = moment(this.journalEntryForm.transationDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     jeTransaction.transactionDate = Utility.toServerDate(this.journalEntryForm.transationDate);
     jeTransaction.locale = 'en';
+    jeTransaction.opening = this.journalEntryForm.opening;
     jeTransaction.dateFormat = APPLICATION.DF_MIFOS;
     jeTransaction.officeId = this.journalEntryForm.officeId;
     //jeTransaction.transactionDate = this.journalEntryForm.transactionDate ;
@@ -312,7 +321,9 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
           temp1.glAccountId = this.journalEntryForm.crAccounts[i].select.id;
         }
         temp1.amount = this.journalEntryForm.crAccounts[i].crAmount;
-        jeTransaction.credits.push(temp1);
+        if(temp1.glAccountId) {
+          jeTransaction.credits.push(temp1);
+        }
     }
     //construct debits array
     jeTransaction.debits = [];
@@ -322,7 +333,9 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
           temp2.glAccountId = this.journalEntryForm.dbAccounts[j].select.id;
         }
         temp2.amount = this.journalEntryForm.dbAccounts[j].debitAmount;
-        jeTransaction.debits.push(temp2);
+        if(temp2.glAccountId) {
+          jeTransaction.debits.push(temp2);
+        }
     }
 
     var saveJournalEntrySuccess = function() {
