@@ -54,16 +54,16 @@ input[type=password]:focus {
 .alert-danger{
   background-color: white;
   border-color: #a94442;
-  color: #a94442;
-  border-bottom: 2px solid red!important;
+  color: $error-text;/*#a94442;*/
+  border: 2px solid $error-text;
 }
 .error {
   @extend .alert-danger;
   color: $error-text;
-  background-color: $error-block;
-  border-color: $error-text;/*darken($error-block,5%);*/
+  background-color: white;
+  /*border-color: $error-text;*//*darken($error-block,5%);*/
   font-weight:100;
-  border-bottom: 2px solid red;
+  border: 2px solid red;
 }
 
 ::-webkit-input-placeholder,
