@@ -49,7 +49,9 @@
           <td ng-click="editLoan(loansAwaitingDisbursement)">{{loansAwaitingDisbursement.loanOfficer}}</td>
           <td class="actions">
             <button class="btn grid-button" ng-click="openActionDialog(loansAwaitingDisbursement)" ng-show="hasAnyPermission(['DISBURSE_LOAN', 'APPROVALUNDO_LOAN'])">Action</button>
+            <!--
             <a href="javascript:void(0);" ng-click="removeLoan(loansAwaitingDisbursement)" class="btn" ng-show="hasPermission('DELETE_LOAN')"><i class="glyphicon glyphicon-remove-circle"></i></a>
+            --->
           </td>
         </tr>
       </tbody>
