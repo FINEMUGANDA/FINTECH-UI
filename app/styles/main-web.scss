@@ -42,12 +42,12 @@ body.pre-login {
 }
 .btn-primary{
   background-color: darkgreen;
-  border: 2px solid rgb(9, 76, 9)
+  border: 2px solid rgb(9, 76, 9);
   border-radius: 10px;
   min-width: 72px;
-  /*&:hover {
+  &:hover {
     background: rgb(10, 165, 10);
-  }*/
+  }
 }
 .btn-warning {
   color: #fff;
@@ -55,9 +55,9 @@ body.pre-login {
   border: 2px solid #eea236;
   border-radius: 10px;
   min-width: 72px;
- /* &:hover {
+  &:hover {
     background: ;
-  }*/
+  }
 }
 
 // LINKS - HORIZONTAL
