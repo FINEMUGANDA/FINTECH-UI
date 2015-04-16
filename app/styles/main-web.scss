@@ -85,11 +85,6 @@ body.pre-login {
   ul > li + li {
     margin-left:0;
   }
-
-  /*he
-  re*/
-  
-
 }
 // SHORTCUTS
 
@@ -118,7 +113,7 @@ body.pre-login {
     background-repeat: no-repeat;
     border: 0;
   }
-  /*here*/
+ 
   ul > li > a {
     padding: 5px 10px;
     font-size:12px;
@@ -132,9 +127,11 @@ body.pre-login {
       color:white;
      }
   }
-  /*here*/
+ 
 }
-
+div.shortcuts > ul > li > a{
+  border: 0;
+}
 //SUMMARY
 
 .summary {
