@@ -53,7 +53,7 @@ body.pre-login {
 }
 
 //BUTTONS
-.btn-primary, .btn-warning{
+.btn-primary, .btn-warning, .btn-danger{
   margin-bottom: 10px;
 }
 .btn-primary{
@@ -75,6 +75,10 @@ body.pre-login {
   border-radius: 10px;
   min-width: 72px;
   
+}
+.btn-danger{
+  border: 2px solid #9D322F;
+  border-radius: 10px;
 }
 .btn-group-sm>.btn{
   border-radius: 10px;
