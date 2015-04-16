@@ -46,7 +46,7 @@ body.pre-login {
   border-radius: 10px;
   min-width: 72px;
   &:hover {
-    background: lighten($primary-button,10%);
+    background: rgb(10, 165, 10);
   }
 }
 .btn-warning {
@@ -55,9 +55,9 @@ body.pre-login {
   border: 2px solid #eea236;
   border-radius: 10px;
   min-width: 72px;
-  &:hover {
-    background: lighten($btn-warning,10%);
-  }
+ /* &:hover {
+    background: ;
+  }*/
 }
 
 // LINKS - HORIZONTAL
