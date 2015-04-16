@@ -718,7 +718,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
         $scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by = parseInt($scope.clientAdditionalInfo.data[0].row[8]);
         $scope.createClientAdditionalInfo.introducer_client = parseInt($scope.clientAdditionalInfo.data[0].row[9]);
         $scope.createClientAdditionalInfo.introducer_loanOfficer = parseInt($scope.clientAdditionalInfo.data[0].row[10]);
-        $scope.createClientAdditionalInfo.introducer_other = parseInt($scope.clientAdditionalInfo.data[0].row[11]);
+        $scope.createClientAdditionalInfo.introducer_other = $scope.clientAdditionalInfo.data[0].row[11];
         $scope.createClientAdditionalInfo.knownToIntroducerSince = $scope.clientAdditionalInfo.data[0].row[12];
         $scope.createClientAdditionalInfo.visitedById = parseInt($scope.clientAdditionalInfo.data[0].row[13]);
         $scope.createClientAdditionalInfo.visitingDate = $scope.clientAdditionalInfo.data[0].row[14];
@@ -1095,7 +1095,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     //Covert date format
     $scope.clientIdentificationExtra.dateFormat = APPLICATION.DF_MIFOS;
     if ($scope.clientIdentificationExtra.issue_date) {
-      $scope.clientIdentificationExtra.issue_date = moment($scope.clientIdentificationExtra.issue_date).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      $scope.clientIdentificationExtra.issue_date = Utility.toLocalDate($scope.clientIdentificationExtra.issue_date, false);
     }
 
     var saveClientIdentificationExtraSuccess = function() {
@@ -1246,7 +1246,8 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.clientIdentificationExtra.issue_place = $scope.client[0].issue_place;
       $scope.clientIdentificationExtra.description = $scope.client[0].description;
       if (!Utility.isUndefinedOrNull($scope.client[0].issue_date)) {
-        $scope.clientIdentificationExtra.issue_date = $scope.client[0].issue_date[2] + '/' + $scope.client[0].issue_date[1] + '/' + $scope.client[0].issue_date[0];
+        //$scope.clientIdentificationExtra.issue_date = $scope.client[0].issue_date[2] + '/' + $scope.client[0].issue_date[1] + '/' + $scope.client[0].issue_date[0];
+        $scope.clientIdentificationExtra.issue_date = Utility.toLocalDate($scope.client[0].issue_date, true);
       }
       $scope.extra_id = $scope.client[0].id;
     };
@@ -1408,7 +1409,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
     $scope.clientNextToKeen.locale = 'en';
 
     if (!Utility.isUndefinedOrNull($scope.clientNextToKeen.date_of_birth)) {
-      $scope.clientNextToKeen.date_of_birth = moment($scope.clientNextToKeen.date_of_birth).format(APPLICATION.DF_MOMENT);
+      $scope.clientNextToKeen.date_of_birth = Utility.toLocalDate($scope.clientNextToKeen.date_of_birth, false);
     }
 
     var saveClientNextToKeenSuccess = function() {
@@ -1746,7 +1747,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     //Covert date format
     $scope.clientBusinessActivity.dateFormat = APPLICATION.DF_MIFOS;
-    $scope.clientBusinessActivity.operating_since = moment($scope.clientBusinessActivity.operating_since).format(APPLICATION.DF_MOMENT);
+    $scope.clientBusinessActivity.operating_since = Utility.toLocalDate($scope.clientBusinessActivity.operating_since, true);
 
     var saveClientBusinessActivitySuccess = function() {
       console.log('Success : Return from CreateClientsService service.');

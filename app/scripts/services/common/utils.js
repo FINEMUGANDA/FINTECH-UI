@@ -76,19 +76,25 @@ utils.factory('Utility', function($q, APPLICATION) {
       return date;
     },
     toLocalDate: function(date, noTimezone) {
-      // TODO: additional checks to ensure it's an array
+      // TODO: remove this in production
+      console.log('DEBUG local date: ' + angular.toJson(date));
+      console.log(date);
       if(date) {
-        var d = angular.copy(date);
-        d[1] = d[1]-1;
+        try {
+          var d = angular.copy(date);
+          d[1] = d[1]-1;
 
-        if(!noTimezone) {
-          return moment(d).format(APPLICATION.DF_MOMENT);
-        } else {
-          return moment.tz(d, APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+          if(!noTimezone) {
+            return moment(d).format(APPLICATION.DF_MOMENT);
+          } else {
+            return moment.tz(d, APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+          }
+        } catch(err) {
+          // ignore
         }
-      } else {
-        return date;
       }
+
+      return date;
     },
     toServerDate: function(date, noTimezone) {
       if(typeof date === 'string') {
