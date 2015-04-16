@@ -254,7 +254,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
         var createRoleSuccess = function (result) {
             //$scope.editRole(result.data.resourceId);
             //$scope.showSuccess('Role saved successfully', '/admin/roles');
-            $location.url('/admin/roles' + result.data.resourceId);
+            $location.url('/admin/edit_role/' + result.data.resourceId);
         };
         var createRoleFail = function (result) {
             $scope.showError('Role not saved: ' + result.data.defaultUserMessage, result.data.errors);
