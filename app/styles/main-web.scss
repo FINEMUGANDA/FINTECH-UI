@@ -44,7 +44,7 @@ body.pre-login {
   background-color: darkgreen;
   border: 2px solid rgb(9, 76, 9)
   border-radius: 10px;
-  min-width:72px;
+  min-width: 72px;
   &:hover {
     background: lighten($primary-button,10%);
   }
