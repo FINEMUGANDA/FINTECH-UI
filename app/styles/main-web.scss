@@ -46,8 +46,11 @@ body.pre-login {
   border-radius: 10px;
   min-width: 72px;
   &:hover {
-    background: rgb(10, 165, 10);
+    background: #048304;
   }
+}
+.form-group .btn-primary{
+  min-width:0;
 }
 .btn-warning {
   color: #fff;
@@ -55,12 +58,7 @@ body.pre-login {
   border: 2px solid #eea236;
   border-radius: 10px;
   min-width: 72px;
-  /**
-  TODO: @cristian... this it were it fails
-  &:hover {
-    background: ;
-  }
-  */
+  
 }
 
 // LINKS - HORIZONTAL
