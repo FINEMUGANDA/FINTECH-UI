@@ -145,14 +145,17 @@ body.pre-login {
   }
  
 }
+
 div.shortcuts{
   border-bottom: 1px solid rgb(221, 148, 7);
-  
 } 
+table > thead > tr > th > div.shortcuts{
+  border-bottom:0;
+}
 div.shortcuts > ul > li > a{
   border: 0;
   &:hover{
-    background:white;
+    background:white!important;
     color:#777777;
   }
 }
