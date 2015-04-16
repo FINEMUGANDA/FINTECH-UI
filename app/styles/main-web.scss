@@ -159,9 +159,12 @@ div.shortcuts > ul > li > a{
     color:#777777;
   }
 }
-/*AICI*/
+
 div.summary > div > ul > li > a{
   border: 1px solid orange;
+  &:visited, &:hover{
+    background: #E28B00;
+  }
 }
 //SUMMARY
 
