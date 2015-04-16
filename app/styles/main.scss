@@ -54,7 +54,7 @@ nav .notifications > strong{
 .action .primary {
 	padding: 5px 20px !important;
 	font-size: 14px !important;
-	border-radius: 50px;
+	border-radius: 10px;/*50px;*/
 	height: auto;
 }
 
@@ -87,7 +87,15 @@ input.form-control {
 .table .name, .table .status {
 	font-size: 14px !important;	
 }
-
+.table .name a{
+	color: black;
+  	font-weight: bold;
+	text-decoration: underline;
+	&:hover{
+		color: #777;
+		background:orange;
+	}
+}
 .table-permission {
   width: 100%;
   > tbody > tr:hover {
