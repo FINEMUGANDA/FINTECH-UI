@@ -88,7 +88,7 @@ body.pre-login {
 
   /*he
   re*/
-  }
+  
 
 }
 // SHORTCUTS
@@ -127,9 +127,10 @@ body.pre-login {
     border: 1px solid orange;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    &:hover {
-    background: orange!important;
-    color:white;
+      &:hover {
+      background: orange!important;
+      color:white;
+     }
   }
   /*here*/
 }
