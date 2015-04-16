@@ -40,6 +40,25 @@ body.pre-login {
 .btn-primary, .btn-warning{
   margin-bottom: 10px;
 }
+.btn-primary{
+  background-color: darkgreen;
+  border: 2px solid rgb(9, 76, 9)
+  border-radius: 10px;
+  min-width:72px;
+  &:hover {
+    background: lighten($primary-button,10%);
+  }
+}
+.btn-warning {
+  color: #fff;
+  background-color: #f0ad4e;
+  border: 2px solid#eea236;
+  border-radius: 10px;
+  min-width: 72px;
+  &:hover {
+    background: lighten($btn-warning,10%);
+  }
+}
 
 // LINKS - HORIZONTAL
 .links-horizontal {
