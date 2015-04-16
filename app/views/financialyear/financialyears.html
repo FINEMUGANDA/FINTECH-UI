@@ -41,11 +41,8 @@
                             <div class="btn-group">
                                 <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_FINANCIALYEAR', 'UPDATE_FINANCIALYEAR']) && (!form.closed || !form.id)">Save</button>
                                 <button id="cancel" type="button" class="btn btn-warning" ng-click="clearFy()">Clear</button>
-                                <button type="button" class="btn btn-danger" ng-hide="form.closed || !form.id || !hasPermission('CLOSE_FINANCIALYEAR')" ng-click="endYear()"><span class="glyphicon glyphicon-lock"></span> End Year</button>
+                                <button type="button" class="btn btn-danger" ng-hide="form.closed || !form.id || !hasPermission('CLOSE_FINANCIALYEAR')" ng-click="endYear()" tooltip="When you click this button, it will end the financial year and no more posting shall be allowed. Be sure that this is what you want to do"><span class="glyphicon glyphicon-lock"></span> End Year</button>
                             </div>
-                            <p class="alert alert-warning" ng-hide="form.closed || !form.id">
-                                When you click this button, it will end the financial year and no more posting shall be allowed. Be sure that this is what you want to do.
-                            </p>
                         </div>
                     </div>
                 </form>
