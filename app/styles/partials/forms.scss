@@ -55,7 +55,7 @@ input[type=password]:focus {
   background-color: white;
   border-color: #a94442;
   color: $error-text;/*#a94442;*/
-  border: 2px solid $error-text;
+  border: 2px solid red;/*$error-text;*/
 }
 .error {
   @extend .alert-danger;
