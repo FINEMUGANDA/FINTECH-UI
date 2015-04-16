@@ -55,9 +55,12 @@ body.pre-login {
   border: 2px solid #eea236;
   border-radius: 10px;
   min-width: 72px;
+  /**
+  TODO: @cristian... this it were it fails
   &:hover {
     background: ;
   }
+  */
 }
 
 // LINKS - HORIZONTAL
