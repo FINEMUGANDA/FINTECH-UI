@@ -86,7 +86,19 @@ body.pre-login {
     margin-left:0;
   }
 
- 
+  ul > li > a {
+    padding: 5px 10px;
+    font-size:12px;
+    /*border-right: 1px solid darken($border-color,4%);*/
+    border-radius: 0;
+    border: 1px solid orange;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    &:hover {
+    background: orange!important;
+    color:white;
+  }
+  }
 
 }
 // SHORTCUTS
@@ -99,7 +111,7 @@ body.pre-login {
     font-size:12px;
     /*border-right: 1px solid darken($border-color,4%);*/
     border-radius: 0;
-    border: 1px solid orange;
+     border: 1px solid orange;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -115,18 +127,6 @@ body.pre-login {
     background-position: 0px center;
     background-repeat: no-repeat;
     border: 0;
-  }
-  ul > li > a {
-    padding: 5px 10px;
-    font-size:12px;
-    /*border-right: 1px solid darken($border-color,4%);*/
-    border-radius: 0;
-    border: 1px solid orange;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    &:hover {
-    background: orange!important;
-    color:white;
   }
 }
 
