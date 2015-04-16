@@ -59,11 +59,11 @@ input[type=password]:focus {
 }
 .error {
   @extend .alert-danger;
-  /*color: $error-text;
-  background-color: $error-block;*/
+  color: $error-text;
+  background-color: white;
   /*border-color: $error-text;*//*darken($error-block,5%);*/
   font-weight:100;
-  /*border-bottom: 2px solid red;*/
+  border: 2px solid red;
 }
 
 ::-webkit-input-placeholder,
