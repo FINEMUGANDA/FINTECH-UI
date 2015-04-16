@@ -36,6 +36,10 @@ body.pre-login {
   margin-top:0px;
   border-bottom: 1px solid #DD9407;
 }
+//NAVBAR
+.navbar-nav>li>.dropdown-menu{
+  box-shadow: 0px 6px 9px 0px rgba(50, 50, 50, 0.5);
+}
 .navbar-default {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
