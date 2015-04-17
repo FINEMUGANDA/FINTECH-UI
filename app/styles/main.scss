@@ -87,12 +87,12 @@ input.form-control {
 .table .name, .table .status {
 	font-size: 14px !important;	
 }
-.table .name a{
+.table .name{
 
 	 font-weight: 600;
 	/* text-decoration: underline;*/
 	text-transform: uppercase;
-	font-size: 1.2rem;
+	font-size: 1.2rem !important;
 
 }
 .table-permission {
