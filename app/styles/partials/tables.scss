@@ -12,7 +12,7 @@
     border: 1px solid $border-color;
     font-size: 1.3rem;
     font-weight: bold;
-    lighten($text-color,30%);
+    /*background:lighten($text-color,30%);*/
   }
   >tbody>tr {
     background: #ffffff;
