@@ -5,24 +5,14 @@
     border-bottom:1px solid darkgreen;
   }
   thead > tr:nth-child(2){
-    background: #eaeaea; /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMTAwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZWFlYWVhIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjYmNiY2JjIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjYzdjN2M3IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2RmZGZkZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-background: -moz-linear-gradient(45deg,  #eaeaea 0%, #bcbcbc 50%, #c7c7c7 50%, #dfdfdf 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#eaeaea), color-stop(50%,#bcbcbc), color-stop(50%,#c7c7c7), color-stop(100%,#dfdfdf)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(45deg,  #eaeaea 0%,#bcbcbc 50%,#c7c7c7 50%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(45deg,  #eaeaea 0%,#bcbcbc 50%,#c7c7c7 50%,#dfdfdf 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(45deg,  #eaeaea 0%,#bcbcbc 50%,#c7c7c7 50%,#dfdfdf 100%); /* IE10+ */
-background: linear-gradient(45deg,  #eaeaea 0%,#bcbcbc 50%,#c7c7c7 50%,#dfdfdf 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaeaea', endColorstr='#dfdfdf',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
-
+  
   }
   >thead>tr>th {
     background: lighten($background-web,0.8%);
     border: 1px solid $border-color;
     font-size: 1.3rem;
     font-weight: bold;
-    color: darkgreen;/*lighten($text-color,30%);*/
+    lighten($text-color,30%);
   }
   >tbody>tr {
     background: #ffffff;
