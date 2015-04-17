@@ -183,8 +183,8 @@ div.summary > div > ul > li > a{
   border: 1px solid orange;
   border-bottom: 0px;
   &:visited, &:hover, &:link, &:active{
-    background: #E28B00!important;
-    color:white!important;
+    background: white!important;
+    color:#E28B00!important;
   }
 }
 //SUMMARY
