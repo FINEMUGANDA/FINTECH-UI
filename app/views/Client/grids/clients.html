@@ -25,8 +25,7 @@
         <th colspan="2" st-sort="name">Client Details</th>
         <th st-sort="status">Client Status</th>
         <th st-sort="loanStatus">Loan Status</th>
-        <th st-sort="education">Education</th>
-        <th st-sort="povertyLevel" class="number">Poverty Level</th>
+        <th st-sort="povertyLevel" class="number">Phone</th>
         <th st-sort="loanOfficer">Loan Officer</th>
         <th></th>
       </tr>
@@ -58,10 +57,9 @@
               Pending
             </a>
           </td>
-          <td>{{client.education}}</td>
-          <td class="number">{{client.povertyLevel}}</td>
+          <td class="number">{{client.mobileNo}}</td>
           <td>{{client.loanOfficer}}</td>
-          <td style="text-align: right; min-width: 220px;">
+          <td style="text-align: right;">
             <!--
             <button ng-if="client.statusCode == 600" class="btn grid-button" ng-click="activateClient(client)">Re-Activate</button>
             <button ng-if="client.statusCode == 300 || client.statusCode == 100 && ((client.loanStatusCode | checkEmptyString) || client.loanStatusCode == 500 || client.loanStatusCode == 600)" class="btn grid-button" ng-click="closeClient(client)">Close</button>
