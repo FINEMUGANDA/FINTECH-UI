@@ -158,10 +158,9 @@ table > thead > tr > th > div.shortcuts{
 }
 div.shortcuts > ul > li > a{
   border: 0;
-  &:hover{
-    background:white!important;
-    color:#777777;
-  }
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: -0.3rem;
 }
 
 div.summary > div > ul > li > a{
