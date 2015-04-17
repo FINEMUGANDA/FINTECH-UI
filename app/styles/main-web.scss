@@ -76,6 +76,11 @@ body.pre-login {
   min-width: 72px;
   &:hover {
     background: #407d9c;
+    border: 1px solid #396c84;
+  }
+  &:visited {
+    background-color: #428bca;/*#f0ad4e;*/
+    border: 1px solid #396c84;
   }
 }
 .btn-danger{
