@@ -58,11 +58,11 @@ body.pre-login {
 }
 .btn-primary{
   //background-color: darkgreen;
-  border: 2px solid rgb(9, 76, 9);
+  border: 1px solid #396c84;
   //border-radius: 10px;
   min-width: 72px;
   &:hover {
-    background: #048304;
+    background: #407d9c;
   }
 }
 .form-group .btn-primary{
@@ -71,10 +71,12 @@ body.pre-login {
 .btn-warning {
   color: #fff;
   background-color: #428bca;/*#f0ad4e;*/
-  border: 2px solid #eea236;
+  border: 1px solid #396c84;
   //border-radius: 10px;
   min-width: 72px;
-  
+  &:hover {
+    background: #407d9c;
+  }
 }
 .btn-danger{
   border: 2px solid #9D322F;
