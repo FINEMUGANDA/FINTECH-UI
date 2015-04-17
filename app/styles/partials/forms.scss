@@ -52,10 +52,11 @@ input[type=password]:focus {
 }
 // NOTIFICATIONS 
 .alert-danger{
-  background-color: white;
-  border-color: #a94442;
-  color: $error-text;/*#a94442;*/
-  border: 2px solid red;/*$error-text;*/
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #900;
+  background-color: #fff;
+  color: $error-text;
+  
 }
 .error {
   @extend .alert-danger;
