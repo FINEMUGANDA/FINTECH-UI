@@ -88,14 +88,12 @@ input.form-control {
 	font-size: 14px !important;	
 }
 .table .name a{
-	color: #777;
+
 	 font-weight: 600;
-	 text-decoration: underline;
+	/* text-decoration: underline;*/
 	text-transform: uppercase;
 	font-size: 1.2rem;
-	&:hover{
-		color: #000;
-	}
+
 }
 .table-permission {
   width: 100%;
