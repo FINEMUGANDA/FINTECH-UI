@@ -254,6 +254,7 @@ div.summary > div > ul > li > a{
   .header {
     @include make-row();
     border-bottom: 1px solid #DD9407;
+    margin-top: 1.6rem;
   }
   .header h3 {
     @include make-lg-column(9);
