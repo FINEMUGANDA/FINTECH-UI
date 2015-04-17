@@ -103,10 +103,14 @@ body.pre-login {
   }
 
   li > .active {
-    color: white;
+    /*color: white;
     font-weight:bold;
     background: $primary-color;
-    color: white;
+    color: white;*/
+    font-weight: 700;
+  background: white;
+  color:$primary-colo;
+  border-bottom: 2px solid;
   }
 
   ul > li + li {
