@@ -56,10 +56,10 @@ body.pre-login {
 .btn-primary, .btn-warning, .btn-danger{
   margin-bottom: 10px;
 }
-/*.btn-primary{
-  background-color: darkgreen;
+.btn-primary{
+  //background-color: darkgreen;
   border: 2px solid rgb(9, 76, 9);
-  border-radius: 10px;
+  //border-radius: 10px;
   min-width: 72px;
   &:hover {
     background: #048304;
@@ -70,19 +70,19 @@ body.pre-login {
 }
 .btn-warning {
   color: #fff;
-  background-color: #f0ad4e;
+  background-color: #428bca;/*#f0ad4e;*/
   border: 2px solid #eea236;
-  border-radius: 10px;
+  //border-radius: 10px;
   min-width: 72px;
   
 }
 .btn-danger{
   border: 2px solid #9D322F;
-  border-radius: 10px;
+ // border-radius: 10px;
 }
 .btn-group-sm>.btn{
-  border-radius: 10px;
-}*/
+  //border-radius: 10px;
+}
 
 // LINKS - HORIZONTAL
 .links-horizontal {
