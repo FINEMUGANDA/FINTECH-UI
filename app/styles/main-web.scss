@@ -165,6 +165,9 @@ div.shortcuts{
   /*border-bottom: 1px solid rgb(221, 148, 7);*/
   margin-top: 1.8rem;
 } 
+div.container.post-login.ng-scope > div.shortcuts{
+  border-bottom: 1px solid $primary-color;
+}
 table > thead > tr > th > div.shortcuts{
   border-bottom:0;
 }

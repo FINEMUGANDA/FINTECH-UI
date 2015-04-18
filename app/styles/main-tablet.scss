@@ -138,4 +138,20 @@ and (max-width: 1024px){
   li.hidden-sm > form > div > input{
     display:none;
   }
+  .notifications>span{
+    display:none!important;
+  }
+  .navbar-nav li a.notifications strong{
+      top: 4px;
+      left: 23px;
+  }
+  nav .navbar-nav>li>a{
+      padding: 23px 10px 23px 40px;
+  }
+  .navbar-nav li a.notifications{
+      margin-top: 7px;
+  }
+  ul.nav.navbar-nav.navbar-right > li.dropdown{
+    float:right;
+  }
 }
