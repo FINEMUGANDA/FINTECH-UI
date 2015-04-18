@@ -420,16 +420,16 @@ div.summary > div > ul > li > a{
   .status {
   }
   .active {
-    color: $tertiary-color;
+    color: $greenColor;/*$tertiary-color;*/
     &.activeBadStanding {
-      color: $bad;
+      color: $activeInBadStandingColor;/*$bad*/
     }
     &.activeGoodStanding {
       color: $tertiary-color;
     }
   }
   .bad {
-    color: $bad;
+    color: $activeInBadStandingColor;/*$bad*/
   }
   .on-hold {
     color: $hold;
