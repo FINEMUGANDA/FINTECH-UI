@@ -148,4 +148,7 @@ and (max-width: 1024px){
   nav .navbar-nav>li>a{
       padding: 23px 10px 23px 40px;
   }
+  .navbar-nav li a.notifications{
+      margin-top: 7px;
+  }
 }
