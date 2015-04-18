@@ -53,12 +53,12 @@
     }
   }
   .active {
-    color: darkgreen;/*$tertiary-color;*/
+    color: $greenColor;/*$tertiary-color;*/
     &.activeBadStanding {
-      color: #990000;/*$bad;*/
+      color: $activeInBadStandingColor;/*$bad;*/
     }
     &.activeGoodStanding {
-      color: orange;/*$tertiary-color;*/
+      color: $clientStatusPending;/*$tertiary-color;*/
     }
   }
   .bad {
