@@ -162,7 +162,7 @@ body.pre-login {
 }
 
 div.shortcuts{
-  border-bottom: 1px solid rgb(221, 148, 7);
+  /*border-bottom: 1px solid rgb(221, 148, 7);*/
   margin-top: 1.8rem;
 } 
 table > thead > tr > th > div.shortcuts{
@@ -180,13 +180,13 @@ div.shortcuts > ul > li > a{
 }
 
 div.summary > div > ul > li > a{
-  border: 1px solid orange;
+ /* border: 1px solid orange;
   border-bottom: 0px;
   &:visited, &:hover, &:link, &:active{
     background: white!important;
     color:#E28B00!important;
     border-bottom: 0px;
-  }
+  }*/
 }
 //SUMMARY
 
