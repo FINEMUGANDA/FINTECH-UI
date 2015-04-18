@@ -169,12 +169,12 @@ table > thead > tr > th > div.shortcuts{
   border-bottom:0;
 }
 div.shortcuts > ul > li > a{
-  border: 1px solid $primary-color;
+  border: 0;/*1px solid $primary-color;*/
   font-size: 1.4rem;
   font-weight: 600;
   margin-top: -0.3rem;
   &:hover{
-    background: white!important;
+   /* background: white!important;*/
     color:#3b718b!important;
   }
 }
