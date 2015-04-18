@@ -150,7 +150,7 @@ body.pre-login {
     font-size:12px;
     /*border-right: 1px solid darken($border-color,4%);*/
     border-radius: 0;
-    border: 1px solid orange;
+    border: 1px solid $primary-color;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
       &:hover {
