@@ -843,6 +843,17 @@ app.directive('showValidation', [function() {
       restrict: 'A',
       require: 'form',
       link: function(scope, element) {
+        var form = element.controller('form');
+        form.$submitted = false;
+        element.on('submit', function(event) {
+          scope.$apply(function() {
+            element.addClass('ng-submitted');
+            form.$submitted = true;
+            if(form.$valid) {
+              fn(scope, {$event:event});
+            }
+          });
+        });
         element.find('.validate').each(function() {
           var $formGroup = $(this);
           var $inputs = $formGroup.find('input[ng-model],textarea[ng-model],select[ng-model]');
@@ -851,10 +862,12 @@ app.directive('showValidation', [function() {
             $inputs.each(function() {
               var $input = $(this);
               scope.$watch(function() {
-                return $input.hasClass('ng-invalid');
+                return $input.hasClass('ng-invalid') && form.$submitted;
               }, function(isInvalid) {
-                $formGroup.toggleClass('has-success', !isInvalid);
-                $formGroup.toggleClass('has-error', isInvalid);
+                  if(form.$submitted) {
+                      $formGroup.toggleClass('has-success', !isInvalid);
+                      $formGroup.toggleClass('has-error', isInvalid);
+                  }
               });
             });
           }
