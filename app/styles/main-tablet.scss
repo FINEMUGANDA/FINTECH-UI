@@ -155,13 +155,14 @@ and (max-width: 1024px){
     float:right;
   }
  .search.pull-right > input{
-    padding: 5px 5px;
-    border-radius: 50px;
-    border: 1px solid #bfbfbf;
-    font-size: 1.2rem;
-    width: 125px;
-    text-align: center;
-    margin-right: 0px;
-    margin-top: 1px;
+  padding: 5px;
+  border-radius: 50px;
+  border: 1px solid #bfbfbf;
+  font-size: 1.2rem;
+  width: 125px;
+  text-align: center;
+  margin-left: -117px;
+  margin-top: -45px;
+  position: absolute;
  }
 }
