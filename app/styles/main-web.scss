@@ -34,7 +34,7 @@ body.pre-login {
 
 .post-login {
   margin-top:0px;
-  border-bottom: 1px solid #DD9407;
+  border-bottom: 1px solid $primary-color;
 }
 //NAVBAR
 .navbar-nav>li>.dropdown-menu{
@@ -110,7 +110,7 @@ body.pre-login {
     font-weight: 700;
   background: white;
   color:$primary-color;
-  border-bottom: 3px solid;
+  border-bottom: 3px solid $primary-color;
   }
 
   ul > li + li {
