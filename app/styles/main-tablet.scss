@@ -154,4 +154,14 @@ and (max-width: 1024px){
   ul.nav.navbar-nav.navbar-right > li.dropdown{
     float:right;
   }
+ .search.pull-right > input{
+    padding: 5px 5px;
+    border-radius: 50px;
+    border: 1px solid #bfbfbf;
+    font-size: 1.2rem;
+    width: 125px;
+    text-align: center;
+    margin-right: 0px;
+    margin-top: 1px;
+ }
 }
