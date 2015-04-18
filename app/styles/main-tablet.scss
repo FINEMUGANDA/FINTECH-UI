@@ -93,4 +93,18 @@ and (max-width: 1024px){
   .shortcuts ul>.label{
     font-size: 1rem;
   }
+  .container>.navbar-header{
+     margin-right: auto;
+     margin-left: auto;
+     width: 98%
+  }
+  .navbar>.container .navbar-brand{
+    margin-left:0!important;
+  }
+  nav .search-sm{
+    margin-top: 1.4rem;
+    float: left;
+    width: 80%;
+    margin-left: 1.5%;
+  }
 }
