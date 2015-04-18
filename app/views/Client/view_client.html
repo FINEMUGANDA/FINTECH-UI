@@ -697,7 +697,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.notes=!collapse.notes"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.notes, 'glyphicon-minus': !collapse.notes}"></span></button>
-        <h3>Notes <span ng-show="collapse.notes">({{notes.length}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span></h3>
+        <h3>Notes <span ng-show="collapse.notes">({{notes ? notes.length : '0'}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="notesLoading" ng-class="{collapse: collapse.notes}">
         <div class="row">
