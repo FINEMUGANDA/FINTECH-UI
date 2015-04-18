@@ -104,8 +104,16 @@ and (max-width: 1024px){
   nav .search-sm{
     margin-top: 1.4rem;
     float: left;
-    width: 80%;
-    margin-left: 2%;
+    width: 90%;
+    margin-left: auto;
     display: block!important;
+    margin-right: auto;
+    position: absolute;
+  }
+  nav .search-sm .search-box{
+    width: 85%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
