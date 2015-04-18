@@ -88,6 +88,9 @@ and (max-width: 1024px){
   }
   div.shortcuts>ul>li>a{
     font-size: 1.3rem;
-    margin-top: 0;
+    
+  }
+  .shortcuts ul>.label{
+    font-size: 1rem;
   }
 }
