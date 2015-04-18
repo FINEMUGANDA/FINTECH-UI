@@ -165,8 +165,8 @@ and (max-width: 1024px){
   margin-top: -45px;
   position: absolute;
  }
- .shortcuts ul>li>a{
-    margin-bottom: 2px;
+ div.ng-scope > ul > li:nth-child(5) > a{
+    margin-bottom: 4px;
  }
  .table .grid-button{
    float:right;
