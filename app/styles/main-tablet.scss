@@ -120,4 +120,19 @@ and (max-width: 1024px){
   .navbar-default .navbar-toggle{
       z-index: 10;
   }
+  .collapse.in{
+    width: 98%;
+  }
+  .main-nav ul{
+      float: left;
+      width: 80%;
+      margin-top: 1.4rem;
+      border: 0;
+  }
+  .navbar-nav.navbar-right:last-child{
+    margin-right: 0!important;
+    margin-left: 0;
+    width: 20%;
+    float: right!important;
+  }
 }
