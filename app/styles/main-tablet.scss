@@ -86,4 +86,8 @@ and (max-width: 1024px){
     text-align:left;
     width:5px;
   }
+  div.shortcuts>ul>li>a{
+    font-size: 1.3rem;
+    margin-top: 0;
+  }
 }
