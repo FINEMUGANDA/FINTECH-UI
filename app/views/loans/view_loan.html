@@ -1,0 +1,694 @@
+<div ng-include="'views/common/header.tpl.html'"></div>
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+      <h3><button type="button" ng-click="editLoan()" class="btn btn-primary ng-binding"><i class="icon-edit icon-white"></i>Edit</button></h3>
+    </div>
+
+    <!-- debug -->
+    <!--
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <div class="col-md-12">
+          {{client}}
+        </div>
+        <div class="col-md-12">
+          <span class="glyphicon glyphicon-hourglass" ng-show="loansLoading"></span>
+          <span ng-hide="loansLoading">{{loans}}</span>
+        </div>
+        <div class="col-md-12">
+          <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span>
+          <span ng-hide="notesLoading">{{notes}}</span>
+        </div>
+      </div>
+    </div>
+    -->
+    <!--
+    <div class="row">
+      <div class="col-md-12 page-header">
+        <div class="col-md-12">
+          <ul>
+            <li ng-repeat="d in debug">{{d}} = {{loan[d]}}</li>
+          </ul>
+        </div>
+        <div class="col-md-12">
+          <p>{{additional}}</p>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!-- details -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.details=!collapse.details"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.details, 'glyphicon-minus': !collapse.details}"></span></button>
+        <h3>Details <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.details}">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Account No.:</dt>
+                    <dd>
+                      {{loan.accountNo}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>External ID:</dt>
+                    <dd>
+                      {{loan.externalId ? loan.externalId : 'Not Provided'}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Created date:</dt>
+                    <dd>
+                      {{loan.timeline.submittedOnDate | DateFormat}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Product:</dt>
+                    <dd>
+                      {{loan.loanProductName}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Created by:</dt>
+                    <dd>
+                      {{loan.timeline.submittedByFirstname}}&nbsp;{{loan.timeline.submittedByLastname}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Client:</dt>
+                    <dd>
+                      {{loan.clientName}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Loan Officer:</dt>
+                    <dd>
+                      {{loan.loanOfficerName}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <dl class="dl-horizontal">
+                    <dt>Status:</dt>
+                  </dl>
+                </div>
+                <div class="col-md-8">
+                  <div class="btn-toolbar">
+                    <div class="btn-group">
+                      <div class="dropdown">
+                        <button class="btn dropdown-toggle" ng-class="{'btn-success': loan.status.id==300, 'btn-warning': loan.status.id==100, 'btn-default': loan.status.id==800 || loan.status.id==600, 'btn-danger': loan.status.id==700}" type="button" id="statusDropdown" data-toggle="dropdown" aria-expanded="true">
+                          <span>{{loan.status.value}}</span>&nbsp;<span class="glyphicon glyphicon-arrow-right" ng-show="clientStatus.code"></span>&nbsp;<span ng-show="clientStatus.code">{{clientStatus.code}}</span>
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="statusDropdown">
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="action in clientActions" ng-click="selectClientStatus(action.code)">{{action.label}}</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="btn-group" ng-show='statusReasons.length>0'>
+                      <div class="dropdown">
+                        <button class="btn dropdown-toggle btn-default" type="button" id=reasonDropdown" data-toggle="dropdown" aria-expanded="true">
+                          <span>{{clientStatus.reason.name}}</span><span ng-hide="clientStatus.reason.name">Select...</span>
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown">
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="reason in statusReasons" ng-click="selectClientStatusReason(reason)">{{reason.name}}</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="btn-group" ng-show="clientStatus">
+                      <button type="button" class="btn btn-primary" ng-click="saveLoanStatus()" ng-disabled="clientStatus.code!='reactivate' && clientStatus.code!='activate' && !clientStatus.reason.name">Save</button>
+                      <button type="button" class="btn btn-warning" ng-click="cancelLoanStatus()">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Proposed amount:</dt>
+                    <dd>
+                      {{loan.proposedPrincipal | number}}&nbsp;{{loan.currency.code}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Proposed on:</dt>
+                    <dd>
+                      {{loan.timeline.submittedOnDate | DateFormat}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Approved amount:</dt>
+                    <dd>
+                      {{loan.approvedPrincipal | number}}&nbsp;{{loan.currency.code}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Disbursed amount:</dt>
+                    <dd>
+                      {{loan.principal | number}}&nbsp;{{loan.currency.code}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Expected on:</dt>
+                    <dd>
+                      {{loan.timeline.expectedDisbursementDate | DateFormat}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Maturity on:</dt>
+                    <dd>
+                      {{additional.maturityDate | DateFormat}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Purpose:</dt>
+                    <dd>
+                      {{extra.loanPurpose}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt># of payments:</dt>
+                    <dd>
+                      {{additional.paymentCount}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt># of missed payments:</dt>
+                    <dd>
+                      {{additional.missedPaymentCount}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Days in Arrears:</dt>
+                    <dd>
+                      {{loan.daysInArrears}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.detailsext=!collapse.detailsext"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.detailsext, 'glyphicon-minus': !collapse.detailsext}"></span></button>
+                  <h3>More<span ng-show="collapse.detailsext">...</span></h3>
+                </div>
+                <div class="panel-body" ng-class="{collapse: collapse.detailsext}">
+                  <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                      <td>Repayment Strategy</td>
+                      <td><span class="padded-td">{{loan.transactionProcessingStrategyName}}</span></td>
+                    </tr>
+                    <tr>
+                      <td>Repayments</td>
+                      <td><span class="padded-td">{{loan.numberOfRepayments}} every {{loan.repaymentEvery}}&nbsp;{{loan.repaymentFrequencyType.value}}</span><span ng-show="loan.repaymentFrequencyType.id == 2 && loan.repaymentFrequencyNthDayType.id != 0 && loan.repaymentFrequencyDayOfWeekType.id != 0">&nbsp;on&nbsp;{{loan.repaymentFrequencyNthDayType.value}}&nbsp;{{loan.repaymentFrequencyDayOfWeekType.value}}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Amortization</td>
+                      <td><span class="padded-td">{{loan.amortizationType.value}}</span></td>
+                    </tr>
+                    <tr>
+                      <td>Interest</td>
+                      <td><span class="padded-td">{{loan.annualInterestRate}} per annum ({{loan.interestRatePerPeriod}}%&nbsp; {{loan.interestRateFrequencyType.value}}) - {{loan.interestType.value}}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Interest Calculation Period</td>
+                      <td><span class="padded-td">{{loan.interestCalculationPeriodType.value}}</span></td>
+                    </tr>
+                    <tr>
+                      <td>Interest Type</td>
+                      <td><span class="padded-td">{{loan.interestType.value}}</span></td>
+                    </tr>
+                    <tr>
+                      <td>Recalculate Interest</td>
+                      <td><span class="padded-td">{{ loan.isInterestRecalculationEnabled | YesOrNo }}</span></td>
+                    </tr>
+                    <tr>
+                      <td>Days in year</td>
+                      <td><span class="padded-td">{{ loan.daysInYearType.value}}</span></td>
+                    </tr>
+                    <tr>
+                      <td>Days in month</td>
+                      <td><span class="padded-td">{{ loan.daysInMonthType.value}}</span></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            &nbsp;
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- summary -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.summary=!collapse.summary"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.summary, 'glyphicon-minus': !collapse.summary}"></span></button>
+        <h3>Summary <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.summary}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th class="empty"></th>
+                <th>Original</th>
+                <th>Paid</th>
+                <th>Waived</th>
+                <th>Written Off</th>
+                <th>Outstanding</th>
+                <th>Over Due</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <th>Principal</th>
+                <td>{{loan.summary.principalDisbursed | number}}</td>
+                <td>{{loan.summary.principalPaid | number}}</td>
+                <td>&nbsp;</td>
+                <td>{{loan.summary.principalWrittenOff | number}}</td>
+                <td>{{loan.summary.principalOutstanding | number}}</td>
+                <td>{{loan.summary.principalOverdue | number}}</td>
+              </tr>
+              <tr>
+                <th>Interest</th>
+                <td>{{loan.summary.interestCharged | number}}</td>
+                <td>{{loan.summary.interestPaid | number}}</td>
+                <td>{{loan.summary.interestWaived | number}}</td>
+                <td>{{loan.summary.interestWrittenOff | number}}</td>
+                <td>{{loan.summary.interestOutstanding | number}}</td>
+                <td>{{loan.summary.interestOverdue | number}}</td>
+              </tr>
+              <tr>
+                <th>Fees</th>
+                <td>{{loan.summary.feeChargesCharged | number}}</td>
+                <td>{{loan.summary.feeChargesPaid | number}}</td>
+                <td>{{loan.summary.feeChargesWaived | number}}</td>
+                <td>{{loan.summary.feeChargesWrittenOff | number}}</td>
+                <td>{{loan.summary.feeChargesOutstanding | number}}</td>
+                <td>{{loan.summary.feeChargesOverdue | number}}</td>
+              </tr>
+
+              <tr>
+                <th>Penalties</th>
+                <td>{{loan.summary.penaltyChargesCharged | number}}</td>
+                <td>{{loan.summary.penaltyChargesPaid | number}}</td>
+                <td>{{loan.summary.penaltyChargesWaived | number}}</td>
+                <td>{{loan.summary.penaltyChargesWrittenOff | number}}</td>
+                <td>{{loan.summary.penaltyChargesOutstanding | number}}</td>
+                <td>{{loan.summary.penaltyChargesOverdue | number}}</td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <th>Total</th>
+                <th>{{loan.summary.totalExpectedRepayment | number}}</th>
+                <th>{{loan.summary.totalRepayment | number}}</th>
+                <th>{{loan.summary.totalWaived | number}}</th>
+                <th>{{loan.summary.totalWrittenOff | number}}</th>
+                <th>{{loan.summary.totalOutstanding | number}}</th>
+                <th>{{loan.summary.totalOverdue | number}}</th>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- repayment schedule -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.repayment=!collapse.repayment"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.repayment, 'glyphicon-minus': !collapse.repayment}"></span></button>
+        <h3>Repayment Schedule <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.repayment}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-striped loanRepaymentTable">
+              <colgroup span="4"></colgroup>
+              <thead>
+              <tr>
+                <td colspan="5"></td>
+                <td colspan="2" style="text-align: center;">Loan Amount and Balance</td>
+                <td colspan="3" style="text-align: center;">Total Cost of Loan</td>
+                <td colspan="6" style="text-align: center;">Installment Totals</td>
+              </tr>
+              <tr>
+                <td>#</td>
+                <td>Days</td>
+                <td>Date</td>
+                <td colspan="2">Paid Date</td>
+
+                <td>Principal Due</td>
+                <td>Balance of Loan</td>
+
+                <td>Interest</td>
+                <td>Fees</td>
+                <td>Penalties</td>
+
+                <td>Due</td>
+                <td>Paid</td>
+                <td>In Advance</td>
+                <td>Late</td>
+                <td data-ng-show="isWaived">Waived</td>
+                <td>Outstanding</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="period in loan.repaymentSchedule.periods">
+                <td scope="row">{{period.period}}</td>
+                <td>{{period.daysInPeriod}}</td>
+                <td>{{period.dueDate| DateFormat}}</td>
+                <td>{{period.obligationsMetOnDate| DateFormat}}</td>
+                <td>
+                  <div ng-show="period.obligationsMetOnDate"><i class="glyphicon glyphicon-check"></i></div>
+                </td>
+
+                <td>{{period.principalDue| number}}</td>
+                <td>{{period.principalLoanBalanceOutstanding| number}}</td>
+                <td>{{period.interestOriginalDue| number}}</td>
+                <td>{{period.feeChargesDue| number}}</td>
+                <td>{{period.penaltyChargesDue| number}}</td>
+
+                <td>{{period.totalDueForPeriod| number}}</td>
+                <td>{{period.totalPaidForPeriod| number}}</td>
+                <td>{{period.totalPaidInAdvanceForPeriod| number}}</td>
+                <td>{{period.totalPaidLateForPeriod| number}}</td>
+                <td data-ng-show="isWaived">{{period.totalWaivedForPeriod| number}}</td>
+                <td>{{period.totalOutstandingForPeriod| number}}</td>
+              </tr>
+              </tbody>
+              <tfoot class="ui-widget-header">
+              <tr>
+                <th>&nbsp;</th>
+                <th>{{loan.repaymentSchedule.loanTermInDays}}</th>
+                <th colspan="3">Total</th>
+
+                <th>{{loan.repaymentSchedule.totalPrincipalExpected| number}}</th>
+                <th>&nbsp;</th>
+                <th>{{loan.repaymentSchedule.totalInterestCharged| number}}</th>
+                <th>{{loan.repaymentSchedule.totalFeeChargesCharged| number}}</th>
+                <th>{{loan.repaymentSchedule.totalPenaltyChargesCharged| number}}</th>
+
+                <th>{{loan.repaymentSchedule.totalRepaymentExpected| number}}</th>
+                <th>{{loan.repaymentSchedule.totalRepayment| number}}</th>
+                <th>{{loan.repaymentSchedule.totalPaidInAdvance| number}}</th>
+                <th>{{loan.repaymentSchedule.totalPaidLate| number}}</th>
+                <th data-ng-show="isWaived">{{loan.repaymentSchedule.totalWaived| number}}</th>
+                <th>{{loan.repaymentSchedule.totalOutstanding| number}}</th>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- transaction history -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.transactions=!collapse.transactions"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.transactions, 'glyphicon-minus': !collapse.transactions}"></span></button>
+        <h3>Transaction History <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.transactions}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-hover table-striped">
+              <thead>
+              <tr class="graybg">
+                <th colspan="5">&nbsp;</th>
+                <th colspan="4" style="text-align: center">Break Down</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr>
+                <th>ID</th>
+                <th>Office</th>
+                <th>Transaction Date</th>
+                <th>Transaction Type</th>
+                <th>Amount</th>
+                <th>Principal</th>
+                <th>Interest</th>
+                <th>Fees</th>
+                <th>Penalties</th>
+                <th>Loan Balance</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="transaction in loan.transactions">
+                <td>{{transaction.id}}</td>
+                <td>{{transaction.officeName}}</td>
+                <td>{{transaction.date | DateFormat}}</td>
+                <td>{{transaction.type.value}}</td>
+                <td>{{transaction.amount | number}}</td>
+                <td>{{transaction.principalPortion | number}}</td>
+                <td>{{transaction.interestPortion | number}}</td>
+                <td>{{transaction.feeChargesPortion | number}}</td>
+                <td>{{transaction.penaltyChargesPortion | number}}</td>
+                <td>{{transaction.outstandingLoanBalance | number}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- charges -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.charges=!collapse.charges"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.charges, 'glyphicon-minus': !collapse.charges}"></span></button>
+        <h3>Charges <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.charges}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-condensed table-striped">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Penalty</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="charge in loan.charges">
+                <td>{{charge.name}}</td>
+                <td>{{charge.amount | number}}&nbsp;{{charge.currency.code}}</td>
+                <td>{{charge.chargeTimeType.value}}</td>
+                <td>{{charge.penalty}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- overdue charges -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.overdue=!collapse.overdue"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.overdue, 'glyphicon-minus': !collapse.overdue}"></span></button>
+        <h3>Overdue Charges <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.overdue}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-condensed table-striped">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Penalty</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="charge in loan.overdueCharges">
+                <td>{{charge.name}}</td>
+                <td>{{charge.active}}</td>
+                <td>{{charge.amount | number}}&nbsp;{{charge.currency.code}}</td>
+                <td>{{charge.chargeTimeType.value}}</td>
+                <td>{{charge.penalty}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- collateral -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.collateral=!collapse.collateral"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.collateral, 'glyphicon-minus': !collapse.collateral}"></span></button>
+        <h3>Collateral <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span><span class="glyphicon glyphicon-exclamation-sign" ng-show="collaterals.length==0"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.collateral}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-condensed table-striped">
+              <thead>
+              <tr>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Description</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="collateral in collaterals">
+                <td>{{collateral.Type}}</td>
+                <td>{{collateral.value | number}}</td>
+                <td>{{collateral.description}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- guarantor -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.guarantor=!collapse.guarantor"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.guarantor, 'glyphicon-minus': !collapse.guarantor}"></span></button>
+        <h3>Guarantor <span class="glyphicon glyphicon-hourglass" ng-show="guarantorLoading"></span><span class="glyphicon glyphicon-exclamation-sign" ng-hide="guarantor"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="guarantorLoading" ng-class="{collapse: collapse.guarantor}">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>TBD</h4>
+            <p>{{guarantor}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- notes -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.notes=!collapse.notes"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.notes, 'glyphicon-minus': !collapse.notes}"></span></button>
+        <h3>Notes <span ng-show="collapse.notes">({{notes ? notes.length : '0'}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span></h3>
+      </div>
+      <div class="panel-body" ng-hide="notesLoading" ng-class="{collapse: collapse.notes}">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-condensed table-striped">
+              <thead>
+              <tr>
+                <th>Note</th>
+                <th>Created by</th>
+                <th>Created on</th>
+                <th>Follow up</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="note in notes">
+                <td>{{note.description}}</td>
+                <td>{{note.createdByUserName}}</td>
+                <td>{{note.followUpDate}}</td>
+                <td>{{note.createdDate}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -512,3 +512,118 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
   };
 
 });
+
+angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $route, $location, APPLICATION, REST_URL, LoanService) {
+  $scope.collapse = {
+    detailsext: true,
+    charges: true,
+    overdue: true,
+    transactions: true,
+    repayment: true,
+    collateral: true,
+    guarantor: true,
+    summary: true,
+    notes: true};
+
+  $scope.editLoan = function() {
+    // TODO: implement this
+  };
+
+  $scope.saveLoanStatus = function() {
+    // TODO: implement this
+  };
+
+  $scope.cancelLoanStatus = function() {
+    // TODO: implement this
+  };
+
+  $scope.loadLoan = function() {
+    $scope.loanLoading = true;
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.id + '?associations=all').then(function(result) {
+      $scope.loan = result.data;
+      $scope.debug = Object.keys($scope.loan); // TODO: remove this in production
+
+      // additional
+      var paymentCount = _.filter($scope.loan.repaymentSchedule.periods, function(p) {
+        return p.complete;
+      }).length;
+
+      var now = new Date().getTime();
+      var missedPaymentCount = _.filter($scope.loan.repaymentSchedule.periods, function(p) {
+        if (p.complete) {
+          return p.totalPaidLateForPeriod > 0;
+        } else {
+          return p.period && (now > new Date(p.dueDate).getTime());
+        }
+      }).length;
+
+      var lastScheduledPayment = _.max($scope.loan.repaymentSchedule.periods, 'period');
+
+      $scope.additional = {
+        paymentCount: paymentCount,
+        missedPaymentCount: missedPaymentCount,
+        maturityDate: lastScheduledPayment.dueDate
+      };
+
+      $scope.loanLoading = false;
+    }, function() {
+      $scope.loanLoading = false;
+    });
+  };
+
+  $scope.loadExtra = function() {
+    $scope.extraLoading = true;
+    LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $route.current.params.id).then(function(result) {
+      $scope.extraLoading = false;
+      if(result.data && result.data.length>0) {
+        $scope.extra = result.data[0];
+      }
+    }, function() {
+      $scope.extraLoading = false;
+    });
+  };
+
+  $scope.loadTransactions = function() {
+
+  };
+
+  $scope.loadCollateral = function() {
+    $scope.collateralLoading = true;
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.id + '/collaterals').then(function(result) {
+      $scope.collaterals = result.data;
+      $scope.collateralLoading = false;
+    }, function() {
+      $scope.collateralLoading = false;
+    });
+  };
+
+  $scope.loadGuarantor = function() {
+    $scope.guarantorLoading = true;
+    LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $route.current.params.id + '?genericResultSet=false').then(function(result) {
+      $scope.guarantor = result.data;
+      $scope.guarantorLoading = false;
+    }, function() {
+      $scope.guarantorLoading = false;
+    });
+  };
+
+  $scope.loadNotes = function() {
+    $scope.notesLoading = true;
+    LoanService.getData(REST_URL.NOTES + $route.current.params.id).then(function(result) {
+      $scope.notes = result.data;
+      $scope.notesLoading = false;
+    }, function() {
+      $scope.notesLoading = false;
+    });
+  };
+
+  $scope.load = function() {
+
+  };
+
+  $scope.loadLoan();
+  $scope.loadExtra();
+  $scope.loadTransactions();
+  $scope.loadCollateral();
+  $scope.loadGuarantor();
+});

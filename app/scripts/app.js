@@ -328,6 +328,9 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         data: {
             authorizedRoles: ['admin']
         }
+    }).when('/loans/view/:id', {
+        templateUrl: 'views/loans/view_loan.html',
+        controller: 'ViewLoanCtrl'
     }).when('/loans/:clientId/form/:tab/:loanId', {
       templateUrl: 'views/loans/loans.form.html',
       controller: 'LoansFormCtrl',
