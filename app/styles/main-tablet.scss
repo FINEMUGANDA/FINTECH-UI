@@ -135,4 +135,7 @@ and (max-width: 1024px){
     width: 20%;
     float: right!important;
   }
+  li.hidden-sm > form > div > input{
+    display:none;
+  }
 }
