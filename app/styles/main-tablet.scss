@@ -100,6 +100,7 @@ and (max-width: 1024px){
   }
   .navbar>.container .navbar-brand{
     margin-left:0!important;
+    z-index:11;
   }
   nav .search-sm{
     margin-top: 1.4rem;
@@ -115,5 +116,8 @@ and (max-width: 1024px){
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+  .navbar-default .navbar-toggle{
+      z-index: 10;
   }
 }
