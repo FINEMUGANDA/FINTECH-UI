@@ -513,7 +513,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
 
 });
 
-angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $route, $location, APPLICATION, REST_URL, LoanService) {
+angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $route, $location, APPLICATION, REST_URL, LoanService, Utility) {
   $scope.collapse = {
     detailsext: true,
     charges: true,
@@ -521,20 +521,46 @@ angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $rout
     transactions: true,
     repayment: true,
     collateral: true,
-    guarantor: true,
+    guarantor: false,
     summary: true,
     notes: true};
 
   $scope.editLoan = function() {
-    // TODO: implement this
+    $location.url('/loans/' + $scope.loan.clientId + '/form/create/' + $scope.loan.id);
+  };
+
+  $scope.selectLoanStatus = function(code) {
+    $scope.loanStatus = {code: code, locale: 'en', dateFormat: APPLICATION.DF_MIFOS};
+    var now = new Date();
+    var loadReason = false;
+    switch(code) {
+      case 'withdrawnByApplicant':
+        $scope.loanStatus.withdrawnOnDate = Utility.toServerDate(now);
+        loadReason = true;
+        break;
+    }
   };
 
   $scope.saveLoanStatus = function() {
-    // TODO: implement this
+    var code = $scope.loanStatus.code;
+
+    // cleanup
+    delete $scope.loanStatus.code;
+
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '?command=' + code, $scope.loanStatus).then(function(result) {
+      $scope.loan.status = result.data.changes.status;
+      $scope.cancelLoanStatus();
+    }, function(result) {
+      $scope.cancelLoanStatus();
+      $scope.type = 'error';
+      $scope.message = 'Cannot change loan status: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+    });
   };
 
   $scope.cancelLoanStatus = function() {
-    // TODO: implement this
+    $scope.loanStatus = null;
+    $scope.statusReasons = null;
   };
 
   $scope.loadLoan = function() {
@@ -599,8 +625,11 @@ angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $rout
 
   $scope.loadGuarantor = function() {
     $scope.guarantorLoading = true;
-    LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $route.current.params.id + '?genericResultSet=false').then(function(result) {
-      $scope.guarantor = result.data;
+    LoanService.getData(REST_URL.LOANS_GUARANTOR_DETAILS + $route.current.params.id + '?genericResultSet=true').then(function(result) {
+      var tmp = Utility.fromGenericResult(result);
+      if(tmp && tmp.length>0) {
+        $scope.guarantor = tmp[0];
+      }
       $scope.guarantorLoading = false;
     }, function() {
       $scope.guarantorLoading = false;

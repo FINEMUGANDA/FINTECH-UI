@@ -3,41 +3,8 @@
   <div ng-include src="'/views/alert.html'"></div>
   <div class="rows">
     <div class="page-header">
-      <h3><button type="button" ng-click="editLoan()" class="btn btn-primary ng-binding"><i class="icon-edit icon-white"></i>Edit</button></h3>
+      <h3><button type="button" ng-click="editLoan()" ng-show="loan.status.id==100" class="btn btn-primary ng-binding"><i class="icon-edit icon-white"></i>Edit</button></h3>
     </div>
-
-    <!-- debug -->
-    <!--
-    <div class="row">
-      <div class="col-md-12 page-header">
-        <div class="col-md-12">
-          {{client}}
-        </div>
-        <div class="col-md-12">
-          <span class="glyphicon glyphicon-hourglass" ng-show="loansLoading"></span>
-          <span ng-hide="loansLoading">{{loans}}</span>
-        </div>
-        <div class="col-md-12">
-          <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span>
-          <span ng-hide="notesLoading">{{notes}}</span>
-        </div>
-      </div>
-    </div>
-    -->
-    <!--
-    <div class="row">
-      <div class="col-md-12 page-header">
-        <div class="col-md-12">
-          <ul>
-            <li ng-repeat="d in debug">{{d}} = {{loan[d]}}</li>
-          </ul>
-        </div>
-        <div class="col-md-12">
-          <p>{{additional}}</p>
-        </div>
-      </div>
-    </div>
-    -->
 
     <!-- details -->
     <div class="panel panel-default">
@@ -46,6 +13,29 @@
         <h3>Details <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.details}">
+        <div class="row">
+          <div class="col-md-12">
+            <span ng-hide="loan.status.id==100">{{loan.status.value}}</span>
+            <div class="btn-toolbar" ng-show="loan.status.id==100">
+              <div class="btn-group">
+                <button class="btn btn-danger" type="button" ng-click="selectLoanStatus('withdrawnByApplicant')">Withdraw</button>
+              </div>
+              <div class="btn-group" ng-show="loanStatus">
+                <form class="form-inline" ng-show="loanStatus">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Note" ng-model="loanStatus.note">
+                  </div>
+                </form>
+              </div>
+              <div class="btn-group" ng-show="loanStatus">
+                <button type="button" class="btn btn-primary" ng-click="saveLoanStatus()">Save</button>
+                <button type="button" class="btn btn-warning" ng-click="cancelLoanStatus()">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+
         <div class="row">
           <div class="col-md-12">
             <div class="col-md-4">
@@ -117,43 +107,6 @@
                       {{loan.loanOfficerName}}
                     </dd>
                   </dl>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <dl class="dl-horizontal">
-                    <dt>Status:</dt>
-                  </dl>
-                </div>
-                <div class="col-md-8">
-                  <div class="btn-toolbar">
-                    <div class="btn-group">
-                      <div class="dropdown">
-                        <button class="btn dropdown-toggle" ng-class="{'btn-success': loan.status.id==300, 'btn-warning': loan.status.id==100, 'btn-default': loan.status.id==800 || loan.status.id==600, 'btn-danger': loan.status.id==700}" type="button" id="statusDropdown" data-toggle="dropdown" aria-expanded="true">
-                          <span>{{loan.status.value}}</span>&nbsp;<span class="glyphicon glyphicon-arrow-right" ng-show="clientStatus.code"></span>&nbsp;<span ng-show="clientStatus.code">{{clientStatus.code}}</span>
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="statusDropdown">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="action in clientActions" ng-click="selectClientStatus(action.code)">{{action.label}}</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="btn-group" ng-show='statusReasons.length>0'>
-                      <div class="dropdown">
-                        <button class="btn dropdown-toggle btn-default" type="button" id=reasonDropdown" data-toggle="dropdown" aria-expanded="true">
-                          <span>{{clientStatus.reason.name}}</span><span ng-hide="clientStatus.reason.name">Select...</span>
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="reason in statusReasons" ng-click="selectClientStatusReason(reason)">{{reason.name}}</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="btn-group" ng-show="clientStatus">
-                      <button type="button" class="btn btn-primary" ng-click="saveLoanStatus()" ng-disabled="clientStatus.code!='reactivate' && clientStatus.code!='activate' && !clientStatus.reason.name">Save</button>
-                      <button type="button" class="btn btn-warning" ng-click="cancelLoanStatus()">Cancel</button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -332,7 +285,7 @@
     </div>
 
     <!-- summary -->
-    <div class="panel panel-default">
+    <div class="panel panel-default" ng-show="loan.summary">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.summary=!collapse.summary"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.summary, 'glyphicon-minus': !collapse.summary}"></span></button>
         <h3>Summary <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
@@ -498,7 +451,7 @@
     </div>
 
     <!-- transaction history -->
-    <div class="panel panel-default">
+    <div class="panel panel-default" ng-show="loan.transactions.length>0">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.transactions=!collapse.transactions"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.transactions, 'glyphicon-minus': !collapse.transactions}"></span></button>
         <h3>Transaction History <span class="glyphicon glyphicon-hourglass" ng-show="loanLoading"></span></h3>
@@ -631,7 +584,7 @@
               </thead>
               <tbody>
               <tr ng-repeat="collateral in collaterals">
-                <td>{{collateral.Type}}</td>
+                <td>{{collateral.type.name}}</td>
                 <td>{{collateral.value | number}}</td>
                 <td>{{collateral.description}}</td>
               </tr>
@@ -651,18 +604,112 @@
       <div class="panel-body" ng-hide="guarantorLoading" ng-class="{collapse: collapse.guarantor}">
         <div class="row">
           <div class="col-md-12">
-            <h4>TBD</h4>
-            <p>{{guarantor}}</p>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Name:</dt>
+                    <dd>
+                      {{guarantor.firstName}}&nbsp;{{guarantor.lastName}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Date of birth:</dt>
+                    <dd>
+                      {{guarantor.dateOfBirth | DateFormat}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Business activity:</dt>
+                    <dd>
+                      {{guarantor.BusinessActivity_cd_businessActivity}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Income:</dt>
+                    <dd>
+                      {{guarantor.income}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Location:</dt>
+                    <dd>
+                      {{guarantor.businessLocation}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Client relation:</dt>
+                    <dd>
+                      {{guarantor.GuarantorRelationship_cd_clientRelation}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Main address:</dt>
+                    <dd>
+                      {{guarantor.address}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Main phone:</dt>
+                    <dd>
+                      {{guarantor.phone}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Secondary phone:</dt>
+                    <dd>
+                      {{guarantor.secondaryPhone}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
 
     <!-- notes -->
-    <div class="panel panel-default">
+    <div class="panel panel-default" ng-show="notes.length>0">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.notes=!collapse.notes"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.notes, 'glyphicon-minus': !collapse.notes}"></span></button>
-        <h3>Notes <span ng-show="collapse.notes">({{notes ? notes.length : '0'}})</span> <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span></h3>
+        <h3>Notes <span class="glyphicon glyphicon-hourglass" ng-show="notesLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="notesLoading" ng-class="{collapse: collapse.notes}">
         <div class="row">
