@@ -494,6 +494,8 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
         // brute force
         $rootScope.username = Session.getValue('username');
 
+        $rootScope.mainMenuVisible = (next.substr(next.indexOf('#/')+1) !== '/');
+
         var n = next && next.indexOf('#/') >= 0 ? next.substr(next.indexOf('#/')+1) : next;
         if(PERMISSION_ROUTE_MAPPING[n] && PERMISSION_ROUTE_MAPPING[n].permissions && PERMISSION_ROUTE_MAPPING[n].permissions.length > 0) {
             var allowed = false;
