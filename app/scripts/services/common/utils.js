@@ -116,6 +116,25 @@ utils.factory('Utility', function($q, APPLICATION) {
       }
 
       return result.format(APPLICATION.DF_MOMENT);
+    },
+    fromGenericResult: function(result) {
+      var rows = [];
+      angular.forEach(result.data.data, function(row) {
+        var that = this;
+        that.push({});
+        _.each(result.data.columnHeaders, function(header, index) {
+          that[that.length-1][header.columnName] = row.row[index];
+          if(header.columnDisplayType==='CODELOOKUP') {
+            angular.forEach(header.columnValues, function(code) {
+              if(parseInt(that[that.length-1][header.columnName])===code.id) {
+                that[that.length-1][header.columnName] = code.value;
+              }
+            });
+          }
+        });
+      }, rows);
+
+      return rows;
     }
   };
 });
