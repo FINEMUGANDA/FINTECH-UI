@@ -845,13 +845,10 @@ app.directive('showValidation', [function() {
       link: function(scope, element) {
         var form = element.controller('form');
         form.$submitted = false;
-        element.on('submit', function(event) {
+        element.on('submit', function(/** event */) {
           scope.$apply(function() {
             element.addClass('ng-submitted');
             form.$submitted = true;
-            if(form.$valid) {
-              fn(scope, {$event:event});
-            }
           });
         });
         element.find('.validate').each(function() {
