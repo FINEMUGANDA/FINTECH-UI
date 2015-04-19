@@ -6,7 +6,7 @@
         <div class="form-group">
           <label class="control-label col-md-5">Loan Product<span class="required"> *</span></label>
           <div class="validate col-md-6">
-            <select class="form-control" required ng-model="loan.productId" ng-disabled="loanId">
+            <select class="form-control" required ng-model="loan.productId" ng-disabled="loanId" required>
               <option ng-repeat="product in loanProducts" value="{{product.id}}" ng-selected="{{loan.productId == product.id}}">{{product.name}}</option>
             </select>
           </div>
@@ -19,7 +19,7 @@
       <div class="form-group">
         <label class="control-label col-md-5">Loan Officer<span class="required"> *</span></label>
         <div class="validate col-md-6">
-          <select class="form-control" required ng-model="loan.loanOfficerId">
+          <select class="form-control" required ng-model="loan.loanOfficerId" required>
             <option ng-repeat="officer in data.loanOfficerOptions" value="{{officer.id}}" ng-selected="officer.id == loan.loanOfficerId">{{officer.displayName}}</option>
           </select>
         </div>
@@ -61,7 +61,7 @@
       <div class="form-group">
         <label class="control-label col-md-5">Interest Calculation Period<span class="required"> *</span></label>
         <div class="validate col-md-6">
-          <select class="form-control" required ng-model="loan.interestCalculationPeriodType">
+          <select class="form-control" required ng-model="loan.interestCalculationPeriodType" required>
             <option ng-repeat="interestCalculationPeriodType in data.interestCalculationPeriodTypeOptions" value="{{interestCalculationPeriodType.id}}" ng-selected="{{loan.interestCalculationPeriodType == interestCalculationPeriodType.id}}">{{interestCalculationPeriodType.value}}</option>
           </select>
         </div>
@@ -134,13 +134,14 @@
         </div>
       </div>-->
     </div>
+
+    <div class="col-md-12" ng-show="showDetails">
+      <hr />
+      <div class="col-md-offset-5 paddedtop">
+        <!--<a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>-->
+        <button id="save-btn" class="btn btn-primary" type="submit" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Next</button>
+      </div>
+    </div>
   </form>
 
-  <div class="col-md-12" ng-show="showDetails">
-    <hr />
-    <div class="col-md-offset-5 paddedtop">
-      <!--<a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>-->
-      <button id="save-btn" class="btn btn-primary" ng-click="saveLoan()" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Next</button>
-    </div>
-  </div>
 </div>
