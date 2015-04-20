@@ -113,6 +113,6 @@
     }
   }
 }
-table.table-striped>tbody>tr>td{
+table.table-striped>tbody>tr>td:nth-child(1){
   font-weight:700;
 }
