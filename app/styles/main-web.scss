@@ -228,7 +228,11 @@ div.summary > div > ul > li > a{
     border: 0;
   }
 }
-
+div > dl > dt{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 //PORTLET
 .kpis {
