@@ -521,7 +521,7 @@ angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $rout
     transactions: true,
     repayment: true,
     collateral: true,
-    guarantor: false,
+    guarantor: true,
     summary: true,
     notes: true};
 

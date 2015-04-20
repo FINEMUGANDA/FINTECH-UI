@@ -780,7 +780,8 @@ clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, L
   };
 
   $scope.editLoan = function(loan) {
-    $location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+    //$location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+    $location.url('/loans/view/' + loan.loanId);
   };
 
   $scope.removeLoan = function(loan) {
@@ -953,7 +954,8 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeou
   };
 
   $scope.editLoan = function(loan) {
-    $location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+    //$location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+    $location.url('/loans/view/' + loan.loanId);
   };
   $scope.removeLoan = function(loan) {
     var msg = 'You are about to remove Loan for client: <strong>' + loan.name + '</strong>';
