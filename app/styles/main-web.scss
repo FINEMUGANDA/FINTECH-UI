@@ -277,7 +277,7 @@ div.summary > div > ul > li > a{
     @include make-md-column(9);
     @include make-sm-column(9);
     margin:0;
-    font-size: 24px;
+    font-size: 2.4rem;
     /*font-weight:200;*/
     line-height: 29px;
     /*background: white;*/
@@ -302,7 +302,9 @@ div.summary > div > ul > li > a{
   }
 }
 div.panel-heading > h3{
-  
+  margin-top:0;
+  margin-bottom:0;
+  font-weight:700;
 }
 div.page-header > h3{
   border-bottom: 1px solid $primary-color;
