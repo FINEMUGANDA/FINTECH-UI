@@ -327,6 +327,20 @@ div.panel-heading > h3{
 div.page-header > h3{
   border-bottom: 1px solid $primary-color;
 }
+.breadcrumb{
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  border-radius: 0;
+  border-bottom: 1px solid $primary-color;
+  font-size: 2.4rem;
+  font-weight: 700;
+  li.active{
+    display:none;
+  }
+}
+
+
 .filters {
   @include make-row();
   @extend .links-horizontal;
