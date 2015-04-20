@@ -315,8 +315,8 @@ div > dl > dd > ul{
     }
   }
 }
-.panel-heading{
-  border-bottom: 1px solid $primary-color;
+.panel-default>.panel-heading{
+  border-bottom: 1px solid $primary-color!important;
 }
 div.panel-heading > h3{
   margin-top:0;
