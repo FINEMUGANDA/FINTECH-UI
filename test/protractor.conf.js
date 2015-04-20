@@ -13,6 +13,12 @@ exports.config = {
         'e2e/*.spec.js'
     ],
 
+    capabilities: {
+        browserName: 'phantomjs',
+        version: '',
+        platform: 'ANY'
+    },
+
     // -- How to set up browsers --
     // TODO: Use 'capabilities' to configure browser
 
