@@ -339,7 +339,11 @@ div.page-header > h3{
     display:none;
   }
 }
-
+.header{
+  border-bottom: 1px solid $primary-color;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
 
 .filters {
   @include make-row();
