@@ -269,7 +269,7 @@ div.summary > div > ul > li > a{
   margin-bottom:15px;
   .header {
     @include make-row();
-    border-bottom: 1px solid #DD9407;
+    border-bottom: 1px solid $primary-color;
     margin-top: 1.6rem;
   }
   .header h3 {
@@ -301,7 +301,12 @@ div.summary > div > ul > li > a{
     }
   }
 }
-
+div.panel-heading > h3{
+  border-bottom: 1px solid $primary-color;
+}
+div.page-header > h3{
+  
+}
 .filters {
   @include make-row();
   @extend .links-horizontal;
