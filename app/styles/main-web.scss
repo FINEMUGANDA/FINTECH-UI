@@ -375,7 +375,7 @@ div.page-header > h3{
     margin: 0 !important;
 
     li > a {
-      border-color: $border-color;
+      border-color: $primary-color;/*$border-color;*/
       font-size:11px;
       color: $text-color;
     }
