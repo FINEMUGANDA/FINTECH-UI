@@ -71,6 +71,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
           $scope.loan.interestCalculationPeriodType = data.interestCalculationPeriodType.id;
           $scope.loan.interestType = data.interestType.id;
           $scope.loan.transactionProcessingStrategyId = data.transactionProcessingStrategyId;
+          $scope.loan.submittedOnDate = new Date();
 
           if (data.timeline && data.timeline.expectedDisbursementDate) {
             //var expectedDisbursementDate = angular.copy(data.timeline.expectedDisbursementDate);
@@ -550,6 +551,7 @@ angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $rout
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '?command=' + code, $scope.loanStatus).then(function(result) {
       $scope.loan.status = result.data.changes.status;
       $scope.cancelLoanStatus();
+      $location.url('/clients');
     }, function(result) {
       $scope.cancelLoanStatus();
       $scope.type = 'error';
