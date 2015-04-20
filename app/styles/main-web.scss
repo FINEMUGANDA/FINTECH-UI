@@ -302,10 +302,10 @@ div.summary > div > ul > li > a{
   }
 }
 div.panel-heading > h3{
-  border-bottom: 1px solid $primary-color;
+  
 }
 div.page-header > h3{
-  
+  border-bottom: 1px solid $primary-color;
 }
 .filters {
   @include make-row();
