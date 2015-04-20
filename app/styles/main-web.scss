@@ -348,6 +348,12 @@ div.page-header > h3{
   font-weight: 700;
   padding-left:15px;
   }
+  .shortcuts ul{
+    width: 70%;
+    >li+li{
+      margin-bottom: 10px;
+    }
+  }
 }
 
 
