@@ -350,9 +350,9 @@ div.page-header > h3{
   }
   
 }
-.summary.shortcuts {
+ul[role=tablist] {
     width: 70%;
-    ul>li+li{
+    >li+li{
       margin-bottom: 10px;
     }
   }
