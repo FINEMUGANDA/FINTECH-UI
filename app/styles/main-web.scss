@@ -341,10 +341,12 @@ div.page-header > h3{
 }
 .header{
   border-bottom: 1px solid $primary-color;
+  margin-right: 10px;
+  margin-left: 10px;
   h3{
   font-size: 2.4rem;
   font-weight: 700;
-    
+  padding-left:15px;
   }
 }
 
