@@ -233,11 +233,12 @@ div.summary > div > ul > li > a{
   }
 }
 
-div > dl > dd > ul,.col-md-8 .col-md-3,.col-md-8 .col-md-8{
+.col-md-8 .col-md-3,.col-md-8 .col-md-8{
   position: relative;
   top: 50%;
   transform: translateY(-50%);
 }
+
 //div > dl > dd > ul forced!!
 div > dl > dd > ul{
   margin-top: 1rem;
