@@ -178,6 +178,7 @@ and (max-width: 1024px){
  //adjustment of status button
  .col-md-8 .col-md-8{
    margin-left: 1.8rem;
+   width:50%;
  }
  .col-md-12 .col-md-8{
    float:left;
@@ -187,7 +188,7 @@ and (max-width: 1024px){
   float:left;
    width:33.333333%;
 }
-}
+
 /*@media only screen
 and (max-width: 768px){
   .shortcuts ul>li>a{
