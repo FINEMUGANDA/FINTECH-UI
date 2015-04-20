@@ -4,7 +4,7 @@ exports.config = {
     // -- How to connect to Browser Drivers --
     // For simplicity sake direct connection to browser is used.
     // NOTE: Only Chrome or Firefox support such connection.
-    directConnect: false,
+    directConnect: true,
 
     // -- What tests to run --
     // For simplicity assume any JS in 'e2e' directory is a test
@@ -12,12 +12,6 @@ exports.config = {
     specs: [
         'e2e/*.spec.js'
     ],
-
-    capabilities: {
-        browserName: 'phantomjs',
-        version: '',
-        platform: 'ANY'
-    },
 
     // -- How to set up browsers --
     // TODO: Use 'capabilities' to configure browser
