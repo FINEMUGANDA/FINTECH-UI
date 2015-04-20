@@ -4,7 +4,7 @@ exports.config = {
     // -- How to connect to Browser Drivers --
     // For simplicity sake direct connection to browser is used.
     // NOTE: Only Chrome or Firefox support such connection.
-    directConnect: true,
+    directConnect: false,
 
     // -- What tests to run --
     // For simplicity assume any JS in 'e2e' directory is a test
