@@ -92,7 +92,10 @@ h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
 .btn-group-sm>.btn{
   //border-radius: 10px;
 }
-
+.btn-success.dropdown-toggle{
+  background-color: $greenColor;
+  border-color: $greenColor;
+}
 // LINKS - HORIZONTAL
 .links-horizontal {
   ul {
