@@ -178,7 +178,7 @@ and (max-width: 1024px){
  //adjustment of status button
  .col-md-8 .col-md-8{
    margin-left: 1.8rem;
-   width:50%;
+   width:50%!important;
  }
  .col-md-12 .col-md-8{
    float:left;
@@ -188,7 +188,10 @@ and (max-width: 1024px){
   float:left;
    width:33.333333%;
 }
-  
+  //adjust height of all rows
+div.col-md-8 > div{
+    height: 2rem;
+}
 }
 /*@media only screen
 and (max-width: 768px){
