@@ -206,7 +206,9 @@ div.col-md-8 > div{
   clear: both;
   text-align: right;
 }
-
+div.summary > div > ul {
+    width: 100%;
+}
 //===================
 }
 /*@media only screen
