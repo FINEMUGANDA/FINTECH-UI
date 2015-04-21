@@ -168,11 +168,14 @@ and (max-width: 1024px){
  div.ng-scope > ul > li:nth-child(5) > a{
     margin-bottom: 4px;
  }
- .shortcuts,.summary{
+ .shortcuts{
    ul>li+li{
    margin-bottom: 10px;
    }
  }
+ div.summary>div>ul>li+li {
+  margin-bottom: 10px;
+}
  .table .grid-button{
    float:right;
    margin-bottom:2px;
