@@ -113,6 +113,15 @@
     }
   }
 }
-table.table-striped>tbody>tr>td:nth-child(1){
+.table-striped{
+  
+  > tfoot > tr > th.ng-binding, thead > tr > th,table > tbody > tr > td{
+    text-align:right;
+  }
+  >tbody>tr>td:nth-child(1){
   font-weight:700;
+  text-align:left;
+  }
 }
+
+
