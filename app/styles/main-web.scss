@@ -133,7 +133,7 @@ h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
     font-size:12px;
     /*border-right: 1px solid darken($border-color,4%);*/
     border-radius: 0;
-     border: 1px solid orange;
+     border: 1px solid $primary-color;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -189,7 +189,7 @@ div.shortcuts > ul > li > a{
 }
 
 div.summary > div > ul > li > a{
-  border: 1px solid orange;
+  border: 1px solid $primary-color;
   /*border-bottom: 0px;
   &:visited, &:hover, &:link, &:active{
     background: white!important;
@@ -351,7 +351,10 @@ div.page-header > h3{
   
 }
 div.summary > div > ul {
-    width: 70%;
+    //width: 70%;
+    >li>a{
+      padding: 5px 5px;
+    }
     >li+li{
       margin-bottom: 10px;
     }
