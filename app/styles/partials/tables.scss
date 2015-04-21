@@ -89,7 +89,7 @@
 .loanRepaymentTable {
   & > thead tr > td, & > thead tr > th {
     background: lighten($background-web,0.8%);
-    font-size:1.2rem;
+    font-size:1.2rem!important;
     font-weight:600;
     color: lighten($text-color,30%);
     border: solid 1px #cccccc;
