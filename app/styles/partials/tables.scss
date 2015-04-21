@@ -115,7 +115,7 @@
 }
 .table-striped{
   
-  > tfoot > tr > th.ng-binding, thead > tr > th,table > tbody > tr > td.ng-binding{
+  > tfoot > tr > th.ng-binding, thead > tr > th, > tbody > tr > td.ng-binding{
     text-align:right;
   }
   >tbody>tr>td:nth-child(1){
