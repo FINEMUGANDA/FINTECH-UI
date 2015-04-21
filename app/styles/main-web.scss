@@ -188,15 +188,7 @@ div.shortcuts > ul > li > a{
   }
 }
 
-div.summary > div > ul > li > a{
-  border: 1px solid $primary-color;
-  /*border-bottom: 0px;
-  &:visited, &:hover, &:link, &:active{
-    background: white!important;
-    color:#E28B00!important;
-    border-bottom: 0px;
-  }*/
-}
+
 //SUMMARY
 
 .summary {
@@ -350,10 +342,20 @@ div.page-header > h3{
   }
   
 }
+//div.summary > div > ul > li > a{
+  
+  /*border-bottom: 0px;
+  &:visited, &:hover, &:link, &:active{
+    background: white!important;
+    color:#E28B00!important;
+    border-bottom: 0px;
+  }*/
+//}
 div.summary > div > ul {
     //width: 70%;
     >li>a{
       padding: 5px 5px;
+      border: 1px solid $primary-color;
     }
     >li+li{
       margin-bottom: 10px;
