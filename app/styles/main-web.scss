@@ -357,7 +357,8 @@ div.summary > div > ul {
       padding: 5px 5px;
       border: 1px solid $primary-color;
     }
-    >li+li{
+    /*HERE jumping tabs error*/
+    li+li{
       margin-bottom: 10px;
     }
   }
