@@ -47,6 +47,16 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
     $scope.loanProducts = result.data;
   });
 
+  $scope.loadLoanPurposeCodes = function() {
+    LoanService.getData(REST_URL.CODES + '/3/codevalues').then(function(result) {
+      $scope.loanPurposes = result.data;
+    }, function() {
+      // TODO: do we really need this?
+    });
+  };
+
+  $scope.loadLoanPurposeCodes();
+
   function loadProductTemplate(productId, useTemplateData) {
     LoanService.getData(REST_URL.LOANS_TEMPLATES + '?templateType=individual&clientId=' + $scope.clientId + '&productId=' + productId).then(function(result) {
       var data = result.data;

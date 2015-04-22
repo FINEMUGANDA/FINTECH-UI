@@ -69,7 +69,12 @@
       <div class="form-group">
         <label class="control-label col-md-5" for="loanPurpose">Loan Purpose<span class="required"> *</span></label>
         <div class="validate col-md-6">
+          <!--
           <textarea id="loanPurpose" name="loanPurpose" class="form-control" ng-model="loanDetails.loanPurpose" required ></textarea>
+          -->
+          <select id="loanPurpose" class="form-control" required ng-model="loanDetails.loanPurpose">
+            <option ng-repeat="purpose in loanPurposes" value="{{purpose.name}}">{{purpose.name}}</option>
+          </select>
         </div>
       </div>
     </div>
