@@ -655,6 +655,9 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
     var LOCATION_PATH = '/' + SPLIT_LOCATION_PATH[1];
     //add active /selection class for open view menu item
     switch (LOCATION_PATH) {
+      case PAGE_URL.DASHBOARD:
+        $topNavigation.find('.home').parent().addClass('active');
+        break;
       case PAGE_URL.VIEW_REPORTS:
       case PAGE_URL.RUN_REPORTS:
         $topNavigation.find('.reports').parent().addClass('active');
@@ -685,6 +688,8 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
       case PAGE_URL.HOLIDAYS:
       case PAGE_URL.REPORTS:
       case PAGE_URL.JOBS:
+      case PAGE_URL.CODES:
+      case PAGE_URL.FINANCIALYEARS:
       case PAGE_URL.AUDIT:
         $topNavigation.find('.configuration').parent().addClass('active');
         break;

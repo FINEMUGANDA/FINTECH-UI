@@ -123,6 +123,8 @@ app.constant('PAGE_URL', {
     'JOURNALENTRIES':'/journalentries',
     'JOURNALENTRIES_DETAILS':'/journalentries/details',
     ADMIN :'/admin',
+    CODES:'/codes',
+    FINANCIALYEARS:'/financialyears',
     HOLIDAYS : '/holidays',
     REPORTS : '/reports',
     VIEW_REPORTS : '/vreports',
