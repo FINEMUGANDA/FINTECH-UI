@@ -336,6 +336,8 @@ app.constant('PERMISSION_MAPPING', {
         ],
         READ_JOURNALENTRY: [
             'READ_CURRENCY',
+            'READ_OFFICE',
+            'READ_GLACCOUNT',
             'READ_CODE',
             'READ_CODEVALUE',
             'READ_JournalEntryList',
