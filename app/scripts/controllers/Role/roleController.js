@@ -48,11 +48,11 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
         });
     };
 
-    $scope.showSuccess = function (message) {
+    $scope.showSuccess = function (message, url) {
         $scope.type = 'alert-success';
         $scope.message = message;
         $scope.errors = [];
-        //$location.url(url);
+        $location.url(url);
     };
 
     $scope.showError = function (message, errors) {
