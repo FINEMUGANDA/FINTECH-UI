@@ -14,8 +14,8 @@
       <div class="panel-body" ng-hide="loanLoading" ng-class="{collapse: collapse.details}">
         <div class="row">
           <div class="col-md-12">
-            <span ng-hide="loan.status.id==100">{{loan.status.value}}</span>
-            <div class="btn-toolbar" ng-show="loan.status.id==100">
+            <span ng-hide="loan.status.id==100 || loan.status.id==200">{{loan.status.value}}</span>
+            <div class="btn-toolbar" ng-show="loan.status.id==100 || loan.status.id==200">
               <div class="btn-group">
                 <button class="btn btn-danger" type="button" ng-click="selectLoanStatus('withdrawnByApplicant')">Withdraw</button>
               </div>
