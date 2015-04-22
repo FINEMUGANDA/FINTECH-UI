@@ -1,4 +1,3 @@
-<div ng-include="'views/common/header.tpl.html'"></div>
 <div class="container post-login" ng-controller="AuditCtrl">
     <div ng-include src="'/views/alert.html'"></div>   
     <div class="shortcuts">
@@ -20,23 +19,23 @@
       <div class="form-group">
           <label class="control-label col-md-2">From date</label>
           <div class="col-md-3">
-              <input id="makerDateTimeFrom" name="makerDateTimeFrom" class="form-control" type="text" ng-model="formDate.makerDateTimeFrom" datepicker-pop="dd MMMM yyyy" is-open="opened" />
+              <input id="makerDateTimeFrom" name="makerDateTimeFrom" class="form-control" type="text" ng-model="formDate.makerDateTimeFrom" datepicker-pop="dd/MM/yyyy" is-open="opened" />
           </div>
           <div class="col-md-1"></div>
           <label class="control-label col-md-2">To date</label>     
           <div class="col-md-3">                  
-              <input id="makerDateTimeTo" name="makerDateTimeTo" class="form-control" type="text" ng-model="formDate.makerDateTimeTo" datepicker-pop="dd MMMM yyyy" is-open="opened2" />
+              <input id="makerDateTimeTo" name="makerDateTimeTo" class="form-control" type="text" ng-model="formDate.makerDateTimeTo" datepicker-pop="dd/MM/yyyy" is-open="opened2" />
           </div>
       </div>
       <div class="form-group">
           <label class="control-label col-md-2">Checked from</label>
           <div class="col-md-3">
-              <input id="checkerDateTimeFrom" name="checkerDateTimeFrom" class="form-control" type="text" ng-model="formDate.checkerDateTimeFrom"datepicker-pop="dd MMMM yyyy" is-open="opened1" />
+              <input id="checkerDateTimeFrom" name="checkerDateTimeFrom" class="form-control" type="text" ng-model="formDate.checkerDateTimeFrom"datepicker-pop="dd/MM/yyyy" is-open="opened1" />
           </div>
           <div class="col-md-1"></div>
           <label class="control-label col-md-2">Checked to</label>     
           <div class="col-md-3">                  
-              <input id="checkerDateTimeTo" name="checkerDateTimeTo" class="form-control" type="text" ng-model="formDate.checkerDateTimeTo" datepicker-pop="dd MMMM yyyy" is-open="opened3" />
+              <input id="checkerDateTimeTo" name="checkerDateTimeTo" class="form-control" type="text" ng-model="formDate.checkerDateTimeTo" datepicker-pop="dd/MM/yyyy" is-open="opened3" />
           </div>
       </div>
       <div class="form-group">
