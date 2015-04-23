@@ -261,8 +261,11 @@ and (max-width: 992px){
   }
   .table > tbody > tr > td {
     line-height: 15px !important;
-    font-size: 0.8vw !important;
+    font-size: 1.4vw !important;
     padding: 6px 0px;
+  }
+  .table > tbody > tr > td:last-child{
+
   }
   //.form-group>label+div{
 
