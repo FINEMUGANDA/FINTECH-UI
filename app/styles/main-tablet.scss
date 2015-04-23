@@ -255,6 +255,20 @@ and (max-width: 992px){
     width: 30%;
     clear: left;
   }
+  .shortcuts ul > li > a{
+    padding: 5px 0.6vw!important;
+    font-size: 1.1vw!important;
+  }
+  .table > tbody > tr > td {
+    line-height: 15px !important;
+    font-size: 0.8vw !important;
+    padding: 6px 0px;
+  }
+  //.form-group>label+div{
+
+  div > div > form > div.form-group > label+div{
+   clear:left;  
+  }
 }
 /*@media only screen
 and (max-width: 768px){
