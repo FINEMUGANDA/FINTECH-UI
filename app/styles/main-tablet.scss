@@ -172,6 +172,10 @@ and (max-width: 1024px){
    ul>li+li{
    margin-bottom: 10px;
    }
+   ul > li > a {
+    padding: 5px 1vw;
+    font-size:1.2vw;
+    }
  }
  div.summary>div>ul>li+li {
   margin-bottom: 10px;
@@ -214,11 +218,39 @@ div.col-md-8 > div{
 div.summary > div > ul {
     width: 100%;
     >li>a{
-      font-size: 1.2rem;
+      font-size: 1.1vw;
+      padding: 5px 0.5vw;
     }
 }
-
+.form-group h4{
+    text-align: left;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
 //===================
+}
+@media only screen
+and (min-width: 992px)
+and (max-width: 1024px){
+  .form-group > .control-label{
+      width: 16.6666666667%;
+  }
+}
+@media only screen
+and (min-width: 768px)
+and (max-width: 992px){
+  .col-md-4{
+  float: none!important;
+  width: 50%!important;
+  }
+  .form-group > .control-label{
+    width:100%;
+  }
+ 
+  .col-md-2{
+    width: 33%;
+    float: left;
+  }
 }
 /*@media only screen
 and (max-width: 768px){

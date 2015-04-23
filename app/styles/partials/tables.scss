@@ -102,6 +102,10 @@
     }
     
   }
+  tbody > tr > td, tfoot > tr > th{
+    padding: 4px 2px;
+    font-size:1.2rem!important;
+  }
   thead>tr>td{
     padding: 6px 2px!important;
   }

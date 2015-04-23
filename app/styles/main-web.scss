@@ -93,7 +93,7 @@ h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
 .btn-group-sm>.btn{
   //border-radius: 10px;
 }
-.btn-success.dropdown-toggle{
+.btn-success,.btn-success.dropdown-toggle{
   background-color: $greenColor;
   border-color: $greenColor;
 }
@@ -236,7 +236,19 @@ div.shortcuts > ul > li > a{
 div > dl > dd > ul{
   margin-top: -1rem;
 }
-
+.panel-body{
+  padding-bottom: 0!important;
+  .row {
+   margin-left: 0;
+   margin-right: 0;
+  }
+  .col-md-12{
+    padding:0;
+  }
+  .panel-default{
+    margin-bottom: 0!important;
+  }
+}
 //PORTLET
 .kpis {
   @include make-row();
@@ -342,6 +354,13 @@ div.page-header > h3{
   }
   
 }
+.modal-title{
+  font-size:1.4rem;
+  font-weight:700;
+}
+.modal-header{
+  border-bottom: 1px solid $primary-color;
+}
 //div.summary > div > ul > li > a{
   
   /*border-bottom: 0px;
@@ -351,9 +370,14 @@ div.page-header > h3{
     border-bottom: 0px;
   }*/
 //}
+[ng-controller="CreateLoanProductsCtrl"] > div.shortcuts > ul > li .active{
+  border-bottom:0;
+  color: $secondary-color;
+}
 div.summary > div > ul {
     //width: 70%;
     >li>a{
+
       padding: 5px 5px;
       border: 1px solid $primary-color;
     }
