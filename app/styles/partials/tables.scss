@@ -59,7 +59,7 @@
       color: $activeInBadStandingColor;/*$bad;*/
     }
     &.activeGoodStanding {
-      color: $clientStatusPending;/*$tertiary-color;*/
+      color: $activeInGoodStandingColor;
     }
   }
   .bad {

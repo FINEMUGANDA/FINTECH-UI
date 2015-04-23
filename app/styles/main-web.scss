@@ -170,6 +170,7 @@ h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
 div.shortcuts{
   /*border-bottom: 1px solid rgb(221, 148, 7);*/
   margin-top: 1.8rem;
+
 } 
 div.container.post-login.ng-scope > div.shortcuts{
   border-bottom: 1px solid $primary-color;
@@ -370,9 +371,10 @@ div.page-header > h3{
     border-bottom: 0px;
   }*/
 //}
-[ng-controller="CreateLoanProductsCtrl"] > div.shortcuts > ul > li .active{
+.loanRelatedStyle > ul > li .active{
+  
   border-bottom:0;
-  color: $secondary-color;
+  color: $primary-color;
 }
 div.summary > div > ul {
     //width: 70%;
@@ -514,7 +516,7 @@ div.summary > div > ul {
       color: $activeInBadStandingColor;/*$bad*/
     }
     &.activeGoodStanding {
-      color: $tertiary-color;
+      color: $activeInGoodStandingColor;
     }
   }
   .bad {
