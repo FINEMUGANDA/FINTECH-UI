@@ -646,3 +646,6 @@ form[name=createjournalentryForm]{
   padding: 4px 8px;
   height: 34px;
 }
+ul.dropdown-menu > li{
+  clear:left;
+}
