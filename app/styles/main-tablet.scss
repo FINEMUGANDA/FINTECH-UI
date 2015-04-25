@@ -318,10 +318,41 @@ and (max-width: 992px){
     width:85%;
    }
   }
-  /*div.col-md-6 > div.col-md-4 > label.control-label{
-
-    width: 100%!important;
-  }*/
+  form[name=createjournalentryForm]{
+    .control-label {
+      width: 30%;
+     clear: none;
+     float: left;
+      text-align: right
+    }
+    .col-md-3{
+      float: left;
+      clear: none !important;
+      width: 29%;
+    }
+    .col-md-10{
+      float: left;
+      width: 22%;
+      clear: none!important;
+    }
+    .col-xs-3{
+      margin-left:-20px;
+    }
+    .col-xs-3+.col-xs-3{
+      margin-left:0px;
+    }
+    .col-xs-7 {
+      margin-left: 20px;
+    }
+    .col-md-9{
+     clear: none;
+     float: left;
+     width: 70%;
+    }
+    .paddedtop{
+      margin-left: 31%;
+    }
+  }
 }
 /*@media only screen
 and (max-width: 768px){
