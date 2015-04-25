@@ -235,10 +235,36 @@ and (max-width: 1024px){
   .form-group > .control-label{
       width: 16.6666666667%;
   }
+  .table-permission .btn-xs, .tab-content .container .btn-xs{
+    font-size: 1.2vw!important;
+    float: left;
+    padding: 2px;
+  }
+  small{
+    font-size:1rem;
+  }
 }
 @media only screen
 and (min-width: 768px)
 and (max-width: 992px){
+  small{
+    font-size:1rem;
+  }
+  .table-permission .btn-xs, .tab-content .container .btn-xs{
+    font-size: 1.2vw!important;
+    float: left;
+    padding: 2px;
+  }
+  .table-permission > tbody > tr > td {
+    padding: 1px;
+  }
+  .table-permission .btn-xs{
+     padding: 1px;
+  }
+  .tab-content .container .col-md-3{
+    width: 50%;
+    float: left;
+  }
   .col-md-4{
   float: none!important;
   width: 50%!important;

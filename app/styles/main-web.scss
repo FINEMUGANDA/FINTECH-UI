@@ -552,3 +552,67 @@ div.summary > div > ul {
   color: gray;
   font-size:1.4rem!important;
 }
+.nav-tabs{
+  margin-bottom:20px;
+  border-bottom: 0;
+  > li.active{
+    font-weight: 700;
+    background: white;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 3px solid $primary-color;
+  }
+  > li > a{
+   padding: 5px 10px;
+   font-size: 1.2rem;
+   border-radius: 0;
+   border: 1px solid $primary-color;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
+   margin-right: 0;
+   &:hover{
+    color:#4A7D82;
+    border-color:$primary-color;
+   }
+  }
+}
+.tab-content{
+  .container{
+    height:auto!important;
+    overflow-y: visible;
+    .btn-xs{
+      font-size: 0.7vw;
+      line-height: 1.5;
+      border-radius: 3px;
+      text-transform: lowercase;
+      width: 12%!important;
+      margin-right: 1%;
+      border: 0;
+      margin-bottom: 5px;
+    }
+    .col-md-3{
+      height:40px;
+    }
+  }
+}
+form[name=roleForm]{
+  .col-md-12{
+    margin-top:20px;
+    .col-md-8{
+     margin-top:20px;
+     margin-bottom: 20px;
+     width: 100%;
+    }
+    h3{
+      font-size: 1.4vw;
+      font-weight: 700;
+      border-bottom: 1px solid #CACDBB;
+      padding-right:0;
+    }
+  }
+  .text-center{
+    text-align:left;
+  }
+}
