@@ -524,7 +524,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
 
 });
 
-angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $route, $location, APPLICATION, REST_URL, LoanService, Utility) {
+angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $route, $location, APPLICATION, REST_URL, LoanService, dialogs, Utility) {
   $scope.collapse = {
     detailsext: true,
     charges: true,
@@ -550,6 +550,42 @@ angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $rout
         loadReason = true;
         break;
     }
+  };
+
+  $scope.openActionDialog = function() {
+    var loan = {};
+    loan.loanId = $scope.loan.id;
+    loan.loanAmount = $scope.loan.principal;
+    loan.name = $scope.loan.clientName;
+    loan.installments = $scope.loan.repaymentSchedule.periods.length-1;
+    loan.interestRate = $scope.loan.annualInterestRate;
+    loan.externalId = $scope.loan.externalId;
+    loan.submittedon_date = $scope.loan.timeline.submittedOnDate[2] + '/' + $scope.loan.timeline.submittedOnDate[1] + '/' + $scope.loan.timeline.submittedOnDate[0];
+    loan.file_no = $scope.loan.accountNo;
+    var dialog = dialogs.create('/views/Client/grids/loans.dialog.action.html', 'LoansActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        $scope.load();
+      }
+    });
+  };
+
+  $scope.openDisburseDialog = function() {
+    var loan = {};
+    loan.loanId = $scope.loan.id;
+    loan.loanAmount = $scope.loan.principal;
+    loan.name = $scope.loan.clientName;
+    loan.installments = $scope.loan.repaymentSchedule.periods.length-1;
+    loan.interestRate = $scope.loan.annualInterestRate;
+    loan.externalId = $scope.loan.externalId;
+    loan.submittedon_date = $scope.loan.timeline.submittedOnDate[2] + '/' + $scope.loan.timeline.submittedOnDate[1] + '/' + $scope.loan.timeline.submittedOnDate[0];
+    loan.file_no = $scope.loan.accountNo;
+    var dialog = dialogs.create('/views/Client/grids/loans.dialog.disburse.action.html', 'LoansDisburseActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        $scope.load();
+      }
+    });
   };
 
   $scope.saveLoanStatus = function() {
@@ -659,12 +695,12 @@ angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $rout
   };
 
   $scope.load = function() {
-
+    $scope.loadLoan();
+    $scope.loadExtra();
+    $scope.loadTransactions();
+    $scope.loadCollateral();
+    $scope.loadGuarantor();
   };
 
-  $scope.loadLoan();
-  $scope.loadExtra();
-  $scope.loadTransactions();
-  $scope.loadCollateral();
-  $scope.loadGuarantor();
+  $scope.load();
 });

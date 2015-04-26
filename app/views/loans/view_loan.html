@@ -2,7 +2,11 @@
   <div ng-include src="'/views/alert.html'"></div>
   <div class="rows">
     <div class="page-header">
-      <h3><button type="button" ng-click="editLoan()" ng-show="loan.status.id==100 || loan.status.id==200" class="btn btn-primary ng-binding"><i class="icon-edit icon-white"></i>Edit</button></h3>
+      <div class="btn-group">
+        <button type="button" ng-click="editLoan()" ng-if="loan.status.id==100 || loan.status.id==200" class="btn btn-primary">Edit</button>
+        <button type="button" ng-click="openActionDialog()" ng-if="loan.status.pendingApproval" class="btn btn-default">Action</button>
+        <button type="button" ng-click="openDisburseDialog()" ng-if="loan.status.waitingForDisbursal" class="btn btn-default">Action</button>
+      </div>
     </div>
 
     <!-- details -->
