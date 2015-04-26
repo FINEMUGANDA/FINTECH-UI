@@ -3,8 +3,8 @@
   <div class="rows">
     <div class="page-header">
       <div class="btn-group">
-        <button type="button" ng-click="editLoan()" ng-if="loan.status.id==100 || loan.status.id==200" class="btn btn-primary">Edit</button>
-        <button type="button" ng-click="openActionDialog()" ng-if="loan.status.pendingApproval" class="btn btn-default">Action</button>
+        <button type="button" ng-click="editLoan()" ng-if="loan.status.id==100 || loan.status.pendingApproval || loan.status.waitingForDisbursal" class="btn btn-primary">Edit</button>
+        <button type="button" ng-click="openActionDialog()" ng-if="loan.status.pendingApproval && collaterals.length>0 && guarantor" class="btn btn-default">Action</button>
         <button type="button" ng-click="openDisburseDialog()" ng-if="loan.status.waitingForDisbursal" class="btn btn-default">Action</button>
       </div>
     </div>
