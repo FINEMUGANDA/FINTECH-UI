@@ -137,7 +137,14 @@ appModule.controller('UserController', function($route, $scope, RoleService, RES
       }
     } else {
       $scope.type = 'error';
-      $scope.message = 'Highlighted fields are required';
+      if($scope.userForm.username.$error.minlength || $scope.userForm.username.$error.required) {
+        $scope.message = 'The username has to be at least 5 characters long';
+
+      } else if($scope.userForm.username.$error.maxlength) {
+        $scope.message = 'The username cannot be longer than 30 characters';
+      } else {
+        $scope.message = 'Highlighted fields are required';
+      }
       $scope.errors = [];
       $('html, body').animate({scrollTop: 0}, 800);
     }
