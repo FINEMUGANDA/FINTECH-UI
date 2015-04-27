@@ -629,7 +629,9 @@ form[name=roleForm]{
   padding: 6px 12px;
   font-size: 14px;
   border-radius: 4px;
-  &:hover{
+  height: 32px;
+  margin-top: -3px;
+  &:hover, &:focus{
     background: #407d9c;
       color: #fff;
   }
@@ -648,4 +650,9 @@ form[name=createjournalentryForm]{
 }
 ul.dropdown-menu > li{
   clear:left;
+}
+.modal-footer{
+  .btn-danger{
+      margin-bottom: 0;
+  }
 }
