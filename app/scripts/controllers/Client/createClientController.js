@@ -843,6 +843,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   $scope.reset = function() {
     $scope.clientIdentification = {};
     $scope.clientIdentificationExtra = {};
+    $scope.button_name = 'Add';
   };
   $scope.open = function($event) {
     $event.preventDefault();
