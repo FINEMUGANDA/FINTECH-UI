@@ -149,11 +149,14 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
 
         var pos = -1;
 
-        if($scope.form.expressions.expressions[code]) {
-            pos = $scope.form.expressions.expressions[code].indexOf('resource.loan_officer_id!=appUser.getStaffId()');
+        if($scope.form.expressions.expressions[code] && code==='APPROVE_LOAN') {
+            pos = $scope.form.expressions.expressions[code].indexOf('&& resource.loan_officer_id!=appUser.getStaffId()');
+            if(pos===-1) {
+                pos = $scope.form.expressions.expressions[code].indexOf('resource.loan_officer_id!=appUser.getStaffId()');
+            }
         }
 
-        if(!$scope.permissionExpressionData[code].selfAssign) {
+        if(!$scope.permissionExpressionData[code].selfAssign && code==='APPROVE_LOAN') {
             if($scope.form.expressions.expressions[code]) {
                 if(pos===-1) {
                     $scope.form.expressions.expressions[code] += ' && resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
