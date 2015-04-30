@@ -156,7 +156,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
         if(!$scope.permissionExpressionData[code].selfAssign) {
             if($scope.form.expressions.expressions[code]) {
                 if(pos===-1) {
-                    $scope.form.expressions.expressions[code] += ' resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
+                    $scope.form.expressions.expressions[code] += ' && resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
                 }
             } else {
                 $scope.form.expressions.expressions[code] = 'resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
