@@ -1,4 +1,4 @@
-<div class="container post-login" ng-controller="CreateLoanProductsCtrl" ng-show="hasPermission('CREATE_LOANPRODUCT')">
+<div class="container post-login" ng-show="hasPermission('CREATE_LOANPRODUCT')">
   <div ng-include src="'/views/alert.html'"></div>
   <div class="shortcuts loanRelatedStyle">
       <ul role="tablist"> 
@@ -190,7 +190,7 @@
             </tbody>              
           </table>
           <button class="btn btn-warning" ng-click="setStep(1)">back</button>
-          <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)">Save</button>
+          <button type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)">Save</button>
         </form>
       </div>
     </div>
