@@ -9,18 +9,6 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
   $scope.isLoading = true;
   $scope.params_id = $route.current.params.id;
 
-  function load_form_data() {
-    var loadOfficesSuccess = function(result) {
-      $scope.isLoading = false;
-      $scope.offices = result.data;
-    };
-    var loadOfficesFail = function() {
-      console.log('Error : Return from loadRole.');
-    };
-    url = REST_URL.BASE + 'offices';
-    RoleService.getData(url).then(loadOfficesSuccess, loadOfficesFail);
-  }
-
   var loadStaffSuccess = function(result) {
     $scope.isLoading = false;
     $scope.displayed = result.data;
@@ -28,32 +16,55 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
   var loadStaffFail = function() {
     console.log('Error : Return from loadRole.');
   };
-  url = REST_URL.BASE + 'staff?status=ALL';
-  RoleService.getData(url).then(loadStaffSuccess, loadStaffFail);
 
   if ($scope.params_id) {
     var loadItemStaffSuccess = function(result) {
       $scope.isLoading = false;
+      $scope.offices = angular.copy(result.data.allowedOffices);
+      $scope.genderOptions = angular.copy(result.data.genderOptions);
+      $scope.maritalStatusOptions = angular.copy(result.data.maritalStatusOptions);
+      $scope.emergencyContactRelationOptions = angular.copy(result.data.emergencyContactRelationOptions);
+
+      delete result.data.genderOptions;
+      delete result.data.maritalStatusOptions;
+      delete result.data.emergencyContactRelationOptions;
+      delete result.data.allowedOffices;
+
       $scope.formData = result.data;
+      $scope.formData.genderId = result.data.gender.id;
+      $scope.formData.maritalStatusId = result.data.maritalStatus.id;
+      $scope.formData.emergencyContactRelationId = result.data.emergencyContactRelation.id;
+
+      delete $scope.formData.gender;
+      delete $scope.formData.maritalStatus;
+      delete $scope.formData.emergencyContactRelation;
+
       if($scope.formData.joiningDate){
         $scope.formData.joiningDate = new Date($scope.formData.joiningDate[0],
                                                $scope.formData.joiningDate[1] - 1,
                                                $scope.formData.joiningDate[2]);
 
       }
-      if ($location.$$url.indexOf('edit')) {
-        load_form_data();
-      }
     };
     var loadItemStaffFail = function() {
       console.log('Error : Return from loadPermissions.');
     };
-    url = REST_URL.BASE + 'staff/' + $scope.params_id;
+    url = REST_URL.BASE + 'staff/' + $scope.params_id + '?template=true';
     RoleService.getData(url).then(loadItemStaffSuccess, loadItemStaffFail);
+  } else if ($location.$$url.indexOf('create')>=0) {
+    url = REST_URL.BASE + 'staff/template';
+    RoleService.getData(url).then(function(result) {
+      $scope.isLoading = false;
+      $scope.offices = angular.copy(result.data.allowedOffices);
+      $scope.genderOptions = angular.copy(result.data.genderOptions);
+      $scope.maritalStatusOptions = angular.copy(result.data.maritalStatusOptions);
+      $scope.emergencyContactRelationOptions = angular.copy(result.data.emergencyContactRelationOptions);
+    }, function() {
+      // TODO: do we really need this?
+    });
   } else {
-    if ($location.$$url.indexOf('create')) {
-      load_form_data();
-    }
+    url = REST_URL.BASE + 'staff?status=ALL';
+    RoleService.getData(url).then(loadStaffSuccess, loadStaffFail);
   }
 
   $scope.save = function() {
