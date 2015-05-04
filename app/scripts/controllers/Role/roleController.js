@@ -124,7 +124,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
             $scope.permissionExpressionData[code].selfAssign = true;
         }
 
-        $scope.selectPermissionExpression(permissionExpression.code, permissionExpression.expression);
+        $scope.selectPermissionExpression(code, permissionExpression.expression);
     };
 
     $scope.selectPermissionExpression = function (code, expression) {
@@ -149,20 +149,13 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
 
         var pos = -1;
 
-        if($scope.form.expressions.expressions[code] && code==='APPROVE_LOAN') {
-            pos = $scope.form.expressions.expressions[code].indexOf('&& resource.loan_officer_id!=appUser.getStaffId()');
-            if(pos===-1) {
-                pos = $scope.form.expressions.expressions[code].indexOf('resource.loan_officer_id!=appUser.getStaffId()');
-            }
+        if($scope.form.expressions.expressions[code] && $scope.form.expressions.expressions[code].selfAssign) {
+            pos = $scope.form.expressions.expressions[code].indexOf(' && resource.loan_officer_id!=appUser.getStaffId()');
         }
 
-        if(!$scope.permissionExpressionData[code].selfAssign && code==='APPROVE_LOAN') {
+        if($scope.permissionExpressionData[code].selfAssign && pos===-1) {
             if($scope.form.expressions.expressions[code]) {
-                if(pos===-1) {
-                    $scope.form.expressions.expressions[code] += ' && resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
-                }
-            } else {
-                $scope.form.expressions.expressions[code] = 'resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
+                $scope.form.expressions.expressions[code] += ' && resource.loan_officer_id!=appUser.getStaffId() && appUser.getStaffId()!=null';
             }
         } else {
             if(pos>=0) {
@@ -170,7 +163,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
             }
         }
 
-        console.log('EXPRESSION: ' + $scope.form.expressions.expressions[code]);
+        console.log('DEBUG EXPRESSION: ' + $scope.form.expressions.expressions[code]);
     };
 
     $scope.groupingLabel = function(grouping) {
