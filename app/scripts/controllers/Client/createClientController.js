@@ -841,6 +841,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
   //Date of issue
   $scope.reset = function() {
+    $scope.Identifier_id = null;
     $scope.clientIdentification = {};
     $scope.clientIdentificationExtra = {};
     $scope.button_name = 'Add';
