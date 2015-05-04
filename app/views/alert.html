@@ -1,19 +1,24 @@
-<div class="alert error" role="alert" data-ng-show="error">Oops, wrong username or password!</div>
-<div class="alert error" data-ng-show="loginForm.invalidate">    
-	<div ng-show="loginForm.username.$error.required"> Username is required field !!! </div>
-    <div ng-show="loginForm.username.$error.minlength"> Username is too short </div>
-    <div ng-show="loginForm.username.$error.maxlength"> Username is too large </div>
-    <div ng-show="loginForm.password.$error.required"> Password is required field !!! </div>
-    <div ng-show="loginForm.password.$error.minlength"> Password is too short </div>
-    <div ng-show="loginForm.password.$error.maxlength"> Password is too large </div>
-</div>
-<div class="alert {{type}} alert-dismissible" role="alert" data-ng-if="message">
-    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span>
+<div class="alert {{type}}" role="alert" ng-show="message">
+    <button type="button" class="close" ng-click="message=null" ng-show="message"><span aria-hidden="true">&times;</span>
     <span class="sr-only">Close</span></button>
     {{message}}
     <ul>
       <li ng-repeat="error in errors">
         {{error.defaultUserMessage.length? error.defaultUserMessage : error.message}}
-      </li>    
+      </li>
     </ul>
 </div>
+<div class="alert error" role="alert" ng-show="!loginForm.$valid && loginForm.$submitted">
+    <ul>
+        <li ng-show="loginForm.username.$error.required">Username is required field !!!</li>
+        <li ng-show="loginForm.username.$error.minlength">Username is too short </li>
+        <li ng-show="loginForm.username.$error.maxlength">Username is too large </li>
+        <li ng-show="loginForm.password.$error.required">Password is required field !!!</li>
+        <li ng-show="loginForm.password.$error.minlength">Password is too short </li>
+        <li ng-show="loginForm.password.$error.maxlength">Password is too large </li>
+    </ul>
+</div>
+<!--
+<p>{{loginForm}}</p>
+<p>- {{loginForm.$valid}} -</p>
+-->

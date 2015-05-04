@@ -60,10 +60,19 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, $idle
     };
 
     //authentication fail callback
-    $scope.authenticationFail = function () {
+    $scope.authenticationFail = function (result) {
+        console.log('DEBUG AUTH: ' + angular.toJson(result));
+        AuthService.logout();
+        $scope.type = 'error';
+        if(result.status===0) {
+            $scope.message = 'You have been locked! Please contact the administrator';
+        } else {
+            $scope.message = 'Oops, wrong username or password! ';
+        }
+        $scope.errors = [];
+        $scope.messageClosable = true;
         //Broadcast a login failed event
         $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-        $scope.error = true;
     };
 
     //invalidate login form
