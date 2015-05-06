@@ -18,8 +18,9 @@
           </div>
           <h3 class="bolder ng-binding">&nbsp;</h3>
           <div class="row">
-            <div class="col-md-5">
 
+            <!-- first col -->
+            <div class="col-md-6">
               <table class="table table-bordered table-striped">
                 <tbody>
                   <tr>
@@ -35,6 +36,14 @@
                     <td >{{formData.officeName}}</td>
                   </tr>
                   <tr>
+                    <td >Gender:</td>
+                    <td >{{findValue(formData.genderId, genderOptions).name}}}</td>
+                  </tr>
+                  <tr>
+                    <td >Marital Status:</td>
+                    <td >{{findValue(formData.maritalStatusId, maritalStatusOptions).name}}</td>
+                  </tr>
+                  <tr>
                     <td >Is Loan Officer:</td>
                     <td >{{formData.isLoanOfficer}}</td>
                   </tr>
@@ -43,16 +52,58 @@
                     <td >{{formData.mobileNo}}</td>
                   </tr>
                   <tr>
-                    <td >Active:</td>
-                    <td >{{formData.isActive}}</td>
+                    <td >Mobile Number #2:</td>
+                    <td >{{formData.mobileNo2}}</td>
                   </tr>
                   <tr>
-                    <td >Joined On:</td>
-                    <td >{{formData.joiningDate | date:'dd/MM/yyyy' }}</td>
+                    <td >Email:</td>
+                    <td >{{formData.email}}</td>
                   </tr>
                 </tbody>
              </table>
             </div>
+
+
+            <!-- second col -->
+            <div class="col-md-6">
+              <table class="table table-bordered table-striped">
+                <tbody>
+                <tr>
+                  <td >Children:</td>
+                  <td >{{formData.children}}</td>
+                </tr>
+                <tr>
+                  <td >Address:</td>
+                  <td >{{formData.address}}</td>
+                </tr>
+                <tr>
+                  <td >Is Loan Officer:</td>
+                  <td >{{formData.isLoanOfficer}}</td>
+                </tr>
+                <tr>
+                  <td >Emergency Contact Relation.:</td>
+                  <td >{{findValue(formData.emergencyContactRelationId, emergencyContactRelationOptions).name}}</td>
+                </tr>
+                <tr>
+                  <td >Emergency Contact:</td>
+                  <td >{{formData.emergencyContactName}}</td>
+                </tr>
+                <tr>
+                  <td >Emergency Mobile No.:</td>
+                  <td >{{formData.emergencyContactMobileNo}}</td>
+                </tr>
+                <tr>
+                  <td >Active:</td>
+                  <td >{{formData.isActive}}</td>
+                </tr>
+                <tr>
+                  <td >Joined On:</td>
+                  <td >{{formData.joiningDate | date:'dd/MM/yyyy' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </div>
       </div>

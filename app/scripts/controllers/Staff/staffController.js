@@ -99,6 +99,16 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
     }
   };
 
+  $scope.findValue = function(id, options) {
+    for(var i=0; i<options.length; i++) {
+      if(options[i].id===id) {
+        return options[i];
+      }
+    }
+
+    return {};
+  };
+
   $scope.validate = function() {
     $scope.type = '';
     $scope.message = '';
