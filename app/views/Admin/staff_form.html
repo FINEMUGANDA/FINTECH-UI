@@ -5,130 +5,148 @@
       <div class="header">
         <h3>Staff</h3>
       </div>
-    </div> 
-    <div class="row" ng-hide="isLoading">
-      <form name="userForm" class="form-horizontal" ng-submit="validate()" novalidate show-validation>
-        <div class="form-group">
-          <label class="control-label col-sm-2">Office<span class="required">*</span></label>
-          <div class="validate col-sm-3">
-            <select chosen="offices" id="officeId" ng-model="formData.officeId" class="form-control" ng-options="office.id as office.name for office in offices">
-              <option value="" class="ng-binding">--Select Office--</option>
-            </select>
+    </div>
+
+    <form name="userForm" class="form-horizontal" ng-submit="validate()" novalidate show-validation>
+      <div class="row" ng-hide="isLoading">
+
+        <!-- first col -->
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label col-sm-4">Office<span class="required">*</span></label>
+            <div class="validate col-sm-6">
+              <select chosen="offices" id="officeId" ng-model="formData.officeId" class="form-control" ng-options="office.id as office.name for office in offices">
+                <option value="" class="ng-binding">--Select Office--</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="firstname">First name<span class="required">*</span></label>
-          <div class="validate col-sm-3">
-            <input type="text" id="firstname" name="firstname" ng-model="formData.firstname" class="form-control" required late-validate="">
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="firstname">First name<span class="required">*</span></label>
+            <div class="validate col-sm-6">
+              <input type="text" id="firstname" name="firstname" ng-model="formData.firstname" class="form-control" required late-validate="">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="lastname">Last name<span class="required">*</span></label>
-          <div class="validate col-sm-3">
-            <input type="text" id="lastname" name="lastname" ng-model="formData.lastname" class="form-control" required late-validate="">
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="lastname">Last name<span class="required">*</span></label>
+            <div class="validate col-sm-6">
+              <input type="text" id="lastname" name="lastname" ng-model="formData.lastname" class="form-control" required late-validate="">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">Gender</label>
-          <div class="validate col-sm-3">
-            <select chosen="genderOptions" id="genderId" ng-model="formData.genderId" class="form-control" ng-options="gender.id as gender.name for gender in genderOptions">
-              <option value="" class="ng-binding">--Select Gender--</option>
-            </select>
+          <div class="form-group">
+            <label class="control-label col-sm-4">Gender</label>
+            <div class="validate col-sm-6">
+              <select chosen="genderOptions" id="genderId" ng-model="formData.genderId" class="form-control" ng-options="gender.id as gender.name for gender in genderOptions">
+                <option value="" class="ng-binding">--Select Gender--</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">Marital Status</label>
-          <div class="validate col-sm-3">
-            <select chosen="maritalStatusOptions" id="maritalStatusId" ng-model="formData.maritalStatusId" class="form-control" ng-options="maritalStatus.id as maritalStatus.name for maritalStatus in maritalStatusOptions">
-              <option value="" class="ng-binding">--Select Marital Status--</option>
-            </select>
+          <div class="form-group">
+            <label class="control-label col-sm-4">Marital Status</label>
+            <div class="validate col-sm-6">
+              <select chosen="maritalStatusOptions" id="maritalStatusId" ng-model="formData.maritalStatusId" class="form-control" ng-options="maritalStatus.id as maritalStatus.name for maritalStatus in maritalStatusOptions">
+                <option value="" class="ng-binding">--Select Marital Status--</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">Is loan officer?</label>
-          <div class="validate col-sm-3">
+          <div class="form-group">
+            <label class="control-label col-sm-4">Is loan officer?</label>
+            <div class="validate col-sm-6">
               <input type="checkbox" ng-model="formData.isLoanOfficer" class="">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="mobileNo">Mobile Number for SMS</label>
-          <div class="validate col-sm-3">
-            <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" class="form-control" late-validate="">
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="mobileNo">Mobile Number for SMS</label>
+            <div class="validate col-sm-6">
+              <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" class="form-control" late-validate="">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="mobileNo2">Mobile Number #2</label>
-          <div class="validate col-sm-3">
-            <input type="text" id="mobileNo2" name="mobileNo2" ng-model="formData.mobileNo2" class="form-control" late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="email">Email</label>
-          <div class="validate col-sm-3">
-            <input type="text" id="email" name="email" ng-model="formData.email" class="form-control" late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="children">Children</label>
-          <div class="validate col-sm-3">
-            <input type="text" id="children" name="children" ng-model="formData.children" class="form-control" late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="address">Address</label>
-          <div class="validate col-sm-3">
-            <input type="text" id="address" name="address" ng-model="formData.address" class="form-control" late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">Emergency Contact Relation.</label>
-          <div class="validate col-sm-3">
-            <select chosen="emergencyContactRelationOptions" id="emergencyContactRelationId" ng-model="formData.emergencyContactRelationId" class="form-control" ng-options="emergencyContactRelation.id as emergencyContactRelation.name for emergencyContactRelation in emergencyContactRelationOptions">
-              <option value="" class="ng-binding">--Select Contact Relationship--</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="emergencyContactName">Emergency Contact</label>
-          <div class="validate col-sm-3">
-            <input type="text" id="emergencyContactName" name="emergencyContactName" ng-model="formData.emergencyContactName" class="form-control" late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="emergencyContactMobileNo">Emergency Mobile No.</label>
-          <div class="validate col-sm-3">
-            <input type="text" id="emergencyContactMobileNo" name="emergencyContactMobileNo" ng-model="formData.emergencyContactMobileNo" class="form-control" late-validate="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">Active</label>
-          <div class="validate col-sm-3">
-              <input type="checkbox" ng-model="formData.isActive" class="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="lastname">Joined On</label>
-          <div class="validate col-sm-3">
-            <input type="text"
-                   datepicker-popup="dd/MM/yyyy"
-                   is-open="opened"
-                   datepicker-options="dateOptions"
-                   date-disabled="disabled(date, mode)"
-                   close-text="Close"
-                   ng-click="open($event)"
-                   id="joiningDate"
-                   name="joiningDate"
-                   ng-model="formData.joiningDate"
-                   class="form-control"
-                   late-validate>
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="mobileNo2">Mobile Number #2</label>
+            <div class="validate col-sm-6">
+              <input type="text" id="mobileNo2" name="mobileNo2" ng-model="formData.mobileNo2" class="form-control" late-validate="">
+            </div>
           </div>
         </div>
 
-        <div class="col-md-offset-3">
-          <a id="cancel" href="#/users" class="btn btn-default">Cancel</a>
-          <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_STAFF'])">Submit</button>
+        <!-- second col -->
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="email">Email</label>
+            <div class="validate col-sm-6">
+              <input type="text" id="email" name="email" ng-model="formData.email" class="form-control" late-validate="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="children">Children</label>
+            <div class="validate col-sm-6">
+              <input type="text" id="children" name="children" ng-model="formData.children" class="form-control" late-validate="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="address">Address</label>
+            <div class="validate col-sm-6">
+              <!--
+              <input type="text" id="address" name="address" ng-model="formData.address" class="form-control" late-validate="">
+              -->
+              <textarea id="address" name="address" ng-model="formData.address" class="form-control" late-validate=""></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">Emergency Contact Relation.</label>
+            <div class="validate col-sm-6">
+              <select chosen="emergencyContactRelationOptions" id="emergencyContactRelationId" ng-model="formData.emergencyContactRelationId" class="form-control" ng-options="emergencyContactRelation.id as emergencyContactRelation.name for emergencyContactRelation in emergencyContactRelationOptions">
+                <option value="" class="ng-binding">--Select Contact Relationship--</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="emergencyContactName">Emergency Contact</label>
+            <div class="validate col-sm-6">
+              <input type="text" id="emergencyContactName" name="emergencyContactName" ng-model="formData.emergencyContactName" class="form-control" late-validate="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="emergencyContactMobileNo">Emergency Mobile No.</label>
+            <div class="validate col-sm-6">
+              <input type="text" id="emergencyContactMobileNo" name="emergencyContactMobileNo" ng-model="formData.emergencyContactMobileNo" class="form-control" late-validate="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">Active</label>
+            <div class="validate col-sm-6">
+              <input type="checkbox" ng-model="formData.isActive" class="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="lastname">Joined On</label>
+            <div class="validate col-sm-6">
+              <input type="text"
+                     datepicker-popup="dd/MM/yyyy"
+                     is-open="opened"
+                     datepicker-options="dateOptions"
+                     date-disabled="disabled(date, mode)"
+                     close-text="Close"
+                     ng-click="open($event)"
+                     id="joiningDate"
+                     name="joiningDate"
+                     ng-model="formData.joiningDate"
+                     class="form-control"
+                     late-validate>
+            </div>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <!-- command -->
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="btn-group">
+            <a id="cancel" href="#/users" class="btn btn-default">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_STAFF'])">Submit</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
   </div>
 </div>

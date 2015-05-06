@@ -4,7 +4,7 @@
  
 angular.module('angularjsApp').controller('StaffController', function($route, $scope, RoleService, APPLICATION, REST_URL, $location) {
   var url = '';
-  $scope.formData = {};
+  $scope.formData = {isActive: true};
   $scope.itemsByPage = 10;
   $scope.isLoading = true;
   $scope.params_id = $route.current.params.id;
@@ -103,7 +103,11 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
     $scope.type = '';
     $scope.message = '';
     $scope.errors = [];
-    if ($scope.userForm.$valid) {
+    if ($scope.formData.joiningDate.getTime()>new Date().getTime()) {
+      $scope.type = 'error';
+      $scope.message = 'Join date cannot be in the future';
+      $scope.errors = [];
+    } else if ($scope.userForm.$valid) {
       $scope.save();
     } else {
       $scope.type = 'error';
