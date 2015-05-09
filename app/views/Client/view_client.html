@@ -410,7 +410,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.additional=!collapse.additional"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.additional, 'glyphicon-minus': !collapse.additional}"></span></button>
-        <h3>Additional <span class="glyphicon glyphicon-hourglass" ng-show="additionalLoading"></span></h3>
+        <h3>Additional Information <span class="glyphicon glyphicon-hourglass" ng-show="additionalLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="additionalLoading" ng-class="{collapse: collapse.additional}">
         <div class="row">
@@ -499,7 +499,7 @@
               </div>
             </div>
             -->
-            <div class="row" ng-show="additional.introducer_client.displayName">
+            <div class="row" ng-show="additional.Introduced_by_cd_introduced_by == 'existing_client'">
               <div class="col-md-12">
                 <dl class="dl-horizontal">
                   <dt>Introduced by client:</dt>
@@ -509,7 +509,7 @@
                 </dl>
               </div>
             </div>
-            <div class="row" ng-show="additional.introducer_loanOfficer.displayName">
+            <div class="row" ng-show="additional.Introduced_by_cd_introduced_by == 'loan_officer'">
               <div class="col-md-12">
                 <dl class="dl-horizontal">
                   <dt>Introduced by officer:</dt>
@@ -519,7 +519,7 @@
                 </dl>
               </div>
             </div>
-            <div class="row" ng-show="additional.introducer_other">
+            <div class="row" ng-show="additional.Introduced_by_cd_introduced_by == 'other'">
               <div class="col-md-12">
                 <dl class="dl-horizontal">
                   <dt>Introducer other:</dt>
@@ -630,24 +630,24 @@
             <table class="table table-condensed table-striped">
               <thead>
               <tr>
-                <th>Firstname</th>
-                <th>Middlename</th>
-                <th>Lastname</th>
-                <th>Relation</th>
-                <th>DOB</th>
-                <th>Tel. #1</th>
-                <th>Tel. #2</th>
+                <th class="text">Firstname</th>
+                <th class="text">Middlename</th>
+                <th class="text">Lastname</th>
+                <th class="text">Relation</th>
+                <th class="date">DOB</th>
+                <th class="number">Tel. #1</th>
+                <th class="number">Tel. #2</th>
               </tr>
               </thead>
               <tbody>
               <tr ng-repeat="nextOfKeen in nextOfKeens">
-                <td>{{nextOfKeen.firstname}}</td>
-                <td>{{nextOfKeen.middlename}}</td>
-                <td>{{nextOfKeen.lastname}}</td>
-                <td>{{nextOfKeen.GuarantorRelationship_cd_relationship}}</td>
-                <td>{{nextOfKeen.date_of_birth}}</td>
-                <td>{{nextOfKeen.telephone}}</td>
-                <td>{{nextOfKeen.second_telephone}}</td>
+                <td class="text">{{nextOfKeen.firstname}}</td>
+                <td class="text">{{nextOfKeen.middlename}}</td>
+                <td class="text">{{nextOfKeen.lastname}}</td>
+                <td class="text">{{nextOfKeen.GuarantorRelationship_cd_relationship}}</td>
+                <td class="date">{{nextOfKeen.date_of_birth}}</td>
+                <td class="number">{{nextOfKeen.telephone}}</td>
+                <td class="number">{{nextOfKeen.second_telephone}}</td>
               </tr>
               </tbody>
             </table>
@@ -668,22 +668,22 @@
             <table class="table table-condensed table-striped">
               <thead>
               <tr>
-                <th>Activity</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Operating since</th>
-                <th>Book kepping</th>
-                <th>Income</th>
+                <th class="text">Activity</th>
+                <th class="text">Name</th>
+                <th class="text">Address</th>
+                <th class="date">Operating since</th>
+                <th class="date">Book kepping</th>
+                <th class="number">Income</th>
               </tr>
               </thead>
               <tbody>
               <tr ng-repeat="businessActivity in businessActivities">
-                <td>{{businessActivity.BusinessActivity_cd_business_activity}}</td>
-                <td>{{businessActivity.business_name}}</td>
-                <td>{{businessActivity.business_address}}</td>
-                <td>{{businessActivity.operating_since}}</td>
-                <td>{{businessActivity.YesNo_cd_book_keeping}}</td>
-                <td>{{businessActivity.BusinessActivity_cd_other_income_business_activity}}</td>
+                <td class="text">{{businessActivity.BusinessActivity_cd_business_activity}}</td>
+                <td class="text">{{businessActivity.business_name}}</td>
+                <td class="text">{{businessActivity.business_address}}</td>
+                <td class="date">{{businessActivity.operating_since}}</td>
+                <td class="date">{{businessActivity.YesNo_cd_book_keeping}}</td>
+                <td class="number">{{businessActivity.BusinessActivity_cd_other_income_business_activity}}</td>
               </tr>
               </tbody>
             </table>
@@ -704,24 +704,24 @@
             <table class="table table-condensed table-striped">
               <thead>
               <tr>
-                <th>Note</th>
-                <th>Phone</th>
-                <th>Called</th>
-                <th>Staff</th>
-                <th>Visited</th>
-                <th>Created</th>
-                <th>Source</th>
+                <th class="text">Note</th>
+                <th class="number">Phone</th>
+                <th class="date">Called</th>
+                <th class="text">Staff</th>
+                <th class="date">Visited</th>
+                <th class="date">Created</th>
+                <th class="text">Source</th>
               </tr>
               </thead>
               <tbody>
               <tr ng-repeat="note in notes">
-                <td>{{note.notes}}</td>
-                <td>{{note.phone}}</td>
-                <td>{{note.called_at}}</td>
-                <td>{{note.staff_username}}</td>
-                <td>{{note.visited_at}}</td>
-                <td>{{note.created_at}}</td>
-                <td>{{note.NoteSource_cd_source}}</td>
+                <td class="text">{{note.notes}}</td>
+                <td class="number"{{note.phone}}</td>
+                <td class="date">{{note.called_at}}</td>
+                <td class="text">{{note.staff_username}}</td>
+                <td class="date">{{note.visited_at}}</td>
+                <td class="date">{{note.created_at}}</td>
+                <td class="text">{{note.NoteSource_cd_source}}</td>
               </tr>
               </tbody>
             </table>

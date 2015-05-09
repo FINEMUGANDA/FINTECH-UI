@@ -84,6 +84,21 @@ input.form-control {
 	text-align: right;
 }
 
+.table > thead > tr > th.date {
+	text-align: center;
+}
+.table > tbody > tr > td.date {
+ 	text-align: center;
+}
+
+.table > thead > tr > th.text {
+ 	text-align: left;
+}
+
+.table > tbody > tr > td.text {
+ 	text-align: left;
+}
+
 .table .name, .table .status {
 	font-size: 14px !important;	
 }
