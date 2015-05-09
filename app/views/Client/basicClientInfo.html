@@ -33,15 +33,17 @@
           </div>
           <div class="form-group">
             <label class="control-label col-md-4">Office</label>
-            <div class="col-md-6">
-              <select id="officeId" ng-model="createClient.officeId" ng-options="officeOptions.id as officeOptions.name for officeOptions in client.officeOptions" class="form-control"  value="{{officeOptions.id}}" ng-change="changeOffice(createClient.officeId)">
+            <div class="validate col-md-6">
+              <select id="officeId" ng-model="createClient.officeId" ng-options="officeOptions.id as officeOptions.name for officeOptions in client.officeOptions" class="form-control"  ng-change="changeOffice(createClient.officeId)" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-4">Loan Officer<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="staffId" ng-model="createClient.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" value="{{staffOptions.id}}" required>
+              <select id="staffId" ng-model="createClient.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
@@ -72,15 +74,16 @@
           <div class="form-group">
             <label class="control-label col-md-4">Gender<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="genderId" ng-model="createClient.genderId" ng-options="genderOptions.id as genderOptions.name for genderOptions in client.genderOptions" class="form-control"  value="{{genderOptions.id}}" required>
+              <select id="genderId" ng-model="createClient.genderId" ng-options="genderOptions.id as genderOptions.name for genderOptions in client.genderOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-4">Marital Status<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="MaritalStatus_cd_maritalStatus" ng-model="createClientWithDataTable.MaritalStatus_cd_maritalStatus" class="form-control" required ng-change="changeMaritalStatus()">
-                <option ng-repeat="option in clientOptions.MaritalStatus_cd_maritalStatus.columnValues" value="{{option.id}}">{{option.value}}</option>
+              <select id="MaritalStatus_cd_maritalStatus" ng-model="createClientWithDataTable.MaritalStatus_cd_maritalStatus" ng-options="option.id as option.value for option in clientOptions.MaritalStatus_cd_maritalStatus.columnValues" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>

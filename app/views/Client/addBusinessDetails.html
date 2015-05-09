@@ -28,8 +28,8 @@
           <div class="form-group">
             <label class="control-label col-md-4">Business Activity<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="BusinessActivity_cd_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_business_activity" class="form-control" required>
-                <option ng-repeat="businessActivity in businessActivityOptions" value="{{businessActivity.id}}">{{businessActivity.value}}</option>
+              <select id="BusinessActivity_cd_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_business_activity" ng-options="businessActivity.id as businessActivity.value for businessActivity in businessActivityOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
@@ -48,7 +48,9 @@
           <div class="form-group">
             <label class="control-label col-md-4">Bookkeeping<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="YesNo_cd_book_keeping" ng-model="clientBusinessActivity.YesNo_cd_book_keeping" ng-options="columnValues.id as columnValues.value for columnValues in BookingKeeping" class="form-control" value="{{columnValues.id}}" required></select> 
+              <select id="YesNo_cd_book_keeping" ng-model="clientBusinessActivity.YesNo_cd_book_keeping" ng-options="columnValues.id as columnValues.value for columnValues in BookingKeeping" class="form-control" required>
+                <option value="">-- Select --</option>
+              </select>
             </div>
           </div>
         </div>
@@ -62,19 +64,17 @@
           <div class="form-group">
             <label class="control-label col-md-4">Other income generating activities (list)<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control" value="{{columnValues.id}}" ng-change="changeIncomeActivity()" required>
-              </select> 
+              <select id="YesNo_cd_other_income" ng-model="clientBusinessActivity.YesNo_cd_other_income" ng-options="columnValues.id as columnValues.value for columnValues in otherIncome" class="form-control" ng-change="changeIncomeActivity()" required>
+                <option value="">-- Select --</option>
+              </select>
             </div>
           </div>
           <div class="form-group" ng-show="isIncomeActivity">
             <label class="control-label col-md-4">List of income activities<span class="required"> *</span></label>
             <div class="col-md-6">
-<!--              <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" ng-options="columnValues.id as columnValues.value for columnValues in otherIncomeBusinessActivity" class="form-control" value="{{columnValues.id}}">
-              </select>-->
-              <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" class="form-control" required>
-                <option ng-repeat="businessActivity in filterBusinessActivity(otherIncomeBusinessActivity)" value="{{businessActivity.id}}">{{businessActivity.value}}</option>
+              <select id="BusinessActivity_cd_other_income_business_activity" ng-model="clientBusinessActivity.BusinessActivity_cd_other_income_business_activity" ng-options="businessActivity.id as businessActivity.value for businessActivity in filterBusinessActivity(otherIncomeBusinessActivity)" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
-
             </div>
           </div>
         </div>

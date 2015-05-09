@@ -28,7 +28,8 @@
           <div class="form-group">
             <label class="control-label col-md-4">Relationship<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="GuarantorRelationship_cd_relationship" ng-model="clientNextToKeen.GuarantorRelationship_cd_relationship" ng-options="columnValues.id as columnValues.value for columnValues in relationship" class="form-control" value="{{columnValues.id}}" required>
+              <select id="GuarantorRelationship_cd_relationship" ng-model="clientNextToKeen.GuarantorRelationship_cd_relationship" ng-options="columnValues.id as columnValues.value for columnValues in relationship" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>

@@ -50,15 +50,19 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
   //Set loan officer
   $scope.changeOffice = function(officeId) {
     var changeOfficeSuccess = function(result) {
-      console.log('Success : Return from createClientsService.');
       $scope.staffOptions = result.data.staffOptions;
-      $scope.createClient.staffId = result.data.staffOptions[0].id;
+      //$scope.createClient.staffId = result.data.staffOptions[0].id;
     };
     var changeOfficeFail = function() {
       console.log('Error : Return from createClientsService.');
     };
-    var $url = REST_URL.GROUP_TEMPLATE_RESOURCE + '?staffInSelectedOfficeOnly=true&officeId=' + officeId;
-    CreateClientsService.getData($url).then(changeOfficeSuccess, changeOfficeFail);
+    if(officeId) {
+      var $url = REST_URL.GROUP_TEMPLATE_RESOURCE + '?staffInSelectedOfficeOnly=true&officeId=' + officeId;
+      CreateClientsService.getData($url).then(changeOfficeSuccess, changeOfficeFail);
+    } else {
+      $scope.staffOptions = null;
+      $scope.createClient.staffId = null;
+    }
   };
   //Start Client Template
   //Success - callback
@@ -67,12 +71,10 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
     try {
       $scope.client = result.data;
       $scope.staffOptions = $scope.client.staffOptions;
-      $scope.createClient.officeId = $scope.client.officeOptions[0].id;
+      //$scope.createClient.officeId = $scope.client.officeOptions[0].id;
       $scope.createClient.genderId = $scope.client.genderOptions;
       //Set the default values
-      $scope.createClient.staffId = $scope.client.staffOptions[0].id;
-      $scope.createClient.officeId = 1;
-      $scope.createClient.genderId = 22;
+      //$scope.createClient.staffId = $scope.client.staffOptions[0].id;
       $scope.createClient.active = 'false';
       $scope.createClient.dateFormat = APPLICATION.DF_MIFOS;
       $scope.createClient.submittedOnDate = moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
@@ -81,7 +83,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       //Set default value for extra client information
       //$scope.createClientWithDataTable.numberOfChildren = 0;
       //$scope.createClientWithDataTable.numberOfLoanDependents = 0;
-      $scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus = 54;
+      //$scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus = 54;
       $scope.createClientWithDataTable.locale = 'en';
     } catch (e) {
       console.error(e);

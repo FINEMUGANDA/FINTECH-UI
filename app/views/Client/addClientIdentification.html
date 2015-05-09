@@ -28,7 +28,8 @@
           <div class="form-group">
             <label class="control-label col-md-4">Document Type<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="documentTypeId" ng-model="clientIdentification.documentTypeId" ng-options="allowedDocumentTypes.id as allowedDocumentTypes.name for allowedDocumentTypes in identificationType" class="form-control" value="{{allowedDocumentTypes.id}}" required>
+              <select id="documentTypeId" ng-model="clientIdentification.documentTypeId" ng-options="allowedDocumentTypes.id as allowedDocumentTypes.name for allowedDocumentTypes in identificationType" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>

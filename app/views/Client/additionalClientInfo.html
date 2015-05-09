@@ -28,7 +28,8 @@
           <div class="form-group">
             <label class="control-label col-md-4">Bank account<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="YesNo_cd_bank_account" ng-model="createClientAdditionalInfo.YesNo_cd_bank_account" ng-options="yesNoOptions.id as yesNoOptions.value for yesNoOptions in yesNoOptions" class="form-control"  value="{{yesNoOptions.id}}" required>
+              <select id="YesNo_cd_bank_account" ng-model="createClientAdditionalInfo.YesNo_cd_bank_account" ng-options="yesNoOptions.id as yesNoOptions.value for yesNoOptions in yesNoOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
@@ -53,21 +54,24 @@
           <div class="form-group">
             <label class="control-label col-md-4">Citizenship<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="CitizenShip_cd_citizenship" ng-model="createClientAdditionalInfo.CitizenShip_cd_citizenship" ng-options="citizenshipOptions.id as citizenshipOptions.value for citizenshipOptions in citizenshipOptions" class="form-control"  value="{{citizenshipOptions.id}}" required>
+              <select id="CitizenShip_cd_citizenship" ng-model="createClientAdditionalInfo.CitizenShip_cd_citizenship" ng-options="citizenshipOptions.id as citizenshipOptions.value for citizenshipOptions in citizenshipOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-4">Education Level<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="Education_cd_education_level" ng-model="createClientAdditionalInfo.Education_cd_education_level" ng-options="educationOptions.id as educationOptions.value for educationOptions in educationOptions" class="form-control" value="{{educationOptions.id}}" required>
+              <select id="Education_cd_education_level" ng-model="createClientAdditionalInfo.Education_cd_education_level" ng-options="educationOptions.id as educationOptions.value for educationOptions in educationOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-4">Poverty Status (UGX p.m.)<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="Poverty_cd_poverty_status" ng-model="createClientAdditionalInfo.Poverty_cd_poverty_status" ng-options="povertyStatusOptions.id as povertyStatusOptions.value for povertyStatusOptions in povertyStatusOptions" class="form-control"  value="{{povertyStatusOptions.id}}" required>
+              <select id="Poverty_cd_poverty_status" ng-model="createClientAdditionalInfo.Poverty_cd_poverty_status" ng-options="povertyStatusOptions.id as povertyStatusOptions.value for povertyStatusOptions in povertyStatusOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
@@ -76,7 +80,8 @@
           <div class="form-group">
             <label class="control-label col-md-4">Introduced by<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="Introduced_by_cd_introduced_by" ng-model="createClientAdditionalInfo.Introduced_by_cd_introduced_by" ng-options="introducedByOptions.id as introducedByOptions.value for introducedByOptions in introducedByOptions" class="form-control"  value="{{introducedByOptions.id}}" required>
+              <select id="Introduced_by_cd_introduced_by" ng-model="createClientAdditionalInfo.Introduced_by_cd_introduced_by" ng-options="introducedByOptions.id as introducedByOptions.value for introducedByOptions in introducedByOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
@@ -84,6 +89,7 @@
             <label class="control-label col-md-4">Client Name<span class="required"> *</span></label>
             <div class="col-md-6" ng-class="{'has-error': !createClientAdditionalInfo.introducer_client || createClientAdditionalInfo.introducer_client=='', 'has-success': createClientAdditionalInfo.introducer_client && createClientAdditionalInfo.introducer_client!==''}">
               <select id="introducer_client" ng-model="createClientAdditionalInfo.introducer_client" ng-options="clientOptions.id as clientOptions.displayName for clientOptions in clientOptions" class="form-control" value="{{clientOptions.id}}" ng-class="{'has-error': !createClientAdditionalInfo.introducer_client || createClientAdditionalInfo.introducer_client==''}">
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
@@ -91,6 +97,7 @@
             <label class="control-label col-md-4">Loan Officer<span class="required"> *</span></label>
             <div class="col-md-6" ng-class="{'has-error': !createClientAdditionalInfo.introducer_loanOfficer || createClientAdditionalInfo.introducer_loanOfficer=='', 'has-success': createClientAdditionalInfo.introducer_loanOfficer && createClientAdditionalInfo.introducer_loanOfficer!==''}">
               <select id="introducer_loanOfficer" ng-model="createClientAdditionalInfo.introducer_loanOfficer" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" value="{{staffOptions.id}}" ng-class="{'has-error': !createClientAdditionalInfo.introducer_loanOfficer || createClientAdditionalInfo.introducer_loanOfficer==''}">
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
@@ -110,7 +117,8 @@
           <div class="form-group">
             <label class="control-label col-md-4">Visited by<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="visitedById" ng-model="createClientAdditionalInfo.visitedById" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" value="{{staffOptions.id}}" required>
+              <select id="visitedById" ng-model="createClientAdditionalInfo.visitedById" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" required>
+                <option value="">-- Select --</option>
               </select>
             </div>
           </div>
