@@ -828,7 +828,6 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
 
 CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $location, $timeout, CreateClientsService, ReportService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientIdentificationCtrl');
-  $scope.button_name = 'Add';
   $scope.isLoading = true;
   $scope.clientIdentification = {};
   $scope.clientIdentificationExtra = {};
@@ -846,7 +845,6 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     $scope.Identifier_id = null;
     $scope.clientIdentification = {};
     $scope.clientIdentificationExtra = {};
-    $scope.button_name = 'Add';
   };
   $scope.open = function($event) {
     $event.preventDefault();
@@ -1063,7 +1061,6 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       }
       $scope.clientIdentificationExtra.identifier_id = result.data.resourceId;
       $scope.saveClientIdentificationExtra(callback);
-      $scope.button_name = 'Add';
     };
 
     var saveClientIdentificationFail = function(result) {
@@ -1205,7 +1202,6 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
 
   //function for editing the client identification details
   $scope.editClientIdentification = function(clientIdentification) {
-    $scope.button_name = 'Edit';
     var editClientIdentificationSuccess = function(result) {
       $('#issue_document').val('');
       console.log('Success : Return from CreateClientsService service.');
