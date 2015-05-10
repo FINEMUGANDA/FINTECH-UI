@@ -157,85 +157,75 @@
             </div>
           </div>
         </div>
+      </div>
 
+    </div>
+
+    <!-- loans -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.loans=!collapse.loans"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.loans, 'glyphicon-minus': !collapse.loans}"></span></button>
+        <h3>Loans <span ng-show="collapse.loans">({{loans.length}})</span></h3>
+      </div>
+      <div class="panel-body" ng-class="{collapse: collapse.loans}">
         <div class="row">
           <div class="col-md-12">
-            &nbsp;
+            <table class="table table-condensed table-striped">
+              <thead>
+              <tr>
+                <th>Product</th>
+                <th>Status</th>
+                <th>Principal</th>
+                <th>Date</th>
+                <th>Officer</th>
+                <th>Note</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="loan in loans">
+                <td>{{loan.loanProductName}}</td>
+                <td>{{loan.status.value}}</td>
+                <td>{{loan.principal}} {{loan.currency.code}}</td>
+                <td>{{loan.timeline.submittedOnDate}}</td>
+                <td>{{loan.loanOfficerName}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" ng-click="loadLoanNotes(loan.id)"><span class="glyphicon glyphicon-comment"></span></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-
-        <!-- basic -->
         <div class="row">
           <div class="col-md-12">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <button type="button" class="btn btn-sm btn-default pull-right" ng-click="collapse.loans=!collapse.loans"><span class="glyphicon" ng-class="{'glyphicon-plus': collapse.loans, 'glyphicon-minus': !collapse.loans}"></span></button>
-                <h4>Loans <span ng-show="collapse.loans">({{loans.length}})</span></h4>
-              </div>
-              <div class="panel-body" ng-class="{collapse: collapse.loans}">
-                <div class="row">
-                  <div class="col-md-12">
-                    <table class="table table-condensed table-striped">
-                      <thead>
-                      <tr>
-                        <th>Product</th>
-                        <th>Status</th>
-                        <th>Principal</th>
-                        <th>Date</th>
-                        <th>Officer</th>
-                        <th>Note</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr ng-repeat="loan in loans">
-                        <td>{{loan.loanProductName}}</td>
-                        <td>{{loan.status.value}}</td>
-                        <td>{{loan.principal}} {{loan.currency.code}}</td>
-                        <td>{{loan.timeline.submittedOnDate}}</td>
-                        <td>{{loan.loanOfficerName}}</td>
-                        <td>
-                          <button type="button" class="btn btn-sm btn-primary" ng-click="loadLoanNotes(loan.id)"><span class="glyphicon glyphicon-comment"></span></button>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="alert alert-danger alert-dismissible" ng-show="loanNotes.length==0">
-                      <button type="button" class="close" ng-click="loanNotes=null"><span class="glyphicon glyphicon-remove"></span></button>
-                      <p>No notes found</p>
-                    </div>
-                    <div class="alert alert-info alert-dismissible" ng-hide="!loanNotes || loanNotes.length==0">
-                      <button type="button" class="close" ng-click="loanNotes=null"><span class="glyphicon glyphicon-remove"></span></button>
-                      <table class="table table-condensed table-striped">
-                        <thead>
-                        <tr>
-                          <th>Description</th>
-                          <th>Created by</th>
-                          <th>Created at</th>
-                          <th>Follow up</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="note in loanNotes">
-                          <td>{{note.description}}</td>
-                          <td>{{note.createdByUserName}}</td>
-                          <td>{{note.createdDate}}</td>
-                          <td>{{note.followUpDate}}</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="alert alert-danger alert-dismissible" ng-show="loanNotes.length==0">
+              <button type="button" class="close" ng-click="loanNotes=null"><span class="glyphicon glyphicon-remove"></span></button>
+              <p>No notes found</p>
+            </div>
+            <div class="alert alert-info alert-dismissible" ng-hide="!loanNotes || loanNotes.length==0">
+              <button type="button" class="close" ng-click="loanNotes=null"><span class="glyphicon glyphicon-remove"></span></button>
+              <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Created by</th>
+                  <th>Created at</th>
+                  <th>Follow up</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="note in loanNotes">
+                  <td>{{note.description}}</td>
+                  <td>{{note.createdByUserName}}</td>
+                  <td>{{note.createdDate}}</td>
+                  <td>{{note.followUpDate}}</td>
+                </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- basic -->
