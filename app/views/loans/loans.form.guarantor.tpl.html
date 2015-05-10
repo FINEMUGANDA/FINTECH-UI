@@ -6,7 +6,13 @@
         <div class="form-group">
           <label class="control-label col-md-5">First Name<span class="required"> *</span></label>
           <div class="validate col-md-6">
-            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.firstName" required />
+            <input name="principal" class="form-control" type="text" ng-model="guarantor.firstName" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-5">Last Name<span class="required"> *</span></label>
+          <div class="validate col-md-6">
+            <input name="principal" class="form-control" type="text" ng-model="guarantor.lastName" required />
           </div>
         </div>
         <div class="form-group">
@@ -19,8 +25,11 @@
         <div class="form-group">
           <label class="control-label col-md-5">Guarantor business activity</label>
           <div class="col-md-6">
-            <select class="form-control" ng-model="guarantor.BusinessActivity_cd_businessActivity">
+            <select class="form-control" ng-model="guarantor.BusinessActivity_cd_businessActivity" ng-options="businessActivityOption.id as businessActivityOption.value for businessActivityOption in data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues">
+              <!--
               <option ng-repeat="businessActivityOption in data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues" value="{{businessActivityOption.id}}" ng-selected="businessActivityOption.id == guarantor.BusinessActivity_cd_businessActivity">{{businessActivityOption.value}}</option>
+              -->
+              <option value="">-- Select --</option>
             </select>
           </div>
         </div>
@@ -41,16 +50,13 @@
 
       <div class="col-md-6">
         <div class="form-group">
-          <label class="control-label col-md-5">Last Name<span class="required"> *</span></label>
-          <div class="validate col-md-6">
-            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.lastName" required />
-          </div>
-        </div>
-        <div class="form-group">
           <label class="control-label col-md-5">Client Relation<span class="required"> *</span></label>
           <div class="validate col-md-6">
-            <select class="form-control" ng-model="guarantor.GuarantorRelationship_cd_clientRelation" required>
+            <select class="form-control" ng-model="guarantor.GuarantorRelationship_cd_clientRelation" ng-options="guarantorRelationshipOption.id as guarantorRelationshipOption.value for guarantorRelationshipOption in data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues" required>
+              <!--
               <option ng-repeat="guarantorRelationshipOption in data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues" value="{{guarantorRelationshipOption.id}}" ng-selected="guarantorRelationshipOption.id == guarantor.GuarantorRelationship_cd_clientRelation">{{guarantorRelationshipOption.value}}</option>
+              -->
+              <option value="">-- Select --</option>
             </select>
           </div>
         </div>
@@ -64,14 +70,14 @@
         <div class="form-group">
           <label class="control-label col-md-5">Main Phone Number<span class="required"> *</span></label>
           <div class="validate col-md-6">
-            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.phone" required />
+            <input name="principal" class="form-control" type="text" ng-model="guarantor.phone" required />
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-md-5">2nd Phone Number</label>
           <div class="col-md-6">
-            <input id="principal" name="principal" class="form-control" type="text" ng-model="guarantor.secondaryPhone" />
+            <input name="principal" class="form-control" type="text" ng-model="guarantor.secondaryPhone" />
           </div>
         </div>
       </div>
