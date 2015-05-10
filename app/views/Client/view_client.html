@@ -116,7 +116,7 @@
                           <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="statusDropdown">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="action in clientActions" ng-click="selectClientStatus(action.code)">{{action.label}}</a></li>
+                          <li role="presentation" ng-repeat="action in clientActions"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatus(action.code)">{{action.label}}</a></li>
                         </ul>
                       </div>
                     </div>
@@ -126,8 +126,8 @@
                           <span>{{clientStatus.reason.name}}</span><span ng-hide="clientStatus.reason.name">Select...</span>
                           <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-repeat="reason in statusReasons" ng-click="selectClientStatusReason(reason)">{{reason.name}}</a></li>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown" style="overflow: visible;">
+                          <li role="presentation" ng-repeat="reason in statusReasons"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatusReason(reason)">{{reason.name}}</a></li>
                         </ul>
                       </div>
                     </div>
@@ -168,34 +168,30 @@
         <h3>Loans <span ng-show="collapse.loans">({{loans.length}})</span></h3>
       </div>
       <div class="panel-body" ng-class="{collapse: collapse.loans}">
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table table-condensed table-striped">
-              <thead>
-              <tr>
-                <th>Product</th>
-                <th>Status</th>
-                <th>Principal</th>
-                <th>Date</th>
-                <th>Officer</th>
-                <th>Note</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr ng-repeat="loan in loans">
-                <td>{{loan.loanProductName}}</td>
-                <td>{{loan.status.value}}</td>
-                <td>{{loan.principal}} {{loan.currency.code}}</td>
-                <td>{{loan.timeline.submittedOnDate}}</td>
-                <td>{{loan.loanOfficerName}}</td>
-                <td>
-                  <button type="button" class="btn btn-sm btn-primary" ng-click="loadLoanNotes(loan.id)"><span class="glyphicon glyphicon-comment"></span></button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <table class="table table-condensed table-striped">
+          <thead>
+          <tr>
+            <th>Product</th>
+            <th>Status</th>
+            <th>Principal</th>
+            <th>Date</th>
+            <th>Officer</th>
+            <th>Note</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="loan in loans">
+            <td>{{loan.loanProductName}}</td>
+            <td>{{loan.status.value}}</td>
+            <td>{{loan.principal}} {{loan.currency.code}}</td>
+            <td>{{loan.timeline.submittedOnDate}}</td>
+            <td>{{loan.loanOfficerName}}</td>
+            <td class="text-right">
+              <button type="button" class="btn btn-sm btn-primary" ng-click="loadLoanNotes(loan.id)"><span class="glyphicon glyphicon-comment"></span></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
         <div class="row">
           <div class="col-md-12">
             <div class="alert alert-danger alert-dismissible" ng-show="loanNotes.length==0">
