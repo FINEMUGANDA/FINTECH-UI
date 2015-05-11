@@ -413,7 +413,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
     var changeOfficeSuccess = function(result) {
       console.log('Success : Return from createClientsService.');
       $scope.staffOptions = result.data.staffOptions;
-      $scope.editClient.staffId = result.data.staffOptions[0].id;
+      //$scope.editClient.staffId = result.data.staffOptions[0].id;
     };
     var changeOfficeFail = function() {
       console.log('Error : Return from createClientsService.');
@@ -434,7 +434,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       //Set default value for client extra information
       $scope.editClientWithDataTable.numberOfChildren = 0;
       $scope.editClientWithDataTable.numberOfLoanDependents = 0;
-      $scope.editClientWithDataTable.MaritalStatus_cd_maritalStatus = 54;
+      //$scope.editClientWithDataTable.MaritalStatus_cd_maritalStatus = 54;
       $scope.editClientWithDataTable.locale = 'en';
       $scope.editClientExtraInfo = result.data.data;
       $scope.isAvailableBasicInformation = false;
@@ -488,8 +488,8 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       $scope.editClient.locale = 'en';
       //filling the dropdowns
       $scope.client = result.data;
-      $scope.editClient.staffId = $scope.client.staffOptions[0].id;
-      $scope.editClient.genderId = $scope.client.genderOptions[0].id;
+      //$scope.editClient.staffId = $scope.client.staffOptions[0].id;
+      //$scope.editClient.genderId = $scope.client.genderOptions[0].id;
 
       //data from m_client table
       $scope.client = result.data;
@@ -663,11 +663,11 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
     $scope.clientOptions = result.data.clientOptions;
     $scope.staffOptions = result.data.staffOptions;
     //Client
-    $scope.createClientAdditionalInfo.introducer_client = result.data.clientOptions[0].id;
+    //$scope.createClientAdditionalInfo.introducer_client = result.data.clientOptions[0].id;
     //Loan Office
-    $scope.createClientAdditionalInfo.introducer_loanOfficer = result.data.staffOptions[0].id;
+    //$scope.createClientAdditionalInfo.introducer_loanOfficer = result.data.staffOptions[0].id;
     //Visited by
-    $scope.createClientAdditionalInfo.visitedById = result.data.staffOptions[0].id;
+    //$scope.createClientAdditionalInfo.visitedById = result.data.staffOptions[0].id;
   };
   var getOfficeFail = function() {
     console.log('Error : Return from createClientsService.');
@@ -694,11 +694,11 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
       $scope.educationOptions = $scope.clientAdditionalInfo.columnHeaders[6].columnValues;
       $scope.povertyStatusOptions = $scope.clientAdditionalInfo.columnHeaders[7].columnValues;
       $scope.introducedByOptions = $scope.clientAdditionalInfo.columnHeaders[8].columnValues;
-      $scope.createClientAdditionalInfo.YesNo_cd_bank_account = $scope.clientAdditionalInfo.columnHeaders[1].columnValues[0].id;
-      $scope.createClientAdditionalInfo.CitizenShip_cd_citizenship = $scope.clientAdditionalInfo.columnHeaders[5].columnValues[0].id;
-      $scope.createClientAdditionalInfo.Education_cd_education_level = $scope.clientAdditionalInfo.columnHeaders[6].columnValues[0].id;
-      $scope.createClientAdditionalInfo.Poverty_cd_poverty_status = $scope.clientAdditionalInfo.columnHeaders[7].columnValues[0].id;
-      $scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by = $scope.clientAdditionalInfo.columnHeaders[8].columnValues[0].id;
+      //$scope.createClientAdditionalInfo.YesNo_cd_bank_account = $scope.clientAdditionalInfo.columnHeaders[1].columnValues[0].id;
+      //$scope.createClientAdditionalInfo.CitizenShip_cd_citizenship = $scope.clientAdditionalInfo.columnHeaders[5].columnValues[0].id;
+      //$scope.createClientAdditionalInfo.Education_cd_education_level = $scope.clientAdditionalInfo.columnHeaders[6].columnValues[0].id;
+      //$scope.createClientAdditionalInfo.Poverty_cd_poverty_status = $scope.clientAdditionalInfo.columnHeaders[7].columnValues[0].id;
+      //$scope.createClientAdditionalInfo.Introduced_by_cd_introduced_by = $scope.clientAdditionalInfo.columnHeaders[8].columnValues[0].id;
       //Get list of client and loan officer from office id of client
       if ($scope.officeId) {
         CreateClientsService.getData(REST_URL.GROUP_TEMPLATE_RESOURCE + '?staffInSelectedOfficeOnly=true&officeId=' + $scope.officeId).then(getOfficeSuccess, getOfficeFail);
@@ -874,7 +874,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.client = result.data;
       $scope.identificationType = $scope.client.allowedDocumentTypes;
       //Set the default values for the identification id
-      $scope.clientIdentification.documentTypeId = 1;
+      //$scope.clientIdentification.documentTypeId = 1;
       $scope.loadExtraTemplate();
     } catch (e) {
       console.log(e);
@@ -1301,7 +1301,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
       $scope.client = result.data;
       $scope.relationship = $scope.client.columnHeaders[2].columnValues;
 
-      $scope.clientNextToKeen.GuarantorRelationship_cd_relationship = 5;
+      //$scope.clientNextToKeen.GuarantorRelationship_cd_relationship = 5;
 
       $scope.loadTableData();
     } catch (e) {
@@ -1579,12 +1579,12 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
       $scope.otherIncomeBusinessActivity = $scope.client.columnHeaders[8].columnValues;
 
       //Setting the default values of the drop downs
-      $scope.clientBusinessActivity.BusinessActivity_cd_business_activity = 30;
-      $scope.clientBusinessActivity.YesNo_cd_book_keeping = 33;
-      $scope.clientBusinessActivity.YesNo_cd_other_income = 34;
+      //$scope.clientBusinessActivity.BusinessActivity_cd_business_activity = 30;
+      //$scope.clientBusinessActivity.YesNo_cd_book_keeping = 33;
+      //$scope.clientBusinessActivity.YesNo_cd_other_income = 34;
       $scope.clientBusinessActivity.dateFormat = APPLICATION.DF_MIFOS;
       $scope.clientBusinessActivity.locale = 'en';
-      $scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = 30;
+      //$scope.clientBusinessActivity.BusinessActivity_cd_other_income_business_activity = 30;
 
       $scope.loadTableData();
     } catch (e) {

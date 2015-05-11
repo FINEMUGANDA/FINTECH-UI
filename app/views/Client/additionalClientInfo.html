@@ -87,7 +87,7 @@
           </div>
           <div class="form-group" ng-if="createClientAdditionalInfo.Introduced_by_cd_introduced_by == 45">
             <label class="control-label col-md-4">Client Name<span class="required"> *</span></label>
-            <div class="col-md-6" ng-class="{'has-error': !createClientAdditionalInfo.introducer_client || createClientAdditionalInfo.introducer_client=='', 'has-success': createClientAdditionalInfo.introducer_client && createClientAdditionalInfo.introducer_client!==''}">
+            <div class="col-md-6" ng-class="{'has-error': createAdditionalClientForm.$submitted && (!createClientAdditionalInfo.introducer_client || createClientAdditionalInfo.introducer_client==''), 'has-success': createClientAdditionalInfo.introducer_client && createClientAdditionalInfo.introducer_client!==''}">
               <select id="introducer_client" ng-model="createClientAdditionalInfo.introducer_client" ng-options="clientOptions.id as clientOptions.displayName for clientOptions in clientOptions" class="form-control" value="{{clientOptions.id}}" ng-class="{'has-error': !createClientAdditionalInfo.introducer_client || createClientAdditionalInfo.introducer_client==''}">
                 <option value="">-- Select --</option>
               </select>
@@ -95,7 +95,7 @@
           </div>
           <div class="form-group" ng-if="createClientAdditionalInfo.Introduced_by_cd_introduced_by == 46">
             <label class="control-label col-md-4">Loan Officer<span class="required"> *</span></label>
-            <div class="col-md-6" ng-class="{'has-error': !createClientAdditionalInfo.introducer_loanOfficer || createClientAdditionalInfo.introducer_loanOfficer=='', 'has-success': createClientAdditionalInfo.introducer_loanOfficer && createClientAdditionalInfo.introducer_loanOfficer!==''}">
+            <div class="col-md-6" ng-class="{'has-error': createAdditionalClientForm.$submitted && (!createClientAdditionalInfo.introducer_loanOfficer || createClientAdditionalInfo.introducer_loanOfficer==''), 'has-success': createClientAdditionalInfo.introducer_loanOfficer && createClientAdditionalInfo.introducer_loanOfficer!==''}">
               <select id="introducer_loanOfficer" ng-model="createClientAdditionalInfo.introducer_loanOfficer" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" value="{{staffOptions.id}}" ng-class="{'has-error': !createClientAdditionalInfo.introducer_loanOfficer || createClientAdditionalInfo.introducer_loanOfficer==''}">
                 <option value="">-- Select --</option>
               </select>
@@ -103,7 +103,7 @@
           </div>
           <div class="form-group" ng-if="createClientAdditionalInfo.Introduced_by_cd_introduced_by == 47">
             <label class="control-label col-md-4">Other<span class="required"> *</span></label>
-            <div class="col-md-6" ng-class="{'has-error': !createClientAdditionalInfo.introducer_other || createClientAdditionalInfo.introducer_other=='', 'has-success': createClientAdditionalInfo.introducer_other && createClientAdditionalInfo.introducer_other!==''}">
+            <div class="col-md-6" ng-class="{'has-error': createAdditionalClientForm.$submitted && (!createClientAdditionalInfo.introducer_other || createClientAdditionalInfo.introducer_other==''), 'has-success': createClientAdditionalInfo.introducer_other && createClientAdditionalInfo.introducer_other!==''}">
               <input id="introducer_other" name="introducer_other" class="form-control" type="text" ng-model="createClientAdditionalInfo.introducer_other" ng-class="{'has-error': !createClientAdditionalInfo.introducer_other || createClientAdditionalInfo.introducer_other==''}" />
             </div>
           </div>
