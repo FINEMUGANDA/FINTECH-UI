@@ -86,7 +86,7 @@
           </div>
           <div class="form-group" ng-if="editClientWithDataTable.MaritalStatus_cd_maritalStatus == 55">
             <label class="control-label col-md-4">Name Of Spouse<span class="required"> *</span></label>
-            <div class="col-md-6" ng-class="{'has-error': !editClientWithDataTable.nameOfSpouse || editClientWithDataTable.nameOfSpouse=='', 'has-success': editClientWithDataTable.nameOfSpouse && editClientWithDataTable.nameOfSpouse!==''}">
+            <div class="col-md-6" ng-class="{'has-error': editBasicClientForm.$submitted && (!editClientWithDataTable.nameOfSpouse || editClientWithDataTable.nameOfSpouse==''), 'has-success': editClientWithDataTable.nameOfSpouse && editClientWithDataTable.nameOfSpouse!==''}">
               <input id="nameOfSpouse" name="nameOfSpouse" class="form-control" type="text" ng-model="editClientWithDataTable.nameOfSpouse" ng-class="{'has-error': !editClientWithDataTable.nameOfSpouse || editClientWithDataTable.nameOfSpouse==''}"/>
             </div>
           </div>
