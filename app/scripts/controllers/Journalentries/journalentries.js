@@ -201,6 +201,33 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     $event.stopPropagation();
     $scope.opened = true;
   };
+
+  $scope.getDebitOptions = function() {
+    if($scope.debitOptions) {
+      return $scope.debitOptions.filter(function(item) {
+        if($scope.journalEntryForm.opening && !$scope.openingBalanceType) {
+          return false;
+        }
+        return !$scope.journalEntryForm.opening || $scope.openingBalanceType==='debit' || item.glCode.indexOf('2')===0;
+      });
+    }
+
+    return [];
+  };
+
+  $scope.getCreditOptions = function() {
+    if($scope.creditOptions) {
+      return $scope.creditOptions.filter(function(item) {
+        if($scope.journalEntryForm.opening && !$scope.openingBalanceType) {
+          return false;
+        }
+        return !$scope.journalEntryForm.opening || $scope.openingBalanceType==='credit' || item.glCode.indexOf('2')===0;
+      });
+    }
+
+    return [];
+  };
+
   //Filter debit options
   $scope.changeCreditOptions = function() {
     var selectedCreditOptions = [];
@@ -215,7 +242,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   //Filter credit options
   $scope.changeDebitOptions = function() {
     var selectedDebitOptions = [];
-    for (var i = 0; i < $scope.journalEntryForm.dbAccounts.length; i++) {        
+    for (var i = 0; i < $scope.journalEntryForm.dbAccounts.length; i++) {
         if($scope.journalEntryForm.dbAccounts[i].select){
           Utility.setSelectedOptions(selectedDebitOptions, $scope.journalEntryForm.dbAccounts[i].select.id);
           //selectedDebitOptions.push($scope.journalEntryForm.dbAccounts[i].select.id);

@@ -16,7 +16,7 @@
         <form class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-2">&nbsp;</label>
-                <button type="button" class="btn btn-sm" style="margin-left: 15px;" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening">OPENING BALANCE</button>
+                <button type="button" class="btn" style="margin-left: 15px;" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening">OPENING BALANCE</button>
             </div>
             <div class="form-group" ng-show="journalEntryForm.opening">
                 <label class="control-label col-md-2">Type<span class="required"> *</span></label>
@@ -46,10 +46,10 @@
               </div>
               -->
           </div>
-          <div class="form-group" ng-show="!journalEntryForm.opening || openingBalanceType=='debit'">
+          <div class="form-group">
               <label class="control-label col-md-2 col-xs-2">Affected GL entries<span class="required"> *</span></label>                
               <div class="col-md-10 col-xs-10">
-                    <label class="control-label paddingleft0"> Debit </label>
+                    <label class="control-label paddingleft0"> Debit <span ng-show="openingBalanceType==='credit'">(Equity)</span></label>
                     <a ng-click="addDebitAccount()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>                    
@@ -58,9 +58,14 @@
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
+                    <!--
                     <select chosen="debitOptions" ng-model="dbAccount.select" ng-options="(debitAccount.name + ' - ' + debitAccount.currencyCode +' ('+ debitAccount.glCode +')') for debitAccount in debitOptions" class="form-control" ng-change="changeDebitOptions();">
                       <option class="displaynone" value="">-- Select -- </option>
-                    </select>                      
+                    </select>
+                    -->
+                    <select ng-model="dbAccount.select" class="form-control" ng-options="(debitAccount.name + ' - ' + debitAccount.currencyCode +' ('+ debitAccount.glCode + ')') for debitAccount in getDebitOptions()" ng-change="changeDebitOptions()">
+                      <option class="displaynone" value="">-- Select -- </option>
+                    </select>
                   </div>
                   <div class="col-md-3 col-xs-3">
                     <input type="text" class="input-small form-control" ng-model="dbAccount.debitAmount" placeholder="Amount">
@@ -73,10 +78,10 @@
                 </div>
               </div>  
           </div>
-          <div class="form-group" ng-show="!journalEntryForm.opening || openingBalanceType=='credit'">
+          <div class="form-group">
               <label class="control-label col-md-2 col-xs-2"></label>
               <div class="col-md-10 col-xs-10">
-                    <label class="control-label paddingleft0"> Credit </label>
+                    <label class="control-label paddingleft0"> Credit <span ng-show="openingBalanceType==='debit'">(Equity)</span></label>
                     <a ng-click="addCrAccount()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>                    
@@ -85,9 +90,14 @@
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
                   <div class="col-md-2 col-xs-2"></div>
                   <div class="col-md-3 col-xs-3">
-                    <select chosen="creditOptions" ng-model="crAccount.select" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in creditOptions" class="form-control" ng-change="changeCreditOptions()">
-                      <option class="displaynone" value="">-- Select -- </option>
-                    </select>                      
+                      <!--
+                      <select chosen="creditOptions" ng-model="crAccount.select" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in creditOptions" class="form-control" ng-change="changeCreditOptions()">
+                          <option class="displaynone" value="">-- Select -- </option>
+                      </select>
+                      -->
+                      <select ng-model="crAccount.select" class="form-control" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in getCreditOptions()" ng-change="changeCreditOptions()">
+                          <option class="displaynone" value="">-- Select -- </option>
+                      </select>
                   </div>
                   <div class="col-md-3 col-xs-3">
                     <input type="text" class="input-small form-control" ng-model="crAccount.crAmount" placeholder="Amount">
