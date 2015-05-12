@@ -114,7 +114,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
   $scope.validateCreateClient = function(createClient, createClientWithDataTable) {
     console.log('CreateClientCtrl : CreateClient : validateCreateClient');
 
-    if($scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus==='55' && (!$scope.createClientWithDataTable.nameOfSpouse || $scope.createClientWithDataTable.nameOfSpouse==='')) {
+    if($scope.createClientWithDataTable.MaritalStatus_cd_maritalStatus===55 && (!$scope.createClientWithDataTable.nameOfSpouse || $scope.createClientWithDataTable.nameOfSpouse==='')) {
       $scope.invalidateForm();
       $scope.type = 'error';
       $scope.message = 'Please enter name of spouse!';
@@ -971,7 +971,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
           $scope.type = 'error';
           $scope.message = 'Attachment not removed: ' + result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
-          $('html, body').animate({scrollTop: 0}, 800);
+          //$('html, body').animate({scrollTop: 0}, 800);
         });
       }
     });
@@ -1035,12 +1035,14 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
         $scope.type = 'error';
         $scope.message = 'Document not saved, please try again!';
         $scope.errors = result.data.errors;
+        /**
         if (result.data.errors && result.data.errors.length) {
           for (var i = 0; i < result.data.errors.length; i++) {
             $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
           }
         }
         $('html, body').animate({scrollTop: 0}, 800);
+         */
       });
     }
   };
@@ -1068,22 +1070,22 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.type = 'error';
       $scope.message = 'Client Identification Details not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      /**
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
+       */
     };
     //TODO Make a call to the database to insert the client Additional information into the database
-    var json2 = angular.toJson(this.clientIdentificationExtra);
-    console.log(json2);
     var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers';
     console.log($url);
     if ($scope.Identifier_id) {
-      CreateClientsService.updateClient($url + '/' + $scope.Identifier_id, angular.toJson(this.clientIdentification)).then(saveClientIdentificationSuccess, saveClientIdentificationFail);
+      CreateClientsService.updateClient($url + '/' + $scope.Identifier_id, $scope.clientIdentification).then(saveClientIdentificationSuccess, saveClientIdentificationFail);
     } else {
-      CreateClientsService.saveClient($url, angular.toJson(this.clientIdentification)).then(saveClientIdentificationSuccess, saveClientIdentificationFail);
+      CreateClientsService.saveClient($url, $scope.clientIdentification).then(saveClientIdentificationSuccess, saveClientIdentificationFail);
     }
   };
 
@@ -1113,19 +1115,21 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.type = 'error';
       $scope.message = 'Client Identification Detail not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      /**
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
+       */
     };
     var $url = REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id;
 
     if ($scope.extra_id) {
-      CreateClientsService.updateClient($url + '/' + $scope.extra_id, angular.toJson(this.clientIdentificationExtra)).then(saveClientIdentificationExtraSuccess, saveClientIdentificationExtraFail);
+      CreateClientsService.updateClient($url + '/' + $scope.extra_id, $scope.clientIdentificationExtra).then(saveClientIdentificationExtraSuccess, saveClientIdentificationExtraFail);
     } else {
-      CreateClientsService.saveClient($url, angular.toJson(this.clientIdentificationExtra)).then(saveClientIdentificationExtraSuccess, saveClientIdentificationExtraFail);
+      CreateClientsService.saveClient($url, $scope.clientIdentificationExtra).then(saveClientIdentificationExtraSuccess, saveClientIdentificationExtraFail);
     }
   };
 
@@ -1145,12 +1149,14 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.type = 'error';
       $scope.message = 'Client Identification not deleted: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      /**
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
+       */
     };
     var msg = 'You are about to remove client identifiers <strong>' + clientIdentification.documentKey + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
@@ -1182,12 +1188,14 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.type = 'error';
       $scope.message = 'Client Identification not deleted: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      /**
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
+       */
     };
     console.log('Successfully saved the client Next To Keen Information');
     //id must be the specific id i.e extra id
@@ -1203,7 +1211,6 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   //function for editing the client identification details
   $scope.editClientIdentification = function(clientIdentification) {
     var editClientIdentificationSuccess = function(result) {
-      $('#issue_document').val('');
       console.log('Success : Return from CreateClientsService service.');
       $scope.client = result.data;
       //Setting the values for the edit client next to keen page
@@ -1214,6 +1221,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.loadDocuments($scope.Identifier_id, function(data) {
         $scope.files = data;
       });
+      $scope.clientIdentificationExtra = {};
       $scope.editClientIdentificationExtra(clientIdentification);
     };
 
@@ -1222,12 +1230,14 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.type = 'error';
       $scope.message = 'Client Next To Keen Detail not deleted: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      /**
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
+       */
     };
     console.log('Successfully saved the client Next To Keen Information');
     //Id for the client identifer table i.e identifier id from the report
@@ -1241,15 +1251,15 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     console.log('CreateClientCtrl : CreateClient : editClientIdentificationExtra');
 
     var editClientIdentificationExtraSuccess = function(result) {
-      $scope.client = result.data;
+      //$scope.client = result.data;
       //Setting the values for the edit client next to keen page
-      $scope.clientIdentificationExtra.issue_place = $scope.client[0].issue_place;
-      $scope.clientIdentificationExtra.description = $scope.client[0].description;
+      $scope.clientIdentificationExtra.issue_place = result.data[0].issue_place;
+      $scope.clientIdentificationExtra.description = result.data[0].description;
       if (!Utility.isUndefinedOrNull($scope.client[0].issue_date)) {
-        //$scope.clientIdentificationExtra.issue_date = $scope.client[0].issue_date[2] + '/' + $scope.client[0].issue_date[1] + '/' + $scope.client[0].issue_date[0];
-        $scope.clientIdentificationExtra.issue_date = Utility.toLocalDate($scope.client[0].issue_date, true);
+        //$scope.clientIdentificationExtra.issue_date = result.data[0].issue_date[2] + '/' + result.data[0].issue_date[1] + '/' + result.data[0].issue_date[0];
+        $scope.clientIdentificationExtra.issue_date = Utility.toLocalDate(result.data[0].issue_date, true);
       }
-      $scope.extra_id = $scope.client[0].id;
+      $scope.extra_id = result.data[0].id;
     };
 
     var editClientIdentificationExtraFail = function(result) {
@@ -1257,12 +1267,14 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       $scope.type = 'error';
       $scope.message = 'Client Identification not deleted: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      /**
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
         }
       }
       $('html, body').animate({scrollTop: 0}, 800);
+       */
     };
     console.log('Successfully saved the client Next To Keen Information');
     //id must be the specific id i.e extra id
