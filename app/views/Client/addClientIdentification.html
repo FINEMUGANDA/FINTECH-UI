@@ -98,24 +98,24 @@
           </tr>
         </thead>
         <tbody ng-hide="isLoading">
-          <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed">
-            <td data-ng-click="editClientIdentification(row)">
+          <tr class="pointer" st-select-row="row" st-select-mode="single" ng-repeat="row in displayed" ng-click="editClientIdentification(row)">
+            <td>
               <div class="name">
                 {{row.documentTypeId| getDropdownNames:identificationType}}
               </div>
             </td>
-            <td data-ng-click="editClientIdentification(row)">
+            <td>
               <div class="name">
                 {{row.documentKey}}
               </div>
             </td>
-            <td data-ng-click="editClientIdentification(row)">
+            <td>
               <div class="name">
                 {{row.issue_place}}
               </div>
             </td>
-            <td data-ng-click="editClientIdentification(row)">
-              <div class="name" ng-show="{{row.issue_date[2]}}">
+            <td>
+              <div class="name" ng-show="row.issue_date[2]">
                 {{row.issue_date[2]}}/{{row.issue_date[1]}}/{{row.issue_date[0]}}
               </div>
             </td>
