@@ -1561,7 +1561,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   $scope.displayed = [];
   //For date of birth calendar
   $scope.reset = function() {
-    $scope.clientBusinessActivity = {};
+    $scope.clientBusinessActivity = {dateFormat: 'dd/MM/yyyy', locale: 'en'};
   };
   $scope.open = function($event) {
     $event.preventDefault();
