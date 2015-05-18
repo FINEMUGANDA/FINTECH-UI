@@ -163,7 +163,7 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
             }
         }
 
-        console.log('DEBUG EXPRESSION: ' + $scope.form.expressions.expressions[code]);
+        console.log('DEBUG EXPRESSION: ' + code + ' - ' + $scope.permissionExpressionData[code].selfAssign + ' - ' + $scope.form.expressions.expressions[code]);
     };
 
     $scope.groupingLabel = function(grouping) {
@@ -400,10 +400,12 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
 
                 for(var j=0; j<PERMISSION_EXPRESSIONS.LOAN.length; j++) {
                     if(PERMISSION_EXPRESSIONS.LOAN[j].code===code) {
-                        // TODO: could be optimized of Object.keys
-                        $scope.permissionExpressionData[code].selfAssign = true;
 
                         var extractors = Object.keys(PERMISSION_EXPRESSIONS.LOAN[j].extractors);
+
+                        if(PERMISSION_EXPRESSIONS.LOAN[j].extractors.selfAssign) {
+                            $scope.permissionExpressionData[code].selfAssign = true;
+                        }
 
                         for(var k=0; k<extractors.length; k++) {
                             $scope.permissionExpressionData[code][extractors[k]] = PERMISSION_EXPRESSIONS.LOAN[j].extractors[extractors[k]](expression);
