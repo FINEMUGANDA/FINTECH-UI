@@ -500,7 +500,7 @@ app.constant('PERMISSION_EXPRESSIONS', {
             {
                 code: 'CREATE_LOAN',
                 label: 'Can Create Loan',
-                expression: 'resource.principal_amount >= {0} && resource.principal_amount <={1}',
+                expression: 'json.principal >= {0} && json.principal <= {1}',
                 defaults: {
                     min: 0,
                     max: 10000
