@@ -173,7 +173,7 @@ and (max-width: 1024px){
    margin-bottom: 10px;
    }
    ul > li > a {
-    padding: 5px 1vw;
+    padding: 5px 1.1vw;
     font-size:1.2vw;
     }
  }
@@ -283,7 +283,7 @@ and (max-width: 992px){
   }
   .shortcuts ul > li > a{
     padding: 5px 0.6vw!important;
-    font-size: 1.1vw!important;
+    //font-size: 1.1vw!important;
   }
   .table > tbody > tr > td {
     line-height: 15px !important;
