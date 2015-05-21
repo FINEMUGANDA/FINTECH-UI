@@ -32,124 +32,132 @@
       </div>
       <div class="panel-body" ng-hide="clientLoading" ng-class="{collapse: collapse.summary}">
         <div class="row">
-          <div class="col-md-12">
-            <div class="col-md-8">
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt>Activation date:</dt>
-                    <dd>
-                      {{client.activationDate}}
-                    </dd>
-                  </dl>
+          <div class="col-md-8">
+            <div class="row hidden-md hidden-lg">
+              <div class="col-md-12">
+                <div class="thumbnail pull-right" style="width: 160px; max-height: none;">
+                  <img width="100%" ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
+                  <img width="100%" ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt>Created date:</dt>
-                    <dd>
-                      {{client.timeline.submittedOnDate}}
-                    </dd>
-                  </dl>
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  <dt>Activation date:</dt>
+                  <dd>
+                    {{client.activationDate}}
+                  </dd>
+                </dl>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt>Created by:</dt>
-                    <dd>
-                      {{client.timeline.submittedByFirstname}}&nbsp;{{client.timeline.submittedByLastname}}
-                    </dd>
-                  </dl>
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  <dt>Created date:</dt>
+                  <dd>
+                    {{client.timeline.submittedOnDate}}
+                  </dd>
+                </dl>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt>Office:</dt>
-                    <dd>
-                      {{client.officeName}}
-                    </dd>
-                  </dl>
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  <dt>Created by:</dt>
+                  <dd>
+                    {{client.timeline.submittedByFirstname}}&nbsp;{{client.timeline.submittedByLastname}}
+                  </dd>
+                </dl>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt>Loan Officer:</dt>
-                    <dd>
-                      {{client.staffName}}
-                    </dd>
-                  </dl>
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  <dt>Office:</dt>
+                  <dd>
+                    {{client.officeName}}
+                  </dd>
+                </dl>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt># Loan Cycle:</dt>
-                    <dd>
-                      <ul class="list-group">
-                        <li class="list-group-item">
-                          {{loans.length}}
-                        </li>
-                        <li class="list-group-item" ng-repeat="(name, count) in loanGroups">
-                          # {{name}}: {{count}}
-                        </li>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  <dt>Loan Officer:</dt>
+                  <dd>
+                    {{client.staffName}}
+                  </dd>
+                </dl>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  <dt># Loan Cycle:</dt>
+                  <dd>
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        {{loans.length}}
+                      </li>
+                      <li class="list-group-item" ng-repeat="(name, count) in loanGroups">
+                        # {{name}}: {{count}}
+                      </li>
+                    </ul>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+            <div class="row">
+              <!--
+              <div class="col-md-3 hidden-sm">
+                <dl class="dl-horizontal">
+                  <dt>Status:</dt>
+                </dl>
+              </div>
+              -->
+              <div class="col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3">
+                <div class="btn-toolbar">
+                  <div class="btn-group">
+                    <div class="dropdown" style="margin-bottom: 10px">
+                      <button class="btn dropdown-toggle" ng-class="{'btn-success': client.status.id==300, 'btn-warning': client.status.id==100, 'btn-default': client.status.id==800 || client.status.id==600, 'btn-danger': client.status.id==700}" type="button" id="statusDropdown" data-toggle="dropdown" aria-expanded="true">
+                        <span>{{client.status.value}}</span>&nbsp;<span class="glyphicon glyphicon-arrow-right" ng-show="clientStatus.code"></span>&nbsp;<span ng-show="clientStatus.code">{{clientStatus.code}}</span>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="statusDropdown">
+                        <li role="presentation" ng-repeat="action in clientActions"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatus(action.code)">{{action.label}}</a></li>
                       </ul>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <dl class="dl-horizontal">
-                    <dt>Status:</dt>
-                  </dl>
-                </div>
-                <div class="col-md-8">
-                  <div class="btn-toolbar">
-                    <div class="btn-group">
-                      <div class="dropdown">
-                        <button class="btn dropdown-toggle" ng-class="{'btn-success': client.status.id==300, 'btn-warning': client.status.id==100, 'btn-default': client.status.id==800 || client.status.id==600, 'btn-danger': client.status.id==700}" type="button" id="statusDropdown" data-toggle="dropdown" aria-expanded="true">
-                          <span>{{client.status.value}}</span>&nbsp;<span class="glyphicon glyphicon-arrow-right" ng-show="clientStatus.code"></span>&nbsp;<span ng-show="clientStatus.code">{{clientStatus.code}}</span>
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="statusDropdown">
-                          <li role="presentation" ng-repeat="action in clientActions"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatus(action.code)">{{action.label}}</a></li>
-                        </ul>
-                      </div>
                     </div>
-                    <div class="btn-group" ng-show='statusReasons.length>0'>
-                      <div class="dropdown">
-                        <button class="btn dropdown-toggle btn-default" type="button" id=reasonDropdown" data-toggle="dropdown" aria-expanded="true">
-                          <span>{{clientStatus.reason.name}}</span><span ng-hide="clientStatus.reason.name">Select...</span>
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown" style="overflow: visible;">
-                          <li role="presentation" ng-repeat="reason in statusReasons"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatusReason(reason)">{{reason.name}}</a></li>
-                        </ul>
-                      </div>
+                  </div>
+                  <div class="btn-group" ng-if='statusReasons.length>0'>
+                    <div class="dropdown">
+                      <button class="btn dropdown-toggle btn-default" type="button" id=reasonDropdown" data-toggle="dropdown" aria-expanded="true">
+                        <span>{{clientStatus.reason.name}}</span><span ng-hide="clientStatus.reason.name">Select...</span>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown" style="overflow: visible;">
+                        <li role="presentation" ng-repeat="reason in statusReasons"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatusReason(reason)">{{reason.name}}</a></li>
+                      </ul>
                     </div>
-                    <div class="btn-group" ng-show="clientStatus">
-                      <button type="button" class="btn btn-primary" ng-click="saveClientStatus()" ng-disabled="clientStatus.code!='reactivate' && clientStatus.code!='activate' && !clientStatus.reason.name">Save</button>
-                      <button type="button" class="btn btn-warning" ng-click="cancelClientStatus()">Cancel</button>
-                    </div>
+                  </div>
+                  <div class="btn-group" ng-if="clientStatus">
+                    <button type="button" class="btn btn-primary" ng-click="saveClientStatus()" ng-disabled="clientStatus.code!='reactivate' && clientStatus.code!='activate' && !clientStatus.reason.name">Save</button>
+                    <button type="button" class="btn btn-warning" ng-click="cancelClientStatus()">Cancel</button>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-md-4">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <span class="glyphicon glyphicon-hourglass" ng-show="imageLoading"></span>
-                      <div class="thumbnail" style="max-width: 240px; max-height: none;">
-                        <img width="100%" ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
-                        <img width="100%" ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
-                      </div>
+          <div class="col-md-4 hidden-sm hidden-xs">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span class="glyphicon glyphicon-hourglass" ng-show="imageLoading"></span>
+                    <div class="thumbnail" style="max-width: 240px; max-height: none;">
+                      <img width="100%" ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
+                      <img width="100%" ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
                     </div>
                   </div>
                 </div>
