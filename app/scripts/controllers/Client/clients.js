@@ -12,6 +12,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pages = [];
 
   var addClient = function(client) {
     $scope.rowCollection.push(client);
@@ -29,6 +30,14 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
 
     try {
       $scope.rowCollection = [];
+      $scope.pages = [];
+
+      if(result.data && result.data[0] && result.data[0].clientCount) {
+        for(var j=1; j<=Math.ceil(result.data[0].clientCount/APPLICATION.PAGE_SIZE); j++) {
+          $scope.pages.push({page: j, link: '#/clients/p/' + j})
+        }
+      }
+
       for(var i=0; i<result.data.length; i++) {
         var client = result.data[i];
         if(SearchService.get() && SearchService.get().indexOf(client.id)>=0) {
@@ -55,7 +64,11 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
     $timeout(function() {
       $scope.rowCollection = [];
       //service to get clients from server
-      ClientsService.getData(REST_URL.ALL_CLIENTS).then(allClientsSuccess, allClientsFail);
+      var offset = 0;
+      if($route.current.params.page) {
+        offset = APPLICATION.PAGE_SIZE * (parseInt($route.current.params.page)-1);
+      }
+      ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + APPLICATION.PAGE_SIZE + '&R_offset=' + offset).then(allClientsSuccess, allClientsFail);
     }, 2000);
   };
 

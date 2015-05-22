@@ -86,6 +86,12 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         data: {
             authorizedRoles: ['admin']
         }
+    }).when('/clients/p/:page', {
+        templateUrl: 'views/Client/grids/clients.html',
+        controller: 'ClientsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/clients/status/:status', {
         templateUrl: 'views/Client/grids/clients.html',
         controller: 'ClientsCtrl',
