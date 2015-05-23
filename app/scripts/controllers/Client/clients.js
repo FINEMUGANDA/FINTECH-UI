@@ -686,12 +686,52 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+  $scope.pages = [];
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadLoans();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadLoans();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadLoans();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadLoans();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadLoans();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
 
   //Success callback
   var allLoansSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = [];
+
+      if(result.data && result.data[0] && result.data[0].loanCount) {
+        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
+          $scope.pages.push({page: j, link: '#/loans/p/' + j})
+        }
+      }
+
       angular.forEach(result.data, function(loan) {
         loan.image = APPLICATION.NO_IMAGE_THUMB;
         var added = false;
@@ -732,8 +772,8 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
 
     $timeout(function() {
       $scope.rowCollection = [];
-      //service to get loans from server
-      ClientsService.getData(REST_URL.LOANS).then(allLoansSuccess, allLoansFail);
+      var offset = $scope.pageSize * ($scope.currentPage-1);
+      ClientsService.getData(REST_URL.LOANS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset).then(allLoansSuccess, allLoansFail);
     }, 2000);
   };
 
