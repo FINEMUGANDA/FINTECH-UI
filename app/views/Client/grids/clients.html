@@ -95,12 +95,12 @@
                       <li><a href="" ng-click="setPageSize(100)">100</a></li>
                     </ul>
                   </li>
-                  <li>
+                  <li ng-show="currentPage>1">
                     <a href="" ng-click="goFirst()">
                       <i class="glyphicon glyphicon-fast-backward"></i>
                     </a>
                   </li>
-                  <li>
+                  <li ng-show="currentPage>1">
                     <a href="" ng-click="goPrevious()">
                       <i class="glyphicon glyphicon-backward"></i>
                     </a>
@@ -111,12 +111,12 @@
                       <li ng-repeat="page in pages"><a href="" ng-click="goTo(page.page)">{{page.page}}</a></li>
                     </ul>
                   </li>
-                  <li>
+                  <li ng-show="currentPage<pages.length">
                     <a href="" ng-click="goNext()">
                       <i class="glyphicon glyphicon-forward"></i>
                     </a>
                   </li>
-                  <li>
+                  <li ng-show="currentPage<pages.length">
                     <a href="" ng-click="goLast()">
                       <i class="glyphicon glyphicon-fast-forward"></i>
                     </a>
