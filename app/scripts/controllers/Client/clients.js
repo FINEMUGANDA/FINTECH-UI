@@ -725,6 +725,7 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
     $scope.isLoading = false;
     try {
       $scope.rowCollection = [];
+      $scope.pages = [];
 
       if(result.data && result.data[0] && result.data[0].loanCount) {
         for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
