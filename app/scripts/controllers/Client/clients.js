@@ -66,7 +66,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
 
       if(result.data && result.data[0] && result.data[0].clientCount) {
         for(var j=1; j<=Math.ceil(result.data[0].clientCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/clients/p/' + j})
+          $scope.pages.push({page: j, link: '#/clients/p/' + j});
         }
       }
 
@@ -729,7 +729,7 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
 
       if(result.data && result.data[0] && result.data[0].loanCount) {
         for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/loans/p/' + j})
+          $scope.pages.push({page: j, link: '#/loans/p/' + j});
         }
       }
 
