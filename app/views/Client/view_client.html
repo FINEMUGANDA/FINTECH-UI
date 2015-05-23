@@ -31,7 +31,7 @@
         <h3>Summary <span class="glyphicon glyphicon-hourglass" ng-show="clientLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="clientLoading" ng-class="{collapse: collapse.summary}">
-        <div class="thumbnail hidden-lg" style="width: 140px; max-height: none; position: fixed; right: 55px;">
+        <div class="thumbnail hidden-lg" style="width: 140px; max-height: none; position: absolute; right: 55px;">
           <img width="100%" ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
           <img width="100%" ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
         </div>
