@@ -19,6 +19,21 @@ nav {
 	margin-right: 0!important;
 }
 
+nav.pagination {
+  width: 50%;
+  float: right;
+  top: -25px;
+  right: 9px;
+  min-height: 32px;
+  .navbar-nav  {
+	float: right;
+	margin-right: 7px;
+	> li > a {
+	  padding: 10px 10px 10px 10px;
+	}
+  }
+}
+
 .st-sort-ascent:after {
     content: "▲";
 }

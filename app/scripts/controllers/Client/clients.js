@@ -12,7 +12,39 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
   $scope.pages = [];
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadClients();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadClients();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadClients();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadClients();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadClients();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
 
   var addClient = function(client) {
     $scope.rowCollection.push(client);
@@ -33,7 +65,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
       $scope.pages = [];
 
       if(result.data && result.data[0] && result.data[0].clientCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].clientCount/APPLICATION.PAGE_SIZE); j++) {
+        for(var j=1; j<=Math.ceil(result.data[0].clientCount/$scope.pageSize); j++) {
           $scope.pages.push({page: j, link: '#/clients/p/' + j})
         }
       }
@@ -63,12 +95,8 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
 
     $timeout(function() {
       $scope.rowCollection = [];
-      //service to get clients from server
-      var offset = 0;
-      if($route.current.params.page) {
-        offset = APPLICATION.PAGE_SIZE * (parseInt($route.current.params.page)-1);
-      }
-      ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + APPLICATION.PAGE_SIZE + '&R_offset=' + offset).then(allClientsSuccess, allClientsFail);
+      var offset = $scope.pageSize * ($scope.currentPage-1);
+      ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset).then(allClientsSuccess, allClientsFail);
     }, 2000);
   };
 
