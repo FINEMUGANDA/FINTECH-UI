@@ -646,8 +646,16 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     });
   };
 
-  if(!$scope.clients || $scope.clients.length===0) {
-    $scope.load();
+  $scope.$on(AUTH_EVENTS.loginSuccess, function() {
+    if(!$scope.clients || $scope.clients.length===0) {
+      $scope.load();
+    }
+  });
+
+  if($location.path()!=='/') {
+    if(!$scope.clients || $scope.clients.length===0) {
+      $scope.load();
+    }
   }
 });
 
