@@ -641,12 +641,14 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
       $scope.clients = result.data;
       $scope.isLoading = false;
       return result.data;
+    }, function() {
+      $scope.isLoading = false;
     });
   };
 
-  $scope.$on(AUTH_EVENTS.loginSuccess, function() {
+  if(!$scope.clients || $scope.clients.length===0) {
     $scope.load();
-  });
+  }
 });
 
 clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, AuthService, CreateClientsService, data) {
