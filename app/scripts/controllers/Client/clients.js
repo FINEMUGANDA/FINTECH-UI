@@ -749,6 +749,8 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
 
       angular.forEach(result.data, function(loan) {
         loan.image = APPLICATION.NO_IMAGE_THUMB;
+
+        /**
         var added = false;
         //console.log('LoansCtrl : ' + $location.path() + ' - ' + $route.current.params.loanStatus + ' - ' + loan.loanStatus + ' - ' + loan.status);
         if($location.path().indexOf('/loans/borrowers')===0) {
@@ -771,6 +773,12 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
             loan.image = result.data;
           });
         }
+         */
+
+        $scope.rowCollection.push(loan);
+        CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function(result) {
+          loan.image = result.data;
+        });
       });
     } catch (e) {
     }
@@ -788,7 +796,15 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
     $timeout(function() {
       $scope.rowCollection = [];
       var offset = $scope.pageSize * ($scope.currentPage-1);
-      ClientsService.getData(REST_URL.LOANS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset).then(allLoansSuccess, allLoansFail);
+      var status = '%';
+      if($route.current.params.loanStatus==='total') {
+        status = "'ActiveInGoodStanding','ActiveInBadStanding'";
+      } else if($route.current.params.loanStatus==='bad') {
+        status = "'ActiveInBadStanding'";
+      } else {
+        status = "'Invalid', 'Submitted and awaiting approval', 'Approved', 'Active', 'Withdrawn by client', 'Rejected', 'Closed', 'Written-Off', 'Rescheduled', 'Overpaid', 'ActiveInGoodStanding', 'ActiveInBadStanding'";
+      }
+      ClientsService.getData(REST_URL.LOANS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_status=' + status).then(allLoansSuccess, allLoansFail);
     }, 2000);
   };
 
