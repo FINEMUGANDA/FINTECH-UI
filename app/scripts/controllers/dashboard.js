@@ -247,7 +247,8 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
         temp = {
           'c': [
             {
-                'v': result.data[i].loanOfficerFirstName + ' ' + result.data[i].loanOfficerLastName
+              //'v': result.data[i].loanOfficerFirstName + ' ' + result.data[i].loanOfficerLastName
+              'v': result.data[i].loanOfficer
             },
             {
                 'v': result.data[i].par
