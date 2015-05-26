@@ -539,7 +539,6 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
 });
 
 clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, REST_URL, ClientsService, SearchService, AUTH_EVENTS) {
-  $scope.isLoading = true;
   $scope.selected = null;
   $scope.clients = null;
   $scope.selectedClients = [];
@@ -637,6 +636,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
   };
 
   $scope.load = function(/** val */) {
+    $scope.isLoading = true;
     return ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
       $scope.clients = result.data;
       $scope.isLoading = false;
