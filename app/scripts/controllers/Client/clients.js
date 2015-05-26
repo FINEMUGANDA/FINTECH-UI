@@ -15,6 +15,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   $scope.pageSize = APPLICATION.PAGE_SIZE;
   $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
   $scope.pages = [];
+  $scope.searchTerm = '';
 
   $scope.goTo = function(p) {
     $scope.currentPage = p;
@@ -74,7 +75,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
         var client = result.data[i];
         if(SearchService.get() && SearchService.get().indexOf(client.id)>=0) {
           addClient(client);
-        } else if(!SearchService.get() && !$route.current.params.status || client.status===$route.current.params.status) {
+        } else if(!SearchService.get()) {
           addClient(client);
         }
       }
@@ -96,7 +97,12 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
     $timeout(function() {
       $scope.rowCollection = [];
       var offset = $scope.pageSize * ($scope.currentPage-1);
-      ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset).then(allClientsSuccess, allClientsFail);
+      var status = $route.current.params.status ? $route.current.params.status : '%';
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%' + $scope.searchTerm + '%': '%';
+      if(SearchService.get()) {
+        searchTerm = SearchService.get();
+      }
+      ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_status=' + status + '&R_search=' + searchTerm).then(allClientsSuccess, allClientsFail);
     }, 2000);
   };
 
