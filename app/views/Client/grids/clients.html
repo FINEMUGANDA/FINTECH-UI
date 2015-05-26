@@ -14,7 +14,7 @@
           <th colspan="8">
             <div class="shortcuts">
               <div class="search pull-right">
-                <input type="text" ng-model="searchTerm" class="search-box" placeholder="Search Clients" />
+                <input type="text" ng-model="searchTerm" class="search-box" placeholder="Search Clients" ng-keypress="onSearch($event)" />
               </div>
               <div ng-include="'views/Client/header.menu.tpl.html'" onload="active='clients'"></div>
             </div>

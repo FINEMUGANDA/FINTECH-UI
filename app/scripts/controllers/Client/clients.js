@@ -47,6 +47,12 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
     $scope.goFirst();
   };
 
+  $scope.onSearch = function($event) {
+    if($event.keyCode===13) {
+      loadClients();
+    }
+  };
+
   var addClient = function(client) {
     $scope.rowCollection.push(client);
     client.image = APPLICATION.NO_IMAGE_THUMB;
