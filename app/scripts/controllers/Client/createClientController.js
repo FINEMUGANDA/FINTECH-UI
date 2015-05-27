@@ -827,6 +827,241 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
 });
 
 CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope, $location, $timeout, CreateClientsService, ReportService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
+  $scope.isLoading = true;
+  $scope.clientIdentification = {};
+  $scope.clientIdentifications = [];
+  $scope.documentTypes = [];
+  $scope.id = $route.current.params.id;
+
+  $scope.showSuccess = function(message) {
+    $scope.type = 'alert-success';
+    $scope.message = message;
+    $scope.errors = [];
+  };
+
+  $scope.showErrors = function(result, message) {
+    $scope.type = 'error';
+    $scope.message = result ? result.data.defaultUserMessage : message;
+    $scope.errors = result ? result.data.errors : [];
+  };
+
+  $scope.downloadDocument = function(document) {
+    ReportService.getData(REST_URL.BASE + 'client_identifiers/' + $scope.clientIdentification.identifier_id + '/documents/' + document.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
+      saveAs(new Blob([content.data], {type: document.type}), document.fileName);
+    }, function() {
+      // TODO: do we need this?
+    });
+  };
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.onFileSelect = function($files) {
+    if ($files[0].size / 1024 > 80) {
+      $scope.showErrors(null, 'File is too large! File size must be less then or equal to 80 KB!');
+    } else {
+      $scope.type = null;
+      $scope.message = null;
+      $scope.file = $files[0];
+    }
+  };
+
+  $scope.selectIdentification = function(clientIdentification) {
+    $scope.clientIdentification = angular.copy(clientIdentification);
+    $scope.clientIdentification.issue_date = Utility.toLocalDate($scope.clientIdentification.issue_date);
+
+    // extra
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + clientIdentification.extra_id + '?genericResultSet=false').then(function(result) {
+      $scope.clientIdentification.description = result.data[0].description;
+
+      // files
+      CreateClientsService.getData(REST_URL.BASE + 'client_identifiers/' + $scope.clientIdentification.identifier_id + '/documents').then(function(r) {
+        $scope.clientIdentification.files = r.data;
+      }, function(r) {
+        $scope.showErrors(r);
+      });
+    }, function(result) {
+      $scope.showErrors(result);
+    });
+  };
+
+  $scope.resetClientIdentification = function() {
+    $scope.clientIdentification = {};
+    $scope.file = null;
+  };
+
+  $scope.saveClientIdentification = function(proceed) {
+    if ($scope.ClientIdentificationForm.$valid) {
+      var data = {
+        documentTypeId: $scope.clientIdentification.documentTypeId,
+        description: $scope.clientIdentification.description,
+        documentKey: $scope.clientIdentification.documentKey
+      };
+
+      if ($scope.clientIdentification.identifier_id) {
+        // update
+        CreateClientsService.updateClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + $scope.clientIdentification.identifier_id, data).then(function() {
+          $scope.saveClientIdentificationExtra(proceed);
+        }, function(result) {
+          $scope.showErrors(result);
+        });
+      } else {
+        // create
+        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers', data).then(function(result) {
+          $scope.clientIdentification.identifier_id = result.data.resourceId;
+          $scope.clientIdentification.client_id = result.data.clientId;
+          $scope.saveClientIdentificationExtra();
+        }, function(result) {
+          $scope.showErrors(result);
+        });
+      }
+    } else {
+      $scope.showErrors(null, 'Highlighted fields are required');
+    }
+  };
+
+  $scope.gotNext = function() {
+    $location.url(PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN + '/' + $route.current.params.id);
+  };
+
+  $scope.saveClientIdentificationExtra = function(proceed) {
+    var data = {
+      issue_place: $scope.clientIdentification.issue_place,
+      issue_date: Utility.toServerDate($scope.clientIdentification.issue_date),
+      description: $scope.clientIdentification.description,
+      identifier_id: $scope.clientIdentification.identifier_id,
+      locale: 'en',
+      dateFormat: APPLICATION.DF_MIFOS
+    };
+
+    if ($scope.clientIdentification.extra_id) {
+      CreateClientsService.updateClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + $scope.clientIdentification.extra_id, data).then(function(result) {
+        if ($scope.file) {
+          $scope.uploadFile(proceed);
+        } else if(proceed) {
+          $scope.gotNext();
+        }
+        if(!proceed) {
+          $scope.loadTemplate();
+        }
+      }, function(result) {
+        $scope.showErrors(result);
+      });
+    } else {
+      CreateClientsService.saveClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id, data).then(function(result) {
+        $scope.clientIdentification.extra_id = result.data.resourceId;
+        if ($scope.file) {
+          $scope.uploadFile(proceed);
+        } else if(proceed) {
+          $scope.gotNext();
+        }
+        if(!proceed) {
+          $scope.loadTemplate();
+        }
+      }, function(result) {
+        $scope.showErrors(result);
+      });
+    }
+  };
+
+  $scope.deleteClientIdentification = function(clientIdentification) {
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: 'You are about to remove client identifiers <strong>' + clientIdentification.documentKey + '</strong>'}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        CreateClientsService.deleteClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + $scope.clientIdentification.identifier_id).then(function() {
+          if(clientIdentification.identifier_id===$scope.clientIdentification.identifier_id) {
+            $scope.resetClientIdentification();
+          }
+          $scope.loadTemplate();
+          $scope.showSuccess('Client Identification deleted successfully');
+        }, function(r) {
+          $scope.showErrors(r);
+        });
+      }
+    });
+  };
+
+  $scope.uploadFile = function(proceed) {
+    if ($scope.file) {
+      $scope.formData = {};
+      $scope.formData.name = 'client_id_' + $scope.clientIdentification.client_id;
+
+      $upload.upload({
+        url: APPLICATION.host + 'api/v1/client_identifiers/' + $scope.clientIdentification.identifier_id + '/documents',
+        data: $scope.formData,
+        file: $scope.file
+      }).then(function(result) {
+        if(proceed) {
+          $location.url(PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN + '/' + $route.current.params.id);
+        } else {
+          if(!$scope.clientIdentification.files) {
+            $scope.clientIdentification.files = [];
+          }
+          $scope.clientIdentification.files.push({
+            id: result.data.resourceId,
+            type: $scope.file.type,
+            fileName: $scope.file.name
+          });
+          $scope.file = null;
+          $scope.showSuccess('File uploaded');
+        }
+      }, function(result) {
+        $scope.showErrors(result);
+      });
+    }
+  };
+
+  $scope.deleteFile = function(file) {
+    dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: 'You are about to remove Attachment <strong>' + file.fileName + '</strong>'}, {size: 'sm', keyboard: true, backdrop: true}).result.then(function(result) {
+      if (result) {
+        var pos = $scope.clientIdentification.files.indexOf(file);
+        if (pos >= -1) {
+          CreateClientsService.deleteClient(REST_URL.BASE + 'client_identifiers/' + file.parentEntityId + '/documents/' + file.id).then(function() {
+            $scope.clientIdentification.files.splice(pos, 1);
+          }, function(r) {
+            $scope.showErrors(r);
+          });
+        }
+      }
+    });
+  };
+
+  $scope.loadTemplate = function() {
+    CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/template').then(function(result) {
+      $scope.documentTypes = result.data.allowedDocumentTypes;
+
+      CreateClientsService.getData(REST_URL.CLIENT_IDENTIFICATION_TEMPLATE_REPORT + '?genericResultSet=false&R_client_id=' + $route.current.params.id).then(function(result) {
+        $scope.isLoading = false;
+        $scope.clientIdentifications = result.data;
+        angular.forEach($scope.clientIdentifications, function(clientIdentification) {
+          angular.forEach($scope.documentTypes, function(documentType) {
+            if(clientIdentification.documentTypeId===documentType.id) {
+              clientIdentification.documentType = documentType.name;
+            }
+          });
+        });
+
+        if($scope.clientIdentifications && $scope.clientIdentifications.length>0) {
+          $scope.selectIdentification($scope.clientIdentifications[0]);
+        }
+      }, function(r) {
+        $scope.isLoading = false;
+        $scope.showErrors(r);
+      });
+    }, function(result) {
+      $scope.isLoading = false;
+      $scope.showErrors(result);
+    });
+  };
+
+  $scope.loadTemplate();
+});
+
+// TODO: remove this insanity!
+CreateClientCrtl.controller('ClientIdentificationOldCtrl', function($route, $scope, $location, $timeout, CreateClientsService, ReportService, REST_URL, APPLICATION, PAGE_URL, $upload, Utility, dialogs) {
   console.log('CreateClientCtrl : ClientIdentificationCtrl');
   $scope.isLoading = true;
   $scope.clientIdentification = {};
@@ -1255,7 +1490,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
       //Setting the values for the edit client next to keen page
       $scope.clientIdentificationExtra.issue_place = result.data[0].issue_place;
       $scope.clientIdentificationExtra.description = result.data[0].description;
-      if ($scope.client[0].issue_date) {
+      if (result.data[0].issue_date) {
         //$scope.clientIdentificationExtra.issue_date = result.data[0].issue_date[2] + '/' + result.data[0].issue_date[1] + '/' + result.data[0].issue_date[0];
         $scope.clientIdentificationExtra.issue_date = Utility.toLocalDate(result.data[0].issue_date, true);
       }
