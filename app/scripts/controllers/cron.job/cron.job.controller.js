@@ -5,6 +5,15 @@ angular.module('angularjsApp').controller('CronJobCtrl', function($route, REST_U
   console.log('CronJobCtrl');
   $scope.itemsByPage = 20;
   $scope.isLoading = true;
+
+  $scope.execBatch = function() {
+    JobService.save(REST_URL.JOBS + '/batch?command=executeJob&jobIds=1&jobIds=2&jobIds=18&jobIds=23').then(function() {
+      $scope.message = 'Job batch scheduled';
+      $scope.type = 'alert-success';
+      $scope.errors = [];
+    });
+  };
+
   function updateJobList() {
     $scope.isLoading = true;
     JobService.getData(REST_URL.JOBS).then(function(result) {

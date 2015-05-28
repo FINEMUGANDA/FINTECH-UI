@@ -3,7 +3,7 @@
   <div class="list">
     <div class="page-header">
       <div class="header">
-        <h3 style="width: 50%;">Schedule Jobs</h3>
+        <h3 style="width: 50%;">Schedule Jobs <button type="button" class="btn btn-xs btn-danger" ng-show="hasPermission('UPDATE_SCHEDULER')" ng-click="execBatch()">Manual Loan Job Batch</button></h3>
       </div>
     </div>
     <div class="page-header" ng-hide="isLoading">
