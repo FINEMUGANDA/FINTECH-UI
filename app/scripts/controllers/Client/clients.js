@@ -240,12 +240,14 @@ clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $
 
   $scope.$watch('noteType', function() {
     if($scope.noteType==='followup') {
-      ClientsService.getData(REST_URL.LOANS).then(function(result) {
+      // TODO: check if this is enough or if we need a new report without paging...
+      var status = "'Invalid', 'Submitted and awaiting approval', 'Approved', 'Active', 'Withdrawn by client', 'Rejected', 'Closed', 'Written-Off', 'Rescheduled', 'Overpaid', 'ActiveInGoodStanding', 'ActiveInBadStanding'";
+      ClientsService.getData(REST_URL.LOANS + '?R_limit=25&R_offset=0&R_search=%&R_status='+status).then(function(result) {
         $scope.clients = result.data;
         $scope.isLoading = false;
       });
     } else {
-      ClientsService.getData(REST_URL.ALL_CLIENTS).then(function(result) {
+      ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
         $scope.clients = result.data;
         $scope.isLoading = false;
       });
