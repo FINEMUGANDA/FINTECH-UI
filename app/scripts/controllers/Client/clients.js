@@ -172,7 +172,7 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
     $modalInstance.dismiss();
   };
 
-  ClientsService.getData(REST_URL.ALL_CLIENTS).then(function(result) {
+  ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
     $scope.clients = [];
 
     angular.forEach(result.data, function(client) {
