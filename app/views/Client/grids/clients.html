@@ -49,16 +49,25 @@
             </span>
           </td>
           <td>
-            <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors) || client.loanStatus!='Submitted and awaiting approval'">
+            <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="client.loanStatus=='ActiveInBadStanding' || client.loanStatus=='ActiveInGoodStanding' || client.loanStatus=='Written-Off' || client.loanStatus=='Closed'">
               {{client.loanStatus}}
             </a>
             <!--
             <span class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors) || client.loanStatus!='Submitted and awaiting approval'">
               {{client.loanStatus}}
             </span>
+            'Invalid', 'Submitted and awaiting approval', 'Approved', 'Active', 'Withdrawn by client', 'Rejected', 'Closed', 'Written-Off', 'Rescheduled', 'Overpaid', 'ActiveInGoodStanding', 'ActiveInBadStanding'
+
+            Loans with Statuses (Pending, Submitted but awaiting approval & Awaiting Disbursement,Withdrawn) when clicked, should take you to where you can edit the loan.
+            WHEREAS...
+            Loans with statuses (ActiveInGoodStanding,ActiveInBadStanding,Closed,WrittenOff) should take you to page where you view details of the loan e.g. page where you can make payments, reschedule,Prepay the loan.
+
             -->
             <a href="#/loans/view/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="(!client.collaterals || !client.guarantors) && client.loanStatus=='Submitted and awaiting approval'">
               Pending
+            </a>
+            <a href="#/loans/view/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors && client.loanStatus=='Submitted and awaiting approval') || client.loanStatus=='Withdrawn by client' || client.loanStatus=='Awaiting Disbursement'">
+              {{client.loanStatus}}
             </a>
           </td>
           <td class="number phone">{{client.mobileNo}}</td>
