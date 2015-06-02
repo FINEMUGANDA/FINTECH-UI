@@ -99,11 +99,17 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).when('/loans', {
-      templateUrl: 'views/Client/grids/loans.html',
-      controller: 'LoansCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/grids/loans.html',
+        controller: 'LoansCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/loans/p/:page', {
+        templateUrl: 'views/Client/grids/loans.html',
+        controller: 'LoansCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loans/borrowers/:loanStatus', {
         templateUrl: 'views/Client/grids/loans.html',
         controller: 'LoansCtrl',
@@ -111,35 +117,65 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).when('/loansClosed', {
-      templateUrl: 'views/Client/grids/loansClosed.html',
-      controller: 'LoansClosedCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/grids/loansClosed.html',
+        controller: 'LoansClosedCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/loansClosed/p/:page', {
+        templateUrl: 'views/Client/grids/loansClosed.html',
+        controller: 'LoansClosedCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loansPendingApproval', {
-      templateUrl: 'views/Client/grids/loansPendingApprovals.html',
-      controller: 'LoansPendingApprovalsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/grids/loansPendingApprovals.html',
+        controller: 'LoansPendingApprovalsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/loansPendingApproval/p/:page', {
+        templateUrl: 'views/Client/grids/loansPendingApprovals.html',
+        controller: 'LoansPendingApprovalsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loansAwaitingDisbursement', {
-      templateUrl: 'views/Client/grids/loansAwaitingDisbursement.html',
-      controller: 'LoansAwaitingDisbursementCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/grids/loansAwaitingDisbursement.html',
+        controller: 'LoansAwaitingDisbursementCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/loansAwaitingDisbursement/p/:page', {
+        templateUrl: 'views/Client/grids/loansAwaitingDisbursement.html',
+        controller: 'LoansAwaitingDisbursementCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loansRejected', {
       templateUrl: 'views/Client/grids/loansRejected.html',
       controller: 'LoansRejectedCtrl',
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/loansRejected/p/:page', {
+        templateUrl: 'views/Client/grids/loansRejected.html',
+        controller: 'LoansRejectedCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loansWrittenOff', {
       templateUrl: 'views/Client/grids/loansWrittenOff.html',
       controller: 'LoansWrittenOffCtrl',
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/loansWrittenOff/p/:page', {
+        templateUrl: 'views/Client/grids/loansWrittenOff.html',
+        controller: 'LoansWrittenOffCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/configuration', {
       templateUrl: 'views/configuration.html',
       data: {

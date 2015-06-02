@@ -104,7 +104,7 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
       $scope.rowCollection = [];
       var offset = $scope.pageSize * ($scope.currentPage-1);
       var status = $route.current.params.status ? $route.current.params.status : '%';
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%' + $scope.searchTerm + '%': '%';
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
       if(SearchService.get()) {
         searchTerm = SearchService.get();
       }
@@ -788,7 +788,7 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
       $scope.rowCollection = [];
       var offset = $scope.pageSize * ($scope.currentPage-1);
       var status = '%';
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%' + $scope.searchTerm + '%': '%';
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
       if($route.current.params.loanStatus==='total') {
         status = "'ActiveInGoodStanding','ActiveInBadStanding'";
       } else if($route.current.params.loanStatus==='bad') {
@@ -807,19 +807,75 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
   loadLoans();
 });
 
-clientsCtrl.controller('LoansClosedCtrl', function($scope, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
+clientsCtrl.controller('LoansClosedCtrl', function($scope, $route, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
   console.log('LoansClosedCtrl : Loans');
   //To load the loans page
 
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+  $scope.pages = [];
+
+  $scope.onKeyboard = function($event) {
+    if($event.keyCode===37) {
+      $scope.goPrevious();
+    } else if($event.keyCode===30) {
+      $scope.goNext();
+    }
+  };
+
+  $scope.onSearch = function($event) {
+    if($event.keyCode===13) {
+      loadLoans();
+    }
+  };
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadLoans();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadLoans();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadLoans();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadLoans();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadLoans();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
 
   //Success callback
   var allLoansSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+
+      $scope.pages = [];
+
+      if(result.data && result.data[0] && result.data[0].loanCount) {
+        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
+          $scope.pages.push({page: j, link: '#/loansClosed/p/' + j});
+        }
+      }
+
       angular.forEach($scope.rowCollection, function(loan) {
           loan.image = APPLICATION.NO_IMAGE_THUMB;
           CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function(result) {
@@ -842,7 +898,9 @@ clientsCtrl.controller('LoansClosedCtrl', function($scope, $location, $timeout, 
     $timeout(function() {
       $scope.rowCollection = [];
       //service to get loans from server
-      ClientsService.getData(REST_URL.LOANS_CLOSED).then(allLoansSuccess, allLoansFail);
+      var offset = $scope.pageSize * ($scope.currentPage-1);
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
+      ClientsService.getData(REST_URL.LOANS_CLOSED + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansSuccess, allLoansFail);
     }, 2000);
   };
 
@@ -853,18 +911,74 @@ clientsCtrl.controller('LoansClosedCtrl', function($scope, $location, $timeout, 
   loadLoans();
 });
 
-clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, LoanService, CreateClientsService, REST_URL, $location, dialogs) {
+clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $route, $timeout, LoanService, CreateClientsService, APPLICATION, REST_URL, $location, dialogs) {
   console.log('LoansPendingApprovalsCtrl : LoansPendingApprovals');
   //To load the LoansPendingApprovals page
 
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+  $scope.pages = [];
+
+  $scope.onKeyboard = function($event) {
+    if($event.keyCode===37) {
+      $scope.goPrevious();
+    } else if($event.keyCode===30) {
+      $scope.goNext();
+    }
+  };
+
+  $scope.onSearch = function($event) {
+    if($event.keyCode===13) {
+      loadLoansPendingApprovals();
+    }
+  };
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
+
   //Success callback
   var allLoansPendingApprovalsSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+
+      $scope.pages = [];
+
+      if(result.data && result.data[0] && result.data[0].loanCount) {
+        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
+          $scope.pages.push({page: j, link: '#/loansPendingApproval/p/' + j});
+        }
+      }
     } catch (e) {
     }
   };
@@ -880,8 +994,10 @@ clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $timeout, L
 
     $timeout(function() {
       $scope.rowCollection = [];
+      var offset = $scope.pageSize * ($scope.currentPage-1);
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
       //service to get LoansPendingApprovals from server
-      LoanService.getData(REST_URL.LOANS_PENDING_APPROVALS).then(allLoansPendingApprovalsSuccess, allLoansPendingApprovalsFail);
+      LoanService.getData(REST_URL.LOANS_PENDING_APPROVALS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansPendingApprovalsSuccess, allLoansPendingApprovalsFail);
     }, 2000);
   };
 
@@ -1027,18 +1143,74 @@ clientsCtrl.controller('SubmitLoanActionDialogCtrl', function($scope, $modalInst
 });
 
 
-clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeout, LoanService, REST_URL, $location, dialogs) {
+clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $route, $timeout, LoanService, APPLICATION, REST_URL, $location, dialogs) {
   console.log('LoansAwaitingDisbursementCtrl : LoansAwaitingDisbursement');
   //To load the LoansAwaitingDisbursement page
 
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+  $scope.pages = [];
+
+  $scope.onKeyboard = function($event) {
+    if($event.keyCode===37) {
+      $scope.goPrevious();
+    } else if($event.keyCode===30) {
+      $scope.goNext();
+    }
+  };
+
+  $scope.onSearch = function($event) {
+    if($event.keyCode===13) {
+      loadLoansPendingApprovals();
+    }
+  };
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadLoansPendingApprovals();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
+
   //Success callback
   var allLoansAwaitingDisbursementSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+
+      $scope.pages = [];
+
+      if(result.data && result.data[0] && result.data[0].loanCount) {
+        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
+          $scope.pages.push({page: j, link: '#/loansAwaitingDisbursement/p/' + j});
+        }
+      }
     } catch (e) {
     }
   };
@@ -1055,7 +1227,9 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $timeou
     $timeout(function() {
       $scope.rowCollection = [];
       //service to get allLoansAwaitingDisbursemensFail from server
-      LoanService.getData(REST_URL.LOANS_AWAITING_DISBURSEMENT).then(allLoansAwaitingDisbursementSuccess, allLoansAwaitingDisbursemensFail);
+      var offset = $scope.pageSize * ($scope.currentPage-1);
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
+      LoanService.getData(REST_URL.LOANS_AWAITING_DISBURSEMENT + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansAwaitingDisbursementSuccess, allLoansAwaitingDisbursemensFail);
     }, 2000);
   };
 
@@ -1167,18 +1341,75 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
 
 });
 
-clientsCtrl.controller('LoansRejectedCtrl', function($scope, $timeout, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansRejectedCtrl', function($scope, $route, $timeout, ClientsService, APPLICATION, REST_URL) {
   console.log('LoansRejectedCtrl : LoansRejected');
   //To load the LoansRejected page
 
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+  $scope.pages = [];
+
+  $scope.onKeyboard = function($event) {
+    console.log('DEBUG: ' + $event.keyCode)
+    if($event.keyCode===37) {
+      $scope.goPrevious();
+    } else if($event.keyCode===30) {
+      $scope.goNext();
+    }
+  };
+
+  $scope.onSearch = function($event) {
+    if($event.keyCode===13) {
+      loadLoansRejected();
+    }
+  };
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadLoansRejected();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadLoansRejected();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadLoansRejected();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadLoansRejected();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadLoansRejected();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
+
   //Success callback
   var allLoansRejectedSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+
+      $scope.pages = [];
+
+      if(result.data && result.data[0] && result.data[0].loanCount) {
+        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
+          $scope.pages.push({page: j, link: '#/loansRejected/p/' + j});
+        }
+      }
     } catch (e) {
     }
   };
@@ -1195,8 +1426,11 @@ clientsCtrl.controller('LoansRejectedCtrl', function($scope, $timeout, ClientsSe
     $timeout(
       function() {
         $scope.rowCollection = [];
+
+        var offset = $scope.pageSize * ($scope.currentPage-1);
+        var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
         //service to get allLoansAwaitingDisbursemensFail from server
-        ClientsService.getData(REST_URL.LOANS_REJECTED).then(allLoansRejectedSuccess, allLoansRejectedFail);
+        ClientsService.getData(REST_URL.LOANS_REJECTED + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansRejectedSuccess, allLoansRejectedFail);
       }, 2000
       );
   };
@@ -1204,18 +1438,74 @@ clientsCtrl.controller('LoansRejectedCtrl', function($scope, $timeout, ClientsSe
   loadLoansRejected();
 });
 
-clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, $location, ClientsService, REST_URL) {
+clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $route, $timeout, $location, ClientsService, APPLICATION, REST_URL) {
   console.log('LoansWrittenOffCtrl : LoansWrittenOff');
   //To load the LoansWrittenOff page
 
   $scope.isLoading = false;
   $scope.rowCollection = [];
   $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+  $scope.pages = [];
+
+  $scope.onKeyboard = function($event) {
+    if($event.keyCode===37) {
+      $scope.goPrevious();
+    } else if($event.keyCode===30) {
+      $scope.goNext();
+    }
+  };
+
+  $scope.onSearch = function($event) {
+    if($event.keyCode===13) {
+      loadLoansWrittenOff();
+    }
+  };
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadLoansWrittenOff();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadLoansWrittenOff();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadLoansWrittenOff();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadLoansWrittenOff();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadLoansWrittenOff();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
+
   //Success callback
   var allLoansWrittenOffSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+
+      $scope.pages = [];
+
+      if(result.data && result.data[0] && result.data[0].loanCount) {
+        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
+          $scope.pages.push({page: j, link: '#/loansWrittenOff/p/' + j});
+        }
+      }
     } catch (e) {
     }
   };
@@ -1236,8 +1526,11 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $timeout, $locati
 
     $timeout(function() {
       $scope.rowCollection = [];
+
+      var offset = $scope.pageSize * ($scope.currentPage-1);
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
       //service to get LoansWritten from server
-      ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
+      ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
     }, 2000);
   };
 
