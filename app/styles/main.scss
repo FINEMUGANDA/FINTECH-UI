@@ -115,7 +115,7 @@ input.form-control {
 }
 
 .table .name, .table .status {
-	font-size: 14px !important;	
+	font-size: 14px;
 }
 .table .name{
 
@@ -189,10 +189,6 @@ a.disabled {
 label.text-left {
     text-align: left !important;
     padding-top: 0 !important;
-}
-
-.shortcuts ul > li:first-of-type > a  {
-	/*padding-left: 0px !important;*/
 }
 
 .tab {

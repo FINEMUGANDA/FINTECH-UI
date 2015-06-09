@@ -31,10 +31,6 @@
         <h3>Summary <span class="glyphicon glyphicon-hourglass" ng-show="clientLoading"></span></h3>
       </div>
       <div class="panel-body" ng-hide="clientLoading" ng-class="{collapse: collapse.summary}">
-        <div class="thumbnail hidden-lg" style="width: 140px; max-height: none; position: absolute; right: 55px;">
-          <img width="100%" ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
-          <img width="100%" ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
-        </div>
         <div class="row">
           <div class="col-md-8">
             <div class="row hidden-md hidden-lg">
@@ -49,6 +45,10 @@
                     {{client.activationDate}}
                   </dd>
                 </dl>
+                <div class="thumbnail visible-xs visible-sm" style="width: 140px; max-height: none; position: absolute; top: 5px; right: 5px;">
+                  <img width="100%" ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
+                  <img width="100%" ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
+                </div>
               </div>
             </div>
             <div class="row">
@@ -155,7 +155,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <span class="glyphicon glyphicon-hourglass" ng-show="imageLoading"></span>
-                    <div class="thumbnail" style="max-width: 240px; max-height: none;">
+                    <div class="thumbnail visible-md visible-lg" style="max-width: 240px; max-height: none;">
                       <img width="100%" ng-hide="client.imagePresent" ng-src="images/noPhoto.jpg" alt="Avatar">
                       <img width="100%" ng-show="client.imagePresent" ng-src="{{image}}" alt="Avatar">
                     </div>

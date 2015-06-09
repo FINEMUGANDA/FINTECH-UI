@@ -153,25 +153,19 @@ h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
  
   ul > li > a {
     padding: 5px 10px;
-    font-size:1.2rem;
-    /*border-right: 1px solid darken($border-color,4%);*/
+    //font-size:1.2rem;
     border-radius: 0;
     border: 1px solid $primary-color;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-      &:hover {
-      /*background: orange!important;*/
-      /*color:white;*/
-     }
   }
  
 }
 
 div.shortcuts{
-  /*border-bottom: 1px solid rgb(221, 148, 7);*/
   margin-top: 1.8rem;
-
-} 
+  font-size: 0.8vw;
+}
 div.container.post-login.ng-scope > div.shortcuts{
   border-bottom: 1px solid $primary-color;
 }
@@ -180,8 +174,8 @@ table > thead > tr > th > div.shortcuts{
 }
 div.shortcuts > ul > li > a{
   border: 0;/*1px solid $primary-color;*/
-  font-size: 1.4rem;
-  font-weight: 600;
+  //font-size: 1.4rem;
+  //font-weight: 600;
   margin-top: -0.3rem;
   &:hover{
    /* background: white!important;*/
@@ -566,7 +560,7 @@ div.summary > div > ul {
   }
   > li > a{
    padding: 5px 10px;
-   font-size: 1.2rem;
+   //font-size: 1.2rem;
    border-radius: 0;
    border: 1px solid $primary-color;
    border-top-left-radius: 10px;
