@@ -101,6 +101,7 @@ appModule.controller('UserController', function($route, $scope, RoleService, RES
     $scope.formData.roles = $scope.formData.selectedRoles;
     delete $scope.formData.selectedRoles;
     delete $scope.formData.staff;
+    delete $scope.formData.locked;
     var $url = REST_URL.BASE + 'users/' + id_user;
     RoleService.updateData($url, angular.toJson($scope.formData)).then(editUserSuccess, editUserFail);
   };
