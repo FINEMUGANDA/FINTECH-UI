@@ -956,7 +956,7 @@ app.directive('chosen', function() {
           element.trigger('chosen:updated');
       });
 
-      element.chosen({search_contains:true});
+      element.chosen({search_contains:true, width: '100%'});
   };
   return {
     restrict: 'A',
