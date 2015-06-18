@@ -63,7 +63,7 @@
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>
                     -->
-                    <select ng-model="dbAccount.select" class="form-control" ng-options="(debitAccount.name + ' - ' + debitAccount.currencyCode +' ('+ debitAccount.glCode + ')') for debitAccount in getDebitOptions()" ng-change="changeDebitOptions()">
+                    <select ng-model="dbAccount.select" chosen="debitOptions" class="form-control" ng-options="(debitAccount.name + ' - ' + debitAccount.currencyCode +' ('+ debitAccount.glCode + ')') for debitAccount in getDebitOptions()" ng-change="changeDebitOptions()">
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>
                   </div>
@@ -95,7 +95,7 @@
                           <option class="displaynone" value="">-- Select -- </option>
                       </select>
                       -->
-                      <select ng-model="crAccount.select" class="form-control" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in getCreditOptions()" ng-change="changeCreditOptions()">
+                      <select chosen="creditOptions" ng-model="crAccount.select" class="form-control" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in getCreditOptions()" ng-change="changeCreditOptions()">
                           <option class="displaynone" value="">-- Select -- </option>
                       </select>
                   </div>
