@@ -930,12 +930,15 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   $scope.saveClientIdentificationExtra = function(proceed) {
     var data = {
       issue_place: $scope.clientIdentification.issue_place,
-      issue_date: Utility.toServerDate($scope.clientIdentification.issue_date),
       description: $scope.clientIdentification.description,
       identifier_id: $scope.clientIdentification.identifier_id,
       locale: 'en',
       dateFormat: APPLICATION.DF_MIFOS
     };
+
+    if($scope.clientIdentification.issue_date) {
+      data.issue_date = Utility.toServerDate($scope.clientIdentification.issue_date);
+    }
 
     if ($scope.clientIdentification.extra_id) {
       CreateClientsService.updateClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + $scope.clientIdentification.extra_id, data).then(function(result) {
