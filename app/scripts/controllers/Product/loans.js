@@ -351,7 +351,8 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       $scope.type = 'alert-success';
       $scope.message = 'Loan product Updated successfully';
       $scope.errors = '';
-      loadEditProductTemplate();
+      //loadEditProductTemplate();
+      $scope.setStep(2);
       //$location.url(PAGE_URL.LOANPRODUCTS);                  
     };
 
@@ -368,7 +369,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
       $('html, body').animate({scrollTop: 0}, 800);
     };
     var $url = REST_URL.LOANS_PRODUCTS_LIST_BY_ID + $route.current.params.id;
-    LoanProductService.updateProduct($url, angular.toJson(this.loanProductDetails)).then(updateloanProductSuccess, updateloanProductFail);
+    LoanProductService.updateProduct($url, angular.toJson($scope.loanProductDetails)).then(updateloanProductSuccess, updateloanProductFail);
   };
 
   //Add charges
