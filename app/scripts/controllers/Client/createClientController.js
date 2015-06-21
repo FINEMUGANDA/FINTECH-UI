@@ -2356,7 +2356,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
           }
 
           if(header.columnName==='introducer_client' && $scope.additional.introducer_client) {
-            CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true').then(function(r) {
+            CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $scope.additional.introducer_client + '?template=true').then(function(r) {
               $scope.additional.introducer_client = r.data;
             }, function() {
               // TODO: do we need this?
@@ -2377,11 +2377,26 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.identifications = result.data;
       angular.forEach($scope.identifications, function(identification) {
         identification.issue_date = Utility.toLocalDate(identification.issue_date, true);
-        angular.forEach($scope.client.allowedDocumentTypes, function(docType) {
-          if (docType.id === identification.documentTypeId) {
-            identification.documentTypeName = docType.name;
-          }
-        });
+
+        if(!$scope.client.allowedDocumentTypes) {
+          CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/template').then(function(result) {
+            //console.log('DEBUG: ' + angular.toJson(result));
+            $scope.client.allowedDocumentTypes = result.data.allowedDocumentTypes;
+            angular.forEach($scope.client.allowedDocumentTypes, function(docType) {
+              if (parseInt(docType.id) === identification.documentTypeId) {
+                identification.documentTypeName = docType.name;
+              }
+            });
+          }, function() {
+            // ignore
+          });
+        } else {
+          angular.forEach($scope.client.allowedDocumentTypes, function(docType) {
+            if (parseInt(docType.id) === identification.documentTypeId) {
+              identification.documentTypeName = docType.name;
+            }
+          });
+        }
 
         $scope.documentsLoading = true;
         CreateClientsService.getData(REST_URL.BASE + 'client_identifiers/' + identification.identifier_id + '/documents').then(function(result) {
