@@ -260,7 +260,8 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         CILPCM: 52,
         DVCPW: 53,
         BULKREASSIGN: 60,
-        BACKDATE: 70
+        BACKDATE: 70,
+        PASSWORD: 80
     }
 );
 
@@ -436,6 +437,9 @@ app.constant('PERMISSION_MAPPING', {
         ],
         READ_UIREPORT: [
             'READ_REPORT'
+        ],
+        PASSWORD_USER: [
+            'UPDATE_USER'
         ],
         READ_UILOANPRODUCT: [
             'READ_LOANPRODUCT'
