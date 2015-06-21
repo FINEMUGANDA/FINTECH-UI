@@ -47,43 +47,53 @@
           <a class="configuration dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_UILOANPRODUCT', 'READ_ROLE', 'READ_USER', 'READ_STAFF', 'READ_HOLIDAY', 'BULKREASSIGN_LOAN', 'READ_SCHEDULER', 'READ_REPORT', 'READ_AUDIT'])">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li>
-              <h6 style="margin-left: 5px">Credentials</h6>
+              <a href="" ng-mouseover="configMenu='credentials'" ng-class="{'active': configMenu=='credentials'}">Credentials</a>
+              <ul class="nav nav-list collapse" ng-class="{'in': configMenu=='credentials'}" role="menu">
+                <li ng-show="hasPermission('READ_STAFF')"><a href="/#/admin/staff" >Staff</a></li>
+                <li ng-show="hasPermission('READ_USER')"><a href="/#/admin/users" >Users</a></li>
+                <li ng-show="hasPermission('READ_ROLE')"><a href="/#/admin/roles" >Roles</a></li>
+                <!--
+                <li><a href="/#/admin/permissions">Permissions</a></li>
+                -->
+                <li ng-show="hasPermission('UPDATE_USER')"><a href="/#/admin/passwords" >Reset Passwords</a></li>
+              </ul>
             </li>
-            <li ng-show="hasPermission('READ_STAFF')"><a href="/#/admin/staff" >Staff</a></li>
-            <li ng-show="hasPermission('READ_USER')"><a href="/#/admin/users" >Users</a></li>
-            <li ng-show="hasPermission('READ_ROLE')"><a href="/#/admin/roles" >Roles</a></li>
-            <!--
-            <li><a href="/#/admin/permissions">Permissions</a></li>
-            -->
-            <li ng-show="hasPermission('UPDATE_USER')"><a href="/#/admin/passwords" >Reset Passwords</a></li>
             <li role="separator" class="divider"></li>
             <li>
-              <h6 style="margin-left: 5px">Utilities</h6>
+              <a href="" ng-mouseover="configMenu='utilities'" ng-class="{'active': configMenu=='utilities'}">Utilities</a>
+              <ul class="nav nav-list collapse" ng-class="{'in': configMenu=='utilities'}" role="menu">
+                <li ng-show="hasPermission('READ_AUDIT')"><a href="/#/audit">Audit trail</a></li>
+                <li ng-show="hasPermission('READ_UINOTIFICATION')"><a href="/#/notifications/sms">Notification log</a></li>
+                <li ng-show="hasPermission('READ_SCHEDULER')"><a href="/#/jobs">Jobs Schedule</a></li>
+                <li ng-show="hasPermission('READ_BACKUP')"><a href="">Backup/Restore</a></li>
+              </ul>
             </li>
-            <li ng-show="hasPermission('READ_AUDIT')"><a href="/#/audit">Audit trail</a></li>
-            <li ng-show="hasPermission('READ_UINOTIFICATION')"><a href="/#/notifications/sms">Notification log</a></li>
-            <li ng-show="hasPermission('READ_SCHEDULER')"><a href="/#/jobs">Jobs Schedule</a></li>
-            <li ng-show="hasPermission('READ_BACKUP')"><a href="">Backup/Restore</a></li>
             <li role="separator" class="divider"></li>
             <li>
-              <h6 style="margin-left: 5px">Parameters</h6>
+              <a href="" ng-mouseover="configMenu='parameters'" ng-class="{'active': configMenu=='parameters'}">Parameters</a>
+              <ul class="nav nav-list collapse" ng-class="{'in': configMenu=='parameters'}" role="menu">
+                <li ng-show="hasPermission('READ_CODE')"><a href="/#/codes" >Codes</a></li>
+                <li ng-show="hasPermission('READ_HOLIDAY')"><a href="/#/holidays" >Holidays</a></li>
+                <li ng-show="hasPermission('READ_UIREPORT')"><a href="/#/reports" >Manage Reports</a></li>
+              </ul>
             </li>
-            <li ng-show="hasPermission('READ_CODE')"><a href="/#/codes" >Codes</a></li>
-            <li ng-show="hasPermission('READ_HOLIDAY')"><a href="/#/holidays" >Holidays</a></li>
-            <li ng-show="hasPermission('READ_UIREPORT')"><a href="/#/reports" >Manage Reports</a></li>
             <li role="separator" class="divider"></li>
             <li>
-              <h6 style="margin-left: 5px">Loans / Products</h6>
+              <a href="" ng-mouseover="configMenu='loans'" ng-class="{'active': configMenu=='loans'}">Loans / Products</a>
+              <ul class="nav nav-list collapse" ng-class="{'in': configMenu=='loans'}" role="menu">
+                <li ng-show="hasPermission('READ_UILOANPRODUCT')"><a href="/#/loanProducts">Products</a></li>
+                <li ng-show="hasPermission('BULKREASSIGN_LOAN')"><a href="/#/loan_reassignment">Loan reassignment</a></li>
+              </ul>
             </li>
-            <li ng-show="hasPermission('READ_UILOANPRODUCT')"><a href="/#/loanProducts">Products</a></li>
-            <li ng-show="hasPermission('BULKREASSIGN_LOAN')"><a href="/#/loan_reassignment">Loan reassignment</a></li>
             <li role="separator" class="divider"></li>
             <li>
-              <h6 style="margin-left: 5px">Accounts / Finance</h6>
+              <a href="" ng-mouseover="configMenu='accounts'" ng-class="{'active': configMenu=='accounts'}">Accounts / Finance</a>
+              <ul class="nav nav-list collapse" ng-class="{'in': configMenu=='accounts'}" role="menu">
+                <li ng-show="hasPermission('READ_FINANCIALYEAR')"><a href="/#/financialyears" >Financial Years</a></li>
+                <li ng-show="hasPermission('READ_CURRENCY')"><a href="/#/admin/currencies">Currencies</a></li>
+                <li ng-show="hasPermission('READ_exchange_rate')"><a href="/#/admin/exchangerates">Exchange Rates</a></li>
+              </ul>
             </li>
-            <li ng-show="hasPermission('READ_FINANCIALYEAR')"><a href="/#/financialyears" >Financial Years</a></li>
-            <li ng-show="hasPermission('READ_CURRENCY')"><a href="/#/admin/currencies">Currencies</a></li>
-            <li ng-show="hasPermission('READ_exchange_rate')"><a href="/#/admin/exchangerates">Exchange Rates</a></li>
           </ul>
         </li>
       </ul>
