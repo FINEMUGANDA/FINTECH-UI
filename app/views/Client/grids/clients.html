@@ -49,7 +49,7 @@
             </span>
           </td>
           <td>
-            <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="client.loanStatus=='ActiveInBadStanding' || client.loanStatus=='ActiveInGoodStanding' || client.loanStatus=='Written-Off' || client.loanStatus=='Closed'">
+            <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode | status}}" ng-show="client.loanStatus=='ActiveInBadStanding' || client.loanStatus=='ActiveInGoodStanding' || client.loanStatus=='Written-Off' || client.loanStatus=='Closed' || client.loanStatus=='Overpaid'">
               {{client.loanStatus}}
             </a>
             <!--
