@@ -570,19 +570,19 @@
             <table class="table table-condensed table-striped">
               <thead>
               <tr>
-                <th>Type</th>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Place</th>
+                <th class="text">Type</th>
+                <th class="text">ID</th>
+                <th class="date">Date</th>
+                <th class="text">Place</th>
                 <th>Documents</th>
               </tr>
               </thead>
               <tbody>
               <tr ng-repeat="identification in identifications">
-                <td>{{identification.documentTypeName}}</td>
-                <td>{{identification.documentKey}}</td>
-                <td>{{identification.issue_date}}</td>
-                <td>{{identification.issue_place}}</td>
+                <td class="text">{{identification.documentTypeName}}</td>
+                <td class="text">{{identification.documentKey}}</td>
+                <td class="date">{{identification.issue_date}}</td>
+                <td class="text">{{identification.issue_place}}</td>
                 <td>
                   <span class="glyphicon glyphicon-hourglass" ng-show="documentsLoading"></span>
                   <ul ng-hide="documentsLoading">
