@@ -84,7 +84,7 @@
           <!--
           <textarea id="loanPurpose" name="loanPurpose" class="form-control" ng-model="loanDetails.loanPurpose" required ></textarea>
           -->
-          <select id="loanPurpose" class="form-control" required ng-model="loanDetails.loanPurpose" ng-options="purpose.name as purpose.name for purpose in loanPurposes">
+          <select id="loanPurpose" class="form-control" required chosen="loanPurposes" ng-model="loanDetails.loanPurpose" ng-options="purpose.name as purpose.name for purpose in loanPurposes">
             <!--
             <option ng-repeat="purpose in loanPurposes" value="{{purpose.name}}">{{purpose.name}}</option>
             -->
