@@ -951,7 +951,12 @@ app.directive('onlyDigits', function() {
 app.directive('chosen', function() {
   var linker = function (scope, element, attrs) {
       var list = attrs.chosen;
+      var ngModel = attrs.ngModel;
       scope.$watch(list, function () {
+          element.trigger('liszt:updated');
+          element.trigger('chosen:updated');
+      });
+      scope.$watch(ngModel, function () {
           element.trigger('liszt:updated');
           element.trigger('chosen:updated');
       });
