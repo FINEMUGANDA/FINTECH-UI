@@ -351,12 +351,127 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
 });
 
 //Contoller for Edit Client page
-CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, $upload) {
+CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, $upload, deviceDetector) {
   console.log('CreateClientCtrl : EditClientCtrl');
   //To load the editbasicclient page
   $scope.isLoading = false;
   $scope.editClient = {};
   $scope.editClientWithDataTable = {};
+
+  $scope.html5Camera = false;
+  var _video = null;
+  $scope.patOpts = {x: 0, y: 0, w: 320, h: 240};
+
+  $scope.isDevice = _.some(deviceDetector.raw.device);
+
+  $scope.showCamera = function() {
+    if (window.hasUserMedia()) {
+      $scope.html5Camera = true;
+    } else if (!$scope.isDevice) {
+      $scope.flashCamera = true;
+      $timeout($scope.initFlashCamera);
+    }
+    $scope.onCamera = true;
+  };
+  var image = null;
+  var pos = 0;
+  var hiddenCanvas = document.createElement('canvas');
+  hiddenCanvas.width = 320;
+  hiddenCanvas.height = 240;
+  var ctx = hiddenCanvas.getContext('2d');
+  image = ctx.getImageData(0, 0, 320, 240);
+
+  $scope.initFlashCamera = function() {
+    $('#webcam').webcam({
+      swffile: '/bower_components/webcam/jscam_canvas_only.swf',
+      mode: 'callback',
+      width: 320,
+      height: 240,
+      onCapture: function() {
+        window.webcam.save();
+      },
+      onSave: function(data) {
+        var col = data.split(';');
+        var img = image;
+        for (var i = 0; i < 320; i++) {
+          var tmp = parseInt(col[i]);
+          img.data[pos + 0] = (tmp >> 16) & 0xff;
+          img.data[pos + 1] = (tmp >> 8) & 0xff;
+          img.data[pos + 2] = tmp & 0xff;
+          img.data[pos + 3] = 0xff;
+          pos += 4;
+        }
+
+        if (pos >= 4 * 320 * 240) {
+          ctx.putImageData(img, 0, 0);
+          pos = 0;
+        }
+      }
+    });
+  };
+  $scope.hideCamera = function() {
+    $scope.html5Camera = false;
+    $scope.flashCamera = false;
+    $scope.onCamera = false;
+  };
+
+  $scope.onError = function(err) {
+    console.log('error');
+    $scope.$apply(
+        function() {
+          $scope.webcamError = err;
+        }
+    );
+  };
+
+  $scope.onSuccess = function(videoElem) {
+    console.log('In takeSnap');
+    // The video element contains the captured camera data
+    _video = videoElem;
+  };
+
+  $scope.uploadWebcam = function() {
+    if ($scope.cameraFile && $scope.cameraFile.length) {
+      CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/images', $scope.cameraFile);
+    }
+  };
+
+  //Take snap-shot
+  $scope.takeSnap = function() {
+    console.log('In takeSnap');
+    if ($scope.flashCamera) {
+      window.webcam.capture();
+      $scope.cameraImage = hiddenCanvas.toDataURL();
+      $('.thumbnail.rows:first').find('img').attr('src', $scope.cameraImage);
+      $scope.hideCamera();
+      $scope.uploadWebcam();
+    } else {
+      _video = $('video')[0];
+      var getVideoData = function getVideoData(x, y, w, h) {
+        var hiddenCanvas = document.createElement('canvas');
+        hiddenCanvas.width = 320;
+        hiddenCanvas.height = 240;
+        var ctx = hiddenCanvas.getContext('2d');
+        ctx.drawImage(_video, 0, 0, 320, 240);
+        return ctx.getImageData(x, y, w, h);
+      };
+      if (_video) {
+        console.log('In _video');
+        var patCanvas = document.createElement('canvas');
+        patCanvas.width = 320;
+        patCanvas.height = 240;
+        //var patCanvas = $('.thumbnail.rows:first')[0];
+        var ctxPat = patCanvas.getContext('2d');
+        var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
+        ctxPat.putImageData(idata, 0, 0);
+        $scope.cameraFile = patCanvas.toDataURL();
+        $('.thumbnail.rows:first').find('img').attr('src', $scope.cameraFile);
+        $scope.hideCamera();
+        $scope.uploadWebcam();
+      }
+    }
+  };
+
   //For display Image
   $scope.displayImage = function(clientId) {
     var $url = REST_URL.CREATE_CLIENT + '/' + clientId + '/images';
