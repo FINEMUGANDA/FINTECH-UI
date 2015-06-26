@@ -534,7 +534,9 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
     $modalInstance.dismiss();
   };
 
-  ClientsService.getData(REST_URL.ALL_CLIENTS).then(function(result) {
+  // TODO: consider using another approach here; quick fix
+  //ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=5000&R_offset=0&R_status=%&R_search=%').then(function(result) {
+  ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
     $scope.clients = result.data;
     $scope.isLoading = false;
   });
