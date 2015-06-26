@@ -609,6 +609,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     }
   };
 
+  /** TODO: remove this; filter over all clients is performant enough
   $scope.search = function(val) {
     $scope.selectedClients = [];
 
@@ -638,6 +639,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
 
     return $scope.selectedClients;
   };
+   */
 
   $scope.load = function(/** val */) {
     $scope.isLoading = true;

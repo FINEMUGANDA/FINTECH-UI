@@ -645,6 +645,13 @@ form[name=createjournalentryForm]{
 ul.dropdown-menu > li{
   clear:left;
 }
+.search {
+  > .dropdown-menu {
+    width: 360px;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+}
 .modal-footer{
   .btn-danger{
       margin-bottom: 0;

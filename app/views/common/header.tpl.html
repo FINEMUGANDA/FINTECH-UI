@@ -114,7 +114,7 @@
                   <span class="glyphicon glyphicon-remove-circle text-danger"></span>
                 </button>
               </div>
-              <input type="text" class="search-box" ng-keypress="onKeypress($event)" ng-model="selected" ng-hide="isLoading" typeahead-loading="isLoading" typeahead="client as client.name for client in search($viewValue) | limitTo:10" typeahead-template-url="views/Client/search.match.tpl.html" typeahead-on-select="onSelect($item, $model, $label)" typeahead-focus-first="false" placeholder="Search">
+              <input type="text" class="search-box" ng-keypress="onKeypress($event)" ng-model="selected" ng-hide="isLoading" typeahead-loading="isLoading" typeahead="client as client.name for client in clients | filter: $viewValue" typeahead-template-url="views/Client/search.match.tpl.html" typeahead-on-select="onSelect($item, $model, $label)" typeahead-focus-first="false" placeholder="Search">
             </div>
           </form>
         </li>
