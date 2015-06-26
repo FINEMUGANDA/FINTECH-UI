@@ -176,7 +176,7 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
     $scope.clients = [];
 
     angular.forEach(result.data, function(client) {
-      if( (!client.loanStatus || client.loanStatus==='' || client.loanStatus==='Written-Off') && client.status==='Active') {
+      if( (!client.loanStatus || client.loanStatus==='' || client.loanStatus==='Written-Off' || client.loanStatus==='Closed') && client.status==='Active') {
         $scope.clients.push(client);
       }
     });
