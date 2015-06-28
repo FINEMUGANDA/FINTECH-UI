@@ -1028,7 +1028,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers', data).then(function(result) {
           $scope.clientIdentification.identifier_id = result.data.resourceId;
           $scope.clientIdentification.client_id = result.data.clientId;
-          $scope.saveClientIdentificationExtra();
+          $scope.saveClientIdentificationExtra(proceed);
         }, function(result) {
           $scope.showErrors(result);
         });
