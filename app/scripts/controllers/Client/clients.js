@@ -609,38 +609,6 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     }
   };
 
-  /** TODO: remove this; filter over all clients is performant enough
-  $scope.search = function(val) {
-    $scope.selectedClients = [];
-
-    if(val && val!=='') {
-      var criteria = val.split(' ');
-
-      //console.log('SEARCH: ' + angular.toJson(criteria));
-
-      for(var i=0; i<$scope.clients.length; i++) {
-        var client = $scope.clients[i];
-        for(var j=0; j<criteria.length; j++) {
-          var criterium = criteria[j];
-          //console.log('SEARCH: ' + criterium + ' - ' + check(client, 'name', criterium));
-          if(check(client, 'name', criterium) ||
-              check(client, 'middlename', criterium) ||
-              check(client, 'file_no', criterium) ||
-              check(client, 'activation_date', criterium) ||
-              check(client, 'date_of_birth', criterium) ||
-              check(client, 'mobile_no', criterium) ||
-              check(client, 'gender', criterium)) {
-            $scope.selectedClients.push(client);
-            break;
-          }
-        }
-      }
-    }
-
-    return $scope.selectedClients;
-  };
-   */
-
   $scope.load = function(/** val */) {
     $scope.isLoading = true;
     return ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
