@@ -1966,6 +1966,9 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
         $scope.message = 'Unable to finish Client saving, following forms contain errors:';
         $scope.errors = errors;
       } else {
+        $scope.type = '';
+        $scope.message = '';
+        $scope.errors = [];
         //console.log('TIMEZONE: ' + moment().tz(APPLICATION.TIMEZONE).format('DD/MM/YYYY'));
         var jsonData = {
           'locale': 'en',
@@ -1975,15 +1978,12 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
         var handleResult = function() {
           $location.url(PAGE_URL.CLIENTS);
         };
-        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData).then(handleResult, handleResult);
+        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?command=activate', jsonData).then(handleResult);
       }
     });
   };
 
   $scope.saveAndFinish = function() {
-    $scope.type = '';
-    $scope.message = '';
-    $scope.errors = [];
     $scope.validateClientBusinessActivity(function() {
       $scope.finish();
     });
