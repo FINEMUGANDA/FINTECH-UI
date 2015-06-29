@@ -161,6 +161,10 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
       $scope.message = 'Cant retrieve additional client info options' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
     });
+  } else {
+    LoanService.getData(REST_URL.CREATE_CLIENT + '/' + $route.current.params.clientId).then(function(result) {
+      $scope.loan.loanOfficerId = result.data.staffId;
+    });
   }
   $scope.datepicker = {};
 

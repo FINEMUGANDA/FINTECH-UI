@@ -22,7 +22,7 @@
       <div class="form-group">
         <label class="control-label col-md-5">Loan Officer<span class="required"> *</span></label>
         <div class="validate col-md-6">
-          <select class="form-control" required ng-model="loan.loanOfficerId" ng-options="officer.id as officer.displayName for officer in data.loanOfficerOptions" required>
+          <select class="form-control" required ng-model="loan.loanOfficerId" ng-options="officer.id as officer.displayName for officer in data.loanOfficerOptions" required disabled>
             <!--
             <option ng-repeat="officer in data.loanOfficerOptions" value="{{officer.id}}" ng-selected="officer.id == loan.loanOfficerId">{{officer.displayName}}</option>
             -->
