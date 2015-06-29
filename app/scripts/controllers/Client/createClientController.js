@@ -1056,7 +1056,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     }
 
     if ($scope.clientIdentification.extra_id) {
-      CreateClientsService.updateClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + $scope.clientIdentification.extra_id, data).then(function(result) {
+      CreateClientsService.updateClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + $scope.clientIdentification.extra_id, data).then(function() {
         if ($scope.file) {
           $scope.uploadFile(proceed);
         } else if(proceed) {

@@ -582,25 +582,6 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     $scope.clear();
     $scope.selectedClients.push($model);
     $scope.go();
-    /**
-    $scope.clear();
-
-    var path = '/editbasicclientinfo/' + $model.id;
-
-    if($location.path()===path) {
-      $route.reload();
-    } else {
-      $location.path(path);
-    }
-     */
-  };
-
-  var check = function(client, property, val) {
-    if(client && client[property]) {
-      return client[property].toLowerCase().indexOf(val.toLowerCase())>=0;
-    }
-
-    return false;
   };
 
   $scope.onKeypress = function($event) {
@@ -1325,7 +1306,6 @@ clientsCtrl.controller('LoansRejectedCtrl', function($scope, $route, $timeout, C
   $scope.pages = [];
 
   $scope.onKeyboard = function($event) {
-    console.log('DEBUG: ' + $event.keyCode)
     if($event.keyCode===37) {
       $scope.goPrevious();
     } else if($event.keyCode===30) {
