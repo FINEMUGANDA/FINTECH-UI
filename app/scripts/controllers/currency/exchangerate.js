@@ -54,7 +54,7 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
         }
         if($scope.rate.id) {
             // update
-            ExchangeRateService.updateRate(REST_URL.EXCHANGE_RATE + $scope.office.id, angular.toJson($scope.rate)).then(function() {
+            ExchangeRateService.updateRate(REST_URL.EXCHANGE_RATE +  + $scope.office.id + '/' + $scope.rate.id, angular.toJson($scope.rate)).then(function() {
                 $scope.showSuccess('Exchange rate updated');
                 $scope.reloadRates();
             }, function(result) {
