@@ -72,7 +72,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       $scope.client = result.data;
       $scope.staffOptions = $scope.client.staffOptions;
       //$scope.createClient.officeId = $scope.client.officeOptions[0].id;
-      $scope.createClient.genderId = $scope.client.genderOptions;
+      //$scope.createClient.genderId = $scope.client.genderOptions;
       //Set the default values
       //$scope.createClient.staffId = $scope.client.staffOptions[0].id;
       $scope.createClient.active = 'false';
