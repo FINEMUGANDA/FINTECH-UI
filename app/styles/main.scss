@@ -312,10 +312,13 @@ td.actions {
   &:focus{
   	border: 1px solid #BFC2B0;
   }
+}
 
-  .has-error {
-	border-bottom: 2px solid #900;
-  }
+.has-error .form-control {
+  border-top: 1px solid #BFC2B0;
+  border-left: 1px solid #BFC2B0;
+  border-right: 1px solid #BFC2B0;
+  border-bottom: 2px solid #900;
 }
 
 .dropdown-menu .divider {
