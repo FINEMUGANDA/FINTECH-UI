@@ -49,7 +49,7 @@
             </span>
           </td>
           <td>
-            <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode | status}}" ng-show="client.loanStatus=='ActiveInBadStanding' || client.loanStatus=='ActiveInGoodStanding' || client.loanStatus=='Written-Off' || client.loanStatus=='Closed' || client.loanStatus=='Overpaid'">
+            <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode | status}}" ng-show="client.loanStatus=='ActiveInBadStanding' || client.loanStatus=='ActiveInGoodStanding' || client.loanStatus=='Written-Off' || client.loanStatus.indexOf('Closed')!=-1 || client.loanStatus=='Overpaid'">
               {{client.loanStatus}}
             </a>
             <!--
@@ -66,7 +66,7 @@
             <a href="#/loans/view/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="(!client.collaterals || !client.guarantors) && client.loanStatus=='Submitted and awaiting approval'">
               Pending
             </a>
-            <a href="#/loans/view/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors && client.loanStatus=='Submitted and awaiting approval') || client.loanStatus=='Withdrawn by client' || client.loanStatus=='Awaiting Disbursement' || client.loanStatus=='Closed:Written-Off'">
+            <a href="#/loans/view/{{client.loanId}}" class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors && client.loanStatus=='Submitted and awaiting approval') || client.loanStatus=='Withdrawn by client' || client.loanStatus=='Awaiting Disbursement'">
               {{client.loanStatus}}
             </a>
           </td>
