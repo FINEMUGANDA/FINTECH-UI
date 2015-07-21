@@ -598,23 +598,23 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   };
 
   function total_loans_info(){
-    var loadPASuccess = function(result) {
-      $rootScope.loans_PAcount = result.data.length;
-        var loadADSuccess = function(result) {
-          $rootScope.loans_ADcount = result.data.length;
-          $rootScope.loans_total =  $rootScope.loans_PAcount + $rootScope.loans_ADcount;
+        var loadPASuccess = function(result) {
+            $rootScope.loans_PAcount = result.data.length;
+            var loadADSuccess = function(result) {
+                $rootScope.loans_ADcount = result.data.length;
+                $rootScope.loans_total =  $rootScope.loans_PAcount + $rootScope.loans_ADcount;
+            };
+            var loadADFail = function() {
+                console.log('Error : erorr req.');
+            };
+            url = REST_URL.BASE + 'runreports/PageClientsScreenLoansAD?genericResultSet=false&pretty=true&tenantIdentifier=default&R_limit=10000&R_offset=0&R_search=%25';
+            RoleService.getData(url).then(loadADSuccess, loadADFail);
         };
-        var loadADFail = function() {
-          console.log('Error : erorr req.');
+        var loadPAFail = function() {
+            console.log('Error : erorr req.');
         };
-        url = REST_URL.BASE + 'runreports/PageClientsScreenLoansAD?genericResultSet=false&pretty=true&tenantIdentifier=default';
-        RoleService.getData(url).then(loadADSuccess, loadADFail);
-    };
-    var loadPAFail = function() {
-      console.log('Error : erorr req.');
-    };
-    url = REST_URL.BASE + 'runreports/PageClientsScreenLoansPA?genericResultSet=false&pretty=true&tenantIdentifier=default';
-    RoleService.getData(url).then(loadPASuccess, loadPAFail);
+        url = REST_URL.BASE + 'runreports/PageClientsScreenLoansPA?genericResultSet=false&pretty=true&tenantIdentifier=default&R_limit=10000&R_offset=0&R_search=%25';
+        RoleService.getData(url).then(loadPASuccess, loadPAFail);
   }
   if(AuthService.isAuthenticated()) {
     total_loans_info();
