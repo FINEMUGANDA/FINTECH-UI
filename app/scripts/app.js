@@ -540,6 +540,11 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
                     $rootScope.currentMenuPath = 'home';
                     break;
                 case PAGE_URL.VIEW_REPORTS:
+                case PAGE_URL.VIEW_REPORTS_ALL:
+                case PAGE_URL.VIEW_REPORTS_CLIENTS:
+                case PAGE_URL.VIEW_REPORTS_ACCOUNTING:
+                case PAGE_URL.VIEW_REPORTS_LOANS:
+                case PAGE_URL.VIEW_REPORTS_MIS:
                 case PAGE_URL.RUN_REPORTS:
                     $rootScope.currentMenuPath = 'report';
                     break;
