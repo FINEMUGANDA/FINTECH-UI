@@ -105,10 +105,13 @@ app.constant('PAGE_URL', {
     'LOANSAWAITINGDISBURSEMENT': '/loansAwaitingDisbursement',
     'LOANSPENDINGAPPROVAL': '/loansPendingApproval',
     'LOANSREJECTED': '/loansRejected',
+    'LOANSCLOSED': '/loansClosed',
     'LOANSWRITTENOFF': '/loansWrittenOff',
     'LOANPRODUCTS': '/loanProducts',
     'CHARGES': '/charges',
     'ACCOUNTING': '/accounting',
+    'ACCOUNTINGCHART': '/accounting/chart',
+    'ACCOUNTINGCREATE': '/accounting/create',
     'CREATELOANPRODUCT':'/createloanproduct',
     'CREATECHARGE':'/createCharge',
     'EDITLOANPRODUCT':'/editloanproduct',
@@ -121,15 +124,31 @@ app.constant('PAGE_URL', {
     'EDIT_CLIENT_NEXT_OF_KEEN':'/editnextofkeen',
     'EDIT_CLIENT_BUSINESS_DETAILS':'/editbusinessdetails',
     'JOURNALENTRIES':'/journalentries',
+    'JOURNALENTRIES_CREATE':'/journalentries/create',
     'JOURNALENTRIES_DETAILS':'/journalentries/details',
     ADMIN :'/admin',
+    STAFF :'/admin/staff',
+    STAFF_VIEW :'/admin/view_staff',
+    STAFF_EDIT :'/admin/edit_staff',
+    USERS :'/admin/users',
+    ROLES :'/admin/roles',
+    ROLES_EDIT :'/admin/edit_role',
+    PASSWORDS :'/admin/passwords',
     CODES:'/codes',
     FINANCIALYEARS:'/financialyears',
+    CURRENCIES:'/admin/currencies',
+    EXCHANGERATES:'/admin/exchangerates',
+    NOTIFICATIONS_SMS:'/notifications/sms',
+    NOTIFICATIONS_EMAIL:'/notifications/email',
     HOLIDAYS : '/holidays',
+    HOLIDAYS_CREATE : '/holidays/create_holiday',
     REPORTS : '/reports',
+    REPORTS_CREATE : '/reports/create_report',
+    LOAN_REASSIGNMENT : '/loan_reassignment',
     VIEW_REPORTS : '/vreports',
     RUN_REPORTS : '/run_reports',
     JOBS: '/jobs',
+    JOBS_DETAILS: '/jobs/details',
     AUDIT: '/audit',
     AUDIT_DETAILS : '/audit/details/' 
 });
@@ -555,10 +574,20 @@ app.constant('PERMISSION_EXPRESSIONS', {
                 },
                 extractors: {
                     min: function(expression) {
-                        return Number(/>=\s*(\d+)/g.exec(expression)[1]);
+                        var n = />=\s*(\d+)/g.exec(expression);
+                        if(n) {
+                            return Number(n[1]);
+                        } else {
+                            return null;
+                        }
                     },
                     max: function(expression) {
-                        return Number(/<=\s*(\d+)/g.exec(expression)[1]);
+                        var n = /<=\s*(\d+)/g.exec(expression);
+                        if(n) {
+                            return Number(n[1]);
+                        } else {
+                            return null;
+                        }
                     },
                     selfAssign: function(expression) {
                         return expression===null || expression===undefined || /resource\.loan_officer_id!=appUser\.getStaffId\(\)/g.exec(expression)!==null;
