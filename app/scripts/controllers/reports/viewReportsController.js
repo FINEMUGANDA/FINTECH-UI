@@ -32,6 +32,8 @@ angular.module('angularjsApp').controller('ViewReportsController', function($loc
     url += 'FullReportList?parameterType=true';
   } else if ($routeParams.type === 'clients') {
     url += 'reportCategoryList?R_reportCategory=Client&parameterType=true';
+  } else if ($routeParams.type === 'mis') {
+    url += 'reportCategoryList?R_reportCategory=MIS&parameterType=true';
   } else if ($routeParams.type === 'loans') {
     url += 'reportCategoryList?R_reportCategory=Loan&parameterType=true';
   } else if ($routeParams.type === 'savings') {
