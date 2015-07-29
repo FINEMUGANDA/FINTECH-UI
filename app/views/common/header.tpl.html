@@ -19,9 +19,9 @@
     </div>
     <div class="main-nav nav-collapse" id="main-navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/#/dashboard" class="home">Home</a></li>
-        <li ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients" class="clients">Clients</a></li>
-        <li ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])" class="dropdown">
+        <li ng-class="{'active': currentMenuPath=='home'}"><a href="/#/dashboard" class="home">Home</a></li>
+        <li ng-class="{'active': currentMenuPath=='client'}" ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients" class="clients">Clients</a></li>
+        <li ng-class="{'active': currentMenuPath=='report'}" ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])" class="dropdown">
           <a class="reports dropdown-toggle pointer" data-toggle="dropdown">Reports<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])"><a href="/#/vreports/all"> All</a></li>
@@ -31,7 +31,7 @@
             <!-- <li><a href="/#/vreports/xbrl"> XBRL</a></li> -->
           </ul>
         </li>
-        <li class="dropdown">
+        <li ng-class="{'active': currentMenuPath=='accounting'}" class="dropdown">
           <a class="accounting dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_JOURNALENTRY', 'READ_GLACCOUNT'])">Accounting<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li ng-show="hasPermission('READ_GLACCOUNT')"><a href="/#/accounting/chart">Chart of Accounts</a></li>
@@ -43,7 +43,7 @@
         <li>{{userPermissions()}}</li>
         <li>{{reportPermissions()}}</li>
         -->
-        <li class="dropdown" >
+        <li ng-class="{'active': currentMenuPath=='configuration'}" class="dropdown">
           <a class="configuration dropdown-toggle pointer" data-toggle="dropdown" ng-show="hasAnyPermission(['READ_UILOANPRODUCT', 'READ_ROLE', 'READ_USER', 'READ_STAFF', 'READ_HOLIDAY', 'BULKREASSIGN_LOAN', 'READ_SCHEDULER', 'READ_REPORT', 'READ_AUDIT'])">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li>

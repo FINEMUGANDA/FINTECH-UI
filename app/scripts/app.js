@@ -533,7 +533,83 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
 
     $rootScope.$on('$locationChangeStart',function(event, next /**, current */) {
-        // brute force
+        if(next) {
+            var path = next.substr(next.indexOf('#')+1);
+            switch (path) {
+                case PAGE_URL.DASHBOARD:
+                    $rootScope.currentMenuPath = 'home';
+                    break;
+                case PAGE_URL.VIEW_REPORTS:
+                case PAGE_URL.RUN_REPORTS:
+                    $rootScope.currentMenuPath = 'report';
+                    break;
+                case PAGE_URL.CLIENTS:
+                case PAGE_URL.LOANS:
+                case PAGE_URL.LOANSAWAITINGDISBURSEMENT:
+                case PAGE_URL.LOANSPENDINGAPPROVAL:
+                case PAGE_URL.LOANSCLOSED:
+                case PAGE_URL.LOANSREJECTED:
+                case PAGE_URL.LOANSWRITTENOFF:
+                case PAGE_URL.CREATE_CLIENT:
+                case PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION:
+                case PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO:
+                case PAGE_URL.EDIT_CLIENT_IDENTIFICATION:
+                case PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN:
+                case PAGE_URL.EDIT_CLIENT_BUSINESS_DETAILS:
+                    $rootScope.currentMenuPath = 'client';
+                    break;
+                case PAGE_URL.LOANPRODUCTS:
+                case PAGE_URL.CHARGES:
+                case PAGE_URL.CREATELOANPRODUCT:
+                case PAGE_URL.CREATECHARGE:
+                case PAGE_URL.EDITLOANPRODUCT:
+                case PAGE_URL.EDITCHARGE:
+                case PAGE_URL.MAPACCOUNTING:
+                case PAGE_URL.ADMIN:
+                case PAGE_URL.HOLIDAYS:
+                case PAGE_URL.HOLIDAYS_CREATE:
+                case PAGE_URL.STAFF:
+                case PAGE_URL.USERS:
+                case PAGE_URL.ROLES:
+                case PAGE_URL.PASSWORDS:
+                case PAGE_URL.REPORTS:
+                case PAGE_URL.REPORTS_CREATE:
+                case PAGE_URL.JOBS:
+                case PAGE_URL.CODES:
+                case PAGE_URL.FINANCIALYEARS:
+                case PAGE_URL.CURRENCIES:
+                case PAGE_URL.EXCHANGERATES:
+                case PAGE_URL.AUDIT:
+                case PAGE_URL.LOAN_REASSIGNMENT:
+                case PAGE_URL.NOTIFICATIONS_SMS:
+                case PAGE_URL.NOTIFICATIONS_EMAIL:
+                    $rootScope.currentMenuPath = 'configuration';
+                    break;
+                case PAGE_URL.ACCOUNTING:
+                case PAGE_URL.ACCOUNTINGCHART:
+                case PAGE_URL.ACCOUNTINGCREATE:
+                case PAGE_URL.JOURNALENTRIES:
+                case PAGE_URL.JOURNALENTRIES_CREATE:
+                case PAGE_URL.JOURNALENTRIES_DETAILS:
+                    $rootScope.currentMenuPath = 'accounting';
+                    break;
+                default:
+                    if(path.indexOf(PAGE_URL.ROLES_EDIT) > -1 ||
+                        path.indexOf(PAGE_URL.AUDIT_DETAILS) > -1 ||
+                        path.indexOf(PAGE_URL.JOBS_DETAILS) > -1 ||
+                        path.indexOf(PAGE_URL.STAFF_VIEW) > -1 ||
+                        path.indexOf(PAGE_URL.STAFF_EDIT) > -1) {
+                        $rootScope.currentMenuPath = 'configuration';
+                    } else {
+                        $rootScope.currentMenuPath = '';
+                    }
+            }
+        } else {
+            $rootScope.currentMenuPath = '';
+        }
+
+        console.log('DEBUG (nav): ' + $rootScope.currentMenuPath);
+
         $rootScope.username = Session.getValue('username');
 
         if(next) {
@@ -586,12 +662,6 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   $('html').click(function (){
     $('#loans_info_wrapper').hide();
   });
-
-  $rootScope.page = {
-    setHclass: function(hclass) {
-      this.hclass = hclass;
-    }
-  };
 
   $rootScope.loans_info_show = function(){
     $('#loans_info_wrapper').css($('#loans_info_button').offset()).toggle();
@@ -672,76 +742,17 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
     return cols;
   };
 
+  // TODO: what is this doing?!?!
+  $rootScope.page = {
+      setHclass: function(hclass) {
+          this.hclass = hclass;
+      }
+  };
+
   $rootScope.$on('$routeChangeSuccess', function(event, current) {
       if(current.$$route) {
           $rootScope.page.setHclass(current.$$route.hclass);
       }
-  });
-
-  //To update after view reloaded
-  $rootScope.$on('$includeContentLoaded', function() {
-    console.log('includeContentLoaded: includeContentLoaded success!');
-    //get top navigation menu
-    var $topNavigation = angular.element('#main-navbar-collapse .nav.navbar-nav:first');
-    //find all li tags (menus) from top UL
-    var $liEle = $topNavigation.find('li');
-    //check length
-    if ($liEle.length > 0) {
-      //travers to each menu item to remove selected menu class
-      $liEle.each(function() {
-        var $li = $(this);
-        $li.removeClass('active');
-      });
-    }
-    var SPLIT_LOCATION_PATH = $location.path().split('/');
-    var LOCATION_PATH = '/' + SPLIT_LOCATION_PATH[1];
-    //add active /selection class for open view menu item
-    switch (LOCATION_PATH) {
-      case PAGE_URL.DASHBOARD:
-        $topNavigation.find('.home').parent().addClass('active');
-        break;
-      case PAGE_URL.VIEW_REPORTS:
-      case PAGE_URL.RUN_REPORTS:
-        $topNavigation.find('.reports').parent().addClass('active');
-        break;
-      case PAGE_URL.CLIENTS:
-      case PAGE_URL.LOANS:
-      case PAGE_URL.LOANSAWAITINGDISBURSEMENT:
-      case PAGE_URL.LOANSPENDINGAPPROVAL:
-      case PAGE_URL.LOANSREJECTED:
-      case PAGE_URL.LOANSWRITTENOFF:
-      case PAGE_URL.CREATE_CLIENT:
-      case PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION:
-      case PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO:
-      case PAGE_URL.EDIT_CLIENT_IDENTIFICATION:
-      case PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN:
-      case PAGE_URL.EDIT_CLIENT_BUSINESS_DETAILS:
-        $topNavigation.find('.clients').parent().addClass('active');
-        break;
-      case PAGE_URL.CONFIGURATION:
-      case PAGE_URL.LOANPRODUCTS:
-      case PAGE_URL.CHARGES:
-      case PAGE_URL.CREATELOANPRODUCT:
-      case PAGE_URL.CREATECHARGE:
-      case PAGE_URL.EDITLOANPRODUCT:
-      case PAGE_URL.EDITCHARGE:
-      case PAGE_URL.MAPACCOUNTING:
-      case PAGE_URL.ADMIN:
-      case PAGE_URL.HOLIDAYS:
-      case PAGE_URL.REPORTS:
-      case PAGE_URL.JOBS:
-      case PAGE_URL.CODES:
-      case PAGE_URL.FINANCIALYEARS:
-      case PAGE_URL.AUDIT:
-        $topNavigation.find('.configuration').parent().addClass('active');
-        break;
-      case PAGE_URL.ACCOUNTING:
-      case PAGE_URL.JOURNALENTRIES:
-        $topNavigation.find('.accounting').parent().addClass('active');
-        break;
-      default:
-        $topNavigation.find('.home').parent().addClass('active');
-    }
   });
 
   $rootScope.$on('$stateChangeStart', function(event, next) {
