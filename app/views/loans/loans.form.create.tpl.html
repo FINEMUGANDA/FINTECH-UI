@@ -96,13 +96,6 @@
 
     <div class="col-md-6" ng-show="showDetails">
       <div class="form-group">
-        <label class="control-label col-md-5">Submitted on<span class="required"> *</span></label>
-        <div class="validate col-md-6">
-          <input id="date_of_birth" name="date_of_birth" class="form-control" type="text" ng-model="loan.submittedOnDate" datepicker-popup="dd/MM/yyyy" is-open="datepicker.submittedOnDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event, 'submittedOnDate')" readonly="true" />
-          <!--<input id="principal" name="principal" class="form-control" type="text" ng-model="loan.principal" required />-->
-        </div>
-      </div>
-      <div class="form-group">
         <label class="control-label col-md-5">Expected Disbursement</label>
         <div class="validate col-md-6">
           <input name="expectedDisbursementDate" class="form-control" type="text" ng-model="loan.expectedDisbursementDate" datepicker-popup="dd/MM/yyyy" is-open="datepicker.expectedDisbursementDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event, 'expectedDisbursementDate')" readonly="true" />
@@ -156,6 +149,13 @@
             -->
             <option value="">-- Select --</option>
           </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-5">Submitted on<span class="required"> *</span></label>
+        <div class="validate col-md-6">
+          <input id="date_of_birth" name="date_of_birth" class="form-control" type="text" ng-model="loan.submittedOnDate" datepicker-popup="dd/MM/yyyy" is-open="datepicker.submittedOnDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event, 'submittedOnDate')" readonly="true" />
+          <!--<input id="principal" name="principal" class="form-control" type="text" ng-model="loan.principal" required />-->
         </div>
       </div>
 <!--      <div class="form-group">
