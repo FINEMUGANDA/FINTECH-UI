@@ -605,6 +605,12 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
                         path.indexOf(PAGE_URL.STAFF_VIEW) > -1 ||
                         path.indexOf(PAGE_URL.STAFF_EDIT) > -1) {
                         $rootScope.currentMenuPath = 'configuration';
+                    } else if(path.indexOf(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION) > -1 ||
+                        path.indexOf(PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO) > -1 ||
+                        path.indexOf(PAGE_URL.EDIT_CLIENT_IDENTIFICATION) > -1 ||
+                        path.indexOf(PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN) > -1 ||
+                        path.indexOf(PAGE_URL.EDIT_CLIENT_BUSINESS_DETAILS) > -1) {
+                        $rootScope.currentMenuPath = 'client';
                     } else {
                         $rootScope.currentMenuPath = '';
                     }
