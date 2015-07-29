@@ -191,7 +191,7 @@
           <tr ng-repeat="loan in loans">
             <td>{{loan.loanProductName}}</td>
             <td>{{loan.status.value}}</td>
-            <td>{{loan.principal}} {{loan.currency.code}}</td>
+            <td>{{loan.principal | number:2}} {{loan.currency.code}}</td>
             <td>{{loan.timeline.submittedOnDate}}</td>
             <td>{{loan.loanOfficerName}}</td>
             <td class="text-right">
