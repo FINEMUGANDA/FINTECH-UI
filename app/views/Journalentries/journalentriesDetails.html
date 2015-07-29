@@ -44,14 +44,14 @@
               <div class="col-xs-3"> {{officeName}}</div>
               <div class="col-xs-1"></div>              
               <div class="col-xs-2"> Transaction date</div>
-              <div class="col-xs-3"> {{transactionDate}}</div>              
+              <div class="col-xs-3"> {{transactionDate | DateFormat}}</div>
             </div>            
             <div class="form-group col-xs-12">
               <div class="col-xs-2"> Created by</div>
               <div class="col-xs-3"> {{createdByUserName}}</div>
               <div class="col-xs-1"></div>              
               <div class="col-xs-2"> Created on</div>
-              <div class="col-xs-3"> {{createdDate}}</div>
+              <div class="col-xs-3"> {{createdDate | DateFormat}}</div>
             </div>
           </th>
         </tr>
@@ -73,12 +73,12 @@
           <td>{{journal.glAccountName}}</td>          
           <td class="number">
             <div ng-if="journal.entryType.value == 'DEBIT'">
-              {{journal.amount}}
+              {{journal.amount | number:2}}
             </div>
           </td>
           <td class="number">
             <div ng-if="journal.entryType.value == 'CREDIT'">
-              {{journal.amount}}
+              {{journal.amount | number:2}}
             </div>
           </td>
           <td>
