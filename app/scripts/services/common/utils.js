@@ -229,7 +229,7 @@ utils.factory('Base64', function() {
 
 utils.filter('DateFormat', ['dateFilter', function(dateFilter) {
     return function(input, format) {
-      format = format || 'dd MMM yyyy';
+      format = format || 'dd/MM/yyyy';
       if (input) {
         var tDate = new Date(input);
         return dateFilter(tDate, format);
