@@ -267,7 +267,7 @@
                   <dl class="dl-horizontal">
                     <dt>Date Of Birth:</dt>
                     <dd>
-                      {{client.dateOfBirth}}
+                      {{client.dateOfBirth | date: 'dd/MM/yyyy'}}
                     </dd>
                   </dl>
                 </div>
@@ -508,7 +508,7 @@
                 <dl class="dl-horizontal">
                   <dt>Known since:</dt>
                   <dd>
-                    {{additional.knownToIntroducerSince}}
+                    {{additional.knownToIntroducerSince | date: 'dd/MM/yyyy'}}
                   </dd>
                 </dl>
               </div>
@@ -528,7 +528,7 @@
                 <dl class="dl-horizontal">
                   <dt>Visiting date:</dt>
                   <dd>
-                    {{additional.visitingDate}}
+                    {{additional.visitingDate | date: 'dd/MM/yyyy'}}
                   </dd>
                 </dl>
               </div>
@@ -561,7 +561,7 @@
               <tr ng-repeat="identification in identifications">
                 <td class="text">{{identification.documentTypeName}}</td>
                 <td class="text">{{identification.documentKey}}</td>
-                <td class="date">{{identification.issue_date}}</td>
+                <td class="date">{{identification.issue_date | date: 'dd/MM/yyyy'}}</td>
                 <td class="text">{{identification.issue_place}}</td>
                 <td>
                   <span class="glyphicon glyphicon-hourglass" ng-show="documentsLoading"></span>
@@ -619,7 +619,7 @@
                 <td class="text">{{nextOfKeen.middlename}}</td>
                 <td class="text">{{nextOfKeen.lastname}}</td>
                 <td class="text">{{nextOfKeen.GuarantorRelationship_cd_relationship}}</td>
-                <td class="date">{{nextOfKeen.date_of_birth}}</td>
+                <td class="date">{{nextOfKeen.date_of_birth | date: 'dd/MM/yyyy'}}</td>
                 <td class="number">{{nextOfKeen.telephone}}</td>
                 <td class="number">{{nextOfKeen.second_telephone}}</td>
               </tr>
@@ -655,7 +655,7 @@
                 <td class="text">{{businessActivity.BusinessActivity_cd_business_activity}}</td>
                 <td class="text">{{businessActivity.business_name}}</td>
                 <td class="text">{{businessActivity.business_address}}</td>
-                <td class="date">{{businessActivity.operating_since}}</td>
+                <td class="date">{{businessActivity.operating_since | date: 'dd/MM/yyyy'}}</td>
                 <td class="date">{{businessActivity.YesNo_cd_book_keeping}}</td>
                 <td class="number">{{businessActivity.BusinessActivity_cd_other_income_business_activity}}</td>
               </tr>
@@ -690,11 +690,11 @@
               <tbody>
               <tr ng-repeat="note in notes">
                 <td class="text">{{note.notes}}</td>
-                <td class="number"{{note.phone}}</td>
+                <td class="number">{{note.phone}}</td>
                 <td class="date">{{note.called_at}}</td>
                 <td class="text">{{note.staff_username}}</td>
-                <td class="date">{{note.visited_at}}</td>
-                <td class="date">{{note.created_at}}</td>
+                <td class="date">{{note.visited_at | date: 'dd/MM/yyyy'}}</td>
+                <td class="date">{{note.created_at | date: 'dd/MM/yyyy'}}</td>
                 <td class="text">{{note.NoteSource_cd_source}}</td>
               </tr>
               </tbody>
