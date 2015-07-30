@@ -578,6 +578,13 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     $scope.selectedClients = [];
   };
 
+  $scope.searchFilter = function( criteria ) {
+    criteria = criteria.toLowerCase();
+    return function( item ) {
+      return item.name.toLowerCase().indexOf(criteria)>-1 || item.file_no.toLowerCase().indexOf(criteria) > -1;
+    };
+  };
+
   $scope.onSelect = function ($item, $model /** , $label */) {
     $scope.clear();
     $scope.selectedClients.push($model);
