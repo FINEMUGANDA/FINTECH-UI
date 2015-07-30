@@ -40,7 +40,7 @@
       </thead>
       <tbody ng-hide="isLoading">
         <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
-          <td ng-click="viewDetail(journal)">{{journal.createdOn | DateFormat}}</td>
+          <td ng-click="viewDetail(journal)">{{journal.createdOn}}</td>
           <td ng-click="viewDetail(journal)">{{journal.description}}</td>
           <td ng-click="viewDetail(journal)">{{journal.entry_date[2]+'/'+journal.entry_date[1]+'/'+ journal.entry_date[0]}}</td>
           <!--<td ng-click="viewDetail(journal)">{{journal.office_name}}</td>-->
