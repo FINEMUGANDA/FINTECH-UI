@@ -402,7 +402,7 @@ GraphUtils.factory('Graph', function() {
         'data': data,
         'options': {
           'colors': ['#88cac6', '#e28b00'],
-          'pieHole': 0.3,
+          'pieHole': 0.15,
           'isStacked': 'true',
           'fill': 20,
           'displayExactValues': true,
