@@ -40,6 +40,26 @@
             <div class="row">
               <div class="col-md-12">
                 <dl class="dl-horizontal">
+                  <dt>File Number:</dt>
+                  <dd>
+                    {{client.externalId}}
+                  </dd>
+                </dl>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  <dt>Full Name:</dt>
+                  <dd>
+                    {{client.displayName}}
+                  </dd>
+                </dl>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
                   <dt>Activation date:</dt>
                   <dd>
                     {{client.activationDate}}
@@ -245,26 +265,6 @@
               <div class="row">
                 <div class="col-md-12">
                   <dl class="dl-horizontal">
-                    <dt>File Number:</dt>
-                    <dd>
-                      {{client.externalId}}
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt>Full Name:</dt>
-                    <dd>
-                      {{client.displayName}}
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
                     <dt>Date Of Birth:</dt>
                     <dd>
                       {{client.dateOfBirth | date: 'dd/MM/yyyy'}}
@@ -292,18 +292,6 @@
                   </dl>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="row" ng-show="extra.MaritalStatus_cd_maritalStatus == 55">
-                <div class="col-md-12">
-                  <dl class="dl-horizontal">
-                    <dt>Name Of Spouse:</dt>
-                    <dd>
-                      {{extra.nameOfSpouse}}
-                    </dd>
-                  </dl>
-                </div>
-              </div>
               <div class="row">
                 <div class="col-md-12">
                   <dl class="dl-horizontal">
@@ -320,6 +308,18 @@
                     <dt>Loan dependants:</dt>
                     <dd>
                       {{extra.numberOfLoanDependents}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row" ng-show="extra.MaritalStatus_cd_maritalStatus == 55">
+                <div class="col-md-12">
+                  <dl class="dl-horizontal">
+                    <dt>Name Of Spouse:</dt>
+                    <dd>
+                      {{extra.nameOfSpouse}}
                     </dd>
                   </dl>
                 </div>
