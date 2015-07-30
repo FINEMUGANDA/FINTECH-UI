@@ -199,8 +199,8 @@
         <table class="table table-condensed table-striped">
           <thead>
           <tr>
-            <th>Product</th>
-            <th>Status</th>
+            <th style="text-align: left">Product</th>
+            <th style="text-align: left">Status</th>
             <th>Principal</th>
             <th>Date</th>
             <th>Officer</th>
@@ -210,7 +210,7 @@
           <tbody>
           <tr ng-repeat="loan in loans">
             <td>{{loan.loanProductName}}</td>
-            <td>{{loan.status.value}}</td>
+            <td style="text-align: left">{{loan.status.value}}</td>
             <td>{{loan.principal | number:2}} {{loan.currency.code}}</td>
             <td>{{loan.timeline.submittedOnDate}}</td>
             <td>{{loan.loanOfficerName}}</td>
