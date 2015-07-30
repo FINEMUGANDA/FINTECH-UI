@@ -675,7 +675,9 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   });
 
   $rootScope.loans_info_show = function(){
-    $('#loans_info_wrapper').css($('#loans_info_button').offset()).toggle();
+    var offset = $('#loans_info_button').offset();
+    offset.top = offset.top + 100;
+    $('#loans_info_wrapper').css(offset).toggle();
   };
 
   function total_loans_info(){
