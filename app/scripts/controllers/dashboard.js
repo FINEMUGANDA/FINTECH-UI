@@ -278,6 +278,26 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     //console.log('DashboardCtrl : getChangesLoanPortfolio');
     var data = {};
     data.maxValue = 20;
+    var options = {
+      colors: ['#88cac6', '#e28b00', '#449acc'],
+      isStacked: 'false',
+      fill: 20,
+      displayExactValues: true,
+      legend: {
+        position: 'top',
+        maxLines: 3
+      },
+      vAxis: {
+        gridlines: {
+          count: 6
+        },
+        minValue: 0,
+        maxValue: data.maxValue
+      },
+      hAxis: {
+      }
+    };
+
     data.cols = [
       {
         'id': 'name',
@@ -324,7 +344,7 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
         };
         data.rows.push(temp);
       }
-      $scope.ChangesLoanPortfolio = Graph.getColumnChart(data);
+      $scope.ChangesLoanPortfolio = Graph.getColumnChart(data, options);
     };
     // failur callback
     var ChangesLoanPortfolioFail = function(){

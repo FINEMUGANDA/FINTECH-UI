@@ -118,7 +118,7 @@ GraphUtils.factory('Graph', function() {
   };
 
   return {
-    getColumnChart: function(chartData) {
+    getColumnChart: function(chartData, options) {
       var data;
       if (chartData === 'changesInLoanPortfolio') {
         data = changesInLoanPortfolio();
@@ -126,28 +126,32 @@ GraphUtils.factory('Graph', function() {
         data = chartData;
       }
 
+      var defaultOptions = {
+        colors: ['#88cac6', '#e28b00', '#449acc'],
+        isStacked: 'false',
+        fill: 20,
+        displayExactValues: true,
+        legend: {
+          position: 'none'
+        },
+        vAxis: {
+          gridlines: {
+            count: 6
+          },
+          minValue: 0,
+          maxValue: data.maxValue
+        },
+        hAxis: {
+        }
+      };
+
+      options = options || defaultOptions;
+
       return {
         'type': 'ColumnChart',
         'cssStyle': 'height:180px; width:100%;',
         'data': data,
-        'options': {
-          'colors': ['#88cac6', '#e28b00', '#449acc'],
-          'isStacked': 'false',
-          'fill': 20,
-          'displayExactValues': true,
-          'legend': {
-            'position': 'none'
-          },
-          'vAxis': {
-            'gridlines': {
-              'count': 6
-            },
-            'minValue': 0,
-            'maxValue': data.maxValue
-          },
-          'hAxis': {
-          }
-        },
+        'options': options,
         'formatters': {
         },
         'displayed': true
