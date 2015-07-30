@@ -30,7 +30,12 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
       $scope.clients = [];
       var loadOfficesSuccess = function(result) {
         $scope.fromLoanOfficeshow = true;
-        $scope.from_officers = result.data.loanOfficerOptions;
+        $scope.from_officers = [];
+        angular.forEach(result.data.loanOfficerOptions, function(officer) {
+          if(officer.isLoanOfficer) {
+            $scope.from_officers.push(officer);
+          }
+        });
       };
       var loadOfficesFail = function() {
         console.log('Error.');
@@ -46,7 +51,7 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
         $scope.toLoanOfficeshow = true;
         $scope.to_officers = result.data.loanOfficerOptions;
         for (var i = 0; i < $scope.to_officers.length; i++) {
-          if ($scope.to_officers[i].id === result.data.fromLoanOfficerId) {
+          if (!$scope.to_officers[i].isLoanOfficer || $scope.to_officers[i].id === result.data.fromLoanOfficerId) {
             $scope.to_officers.splice(i, 1);
             break;
           }
