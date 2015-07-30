@@ -185,6 +185,17 @@ div.shortcuts > ul > li > a{
 
 
 //SUMMARY
+.summary-client .horizontal dt {
+  width: 190px;
+}
+.dl-horizontal {
+  @media (min-width: $grid-float-breakpoint) {
+    dt {
+      width: 195px;
+      padding-right: 5px;
+    }
+  }
+}
 
 .summary {
   margin: $grid-gutter-width/2 0;
