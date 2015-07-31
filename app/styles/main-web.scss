@@ -426,6 +426,10 @@ div.summary > div > ul {
     font-size:12px;
     float: right;
 
+    strong {
+        float: right;
+    }
+
     .link {
       font-weight:200 !important;
       display:inline-block;
