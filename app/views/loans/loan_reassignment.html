@@ -67,6 +67,7 @@
         </div>
         <div>
           <ul class="list-unstyled">
+            <li ng-show="clients.length > 0"><input type="checkbox" ng-click="toggleAllClients()"> Select all</li>
             <li ng-repeat="client in clients"><strong>{{client.displayName}}</strong>
               <ul class="list-unstyled">
                 <li ng-repeat="loan in client.loans">

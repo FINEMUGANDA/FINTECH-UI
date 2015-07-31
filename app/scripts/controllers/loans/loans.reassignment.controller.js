@@ -6,7 +6,7 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
   function($scope, APPLICATION, REST_URL, RoleService) {
 
     var url = '';
-    $scope.formData = {};
+    $scope.formData = {loans: {}};
 
     $scope.open = function($event) {
       $event.preventDefault();
@@ -42,6 +42,14 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
       };
       url = REST_URL.BASE + 'loans/loanreassignment/template?officeId=' + $scope.formData.officeId;
       RoleService.getData(url).then(loadOfficesSuccess, loadOfficesFail);
+    };
+
+    $scope.toggleAllClients = function() {
+      angular.forEach($scope.clients, function(client) {
+        angular.forEach(client.loans, function(loan) {
+          $scope.formData.loans[loan.id] = !$scope.formData.loans[loan.id];
+        });
+      });
     };
 
     $scope.getToOfficer = function() {
