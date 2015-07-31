@@ -424,6 +424,7 @@ div.summary > div > ul {
   .export {
     font-weight: 500;
     font-size:12px;
+    float: right;
 
     .link {
       font-weight:200 !important;
@@ -442,7 +443,7 @@ div.summary > div > ul {
     }
   }
   .paginate ul {
-    float:right;
+    float: left;
     margin: 0 !important;
 
     li > a {
