@@ -3,7 +3,7 @@
 'use strict';
 
 
-angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, DataTransferService, $timeout, $scope, dialogs) {
+angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, DataTransferService, $timeout, $scope, dialogs, Utility) {
   console.log('LoansDetailsCtrl');
   $scope.clientId = $route.current.params.clientId;
   $scope.loanId = $route.current.params.loanId;
@@ -60,7 +60,15 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     cb = cb || angular.noop;
     $scope.isLoading = true;
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
-      $scope.loanDetails = result.data;
+      $scope.loanDetails = result.data; 
+      _.map($scope.loanDetails.repaymentSchedule.periods, function(period) {
+          if(period.obligationsMetOnDate && period.dueDate) {
+              period._daysLate = moment(period.obligationsMetOnDate).diff(period.dueDate, 'days');
+          } else {
+              period._daysLate = 0;
+          }
+          return period;
+      });
       LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
         if (result && result.data && result.data.length) {
           _.extend($scope.loanDetails, result.data[0]);

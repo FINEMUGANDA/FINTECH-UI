@@ -9,7 +9,7 @@
     </tr>
     <tr>
       <td>#</td>
-      <td>Days</td>
+      <td>Days Late</td>
       <td>Date</td>
       <td colspan="2">Paid Date</td>
 
@@ -31,7 +31,7 @@
   <tbody>
     <tr ng-repeat="period in loanDetails.repaymentSchedule.periods">
       <td scope="row">{{period.period}}</td>
-      <td>{{period.daysInPeriod}}</td>
+      <td><span ng-show="period._daysLate > 0">{{period._daysLate}}</span></td>
       <td>{{period.dueDate| DateFormat}}</td>
       <td>{{period.obligationsMetOnDate| DateFormat}}</td>
       <td>
