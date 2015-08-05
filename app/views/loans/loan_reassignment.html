@@ -67,14 +67,11 @@
         </div>
         <div>
           <ul class="list-unstyled">
-            <li ng-show="clients.length > 0"><input type="checkbox" ng-click="toggleAllClients()"> Select all</li>
-            <li ng-repeat="client in clients"><strong>{{client.displayName}}</strong>
-              <ul class="list-unstyled">
-                <li ng-repeat="loan in client.loans">
-                  <input type="checkbox" ng-model="formData.loans[loan.id]">
-                  {{loan.productName}} ( {{loan.accountNo}} )
-                </li>
-              </ul>
+            <li ng-show="clients.length > 0">
+                <input type="checkbox" ng-model="formData.allClients" ng-change="toggleAllClients()">&nbsp;Select all
+            </li>
+            <li ng-repeat="client in clients">
+                <input type="checkbox" ng-model="formData.clients[client.id]" ng-click="toggleClient(client)">&nbsp;<strong>{{client.displayName}}<span ng-show="formData.clients[client.id]">&nbsp;({{client.loans.length}} loan<span ng-show="client.loans.length > 1">s</span>)</span></strong>
             </li>
           </ul>
         </div>

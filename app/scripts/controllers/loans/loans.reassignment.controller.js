@@ -6,7 +6,7 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
   function($scope, APPLICATION, REST_URL, RoleService) {
 
     var url = '';
-    $scope.formData = {loans: {}};
+    $scope.formData = {loans: {}, clients: {}};
 
     $scope.open = function($event) {
       $event.preventDefault();
@@ -46,10 +46,15 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
 
     $scope.toggleAllClients = function() {
       angular.forEach($scope.clients, function(client) {
-        angular.forEach(client.loans, function(loan) {
-          $scope.formData.loans[loan.id] = !$scope.formData.loans[loan.id];
-        });
+        $scope.toggleClient(client, $scope.formData.allClients);
       });
+    };
+
+    $scope.toggleClient = function(client, selected) {
+        $scope.formData.clients[client.id] = (selected===true || selected===false ? selected : !$scope.formData.clients[client.id]);
+        angular.forEach(client.loans, function(loan) {
+          $scope.formData.loans[loan.id] = $scope.formData.clients[client.id];
+        });
     };
 
     $scope.getToOfficer = function() {
