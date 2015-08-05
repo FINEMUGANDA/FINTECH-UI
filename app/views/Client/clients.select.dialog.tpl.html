@@ -15,7 +15,7 @@
             <form ng-hide="isLoading" class="form-horizontal" novalidate>
                 <div class="form-group">
                     <label>Client <span class="required">*</span></label>
-                    <select id="selectClient" chosen="clients" class="form-control" ng-model="clientId" ng-options="client.id as client.name for client in clients" value="{{clientId}}">
+                    <select id="selectClient" chosen="clients" class="form-control" ng-model="client" ng-options="client as (client.name) for client in clients">
                         <option value=""></option>
                     </select>
                 </div>

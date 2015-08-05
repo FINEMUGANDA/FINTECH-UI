@@ -48,7 +48,6 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
   $scope.showClientSelect = function() {
     var dialog = dialogs.create('views/Client/clients.select.dialog.tpl.html', 'ClientSelectCtrl', {msg: 'Select Client for new Loan', action: 'New Loan', loanStatus: ''}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
-      console.log('CLIENT: ' + angular.toJson(result));
       $location.path( '/loans/' + result + '/form' );
     });
   };

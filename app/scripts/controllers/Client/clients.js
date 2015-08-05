@@ -165,7 +165,7 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
   $scope.clients = null;
 
   $scope.select = function() {
-    $modalInstance.close($scope.clientId);
+    $modalInstance.close($scope.client.id);
   };
 
   $scope.cancel = function() {
@@ -176,7 +176,7 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
     $scope.clients = [];
 
     angular.forEach(result.data, function(client) {
-      if( (!client.loanStatus || client.loanStatus==='' || client.loanStatus==='Written-Off' || client.loanStatus==='Closed') && client.status==='Active') {
+      if( (!client.loanStatus || client.loanStatus.trim()==='' || client.loanStatus.indexOf('Written-Off')>-1 || client.loanStatus.indexOf('Closed')>-1) && client.status==='Active') {
         $scope.clients.push(client);
       }
     });
