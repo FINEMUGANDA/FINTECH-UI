@@ -528,7 +528,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
 
 });
 
-angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($scope, $route, APPLICATION, REST_URL, dialogs, LoanService, $upload) {
+angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($scope, $route, APPLICATION, REST_URL, dialogs, ReportService, LoanService, $upload) {
 
     $scope.files = [];
 
@@ -596,7 +596,7 @@ angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($sco
     };
 
     $scope.downloadFile = function(file) {
-        LoanService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents/' + file.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
+        ReportService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents/' + file.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
             saveAs(new Blob([content.data], {type: file.type}), file.name);
             console.log(angular.toJson(file));
         }, function() {
