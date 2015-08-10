@@ -53,20 +53,21 @@ angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, 
   $scope.reset = function () {
       $scope.isCollapsed = false;
       $scope.formData = {};
+      $scope.search();
   };
 
   $scope.search = function (){
     if($scope.formDate.makerDateTimeFrom){
-      $scope.formData.makerDateTimeFrom = Utility.dataFormat($scope.formDate.makerDateTimeFrom);
+      $scope.formData.makerDateTimeFrom = moment($scope.formDate.makerDateTimeFrom).format('YYYY-MM-DD');
     }
     if($scope.formDate.makerDateTimeTo){
-      $scope.formData.makerDateTimeTo = Utility.dataFormat($scope.formDate.makerDateTimeTo);  
+      $scope.formData.makerDateTimeTo = moment($scope.formDate.makerDateTimeTo).format('YYYY-MM-DD');
     }
     if($scope.formDate.checkerDateTimeFrom){
-      $scope.formData.checkerDateTimeFrom = Utility.dataFormat($scope.formDate.checkerDateTimeFrom);
+      $scope.formData.checkerDateTimeFrom = moment($scope.formDate.checkerDateTimeFrom).format('YYYY-MM-DD');
     }
     if($scope.formDate.checkerDateTimeTo){
-      $scope.formData.checkerDateTimeTo = Utility.dataFormat($scope.formDate.checkerDateTimeTo);
+      $scope.formData.checkerDateTimeTo = moment($scope.formDate.checkerDateTimeTo).format('YYYY-MM-DD');
     }
     angular.forEach($scope.formData, function(value, key) {
         $scope.url += '&' + key + '=' + value ; 
