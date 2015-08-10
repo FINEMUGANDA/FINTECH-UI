@@ -1,95 +1,172 @@
 <div ng-controller="LoansFormGuarantorCtrl">
-  <div ng-include src="'/views/alert.html'"></div>
-  <form name="loanFormGuarantor" ng-hide="isLoading" class="form-horizontal" ng-submit="saveGuarantor()" novalidate show-validation>
-    <div class="clearfix">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-5">First Name<span class="required"> *</span></label>
-          <div class="validate col-md-6">
-            <input name="principal" class="form-control" type="text" ng-model="guarantor.firstName" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-md-5">Last Name<span class="required"> *</span></label>
-          <div class="validate col-md-6">
-            <input name="principal" class="form-control" type="text" ng-model="guarantor.lastName" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-md-5">Date of Birth<span class="required"> *</span></label>
-          <div class="validate col-md-6">
-            <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="guarantor.dateOfBirth" is-open="datepicker.birthday" datepicker-options="dateOptions" close-text="Close" required ng-click="open($event, 'birthday')" readonly="true" />
-          </div>
-        </div>
+    <div ng-include src="'/views/alert.html'"></div>
+    <form name="loanFormGuarantor" ng-hide="isLoading" class="form-horizontal" ng-submit="saveGuarantor()" novalidate
+          show-validation>
+        <div class="clearfix">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">First Name<span class="required"> *</span></label>
 
-        <div class="form-group">
-          <label class="control-label col-md-5">Guarantor business activity</label>
-          <div class="col-md-6">
-            <select class="form-control" ng-model="guarantor.BusinessActivity_cd_businessActivity" ng-options="businessActivityOption.id as businessActivityOption.value for businessActivityOption in data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues">
-              <!--
-              <option ng-repeat="businessActivityOption in data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues" value="{{businessActivityOption.id}}" ng-selected="businessActivityOption.id == guarantor.BusinessActivity_cd_businessActivity">{{businessActivityOption.value}}</option>
-              -->
-              <option value="">-- Select --</option>
-            </select>
-          </div>
-        </div>
+                        <div class="validate col-md-6">
+                            <input name="principal" class="form-control" type="text" ng-model="guarantor.firstName"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Last Name<span class="required"> *</span></label>
 
-        <div class="form-group">
-          <label class="control-label col-md-5">Guarantor Income per month</label>
-          <div class="col-md-6">
-            <input id="income" name="income" class="form-control" type="text" ng-model="guarantor.income" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-md-5">Guarantor business location</label>
-          <div class="col-md-6">
-            <textarea id="businessLocation" name="businessLocation" class="form-control" ng-model="guarantor.businessLocation"></textarea>
-          </div>
-        </div>
-      </div>
+                        <div class="validate col-md-6">
+                            <input name="principal" class="form-control" type="text" ng-model="guarantor.lastName"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Date of Birth<span class="required"> *</span></label>
 
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-5">Client Relation<span class="required"> *</span></label>
-          <div class="validate col-md-6">
-            <select class="form-control" ng-model="guarantor.GuarantorRelationship_cd_clientRelation" ng-options="guarantorRelationshipOption.id as guarantorRelationshipOption.value for guarantorRelationshipOption in data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues" required>
-              <!--
-              <option ng-repeat="guarantorRelationshipOption in data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues" value="{{guarantorRelationshipOption.id}}" ng-selected="guarantorRelationshipOption.id == guarantor.GuarantorRelationship_cd_clientRelation">{{guarantorRelationshipOption.value}}</option>
-              -->
-              <option value="">-- Select --</option>
-            </select>
-          </div>
-        </div>
+                        <div class="validate col-md-6">
+                            <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy"
+                                   ng-model="guarantor.dateOfBirth" is-open="datepicker.birthday"
+                                   datepicker-options="dateOptions" close-text="Close" required
+                                   ng-click="open($event, 'birthday')" readonly="true"/>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-          <label class="control-label col-md-5">Main Address<span class="required"> *</span></label>
-          <div class="validate col-md-6">
-            <textarea id="address" name="address" class="form-control" ng-model="guarantor.address" required></textarea>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-md-5">Main Phone Number<span class="required"> *</span></label>
-          <div class="validate col-md-6">
-            <input name="principal" class="form-control" type="text" ng-model="guarantor.phone" required />
-          </div>
-        </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Guarantor business activity</label>
 
-        <div class="form-group">
-          <label class="control-label col-md-5">2nd Phone Number</label>
-          <div class="col-md-6">
-            <input name="principal" class="form-control" type="text" ng-model="guarantor.secondaryPhone" />
-          </div>
-        </div>
-      </div>
-      <hr />
+                        <div class="col-md-6">
+                            <select class="form-control" ng-model="guarantor.BusinessActivity_cd_businessActivity"
+                                    ng-options="businessActivityOption.id as businessActivityOption.value for businessActivityOption in data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues">
+                                <!--
+                                <option ng-repeat="businessActivityOption in data.columnHeaders.BusinessActivity_cd_businessActivity.columnValues" value="{{businessActivityOption.id}}" ng-selected="businessActivityOption.id == guarantor.BusinessActivity_cd_businessActivity">{{businessActivityOption.value}}</option>
+                                -->
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
 
-      <div class="col-md-12">
-        <hr />
-        <div class="col-md-offset-5 paddedtop">
-          <a id="cancel" href="#/loans/{{clientId}}/form/collateral/{{loanId}}" class="btn btn-warning">Back</a>
-          <button id="save-btn" class="btn btn-primary" type="submit" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Save</button>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Guarantor Income per month</label>
+
+                        <div class="col-md-6">
+                            <input id="income" name="income" class="form-control" type="text" ng-model="guarantor.income"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Guarantor business location</label>
+
+                        <div class="col-md-6">
+                        <textarea id="businessLocation" name="businessLocation" class="form-control"
+                                  ng-model="guarantor.businessLocation"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Client Relation<span class="required"> *</span></label>
+
+                        <div class="validate col-md-6">
+                            <select class="form-control" ng-model="guarantor.GuarantorRelationship_cd_clientRelation"
+                                    ng-options="guarantorRelationshipOption.id as guarantorRelationshipOption.value for guarantorRelationshipOption in data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues"
+                                    required>
+                                <!--
+                                <option ng-repeat="guarantorRelationshipOption in data.columnHeaders.GuarantorRelationship_cd_clientRelation.columnValues" value="{{guarantorRelationshipOption.id}}" ng-selected="guarantorRelationshipOption.id == guarantor.GuarantorRelationship_cd_clientRelation">{{guarantorRelationshipOption.value}}</option>
+                                -->
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Main Address<span class="required"> *</span></label>
+
+                        <div class="validate col-md-6">
+                        <textarea id="address" name="address" class="form-control" ng-model="guarantor.address"
+                                  required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Main Phone Number<span class="required"> *</span></label>
+
+                        <div class="validate col-md-6">
+                            <input name="principal" class="form-control" type="text" ng-model="guarantor.phone" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-5">2nd Phone Number</label>
+
+                        <div class="col-md-6">
+                            <input name="principal" class="form-control" type="text" ng-model="guarantor.secondaryPhone"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="col-md-12">
+                <div class="col-md-offset-5 paddedtop">
+                    <a id="cancel" href="#/loans/{{clientId}}/form/collateral/{{loanId}}"
+                       class="btn btn-warning">Back</a>
+                    <button id="save-btn" class="btn btn-primary" type="submit"
+                            ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Save
+                    </button>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div ng-controller="LoansFormDocumentCtrl">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Documents</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-5">Document</label>
+                            <div class="col-md-6">
+                                <input name="file" type="file" ng-file-select="onFileSelect($files)"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="row" ng-show="files.length > 0">
+                    <div class="col-md-12">
+                        <table class="table table-condensed">
+                            <!--
+                            <thead>
+                            <tr>
+                                <td>Name</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            -->
+                            <tbody>
+                            <tr ng-repeat="f in files">
+                                <td>
+                                    <a target="blank" href="" ng-click="downloadFile(f)">
+                                        {{f.name}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="" ng-click="deleteFile(f)"><i class="glyphicon glyphicon-remove-circle"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </form>
+    </form>
 </div>

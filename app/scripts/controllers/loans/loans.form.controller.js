@@ -528,6 +528,87 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
 
 });
 
+angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($scope, $route, APPLICATION, REST_URL, dialogs, LoanService, $upload) {
+
+    $scope.files = [];
+
+    $scope.showSuccess = function(message) {
+        $scope.type = 'alert-success';
+        $scope.message = message;
+        $scope.errors = [];
+    };
+
+    $scope.showErrors = function(result, message) {
+        $scope.type = 'error';
+        $scope.message = result ? result.data.defaultUserMessage : message;
+        $scope.errors = result ? result.data.errors : [];
+    };
+
+    $scope.onFileSelect = function($files) {
+        if ($files[0].size / 1024 > 5000) {
+            $scope.showErrors(null, 'File is too large! File size must be less then or equal to 80 KB!');
+        } else {
+            $scope.type = null;
+            $scope.message = null;
+            $scope.file = null;
+            $scope.uploadFile($files[0]);
+        }
+    };
+
+    $scope.uploadFile = function(file) {
+        if (file) {
+            $scope.formData = {};
+            $scope.formData.name = file.name;
+
+            $upload.upload({
+                url: APPLICATION.host + REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents',
+                data: $scope.formData,
+                file: file
+            }).then(function(result) {
+                $scope.files.push({
+                    id: result.data.resourceId,
+                    type: file.type,
+                    name: file.name
+                });
+                $scope.showSuccess('File uploaded');
+            }, function(result) {
+                $scope.showErrors(result);
+            });
+        }
+    };
+
+    $scope.deleteFile = function(file) {
+        dialogs.create('/views/custom-confirm.html', 'CustomConfirmController',
+            {msg: 'You are about to remove the Document <strong>' + file.name + '</strong>'},
+            {size: 'sm', keyboard: true, backdrop: true}
+        ).result.then(function(result) {
+            if (result) {
+                var pos = $scope.files.indexOf(file);
+                if (pos >= -1) {
+                    LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents/' + file.id).then(function() {
+                        $scope.files.splice(pos, 1);
+                    }, function(r) {
+                        $scope.showErrors(r);
+                    });
+                }
+            }
+        });
+    };
+
+    $scope.downloadFile = function(file) {
+        LoanService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents/' + file.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
+            saveAs(new Blob([content.data], {type: file.type}), file.name);
+            console.log(angular.toJson(file));
+        }, function() {
+            // TODO: do we need this?
+        });
+    };
+
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents?tenantIdentifier=default').then(function(result) {
+        $scope.files = result.data;
+    })
+});
+
 angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $route, $location, APPLICATION, REST_URL, LoanService, dialogs, Utility) {
   $scope.collapse = {
     detailsext: true,
