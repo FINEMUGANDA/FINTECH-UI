@@ -25,10 +25,10 @@
       </div>
       <form name="createBasicClientForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateCreateClient(createClient, createClientWithDataTable)" novalidate show-validation >
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="form-group" ng-show="externalIdEnabled">
             <label class="control-label col-md-4">File Number<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <input id="externalId" name="externalId" class="form-control" type="text" ng-model="createClient.externalId" required />
+              <input id="externalId" name="externalId" class="form-control" type="text" ng-model="createClient.externalId" ng-required="externalIdEnabled" />
             </div>
           </div>
           <div class="form-group">

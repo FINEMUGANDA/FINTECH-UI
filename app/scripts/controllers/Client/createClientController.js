@@ -10,6 +10,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
   console.log('CreateClientCtrl : CreateClientCtrl');
   //To load the createClient page
   $scope.isLoading = false;
+  $scope.externalIdEnabled = false;
   $scope.createClient = {};
   $scope.createClientWithDataTable = {};
 
@@ -103,6 +104,13 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
       function() {
         $scope.rowCollection = [];
         CreateClientsService.getData(REST_URL.CREATE_CLIENT_TEMPLATE).then(createClientTeplateSuccess, createClientTemplateFail);
+        CreateClientsService.getData(REST_URL.BASE + 'configurations?tenantIdentifier=default').then(function(result) {
+          angular.forEach(result.data.globalConfiguration, function(configuration) {
+            if(configuration.name === 'client-external-id') {
+              $scope.externalIdEnabled = configuration.enabled;
+            }
+          })
+        });
       }, 500
       );
   };
@@ -355,6 +363,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
   console.log('CreateClientCtrl : EditClientCtrl');
   //To load the editbasicclient page
   $scope.isLoading = false;
+  $scope.externalIdEnabled = false;
   $scope.editClient = {};
   $scope.editClientWithDataTable = {};
 
@@ -608,6 +617,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
 
       //data from m_client table
       $scope.client = result.data;
+      $scope.editClient.accountNo = $scope.client.accountNo;
       $scope.editClient.externalId = $scope.client.externalId;
       $scope.officeId = $scope.client.officeId;
       $scope.editClient.staffId = $scope.client.staffId;
@@ -651,6 +661,13 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
       $scope.rowCollection = [];
       var $url = REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '?template=true';
       CreateClientsService.getData($url).then(editClientTeplateSuccess, editClientTemplateFail);
+      CreateClientsService.getData(REST_URL.BASE + 'configurations?tenantIdentifier=default').then(function(result) {
+        angular.forEach(result.data.globalConfiguration, function(configuration) {
+          if(configuration.name === 'client-external-id') {
+            $scope.externalIdEnabled = configuration.enabled;
+          }
+        })
+      });
     }, 500);
   };
   //Finish - edit client template
