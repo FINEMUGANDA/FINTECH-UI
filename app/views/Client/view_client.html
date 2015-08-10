@@ -691,7 +691,7 @@
               <tr ng-repeat="note in notes">
                 <td class="text">{{note.notes}}</td>
                 <td class="number">{{note.phone}}</td>
-                <td class="date">{{note.called_at}}</td>
+                <td class="date">{{note.called_at | date: 'dd/MM/yyyy'}}</td>
                 <td class="text">{{note.staff_username}}</td>
                 <td class="date">{{note.visited_at | date: 'dd/MM/yyyy'}}</td>
                 <td class="date">{{note.created_at | date: 'dd/MM/yyyy'}}</td>
