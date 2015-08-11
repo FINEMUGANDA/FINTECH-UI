@@ -69,17 +69,4 @@
     </tr>
     </tfoot>
 </table>
-<!--
-<table class="table table-striped" ng-controller="LoansFormDocumentCtrl" ng-show="files.length > 0">
-    <tbody>
-    <tr ng-repeat="f in files">
-        <td>
-            <a target="blank" href="" ng-click="downloadFile(f)">
-                {{f.name}}
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
--->
 <button class="btn primary" ng-click="openGuarantorDialog()" ng-hide="guarantorTab.loading || !hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Edit Guarantor</button>
