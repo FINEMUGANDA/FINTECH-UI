@@ -48,6 +48,9 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   };
 
   $scope.onSearch = function($event) {
+    if(!$scope.searchTerm || $scope.searchTerm.trim()==='') {
+      SearchService.clear('ids');
+    }
     if($event.keyCode===13) {
       loadClients();
     }
@@ -65,8 +68,6 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   var allClientsSuccess = function(result) {
     $scope.isLoading = false;
 
-    console.log('SEARCH POS: ' + SearchService.get());
-
     try {
       $scope.rowCollection = [];
       $scope.pages = [];
@@ -79,13 +80,12 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
 
       for(var i=0; i<result.data.length; i++) {
         var client = result.data[i];
-        if(SearchService.get() && SearchService.get().indexOf(client.id)>=0) {
+        if(SearchService.data('ids') && SearchService.data('ids').indexOf(client.id)>=0) {
           addClient(client);
-        } else if(!SearchService.get()) {
+        } else if(!SearchService.data('ids')) {
           addClient(client);
         }
       }
-      SearchService.set(undefined);
     } catch (e) {
       console.log(e);
     }
@@ -104,10 +104,15 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
       $scope.rowCollection = [];
       var offset = $scope.pageSize * ($scope.currentPage-1);
       var status = $route.current.params.status ? $route.current.params.status : '%';
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-      if(SearchService.get()) {
-        searchTerm = SearchService.get();
+      if($scope.searchTerm && $scope.searchTerm.trim()!=='') {
+          SearchService.data('search', $scope.searchTerm);
+      } else {
+          SearchService.clear('search');
       }
+      if(SearchService.data('search')) {
+          $scope.searchTerm = SearchService.data('search');
+      }
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
       ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_status=' + status + '&R_search=' + searchTerm).then(allClientsSuccess, allClientsFail);
     }, 2000);
   };
@@ -556,16 +561,8 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     $scope.clear();
 
     var path = '/clients';
-    SearchService.set(ids);
+    SearchService.data('ids', ids);
 
-    /**
-    if(ids.length===1) {
-      path = '/editbasicclientinfo/' + ids[0];
-    } else {
-      path = '/clients';
-      SearchService.set(ids);
-    }
-     */
     if($location.path()===path) {
       $route.reload();
     } else {
