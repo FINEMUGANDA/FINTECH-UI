@@ -419,6 +419,7 @@ div.summary > div > ul {
   .export,
   .paginate {
     @include make-lg-column(6);
+    padding-left: 0;
   }
 
   .export {
