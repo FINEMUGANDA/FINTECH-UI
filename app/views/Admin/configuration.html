@@ -1,0 +1,64 @@
+<div class="container post-login">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div class="rows">
+        <div class="page-header">
+            <div class="header">
+                <h3>Configuration</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" ng-show="configuration.id">
+                <form name="configurationForm" ng-hide="isLoading" class="role-form form-horizontal" novalidate show-validation>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <span>{{configuration.name}}</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="text" class="form-control" ng-model="configuration.value">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <span>{{configuration.description}}</span>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-group">
+                            <a href="#/dashboard" class="btn btn-default">Cancel</a>
+                            <button type=button" class="btn btn-primary" ng-show="hasPermission('UPDATE_CONFIGURATION')" ng-click="save()">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row"  ng-show="configurations.length>0">
+            <div class="col-md-10 col-md-offset-1">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Enabled</th>
+                        <th>Description</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="configuration in configurations">
+                        <td>{{configuration.name}}</td>
+                        <td>{{configuration.value}}</td>
+                        <td>
+                            <button type=button" class="btn btn-xs" ng-class="{'btn-success': configuration.enabled, 'btn-danger': !configuration.enabled}" ng-show="hasPermission('UPDATE_CONFIGURATION')" ng-click="toggleConfiguration(configuration)" ng-disabled="isLoading"><span class="glyphicon" ng-class="{'glyphicon-ok': configuration.enabled, 'glyphicon-remove': !configuration.enabled}"></span></button>
+                        </td>
+                        <td>{{configuration.description}}</td>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button type=button" class="btn btn-primary" ng-show="hasPermission('UPDATE_CONFIGURATION')" ng-click="selectConfiguration(configuration)" ng-disabled="isLoading"><span class="glyphicon glyphicon-pencil"></span></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

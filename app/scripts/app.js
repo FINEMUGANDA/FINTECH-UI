@@ -25,6 +25,8 @@ var app = angular.module('angularjsApp', [
   'currencyController',
   'exchangeRateService',
   'exchangeRateController',
+  'configurationService',
+  'configurationController',
   'createClientController',
   'userServices',
   'loanService',
@@ -367,6 +369,12 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
     }).when('/admin/exchangerates', {
         templateUrl: 'views/Admin/exchange_rates.html',
         controller: 'ExchangeRateCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    }).when('/admin/configurations', {
+        templateUrl: 'views/Admin/configuration.html',
+        controller: 'ConfigurationCtrl',
         data: {
             authorizedRoles: ['admin']
         }
