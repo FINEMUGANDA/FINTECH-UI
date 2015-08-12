@@ -49,7 +49,8 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
 
   $scope.onSearch = function($event) {
     if(!$scope.searchTerm || $scope.searchTerm.trim()==='') {
-      SearchService.clear('ids');
+        SearchService.clear('ids');
+        SearchService.clear('search');
     }
     if($event.keyCode===13) {
       loadClients();
@@ -100,11 +101,9 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
       $scope.rowCollection = [];
       var offset = $scope.pageSize * ($scope.currentPage-1);
       var status = $route.current.params.status ? $route.current.params.status : '%';
-      if($scope.searchTerm && $scope.searchTerm.trim()!=='') {
-          SearchService.data('search', $scope.searchTerm);
-      } else {
-          SearchService.clear('search');
-      }
+
+      SearchService.data('search', $scope.searchTerm);
+
       if(SearchService.data('ids')) {
           $scope.searchTerm = SearchService.data('ids')[0] + '';
       } else if(SearchService.data('search')) {
@@ -658,7 +657,7 @@ clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstan
 });
 
 
-clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
+clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout, ClientsService, SearchService, CreateClientsService, REST_URL, APPLICATION) {
   console.log('LoansCtrl : Loans');
   //To load the loans page
 
@@ -670,6 +669,9 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
   $scope.pages = [];
 
   $scope.onSearch = function($event) {
+    if(!$scope.searchTerm || $scope.searchTerm.trim()==='') {
+      SearchService.clear('search');
+    }
     if($event.keyCode===13) {
       loadLoans();
     }
@@ -743,6 +745,12 @@ clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout
       $scope.rowCollection = [];
       var offset = $scope.pageSize * ($scope.currentPage-1);
       var status = '%';
+
+      SearchService.data('search', $scope.searchTerm);
+
+      if(SearchService.data('search')) {
+         $scope.searchTerm = SearchService.data('search');
+      }
       var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
       if($route.current.params.loanStatus==='total') {
         status = "'ActiveInGoodStanding','ActiveInBadStanding'";
