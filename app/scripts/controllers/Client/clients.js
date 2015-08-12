@@ -181,7 +181,7 @@ clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST
     $scope.clients = [];
 
     angular.forEach(result.data, function(client) {
-      if( (!client.loanStatus || client.loanStatus.trim()==='' || client.loanStatus.indexOf('Written-Off')>-1 || client.loanStatus.indexOf('Closed')>-1) && client.status==='Active') {
+      if( (!client.loanStatus || client.loanStatus.trim()==='' || client.loanStatus.indexOf('Written-Off')>-1 || client.loanStatus.indexOf('Closed')>-1 || client.loanStatus.indexOf('Withdrawn')>-1) && client.status==='Active') {
         $scope.clients.push(client);
       }
     });
