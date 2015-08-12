@@ -79,13 +79,9 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
       }
 
       for(var i=0; i<result.data.length; i++) {
-        var client = result.data[i];
-        if(SearchService.data('ids') && SearchService.data('ids').indexOf(client.id)>=0) {
-          addClient(client);
-        } else if(!SearchService.data('ids')) {
-          addClient(client);
-        }
+        addClient(result.data[i]);
       }
+
     } catch (e) {
       console.log(e);
     }
@@ -109,7 +105,9 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
       } else {
           SearchService.clear('search');
       }
-      if(SearchService.data('search')) {
+      if(SearchService.data('ids')) {
+          $scope.searchTerm = SearchService.data('ids')[0] + '';
+      } else if(SearchService.data('search')) {
           $scope.searchTerm = SearchService.data('search');
       }
       var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
@@ -556,7 +554,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
     var ids = [];
 
     for(var i=0; i<$scope.selectedClients.length; i++) {
-      ids.push($scope.selectedClients[i].id);
+      ids.push($scope.selectedClients[i].file_no);
     }
     $scope.clear();
 
