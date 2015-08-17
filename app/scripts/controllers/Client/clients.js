@@ -347,6 +347,8 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
       if(!$scope.messageVisible) {
         $modalInstance.dismiss();
       }
+    }, function() {
+        $modalInstance.dismiss();
     });
   };
 
