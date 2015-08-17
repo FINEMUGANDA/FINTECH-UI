@@ -705,6 +705,40 @@
 
           </div>
         </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                  <table st-table="displayed" st-safe-src="files" class="table" ng-controller="LoansFormDocumentCtrl" ng-show="files.length > 0">
+                      <thead>
+                      <tr>
+                          <th>Documents</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="f in displayed">
+                          <td>
+                              <a target="blank" href="" ng-click="downloadFile(f)">
+                                  {{f.name}}
+                              </a>
+                          </td>
+                      </tr>
+                      </tbody>
+                      <tfoot ng-hide="isLoading">
+                      <tr>
+                          <td colspan="8">
+                              <div class="table-footer">
+                                  <div class="export">
+                                  </div>
+                                  <div class="paginate">
+                                      <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
+                                  </div>
+                              </div>
+                          </td>
+                      </tr>
+                      </tfoot>
+                  </table>
+              </div>
+          </div>
       </div>
     </div>
 

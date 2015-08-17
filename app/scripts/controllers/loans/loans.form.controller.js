@@ -532,6 +532,8 @@ angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($sco
 
     $scope.files = [];
 
+    var loanId = $route.current.params.loanId ? $route.current.params.loanId : $route.current.params.id;
+
     $scope.showSuccess = function(message) {
         $scope.type = 'alert-success';
         $scope.message = message;
@@ -561,7 +563,7 @@ angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($sco
             $scope.formData.name = file.name;
 
             $upload.upload({
-                url: APPLICATION.host + REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents',
+                url: APPLICATION.host + REST_URL.LOANS_CREATE + '/' + loanId + '/documents',
                 data: $scope.formData,
                 file: file
             }).then(function(result) {
@@ -585,7 +587,7 @@ angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($sco
             if (result) {
                 var pos = $scope.files.indexOf(file);
                 if (pos >= -1) {
-                    LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents/' + file.id).then(function() {
+                    LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + loanId + '/documents/' + file.id).then(function() {
                         $scope.files.splice(pos, 1);
                     }, function(r) {
                         $scope.showErrors(r);
@@ -596,7 +598,7 @@ angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($sco
     };
 
     $scope.downloadFile = function(file) {
-        ReportService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents/' + file.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
+        ReportService.getData(REST_URL.LOANS_CREATE + '/' + loanId + '/documents/' + file.id + '/attachment?tenantIdentifier=default', 'arraybuffer').then(function(content) {
             saveAs(new Blob([content.data], {type: file.type}), file.name);
             console.log(angular.toJson(file));
         }, function() {
@@ -604,7 +606,7 @@ angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($sco
         });
     };
 
-    LoanService.getData(REST_URL.LOANS_CREATE + '/' + $route.current.params.loanId + '/documents?tenantIdentifier=default').then(function(result) {
+    LoanService.getData(REST_URL.LOANS_CREATE + '/' + loanId + '/documents?tenantIdentifier=default').then(function(result) {
         $scope.files = result.data;
     })
 });
