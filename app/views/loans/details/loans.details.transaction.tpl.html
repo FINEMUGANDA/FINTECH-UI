@@ -13,30 +13,30 @@
       <th>&nbsp;</th>
     </tr>
     <tr>
-      <th st-sort="id" class="pointer">ID</th>
-      <th st-sort="officeName" class="pointer">Office</th>
-      <th st-sort="date"  class="pointer">Transaction Date</th>
-      <th st-sort="type.value" class="pointer">Transaction Type</th>
-      <th st-sort="amount" class="pointer">Amount</th>
-      <th st-sort="principalPortion" class="pointer">Principal</th>
-      <th st-sort="interestPortion" class="pointer">Interest</th>
-      <th st-sort="feeChargesPortion" class="pointer">Fees</th>
-      <th st-sort="penaltyChargesPortion" class="pointer">Penalties</th>
-      <th st-sort="outstandingLoanBalance" class="pointer">Loan Balance</th>
+      <th st-sort="id" class="pointer number">ID</th>
+      <th st-sort="officeName" class="pointer text">Office</th>
+      <th st-sort="date"  class="pointer date">Transaction Date</th>
+      <th st-sort="type.value" class="pointer text">Transaction Type</th>
+      <th st-sort="amount" class="pointer number">Amount</th>
+      <th st-sort="principalPortion" class="pointer number">Principal</th>
+      <th st-sort="interestPortion" class="pointer number">Interest</th>
+      <th st-sort="feeChargesPortion" class="pointer number">Fees</th>
+      <th st-sort="penaltyChargesPortion" class="pointer number">Penalties</th>
+      <th st-sort="outstandingLoanBalance" class="pointer number">Loan Balance</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-class="{strikeoff : transaction.manuallyReversed == true, pointer: transaction.manuallyReversed == false && transaction.type.repayment}" ng-repeat="transaction in transactionTab.displayed" ng-click="transaction.manuallyReversed == false && transaction.type.repayment && hasPermission('ADJUST_LOAN') ? openTransactionDialog('adjust', transaction) : void(0)">
-      <td>{{transaction.id}}</td>
-      <td>{{transaction.officeName}}</td>
-      <td>{{transaction.date| DateFormat}}</td>
-      <td>{{transaction.type.value}}</td>
-      <td>{{transaction.amount| number}}</td>
-      <td>{{transaction.principalPortion| number}}</td>
-      <td>{{transaction.interestPortion| number}}</td>
-      <td>{{transaction.feeChargesPortion| number}}</td>
-      <td>{{transaction.penaltyChargesPortion| number}}</td>
-      <td>{{transaction.outstandingLoanBalance| number}}</td>
+      <td class="number">{{transaction.id}}</td>
+      <td class="text">{{transaction.officeName}}</td>
+      <td class="date">{{transaction.date| DateFormat}}</td>
+      <td class="text">{{transaction.type.value}}</td>
+      <td class="number">{{transaction.amount| number}}</td>
+      <td class="number">{{transaction.principalPortion| number}}</td>
+      <td class="number">{{transaction.interestPortion| number}}</td>
+      <td class="number">{{transaction.feeChargesPortion| number}}</td>
+      <td class="number">{{transaction.penaltyChargesPortion| number}}</td>
+      <td class="number">{{transaction.outstandingLoanBalance| number}}</td>
     </tr>
   </tbody>
   <tfoot ng-hide="isLoading">

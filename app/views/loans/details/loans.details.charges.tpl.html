@@ -1,25 +1,29 @@
 <div ng-show="chargesTab.loading">Loading...</div>
-<table class="table width100" ng-hide="chargesTab.loading">
+<table class="table table-striped width100" ng-hide="chargesTab.loading">
+  <thead>
   <tr class="graybg">
-    <th>Name</th>
-    <!--<th>Fee/Penalty</th>-->
-    <th>Payment due at</th>
-    <th>Due as of</th>
-    <th>Calculation Type</th>
-    <th>Due</th>
-    <th>Paid</th>
-    <th>Waived</th>
-    <th>Outstanding</th>
+      <th class="text">Name</th>
+      <!--<th>Fee/Penalty</th>-->
+      <th class="text">Payment due at</th>
+      <th class="date">Due as of</th>
+      <th class="text">Calculation Type</th>
+      <th class="number">Due</th>
+      <th class="number">Paid</th>
+      <th class="number">Waived</th>
+      <th class="number">Outstanding</th>
   </tr>
+  </thead>
+  <tbody>
   <tr ng-repeat="charge in chargesTab.charges" class="pointer-main">
-    <td>{{charge.name}}</td>
-    <!--<td>{{charge.penalty? "Penalty" : "Fee"}}</td>-->
-    <td>{{charge.chargeTimeType.value}}</td>
-    <td>{{charge.dueDate| DateFormat}}</td>
-    <td>{{charge.chargeCalculationType.value}}</td>
-    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amount| number}}</td>
-    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountPaid| number}}</td>
-    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountWaived| number}}</td>
-    <td>{{charge.currency.displaySymbol}}&nbsp;{{charge.amountOutstanding| number}}</td>
+      <td class="text">{{charge.name}}</td>
+      <!--<td>{{charge.penalty? "Penalty" : "Fee"}}</td>-->
+      <td class="text">{{charge.chargeTimeType.value}}</td>
+      <td class="date">{{charge.dueDate| DateFormat}}</td>
+      <td class="text">{{charge.chargeCalculationType.value}}</td>
+      <td class="number">{{charge.currency.displaySymbol}}&nbsp;{{charge.amount| number}}</td>
+      <td class="number">{{charge.currency.displaySymbol}}&nbsp;{{charge.amountPaid| number}}</td>
+      <td class="number">{{charge.currency.displaySymbol}}&nbsp;{{charge.amountWaived| number}}</td>
+      <td class="number">{{charge.currency.displaySymbol}}&nbsp;{{charge.amountOutstanding| number}}</td>
   </tr>
+  </tbody>
 </table>

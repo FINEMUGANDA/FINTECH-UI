@@ -2,17 +2,17 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Type</th>
-      <th>Value</th>
-      <th>Description</th>
+      <th class="text">Type</th>
+        <th class="text">Description</th>
+        <th class="number">Value</th>
       <!--<th style="width: 1%;">&nbsp;</th>-->
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="collateral in loanDetails.collateral">
-      <td>{{collateral.type.name}}</td>
-      <td>{{collateral.value| number}}</td>
-      <td>{{collateral.description}}</td>
+      <td class="text">{{collateral.type.name}}</td>
+      <td class="text">{{collateral.description}}</td>
+      <td class="number">{{collateral.value| number}}</td>
       <!--<td class="actions"><a href="javascript:void(0);" ng-click="removeCollateral(collateral)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>-->
     </tr>
   </tbody>

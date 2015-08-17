@@ -11,19 +11,19 @@
     <table st-table="displayed" st-safe-src="rowCollection" class="table width100" ng-hide="!rowCollection.length">
       <thead>
         <tr class="graybg pointer">
-          <th st-sort="createdDate">Date Created</th>
-          <th st-sort="description">Notes/Description</th>
-          <th st-sort="followUpDate">Follow Up Date</th>
-          <th st-sort="createdByUserName">Created by</th>
+          <th st-sort="createdDate" class="date">Date Created</th>
+          <th st-sort="description" class="text">Notes/Description</th>
+          <th st-sort="followUpDate" class="date">Follow Up Date</th>
+          <th st-sort="createdByUserName" class="text">Created by</th>
           <th style="width: 1%">&nbsp;</th>
         </tr>
       </thead>
       <tbody ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">
         <tr ng-repeat="note in displayed" class="pointer-main">
-          <td ng-click="openNoteDialog(note)" class="pointer">{{note.createdDate| DateFormat}}</td>
-          <td ng-click="openNoteDialog(note)" class="pointer">{{note.description}}</td>
-          <td ng-click="openNoteDialog(note)" class="pointer">{{note.followUpDate| DateFormat}}</td>
-          <td ng-click="openNoteDialog(note)" class="pointer">{{note.createdByUserName}}</td>
+          <td ng-click="openNoteDialog(note)" class="pointer date">{{note.createdDate| DateFormat}}</td>
+          <td ng-click="openNoteDialog(note)" class="pointer text">{{note.description}}</td>
+          <td ng-click="openNoteDialog(note)" class="pointer date">{{note.followUpDate| DateFormat}}</td>
+          <td ng-click="openNoteDialog(note)" class="pointer text">{{note.createdByUserName}}</td>
           <td class="actions">
             <a href="javascript:void(0);" title="Remove Note" ng-click="removeNote(note)" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])"><i class="glyphicon glyphicon-remove"></i></a>
           </td>
@@ -31,10 +31,10 @@
       </tbody>
       <tbody ng-hide="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">
         <tr ng-repeat="note in displayed" class="pointer-main">
-            <td>{{note.createdDate| DateFormat}}</td>
-            <td>{{note.description}}</td>
-            <td>{{note.followUpDate| DateFormat}}</td>
-            <td>{{note.createdByUserName}}</td>
+            <td class="date">{{note.createdDate| DateFormat}}</td>
+            <td class="text">{{note.description}}</td>
+            <td class="date">{{note.followUpDate| DateFormat}}</td>
+            <td class="text">{{note.createdByUserName}}</td>
             <td class="actions">
             </td>
         </tr>

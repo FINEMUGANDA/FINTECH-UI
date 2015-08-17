@@ -10,46 +10,46 @@
     <tr>
       <td>#</td>
       <td class="text-right">Days Late</td>
-      <td>Date</td>
-      <td colspan="2">Paid Date</td>
+      <td class="text-center">Date</td>
+      <td colspan="2" class="text-center">Paid Date</td>
 
-      <td>Principal Due</td>
-      <td>Balance of Loan</td>
+      <td class="text-right">Principal Due</td>
+      <td class="text-right">Balance of Loan</td>
 
-      <td>Interest</td>
-      <td>Fees</td>
-      <td>Penalties</td>
+      <td class="text-right">Interest</td>
+      <td class="text-right">Fees</td>
+      <td class="text-right">Penalties</td>
 
-      <td>Due</td>
-      <td>Paid</td>
-      <td>In Advance</td>
-      <td>Late</td>
-      <td data-ng-show="isWaived">Waived</td>
-      <td>Outstanding</td>
+      <td class="text-right">Due</td>
+      <td class="text-right">Paid</td>
+      <td class="text-right">In Advance</td>
+      <td class="text-right">Late</td>
+      <td data-ng-show="isWaived" class="text-right">Waived</td>
+      <td class="text-right">Outstanding</td>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="period in loanDetails.repaymentSchedule.periods">
       <td scope="row">{{period.period}}</td>
       <td class="number"><span ng-show="period._daysLate > 0" class="number">{{period._daysLate}}</span></td>
-      <td>{{period.dueDate| DateFormat}}</td>
-      <td>{{period.obligationsMetOnDate| DateFormat}}</td>
+      <td class="date">{{period.dueDate| DateFormat}}</td>
+      <td class="date">{{period.obligationsMetOnDate| DateFormat}}</td>
       <td>
         <div ng-show="period.obligationsMetOnDate"><i class="glyphicon glyphicon-check"></i></div>
       </td>
 
-      <td>{{period.principalDue| number}}</td>
-      <td>{{period.principalLoanBalanceOutstanding| number}}</td>
-      <td>{{period.interestOriginalDue| number}}</td>
-      <td>{{period.feeChargesDue| number}}</td>
-      <td>{{period.penaltyChargesDue| number}}</td>
+      <td class="number">{{period.principalDue| number}}</td>
+      <td class="number">{{period.principalLoanBalanceOutstanding| number}}</td>
+      <td class="number">{{period.interestOriginalDue| number}}</td>
+      <td class="number">{{period.feeChargesDue| number}}</td>
+      <td class="number">{{period.penaltyChargesDue| number}}</td>
 
-      <td>{{period.totalDueForPeriod| number}}</td>
-      <td>{{period.totalPaidForPeriod| number}}</td>
-      <td>{{period.totalPaidInAdvanceForPeriod| number}}</td>
-      <td>{{period.totalPaidLateForPeriod| number}}</td>
-      <td data-ng-show="isWaived">{{period.totalWaivedForPeriod| number}}</td>
-      <td>{{period.totalOutstandingForPeriod| number}}</td>
+      <td class="number">{{period.totalDueForPeriod| number}}</td>
+      <td class="number">{{period.totalPaidForPeriod| number}}</td>
+      <td class="number">{{period.totalPaidInAdvanceForPeriod| number}}</td>
+      <td class="number">{{period.totalPaidLateForPeriod| number}}</td>
+      <td data-ng-show="isWaived" class="number">{{period.totalWaivedForPeriod| number}}</td>
+      <td class="number">{{period.totalOutstandingForPeriod| number}}</td>
     </tr>
   </tbody>
   <tfoot class="ui-widget-header">

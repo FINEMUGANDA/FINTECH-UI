@@ -24,7 +24,7 @@
         <th colspan="2" st-sort="name">Client Details</th>
         <th st-sort="status">Client Status</th>
         <th st-sort="loanStatus">Loan Status</th>
-        <th st-sort="mobileNo">Phone</th>
+        <th st-sort="mobileNo" class="number">Phone</th>
         <th st-sort="loanOfficer">Loan Officer</th>
         <th></th>
       </tr>
@@ -70,7 +70,7 @@
               {{client.loanStatus}}
             </a>
           </td>
-          <td class="number phone">{{client.mobileNo}}</td>
+          <td class="number">{{client.mobileNo}}</td>
           <td>{{client.loanOfficer}}</td>
           <td style="text-align: right;">
             <!--
