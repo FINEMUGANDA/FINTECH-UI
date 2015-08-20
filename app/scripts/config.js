@@ -211,7 +211,8 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_exchange_rate: 'Exchange Rates',
         fin_dashboard_survey: 'Survey',
         fin_codevalue: 'Code Values',
-        fin_financialyear: 'Financial Year'
+        fin_financialyear: 'Financial Year',
+        fin_configuration: 'Configuration'
     }
 );
 
@@ -241,7 +242,8 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_currency',
             'fin_exchange_rate',
             'fin_codevalue',
-            'fin_financialyear'
+            'fin_financialyear',
+            'fin_configuration'
         ],
         dashboard: [
             'fin_dashboard_shortcuts',
