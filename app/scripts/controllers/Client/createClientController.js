@@ -109,7 +109,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
             if(configuration.name === 'client-external-id') {
               $scope.externalIdEnabled = configuration.enabled;
             }
-          })
+          });
         });
       }, 500
       );
@@ -667,7 +667,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($rootScope, $route, $scop
           if(configuration.name === 'client-external-id') {
             $scope.externalIdEnabled = configuration.enabled;
           }
-        })
+        });
       });
     }, 500);
   };
