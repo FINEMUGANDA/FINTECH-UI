@@ -82,10 +82,12 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" ng-click="showFollowup()" ng-show="messageVisible">Yes</button>
-    <button type="button" class="btn btn-warning" ng-click="cancel()" ng-show="messageVisible">No</button>
-    <button type="button" class="btn btn-primary" ng-click="save()" ng-hide="messageVisible">Save</button>
-    <button type="button" class="btn btn-warning" ng-click="cancel()" ng-hide="messageVisible">Close</button>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" ng-click="showFollowup()" ng-show="messageVisible">Yes</button>
+        <button type="button" class="btn btn-warning" ng-click="cancel()" ng-show="messageVisible">No</button>
+        <button type="button" class="btn btn-primary" ng-click="save()" ng-hide="messageVisible">Save</button>
+        <button type="button" class="btn btn-warning" ng-click="cancel()" ng-hide="messageVisible">Close</button>
+    </div>
 </div>
 
 

@@ -322,34 +322,26 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
 
   $scope.showFollowup = function() {
     if($scope.loan && $scope.loan.clientId===$scope.client.id) {
+      var loanId = $scope.loan.loanId ? $scope.loan.loanId : $scope.loan.id;
       DataTransferService.set('loan.detail.tab', 'notes');
-      DataTransferService.set('loan.id', $scope.loan.loanId);
-      $location.path('/loans/' + $scope.loan.clientId + '/details/' + $scope.loan.loanId);
+      DataTransferService.set('loan.id', loanId);
+      $location.path('/loans/' + $scope.loan.clientId + '/details/' + loanId);
       $modalInstance.dismiss();
+    } else {
+        console.log('DEBUG X: ' + angular.toJson($scope.client));
+        console.log('DEBUG X: ' + angular.toJson($scope.loan));
     }
   };
 
   $scope.showMessage = function() {
-    CreateClientsService.getData(REST_URL.LOANS).then(function(result) {
-      var data = result.data;
-
-      if(data) {
-        for(var i=0; i<data.length; i++) {
-          var loan = data[i];
-          if(loan.clientId===$scope.client.id) {
-            $scope.loan = loan;
+    if($scope.client && $scope.client.loanId) {
+        CreateClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.client.loanId).then(function(result) {
+            $scope.loan = result.data;
             $scope.messageVisible = true;
-            break;
-          }
-        }
-      }
-
-      if(!$scope.messageVisible) {
-        $modalInstance.dismiss();
-      }
-    }, function() {
-        $modalInstance.dismiss();
-    });
+        }, function(result) {
+            console.log('ERROR: ' + angular.toJson(result));
+        });
+    }
   };
 
   $scope.save = function() {
