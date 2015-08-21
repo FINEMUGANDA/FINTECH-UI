@@ -20,7 +20,7 @@
     <div class="main-nav nav-collapse" id="main-navbar-collapse">
       <ul class="nav navbar-nav">
         <li ng-class="{'active': currentMenuPath=='home'}"><a href="/#/dashboard" class="home">Home</a></li>
-        <li ng-class="{'active': currentMenuPath=='client'}" ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients" class="clients">Clients</a></li>
+        <li ng-class="{'active': currentMenuPath=='client'}" ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients?clear=true" class="clients">Clients</a></li>
         <li ng-class="{'active': currentMenuPath=='report'}" ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])" class="dropdown">
           <a class="reports dropdown-toggle pointer" data-toggle="dropdown">Reports<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">

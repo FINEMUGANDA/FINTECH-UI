@@ -5,7 +5,7 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, ClientsService, CreateClientsService, SearchService, REST_URL, APPLICATION, dialogs) {
+clientsCtrl.controller('ClientsCtrl', function($scope, $route, $location, $timeout, ClientsService, CreateClientsService, SearchService, REST_URL, PAGE_URL, APPLICATION, dialogs) {
   console.log('ClientsCtrl : loadClients');
   //To load the clients page
 
@@ -16,6 +16,18 @@ clientsCtrl.controller('ClientsCtrl', function($scope, $route, $timeout, Clients
   $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
   $scope.pages = [];
   $scope.searchTerm = '';
+
+  var params = $location.search();
+
+  console.log('DEBUG: ' + angular.toJson(params));
+
+  if(params && params.clear) {
+     SearchService.clear('ids');
+     SearchService.clear('search');
+     console.log('DEBUG XX: ' + angular.toJson(SearchService.data('ids')));
+     console.log('DEBUG XX: ' + SearchService.data('search'));
+     $location.url(PAGE_URL.CLIENTS).replace();
+  }
 
   $scope.goTo = function(p) {
     $scope.currentPage = p;
