@@ -1,4 +1,4 @@
-/* global moment */
+/* global moment, saveAs */
 
 'use strict';
 
@@ -608,7 +608,7 @@ angular.module('angularjsApp').controller('LoansFormDocumentCtrl', function($sco
 
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + loanId + '/documents?tenantIdentifier=default').then(function(result) {
         $scope.files = result.data;
-    })
+    });
 });
 
 angular.module('angularjsApp').controller('ViewLoanCtrl', function($scope, $route, $location, APPLICATION, REST_URL, LoanService, dialogs, Utility) {
