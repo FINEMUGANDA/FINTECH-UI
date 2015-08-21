@@ -60,6 +60,7 @@ angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, 
   $scope.reset = function () {
       $scope.isCollapsed = false;
       $scope.formData = {};
+      $scope.formDate = {};
       $scope.search();
   };
 
