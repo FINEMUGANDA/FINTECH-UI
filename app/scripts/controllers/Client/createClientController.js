@@ -6,7 +6,7 @@
 var CreateClientCrtl = angular.module('createClientController', ['createClientsService', 'Constants', 'smart-table']);
 
 //Controller for the create Client page for creating the client with basic information
-CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, deviceDetector) {
+CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, $upload, deviceDetector) {
   console.log('CreateClientCtrl : CreateClientCtrl');
   //To load the createClient page
   $scope.isLoading = false;
@@ -151,6 +151,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
 
     var saveBasicClientSuccess = function(result) {
       console.log('Success : Return from createClientsService');
+      $rootScope.$broadcast('clientCreated');
       if ($scope.cameraFile && $scope.cameraFile.length) {
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + result.data.clientId + '/images', $scope.cameraFile).then(function() {
           console.log('Success : Return from createClientsService');
@@ -359,7 +360,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($route, $scope, $locati
 });
 
 //Contoller for Edit Client page
-CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, $upload, deviceDetector) {
+CreateClientCrtl.controller('EditClientCtrl', function($rootScope, $route, $scope, $location, $timeout, CreateClientsService, REST_URL, APPLICATION, PAGE_URL, Utility, $upload, deviceDetector) {
   console.log('CreateClientCtrl : EditClientCtrl');
   //To load the editbasicclient page
   $scope.isLoading = false;
@@ -712,6 +713,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($route, $scope, $location
 
     var editBasicClientSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
+      $rootScope.$broadcast('clientCreated');
       $scope.updateBasicClientExtraInformation(editClientWithDataTable, result.data.clientId);
     };
 

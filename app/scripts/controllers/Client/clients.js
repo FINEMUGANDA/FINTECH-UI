@@ -538,7 +538,7 @@ clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstanc
   });
 });
 
-clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, REST_URL, ClientsService, SearchService, AUTH_EVENTS) {
+clientsCtrl.controller('ClientSearchCtrl', function($rootScope, $scope, $route, $location, REST_URL, ClientsService, SearchService, AUTH_EVENTS) {
   $scope.selected = null;
   $scope.clients = null;
   $scope.selectedClients = [];
@@ -595,7 +595,9 @@ clientsCtrl.controller('ClientSearchCtrl', function($scope, $route, $location, R
       $scope.isLoading = false;
     });
   };
-
+  $rootScope.$on('clientCreated', function() {
+    $scope.load();
+  });
   $scope.$on(AUTH_EVENTS.loginSuccess, function() {
     if(!$scope.clients || $scope.clients.length===0) {
       $scope.load();
