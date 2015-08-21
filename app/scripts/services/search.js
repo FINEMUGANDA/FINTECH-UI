@@ -10,7 +10,7 @@ searchService.factory('SearchService', function () {
             if(value) {
                 data[key] = value;
             } else {
-                return data[key]
+                return data[key];
             }
         },
         clear: function(key) {
