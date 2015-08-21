@@ -1,16 +1,23 @@
 'use strict';
 
-angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope, REST_URL, AccountService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope, REST_URL, AccountService, SearchService, $timeout, $location, dialogs) {
   console.log('AccountingChartCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 10;
   $scope.isTreeview = false;
+
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('accounting', $scope.tableSearch);
+    console.log('SEARCH X: ' + SearchService.data('accounting'));
+  });
 
   //Success callback
   var loadAccountsSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+      $scope.tableSearch = SearchService.data('accounting');
+      console.log('SEARCH Y: ' + SearchService.data('accounting'));
       $scope.treedata = buildTreeData(result.data);
     } catch (e) {
     }

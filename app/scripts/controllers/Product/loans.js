@@ -3,7 +3,7 @@
 // Here we attach this controller to our testApp module
 var LoanProductCrtl = angular.module('loanProductController', ['loanProductService', 'Constants', 'smart-table']);
 
-LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $location, $timeout, LoanProductService, REST_URL, APPLICATION, PAGE_URL) {
+LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $location, $timeout, LoanProductService, SearchService, REST_URL, APPLICATION, PAGE_URL) {
   console.log('LoanProductsCtrl : LoanProducts');
   //To load the loadproducts page      
   $scope.isLoading = false;
@@ -11,11 +11,16 @@ LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $location, $time
   $scope.displayed = [];
   $scope.itemsByPage = 10;
 
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('product', $scope.tableSearch);
+  });
+
   //Success callback
   var loanProductsSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+      $scope.tableSearch = SearchService.data('product');
     } catch (e) {
     }
   };

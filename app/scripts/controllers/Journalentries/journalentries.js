@@ -2,10 +2,14 @@
 
 'use strict';
 
-angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, $timeout, $location) {
+angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, SearchService, $timeout, $location) {
   console.log('JournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 10;
+
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('journal', $scope.tableSearch);
+  });
 
   //Success callback
   var loadJournalEntriesSuccess = function(result) {
@@ -15,6 +19,7 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+      $scope.tableSearch = SearchService.data('journal');
     } catch (e) {
       console.log(e);
     }

@@ -10,11 +10,15 @@
       </div>
     </div>
     <div class="list">
-      <table st-table="displayed" st-safe-src="rowCollection" class="table">
+      <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
         <thead>
           <tr>
             <th colspan="4">
-              <div ng-include="'views/Admin/header.menu.tpl.html'" onload="active='users'"></div>
+                <div class="filters">
+                    <div class="search search_local" style="float: right;">
+                        <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Items" ng-model="tableSearch" />
+                    </div>
+                </div>
             </th>
           </tr>
         <tr>

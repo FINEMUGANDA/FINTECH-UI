@@ -1014,6 +1014,12 @@ app.filter('FormatNumber', ['$filter', function($filter) {
     };
 }]);
 
+app.filter('smartTableSearchFilter', function($filter){
+    return function(input, predicate) {
+        return $filter('filter')(input, predicate[Object.keys(predicate)[0]], false);
+    };
+});
+
 //color code status for each data tables
 app.filter('status', [function() {
     var STATUS_COLOR_CODE = {'0': 'status bad', //red

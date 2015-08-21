@@ -5,13 +5,13 @@
         </ul>
     </div>
     <div class="list">
-        <table st-table="displayed" st-safe-src="logs" class="table">
+        <table st-table="displayed" st-safe-src="logs" st-set-filter="smartTableSearchFilter" class="table">
             <thead>
             <tr>
                 <th colspan="10">
                     <div class="filters">
                         <div class="search" style="float:right;">
-                            <input st-search="" class="search-box ng-isolate-scope" placeholder="Search notifications" type="text">
+                            <input st-search="tableSearch" class="search-box ng-isolate-scope" placeholder="Search notifications" type="text" ng-model="tableSearch">
                         </div>
                     </div>
                 </th>

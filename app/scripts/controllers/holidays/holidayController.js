@@ -2,18 +2,23 @@
 
 'use strict';
 
-angular.module('angularjsApp').controller('HolidayController', function($route, $scope, REST_URL, 
-  HolidayService, $timeout, $location, dialogs) {
+angular.module('angularjsApp').controller('HolidayController', function($route, $scope, REST_URL,
+  HolidayService, SearchService, $timeout, $location, dialogs) {
   console.log('HolidayController');
   $scope.isLoading = false;
   $scope.itemsByPage = 10;
   $scope.isTreeview = false;
+
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('holiday', $scope.tableSearch);
+  });
 
   //Success callback
   var loadHolidaysSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+      $scope.tableSearch = SearchService.data('holiday');
     } catch (e) {
       console.log(e);
     }

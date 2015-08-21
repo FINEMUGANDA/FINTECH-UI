@@ -9,7 +9,7 @@
         </ul>
     </div>
     <div class="list">
-    <table st-table="displayed" st-safe-src="rowCollection" class="table">
+    <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
       <thead>
         <tr>
           <th colspan="6">
@@ -26,7 +26,7 @@
                  </ul> 
                 </div>
                 <div class="search" style="float:right;">
-                    <input type="text" st-search="" class="search-box" placeholder="Search Holidays" />
+                    <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Holidays" ng-model="tableSearch" />
                 </div>
              </div>  
           </th>

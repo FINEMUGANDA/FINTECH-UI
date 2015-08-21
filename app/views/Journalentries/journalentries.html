@@ -6,7 +6,7 @@
       <div class="action"></div>
     </div>
     </div>
-    <table st-table="displayed" st-safe-src="rowCollection" class="table">
+    <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
       <thead>
         <tr>
           <th colspan="6">
@@ -23,7 +23,7 @@
                  </ul> 
                 </div>
                 <div class="search" style="float:right;">
-                    <input type="text" st-search="" class="search-box" placeholder="Search Journal Entries" />
+                    <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Journal Entries" ng-model="tableSearch" />
                 </div>
              </div>  
           </th>

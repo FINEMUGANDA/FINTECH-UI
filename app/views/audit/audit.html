@@ -78,7 +78,7 @@
       </div>
     </form>
     <div class="list">
-    <table st-table="displayed" st-safe-src="rowCollection" class="table">
+    <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
       <thead>
         <tr>
           <th colspan="10">
@@ -96,7 +96,7 @@
                  </ul> 
                 </div>
                 <div class="search" style="float:right;">
-                    <input type="text" st-search="" class="search-box" placeholder="Search audits" />
+                    <input type="text" st-search="tableSearch" class="search-box" placeholder="Search audits" ng-model="tableSearch"/>
                 </div>
              </div>  
           </th>

@@ -2,16 +2,21 @@
 
 'use strict';
  
-angular.module('angularjsApp').controller('StaffController', function($route, $scope, RoleService, APPLICATION, REST_URL, $location) {
+angular.module('angularjsApp').controller('StaffController', function($route, $scope, RoleService, SearchService, APPLICATION, REST_URL, $location) {
   var url = '';
   $scope.formData = {isActive: true};
   $scope.itemsByPage = 10;
   $scope.isLoading = true;
   $scope.params_id = $route.current.params.id;
 
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('staff', $scope.tableSearch);
+  });
+
   var loadStaffSuccess = function(result) {
     $scope.isLoading = false;
-    $scope.displayed = result.data;
+    $scope.rowCollection = result.data;
+    $scope.tableSearch = SearchService.data('staff');
   };
   var loadStaffFail = function() {
     console.log('Error : Return from loadRole.');

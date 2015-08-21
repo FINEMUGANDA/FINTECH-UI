@@ -2,12 +2,17 @@
 
 var appModule = angular.module('angularjsApp');
 
-appModule.controller('UserController', function($route, $scope, RoleService, REST_URL, $location, $timeout, dialogs) {
+appModule.controller('UserController', function($route, $scope, RoleService, SearchService, REST_URL, $location, $timeout, dialogs) {
 
   $scope.formData = {};
   $scope.params_id = $route.current.params.id;
   var url = '';
   $scope.itemsByPage = 10;
+
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('user', $scope.tableSearch);
+  });
+
   $scope.getOfficeStaff = function() {
     var loadStaffSuccess = function(result) {
       $scope.staff_vars = result.data;
@@ -72,6 +77,7 @@ appModule.controller('UserController', function($route, $scope, RoleService, RES
       var loadRoleSuccess = function(result) {
         $scope.isLoading = false;
         $scope.rowCollection = result.data;
+        $scope.tableSearch = SearchService.data('user');
       };
       var loadRoleFail = function() {
         console.log('Error : Return from loadRole.');

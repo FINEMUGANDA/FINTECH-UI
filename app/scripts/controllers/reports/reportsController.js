@@ -1,17 +1,22 @@
 'use strict';
 
 angular.module('angularjsApp').controller('ReportsController', function($route, $scope, 
-  REST_URL, ReportService, $timeout, $location, dialogs) {
+  REST_URL, ReportService, SearchService, $timeout, $location, dialogs) {
   console.log('ReportsController');
   $scope.isLoading = true;
   $scope.itemsByPage = 10;
   $scope.isTreeview = false;
+
+  $scope.$watch('tableSearch', function() {
+      SearchService.data('report', $scope.tableSearch);
+  });
 
   //Success callback
   var loadReportsSuccess = function(result) {
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
+      $scope.tableSearch = SearchService.data('report');
     } catch (e) {
       console.log(e);
     }

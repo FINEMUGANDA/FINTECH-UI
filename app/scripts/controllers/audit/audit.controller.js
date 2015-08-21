@@ -1,6 +1,8 @@
+/* global moment */
+
 'use strict';
 
-angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, REST_URL, 
+angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, SearchService, REST_URL,
   AuditService, Utility, PAGE_URL, $location) {
   console.log('AuditCtrl');
   $scope.formData = {};
@@ -8,6 +10,10 @@ angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, 
   $scope.itemsByPage = 10;
 
   $scope.url = REST_URL.AUDIT + '?genericResultSet=true';
+
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('audit', $scope.tableSearch);
+  });
 
   //Function to load audit list
   var getAuditList = function(url) {
@@ -20,6 +26,7 @@ angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, 
       $scope.url = REST_URL.AUDIT + '?genericResultSet=true';
       try {
         $scope.rowCollection = result.data;
+        $scope.tableSearch = SearchService.data('audit');
       } catch (e) {
         console.log(e);
       }

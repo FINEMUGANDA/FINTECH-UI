@@ -13,13 +13,13 @@
         </h4>
       </div>
     </div>
-    <table st-table="displayed" st-safe-src="rowCollection" class="table account-chart">
+    <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table account-chart">
       <thead>
         <tr>
           <td colspan="6">
             <div class="filters">
               <div class="search" style="float:right;">
-                <input type="text" st-search="" class="search-box" placeholder="Search Jobs"/>
+                <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Jobs" ng-model="tableSearch" />
               </div>
             </div>
           </td>

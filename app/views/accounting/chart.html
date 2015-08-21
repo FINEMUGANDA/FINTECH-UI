@@ -20,13 +20,13 @@
 
     <div data-angular-treeview="true" data-tree-id="treeview" data-tree-model="treedata" data-node-id="id" data-node-label="name" data-node-children="children" ng-if="isTreeview"></div>
 
-    <table st-table="displayed" st-safe-src="rowCollection" class="table account-chart" ng-if="!isTreeview">
+    <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table account-chart" ng-show="!isTreeview">
       <thead>
         <tr>
           <th colspan="7">
       <div class="filters">
         <div class="search" style="float:right;">
-          <input type="text" st-search="" class="search-box" placeholder="Search Accounts"/>
+          <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Accounts" ng-model="tableSearch" />
         </div>
       </div>
       </th>

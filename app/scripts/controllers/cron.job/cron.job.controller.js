@@ -1,10 +1,14 @@
 'use strict';
 
 
-angular.module('angularjsApp').controller('CronJobCtrl', function($route, REST_URL, JobService, $timeout, $scope, dialogs, $location) {
+angular.module('angularjsApp').controller('CronJobCtrl', function($route, REST_URL, JobService, SearchService, $timeout, $scope, dialogs, $location) {
   console.log('CronJobCtrl');
   $scope.itemsByPage = 20;
   $scope.isLoading = true;
+
+  $scope.$watch('tableSearch', function() {
+    SearchService.data('job', $scope.tableSearch);
+  });
 
   $scope.execBatch = function() {
     JobService.save(REST_URL.JOBS + '/batch?command=executeJob&jobIds=1&jobIds=2&jobIds=18&jobIds=23').then(function() {
@@ -18,6 +22,7 @@ angular.module('angularjsApp').controller('CronJobCtrl', function($route, REST_U
     $scope.isLoading = true;
     JobService.getData(REST_URL.JOBS).then(function(result) {
       $scope.rowCollection = result.data;
+      $scope.tableSearch = SearchService.data('job');
       JobService.getData(REST_URL.SCHEDULER).then(function(result) {
         $scope.scheduler = result.data;
         $scope.isLoading = false;
