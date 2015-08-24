@@ -42,7 +42,7 @@
           <div class="form-group">
             <label class="control-label col-md-4">Loan Officer<span class="required"> *</span></label>
             <div class="validate col-md-6">
-              <select id="staffId" ng-model="createClient.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions" class="form-control" required>
+              <select id="staffId" ng-model="createClient.staffId" ng-options="staffOptions.id as staffOptions.displayName for staffOptions in staffOptions | filter: {isActive: true, isLoanOfficer: true}" class="form-control" required>
                 <option value="">-- Select --</option>
               </select>
             </div>
