@@ -2,7 +2,7 @@
 
 'use strict';
  
-angular.module('angularjsApp').controller('StaffController', function($route, $scope, RoleService, SearchService, APPLICATION, REST_URL, $location) {
+angular.module('angularjsApp').controller('StaffController', function($route, $scope, $filter, RoleService, SearchService, APPLICATION, REST_URL, $location) {
   var url = '';
   $scope.formData = {isActive: true};
   $scope.itemsByPage = 10;
@@ -15,7 +15,16 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
 
   var loadStaffSuccess = function(result) {
     $scope.isLoading = false;
-    $scope.rowCollection = result.data;
+    $scope.rowCollection = [];
+    if($scope.activeOnly) {
+      angular.forEach(result.data, function(staff) {
+        if(staff.isActive===true) {
+          $scope.rowCollection.push(staff);
+        }
+      });
+    } else {
+      $scope.rowCollection = result.data;
+    }
     $scope.tableSearch = SearchService.data('staff');
   };
   var loadStaffFail = function() {
@@ -71,6 +80,11 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
     url = REST_URL.BASE + 'staff?status=ALL';
     RoleService.getData(url).then(loadStaffSuccess, loadStaffFail);
   }
+
+  $scope.$watch('activeOnly', function() {
+    url = REST_URL.BASE + 'staff?status=ALL';
+    RoleService.getData(url).then(loadStaffSuccess, loadStaffFail);
+  });
 
   $scope.save = function() {
     var saveSuccess = function() {
