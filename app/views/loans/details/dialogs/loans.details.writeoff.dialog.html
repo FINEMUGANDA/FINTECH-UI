@@ -44,6 +44,12 @@
           <input id="transactionDate" name="transactionDate" class="form-control" type="text" ng-model="formData.transactionDate" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" />
         </div>
       </div>
+        <div class="form-group">
+            <label class="control-label col-sm-5">Watchlist</label>
+            <div class="col-sm-6">
+                <button type="button" class="btn btn-sm pull-left" ng-class="{'btn-default': !formData.watchlist, 'btn-danger': formData.watchlist}" ng-click="formData.watchlist = !formData.watchlist"><span class="glyphicon glyphicon-ok" ng-show="formData.watchlist"></span><span class="glyphicon glyphicon-remove" ng-hide="formData.watchlist"></span></button>
+            </div>
+        </div>
       <div class="form-group">
         <label class="control-label col-sm-5" for="principalPortion">Reason(s)<span class="required">*</span></label>
         <div class="col-sm-6">

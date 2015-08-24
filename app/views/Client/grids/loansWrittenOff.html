@@ -27,6 +27,7 @@
           <th st-sort="writtenoffon_date">Date of Write-Off</th>
           <th st-sort="loanOfficer">Loan Officer</th>
           <th st-sort="writtenoff_reason">Reason for Write-off</th>
+          <th st-sort="watchlist">Watchlist</th>
         </tr>
       </thead>
       <tbody ng-hide="isLoading">
@@ -53,6 +54,9 @@
           </td>
           <td>
             {{loansWrittenOff.writtenoff_reason}}
+          </td>
+          <td>
+            <span class="glyphicon glyphicon-exclamation-sign text-danger" ng-show="loansWrittenOff.watchlist==1"></span>
           </td>
         </tr>
       </tbody>
