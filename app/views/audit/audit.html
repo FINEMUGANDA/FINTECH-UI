@@ -11,11 +11,28 @@
             <input ng-autofocus="true" autocomplete="off" typeahead-on-select="viewUser($item)" type="text" ng-model="formData.makerId" class="form-control" typeahead="users.username as users.username for users in template.appUsers | filter:$viewValue | limitTo:8"/>
         </div>
         <div class="col-md-1"></div>
+        <!--
         <label class="control-label col-md-2">Resource id</label>
         <div class="col-md-3">
             <input id="resourceId" name="resourceId" class="form-control" type="text" ng-model="formData.resourceId"/>
         </div>
-      </div>          
+          <label class="control-label col-md-2">Status</label>
+          <div class="col-md-3">
+              <select value="{{status.id}}" class="form-control" ng-model="formData.processingResult"
+                      data-ng-options="status.id as status.processingResult for status in template.processingResults" >
+                  <option value="">-- Select status --</option>
+              </select>
+          </div>
+        -->
+          <label class="control-label col-md-2">Action</label>
+          <div class="col-md-3">
+              <select ng-model="formData.actionName" class="form-control width170px">
+                  <option value="">-- Select action --</option>
+                  <option ng-repeat="action in template.actionNames" value="{{action}}">{{action}}</option>
+              </select>
+          </div>
+      </div>
+      <!--
       <div class="form-group">
           <label class="control-label col-md-2">From date</label>
           <div class="col-md-3">
@@ -38,23 +55,17 @@
               <input id="checkerDateTimeTo" name="checkerDateTimeTo" class="form-control" type="text" ng-model="formDate.checkerDateTimeTo" datepicker-pop="dd/MM/yyyy" is-open="opened3" />
           </div>
       </div>
+      -->
       <div class="form-group">
-        <label class="control-label col-md-2">Status</label>
-        <div class="col-md-3">
-            <select value="{{status.id}}" class="form-control" ng-model="formData.processingResult"
-              data-ng-options="status.id as status.processingResult for status in template.processingResults" >
-              <option value="">-- Select status --</option>
-            </select>
-        </div>
-        <div class="col-md-1"></div>
-        <label class="control-label col-md-2">Action</label>
-        <div class="col-md-3">
-          <select ng-model="formData.actionName" class="form-control width170px">
-            <option value="">-- Select action --</option>
-            <option ng-repeat="action in template.actionNames" value="{{action}}">{{action}}</option>
-          </select>  
-        </div>
-      </div>  
+          <label class="control-label col-md-2">Entity</label>
+          <div class="col-md-3">
+              <select ng-model="formData.entityName" class="form-control">
+                  <option value="">-- Select entity--</option>
+                  <option ng-repeat="entity in template.entityNames" value="{{entity}}">{{entity}}</option>
+              </select>
+          </div>
+      </div>
+      <!--
       <div class="form-group">
         <label class="control-label col-md-2">Entity</label>
         <div class="col-md-3">                  
@@ -72,6 +83,7 @@
           </select>
         </div>
       </div>
+      -->
       <div class="col-md-offset-5 paddedtop">                                
         <a ng-click="reset()" class="btn btn-warning">Reset</a>
         <button type="submit" class="btn btn-primary" ng-click="search()">Search</button>
@@ -103,29 +115,37 @@
         </tr>
         <tr>
           <th st-sort="id">ID</th>
+          <!--
           <th st-sort="resourceId">Resource ID</th>
+          -->
           <th st-sort="processingResult">Status</th>
           <th st-sort="maker">Made By</th>
           <th st-sort="actionName">Action</th>
           <th st-sort="entityName">Entity</th>
           <th st-sort="officeName">Office</th>
           <th st-sort="madeOnDate">Made date</th>
+          <!--
           <th st-sort="checker">Checker</th>
           <th st-sort="checkedOnDate">Checked Date</th>
+          -->
         </tr>
       </thead>
       <tbody ng-hide="isLoading">        
         <tr class="pointer" ng-repeat="audit in displayed">
           <td data-ng-click="viewAudit(audit)">{{audit.id}}</td>
+          <!--
           <td data-ng-click="viewAudit(audit)">{{audit.resourceId}}</td>
+          -->
           <td data-ng-click="viewAudit(audit)">{{audit.processingResult}}</td>
           <td data-ng-click="viewAudit(audit)">{{audit.maker}}</td>
           <td data-ng-click="viewAudit(audit)">{{audit.actionName}}</td>
           <td data-ng-click="viewAudit(audit)">{{audit.entityName}}</td>
           <td data-ng-click="viewAudit(audit)">{{audit.officeName}}</td>
           <td data-ng-click="viewAudit(audit)">{{audit.madeOnDate | date:'dd/MM/yyyy'}}</td>
+          <!--
           <td data-ng-click="viewAudit(audit)">{{audit.checker}}</td>
           <td data-ng-click="viewAudit(audit)">{{audit.checkedOnDate | date:'dd/MM/yyyy'}}</td>
+          -->
         </tr>
       </tbody>
       <tbody ng-show="isLoading">
