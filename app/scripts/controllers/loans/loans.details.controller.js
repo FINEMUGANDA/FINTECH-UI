@@ -227,6 +227,19 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails();
     });
   };
+  $scope.toggleWatchlist = function() {
+    $scope.isLoading = true;
+    var command = $scope.loanDetails.watchlist ? 'unwatch' : 'watch';
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=' + command).then(function() {
+      $scope.isLoading = false;
+      updateLoanDetails();
+    }, function(result) {
+      $scope.isLoading = false;
+      $scope.message = 'Cannot change watchlist:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    });
+  };
   $scope.undoWriteOff = function() {
     $scope.isLoading = true;
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=undoWriteOff').then(function() {

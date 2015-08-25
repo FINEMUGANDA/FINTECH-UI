@@ -266,6 +266,8 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         ADJUST: 14,
         WRITEOFF: 15,
         UNDOWRITEOFF: 16,
+        WATCH: 17,
+        UNWATCH: 18,
         //RESCHEDULE: 17,
         APPROVE: 19,
         REJECT: 20,
