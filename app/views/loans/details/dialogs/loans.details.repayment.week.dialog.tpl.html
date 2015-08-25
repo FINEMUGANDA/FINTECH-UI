@@ -9,30 +9,20 @@
         <table class="table table-striped loanRepaymentTable">
             <colgroup span="4"></colgroup>
             <thead>
-                <!--
-                -File No.
-                -Full Name
-                -Due Date
-                -Principle Due
-                -Interest Due
-                -Fees Due
-                -LPI Due.
-                -Total Due.
-                -->
                 <tr>
-                    <td class="text-right">#</td>
-                    <td class="text-center">Name</td>
-                    <td class="text-center">Due Date</td>
-                    <td class="text-center">Principal Due</td>
-                    <td class="text-center">Interest Due</td>
-                    <td class="text-center">Fees Due</td>
-                    <td class="text-center">LPI Due</td>
-                    <td class="text-center">Total Due</td>
+                    <th class="text-right">File No.</th>
+                    <th class="text-right">Name</th>
+                    <th class="text-right">Due Date</th>
+                    <th class="text-right">Principal Due</th>
+                    <th class="text-right">Interest Due</th>
+                    <th class="text-right">Fees Due</th>
+                    <th class="text-right">LPI Due</th>
+                    <th class="text-right">Total Due</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="payment in payments">
-                    <td>{{payment.account_no}}</td>
+                    <td style="text-align: right !important;">{{payment.account_no}}</td>
                     <td>{{payment.firstname}}&nbsp;{{payment.lastname}}</td>
                     <td>{{payment.duedate | DateFormat}}</td>
                     <td class="text-right">{{payment.principal_amount | currency:''}}</td>
