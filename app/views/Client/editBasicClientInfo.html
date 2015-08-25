@@ -26,8 +26,8 @@
       <form name="editBasicClientForm" ng-hide="isLoading" class="form-horizontal" ng-submit="validateEditClient(editClient, editClientWithDataTable)" novalidate show-validation>
         <div class="col-md-6">
           <div class="form-group" ng-if="editClient.accountNo && !externalIdEnabled">
-            <label class="control-label col-md-4">Account Number</label>
-            <div class="col-md-6" style="padding-top: 5px;"><span>{{editClient.accountNo}}</span></div>
+            <label class="control-label col-md-4">File Number</label>
+            <div class="col-md-6" style="padding-top: 5px;"><span>{{editClient.externalId}}</span></div>
           </div>
           <div class="form-group" ng-show="externalIdEnabled">
             <label class="control-label col-md-4">File Number<span class="required"> *</span></label>
