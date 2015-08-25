@@ -69,7 +69,7 @@ angular.module('angularjsApp').controller('AuditCtrl', function($route, $scope, 
       $scope.formData.makerDateTimeFrom = moment($scope.formDate.makerDateTimeFrom).format('YYYY-MM-DD');
     }
     if($scope.formDate.makerDateTimeTo){
-      $scope.formData.makerDateTimeTo = moment($scope.formDate.makerDateTimeTo).format('YYYY-MM-DD');
+      $scope.formData.makerDateTimeTo = moment($scope.formDate.makerDateTimeTo).add(24, 'hours').format('YYYY-MM-DD');
     }
     if($scope.formDate.checkerDateTimeFrom){
       $scope.formData.checkerDateTimeFrom = moment($scope.formDate.checkerDateTimeFrom).format('YYYY-MM-DD');
