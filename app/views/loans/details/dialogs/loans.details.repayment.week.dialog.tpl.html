@@ -10,8 +10,8 @@
             <colgroup span="4"></colgroup>
             <thead>
                 <tr>
-                    <th class="text-right">File&nbsp;No.</th>
-                    <th class="text-right">Name</th>
+                    <th class="text-center">File&nbsp;No.</th>
+                    <th style="text-align: left !important;">Name</th>
                     <th class="text-right">Due&nbsp;Date</th>
                     <th class="text-right">Principal&nbsp;Due</th>
                     <th class="text-right">Interest&nbsp;Due</th>
@@ -22,8 +22,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="payment in payments">
-                    <td style="text-align: right !important;">{{payment.external_id}}</td>
-                    <td>{{payment.firstname}}&nbsp;{{payment.lastname}}</td>
+                    <td style="text-align: center !important;">{{payment.external_id}}</td>
+                    <td style="text-align: left !important;">{{payment.firstname}}&nbsp;{{payment.lastname}}</td>
                     <td>{{payment.duedate | DateFormat}}</td>
                     <td class="text-right">{{payment.principal_amount | currency:''}}</td>
                     <td class="text-right">{{payment.interest_amount | currency:''}}</td>
