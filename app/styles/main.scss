@@ -1,4 +1,4 @@
- $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_mixins.scss";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_utilities.scss";
@@ -7,16 +7,16 @@
 @import "main-tablet.scss";
 
 nav .navbar-nav > .active > a {
-	background-color: #E28B00 !important;
-	color: white !important;
+  background-color: #E28B00 !important;
+  color: white !important;
 }
 
 nav {
-	background: white !important;
+  background: white !important;
 }
 
 .navbar-nav.navbar-right:last-child {
-	margin-right: 0!important;
+  margin-right: 0!important;
 }
 
 nav.pagination {
@@ -26,11 +26,11 @@ nav.pagination {
   left: 7px;
   min-height: 32px;
   .navbar-nav  {
-	float: right;
-	margin-right: 7px;
-	> li > a {
-	  padding: 10px 10px 10px 10px;
-	}
+    float: right;
+    margin-right: 7px;
+    > li > a {
+      padding: 10px 10px 10px 10px;
+    }
   }
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -39,72 +39,72 @@ nav.pagination {
 }
 
 .st-sort-ascent:after {
-    content: "▲";
+  content: "▲";
 }
 
 .st-sort-descent:after {
-    content: "▼";
+  content: "▼";
 }
 
 .pagination {
-    margin: 0px 0px !important;
-    float: left !important;
+  margin: 0px 0px !important;
+  float: left !important;
 }
 
 .login-box {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-top: -187px;
-	margin-left: -190px;
-	padding:0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -187px;
+  margin-left: -190px;
+  padding:0;
 
 }
 
 .form-control-feedback{
-	top: 6px;	
-	right: 10px
+  top: 6px;
+  right: 10px
 }
 
 nav .notifications > strong{
-	right: 18px!important;
+  right: 18px!important;
 }
 
 .action .primary {
-	padding: 5px 20px !important;
-	font-size: 14px !important;
-	border-radius: 10px;/*50px;*/
-	height: auto;
+  padding: 5px 20px !important;
+  font-size: 14px !important;
+  border-radius: 10px;/*50px;*/
+  height: auto;
 }
 
 .table .grid-button {
-	text-transform: none;
+  text-transform: none;
 }
 
 input.form-control {
-	font-size: 14px !important;
+  font-size: 14px !important;
 }
 
 
 .table > tbody > tr {
-	line-height: 15px !important;
+  line-height: 15px !important;
 }
 
 .table > tbody > tr > td {
-	line-height: 15px;
-	font-size: 1.2rem;
+  line-height: 15px;
+  font-size: 1.2rem;
 }
 
 .table > thead > tr > th.number {
-	text-align: right;
+  text-align: right;
 }
 
 .table > tbody > tr > td.number {
-	text-align: right;
+  text-align: right;
 }
 
 .table > thead > tr > th.date {
-	text-align: center;
+  text-align: center;
 }
 .table > tbody > tr > td.date {
  	text-align: center;
@@ -119,14 +119,14 @@ input.form-control {
 }
 
 .table .name, .table .status {
-	font-size: 14px;
+  font-size: 14px;
 }
 .table .name{
 
-	 font-weight: 600;
-	/* text-decoration: underline;*/
-	text-transform: uppercase;
-	font-size: 1.2rem !important;
+  font-weight: 600;
+  /* text-decoration: underline;*/
+  text-transform: uppercase;
+  font-size: 1.2rem !important;
 
 }
 .table-permission {
@@ -138,18 +138,18 @@ input.form-control {
     }
   }
   .btn-xs{
-	padding: 1px 2px;
-  	font-size: 0.7vw;
-  	line-height: 1.5;
-  	border-radius: 3px;
-  	text-transform: lowercase;
-  	width: 100%!important;
-  	border: 0;
-  	margin-bottom: 5px;
+    padding: 1px 2px;
+    font-size: 0.7vw;
+    line-height: 1.5;
+    border-radius: 3px;
+    text-transform: lowercase;
+    width: 100%!important;
+    border: 0;
+    margin-bottom: 5px;
   }
   tr>td:first-child{
-  	font-weight: 700;
-  	font-size: 1vw;
+    font-weight: 700;
+    font-size: 1vw;
     padding-right: 0!important;
   }
   .form-control{
@@ -164,77 +164,77 @@ input.form-control {
 }
 
 .required {
-	color: #a94442;
-	font-weight: bolder;
+  color: #a94442;
+  font-weight: bolder;
 }
 
 .caret-parent{
-	cursor: pointer;	
+  cursor: pointer;
 }
 
 .pointer{
-	cursor: pointer;	
+  cursor: pointer;
 }
 
 .filters {
-	margin-bottom: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 a.disabled {
-	pointer-events: none;
-    cursor: default;
-    color: #777;
+  pointer-events: none;
+  cursor: default;
+  color: #777;
 }
 
 .form-group > .control-label {
-	font-weight: inherit;
+  font-weight: inherit;
 }
 
 label.text-left {
-    text-align: left !important;
-    padding-top: 0 !important;
+  text-align: left !important;
+  padding-top: 0 !important;
 }
 
 .tab {
-	display: none;
+  display: none;
 }
 
 .dateCss .glyphicon-ok:before , .dateCss .glyphicon-remove:before{
-	content:none !important;
+  content:none !important;
 }
 
 .thumbnail, .thumbnail video {
-	max-height: 240px;
-	max-width: 320px;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
+  max-height: 240px;
+  max-width: 320px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .thumbnail img {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .Size{
-	max-height:50px;
-	max-width:50px;
+  max-height:50px;
+  max-width:50px;
 }
 
 .margin-right5 {
-	margin-right: 5px;
+  margin-right: 5px;
 }
 
 .padding0 {
-	padding:0;
+  padding:0;
 }
 
 tr.pointer:hover {
-	background-color: #e5e5e5;
+  background-color: #e5e5e5;
 }
 
 tr.pointer > td {
-	color: #449acc !important;
+  color: #449acc !important;
 }
 
 td.actions {
@@ -251,11 +251,11 @@ td.actions {
 
 .attachment_file{
   .glyphicon-remove-circle {
-      color: #d9534f;
+    color: #d9534f;
   }
 }
 
-.dialog-header-confirm { 
+.dialog-header-confirm {
   background-color: #fff;
   border-radius: 10px 10px 0 0;
   h4 {
@@ -297,16 +297,16 @@ td.actions {
 }
 
 @keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .marginTop5 {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 
 .form-control {
@@ -314,11 +314,11 @@ td.actions {
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
   border: 1px solid #BFC2B0;
   &:focus{
-  	border: 1px solid #BFC2B0;
+    border: 1px solid #BFC2B0;
   }
 }
 
-.has-error .form-control {
+.has-error .form-control, .ng-invalid.form-control, .ng-invalid.form-control + .chosen-container-single > .chosen-single{
   border-top: 1px solid #BFC2B0;
   border-left: 1px solid #BFC2B0;
   border-right: 1px solid #BFC2B0;
@@ -326,5 +326,5 @@ td.actions {
 }
 
 .dropdown-menu .divider {
- margin: 4px 0px;
+  margin: 4px 0px;
 }

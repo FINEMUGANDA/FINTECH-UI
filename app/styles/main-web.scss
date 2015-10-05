@@ -36,6 +36,7 @@ body.pre-login {
   margin-top:0px;
   border-bottom: 1px solid $primary-color;
   margin-bottom: 2rem;
+  padding-bottom: 10px;
 }
 //NAVBAR
 .navbar-nav>li>.dropdown-menu{
@@ -55,9 +56,9 @@ body.pre-login {
 
 //BUTTONS
 
-h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
+/*h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
   margin-bottom: 10px;
-}
+}*/
 .btn-primary{
   //background-color: darkgreen;
   border: 1px solid #396c84;
@@ -70,9 +71,9 @@ h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
 .form-group .btn-primary{
   min-width:0;
 }
-.btn-warning {
+/*.btn-warning {
   color: #fff;
-  background-color: #428bca;/*#f0ad4e;*/
+  background-color: #428bca;#f0ad4e;
   border: 1px solid #396c84;
   //border-radius: 10px;
   min-width: 72px;
@@ -81,10 +82,10 @@ h3 .btn-primary,.btn-primary, .btn-warning, .btn-danger{
     border: 1px solid #396c84;
   }
   &:visited {
-    background-color: #428bca;/*#f0ad4e;*/
+    background-color: #428bca;#f0ad4e;
     border: 1px solid #396c84;
   }
-}
+}*/
 .btn-danger{
   border: 2px solid #9D322F;
   background:$activeInBadStandingColor;

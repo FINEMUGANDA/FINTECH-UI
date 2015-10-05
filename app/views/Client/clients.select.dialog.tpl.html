@@ -1,33 +1,33 @@
 <style>
-    .chosen-container {
-        width: 100% !important;
-    }
+  .chosen-container {
+    width: 100% !important;
+  }
 </style>
 <div class="modal-header">
-    <button type="button" class="close" ng-click="cancel()">&times;</button>
-    <h3>{{msg}}</h3>
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h3>{{msg}}</h3>
 </div>
 <div class="modal-body">
-    <div ng-include src="'/views/alert.html'"></div>
-    <div ng-show="isLoading">Loading...</div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form ng-hide="isLoading" class="form-horizontal" novalidate>
-                <div class="form-group">
-                    <label>Client <span class="required">*</span></label>
-                    <select id="selectClient" chosen="clients" class="form-control" ng-model="client" ng-options="client as (client.name) for client in clients">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </form>
+  <div ng-include src="'/views/alert.html'"></div>
+  <div ng-show="isLoading">Loading...</div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <form ng-hide="isLoading" class="form-horizontal" novalidate>
+        <div class="form-group">
+          <label>Client <span class="required">*</span></label>
+          <select id="selectClient" chosen="clients" class="form-control" ng-model="client" ng-options="client as (client.name) for client in clients" required>
+            <option value=""></option>
+          </select>
         </div>
+      </form>
     </div>
+  </div>
 </div>
 <div class="modal-footer">
-    <div class="btn-group">
-        <button type="button" class="btn btn-primary" ng-click="select()">Select</button>
-        <button type="button" class="btn btn-warning" ng-click="cancel()">Close</button>
-    </div>
+  <!--<div class="btn-group">-->
+    <button type="button" class="btn btn-primary" ng-click="select()">Select</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()">Close</button>
+  <!--</div>-->
 </div>
 
 

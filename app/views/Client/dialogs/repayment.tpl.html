@@ -15,13 +15,13 @@
             <form ng-hide="isLoading" class="form-horizontal" novalidate>
                 <div class="form-group">
                     <label>Client <span class="required">*</span></label>
-                    <select id="selectClient" chosen="clients" class="form-control" ng-model="client" ng-options="client as (client.name + ' [#'  + client.account_no + ']') for client in clients">
+                    <select id="selectClient" chosen="clients" class="form-control" ng-model="client" ng-options="client as (client.name + ' [#'  + client.account_no + ']') for client in clients" required>
                         <option value=""></option>
                     </select>
                 </div>
                 <div class="form-group" ng-show="client">
                     <label>Payment Type <span class="required">*</span></label>
-                    <select id="selectPayment" chosen="clients" class="form-control" ng-model="paymentCode" ng-options="payment.code as payment.name for payment in paymentOptions" value="{{paymentCode}}">
+                    <select id="selectPayment" chosen="clients" class="form-control" ng-model="paymentCode" ng-options="payment.code as payment.name for payment in paymentOptions" value="{{paymentCode}}" required>
                         <option value=""></option>
                     </select>
                 </div>
