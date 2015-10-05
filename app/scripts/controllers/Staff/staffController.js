@@ -132,10 +132,11 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
     $scope.type = '';
     $scope.message = '';
     $scope.errors = [];
-    if ($scope.formData.joiningDate.getTime()>new Date().getTime()) {
+    if ($scope.formData.joiningDate && $scope.formData.joiningDate.getTime()>new Date().getTime()) {
       $scope.type = 'error';
       $scope.message = 'Join date cannot be in the future';
       $scope.errors = [];
+      $('html, body').animate({scrollTop: 0}, 800);
     } else if ($scope.userForm.$valid) {
       $scope.save();
     } else {
