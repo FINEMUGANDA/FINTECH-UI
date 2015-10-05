@@ -53,7 +53,7 @@
         <div class="form-group">
           <label class="control-label col-sm-2">Office<span class="required">*</span></label>
           <div class="validate col-sm-3">
-            <select chosen="offices" id="officeId" ng-model="formData.officeId" class="form-control" data-ng-change="getOfficeStaff()" ng-options="office.id as office.name for office in offices">
+            <select chosen="offices" id="officeId" ng-model="formData.officeId" class="form-control" data-ng-change="getOfficeStaff()" ng-options="office.id as office.name for office in offices" required>
               <option value="">--Select Office--</option>
             </select>
           </div>
@@ -61,7 +61,7 @@
         <div class="form-group">
           <label class="control-label col-sm-2">Staff<span class="required">*</span></label>
           <div class="col-sm-3">
-            <select chosen="staff_vars" id="staffId" ng-model="formData.staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in staff_vars">
+            <select chosen="staff_vars" id="staffId" ng-model="formData.staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in staff_vars" required>
               <option value="">--Select Staff--</option>
             </select>
           </div>
@@ -81,7 +81,7 @@
         <div class="form-group">
           <label class="control-label col-sm-2">Select roles<span class="required">*</span></label>
           <div class="validate col-sm-3">
-            <select multiple required ng-model="formData.selectedRoles" class="form-control">
+            <select multiple required ng-model="formData.selectedRoles" class="form-control" required>
               <option ng-repeat="role in roles" ng-value="{{role.id}}" ng-selected>{{role.name}}</option>
             </select>
           </div>

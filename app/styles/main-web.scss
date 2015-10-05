@@ -87,7 +87,7 @@ body.pre-login {
   }
 }*/
 .btn-danger{
-  border: 2px solid #9D322F;
+  border: 1px solid #9D322F;
   background:$activeInBadStandingColor;
  // border-radius: 10px;
 }
@@ -628,7 +628,7 @@ form[name=roleForm]{
     text-align:left;
   }
 }
-.btn-sm{
+/*.btn-sm{
   background: $secondary-color;
   color: white;
   text-transform: lowercase;
@@ -647,7 +647,7 @@ form[name=roleForm]{
     background: #407d9c;
       color: #fff;
   }
-}
+}*/
 form[name=createjournalentryForm]{
   .col-md-3{
     margin-bottom: 1%;

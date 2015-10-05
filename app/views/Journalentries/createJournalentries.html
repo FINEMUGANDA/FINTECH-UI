@@ -21,7 +21,7 @@
             <div class="form-group" ng-show="journalEntryForm.opening">
                 <label class="control-label col-md-2">Type<span class="required"> *</span></label>
                 <div class="col-md-3">
-                    <select id="openingBalanceType" chosen="openingBalanceTypes" class="form-control" ng-model="openingBalanceType" ng-options="bt.type as bt.name for bt in openingBalanceTypes" value="{{openingBalanceType}}">
+                    <select id="openingBalanceType" chosen="openingBalanceTypes" class="form-control" ng-model="openingBalanceType" ng-options="bt.type as bt.name for bt in openingBalanceTypes" value="{{openingBalanceType}}" required>
                         <option value="">Select...</option>
                     </select>
                 </div>
@@ -34,7 +34,7 @@
               <label class="control-label col-md-2">Office<span class="required"> *</span></label>
               <div class="validate col-md-3">
                   <select chosen="offices" id="officeId" ng-model="journalEntryForm.officeId" class="form-control"
-                          ng-options="office.id as office.name for office in offices" value="{{office.id}}">
+                          ng-options="office.id as office.name for office in offices" value="{{office.id}}" required>
                   </select>
               </div>
               <!--
@@ -63,12 +63,12 @@
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>
                     -->
-                    <select ng-model="dbAccount.select" chosen="debitOptions" class="form-control" ng-options="(debitAccount.name + ' - ' + debitAccount.currencyCode +' ('+ debitAccount.glCode + ')') for debitAccount in getDebitOptions()" ng-change="changeDebitOptions()">
+                    <select ng-model="dbAccount.select" chosen="debitOptions" class="form-control" ng-options="(debitAccount.name + ' - ' + debitAccount.currencyCode +' ('+ debitAccount.glCode + ')') for debitAccount in getDebitOptions()" ng-change="changeDebitOptions()" required>
                       <option class="displaynone" value="">-- Select -- </option>
                     </select>
                   </div>
                   <div class="col-md-3 col-xs-3">
-                    <input type="text" class="input-small form-control" ng-model="dbAccount.debitAmount" placeholder="Amount">
+                    <input type="text" class="input-small form-control" ng-model="dbAccount.debitAmount" placeholder="Amount" required>
                   </div>
                   <div class="col-md-1 col-xs-1 margintop6">
                     <a ng-click="removeDebitAccount($index)">                      
@@ -95,12 +95,12 @@
                           <option class="displaynone" value="">-- Select -- </option>
                       </select>
                       -->
-                      <select chosen="creditOptions" ng-model="crAccount.select" class="form-control" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in getCreditOptions()" ng-change="changeCreditOptions()">
+                      <select chosen="creditOptions" ng-model="crAccount.select" class="form-control" ng-options="(creditAccount.name + ' - ' + creditAccount.currencyCode +' ('+ creditAccount.glCode +')') for creditAccount in getCreditOptions()" ng-change="changeCreditOptions()" required>
                           <option class="displaynone" value="">-- Select -- </option>
                       </select>
                   </div>
                   <div class="col-md-3 col-xs-3">
-                    <input type="text" class="input-small form-control" ng-model="crAccount.crAmount" placeholder="Amount">
+                    <input type="text" class="input-small form-control" ng-model="crAccount.crAmount" placeholder="Amount" required>
                   </div>
                   <div class="col-md-1 col-xs-1 margintop6">
                     <a ng-click="removeCrAccount($index)">                      
