@@ -118,7 +118,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   };
   $scope.transactionTab = {};
   function initTransactions() {
-    $scope.transactionTab.hideAccrualTransactions = true;
+    $scope.transactionTab.hideAccrualTransactions = false;
     filterTransactions();
   }
 
