@@ -39,19 +39,32 @@ body.pre-login {
   padding-bottom: 10px;
 }
 //NAVBAR
-.navbar-nav>li>.dropdown-menu{
+/*.navbar-nav>li>.dropdown-menu{
   box-shadow: 5px 4px 9px 0px rgba(50, 50, 50, 0.6);
   border: 0;
   background: #e7e7e7;
-}
-/*#main-navbar-collapse > ul > li.dropdown.open > ul{
-  
 }*/
+#main-navbar-collapse > ul > li.dropdown.open > ul{
+
+}
 .navbar-default {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   border: 0;
   box-shadow: 0px 6px 9px 0px rgba(50, 50, 50, 0.5);
+}
+.sm {
+  border-radius: 0;
+  background-color: transparent;
+}
+#loans_info_button {
+  margin: 7px;
+  .sub-arrow {
+    display: none;
+  }
+  & + ul > li > div {
+    padding: 10px;
+  }
 }
 
 //BUTTONS
@@ -89,7 +102,7 @@ body.pre-login {
 .btn-danger{
   border: 1px solid #9D322F;
   background:$activeInBadStandingColor;
- // border-radius: 10px;
+  // border-radius: 10px;
 }
 .btn-group-sm>.btn{
   //border-radius: 10px;
@@ -115,9 +128,9 @@ body.pre-login {
     background: $primary-color;
     color: white;*/
     font-weight: 700;
-  background: white;
-  color:$primary-color;
-  border-bottom: 3px solid $primary-color;
+    background: white;
+    color:$primary-color;
+    border-bottom: 3px solid $primary-color;
   }
 
   ul > li + li {
@@ -134,7 +147,7 @@ body.pre-login {
     font-size:12px;
     /*border-right: 1px solid darken($border-color,4%);*/
     border-radius: 0;
-     border: 1px solid $primary-color;
+    border: 1px solid $primary-color;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -151,7 +164,7 @@ body.pre-login {
     background-repeat: no-repeat;
     border: 0;
   }
- 
+
   ul > li > a {
     padding: 5px 10px;
     //font-size:1.2rem;
@@ -160,7 +173,7 @@ body.pre-login {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
- 
+
 }
 
 div.shortcuts{
@@ -179,7 +192,7 @@ div.shortcuts > ul > li > a{
   //font-weight: 600;
   margin-top: -0.3rem;
   &:hover{
-   /* background: white!important;*/
+    /* background: white!important;*/
     color:#3b718b!important;
   }
 }
@@ -246,8 +259,8 @@ div > dl > dd > ul{
 .panel-body{
   padding-bottom: 0!important;
   .row {
-   margin-left: 0;
-   margin-right: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
   .col-md-12{
     padding:0;
@@ -355,11 +368,11 @@ div.page-header > h3{
   margin-right: 10px;
   margin-left: 10px;
   h3{
-  font-size: 2.4rem;
-  font-weight: 700;
-  padding-left:15px;
+    font-size: 2.4rem;
+    font-weight: 700;
+    padding-left:15px;
   }
-  
+
 }
 .modal-title{
   font-size:1.4rem;
@@ -369,31 +382,31 @@ div.page-header > h3{
   border-bottom: 1px solid $primary-color;
 }
 //div.summary > div > ul > li > a{
-  
-  /*border-bottom: 0px;
-  &:visited, &:hover, &:link, &:active{
-    background: white!important;
-    color:#E28B00!important;
-    border-bottom: 0px;
-  }*/
+
+/*border-bottom: 0px;
+&:visited, &:hover, &:link, &:active{
+  background: white!important;
+  color:#E28B00!important;
+  border-bottom: 0px;
+}*/
 //}
 .loanRelatedStyle > ul > li .active{
-  
+
   border-bottom:0;
   color: $primary-color;
 }
 div.summary > div > ul {
-    //width: 70%;
-    >li>a{
+  //width: 70%;
+  >li>a{
 
-      padding: 5px 5px;
-      border: 1px solid $primary-color;
-    }
-    /*HERE jumping tabs error*/
-    li+li{
-      margin-bottom: 10px;
-    }
+    padding: 5px 5px;
+    border: 1px solid $primary-color;
   }
+  /*HERE jumping tabs error*/
+  li+li{
+    margin-bottom: 10px;
+  }
+}
 
 .filters {
   @include make-row();
@@ -429,7 +442,7 @@ div.summary > div > ul {
     float: right;
 
     strong {
-        float: right;
+      float: right;
     }
 
     .link {
@@ -557,7 +570,7 @@ div.summary > div > ul {
 }
 .thumbnail .rows>img{
   max-width:60%;
-  
+
 }
 .meta{
   font-weight: 100;
@@ -577,17 +590,17 @@ div.summary > div > ul {
     border-bottom: 3px solid $primary-color;
   }
   > li > a{
-   padding: 5px 10px;
-   //font-size: 1.2rem;
-   border-radius: 0;
-   border: 1px solid $primary-color;
-   border-top-left-radius: 10px;
-   border-top-right-radius: 10px;
-   margin-right: 0;
-   &:hover{
-    color:#4A7D82;
-    border-color:$primary-color;
-   }
+    padding: 5px 10px;
+    //font-size: 1.2rem;
+    border-radius: 0;
+    border: 1px solid $primary-color;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-right: 0;
+    &:hover{
+      color:#4A7D82;
+      border-color:$primary-color;
+    }
   }
 }
 .tab-content{
@@ -613,9 +626,9 @@ form[name=roleForm]{
   .col-md-12{
     margin-top:20px;
     .col-md-8{
-     margin-top:20px;
-     margin-bottom: 20px;
-     width: 100%;
+      margin-top:20px;
+      margin-bottom: 20px;
+      width: 100%;
     }
     h3{
       font-size: 1.4vw;
@@ -672,55 +685,6 @@ ul.dropdown-menu > li{
 }
 .modal-footer{
   .btn-danger{
-      margin-bottom: 0;
+    margin-bottom: 0;
   }
-}
-
-
-.dropdown-submenu {
-  position: relative;
-}
-
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  -webkit-border-radius: 0 6px 6px 6px;
-  -moz-border-radius: 0 6px 6px;
-  border-radius: 0 6px 6px 6px;
-}
-
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #ccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-
-.dropdown-submenu:hover>a:after {
-  border-left-color: #fff;
-}
-
-.dropdown-submenu.pull-left {
-  float: none;
-}
-
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  -webkit-border-radius: 6px 0 6px 6px;
-  -moz-border-radius: 6px 0 6px 6px;
-  border-radius: 6px 0 6px 6px;
 }

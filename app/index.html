@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
     <!-- endbower -->
     <link rel="stylesheet" href="bower_components/chosen_v1.3.0/chosen.css" />
+    <!--<link rel="stylesheet" href="bower_components/smartmenus/dist/css/sm-core-css.css" />-->
+    <!--<link rel="stylesheet" href="bower_components/smartmenus/dist/css/sm-clean/sm-clean.css" />-->
+    <link href="bower_components/smartmenus/dist/addons/bootstrap/jquery.smartmenus.bootstrap.css" rel="stylesheet">
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -61,10 +64,23 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-base64-upload/src/angular-base64-upload.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-dialog-service/dist/dialogs.min.js"></script>
+    <script src="bower_components/angular-dialog-service/dist/dialogs-default-translations.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
+    <script src="bower_components/angular.treeview/angular.treeview.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/nv.d3.js"></script>
+    <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
@@ -77,28 +93,17 @@
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
-    <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
-    <script src="bower_components/angular-base64-upload/src/angular-base64-upload.js"></script>
-    <script src="bower_components/webcam-directive/dist/webcam.min.js"></script>
-    <script src="bower_components/angular.treeview/angular.treeview.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular-translate/angular-translate.js"></script>
-    <script src="bower_components/angular-dialog-service/dist/dialogs.min.js"></script>
-    <script src="bower_components/angular-dialog-service/dist/dialogs-default-translations.min.js"></script>
-    <script src="bower_components/webcam/jquery.webcam.js"></script>
-    <script src="bower_components/ng-device-detector/ng-device-detector.js"></script>
-    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/nvd3/nv.d3.js"></script>
-    <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
     <script src="bower_components/momentjs/moment.js"></script>
-    <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js"></script>
-    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/ng-device-detector/ng-device-detector.js"></script>
+    <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+    <script src="bower_components/smartmenus/dist/jquery.smartmenus.js"></script>
+    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/webcam/jquery.webcam.js"></script>
+    <script src="bower_components/webcam-directive/dist/webcam.min.js"></script>
     <!-- endbower -->
+    <script src="bower_components/smartmenus/dist/addons/bootstrap/jquery.smartmenus.bootstrap.js"></script>
     <script src="bower_components/ui-bootstrap/src/typeahead/typeahead.js"></script>
     <script src="bower_components/ng-idle/angular-idle.js"></script>
     <script src="bower_components/file-saver/FileSaver.js"></script>

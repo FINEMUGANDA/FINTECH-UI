@@ -2,7 +2,8 @@
 @import "main-variables.scss";
 @media only screen
 //and (min-width: 768px)
-and (max-width: 1024px){
+and (max-width: 1024px)
+and (min-width: 768) {
 
   .table .name, .table .status {
     font-size: 1.2vw !important;
@@ -364,9 +365,24 @@ and (max-width: 992px){
 }
 /*@media only screen
 and (max-width: 768px){
-  .shortcuts ul>li>a{
-    padding: 4px;
-    font-size: 1rem;
+  .navbar-nav {
+    float: none;
+    width: auto;
+    display: block;
+    position: static;
+  }
+  .navbar-nav li {
+    display: block;
+    float: none;
+    width: auto;
+    position: static;
+  }
+  .dropdown-menu {
+    display: block;
+  }
+  .navbar-fixed-top {
+    max-height: 100%;
+    overflow: auto;
   }
 }*/
 
