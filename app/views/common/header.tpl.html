@@ -9,6 +9,13 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/#/dashboard"><span>Finem</span></a>
+      <div class="visible-sm search-sm">
+        <form role="search">
+          <div class="form-group">
+            <input type="text" class="search-box" placeholder="Search"/>
+          </div>
+        </form>
+      </div>
     </div>
     <div class="navbar-collapse collapse">
 
@@ -118,7 +125,7 @@
           </ul>
         </li>
         <li>
-          <a href="javascript:void(0);" class="user"><span class="name">{{username}}</span><span class="caret"></span></a>
+          <a href="javascript:void(0);" class="user"><span class="name">{{username}}</span></a>
           <ul class="dropdown-menu">
             <li><a href="javascript:void(0);" ng-click="change_pass()">Change Password</a></li>
             <li ng-controller="LoginCtrl"><a href="javascript:void(0);" ng-click="logout()">Logout</a></li>

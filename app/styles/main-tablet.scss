@@ -63,7 +63,7 @@ and (min-width: 768) {
     margin-right:5px;
     width:118px;
   }
-  
+
   .filters {
     ul {
       @include make-md-column(9);
@@ -101,9 +101,9 @@ and (min-width: 768) {
     font-size: 1rem;
   }
   .container>.navbar-header{
-     margin-right: auto;
-     margin-left: auto;
-     width: 98%
+    margin-right: auto;
+    margin-left: auto;
+    width: 98%
   }
   .navbar>.container .navbar-brand{
     margin-left:0!important;
@@ -125,16 +125,16 @@ and (min-width: 768) {
     margin-right: auto;
   }
   .navbar-default .navbar-toggle{
-      z-index: 10;
+    z-index: 10;
   }
   .collapse.in{
     width: 98%;
   }
   .main-nav ul{
-      float: left;
-      width: 80%;
-      margin-top: 1.4rem;
-      border: 0;
+    float: left;
+    width: 80%;
+    margin-top: 1.4rem;
+    border: 0;
   }
   .navbar-nav.navbar-right:last-child{
     margin-right: 0!important;
@@ -149,100 +149,100 @@ and (min-width: 768) {
     display:none!important;
   }
   .navbar-nav li a.notifications strong{
-      top: 4px;
-      left: 23px;
+    top: 4px;
+    left: 23px;
   }
   nav .navbar-nav>li>a{
-      padding: 23px 10px 23px 40px;
+    padding: 23px 10px 23px 40px;
   }
   .navbar-nav li a.notifications{
-      margin-top: 7px;
+    margin-top: 7px;
   }
   ul.nav.navbar-nav.navbar-right > li.dropdown{
     float:right;
   }
- .search.pull-right > input{
-  padding: 5px;
-  border-radius: 50px;
-  border: 1px solid #bfbfbf;
-  font-size: 1.2rem;
-  width: 125px;
-  text-align: center;
-  margin-left: -117px;
-  margin-top: -45px;
-  position: absolute;
- }
- div.ng-scope > ul > li:nth-child(5) > a{
+  .search.pull-right > input{
+    padding: 5px;
+    border-radius: 50px;
+    border: 1px solid #bfbfbf;
+    font-size: 1.2rem;
+    width: 125px;
+    text-align: center;
+    margin-left: -117px;
+    margin-top: -45px;
+    position: absolute;
+  }
+  div.ng-scope > ul > li:nth-child(5) > a{
     margin-bottom: 4px;
- }
- .shortcuts{
-   ul>li+li{
-   margin-bottom: 10px;
-   }
-   ul > li > a {
-    padding: 5px 0.9vw;
-    font-size: 0.9vw;
+  }
+  .shortcuts{
+    ul>li+li{
+      margin-bottom: 10px;
     }
- }
- div.summary>div>ul>li+li {
-  margin-bottom: 10px;
-}
- .table .grid-button{
-   float:right;
-   margin-bottom:2px;
- }
- //adjustment of status button
- .col-md-8 .col-md-8{
-   margin-left: 1.8rem;
-   width:50%!important;
- }
- .col-md-12 .col-md-8{
-   float:left;
-   width:66.666666%;
- }
-.col-md-12 .col-md-4{
-  float:left;
-   width:33.333333%;
-}
+    ul > li > a {
+      padding: 5px 0.9vw;
+      font-size: 0.9vw;
+    }
+  }
+  div.summary>div>ul>li+li {
+    margin-bottom: 10px;
+  }
+  .table .grid-button{
+    float:right;
+    margin-bottom:2px;
+  }
+  //adjustment of status button
+  .col-md-8 .col-md-8{
+    margin-left: 1.8rem;
+    width:50%!important;
+  }
+  .col-md-12 .col-md-8{
+    float:left;
+    width:66.666666%;
+  }
+  .col-md-12 .col-md-4{
+    float:left;
+    width:33.333333%;
+  }
   //adjust height of all rows
-div.col-md-8 > div{
+  div.col-md-8 > div{
     //height: 2rem;
-}
-.form-group>.control-label{
-  width: 100%;
-  text-align: left;
-  margin-bottom: 1rem;
-}
-.col-md-12 > form > .col-md-6{
-  width: 50%;
-  float: left;
-}
-.col-md-12 > form > .col-md-12{
-  width: 100%;
-  clear: both;
-  text-align: right;
-}
-/**
-div.summary > div > ul {
+  }
+  .form-group>.control-label{
     width: 100%;
-    >li>a{
-      //font-size: 1.1vw;
-      padding: 5px 0.5vw;
-    }
-}
-*/
-.form-group h4{
     text-align: left;
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-//===================
+    margin-bottom: 1rem;
+  }
+  .col-md-12 > form > .col-md-6{
+    width: 50%;
+    float: left;
+  }
+  .col-md-12 > form > .col-md-12{
+    width: 100%;
+    clear: both;
+    text-align: right;
+  }
+  /**
+  div.summary > div > ul {
+      width: 100%;
+      >li>a{
+        //font-size: 1.1vw;
+        padding: 5px 0.5vw;
+      }
+  }
+  */
+  .form-group h4{
+    text-align: left;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  //===================
 }
 @media only screen
 and (min-width: 992px)
 and (max-width: 1024px){
   .form-group > .control-label{
-      width: 16.6666666667%;
+    width: 16.6666666667%;
   }
   .table-permission .btn-xs, .tab-content .container .btn-xs{
     font-size: 1.2vw!important;
@@ -268,20 +268,20 @@ and (max-width: 992px){
     padding: 1px;
   }
   .table-permission .btn-xs{
-     padding: 1px;
+    padding: 1px;
   }
   .tab-content .container .col-md-3{
     width: 50%;
     float: left;
   }
   .col-md-4{
-  float: none!important;
-  width: 50%!important;
+    float: none!important;
+    width: 50%!important;
   }
   .form-group > .control-label{
     width:100%;
   }
- 
+
   .col-md-2{
     width: 33%;
     float: left;
@@ -305,7 +305,7 @@ and (max-width: 992px){
   //.form-group>label+div{
 
   div > div > form > div.form-group > label+div{
-   clear:left;  
+    clear:left;  
   }
   .modal-dialog{
     margin: 30px 0;
@@ -319,19 +319,19 @@ and (max-width: 992px){
     }
   }
   .col-xs-6{
-   width:100%;
-   button{
-    width:15%;
-   }
-   input{
-    width:85%;
-   }
+    width:100%;
+    button{
+      width:15%;
+    }
+    input{
+      width:85%;
+    }
   }
   form[name=createjournalentryForm]{
     .control-label {
       width: 30%;
-     clear: none;
-     float: left;
+      clear: none;
+      float: left;
       text-align: right
     }
     .col-md-3{
@@ -354,9 +354,9 @@ and (max-width: 992px){
       margin-left: 20px;
     }
     .col-md-9{
-     clear: none;
-     float: left;
-     width: 70%;
+      clear: none;
+      float: left;
+      width: 70%;
     }
     .paddedtop{
       margin-left: 31%;
@@ -386,3 +386,9 @@ and (max-width: 768px){
   }
 }*/
 
+@media only screen
+and (max-width: 1200px) {
+  .navbar>.container {
+    width: auto !important;
+  }
+}
