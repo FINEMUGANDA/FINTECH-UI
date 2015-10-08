@@ -174,6 +174,10 @@ nav {
   .navbar-collapse.collapse {
     display: none !important;
   }
+  .navbar-collapse.collapsing {
+    overflow: hidden !important;
+    width: 100% !important;
+  }
   .navbar-collapse.collapse.in {
     display: block !important;
   }
