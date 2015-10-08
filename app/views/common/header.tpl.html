@@ -118,8 +118,8 @@
             <li>
               <div style="width: 240px; max-width: 100%;">
                 <div>Total loans requiring actions: {{loans_total}}</div>
-                <div><a href="/#/loansPendingApproval" ng-show="hasPermission('APPROVE_LOAN')">Loans pending approval: {{loans_PAcount}}</a></div>
-                <div><a href="/#/loansAwaitingDisbursement" ng-show="hasPermission('DISBURSE_LOAN')">Loans awaiting disbursement:  {{loans_ADcount}}</a></div>
+                <div><a href="/#/loansPendingApproval" ng-show="hasPermission('APPROVE_LOAN')" data-toggle="collapse" data-target=".navbar-collapse">Loans pending approval: {{loans_PAcount}}</a></div>
+                <div><a href="/#/loansAwaitingDisbursement" ng-show="hasPermission('DISBURSE_LOAN')" data-toggle="collapse" data-target=".navbar-collapse">Loans awaiting disbursement:  {{loans_ADcount}}</a></div>
               </div>
             </li>
           </ul>
