@@ -21,11 +21,11 @@
 
       <!-- Left nav -->
       <ul class="nav navbar-nav sm sm-finem">
-        <li ng-class="{'active': currentMenuPath == 'home'}"><a href="/#/dashboard" class="home">Home</a></li>
-        <li ng-class="{'active': currentMenuPath == 'client'}" ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients?clear=true" class="clients">Clients</a></li>
+        <li ng-class="{'active': currentMenuPath == 'home'}"><a data-toggle="collapse" data-target=".navbar-collapse" href="/#/dashboard" class="home">Home</a></li>
+        <li ng-class="{'active': currentMenuPath == 'client'}" ng-show="hasPermission('READ_CLIENT')"><a data-toggle="collapse" data-target=".navbar-collapse" href="/#/clients?clear=true" class="clients">Clients</a></li>
         <li ng-class="{'active': currentMenuPath == 'report'}" ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])">
           <a href="javascript:void(0);" class="reports">Reports</a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
             <li ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])"><a href="/#/vreports/all"> All</a></li>
             <li ng-show="hasReportCategoryPermission('Client')"><a href="/#/vreports/clients"> Clients</a></li>
             <li ng-show="hasReportCategoryPermission('Loan')"><a href="/#/vreports/loans"> Loans</a></li>
@@ -35,7 +35,7 @@
         </li>
         <li ng-class="{'active': currentMenuPath == 'accounting'}">
           <a href="javascript:void(0);" class="accounting" ng-show="hasAnyPermission(['READ_JOURNALENTRY', 'READ_GLACCOUNT'])">Accounting</a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
             <li ng-show="hasPermission('READ_GLACCOUNT')"><a href="/#/accounting/chart">Chart of Accounts</a></li>
             <li ng-show="hasPermission('READ_JOURNALENTRY')"><a href="/#/journalentries">Journal Entries</a></li>
           </ul>
@@ -45,7 +45,7 @@
           <ul class="dropdown-menu">
             <li>
               <a href="javascript:void(0);">Credentials</a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
                 <li ng-show="hasPermission('READ_STAFF')"><a href="/#/admin/staff" >Staff</a></li>
                 <li ng-show="hasPermission('READ_USER')"><a href="/#/admin/users" >Users</a></li>
                 <li ng-show="hasPermission('READ_ROLE')"><a href="/#/admin/roles" >Roles</a></li>
@@ -54,7 +54,7 @@
             </li>
             <li>
               <a href="javascript:void(0);">Utilities</a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
                 <li ng-show="hasPermission('READ_AUDIT')"><a href="/#/audit">Audit trail</a></li>
                 <li ng-show="hasPermission('READ_UINOTIFICATION')"><a href="/#/notifications/sms">Notification log</a></li>
                 <li ng-show="hasPermission('READ_SCHEDULER')"><a href="/#/jobs">Jobs Schedule</a></li>
@@ -63,7 +63,7 @@
             </li>
             <li>
               <a href="javascript:void(0);">Parameters</a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
                 <li ng-show="hasPermission('CREATE_CODEVALUE')"><a href="/#/codes" >Codes</a></li>
                 <li ng-show="hasPermission('READ_HOLIDAY')"><a href="/#/holidays" >Holidays</a></li>
                 <li ng-show="hasPermission('READ_UIREPORT')"><a href="/#/reports" >Manage Reports</a></li>
@@ -71,14 +71,14 @@
             </li>
             <li>
               <a href="javascript:void(0);">Loans / Products</a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
                 <li ng-show="hasPermission('READ_UILOANPRODUCT')"><a href="/#/loanProducts">Products</a></li>
                 <li ng-show="hasPermission('BULKREASSIGN_LOAN')"><a href="/#/loan_reassignment">Loan reassignment</a></li>
               </ul>
             </li>
             <li>
               <a href="javascript:void(0);">Accounts / Finance</a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
                 <li ng-show="hasPermission('CREATE_FINANCIALYEAR')"><a href="/#/financialyears" >Financial Years</a></li>
                 <li ng-show="hasPermission('UPDATE_CURRENCY')"><a href="/#/admin/currencies">Currencies</a></li>
                 <li ng-show="hasPermission('UPDATE_exchange_rate')"><a href="/#/admin/exchangerates">Exchange Rates</a></li>
