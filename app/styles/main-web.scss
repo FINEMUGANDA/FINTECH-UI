@@ -172,13 +172,15 @@ body.pre-login {
     border: 1px solid $primary-color;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    &.active {
+      margin-bottom: -2px;
+    }
   }
-
 }
 
 div.shortcuts{
   margin-top: 1.8rem;
-  font-size: 0.8vw;
+  /*font-size: 0.8vw;*/
 }
 div.container.post-login.ng-scope > div.shortcuts{
   border-bottom: 1px solid $primary-color;

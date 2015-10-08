@@ -10,9 +10,9 @@
       </button>
       <a class="navbar-brand" href="/#/dashboard"><span>Finem</span></a>
       <div class="visible-sm search-sm">
-        <form role="search">
+        <form role="search" ng-controller="ClientSearchCtrl">
           <div class="form-group">
-            <input type="text" class="search-box" placeholder="Search"/>
+            <input type="text" class="search-box" ng-keypress="onKeypress($event)" ng-model="selected" ng-hide="isLoading" typeahead-loading="isLoading" typeahead="client as client.name for client in clients | filter: searchFilter($viewValue)" typeahead-template-url="views/Client/search.match.tpl.html" typeahead-on-select="onSelect($item, $model, $label)" typeahead-focus-first="false" placeholder="Search"/>
           </div>
         </form>
       </div>
@@ -20,7 +20,7 @@
     <div class="navbar-collapse collapse">
 
       <!-- Left nav -->
-      <ul class="nav navbar-nav sm-clean">
+      <ul class="nav navbar-nav sm sm-finem">
         <li ng-class="{'active': currentMenuPath == 'home'}"><a href="/#/dashboard" class="home">Home</a></li>
         <li ng-class="{'active': currentMenuPath == 'client'}" ng-show="hasPermission('READ_CLIENT')"><a href="/#/clients?clear=true" class="clients">Clients</a></li>
         <li ng-class="{'active': currentMenuPath == 'report'}" ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])">

@@ -38,7 +38,7 @@
 
 
     <div class="summary clearfix">
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <dl class="dl-horizontal">
           <dt>Disbursement Date:</dt>
           <dd>{{loanDetails.timeline.actualDisbursementDate ? (loanDetails.timeline.actualDisbursementDate | DateFormat) : 'Not Provided'}}</dd>
@@ -56,7 +56,7 @@
           <dd>{{loanDetails.externalId? loanDetails.externalId : 'Not Provided'}}</dd>
         </dl>
       </div>
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <dl class="dl-horizontal">
           <dt>Loan Purpose:</dt>
           <dd>{{loanDetails.loanPurpose? loanDetails.loanPurpose : 'Not Provided'}}</dd>
@@ -78,7 +78,7 @@
           <dd>{{loanDetails.summary.penaltyChargesOutstanding? (loanDetails.summary.penaltyChargesOutstanding | number) : 'Not Provided'}}</dd>
         </dl>
       </div>
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <dl class="dl-horizontal">
           <dt># of payments:</dt>
           <dd>{{loanDetails.additionalLoanInfo.paymentCount| number}}</dd>

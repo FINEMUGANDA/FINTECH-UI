@@ -539,6 +539,7 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
   //total number of page in single page
   $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
+  $.fn.smartmenus.defaults.showOnClick = true;
 
     $rootScope.$on('$locationChangeStart',function(event, next /**, current */) {
         if(next) {

@@ -2,26 +2,30 @@
 @import "main-variables.scss";
 @media only screen
 //and (min-width: 768px)
-and (max-width: 1024px)
-and (min-width: 768) {
+and (max-width: 1023px) {
 
   .table .name, .table .status {
     font-size: 1.2vw !important;
   }
 
-  .navbar-right {
-    float:left !important;
+  .navbar-fixed-top {
+    position: absolute;
   }
 
-  .main-nav ul {    
-    float: left;
+  .navbar-right {
+    float:left;
     width:100%;
   }
-  .navbar-nav li {
-    display: block;
-    float: left;
-    width: auto;
+
+  .main-nav ul {
+    /*float: left;*/
+    width:100%;
   }
+  /*  .navbar-nav li {
+      display: block;
+      float: left;
+      width: auto;
+    }*/
   .navbar-nav li a.notifications{
     border:none;
     margin:0;
@@ -42,10 +46,10 @@ and (min-width: 768) {
     padding: 9px 10px;
     margin-top: 13px;
     margin-bottom: 8px;
-    background-color: #000 !important;
-    background-image: none;
-    border: none;
-    border-radius: 4px;
+    /*background-color: #000 !important;*/
+    /*background-image: none;*/
+    /*border: none;*/
+    /*border-radius: 4px;*/
   } 
   .navbar-form {
     width:450px;
@@ -82,6 +86,17 @@ and (min-width: 768) {
       }
     }
   }
+  .shortcuts {
+    ul > li > a {
+      padding-left: 3px;
+      padding-right: 3px;
+      &.active {
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: -2px;
+      }
+    }
+  }
 
   .badge {
     width: 22px;
@@ -111,12 +126,12 @@ and (min-width: 768) {
   }
   nav .search-sm{
     margin-top: 1.4rem;
-    float: left;
-    width: 90%;
+    /*float: left;*/
+    /*width: 90%;*/
     margin-left: auto;
     display: block!important;
     margin-right: auto;
-    position: absolute;
+    /*position: absolute;*/
   }
   nav .search-sm .search-box{
     width: 80%;
@@ -127,21 +142,21 @@ and (min-width: 768) {
   .navbar-default .navbar-toggle{
     z-index: 10;
   }
-  .collapse.in{
-    width: 98%;
-  }
+  /*  .collapse.in{
+      width: 98%;
+    }*/
   .main-nav ul{
     float: left;
     width: 80%;
     margin-top: 1.4rem;
     border: 0;
   }
-  .navbar-nav.navbar-right:last-child{
-    margin-right: 0!important;
-    margin-left: 0;
-    width: 20%;
-    float: right!important;
-  }
+  /*  .navbar-nav.navbar-right:last-child{
+      margin-right: 0!important;
+      margin-left: 0;
+      width: 20%;
+      float: right!important;
+    }*/
   li.hidden-sm > form > div > input{
     display:none;
   }
@@ -158,9 +173,9 @@ and (min-width: 768) {
   .navbar-nav li a.notifications{
     margin-top: 7px;
   }
-  ul.nav.navbar-nav.navbar-right > li.dropdown{
-    float:right;
-  }
+  /*  ul.nav.navbar-nav.navbar-right > li.dropdown{
+      float:right;
+    }*/
   .search.pull-right > input{
     padding: 5px;
     border-radius: 50px;
@@ -181,7 +196,7 @@ and (min-width: 768) {
     }
     ul > li > a {
       padding: 5px 0.9vw;
-      font-size: 0.9vw;
+      /*font-size: 0.9vw;*/
     }
   }
   div.summary>div>ul>li+li {
@@ -296,11 +311,11 @@ and (max-width: 992px){
   }
   .table > tbody > tr > td {
     line-height: 15px !important;
-    font-size: 1.2vw !important;
+    /*font-size: 1.2vw !important;*/
     padding: 6px 3px;
   }
   .table > tbody > tr > td:last-child{
-    width:20%;
+    /*width:20%;*/
   }
   //.form-group>label+div{
 
