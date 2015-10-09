@@ -77,7 +77,7 @@ angular.module('angularjsApp').controller('ViewReportsController', function($loc
 
 //Run report
 angular.module('angularjsApp').controller('RunReportsController', function($sce, $route, $scope,
-  REST_URL, ReportService, $rootScope, APPLICATION, $routeParams, dateFilter) {
+  REST_URL, ReportService, $rootScope, APPLICATION, $routeParams, $timeout, dateFilter) {
   console.log('RunReportsController');
   var colorArrayPie = ['#008000', '#ff4500'];
   $scope.isCollapsed = false; //displays options div on startup
@@ -186,6 +186,11 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
         if (!isExistedRecord) {
             paramData.selectOptions = selectData;
             $scope.reportParams.push(paramData);
+            $timeout(function() {
+              if (selectData && selectData.length && selectData[0] && selectData[0].id){
+                $scope.formData[paramData.inputName] = selectData[0].id;
+              }
+            });
         }
     };
     return successFunction;
