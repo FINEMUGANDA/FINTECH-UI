@@ -187,8 +187,9 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
             paramData.selectOptions = selectData;
             $scope.reportParams.push(paramData);
             $timeout(function() {
-              if (selectData && selectData.length && selectData[0] && selectData[0].id){
+              if (selectData && selectData.length && selectData[0] && selectData[0].id) {
                 $scope.formData[paramData.inputName] = selectData[0].id;
+                $scope.getDependencies(paramData);
               }
             });
         }
