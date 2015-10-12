@@ -2630,6 +2630,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.loanGroups = {};
       angular.forEach($scope.loans, function(loan) {
         loan.timeline.submittedOnDate = Utility.toLocalDate(loan.timeline.submittedOnDate);
+        loan.timeline.closedOnDate = Utility.toLocalDate(loan.timeline.closedOnDate);
         if(!$scope.loanGroups[loan.loanProductName]) {
           $scope.loanGroups[loan.loanProductName] = 1;
         } else {

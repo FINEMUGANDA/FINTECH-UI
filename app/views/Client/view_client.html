@@ -202,7 +202,8 @@
             <th style="text-align: left">Product</th>
             <th style="text-align: left">Status</th>
             <th>Principal</th>
-            <th>Date</th>
+            <th>Disbursement Date</th>
+            <th>Repayment Date</th>
             <th>Officer</th>
             <th>Note</th>
           </tr>
@@ -213,6 +214,7 @@
             <td style="text-align: left">{{loan.status.value}}</td>
             <td>{{loan.principal | number:2}} {{loan.currency.code}}</td>
             <td>{{loan.timeline.submittedOnDate}}</td>
+            <td>{{loan.timeline.closedOnDate || 'N/A'}}</td>
             <td>{{loan.loanOfficerName}}</td>
             <td class="text-right">
               <button type="button" class="btn btn-sm btn-primary" ng-click="loadLoanNotes(loan.id)"><span class="glyphicon glyphicon-comment"></span></button>
