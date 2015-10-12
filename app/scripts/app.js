@@ -534,7 +534,7 @@ app.config(['$httpProvider', function($httpProvider) {
 ]);
 
 //function to be called when the application gets running
-app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs, RoleService, REST_URL, PERMISSION_ROUTE_MAPPING) {
+app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs, RoleService, REST_URL, PERMISSION_ROUTE_MAPPING, $interval) {
   //total number of records in single page
   $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
   //total number of page in single page
@@ -690,6 +690,9 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   };
 
   function total_loans_info(){
+    if (!AuthService.isAuthenticated()) {
+      return;
+    }
         var loadPASuccess = function(result) {
             $rootScope.loans_PAcount = result.data.length;
             var loadADSuccess = function(result) {
@@ -708,9 +711,15 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
         url = REST_URL.BASE + 'runreports/PageClientsScreenLoansPA?genericResultSet=false&pretty=true&tenantIdentifier=default&R_limit=10000&R_offset=0&R_search=%25';
         RoleService.getData(url).then(loadPASuccess, loadPAFail);
   }
-  if(AuthService.isAuthenticated()) {
+
+  total_loans_info();
+  $rootScope.$on('updateNotificationsCount', function() {
     total_loans_info();
-  }
+  });
+
+  $interval(function() {
+    total_loans_info();
+  }, 60000);
 
   $rootScope.change_pass = function() {
     var msg = 'You are about to remove User ';

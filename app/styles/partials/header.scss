@@ -153,6 +153,11 @@ nav {
     }*/
 
 }
+@media (min-width: 1024px) {
+  .navbar-collapse.collapsing {
+    height: auto !important;
+  }
+}
 
 @media (max-width: 1023px) {
   .navbar-nav .collapsible ul {

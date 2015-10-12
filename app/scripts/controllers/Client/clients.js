@@ -1008,7 +1008,7 @@ clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $route, $ti
   loadLoansPendingApprovals();
 });
 
-clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, AuthService, ClientsService, CreateClientsService, dialogs, data) {
+clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, AuthService, ClientsService, CreateClientsService, dialogs, $rootScope, data) {
   console.log('LoansActionDialogCtrl', $scope);
   $scope.baseLoan = data.loan;
   $scope.info = {};
@@ -1046,6 +1046,7 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
           $scope.message = 'Loan rejected successfuly';
           $scope.errors = result.data.errors;
           $modalInstance.close(true);
+          $rootScope.$emit('updateNotificationsCount');
         }, function(result) {
           $scope.type = 'error';
           $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
@@ -1065,6 +1066,7 @@ clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance,
       $scope.message = 'Loan approved successfuly';
       $scope.errors = result.data.errors;
       $modalInstance.close(true);
+      $rootScope.$emit('updateNotificationsCount');
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Loan not approved: ' + result.data.defaultUserMessage;
@@ -1239,7 +1241,7 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $route,
 });
 
 
-clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, CreateClientsService, AuthService, dialogs, data) {
+clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, CreateClientsService, AuthService, dialogs, $rootScope, data) {
   console.log('LoansActionDialogCtrl', $scope);
   $scope.baseLoan = data.loan;
   $scope.baseLoan.actualDisbursementDate = new Date();
@@ -1281,6 +1283,7 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
           $scope.message = 'Loan rejected successfuly';
           $scope.errors = result.data.errors;
           $modalInstance.close(true);
+          $rootScope.$emit('updateNotificationsCount');
         }, function(result) {
           $scope.type = 'error';
           $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
@@ -1300,6 +1303,7 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
       $scope.message = 'Loan disbursed successfuly';
       $scope.errors = result.data.errors;
       $modalInstance.close(true);
+      $rootScope.$emit('updateNotificationsCount');
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;
