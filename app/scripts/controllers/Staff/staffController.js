@@ -15,16 +15,7 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
 
   var loadStaffSuccess = function(result) {
     $scope.isLoading = false;
-    $scope.rowCollection = [];
-    if($scope.activeOnly) {
-      angular.forEach(result.data, function(staff) {
-        if(staff.isActive===true) {
-          $scope.rowCollection.push(staff);
-        }
-      });
-    } else {
-      $scope.rowCollection = result.data;
-    }
+    $scope.rowCollection = result.data;
     $scope.tableSearch = SearchService.data('staff');
   };
   var loadStaffFail = function() {
@@ -77,12 +68,20 @@ angular.module('angularjsApp').controller('StaffController', function($route, $s
       // TODO: do we really need this?
     });
   } else {
-    url = REST_URL.BASE + 'staff?status=ALL';
+    if ($scope.showInActive) {
+      url = REST_URL.BASE + 'staff?status=ALL';
+    } else {
+      url = REST_URL.BASE + 'staff';
+    }
     RoleService.getData(url).then(loadStaffSuccess, loadStaffFail);
   }
 
-  $scope.$watch('activeOnly', function() {
-    url = REST_URL.BASE + 'staff?status=ALL';
+  $scope.$watch('showInActive', function() {
+    if ($scope.showInActive) {
+      url = REST_URL.BASE + 'staff?status=ALL';
+    } else {
+      url = REST_URL.BASE + 'staff';
+    }
     RoleService.getData(url).then(loadStaffSuccess, loadStaffFail);
   });
 
