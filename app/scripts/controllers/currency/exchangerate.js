@@ -31,7 +31,7 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
     };
 
     $scope.selectRate = function(rate) {
-        $scope.rate = rate;
+        $scope.rate = angular.copy(rate);
         $scope.rate.locale = 'en';
         $scope.rate.dateFormat = 'dd/MM/yyyy';
     };
@@ -46,6 +46,18 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
             $scope.showError('Cannot delete exchange rate: ' + result.data.defaultUserMessage, result.data.errors);
         });
     };
+    function getErrorMessage(res) {
+      if (res && res.userMessageGlobalisationCode === 'error.msg.datatable.entry.duplicate') {
+        res.defaultUserMessage = 'Exchange rate already exist for selected currency and month';
+      }
+      res.errors = _.map(res.errors, function(err) {
+        if (err && err.userMessageGlobalisationCode === 'error.msg.datatable.entry.duplicate') {
+          err.defaultUserMessage = 'Exchange rate already exist for selected currency and month';
+        }
+        return err;
+      });
+      return res;
+    }
 
     $scope.save = function() {
         if (!$scope.exchangeRateForm.$valid) {
@@ -58,7 +70,8 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
                 $scope.showSuccess('Exchange rate updated');
                 $scope.reloadRates();
             }, function(result) {
-                $scope.showError('Cannot update exchange rate: ' + result.data.defaultUserMessage, result.data.errors);
+                var data = getErrorMessage(result.data);
+                $scope.showError('Cannot update exchange rate: ' + data.defaultUserMessage, data.errors);
             });
         } else {
             // create
@@ -67,7 +80,8 @@ exchangeRateController.controller('ExchangeRateCtrl', function($scope, $location
                 $scope.resetRate();
                 $scope.reloadRates();
             }, function(result) {
-                $scope.showError('Cannot create exchange rate: ' + result.data.defaultUserMessage, result.data.errors);
+                var data = getErrorMessage(result.data);
+                $scope.showError('Cannot create exchange rate: ' + data.defaultUserMessage, data.errors);
             });
         }
     };
