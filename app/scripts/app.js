@@ -64,6 +64,7 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
     $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
         'self',
+        'https://' + location.hostname + ':8443/mifosng-provider/api/v1/**',
         // Allow loading from our assets domain.  Notice the difference between * and **.
         'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/api/v1/**']);
 

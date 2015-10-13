@@ -10,7 +10,8 @@ app.constant('APPLICATION', {
             location.hostname.indexOf('test.finemfi.org')>=0 ? 'https://test.finemfi.org/mifosng-provider/' :
                 location.hostname.indexOf('uat.finemfi.org')>=0 ? 'https://uat.finemfi.org/mifosng-provider/' :
                     location.hostname.indexOf('finem.finemfi.org')>=0 ? 'https://finem.finemfi.org/mifosng-provider/' :
-                        'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
+                        'https://' + location.hostname + ':8443/mifosng-provider/',
+//                        'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
 //    'host' : 'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/',
 //    'host' : 'https://localhost:8443/mifosng-provider/',
 //    'host' : 'https://demo.openmf.org/mifosng-provider/',

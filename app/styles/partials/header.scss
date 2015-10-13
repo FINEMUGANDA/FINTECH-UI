@@ -166,6 +166,7 @@ nav {
   ul.sm {
     width: 100%;
     &.sm-finem li {
+      clear: both;
       float: none;
       width: 100% !important;
     }
