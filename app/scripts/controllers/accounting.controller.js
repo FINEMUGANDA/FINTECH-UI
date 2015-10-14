@@ -114,7 +114,8 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
         type: result.data.type.id,
         parentId: result.data.parentId,
         usage: result.data.usage.id,
-        description: result.data.description
+        description: result.data.description,
+        affectsLoan: result.data.affectsLoan
       };
       if (result.data.tagId) {
         $scope.account.tagId = result.data.tagId;
