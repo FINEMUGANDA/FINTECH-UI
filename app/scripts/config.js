@@ -96,7 +96,8 @@ app.constant('REST_URL', {
     DUEVSCOLLECTED: 'api/v1/runreports/DueVsCollected',
     PAR_PER_LOAN_OFFICER: 'api/v1/runreports/PAR per Loan Officer',
     CHANGES_LOAN_PORTFOLIO: 'api/v1/runreports/ChangesLoanPortfolio',
-    ACTIVE_BORROWERS_PER_LOAN_OFFICER: 'api/v1/runreports/Active Borrowers per Loan Officer'
+    ACTIVE_BORROWERS_PER_LOAN_OFFICER: 'api/v1/runreports/Active Borrowers per Loan Officer',
+    COST_CENTER: 'api/v1/costcenters/'
 });
 
 app.constant('PAGE_URL', {

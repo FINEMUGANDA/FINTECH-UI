@@ -38,6 +38,7 @@ var app = angular.module('angularjsApp', [
   'codeService',
   'financialYearService',
   'dataTransferService',
+  'costCenterService',
   'searchService',
   'Constants',
   'ui.bootstrap',
@@ -454,6 +455,24 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
       data: {
         authorizedRoles: ['admin']
       }
+    }).when('/admin/costcenters', {
+      templateUrl: 'views/Admin/cost_center.html',
+      controller: 'CostCenterCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/admin/costcenters/edit/:staffId', {
+      templateUrl: 'views/Admin/cost_center_form.html',
+      controller: 'CostCenterEditCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
+    }).when('/admin/costcenters/create', {
+      templateUrl: 'views/Admin/cost_center_form.html',
+      controller: 'CostCenterEditCtrl',
+      data: {
+        authorizedRoles: ['admin']
+      }
     }).when('/codes', {
         templateUrl: 'views/code/codes.html',
         controller: 'CodeListCtrl'
@@ -681,7 +700,10 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
   var url = '';
 
   $('html').click(function (){
-    $('#loans_info_wrapper').hide();
+    var wrapper = $('#loans_info_wrapper');
+    if (wrapper && wrapper.length) {
+      $('#loans_info_wrapper').hide();
+    }
   });
 
   $rootScope.loans_info_show = function(){

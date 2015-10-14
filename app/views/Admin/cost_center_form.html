@@ -1,0 +1,82 @@
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="rows">
+    <div class="page-header">
+      <div class="header">
+        <h3>{{id? 'Edit' : 'Create'}} Cost Center</h3>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-12" ng-show="isLoading">
+        <div class="form-group">
+          <div class="loading-indicator">Loading...</div>
+        </div>
+      </div>
+      <div>
+        <form name="costCenterForm" ng-hide="isLoading" class="form-horizontal" novalidate show-validation ng-submit="saveCostCenter()">
+
+          <div class="form-group">
+            <label class="control-label col-md-2">Staff<span class="required">*</span></label>
+            <div class="validate col-md-3">
+              <select id="staffId" ng-model="costCenter.staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in data.staffOptions"></select>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+
+          <div data-angular-treeview="true" data-tree-id="treeview" data-tree-model="treedata" data-node-id="id" data-node-label="name" data-node-children="children"></div>
+
+          <div ng-show="selectedGLAccounts.length">
+            <hr/>
+            <h4>Selected GL Accounts</h4>
+            <table st-table="displayedAccounts" st-safe-src="selectedGLAccounts" class="table">
+              <thead>
+                <tr>
+                  <th st-sort="name">Account</th>
+                  <th st-sort="glCode">GL Code</th>
+                  <th st-sort="currencyCode">Currency</th>
+                  <th st-sort="type.value">Account Type</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody ng-hide="isLoading" class="">
+                <tr ng-repeat="account in displayedAccounts">
+                  <td>{{account.name}}</td>
+                  <td>{{account.glCode}}</td>
+                  <td>{{account.currencyCode}}</td>
+                  <td>{{account.type.value}}</td>
+                  <td class="actions" style="width: 1%; min-width: 60px;"><a href="" ng-click="removeSelectedGLAccount(account)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+                </tr>
+              </tbody>
+              <tbody ng-show="isLoading" class="ng-hide">
+                <tr>
+                  <td colspan="2" class="text-center">
+                    <div class="loading-indicator">Loading...</div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot ng-hide="isLoading">
+                <tr>
+                  <td colspan="2">
+                    <div class="table-footer">
+                      <div class="export">
+                        <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
+                      </div>
+                      <div class="paginate">
+                        <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <hr/>
+          <div class="col-md-offset-5 paddedtop">
+            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_COSTCENTER', 'UPDATE_COSTCENTER'])">Save</button>
+            <a id="cancel" href="#/admin/costcenters" class="btn btn-warning">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
