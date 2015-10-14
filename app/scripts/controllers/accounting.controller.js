@@ -47,7 +47,7 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
       item = data[i];
       item.children = [];
       item.collapsed = true;
-      item.name =  item.name + ' (' + item.glCode + ')';
+      item.name = item.name + ' (' + item.glCode + ')';
       map[item.id] = i;
       if (item.parentId && item.parentId !== '0') {
         data[map[item.parentId]].children.push(item);
@@ -74,7 +74,7 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
   $scope.editAccount = function(account) {
     $location.path('/accounting/edit/' + account.id);
   };
-  $scope.removeAccount = function(account) { 
+  $scope.removeAccount = function(account) {
     var msg = 'You are about to remove Account <strong>' + account.name + '</strong>';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
@@ -106,21 +106,23 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
     $scope.isLoading = false;
     try {
       $scope.rowCollection = result.data;
-      $scope.account = {
-        name: result.data.name,
-        currencyCode: result.data.currencyCode,
-        glCode: result.data.glCode,
-        manualEntriesAllowed: result.data.manualEntriesAllowed,
-        type: result.data.type.id,
-        parentId: result.data.parentId,
-        usage: result.data.usage.id,
-        description: result.data.description,
-        affectsLoan: result.data.affectsLoan
-      };
-      if (result.data.tagId) {
-        $scope.account.tagId = result.data.tagId;
-      }
       $scope.data = _.extend({}, result.data);
+      $timeout(function() {
+        $scope.account = {
+          name: result.data.name,
+          currencyCode: result.data.currencyCode,
+          glCode: result.data.glCode,
+          manualEntriesAllowed: result.data.manualEntriesAllowed,
+          type: result.data.type.id,
+          parentId: result.data.parentId,
+          usage: result.data.usage.id,
+          description: result.data.description,
+          affectsLoan: result.data.affectsLoan
+        };
+        if (result.data.tagId) {
+          $scope.account.tagId = result.data.tagId;
+        }
+      });
     } catch (e) {
       console.log(e);
     }
@@ -137,6 +139,11 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
       }
       return eq;
     });
+
+    var parentId;
+    if ($scope.account && $scope.account.parentId) {
+      parentId = $scope.account.parentId;
+    }
     $scope.headerAccountOptions = [];
     if (!type) {
       return;
@@ -149,6 +156,11 @@ angular.module('angularjsApp').controller('AccountingEditCtrl', function($scope,
         });
       }
       $scope.headerAccountOptions = accounts;
+      if (parentId) {
+        $timeout(function() {
+          $scope.account.parentId = parentId;
+        });
+      }
     }
   });
 
