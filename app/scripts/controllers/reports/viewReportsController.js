@@ -77,7 +77,7 @@ angular.module('angularjsApp').controller('ViewReportsController', function($loc
 
 //Run report
 angular.module('angularjsApp').controller('RunReportsController', function($sce, $route, $scope,
-  REST_URL, ReportService, $rootScope, APPLICATION, $routeParams, $timeout, dateFilter) {
+  REST_URL, ReportService, $rootScope, APPLICATION, $routeParams, $timeout, Utility, dateFilter) {
   console.log('RunReportsController');
   var colorArrayPie = ['#008000', '#ff4500'];
   $scope.isCollapsed = false; //displays options div on startup
@@ -399,6 +399,12 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       };
   };
   $scope.getReportContent = function() {
+    if ($scope.formData.outputType === 'PDF') {
+      var restURL = Utility.updateQueryStringParameter(Utility.getRESTUrlWithToken($scope.baseURL), 'saveName', $scope.reportName + '.pdf');
+      $scope.reportContentPdf = $sce.trustAsResourceUrl(restURL);
+      return;
+    }
+
       var responseType = $scope.formData.outputType==='PDF' || $scope.formData.outputType==='XLS' ? 'arraybuffer' : undefined;
       ReportService.getData($scope.baseURL, responseType).then(function(content) {
       $scope.reportContentHtml = undefined;
@@ -412,7 +418,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       } else if($scope.formData.outputType==='PDF') {
         //saveAs(new Blob([content.data], {type: 'application/pdf'}), 'report.pdf');
         var file = new Blob([content.data], {type: 'application/pdf'});
-        $scope.reportContentPdf = $sce.trustAsResourceUrl(URL.createObjectURL(file));
+        $scope.reportContentPdf = $sce.trustAsResourceUrl(URL.createObjectURL(file) + '#test.pdf');
       } else {
         $scope.reportContentHtml = $sce.trustAsHtml(content.data);
       }

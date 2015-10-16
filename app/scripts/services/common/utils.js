@@ -21,11 +21,24 @@ utils.factory('Auth', function(Base64) {
 /**
  * General utility
  */
-utils.factory('Utility', function($q, APPLICATION) {
+utils.factory('Utility', function($q, APPLICATION, Session) {
   // initialize to whatever is in the cookie, if anything
   return {
     isUndefinedOrNull: function(obj) {
       return !angular.isDefined(obj) || obj === null || obj === '';
+    },
+    updateQueryStringParameter: function(uri, key, value) {
+      var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+      var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+      if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+      } else {
+        return uri + separator + key + '=' + value;
+      }
+    },
+    getRESTUrlWithToken: function(url) {
+      var token = Session.getValue(APPLICATION.authToken);
+      return this.updateQueryStringParameter(APPLICATION.host + url, 'token', encodeURIComponent(token));
     },
     getImage: function(src) {
       var deferred = $q.defer();
