@@ -10,6 +10,19 @@ angular.module('angularjsApp').controller('ViewReportsController', function($loc
   $scope.isTreeview = false;
   $scope.type = $routeParams.type;
 
+  $scope.tableSearch = null;
+//  SearchService.clear('reportView');
+  var params = $location.search();
+
+  console.log('DEBUG: ' + angular.toJson(params));
+
+  if(params && params.clear) {
+     SearchService.clear('reportView');
+     delete params.clear;
+     $location.search(params).replace();
+     return;
+  }
+
   $scope.$watch('tableSearch', function() {
     SearchService.data('reportView', $scope.tableSearch);
   });

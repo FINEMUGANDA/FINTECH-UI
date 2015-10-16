@@ -26,11 +26,11 @@
         <li ng-class="{'active': currentMenuPath == 'report'}" ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])">
           <a href="javascript:void(0);" class="reports">Reports</a>
           <ul class="dropdown-menu" data-toggle="collapse" data-target=".navbar-collapse">
-            <li ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])"><a href="/#/vreports/all"> All</a></li>
-            <li ng-show="hasReportCategoryPermission('Client')"><a href="/#/vreports/clients"> Clients</a></li>
-            <li ng-show="hasReportCategoryPermission('Loan')"><a href="/#/vreports/loans"> Loans</a></li>
-            <li ng-show="hasReportCategoryPermission('Accounting')"><a href="/#/vreports/accounting"> Accounting</a></li>
-            <li ng-show="hasReportCategoryPermission('Accounting')"><a href="/#/vreports/mis"> MIS</a></li>
+            <li ng-show="hasAnyReportCategoryPermission(['Client', 'Loan', 'Account'])"><a href="/#/vreports/all?clear=true"> All</a></li>
+            <li ng-show="hasReportCategoryPermission('Client')"><a href="/#/vreports/clients?clear=true"> Clients</a></li>
+            <li ng-show="hasReportCategoryPermission('Loan')"><a href="/#/vreports/loans?clear=true"> Loans</a></li>
+            <li ng-show="hasReportCategoryPermission('Accounting')"><a href="/#/vreports/accounting?clear=true"> Accounting</a></li>
+            <li ng-show="hasReportCategoryPermission('Accounting')"><a href="/#/vreports/mis?clear=true"> MIS</a></li>
           </ul>
         </li>
         <li ng-class="{'active': currentMenuPath == 'accounting'}">

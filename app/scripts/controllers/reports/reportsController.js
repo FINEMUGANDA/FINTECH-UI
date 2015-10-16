@@ -7,6 +7,9 @@ angular.module('angularjsApp').controller('ReportsController', function($route, 
   $scope.itemsByPage = 10;
   $scope.isTreeview = false;
 
+  $scope.tableSearch = null;
+  SearchService.clear('report');
+  console.log('clear');
   $scope.$watch('tableSearch', function() {
       SearchService.data('report', $scope.tableSearch);
   });

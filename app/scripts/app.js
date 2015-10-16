@@ -55,7 +55,8 @@ var app = angular.module('angularjsApp', [
   'roleService',
   'ngCsv',
   'modified.datepicker',
-  'angularMoment'
+  'angularMoment',
+  'ipCookie'
 ]);
 
 // Angular supports chaining, so here we chain the config function onto
@@ -912,41 +913,62 @@ app.controller('ApplicationController', function($rootScope, $scope, $location, 
 });
 
 //Factory to manage the session related things for the application
-app.factory('Session', function(APPLICATION) {
-  var Session = {
+app.factory('Session', function(APPLICATION, ipCookie, $rootScope) {
+  var Session = {};
+
+  function fetchData2() {
+    if (!ipCookie('ang_session')) {
+      Session.remove();
+      $rootScope.$emit('$idleTimeout');
+      return {};
+    } else {
+      ipCookie(APPLICATION.sessionName, true, {expires : 15, expirationUnit: 'minutes'});
+    }
+
+    var data = {};
+    try {
+      data = JSON.parse(window.localStorage.getItem(APPLICATION.sessionName));
+    } catch (e) {
+      console.log('Error to get session data from local storage');
+    }
+
+    return data || {};
+  }
+
+  function saveData(data, notUpdateSessionCookie) {
+    if (!notUpdateSessionCookie) {
+      ipCookie(APPLICATION.sessionName, true, {expires : 15, expirationUnit: 'minutes'});
+    }
+
+    try {
+      window.localStorage.setItem('ang_session', JSON.stringify(data));
+    } catch(e) {
+      console.log('Error to save session data to local storage');
+    }
+  }
+
+  Session = {
     create: function(sessionId, userName, userRole, permissions) {
       var data = {};
       data[APPLICATION.authToken] = sessionId;
       data[APPLICATION.username] = userName;
       data[APPLICATION.role] = userRole;
       data[APPLICATION.permissions] = permissions ? permissions : {};
-      window.localStorage.setItem('ang_session', JSON.stringify(data));
+      saveData(data);
     },
     setValue: function(key, value) {
-      var data = {};
-      try {
-        data = JSON.parse(window.localStorage.getItem(APPLICATION.sessionName));
-      } catch (e) {
-        console.log('Error to get session data from local storage');
-        return null;
-      }
+      var data = fetchData2();
       data[key] = value;
-      window.localStorage.setItem('ang_session', JSON.stringify(data));
+      saveData(data);
     },
     getValue: function(key) {
-      var data = {};
-      try {
-        data = JSON.parse(window.localStorage.getItem(APPLICATION.sessionName));
-        return data[key];
-      } catch (e) {
-        console.log('Error to get session data from local storage');
-        return null;
-      }
-
+      var data = fetchData2();
+      return data[key];
     },
     remove: function() {
+      ipCookie.remove(APPLICATION.sessionName);
       var data = {};
-      window.localStorage.setItem(APPLICATION.sessionName, JSON.stringify(data));
+      saveData(data, true);
     }
   };
 
