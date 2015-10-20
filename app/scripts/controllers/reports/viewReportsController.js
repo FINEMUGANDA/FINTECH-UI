@@ -412,11 +412,12 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       };
   };
   $scope.getReportContent = function() {
-    if ($scope.formData.outputType === 'PDF') {
-      var restURL = Utility.updateQueryStringParameter(Utility.getRESTUrlWithToken($scope.baseURL), 'saveName', $scope.reportName + '.pdf');
-      $scope.reportContentPdf = $sce.trustAsResourceUrl(restURL);
-      return;
-    }
+// FIXME: For some reason REST API on prod returns binary reports with application/json instead application/pdf
+//    if ($scope.formData.outputType === 'PDF') {
+//      var restURL = Utility.updateQueryStringParameter(Utility.getRESTUrlWithToken($scope.baseURL), 'saveName', $scope.reportName + '.pdf');
+//      $scope.reportContentPdf = $sce.trustAsResourceUrl(restURL);
+//      return;
+//    }
 
       var responseType = $scope.formData.outputType==='PDF' || $scope.formData.outputType==='XLS' ? 'arraybuffer' : undefined;
       ReportService.getData($scope.baseURL, responseType).then(function(content) {
