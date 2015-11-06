@@ -22,6 +22,8 @@
       <dd ng-show="hasPermission('LIBS_UIDASHBOARD')"><a href="/#loans/borrowers/bad">Loans in Bad Standing</a></dd>
       <dt ng-show="hasPermission('RDTW_UIDASHBOARD')">{{repaymentsDueThisWeek}}</dt>
       <dd ng-show="hasPermission('RDTW_UIDASHBOARD')"><a href="" ng-click="showRepaymentsDueThisWeek()">Repayments Due This Week</a></dd>
+      <dt ng-show="hasPermission('RDTW_UIDASHBOARD')">{{dueVsCollectedThisWeek}}</dt>
+      <dd ng-show="hasPermission('RDTW_UIDASHBOARD')"><a href="" ng-click="showDueVsCollectedThisWeek()">Due vs Collected</a></dd>
     </dl>
     <div class="clearfix"></div>
   </div>

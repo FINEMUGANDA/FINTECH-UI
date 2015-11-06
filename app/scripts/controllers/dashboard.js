@@ -18,6 +18,13 @@ dashboardCtrl.controller('DashboardCtrl', function ($scope, $location, Dashboard
     });
   };
 
+  $scope.showDueVsCollectedThisWeek = function() {
+    var dialog = dialogs.create('views/loans/details/dialogs/loans.details.due.vs.collected.dialog.tpl.html', 'LoanDeatilsDueVsCollectedDialog', {msg: 'Due Vs Collected This Week'}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      //$scope.payments = result.data;
+    });
+  };
+
   $scope.showNewRepayment = function() {
     $scope.payments = undefined;
     $scope.paymentTotal = 0;

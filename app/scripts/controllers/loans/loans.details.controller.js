@@ -60,14 +60,14 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     cb = cb || angular.noop;
     $scope.isLoading = true;
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
-      $scope.loanDetails = result.data; 
+      $scope.loanDetails = result.data;
       _.map($scope.loanDetails.repaymentSchedule.periods, function(period) {
-          if(period.obligationsMetOnDate && period.dueDate) {
-              period._daysLate = moment(period.obligationsMetOnDate).diff(period.dueDate, 'days');
-          } else {
-              period._daysLate = 0;
-          }
-          return period;
+        if (period.obligationsMetOnDate && period.dueDate) {
+          period._daysLate = moment(period.obligationsMetOnDate).diff(period.dueDate, 'days');
+        } else {
+          period._daysLate = 0;
+        }
+        return period;
       });
       LoanService.getData(REST_URL.LOANS_EXTRA_DETAILS + $scope.loanId).then(function(result) {
         if (result && result.data && result.data.length) {
@@ -369,6 +369,40 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
     });
     $scope.isLoading = false;
   });
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+});
+
+angular.module('angularjsApp').controller('LoanDeatilsDueVsCollectedDialog', function(REST_URL, LoanService, $scope, $modalInstance, dateFilter) {
+
+
+  $scope.formData = {};
+  $scope.formData.startDate = new Date();
+  $scope.formData.startDate.setDate($scope.formData.startDate.getDate() - 7);
+  $scope.formData.endDate = new Date();
+
+  $scope.getData = function() {
+    $scope.isLoading = true;
+    var startDate = dateFilter($scope.formData.startDate, 'yyyy-MM-dd');
+    var endDate = dateFilter($scope.formData.endDate, 'yyyy-MM-dd');
+    LoanService.getData('api/v1/runreports/DueVsCollectedScreenResult?R_startDate=' + startDate + '&R_endDate=' + endDate).then(function(result) {
+      $scope.data = result.data;
+      $scope.totalDue = 0;
+      $scope.totalCollected = 0;
+      $scope.totalDiff = 0;
+      $scope.totalDiffPercent = 0;
+      _.each($scope.data, function(row) {
+        $scope.totalDue += row['P+I+F due'];
+        $scope.totalCollected += row['P+I+F collected'];
+      });
+      $scope.totalDiff += $scope.totalDue - $scope.totalCollected;
+      $scope.totalDiffPercent += ($scope.totalCollected / $scope.totalDue) * 100;
+      $scope.isLoading = false;
+    });
+  };
+  $scope.getData();
 
   $scope.cancel = function() {
     $modalInstance.dismiss();
