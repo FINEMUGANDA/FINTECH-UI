@@ -70,10 +70,10 @@
                 <tbody>
                 <tr ng-repeat="note in notes" ng-click="selectNote(note)" style="cursor: pointer">
                     <td>{{note.notes}}</td>
-                    <td>{{note.created_at}}</td>
+                    <td>{{note.created_at | date: 'dd/MM/yyyy'}}</td>
                     <td>{{note.staff_username}}</td>
                     <td>{{client.name}}</td>
-                    <td>{{note.source}}</td>
+                    <td>{{note.NoteSource_cd_source}}</td>
                     <td class="actions"><a href="" ng-click="removeNote(note)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
                 </tr>
                 </tbody>

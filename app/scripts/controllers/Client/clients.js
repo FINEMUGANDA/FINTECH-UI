@@ -290,7 +290,7 @@ clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $
   };
 });
 
-clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, $location, APPLICATION, REST_URL, CreateClientsService, DataTransferService, Session, data) {
+clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, $location, APPLICATION, REST_URL, CreateClientsService, DataTransferService, Session, Utility, data) {
   $scope.isLoading = false;
   $scope.msg = data.msg;
   $scope.notes = [];
@@ -402,22 +402,9 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
 
   $scope.reloadNotes = function() {
     CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '?genericResultSet=true').then(function(result) {
-      var columns = [];
-      for(var i=0; i<result.data.columnHeaders.length; i++) {
-        columns.push(result.data.columnHeaders[i].columnName);
-        if(result.data.columnHeaders[i].columnName==='NoteSource_cd_source') {
-          $scope.sourceOptions = result.data.columnHeaders[i].columnValues;
-          break;
-        }
-      }
-      $scope.notes = [];
-      angular.forEach(result.data.data, function(row) {
-        var note = {};
-        for(var j=0; j<columns.length; j++) {
-          note[columns[j]] = row.row[j];
-        }
-        $scope.notes.push(note);
-      });
+      var columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
+      $scope.sourceOptions = columnHeaders.NoteSource_cd_source && columnHeaders.NoteSource_cd_source.columnValues || [];
+      $scope.notes = Utility.fromGenericResult(result);
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Cannot retrieve client notes: ' + result.data.defaultUserMessage;
