@@ -1458,7 +1458,7 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $route, $timeout,
   var allLoansWrittenOffSuccess = function(result) {
     $scope.isLoading = false;
     try {
-      $scope.rowCollection = result.data;
+      $scope.displayed = result.data;
 
       $scope.pages = [];
 
@@ -1477,6 +1477,7 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $route, $timeout,
     console.log('Error : Return from LoansWrittenOff service.');
   };
 
+  $scope.tableState = {};
 
   $scope.showLoan = function(loan) {
     $location.url('/loans/' + loan.id + '/details/' + loan.loanId);
@@ -1491,9 +1492,14 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $route, $timeout,
       var offset = $scope.pageSize * ($scope.currentPage-1);
       var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
       //service to get LoansWritten from server
-      ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
+      ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm + '&R_orderBy=' + ($scope.tableState.sort.predicate || 'writtenoffon_date') + '&R_orderByDirection=' + ($scope.tableState.sort.reverse? 'asc' : 'desc')).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
     }, 2000);
   };
+  $scope.getData = function(tableState) {
+    console.log('tableState', tableState);
+    $scope.tableState = tableState;
+    loadLoansWrittenOff();
+  };
 
-  loadLoansWrittenOff();
+//  loadLoansWrittenOff();
 });
