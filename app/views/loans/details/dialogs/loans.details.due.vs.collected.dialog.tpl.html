@@ -30,7 +30,7 @@
         <tr>
           <th style="text-align: center;">File&nbsp;No.</th>
           <th style="text-align: left; width: 50%">Full&nbsp;Name</th>
-          <th style="text-align: center">Repayment Date</th>
+          <th style="text-align: center">Due Date</th>
           <th style="text-align: right">P+I+F&nbsp;Due</th>
           <th style="text-align: right">P+I+F&nbsp;Collected</th>
           <th style="text-align: right">Diff.&nbsp;Due vs Collected&nbsp;Amount</th>
@@ -41,7 +41,7 @@
         <tr ng-repeat="row in data">
           <td style="text-align: center">{{row['File No']}}</td>
           <td style="text-align: left">{{row['Client Name']}}</td>
-          <td style="text-align: center">{{row['Repayment Date']| DateFormat}}</td>
+          <td style="text-align: center">{{row['Due Date']| DateFormat}}</td>
           <td style="text-align: right">{{row['P+I+F due']| currency:''}}</td>
           <td style="text-align: right">{{row['P+I+F collected']| currency:''}}</td>
           <td style="text-align: right">{{row['diff. due vs. collected amount']| currency:''}}</td>
