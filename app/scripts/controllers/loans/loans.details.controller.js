@@ -377,17 +377,28 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
 
 angular.module('angularjsApp').controller('LoanDeatilsDueVsCollectedDialog', function(REST_URL, LoanService, $scope, $modalInstance, dateFilter) {
 
-
   $scope.formData = {};
   $scope.formData.startDate = new Date();
   $scope.formData.startDate.setDate($scope.formData.startDate.getDate() - 7);
   $scope.formData.endDate = new Date();
+  $scope.staffs = [{displayName: 'All', id: -1}];
+  $scope.formData.officerId = -1;
+
+  $scope.getStaff = function() {
+    LoanService.getData('api/v1/staff').then(function(result) {
+      console.log('----------------------------------------- reuslt', result);
+      $scope.staffs = [{displayName: 'All', id: -1}];
+      $scope.staffs = _.union($scope.staffs, result.data || []);
+    });
+  };
+  $scope.getStaff();
+
 
   $scope.getData = function() {
     $scope.isLoading = true;
     var startDate = dateFilter($scope.formData.startDate, 'yyyy-MM-dd');
     var endDate = dateFilter($scope.formData.endDate, 'yyyy-MM-dd');
-    LoanService.getData('api/v1/runreports/DueVsCollectedScreenResult?R_startDate=' + startDate + '&R_endDate=' + endDate).then(function(result) {
+    LoanService.getData('api/v1/runreports/DueVsCollectedScreenResult?R_startDate=' + startDate + '&R_endDate=' + endDate + '&R_officerId=' + ($scope.formData.officerId || -1)).then(function(result) {
       $scope.data = result.data;
       $scope.totalDue = 0;
       $scope.totalCollected = 0;
