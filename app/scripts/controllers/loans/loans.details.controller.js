@@ -386,9 +386,10 @@ angular.module('angularjsApp').controller('LoanDeatilsDueVsCollectedDialog', fun
 
   $scope.getStaff = function() {
     LoanService.getData('api/v1/staff').then(function(result) {
-      console.log('----------------------------------------- reuslt', result);
       $scope.staffs = [{displayName: 'All', id: -1}];
-      $scope.staffs = _.union($scope.staffs, result.data || []);
+      $scope.staffs = _.union($scope.staffs, _.filter(result.data, function(staff) {
+        return staff.isActive && staff.isLoanOfficer;
+      }) || []);
     });
   };
   $scope.getStaff();
