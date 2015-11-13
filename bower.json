@@ -33,7 +33,8 @@
     "ui-bootstrap": "~0.12.1",
     "ui-router": "~0.2.13",
     "webcam": "~1.0.0",
-    "webcam-directive": "~1.2.0"
+    "webcam-directive": "~1.2.0",
+    "angular-pdf": "~1.2.4"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.7",

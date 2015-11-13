@@ -8,6 +8,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/angular-dialog-service/dist/dialogs.min.css" />
     <link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
     <!-- endbower -->
@@ -17,6 +18,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -101,6 +103,9 @@
     <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/webcam/jquery.webcam.js"></script>
     <script src="bower_components/webcam-directive/dist/webcam.min.js"></script>
+    <script src="bower_components/pdfjs-dist/build/pdf.js"></script>
+    <script src="bower_components/pdfjs-dist/build/pdf.worker.js"></script>
+    <script src="bower_components/angular-pdf/dist/angular-pdf.js"></script>
     <!-- endbower -->
     <script src="bower_components/smartmenus/dist/addons/bootstrap/jquery.smartmenus.bootstrap.js"></script>
     <script src="bower_components/ui-bootstrap/src/typeahead/typeahead.js"></script>
@@ -179,6 +184,7 @@
     <script src="scripts/controllers/code/code.js"></script>
     <script src="scripts/controllers/financialyear/financialyear.js"></script>
     <script src="scripts/controllers/reports/reportsController.js"></script>
+    <script src="scripts/controllers/reports/pdfViewerController.js"></script>
     <script src="scripts/controllers/reports/viewReportsController.js"></script>
     <script src="scripts/controllers/reports/csv.js"></script>
     <script src="scripts/controllers/reports/angularjs-nvd3-directives.js"></script>

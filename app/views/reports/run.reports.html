@@ -1,5 +1,5 @@
 <div class="container post-login" ng-controller="ViewReportsController">
-    <div ng-include src="'/views/alert.html'"></div>   
+    <div ng-include src="'/views/alert.html'"></div>
     <div class="shortcuts">
         <ul role="tablist">
         </ul>
@@ -16,10 +16,10 @@
             </button>
             <button type="button" data-ng-hide="hideChart" class="btn btn-primary pull-right" ng-click="setTypeBar()">Barchart
             </button>
-          </span>          
+          </span>
         </div>
         <div ng-hide="isCollapsed" class="alert-block form-horizontal">
-          <br>  
+          <br>
           <div class="form-group info" ng-repeat="reportParam in reportParams">
             <label class="control-label col-sm-2" for="{{reportParam.variable}}">{{reportParam.label}}</label>
             <div class="col-sm-3 validate">
@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="form-group info" ng-repeat="reportDateParam in reportDateParams">
-              <label class="control-label col-sm-2" for="{{reportDateParam.variable}}">{{ reportDateParam.label}}</label>                 
+              <label class="control-label col-sm-2" for="{{reportDateParam.variable}}">{{ reportDateParam.label}}</label>
               <div class="col-sm-3">
                   <input style="width: 257px" id="{{reportDateParam.inputName}}" type="text" datepicker-pop="yyyy-MM-dd"
                          ng-model="formData[reportDateParam.inputName]" is-open="'opened'+$index" min="minDate"
@@ -48,7 +48,7 @@
               </div>
           </div>
           <div class="form-group info" ng-show="reportType == 'Pentaho'">
-              <label class="control-label col-sm-2" for="outputType">Outputtype</label>  
+              <label class="control-label col-sm-2" for="outputType">Outputtype</label>
               <div class="col-sm-3">
                   <select class="form-control input-xlarge" ng-model="formData.outputType">
                       <!--
@@ -65,7 +65,7 @@
           <!--
           <div class="form-group info">
               <label class="control-label col-sm-2" for="decimalsChoice">Decimal places</label>
-              <div class="col-sm-3">            
+              <div class="col-sm-3">
                 <select id="decimalsChoice"  class="form-control input-xlarge" ng-model="decimalsChoice" ng-init="decimalsChoice=0">
                     <option value="0">Zero decimal places</option>
                     <option value="4">4</option>
@@ -165,15 +165,20 @@
                 <div ng-bind-html="reportContentHtml"></div>
             </div>
             <textarea class="form-control" ng-show="reportContentCsv" ng-bind="reportContentCsv" style="height: 600px"></textarea>
+            <div ng-controller="pdfViewerController" style="width: 100%; height: 600px; overflow: auto;">
+              <ng-pdf template-url="views/reports/pdf.viewer.tpl.html" ng-show="reportContentPdf" canvasid="pdf" scale="page-fit" page=1></ng-pdf>
+            </div>
+            <!--
             <object ng-show="reportContentPdf" style="width: 100%; height: 600px;" data="{{reportContentPdf}}" type="application/pdf">
                 <embed ng-src="{{reportContentPdf}}" style="width: 100%; height: 600px;" type="application/pdf">
                 </embed>
             </object>
+            -->
             <!--
             NOTE: this is just wrong; whoever did this: you cannot just make shortcuts here, you have to respect the security infrastructure
             <iframe id="rptLoadingFrame" ng-src="{{baseURL}}" frameborder="0" width="100%" height="600px"></iframe>
             -->
         </div>
-      </div>  
-    </div>    
+      </div>
+    </div>
 </div>

@@ -1,0 +1,38 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <form class="navbar-form navbar-left">
+      <div class="input-group input-group-sm">
+        <div class="btn-group btn-group-sm">
+          <button type="button" class="btn btn-default" ng-click="goPrevious()"><i class="fa fa-fw fa-angle-left"></i></button>
+          <button type="button" class="btn btn-default" ng-click="goNext()"><i class="fa fa-fw fa-angle-right"></i></button>
+          <button type="button" class="btn btn-default" ng-click="zoomOut()"><i class="fa fa-fw fa-compress"></i></button>
+          <button type="button" class="btn btn-default" ng-click="zoomIn()"><i class="fa fa-fw fa-expand"></i></button>
+          <!--
+          <button type="button" class="btn btn-default" ng-click="rotate()"><i class="fa fa-fw fa-repeat"></i></span></button>
+          -->
+          <button type="button" class="btn btn-default" ng-click="downloadReportContent()"><i class="fa fa-fw fa-cloud-download"></i></button>
+        </div>
+      </div>
+    </form>
+    <form class="navbar-form navbar-right">
+      <div class="input-group input-group-sm">
+        <span class="input-group-addon">Page</span>
+        <input type="text" class="form-control" min=1 ng-model="pageNum">
+        <span class="input-group-addon">of {{pageCount}}</span>
+      </div>
+    </form>
+  </div>
+</nav>
+
+<hr>
+
+<!--
+<div class="progress" ng-show="loading">
+  <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( progress + '%' ) }">
+    {{progress}}%
+  </div>
+</div>
+-->
+<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw margin-bottom" ng-show="loading"></i>
+
+<canvas id="pdf" class="rotate0" ng-hide="loading"></canvas>

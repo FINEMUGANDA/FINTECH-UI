@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module('angularjsApp').controller('ViewReportsController', function($location, $route, $scope, 
+angular.module('angularjsApp').controller('ViewReportsController', function($location, $route, $scope,
   REST_URL, ReportService, SearchService, $routeParams) {
   console.log('ViewReportsController');
   $scope.isLoading = true;
@@ -160,7 +160,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
           } else if (temp.displayType === 'text') {
               $scope.reportTextParams.push(temp);
           }
-      }      
+      }
     } catch (e) {
       console.log(e);
     }
@@ -250,7 +250,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       var dateformat = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
       if (!(dateformat.test(checkDate))) {
           return true;
-      } 
+      }
       // TODO validate date
       /*else {
           var dyear = checkDate.substring(0, 4);
@@ -278,7 +278,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       $scope.errorDetails = [];
       for (var i in $scope.reqFields) {
           paramDetails = $scope.reqFields[i];
-          var fieldId = '';            
+          var fieldId = '';
           var selectedVal;
           switch (paramDetails.displayType) {
               case 'select':
@@ -363,7 +363,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
               errorObj.args.params.push({value: paramDetails.label});
               $scope.errorDetails.push(errorObj);
           }
-      }      
+      }
   }
 
   function buildReportParms() {
@@ -377,7 +377,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   var paramName = 'R_' + tempParam.reportParameterName;
                   if (paramCount > 1) {
                     reportParams += '&';
-                  } 
+                  }
                   reportParams += encodeURIComponent(paramName) + '=' + encodeURIComponent($scope.formData[$scope.reqFields[i].inputName]);
                   paramCount = paramCount + 1;
               }
@@ -411,10 +411,18 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
           return colorArrayPie[i];
       };
   };
+  $scope.downloadReportContent = function() {
+    if($scope.formData.outputType==='PDF') {
+      ReportService.getData($scope.baseURL, 'arraybuffer').then(function(content) {
+        saveAs(new Blob([content.data], {type: 'application/pdf'}), 'report.pdf');
+      });
+    }
+  };
   $scope.getReportContent = function() {
     if ($scope.formData.outputType === 'PDF') {
       var restURL = Utility.updateQueryStringParameter(Utility.getRESTUrlWithToken($scope.baseURL), 'saveName', $scope.reportName + '.pdf');
       $scope.reportContentPdf = $sce.trustAsResourceUrl(restURL);
+      $scope.pdfUrl = restURL;
       return;
     }
 
@@ -429,6 +437,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       } else if($scope.formData.outputType==='XLS') {
         saveAs(new Blob([content.data], {type: 'application/vnd.ms-excel'}), 'report.xls');
       } else if($scope.formData.outputType==='PDF') {
+        // TODO: remove this; dead code
         //saveAs(new Blob([content.data], {type: 'application/pdf'}), 'report.pdf');
         var file = new Blob([content.data], {type: 'application/pdf'});
         $scope.reportContentPdf = $sce.trustAsResourceUrl(URL.createObjectURL(file) + '#test.pdf');
@@ -469,12 +478,12 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   //$scope.formData.reportSource = $scope.reportName;
                   url = REST_URL.RUN_REPORTS + '/' + $scope.reportName + '?genericResultSet=true';
                   angular.forEach($scope.formData, function(value, key) {
-                      url += '&' + key + '=' + value ; 
+                      url += '&' + key + '=' + value ;
                   });
                   ReportService.getData(url).then(function(result){
                       //clear the csvData array for each request
                       var data = result.data;
-                      $scope.isLoading = false;                      
+                      $scope.isLoading = false;
                       $scope.rowCollection = data;
                       $scope.colspan = $scope.rowCollection.columnHeaders.length;
                       $scope.csvData = [];
@@ -514,7 +523,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
                   //$scope.formData.reportSource = $scope.reportName;
                   url = REST_URL.RUN_REPORTS + '/' + $scope.reportName + '?genericResultSet=true';
                   angular.forEach($scope.formData, function(value, key) {
-                      url += '&' + key + '=' + value ; 
+                      url += '&' + key + '=' + value ;
                   });
                   ReportService.getData(url).then(function(result){
                       //clear the csvData array for each request

@@ -54,6 +54,7 @@ var app = angular.module('angularjsApp', [
   'permissionService',
   'roleService',
   'ngCsv',
+  'pdf',
   'modified.datepicker',
   'angularMoment',
   'ipCookie'
@@ -976,7 +977,7 @@ app.factory('Session', function(APPLICATION, ipCookie, $rootScope) {
 });
 
 //Directive for the validation of each mandatory field
-app.directive('showValidation', [function() { 
+app.directive('showValidation', [function() {
     return {
       restrict: 'A',
       require: 'form',
