@@ -414,7 +414,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
   $scope.downloadReportContent = function() {
     if($scope.formData.outputType==='PDF') {
       ReportService.getData($scope.baseURL, 'arraybuffer').then(function(content) {
-        saveAs(new Blob([content.data], {type: 'application/pdf'}), 'report.pdf');
+        saveAs(new Blob([content.data], {type: 'application/pdf'}), $scope.reportName + '.pdf');
       });
     }
   };
@@ -422,7 +422,10 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
     if ($scope.formData.outputType === 'PDF') {
       var restURL = Utility.updateQueryStringParameter(Utility.getRESTUrlWithToken($scope.baseURL), 'saveName', $scope.reportName + '.pdf');
       $scope.reportContentPdf = $sce.trustAsResourceUrl(restURL);
-      $scope.pdfUrl = restURL;
+      console.log('PDF URL: ' + restURL);
+      if(restURL && restURL.length > 0) {
+        $scope.pdfUrl = restURL;
+      }
       return;
     }
 
