@@ -375,6 +375,11 @@ module.exports = function (grunt) {
           cwd: '.',
           src: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
           dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: '.',
+          src: 'bower_components/pdfjs-dist/build/pdf.worker.js',
+          dest: '<%= yeoman.dist %>'
         }]
       },
       styles: {
@@ -423,10 +428,10 @@ module.exports = function (grunt) {
             war_name: 'finemsys',
             webxml_welcome: 'index.html',
             webxml_display_name: 'finemsys',
-            webxml_mime_mapping: [ 
-        { 
-            extension: 'woff', 
-              mime_type: 'application/font-woff' 
+            webxml_mime_mapping: [
+        {
+            extension: 'woff',
+              mime_type: 'application/font-woff'
         } ]
           },
           files: [

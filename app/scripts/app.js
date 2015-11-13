@@ -1,6 +1,8 @@
-/* global moment */
+/* global moment, PDFJS */
 
 'use strict';
+
+PDFJS.workerSrc ='bower_components/pdfjs-dist/build/pdf.worker.js';
 
 /**
  * @ngdoc overview
