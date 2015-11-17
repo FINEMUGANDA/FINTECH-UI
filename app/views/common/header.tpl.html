@@ -112,17 +112,19 @@
             </div>
           </form>
         </li>
-        <li>
+        <li ng-controller="HeaderNotifictaionsCtrl">
           <a href="javascript: void(0);" class="notifications" id="loans_info_button">
             <span class="visible-sm">Notifications</span>
-            <strong class="badge">{{loans_total}}</strong>
+            <strong class="badge">{{statsSum}}</strong>
           </a>
           <ul class="mega-menu dropdown-menu">
             <li>
               <div style="width: 240px; max-width: 100%;">
-                <div>Total loans requiring actions: {{loans_total}}</div>
-                <div><a href="/#/loansPendingApproval" ng-show="hasPermission('APPROVE_LOAN')" data-toggle="collapse" data-target=".navbar-collapse">Loans pending approval: {{loans_PAcount}}</a></div>
-                <div><a href="/#/loansAwaitingDisbursement" ng-show="hasPermission('DISBURSE_LOAN')" data-toggle="collapse" data-target=".navbar-collapse">Loans awaiting disbursement:  {{loans_ADcount}}</a></div>
+                <div>Total loans requiring actions: {{stats.loansPACount + stats.loansADCount}}</div>
+                <div><a href="/#/loansPendingApproval" ng-show="hasPermission('APPROVE_LOAN')" data-toggle="collapse" data-target=".navbar-collapse">Loans pending approval: {{stats.loansPACount}}</a></div>
+                <div><a href="/#/loansAwaitingDisbursement" ng-show="hasPermission('DISBURSE_LOAN')" data-toggle="collapse" data-target=".navbar-collapse">Loans awaiting disbursement:  {{stats.loansADCount}}</a></div>
+                <hr>
+                <div><a href="javascript:void(0);" ng-click="openFollowUpNotesDialog()">Follow Up Notes: {{stats.followUpNotesCount}}</a></div>
               </div>
             </li>
           </ul>

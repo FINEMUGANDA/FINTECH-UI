@@ -22,7 +22,7 @@
     "es5-shim": "~3.1.0",
     "file-saver": "latest",
     "json3": "~3.3.1",
-    "lodash": "~2.4.1",
+    "lodash": "~3.10.1",
     "moment-timezone": "~0.3.1",
     "momentjs": "~2.9.0",
     "ng-device-detector": "~1.0.0",

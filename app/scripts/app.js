@@ -701,53 +701,6 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
         }
     });
 
-  var url = '';
-
-  $('html').click(function (){
-    var wrapper = $('#loans_info_wrapper');
-    if (wrapper && wrapper.length) {
-      $('#loans_info_wrapper').hide();
-    }
-  });
-
-  $rootScope.loans_info_show = function(){
-    var offset = $('#loans_info_button').offset();
-    offset.top = offset.top + 100;
-    $('#loans_info_wrapper').css(offset).toggle();
-  };
-
-  function total_loans_info(){
-    if (!AuthService.isAuthenticated()) {
-      return;
-    }
-        var loadPASuccess = function(result) {
-            $rootScope.loans_PAcount = result.data.length;
-            var loadADSuccess = function(result) {
-                $rootScope.loans_ADcount = result.data.length;
-                $rootScope.loans_total =  $rootScope.loans_PAcount + $rootScope.loans_ADcount;
-            };
-            var loadADFail = function() {
-                console.log('Error : erorr req.');
-            };
-            url = REST_URL.BASE + 'runreports/PageClientsScreenLoansAD?genericResultSet=false&pretty=true&tenantIdentifier=default&R_limit=10000&R_offset=0&R_search=%25';
-            RoleService.getData(url).then(loadADSuccess, loadADFail);
-        };
-        var loadPAFail = function() {
-            console.log('Error : erorr req.');
-        };
-        url = REST_URL.BASE + 'runreports/PageClientsScreenLoansPA?genericResultSet=false&pretty=true&tenantIdentifier=default&R_limit=10000&R_offset=0&R_search=%25';
-        RoleService.getData(url).then(loadPASuccess, loadPAFail);
-  }
-
-  total_loans_info();
-  $rootScope.$on('updateNotificationsCount', function() {
-    total_loans_info();
-  });
-
-  $interval(function() {
-    total_loans_info();
-  }, 60000);
-
   $rootScope.change_pass = function() {
     var msg = 'You are about to remove User ';
     var dialog = dialogs.create('/views/change-password.html', 'passwordController', {msg: msg}, {size: 'md', keyboard: true, backdrop: true});
