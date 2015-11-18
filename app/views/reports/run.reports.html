@@ -165,7 +165,7 @@
                 <div ng-bind-html="reportContentHtml"></div>
             </div>
             <textarea class="form-control" ng-show="reportContentCsv" ng-bind="reportContentCsv" style="height: 600px"></textarea>
-            <iframe ng-if="reportContentPdf" id="rptLoadingFrame" ng-src="{{'/bower_components/pdfjs-gh-pages/web/viewer.html?file=' + pdfUrl}}" frameborder="0" width="100%" height="600px"></iframe>
+            <iframe ng-if="reportContentPdf" id="rptLoadingFrame" ng-src="{{'bower_components/pdfjs-gh-pages/web/viewer.html?file=' + pdfUrl}}" frameborder="0" width="100%" height="600px"></iframe>
 <!--            <div ng-controller="pdfViewerController" style="width: 100%; height: 600px; overflow: auto;">
               <ng-pdf template-url="views/reports/pdf.viewer.tpl.html" ng-show="reportContentPdf" canvasid="pdf" scale="page-fit" page=1></ng-pdf>
             </div>-->

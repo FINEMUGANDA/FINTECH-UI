@@ -378,6 +378,11 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
+          src: 'bower_components/pdfjs-gh-pages/**',
+          dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: '.',
           src: 'bower_components/pdfjs-dist/build/pdf.worker.js',
           dest: '<%= yeoman.dist %>'
         }]
