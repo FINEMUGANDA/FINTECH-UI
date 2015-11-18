@@ -2,8 +2,6 @@
 
 'use strict';
 
-PDFJS.workerSrc ='bower_components/pdfjs-dist/build/pdf.worker.js';
-
 /**
  * @ngdoc overview
  * @name angularjsApp
@@ -56,7 +54,6 @@ var app = angular.module('angularjsApp', [
   'permissionService',
   'roleService',
   'ngCsv',
-  'pdf',
   'modified.datepicker',
   'angularMoment',
   'ipCookie'

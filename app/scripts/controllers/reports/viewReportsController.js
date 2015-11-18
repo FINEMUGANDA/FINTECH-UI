@@ -424,7 +424,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
       $scope.reportContentPdf = $sce.trustAsResourceUrl(restURL);
       console.log('PDF URL: ' + restURL);
       if(restURL && restURL.length > 0) {
-        $scope.pdfUrl = restURL;
+        $scope.pdfUrl = escape(restURL);
       }
       return;
     }
