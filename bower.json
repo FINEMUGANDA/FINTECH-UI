@@ -29,7 +29,7 @@
     "ng-file-upload": "~1.6.12",
     "ng-idle": "0.3.5",
     "nvd3": "~1.1.15-beta",
-    "pdfjs-gh-pages": "git@github.com:mozilla/pdf.js.git#gh-pages",
+    "pdfjs-gh-pages": "https://github.com/mozilla/pdf.js.git#gh-pages",
     "smartmenus": "~0.9.7",
     "ui-bootstrap": "~0.12.1",
     "ui-router": "~0.2.13",
