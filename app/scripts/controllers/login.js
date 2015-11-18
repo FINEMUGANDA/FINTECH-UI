@@ -5,7 +5,7 @@ var LoginCtrl = angular.module('loginController', ['userServices', 'Utils', 'Con
 
 // The controller function let's us give our controller a name: MainCtrl
 // We'll then pass an anonymous function to serve as the controller itself.
-LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, $idle, Auth, AuthService, Utility, APPLICATION, AUTH_EVENTS, REST_URL, PAGE_URL, Session, Base64) {
+LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $window, $location, $idle, Auth, AuthService, Utility, APPLICATION, AUTH_EVENTS, REST_URL, PAGE_URL, Session, Base64) {
     //Authentication controller
     $rootScope.$on('$idleTimeout', function () {
         console.log('No activity...');
@@ -56,7 +56,8 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope, $location, $idle
     //Authentication logout controller
     $scope.logout = function () {
         AuthService.logout();
-        $location.url('/');
+//        $location.url('/');
+        $window.location.href = '/';
     };
 
     //authentication fail callback

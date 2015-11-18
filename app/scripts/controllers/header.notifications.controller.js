@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularjsApp').controller('HeaderNotifictaionsCtrl', function($scope, $rootScope, REST_URL, AuthService, RoleService, $timeout, $interval, dialogs) {
+angular.module('angularjsApp').controller('HeaderNotifictaionsCtrl', function($scope, $rootScope, REST_URL, AuthService, RoleService, AUTH_EVENTS, $interval, dialogs) {
 
   var url = '';
 
@@ -49,6 +49,9 @@ angular.module('angularjsApp').controller('HeaderNotifictaionsCtrl', function($s
 
   total_loans_info();
   $rootScope.$on('updateNotificationsCount', function() {
+    total_loans_info();
+  });
+  $rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
     total_loans_info();
   });
 
