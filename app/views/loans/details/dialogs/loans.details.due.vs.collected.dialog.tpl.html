@@ -5,15 +5,15 @@
 <div class="modal-body">
   <div ng-include src="'/views/alert.html'"></div>
   <div class="form-group clearfix">
-    <label class="control-label col-sm-3" for="reportParams_loanOfficer" style="text-align: right">Loan Officer</label>
+    <label class="control-label col-sm-3" for="reportParams_loanOfficer">Loan Officer</label>
     <div class="col-sm-6">
-      <select id="reportParams_loanOfficer" ng-model="formData.officerId" ng-options="officer.id as officer.displayName for officer in staffs" class="form-control">
+      <select id="reportParams_loanOfficer" ng-model="formData.officerId" ng-options="officer.id as officer.display_name for officer in staffs" class="form-control">
         <option value="-1">All</option>
       </select>
     </div>
   </div>
   <div class="form-group clearfix">
-    <label class="control-label col-sm-3" for="reportParams_startDate" style="text-align: right">Start Date</label>
+    <label class="control-label col-sm-3" for="reportParams_startDate">Start Date</label>
     <div class="col-sm-6">
       <input id="reportParams_startDate" type="text" datepicker-pop="yyyy-MM-dd"
              ng-model="formData.startDate" is-open="'openedStartDate'" min="minDate"
@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="form-group clearfix">
-    <label class="control-label col-sm-3" for="reportParams_endDate" style="text-align: right">End Date</label>
+    <label class="control-label col-sm-3" for="reportParams_endDate">End Date</label>
     <div class="col-sm-6">
       <input id="reportParams_endDate" type="text" datepicker-pop="yyyy-MM-dd"
              ng-model="formData.endDate" is-open="'openedEndDate'" min="minDate"

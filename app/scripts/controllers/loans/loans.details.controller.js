@@ -375,7 +375,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentWeekDialog', func
   };
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsDueVsCollectedDialog', function(REST_URL, LoanService, $scope, $modalInstance, dateFilter) {
+angular.module('angularjsApp').controller('LoanDeatilsDueVsCollectedDialog', function(REST_URL, LoanService, AuthService, $scope, $modalInstance, dateFilter) {
 
   $scope.formData = {};
   $scope.formData.startDate = new Date();
@@ -385,15 +385,12 @@ angular.module('angularjsApp').controller('LoanDeatilsDueVsCollectedDialog', fun
   $scope.formData.officerId = -1;
 
   $scope.getStaff = function() {
-    LoanService.getData('api/v1/staff').then(function(result) {
-      $scope.staffs = [{displayName: 'All', id: -1}];
-      $scope.staffs = _.union($scope.staffs, _.filter(result.data, function(staff) {
-        return staff.isActive && staff.isLoanOfficer;
-      }) || []);
+    LoanService.getData('api/v1/runreports/AllLoanOfficers').then(function(result) {
+      $scope.staffs = [{display_name: 'All', id: -1}];
+      $scope.staffs = _.union($scope.staffs, result.data || []);
     });
   };
   $scope.getStaff();
-
 
   $scope.getData = function() {
     $scope.isLoading = true;

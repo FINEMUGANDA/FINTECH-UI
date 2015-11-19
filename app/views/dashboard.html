@@ -1,5 +1,5 @@
 <div class="container post-login">
-  
+
   <div class="shortcuts">
     <ul role="tablist">
       <li role="presentation" class="label">Shortcuts:</li>
@@ -14,20 +14,30 @@
 
   <div class="summary">
     <dl class="horizontal">
-      <dt ng-show="hasPermission('TAC_UIDASHBOARD')">{{totalActiveClient}}</dt>
-      <dd ng-show="hasPermission('TAC_UIDASHBOARD')"><a href="/#clients/status/Active">Total Active Clients</a></dd>
-      <dt ng-show="hasPermission('TB_UIDASHBOARD')">{{totalBorrowers}}</dt>
-      <dd ng-show="hasPermission('TB_UIDASHBOARD')"><a href="/#loans/borrowers/total">Total Borrowers</a></dd>
-      <dt ng-show="hasPermission('LIBS_UIDASHBOARD')">{{loansInBadStanding}}</dt>
-      <dd ng-show="hasPermission('LIBS_UIDASHBOARD')"><a href="/#loans/borrowers/bad">Loans in Bad Standing</a></dd>
-      <dt ng-show="hasPermission('RDTW_UIDASHBOARD')">{{repaymentsDueThisWeek}}</dt>
-      <dd ng-show="hasPermission('RDTW_UIDASHBOARD')"><a href="" ng-click="showRepaymentsDueThisWeek()">Repayments Due This Week</a></dd>
-      <dt ng-show="hasPermission('RDTW_UIDASHBOARD')">{{dueVsCollectedThisWeek}}</dt>
-      <dd ng-show="hasPermission('RDTW_UIDASHBOARD')"><a href="" ng-click="showDueVsCollectedThisWeek()">Due vs Collected</a></dd>
+      <div style="display: inline-block; vertical-align: top;">
+        <dt ng-show="hasPermission('TAC_UIDASHBOARD')">{{totalActiveClient}}</dt>
+        <dd ng-show="hasPermission('TAC_UIDASHBOARD')"><a href="/#clients/status/Active">Total Active Clients</a></dd>
+      </div>
+      <div style="display: inline-block; vertical-align: top;">
+        <dt ng-show="hasPermission('TB_UIDASHBOARD')">{{totalBorrowers}}</dt>
+        <dd ng-show="hasPermission('TB_UIDASHBOARD')"><a href="/#loans/borrowers/total">Total Borrowers</a></dd>
+      </div>
+      <div style="display: inline-block; vertical-align: top;">
+        <dt ng-show="hasPermission('LIBS_UIDASHBOARD')">{{loansInBadStanding}}</dt>
+        <dd ng-show="hasPermission('LIBS_UIDASHBOARD')"><a href="/#loans/borrowers/bad">Loans in Bad Standing</a></dd>
+      </div>
+      <div style="display: inline-block; vertical-align: top;">
+        <dt ng-show="hasPermission('RDTW_UIDASHBOARD')">{{repaymentsDueThisWeek}}</dt>
+        <dd ng-show="hasPermission('RDTW_UIDASHBOARD')"><a href="" ng-click="showRepaymentsDueThisWeek()">Repayments Due This Week</a></dd>
+      </div>
+      <div style="display: inline-block; vertical-align: top;">
+        <dt ng-show="hasPermission('RDTW_UIDASHBOARD')">{{dueVsCollectedThisWeek}}</dt>
+        <dd ng-show="hasPermission('RDTW_UIDASHBOARD')"><a href="" ng-click="showDueVsCollectedThisWeek()">Due vs Collected</a></dd>
+      </div>
     </dl>
     <div class="clearfix"></div>
   </div>
-  
+
   <div class="kpis">
     <div class="charts">
       <div class="portlet" ng-show="hasPermission('ABPLO_UIDASHBOARD')">
@@ -68,7 +78,7 @@
         <div class="heading">Due vs. Collected previous week</div> 
         <div class="body">
           <div ng-hide="isDueReady">
-              Loading...
+            Loading...
           </div>
           <div ng-show="isDueReady" google-chart chart="dueVsCollectedLastWeek" style="{{dueVsCollectedLastWeek.cssStyle}}"></div>
         </div>

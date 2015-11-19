@@ -62,10 +62,15 @@ and (max-width: 1023px) {
   }
   .summary .horizontal dt {
     padding: 0 5px;
+    font-size: 22px;
   }
   .summary .horizontal dd {
     margin-right:5px;
-    width:118px;
+    /*width:118px;*/
+    width: 95px;
+  }
+  .summary .horizontal div {
+    width: 30%
   }
 
   .filters {
@@ -378,6 +383,7 @@ and (max-width: 992px){
     }
   }
 }
+
 /*@media only screen
 and (max-width: 768px){
   .navbar-nav {
@@ -405,5 +411,10 @@ and (max-width: 768px){
 and (max-width: 1200px) {
   .navbar>.container {
     width: auto !important;
+  }
+  .summary .horizontal {
+    dd {
+      width: 110px;
+    }
   }
 }
