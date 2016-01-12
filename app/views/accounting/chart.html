@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div data-angular-treeview="true" data-tree-id="treeview" data-tree-model="treedata" data-node-id="id" data-node-label="name" data-node-children="children" ng-if="isTreeview"></div>
+    <div data-angular-treeview="true" data-tree-id="treeview" data-tree-model="treedata" data-node-id="id" data-node-label="name" data-node-children="children" ng-show="isTreeview"></div>
 
     <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table account-chart" ng-show="!isTreeview">
       <thead>

@@ -42,22 +42,29 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
   loadAccounts();
 
   function buildTreeData(data) {
-    var map = {}, item, result = {};
-    for (var i = 0; i < data.length; i += 1) {
-      item = data[i];
+    var result = {};
+
+    var indexed = _.indexBy(data, 'id');
+
+    _.each(indexed, function(item) {
       item.children = [];
       item.collapsed = true;
       item.name = item.name + ' (' + item.glCode + ')';
-      map[item.id] = i;
       if (item.parentId && item.parentId !== '0') {
-        data[map[item.parentId]].children.push(item);
+        if (!indexed[item.parentId]) {
+          indexed[item.parentId] = {};
+        }
+        if (!indexed[item.parentId].children) {
+          indexed[item.parentId].children = [];
+        }
+        indexed[item.parentId].children.push(item);
       } else {
         if (!result[item.type.value]) {
           result[item.type.value] = {name: item.type.value + ' (' + item.glCode.substr(0, 1) + '0000)', children: [], collapsed: true};
         }
         result[item.type.value].children.push(item);
       }
-    }
+    });
     return result;
   }
 
