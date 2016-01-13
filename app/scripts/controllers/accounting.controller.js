@@ -47,7 +47,9 @@ angular.module('angularjsApp').controller('AccountingChartCtrl', function($scope
     var indexed = _.indexBy(data, 'id');
 
     _.each(indexed, function(item) {
-      item.children = [];
+      if (!item.children) {
+        item.children = [];
+      }
       item.collapsed = true;
       item.name = item.name + ' (' + item.glCode + ')';
       if (item.parentId && item.parentId !== '0') {
