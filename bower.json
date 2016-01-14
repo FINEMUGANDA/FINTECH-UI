@@ -4,7 +4,7 @@
   "dependencies": {
     "angular": "~1.4.8",
     "angular-base64-upload": "~0.0.3",
-    "angular-bootstrap": "~1.0.3",
+    "angular-bootstrap": "~0.14.3",
     "angular-cookie": "~4.0.9",
     "angular-cookies": "~1.4.8",
     "angular-dialog-service": "~5.2.6",
@@ -31,7 +31,7 @@
     "nvd3": "~1.1.15-beta",
     "pdfjs-gh-pages": "https://github.com/mozilla/pdf.js.git#gh-pages",
     "smartmenus": "~0.9.7",
-    "ui-bootstrap": "~1.0.3",
+    "ui-bootstrap": "~0.14.3",
     "ui-router": "~0.2.13",
     "webcam": "~1.0.0",
     "webcam-directive": "~1.2.0"
@@ -44,7 +44,7 @@
   "resolutions": {
     "angular": "1.4.8",
     "d3": "~3.5.3",
-    "angular-bootstrap": "~1.0.3",
-    "ui-bootstrap": "~1.0.3"
+    "angular-bootstrap": "~0.14.3",
+    "ui-bootstrap": "~0.14.3"
   }
 }
