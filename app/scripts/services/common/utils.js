@@ -246,6 +246,14 @@ utils.filter('DateFormat', ['dateFilter', function(dateFilter) {
       if (input) {
         // NOTE: months have to be corrected, because in JS they are 0-based!
         var tmp = angular.copy(input);
+        if (typeof tmp === 'string') {
+          if (tmp.indexOf('-') !== -1) {
+            tmp = tmp.split('-');
+          } else {
+            return tmp;
+          }
+        }
+
         tmp[1] = tmp[1]-1;
         var tDate = moment(tmp).toDate();
         return dateFilter(tDate, format);
