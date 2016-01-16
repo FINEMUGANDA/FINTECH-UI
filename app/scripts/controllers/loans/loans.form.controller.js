@@ -64,15 +64,16 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
       $scope.data = data;
       $scope.chargesCollection = data.charges;
       $scope.showDetails = true;
+      $scope.loan.charges = _.map(data.charges || [], function(charge) {
+        return _.pick(charge, ['amount', 'chargeId', 'chargeTimeType', 'chargeCalculationType']);
+      });
+
       if (useTemplateData) {
         $timeout(function() {
           $scope.loan.principal = data.principal;
           $scope.loan.numberOfRepayments = data.numberOfRepayments;
           $scope.loan.interestRatePerPeriod = data.interestRatePerPeriod;
           $scope.loan.repaymentEvery = data.repaymentEvery;
-          $scope.loan.charges = _.map(data.charges, function(charge) {
-            return _.pick(charge, ['amount', 'chargeId', 'chargeTimeType', 'chargeCalculationType']);
-          });
 
           $scope.loan.loanTermFrequency = data.termFrequency;
           $scope.loan.loanTermFrequencyType = data.termPeriodFrequencyType.id;
