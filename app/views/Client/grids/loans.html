@@ -67,16 +67,12 @@
               <div class="export">
                 <strong>Export: <a href="" class="link pdf" ng-click="pdfExport('0')" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport('0')" target="_blank">Excel</a></strong>
               </div>
-              <!--
-              <div class="paginate">
-                <div st-pagination="" class="pagination" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
-              </div>
-              -->
+
               <nav class="navbar navbar-default pagination">
                 <ul class="nav navbar-nav">
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Size {{pageSize===10000 ? 'All' : pageSize}} <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
+                  <li class="dropdown" uib-dropdown>
+                    <a href="#" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-expanded="false">Size {{pageSize===10000 ? 'All' : pageSize}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" uib-dropdown-menu>
                       <li><a href="" ng-click="setPageSize(10)">10</a></li>
                       <li><a href="" ng-click="setPageSize(25)">25</a></li>
                       <li><a href="" ng-click="setPageSize(50)">50</a></li>
@@ -94,9 +90,9 @@
                       <i class="glyphicon glyphicon-backward"></i>
                     </a>
                   </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Page {{currentPage}} of {{pages.length}} <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu" style="max-height: 150px; overflow-y: scroll;">
+                  <li class="dropdown" uib-dropdown>
+                    <a href="#" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-expanded="false">Page {{currentPage}} of {{pages.length}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" uib-dropdown-menu style="max-height: 150px; overflow-y: scroll;">
                       <li ng-repeat="page in pages"><a href="" ng-click="goTo(page.page)">{{page.page}}</a></li>
                     </ul>
                   </li>
