@@ -150,12 +150,12 @@
                     </div>
                   </div>
                   <div class="btn-group" ng-if='statusReasons.length>0'>
-                    <div class="dropdown">
-                      <button class="btn dropdown-toggle btn-default" type="button" id=reasonDropdown" data-toggle="dropdown" aria-expanded="true">
+                    <div class="dropdown" uib-dropdown>
+                      <button class="btn dropdown-toggle btn-default" uib-dropdown-toggle type="button" id=reasonDropdown" data-toggle="dropdown" aria-expanded="true">
                         <span>{{clientStatus.reason.name}}</span><span ng-hide="clientStatus.reason.name">Select...</span>
                         <span class="caret"></span>
                       </button>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="reasonDropdown" style="overflow: visible;">
+                      <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="reasonDropdown" style="overflow: visible;">
                         <li role="presentation" ng-repeat="reason in statusReasons"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatusReason(reason)">{{reason.name}}</a></li>
                       </ul>
                     </div>
