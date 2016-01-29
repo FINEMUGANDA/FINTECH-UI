@@ -139,12 +139,12 @@
               <div class="col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3">
                 <div class="btn-toolbar">
                   <div class="btn-group">
-                    <div class="dropdown" style="margin-bottom: 10px">
-                      <button class="btn dropdown-toggle" ng-class="{'btn-success': client.status.id==300, 'btn-warning': client.status.id==100, 'btn-default': client.status.id==800 || client.status.id==600, 'btn-danger': client.status.id==700}" type="button" id="statusDropdown" data-toggle="dropdown" aria-expanded="true">
+                    <div class="dropdown" style="margin-bottom: 10px" uib-dropdown>
+                      <button class="btn dropdown-toggle" uib-dropdown-toggle ng-class="{'btn-success': client.status.id==300, 'btn-warning': client.status.id==100, 'btn-default': client.status.id==800 || client.status.id==600, 'btn-danger': client.status.id==700}" type="button" id="statusDropdown" data-toggle="dropdown" aria-expanded="true">
                         <span>{{client.status.value}}</span>&nbsp;<span class="glyphicon glyphicon-arrow-right" ng-show="clientStatus.code"></span>&nbsp;<span ng-show="clientStatus.code">{{clientStatus.code}}</span>
                         <span class="caret"></span>
                       </button>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="statusDropdown">
+                      <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="statusDropdown">
                         <li role="presentation" ng-repeat="action in clientActions"><a role="menuitem" tabindex="-1" href="" ng-click="selectClientStatus(action.code)">{{action.label}}</a></li>
                       </ul>
                     </div>
