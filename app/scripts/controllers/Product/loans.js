@@ -68,6 +68,22 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
     }
   };
 
+  $scope.interestRateFrequencyTypeOptions = [
+    {id: 3, value: 'Per year'}
+  ];
+  $scope.transactionProcessingStrategyOptions = [
+    {id: 8, value: 'P/I/F/LPI'}
+  ];
+  $scope.amortizationTypeOptions = [
+    {id: 1, value: 'Equal installments'}
+  ];
+  $scope.repaymentFrequencyTypeOptions = [
+    {id: 2, value: 'Monthly'}
+  ];
+  $scope.interestTypeOptions = [
+    {id: 1, value: 'Flat'}
+  ];
+
   //To load the loadproducts page
   $scope.isLoading = false;
   $scope.loanProductDetails = {};
@@ -240,6 +256,23 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
   $scope.isLoading = false;
   $scope.loanProductDetails = {};
   $scope.charges = [];
+
+  $scope.interestRateFrequencyTypeOptions = [
+    {id: 3, value: 'Per year'}
+  ];
+  $scope.transactionProcessingStrategyOptions = [
+    {id: 8, value: 'P/I/F/LPI'}
+  ];
+  $scope.amortizationTypeOptions = [
+    {id: 1, value: 'Equal installments'}
+  ];
+  $scope.repaymentFrequencyTypeOptions = [
+    {id: 2, value: 'Monthly'}
+  ];
+  $scope.interestTypeOptions = [
+    {id: 1, value: 'Flat'}
+  ];
+
   //Success callback
   var editLoanProductTeplateSuccess = function(result) {
     if (!Utility.isUndefinedOrNull($scope.isCreated) || $scope.type === 'alert-success') {
