@@ -1,33 +1,33 @@
-  <div class="container post-login">
-    <div ng-include src="'/views/alert.html'"></div>
-    <div class="page-header">
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="page-header">
     <div class="header">
       <h3>Journal Entries</h3>
       <div class="action"></div>
     </div>
-    </div>
-    <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
-      <thead>
-        <tr>
-          <th colspan="6">
-              <div class="filters" >
-                <div style="float:right;">            
-                  <ul role="tablist">
-                    <li role="presentation">
-                    <div class="action" ng-show="hasPermission('CREATE_JOURNALENTRY')">
-                      <a href="#/journalentries/create" class="btn primary" >
-                          Create Journal Entries
-                      </a>
-                    </div>
-                    </li>
-                 </ul> 
-                </div>
-                <div class="search" style="float:right;">
-                    <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Journal Entries" ng-model="tableSearch" />
-                </div>
-             </div>  
-          </th>
-        </tr>
+  </div>
+  <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
+    <thead>
+      <tr>
+        <th colspan="6">
+          <div class="filters" >
+            <div style="float:right;">            
+              <ul role="tablist">
+                <li role="presentation">
+                  <div class="action" ng-show="hasPermission('CREATE_JOURNALENTRY')">
+                    <a href="#/journalentries/create" class="btn primary" >
+                      Create Journal Entries
+                    </a>
+                  </div>
+                </li>
+              </ul> 
+            </div>
+            <div class="search" style="float:right;">
+              <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Journal Entries" ng-model="tableSearch" />
+            </div>
+          </div>  
+        </th>
+      </tr>
       <tr>
         <th st-sort="id">Created On</th>
         <th st-sort="description">Transaction Description</th>
@@ -37,40 +37,39 @@
         <th st-sort="Debit" class="number">Credit</th>
         <th st-sort="currencies">Currencies</th>
       </tr>
-      </thead>
-      <tbody ng-hide="isLoading">
-        <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
-          <td ng-click="viewDetail(journal)">{{journal.createdOn}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.description}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.entry_date[2]+'/'+journal.entry_date[1]+'/'+ journal.entry_date[0]}}</td>
-          <!--<td ng-click="viewDetail(journal)">{{journal.office_name}}</td>-->
-          <td ng-click="viewDetail(journal)" class="number">{{journal.Debit | number:2}}</td>
-          <td ng-click="viewDetail(journal)" class="number">{{journal.Credit | number:2}}</td>
-          <td ng-click="viewDetail(journal)">{{journal.currencies}}</td>
-          <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
-        </tr>
-      </tbody>
-      <tbody ng-show="isLoading">
-        <tr>
-          <td colspan="6" class="text-center">
-            <div class="loading-indicator">Loading...</div>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot ng-hide="isLoading">
-        <tr>
-          <td colspan="6">
-            <div class="table-footer">
-              <div class="export">
-                <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
-              </div>
-              <div class="paginate">
-                <div st-pagination="" class="pagination pointer" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
-              </div>
+    </thead>
+    <tbody ng-hide="isLoading">
+      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
+        <td ng-click="viewDetail(journal)">{{journal.createdOn}}</td>
+        <td ng-click="viewDetail(journal)">{{journal.description}}</td>
+        <td ng-click="viewDetail(journal)">{{journal.entry_date[2] + '/' + journal.entry_date[1] + '/' + journal.entry_date[0]}}</td>
+        <!--<td ng-click="viewDetail(journal)">{{journal.office_name}}</td>-->
+        <td ng-click="viewDetail(journal)" class="number">{{journal.Debit| number:2}}</td>
+        <td ng-click="viewDetail(journal)" class="number">{{journal.Credit| number:2}}</td>
+        <td ng-click="viewDetail(journal)">{{journal.currencies}}</td>
+        <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
+      </tr>
+    </tbody>
+    <tbody ng-show="isLoading">
+      <tr>
+        <td colspan="6" class="text-center">
+          <div class="loading-indicator">Loading...</div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot ng-hide="isLoading">
+      <tr>
+        <td colspan="6">
+          <div class="table-footer">
+            <div class="export">
+              <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
             </div>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
+            <div class="paginate">
+              <div st-pagination="" class="pagination pointer" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 </div>

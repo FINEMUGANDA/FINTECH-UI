@@ -90,7 +90,21 @@
                 <select id="receivablePenaltyAccountId" chosen="penaltiesReceivableOption" class="form-control" ng-model="mapAccountingForm.receivablePenaltyAccountId" ng-change="changeAssetsOptions();" ng-options="assetAccount.id as assetAccount.name for assetAccount in penaltiesReceivableOption" value="{{assetAccount.id}}" >
                 </select>
               </div>
+              <div class="col-sm-1"></div>
           </div>
+          <div class="form-group">
+          <label class="control-label col-sm-2">Unidentified Deposit</label>
+          <div class="col-sm-3">
+            <select id="unidentifiedDepositsAccountId" chosen="unidentifiedDepositsOption" class="form-control" ng-model="mapAccountingForm.unidentifiedDepositsAccountId" ng-change="changeLiabilityOptions();" ng-options="liabilityAccount.id as liabilityAccount.name for liabilityAccount in unidentifiedDepositsOption" value="{{liabilityAccount.id}}" >
+              <!--
+              <option ng-repeat="assetAccount in filterTransferSuspense(assetAccountOptions)" value="{{assetAccount.id}}">
+                {{assetAccount.name}}
+              </option>
+              -->
+            </select>
+          </div>
+          </div>
+
           <hr/>
           <div class="form-group">
             <h4>Income</h4>

@@ -1,22 +1,27 @@
   <div class="container post-login" ng-controller="CreateJournalEntriesCtrl">
-    <div ng-include src="'/views/alert.html'"></div> 
+    <div ng-include src="'/views/alert.html'"></div>
     <div class="page-header">
       <div class="header">
         <h3>Add Journal Entry</h3>
         <div class="action"></div>
       </div>
     </div>
-    <div calss="col-md-12">
+    <div class="col-md-12">
       <div class="col-md-12" ng-show="isLoading">
-        <div class="form-group">          
-          <div class="loading-indicator">Loading...</div>        
+        <div class="form-group">
+          <div class="loading-indicator">Loading...</div>
         </div>
       </div>
       <div ng-hide="isLoading">
         <form class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-2">&nbsp;</label>
-                <button type="button" class="btn" style="margin-left: 15px;" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening">OPENING BALANCE</button>
+                <div class="col-md-3">
+                  <button type="button" class="btn" style="margin-left: 15px;" ng-class="{'btn-default': !journalEntryForm.opening, 'btn-success': journalEntryForm.opening}" ng-click="journalEntryForm.opening=!journalEntryForm.opening">OPENING BALANCE</button>
+                </div>
+                <div class="col-md-2">
+                  <label class="checkbox" style="cursor: pointer"><input type="checkbox" style="position: static; margin-left: 0;" ng-model="journalEntryForm.unidentified"> Unidentified Entry</label>
+                </div>
             </div>
             <div class="form-group" ng-show="journalEntryForm.opening">
                 <label class="control-label col-md-2">Type<span class="required"> *</span></label>
@@ -30,7 +35,7 @@
       </div>
       <div>
         <form name="createjournalentryForm" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation ng-submit="validateJournalEntry()">
-          <div class="form-group">                
+          <div class="form-group">
               <label class="control-label col-md-2">Office<span class="required"> *</span></label>
               <div class="validate col-md-3">
                   <select chosen="offices" id="officeId" ng-model="journalEntryForm.officeId" class="form-control"
@@ -47,12 +52,12 @@
               -->
           </div>
           <div class="form-group">
-              <label class="control-label col-md-2 col-xs-2">Affected GL entries<span class="required"> *</span></label>                
+              <label class="control-label col-md-2 col-xs-2">Affected GL entries<span class="required"> *</span></label>
               <div class="col-md-10 col-xs-10">
                     <label class="control-label paddingleft0"> Debit <span ng-show="openingBalanceType==='credit'">(Equity)</span></label>
                     <a ng-click="addDebitAccount()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    </a>                    
+                    </a>
               </div>
               <div ng-repeat="dbAccount in journalEntryForm.dbAccounts">
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
@@ -71,12 +76,12 @@
                     <input type="text" class="input-small form-control" ng-model="dbAccount.debitAmount" placeholder="Amount" required>
                   </div>
                   <div class="col-md-1 col-xs-1 margintop6">
-                    <a ng-click="removeDebitAccount($index)">                      
+                    <a ng-click="removeDebitAccount($index)">
                           <span class="glyphicon glyphicon-remove pointer"></span>
                     </a>
                   </div>
                 </div>
-              </div>  
+              </div>
           </div>
           <div class="form-group">
               <label class="control-label col-md-2 col-xs-2"></label>
@@ -84,7 +89,7 @@
                     <label class="control-label paddingleft0"> Credit <span ng-show="openingBalanceType==='debit'">(Equity)</span></label>
                     <a ng-click="addCrAccount()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    </a>                    
+                    </a>
               </div>
               <div ng-repeat="crAccount in journalEntryForm.crAccounts">
                 <div class="col-md-12 col-xs-12 paddingleft0 marginTop5">
@@ -103,14 +108,14 @@
                     <input type="text" class="input-small form-control" ng-model="crAccount.crAmount" placeholder="Amount" required>
                   </div>
                   <div class="col-md-1 col-xs-1 margintop6">
-                    <a ng-click="removeCrAccount($index)">                      
+                    <a ng-click="removeCrAccount($index)">
                           <span class="glyphicon glyphicon-remove pointer"></span>
                     </a>
                   </div>
                 </div>
-              </div> 
+              </div>
           </div>
-          <div class="form-group">                
+          <div class="form-group">
               <label class="control-label col-md-2">Reference number<span class="required"> *</span></label>
               <div class="validate col-md-3">
                   <input id="referenceNumber" name="referenceNumber" class="form-control" type="text" ng-model="journalEntryForm.referenceNumber" required />
@@ -118,17 +123,17 @@
               <div class="col-md-1"></div>
               <label class="control-label col-md-2">Transaction date
               <span class="required"> *</span></label>
-              <div class="validate col-md-3 dateCss">                  
+              <div class="validate col-md-3 dateCss">
                   <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="journalEntryForm.transationDate" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" required ng-click="open($event)" readonly="true" />
               </div>
           </div>
-          <div class="form-group">                
+          <div class="form-group">
               <label class="control-label col-md-2 col-xs-3">Show Payment Details</label>
-              <div class="col-md-10 col-xs-7">                    
+              <div class="col-md-10 col-xs-7">
                   <a class="btn btn-primary" ng-click="showPaymentDetails=!showPaymentDetails">
                       <span class="glyphicon glyphicon-minus" ng-show="showPaymentDetails"></span>
                       <span class="glyphicon glyphicon-plus" ng-show="!showPaymentDetails"></span>
-                  </a>                    
+                  </a>
               </div>
           </div>
           <div collapse="!showPaymentDetails">
@@ -160,7 +165,7 @@
               <div class="col-md-3">
                   <input id="receiptNumber" type="text" ng-model="journalEntryForm.receiptNumber" class="form-control">
               </div>
-              <div class="col-md-1"></div>                                
+              <div class="col-md-1"></div>
               <label class="control-label col-md-2">Bank#</label>
               <div class="col-md-3">
                   <input id="bankNumber" type="text" ng-model="journalEntryForm.bankNumber" class="form-control">
@@ -174,7 +179,7 @@
             </div>
           </div>
           <hr/>
-          <div class="col-md-offset-5 paddedtop">                           
+          <div class="col-md-offset-5 paddedtop">
             <a id="cancel" href="#/journalentries" class="btn btn-warning">Cancel</a>
             <button id="save" type="submit" class="btn btn-primary">Save</button>
           </div>

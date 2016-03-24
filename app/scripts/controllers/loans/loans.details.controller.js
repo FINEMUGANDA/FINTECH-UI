@@ -221,6 +221,12 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails(filterTransactions);
     });
   };
+  $scope.openUnidentifiedDialog = function(transaction) {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.unidentified.dialog.html', 'LoanDeatilsUnidentifiedDialog', {loan: $scope.loanDetails, transaction: transaction}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateLoanDetails(filterTransactions);
+    });
+  };
   $scope.openWriteOffDialog = function() {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.writeoff.dialog.html', 'LoanDeatilsWriteOffDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function() {
@@ -344,6 +350,92 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
     } else {
       LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
     }
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+});
+
+angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, JournalService, SearchService, Utility) {
+  $scope.loan = data.loan;
+  $scope.action = data.action;
+  $scope.transaction = data.transaction;
+  $scope.formData = {};
+  $scope.isLoading = true;
+  $scope.selectedJournalEntry;
+
+  var loadJournalEntriesSuccess = function(result) {
+    $scope.type = '';
+    $scope.message = '';
+    $scope.errors = '';
+    $scope.isLoading = false;
+    try {
+      $scope.rowCollection = result.data;
+      $scope.tableSearch = SearchService.data('journal');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  //Failure callback
+  var loadJournalEntriesFail = function(result) {
+    $scope.isLoading = false;
+    console.log('Error : Return from JournalService service.' + result);
+  };
+
+  var loadJournalEntries = function getData() {
+    $scope.isLoading = true;
+    $timeout(
+      function() {
+        $scope.rowCollection = [];
+        //service to get journalentries from server
+        JournalService.getData(REST_URL.JOURNALENTRIES_LIST + '?orderBy=transactionDate&sortOrder=DESC').then(loadJournalEntriesSuccess, loadJournalEntriesFail);
+      }, 2000);
+  };
+
+  loadJournalEntries();
+  
+  $scope.selectJournal = function(journal) {
+    $scope.selectedJournalEntry = journal;
+  };
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.errors = [];
+    if (!$scope.loanDetailsFormPrepay.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+
+    var data = angular.copy($scope.formData);
+    data.locale = 'en';
+    data.dateFormat = APPLICATION.DF_MIFOS;
+    if (typeof data.transactionDate === 'object') {
+      //data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      data.transactionDate = Utility.toServerDate(data.transactionDate);
+    }
+    function handleSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan updated successfully.';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.close();
+      }, 2000);
+    }
+    function handleFail(result) {
+      $scope.message = 'Cant prepay loan:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/unidentified/' + $scope.selectedJournalEntry.transaction_id, data).then(handleSuccess, handleFail);
   };
   $scope.cancel = function() {
     $modalInstance.dismiss();

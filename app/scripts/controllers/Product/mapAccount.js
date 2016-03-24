@@ -10,6 +10,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     //$scope.selectedAssets = [];
     var selectedAssets = [];
     var form = $scope.mapAccountingForm;
+    var selectedLiabilities = [];
     Utility.setSelectedOptions(selectedAssets, form.fundSourceAccountId);
     Utility.setSelectedOptions(selectedAssets, form.loanPortfolioAccountId);
     Utility.setSelectedOptions(selectedAssets, form.receivableInterestAccountId);
@@ -46,6 +47,14 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     $scope.interestexpenseAccountOptions = Utility.filterOptions($scope.expenseAccountOptions, form.interestWriteOffAccountId, selectedExpense);
     $scope.feesexpenseAccountOptions = Utility.filterOptions($scope.expenseAccountOptions, form.feeWriteOffAccountId, selectedExpense);
   };
+  
+  $scope.changeLiabilityOptions = function() {
+    var form = $scope.mapAccountingForm;
+    var selectedLiabilities = [];
+    Utility.setSelectedOptions(selectedLiabilities, form.unidentifiedDepositsAccountId);
+    $scope.unidentifiedDepositsOption = Utility.filterOptions($scope.liabilityAccountOptions, form.unidentifiedDepositsAccountId, selectedLiabilities);
+  };
+
   //To move on edit loan product page
   $scope.setStep = function(step) {
     $scope.editStep = step;
@@ -118,6 +127,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
         $scope.mapAccountingForm.interestWriteOffAccountId = $scope.product.accountingMappings.interestWriteOffAccount.id;
         $scope.mapAccountingForm.feeWriteOffAccountId = $scope.product.accountingMappings.feeWriteOffAccount.id;
       }
+      $scope.mapAccountingForm.unidentifiedDepositsAccountId = $scope.product.accountingMappings.unidentifiedDepositsAccount.id;
       //Todo Set accountin rule default
       $scope.mapAccountingForm.accountingRule = '4';
       $rootScope.message = '';
@@ -128,6 +138,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     $scope.changeAssetsOptions();
     $scope.changeIncomeOptions();
     $scope.changeExpenseOptions();
+    $scope.changeLiabilityOptions();
     $scope.isLoading = false;
   };
 
