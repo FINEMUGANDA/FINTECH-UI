@@ -78,6 +78,7 @@ app.constant('REST_URL', {
     ACCOUNT_CREATE: 'api/v1/glaccounts',
     JOURNALENTRIES:'api/v1/journalentries',
     JOURNALENTRIES_LIST:'api/v1/runreports/JournalEntryList',
+    UNIDENTIFIED_JOURNALENTRIES_LIST:'api/v1/runreports/UnidentifiedJournalEntryList',
     GLACCOUNTS:'api/v1/glaccounts',
     CURRENCY_LIST:'api/v1/currencies',
     CODE_LIST:'api/v1/codes',

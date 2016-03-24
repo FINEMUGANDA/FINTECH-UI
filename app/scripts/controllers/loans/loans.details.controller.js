@@ -356,11 +356,14 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
   };
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, JournalService, SearchService, Utility) {
+angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, JournalService, SearchService, dateFilter, Utility) {
   $scope.loan = data.loan;
   $scope.action = data.action;
   $scope.transaction = data.transaction;
   $scope.formData = {};
+  $scope.formData.startDate = new Date();
+  $scope.formData.startDate.setDate($scope.formData.startDate.getDate() - 7);
+  $scope.formData.endDate = new Date();
   $scope.isLoading = true;
   $scope.selectedJournalEntry;
 
@@ -388,10 +391,14 @@ angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', funct
     $timeout(
       function() {
         $scope.rowCollection = [];
+        $scope.selectedJournalEntry = null;
         //service to get journalentries from server
-        JournalService.getData(REST_URL.JOURNALENTRIES_LIST + '?orderBy=transactionDate&sortOrder=DESC').then(loadJournalEntriesSuccess, loadJournalEntriesFail);
-      }, 2000);
+        var startDate = dateFilter($scope.formData.startDate, 'yyyy-MM-dd');
+        var endDate = dateFilter($scope.formData.endDate, 'yyyy-MM-dd');
+        JournalService.getData(REST_URL.UNIDENTIFIED_JOURNALENTRIES_LIST + '?R_startDate=' + startDate + '&R_endDate=' + endDate).then(loadJournalEntriesSuccess, loadJournalEntriesFail);
+      }, 0);
   };
+  $scope.getData = loadJournalEntries;
 
   loadJournalEntries();
   

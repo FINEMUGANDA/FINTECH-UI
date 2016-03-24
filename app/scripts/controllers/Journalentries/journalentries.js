@@ -342,6 +342,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
     jeTransaction.routingCode = this.journalEntryForm.routingCode;
     jeTransaction.receiptNumber = this.journalEntryForm.receiptNumber;
     jeTransaction.bankNumber = this.journalEntryForm.bankNumber;
+    jeTransaction.unidentifiedEntry = this.journalEntryForm.unidentifiedEntry;
 
     //Construct credits array
     jeTransaction.credits = [];
