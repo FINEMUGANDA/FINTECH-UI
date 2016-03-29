@@ -1,0 +1,81 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h4 class="modal-title" ng-switch="action">
+    <span ng-switch-when="prepay">Prepay Loan</span>
+    <span ng-switch-when="adjust">Adjust Transaction</span>
+    <span ng-switch-default>Make Payment</span>
+    <span>:&nbsp;{{loan.clientName}}</span>
+  </h4>
+</div>
+
+<form name="loanDetailsFormPrepay" class="form form-horizontal" ng-submit="submit()" novalidate show-validation>
+  <div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div ng-show="isLoading">Loading...</div>
+    <div class="clearfix" ng-hide="isLoading">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="transactionDate">Transaction Date<span class="required">*</span></label>
+          <div class="col-sm-7 validate">
+            <input id="transactionDate" name="transactionDate" class="form-control" type="text" ng-model="formData.transactionDate" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" readonly="true" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="transactionAmount">Transaction Amount<span class="required">*</span></label>
+          <div class="col-sm-7 validate">
+            <input id="transactionAmount" type="text" name="amount" ng-model="formData.transactionAmount" class="form-control" number-format readonly>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="principalPortion">Principal</label>
+          <div class="col-sm-7">
+            <input id="principalPortion" type="text" name="principal" ng-value="data.principalPortion | number" class="form-control" readonly>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="interestPortion">Interest</label>
+          <div class="col-sm-7">
+            <input id="interestPortion" type="text" name="interest" ng-value="data.interestPortion | number" class="form-control" readonly>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="feeChargesPortion">Fees</label>
+          <div class="col-sm-7">
+            <input id="feeChargesPortion" type="text" name="fee" ng-value="data.feeChargesPortion | number" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="feeChargesPortion">LPI</label>
+          <div class="col-sm-7">
+            <input id="feeChargesPortion" type="text" name="fee" ng-value="data.penaltyChargesPortion | number" class="form-control" readonly>
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="data.paymentTypeOptions.length">
+          <label class="control-label col-sm-5" for="paymentTypeId">Payment Type<span class="required">*</span></label>
+          <div class="col-sm-7 validate">
+            <select id="paymentTypeId" ng-model="formData.paymentTypeId" class="form-control" required readonly>
+              <option ng-repeat="paymentType in data.paymentTypeOptions" value="{{paymentType.id}}" ng-selected="paymentType.id == formData.paymentTypeId">{{paymentType.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a ng-hide="isLoading" ng-click="submit()" class="btn primary">
+        <span class="glyphicon" ng-class="{'glyphicon-repeat': !spin, 'glyphicon-refresh spin': spin}"></span>
+<!--        <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
+        <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>-->
+        Reverse Transaction
+      </a>
+      <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+    </div>
+  </div>
+</form>
+
+
+

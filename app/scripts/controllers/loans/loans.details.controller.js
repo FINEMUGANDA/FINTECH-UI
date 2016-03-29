@@ -3,7 +3,7 @@
 'use strict';
 
 
-angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, DataTransferService, $timeout, $scope, dialogs, Utility) {
+angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, DataTransferService, $timeout, $scope, dialogs, AuthService, Utility) {
   console.log('LoansDetailsCtrl');
   $scope.clientId = $route.current.params.clientId;
   $scope.loanId = $route.current.params.loanId;
@@ -215,6 +215,20 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       }
     });
   };
+
+  $scope.clickLoanTransaction = function(transaction) {
+    if (transaction.manuallyReversed) {
+      return;
+    }
+    if (AuthService.hasPermission('ADJUST_LOAN')) {
+      if (transaction.type.repayment) {
+        $scope.openTransactionDialog('adjust', transaction);
+      } else if (transaction.type.fromUnidentified) {
+        $scope.openEditUnidentifiedTransactionDialog(transaction);
+      }
+    }
+  };
+
   $scope.openTransactionDialog = function(action, transaction) {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.repayment.dialog.html', 'LoanDeatilsRepaymentDialog', {loan: $scope.loanDetails, action: action, transaction: transaction}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function() {
@@ -223,6 +237,12 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   };
   $scope.openUnidentifiedDialog = function(transaction) {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.unidentified.dialog.html', 'LoanDeatilsUnidentifiedDialog', {loan: $scope.loanDetails, transaction: transaction}, {size: 'lg', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateLoanDetails(filterTransactions);
+    });
+  };
+  $scope.openEditUnidentifiedTransactionDialog = function(transaction) {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.edit.unidentified.transaction.dialog.html', 'LoanDeatilsEditUnidentifiedTransactionDialog', {loan: $scope.loanDetails, transaction: transaction}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       updateLoanDetails(filterTransactions);
     });
@@ -356,6 +376,138 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
   };
 });
 
+
+angular.module('angularjsApp').controller('LoanDeatilsEditUnidentifiedTransactionDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, JournalService, Utility) {
+  $scope.loan = data.loan;
+  $scope.action = data.action;
+  $scope.transaction = data.transaction;
+  console.log($scope.transaction);
+  $scope.formData = {};
+  $scope.isLoading = true;
+  var url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/' + $scope.transaction.id;
+
+  LoanService.getData(url).then(function(result) {
+    $scope.data = result.data;
+    $timeout(function() {
+      if (result.data.date && result.data.date.length) {
+        //$scope.formData.transactionDate = new Date(result.data.date);
+        console.log('DEBUG T: ' + angular.toJson(result.data.date));
+        $scope.formData.transactionDate = Utility.toLocalDate(result.data.date);
+      }
+      $scope.formData.transactionAmount = result.data.amount;
+      $scope.isLoading = false;
+    });
+  });
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.errors = [];
+    if (!$scope.loanDetailsFormPrepay.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+
+    var data = angular.copy($scope.formData);
+    data.locale = 'en';
+    data.dateFormat = APPLICATION.DF_MIFOS;
+    if (typeof data.transactionDate === 'object') {
+      //data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+      data.transactionDate = Utility.toServerDate(data.transactionDate);
+    }
+    data.transactionAmount = 0;
+    function handleSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan updated successfully.';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.close();
+      }, 2000);
+    }
+    function handleFail(result) {
+      $scope.message = 'Cant prepay loan:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    if ($scope.transaction && $scope.transaction.id) {
+      LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/' + $scope.transaction.id, data).then(handleSuccess, handleFail);
+    } else {
+      LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+    }
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+  var reverseTransactionSuccess = function(result) {
+    console.log('reverseTransactionSuccess : ' + result);
+    var form = {};
+    form.journalentry = $scope.id;
+    form.reversenote = $scope.note;
+    form.createdDate = moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+    form.locale = 'en';
+    form.dateFormat = APPLICATION.DF_MIFOS;
+    var json = angular.toJson(form);
+    console.log(json);
+    var url = REST_URL.JOURANAL_ENTRY_REVERSE_NOTE + $scope.officeId;
+    JournalService.saveJournalEntry(url, json).then(function(result) {
+      console.log('JOURANAL_ENTRY_REVERSE_NOTE : ' + result);
+      $route.reload();
+    }, function(result) {
+      $scope.spin = false;
+      $scope.type = 'error';
+      $scope.message = 'Entries are reversed but note can not be saved: ' + result.data.defaultUserMessage;
+      $scope.errors = result.data.errors;
+      $('html, body').animate({scrollTop: 0}, 800);
+    });
+  };
+  //Failure callback : Reverse Transaction
+  var reverseTransactionFail = function(result) {
+    $scope.spin = false;
+    console.log('Error : Return from JournalService service.');
+    $scope.type = 'error';
+    $scope.message = 'Journal Entry not reversed: ' + result.data.defaultUserMessage;
+    $scope.errors = result.data.errors;
+    if (result.data.errors && result.data.errors.length) {
+      for (var i = 0; i < result.data.errors.length; i++) {
+        $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
+      }
+    }
+    $('html, body').animate({scrollTop: 0}, 800);
+  };
+
+  //Reverse Transaction
+  $scope.spin = false;
+  $scope.reverseTransaction = function (transactionId) {
+    $scope.spin = true;
+    console.log(transactionId);
+    var url = REST_URL.JOURNALENTRIES + '/'+ transactionId +'?command=reverse';
+    var json = {
+      'transactionId': transactionId
+    };
+    JournalService.saveJournalEntry(url,json).then(reverseTransactionSuccess, reverseTransactionFail);
+  };
+
+  // Reverse entry
+  $scope.reverseJournalEntry = function() {
+    $scope.spin = true;
+    var msg = 'Please Enter Notes : ';
+    var dialog = dialogs.create('/views/Journalentries/reversal-note.html', 'ReverseNoteController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        $scope.note = result;
+        $scope.reverseTransaction($scope.transaction.id);
+      }
+    });
+  };
+});
+
 angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, JournalService, SearchService, dateFilter, Utility) {
   $scope.loan = data.loan;
   $scope.action = data.action;
@@ -401,7 +553,7 @@ angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', funct
   $scope.getData = loadJournalEntries;
 
   loadJournalEntries();
-  
+
   $scope.selectJournal = function(journal) {
     $scope.selectedJournalEntry = journal;
   };
