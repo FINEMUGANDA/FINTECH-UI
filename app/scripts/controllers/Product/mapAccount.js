@@ -10,7 +10,6 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     //$scope.selectedAssets = [];
     var selectedAssets = [];
     var form = $scope.mapAccountingForm;
-    var selectedLiabilities = [];
     Utility.setSelectedOptions(selectedAssets, form.fundSourceAccountId);
     Utility.setSelectedOptions(selectedAssets, form.loanPortfolioAccountId);
     Utility.setSelectedOptions(selectedAssets, form.receivableInterestAccountId);
@@ -30,9 +29,11 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     Utility.setSelectedOptions(selectedIncome, form.interestOnLoanAccountId);
     Utility.setSelectedOptions(selectedIncome, form.incomeFromFeeAccountId);
     Utility.setSelectedOptions(selectedIncome, form.incomeFromPenaltyAccountId);
+    Utility.setSelectedOptions(selectedIncome, form.unidentifiedProfitAccountId);
     $scope.interestOnLoanOption = Utility.filterOptions($scope.incomeAccountOptions, form.interestOnLoanAccountId, selectedIncome);
     $scope.incomeFromFeeOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromFeeAccountId, selectedIncome);
     $scope.incomeFromPenaltyOption = Utility.filterOptions($scope.incomeAccountOptions, form.incomeFromPenaltyAccountId, selectedIncome);
+    $scope.unidentifiedProfitOption = Utility.filterOptions($scope.incomeAccountOptions, form.unidentifiedProfitAccountId, selectedIncome);
   };
   //Filter on Expense Options
   $scope.changeExpenseOptions = function () {
@@ -128,6 +129,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
         $scope.mapAccountingForm.feeWriteOffAccountId = $scope.product.accountingMappings.feeWriteOffAccount.id;
       }
       $scope.mapAccountingForm.unidentifiedDepositsAccountId = $scope.product.accountingMappings.unidentifiedDepositsAccount.id;
+      $scope.mapAccountingForm.unidentifiedProfitAccountId = $scope.product.accountingMappings.unidentifiedProfitAccount.id;
       //Todo Set accountin rule default
       $scope.mapAccountingForm.accountingRule = '4';
       $rootScope.message = '';

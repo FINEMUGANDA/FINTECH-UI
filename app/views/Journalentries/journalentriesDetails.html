@@ -1,121 +1,121 @@
-  <div class="container post-login">
-    <div ng-include src="'/views/alert.html'"></div>
-    <div class="page-header">
+<div class="container post-login">
+  <div ng-include src="'/views/alert.html'"></div>
+  <div class="page-header">
     <div class="header">
       <h3>Journal Entries : {{id}}</h3>
       <div class="action"></div>
     </div>
-    </div>    
-    <table st-table="displayed" st-safe-src="rowCollection" class="table">
-      <thead>
-        <tr>
-          <th colspan="6">
-            <div class="form-group col-xs-12">
-              <div class="filters" >
-                <div style="float:left;">            
-                  <ul role="tablist">
-                    <li role="presentation">
-                      <div class="action">                      
-                        <a href='#/journalentries' class="btn primary btn-warning">
-                            <span class="glyphicon glyphicon-arrow-left"></span>
-                            Back
-                        </a>
-                      </div>
-                    </li>
-                 </ul>
-                </div>
-                <div style="float:right;">            
-                  <ul role="tablist">
-                    <li role="presentation">
-                      <div class="action" ng-show="hasPermission('REVERSE_JOURNALENTRY')">
-                        <a data-ng-show="flag" ng-click="reverseJournalEntry()" class="btn primary">
-                            <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
-                            <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>
-                            Reverse
-                        </a>
-                      </div>
-                    </li>
-                 </ul>
-                </div>                
-              </div> 
-            </div>
-            <div class="form-group col-xs-12">
-              <div class="col-xs-2"> Office</div>
-              <div class="col-xs-3"> {{officeName}}</div>
-              <div class="col-xs-1"></div>              
-              <div class="col-xs-2"> Transaction date</div>
-              <div class="col-xs-3"> {{transactionDate}}</div>
-            </div>            
-            <div class="form-group col-xs-12">
-              <div class="col-xs-2"> Created by</div>
-              <div class="col-xs-3"> {{createdByUserName}}</div>
-              <div class="col-xs-1"></div>              
-              <div class="col-xs-2"> Created on</div>
-              <div class="col-xs-3"> {{createdDate}}</div>
-            </div>
-          </th>
-        </tr>
-        <tr>
-          <th st-sort="id">GL Code</th>
-          <th st-sort="comments">Type</th>
-          <th st-sort="transactionDate">Account</th>        
-          <th st-sort="amount" class="number">Debit</th>
-          <th st-sort="amount" class="number">Credit</th>
-          <th st-sort="currency">Currency</th>
-          <th st-sort="exchangeRate">Exchange Rate</th>
-          <th st-sort="officeName" >Reversal Note</th>
-        </tr>
-      </thead>
-      <tbody ng-hide="isLoading">
-        <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
-          <td>{{journal.glAccountCode}}</td>
-          <td>{{journal.glAccountType.value}}</td>
-          <td>{{journal.glAccountName}}</td>          
-          <td class="number">
-            <div ng-if="journal.entryType.value == 'DEBIT'">
-              {{journal.amount | number:2}}
-            </div>
-          </td>
-          <td class="number">
-            <div ng-if="journal.entryType.value == 'CREDIT'">
-              {{journal.amount | number:2}}
-            </div>
-          </td>
-          <td>
-            {{journal.currency.code}}
-          </td>
-          <td>
-            {{journal.exchangeRate}}
-          </td>
-          <td>
-            <div>
-              {{reversenote}}
-            </div>
-          </td>
-          <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
-        </tr>
-      </tbody>
-      <tbody ng-show="isLoading">
-        <tr>
-          <td colspan="6" class="text-center">
-            <div class="loading-indicator">Loading...</div>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot ng-hide="isLoading">
-        <tr>
-          <td colspan="6">
-            <div class="table-footer">
-              <div class="export">
-                <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
-              </div>
-              <div class="paginate">
-                <div st-pagination="" class="pagination pointer" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
   </div>
+  <table st-table="displayed" st-safe-src="rowCollection" class="table">
+    <thead>
+      <tr>
+        <th colspan="8">
+          <div class="form-group col-xs-12">
+            <div class="filters">
+              <div style="float:left;">
+                <ul role="tablist">
+                  <li role="presentation">
+                    <div class="action">
+                      <a href='#/journalentries' class="btn primary btn-warning">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                        Back
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div style="float:right;">
+                <ul role="tablist" style="width: auto;">
+                  <li role="presentation" data-ng-show="hasNotReversedEntry">
+                    <div class="action" ng-show="hasPermission('REVERSE_JOURNALENTRY')">
+                      <a ng-click="reverseJournalEntry()" class="btn primary">
+                        <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
+                        <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>
+                        Reverse
+                      </a>
+                      <a ng-click="moveToProfits()" class="btn primary">Move To Profits</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-xs-12">
+            <div class="col-xs-2"> Office</div>
+            <div class="col-xs-3"> {{officeName}}</div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-2"> Transaction date</div>
+            <div class="col-xs-3"> {{transactionDate}}</div>
+          </div>
+          <div class="form-group col-xs-12">
+            <div class="col-xs-2"> Created by</div>
+            <div class="col-xs-3"> {{createdByUserName}}</div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-2"> Created on</div>
+            <div class="col-xs-3"> {{createdDate}}</div>
+          </div>
+        </th>
+      </tr>
+      <tr>
+        <th st-sort="id">GL Code</th>
+        <th st-sort="comments">Type</th>
+        <th st-sort="transactionDate">Account</th>
+        <th st-sort="amount" class="number">Debit</th>
+        <th st-sort="amount" class="number">Credit</th>
+        <th st-sort="currency">Currency</th>
+        <th st-sort="exchangeRate">Exchange Rate</th>
+        <th st-sort="officeName" >Reversal Note</th>
+      </tr>
+    </thead>
+    <tbody ng-hide="isLoading">
+      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
+        <td>{{journal.glAccountCode}}</td>
+        <td>{{journal.glAccountType.value}}</td>
+        <td>{{journal.glAccountName}}</td>
+        <td class="number">
+          <div ng-if="journal.entryType.value == 'DEBIT'">
+            {{journal.amount| number:2}}
+          </div>
+        </td>
+        <td class="number">
+          <div ng-if="journal.entryType.value == 'CREDIT'">
+            {{journal.amount| number:2}}
+          </div>
+        </td>
+        <td>
+          {{journal.currency.code}}
+        </td>
+        <td>
+          {{journal.exchangeRate}}
+        </td>
+        <td>
+          <div>
+            {{reversenote}}
+          </div>
+        </td>
+        <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
+      </tr>
+    </tbody>
+    <tbody ng-show="isLoading">
+      <tr>
+        <td colspan="6" class="text-center">
+          <div class="loading-indicator">Loading...</div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot ng-hide="isLoading">
+      <tr>
+        <td colspan="6">
+          <div class="table-footer">
+            <div class="export">
+              <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
+            </div>
+            <div class="paginate">
+              <div st-pagination="" class="pagination pointer" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 </div>

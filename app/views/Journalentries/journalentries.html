@@ -11,7 +11,7 @@
       <tr>
         <th colspan="6">
           <div class="filters" >
-            <div style="float:right;">            
+            <div style="float:right;">
               <ul role="tablist">
                 <li role="presentation">
                   <div class="action" ng-show="hasPermission('CREATE_JOURNALENTRY')">
@@ -20,12 +20,19 @@
                     </a>
                   </div>
                 </li>
-              </ul> 
+              </ul>
             </div>
             <div class="search" style="float:right;">
               <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Journal Entries" ng-model="tableSearch" />
             </div>
-          </div>  
+            <div class="search" style="float:left;">
+              <select ng-model="selectedFilter" class="form-control">
+                <option value="" selected="">All Journal Entries</option>
+                <option value="unidentified_deposits">Only Unidentified Deposits</option>
+                <option value="unidentified_profit">Only Unidentified Profits</option>
+              </select>
+            </div>
+          </div>
         </th>
       </tr>
       <tr>

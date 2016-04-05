@@ -93,16 +93,11 @@
               <div class="col-sm-1"></div>
           </div>
           <div class="form-group">
-          <label class="control-label col-sm-2">Unidentified Deposit</label>
-          <div class="col-sm-3">
-            <select id="unidentifiedDepositsAccountId" chosen="unidentifiedDepositsOption" class="form-control" ng-model="mapAccountingForm.unidentifiedDepositsAccountId" ng-change="changeLiabilityOptions();" ng-options="liabilityAccount.id as liabilityAccount.name for liabilityAccount in unidentifiedDepositsOption" value="{{liabilityAccount.id}}" >
-              <!--
-              <option ng-repeat="assetAccount in filterTransferSuspense(assetAccountOptions)" value="{{assetAccount.id}}">
-                {{assetAccount.name}}
-              </option>
-              -->
-            </select>
-          </div>
+            <label class="control-label col-sm-2">Unidentified Deposit</label>
+            <div class="col-sm-3">
+              <select id="unidentifiedDepositsAccountId" chosen="unidentifiedDepositsOption" class="form-control" ng-model="mapAccountingForm.unidentifiedDepositsAccountId" ng-change="changeLiabilityOptions();" ng-options="liabilityAccount.id as liabilityAccount.name for liabilityAccount in unidentifiedDepositsOption" value="{{liabilityAccount.id}}" >
+              </select>
+            </div>
           </div>
 
           <hr/>
@@ -124,6 +119,12 @@
               <label class="control-label col-sm-2">Income from penalties</label>
               <div class="col-sm-3">
                 <select id="incomeFromPenaltyAccountId" chosen="incomeFromPenaltyOption" class="form-control" ng-model="mapAccountingForm.incomeFromPenaltyAccountId" ng-change="changeIncomeOptions();"  ng-options="incomeAccount.id as incomeAccount.name for incomeAccount in incomeFromPenaltyOption" value="{{incomeAccount.id}}">
+                </select>
+              </div>
+              <div class="col-sm-1"></div>
+              <label class="control-label col-sm-2">Unidentified Profit</label>
+              <div class="col-sm-3">
+                <select id="unidentifiedDepositsAccountId" chosen="unidentifiedProfitOption" class="form-control" ng-model="mapAccountingForm.unidentifiedProfitAccountId" ng-change="changeIncomeOptions();" ng-options="incomeAccount.id as incomeAccount.name for incomeAccount in unidentifiedProfitOption" value="{{incomeAccount.id}}" >
                 </select>
               </div>
           </div>
