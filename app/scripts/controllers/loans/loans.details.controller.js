@@ -253,6 +253,14 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails();
     });
   };
+
+  $scope.openMoveToProfitsDialog = function() {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.move.to.profit.dialog.html', 'LoanDeatilsMoveToProfitDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
+    dialog.result.then(function() {
+      updateLoanDetails();
+    });
+  };
+
   $scope.toggleWatchlist = function() {
     $scope.isLoading = true;
     var command = $scope.loanDetails.watchlist ? 'unwatch' : 'watch';
@@ -772,6 +780,47 @@ angular.module('angularjsApp').controller('LoanDetailsDisbursalUndoDialog', func
       $scope.errors = result.data.errors;
     }
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '?command=undoDisbursal', $scope.formData).then(handleSuccess, handleFail);
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss();
+  };
+});
+
+angular.module('angularjsApp').controller('LoanDeatilsMoveToProfitDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
+  $scope.loan = data.loan;
+  $scope.formData = {};
+  $scope.isLoading = false;
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+  };
+
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.errors = [];
+    if (!$scope.loanDetailsFormDisbursalUndo.$valid) {
+      $scope.type = 'error';
+      $scope.message = 'Highlighted fields are required';
+      $scope.errors = [];
+      return;
+    }
+
+    function handleSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan disbursal undo was processed successfully';
+      $scope.errors = [];
+      $timeout(function() {
+        $modalInstance.close();
+      }, 2000);
+    }
+    function handleFail(result) {
+      $scope.message = 'Cannot undo loan disbursal: ' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '?command=moveToProfit', $scope.formData).then(handleSuccess, handleFail);
   };
   $scope.cancel = function() {
     $modalInstance.dismiss();

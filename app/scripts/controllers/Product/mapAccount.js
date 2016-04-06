@@ -53,7 +53,9 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     var form = $scope.mapAccountingForm;
     var selectedLiabilities = [];
     Utility.setSelectedOptions(selectedLiabilities, form.unidentifiedDepositsAccountId);
+    Utility.setSelectedOptions(selectedLiabilities, form.overpaymentLiabilityAccountId);
     $scope.unidentifiedDepositsOption = Utility.filterOptions($scope.liabilityAccountOptions, form.unidentifiedDepositsAccountId, selectedLiabilities);
+    $scope.overpaymentLiabilityOption = Utility.filterOptions($scope.liabilityAccountOptions, form.overpaymentLiabilityAccountId, selectedLiabilities);
   };
 
   //To move on edit loan product page
@@ -130,6 +132,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
       }
       $scope.mapAccountingForm.unidentifiedDepositsAccountId = $scope.product.accountingMappings.unidentifiedDepositsAccount.id;
       $scope.mapAccountingForm.unidentifiedProfitAccountId = $scope.product.accountingMappings.unidentifiedProfitAccount.id;
+      $scope.mapAccountingForm.overpaymentLiabilityAccountId = $scope.product.accountingMappings.overpaymentLiabilityAccount.id;
       //Todo Set accountin rule default
       $scope.mapAccountingForm.accountingRule = '4';
       $rootScope.message = '';

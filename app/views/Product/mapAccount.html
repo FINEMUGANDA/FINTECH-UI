@@ -98,6 +98,12 @@
               <select id="unidentifiedDepositsAccountId" chosen="unidentifiedDepositsOption" class="form-control" ng-model="mapAccountingForm.unidentifiedDepositsAccountId" ng-change="changeLiabilityOptions();" ng-options="liabilityAccount.id as liabilityAccount.name for liabilityAccount in unidentifiedDepositsOption" value="{{liabilityAccount.id}}" >
               </select>
             </div>
+            <div class="col-sm-1"></div>
+            <label class="control-label col-sm-2">Overpayment Account</label>
+            <div class="col-sm-3">
+              <select id="overpaymentLiabilityAccountId" chosen="overpaymentLiabilityOption" class="form-control" ng-model="mapAccountingForm.overpaymentLiabilityAccountId" ng-change="changeLiabilityOptions();" ng-options="liabilityAccount.id as liabilityAccount.name for liabilityAccount in overpaymentLiabilityOption" value="{{liabilityAccount.id}}" >
+              </select>
+            </div>
           </div>
 
           <hr/>
