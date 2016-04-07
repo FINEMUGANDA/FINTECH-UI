@@ -255,10 +255,26 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   };
 
   $scope.openMoveToProfitsDialog = function() {
-    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.move.to.profit.dialog.html', 'LoanDeatilsMoveToProfitDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function() {
-      updateLoanDetails();
+    function handleSuccess() {
+      $scope.type = 'alert-success';
+      $scope.message = 'Loan overpaid amount was moved to profit successfully';
+      $scope.errors = [];
+      updateLoanDetails(filterTransactions);
+    }
+    function handleFail(result) {
+      $scope.message = 'Cannot move to profit: ' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    }
+
+    var msg = 'Are You sure want to move overpaid amount to profit?';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Move To Profit', submitBtn: {value: 'Move To Profit', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=moveToProfit', $scope.formData).then(handleSuccess, handleFail);
+      }
     });
+
   };
 
   $scope.toggleWatchlist = function() {
@@ -492,14 +508,14 @@ angular.module('angularjsApp').controller('LoanDeatilsEditUnidentifiedTransactio
 
   //Reverse Transaction
   $scope.spin = false;
-  $scope.reverseTransaction = function (transactionId) {
+  $scope.reverseTransaction = function(transactionId) {
     $scope.spin = true;
     console.log(transactionId);
-    var url = REST_URL.JOURNALENTRIES + '/'+ transactionId +'?command=reverse';
+    var url = REST_URL.JOURNALENTRIES + '/' + transactionId + '?command=reverse';
     var json = {
       'transactionId': transactionId
     };
-    JournalService.saveJournalEntry(url,json).then(reverseTransactionSuccess, reverseTransactionFail);
+    JournalService.saveJournalEntry(url, json).then(reverseTransactionSuccess, reverseTransactionFail);
   };
 
   // Reverse entry
@@ -780,47 +796,6 @@ angular.module('angularjsApp').controller('LoanDetailsDisbursalUndoDialog', func
       $scope.errors = result.data.errors;
     }
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '?command=undoDisbursal', $scope.formData).then(handleSuccess, handleFail);
-  };
-  $scope.cancel = function() {
-    $modalInstance.dismiss();
-  };
-});
-
-angular.module('angularjsApp').controller('LoanDeatilsMoveToProfitDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data) {
-  $scope.loan = data.loan;
-  $scope.formData = {};
-  $scope.isLoading = false;
-
-  $scope.open = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.opened = true;
-  };
-
-  $scope.submit = function() {
-    $scope.message = '';
-    $scope.errors = [];
-    if (!$scope.loanDetailsFormDisbursalUndo.$valid) {
-      $scope.type = 'error';
-      $scope.message = 'Highlighted fields are required';
-      $scope.errors = [];
-      return;
-    }
-
-    function handleSuccess() {
-      $scope.type = 'alert-success';
-      $scope.message = 'Loan disbursal undo was processed successfully';
-      $scope.errors = [];
-      $timeout(function() {
-        $modalInstance.close();
-      }, 2000);
-    }
-    function handleFail(result) {
-      $scope.message = 'Cannot undo loan disbursal: ' + result.data.defaultUserMessage;
-      $scope.type = 'error';
-      $scope.errors = result.data.errors;
-    }
-    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '?command=moveToProfit', $scope.formData).then(handleSuccess, handleFail);
   };
   $scope.cancel = function() {
     $modalInstance.dismiss();
