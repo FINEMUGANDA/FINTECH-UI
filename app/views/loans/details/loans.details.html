@@ -99,6 +99,10 @@
           <dt>Loan maturity date:</dt>
           <dd>{{loanDetails.additionalLoanInfo.maturityDate| DateFormat}}</dd>
         </dl>
+        <dl class="dl-horizontal" ng-show="loanDetails.totalOverpaid > 0">
+          <dt>Overpaid By:</dt>
+          <dd>{{loanDetails.totalOverpaid| number}}</dd>
+        </dl>
       </div>
     </div>
     <div>

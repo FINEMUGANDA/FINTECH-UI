@@ -3,7 +3,7 @@
 'use strict';
 
 
-angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, DataTransferService, $timeout, $scope, dialogs, AuthService, Utility) {
+angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, REST_URL, LoanService, DataTransferService, $timeout, $scope, dialogs, AuthService, Utility, $filter) {
   console.log('LoansDetailsCtrl');
   $scope.clientId = $route.current.params.clientId;
   $scope.loanId = $route.current.params.loanId;
@@ -267,7 +267,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       $scope.errors = result.data.errors;
     }
 
-    var msg = 'Are You sure want to move overpaid amount to profit?';
+    var msg = 'Are You sure want to move overpaid amount (' + $filter('number')($scope.loanDetails.totalOverpaid) + ') to profit?';
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Move To Profit', submitBtn: {value: 'Move To Profit', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
