@@ -223,8 +223,8 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
     if (AuthService.hasPermission('ADJUST_LOAN')) {
       if (transaction.type.repayment) {
         $scope.openTransactionDialog('adjust', transaction);
-      } else if (transaction.type.fromUnidentified) {
-        $scope.openEditUnidentifiedTransactionDialog(transaction);
+      } else if (transaction.type.fromUnidentified || transaction.type.moveToProfit) {
+        $scope.openReverseTransactionDialog(transaction);
       }
     }
   };
@@ -235,18 +235,21 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       updateLoanDetails(filterTransactions);
     });
   };
+
   $scope.openUnidentifiedDialog = function(transaction) {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.unidentified.dialog.html', 'LoanDeatilsUnidentifiedDialog', {loan: $scope.loanDetails, transaction: transaction}, {size: 'lg', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       updateLoanDetails(filterTransactions);
     });
   };
-  $scope.openEditUnidentifiedTransactionDialog = function(transaction) {
-    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.edit.unidentified.transaction.dialog.html', 'LoanDeatilsEditUnidentifiedTransactionDialog', {loan: $scope.loanDetails, transaction: transaction}, {size: 'md', keyboard: true, backdrop: true});
+
+  $scope.openReverseTransactionDialog = function(transaction) {
+    var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.reverse.transaction.dialog.html', 'LoanDeatilsReverseTransactionDialog', {loan: $scope.loanDetails, transaction: transaction}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function() {
       updateLoanDetails(filterTransactions);
     });
   };
+
   $scope.openWriteOffDialog = function() {
     var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.writeoff.dialog.html', 'LoanDeatilsWriteOffDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
     dialog.result.then(function() {
@@ -401,7 +404,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 });
 
 
-angular.module('angularjsApp').controller('LoanDeatilsEditUnidentifiedTransactionDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, JournalService, Utility) {
+angular.module('angularjsApp').controller('LoanDeatilsReverseTransactionDialog', function($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, JournalService, Utility) {
   $scope.loan = data.loan;
   $scope.action = data.action;
   $scope.transaction = data.transaction;
