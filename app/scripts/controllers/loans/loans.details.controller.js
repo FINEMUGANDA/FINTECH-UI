@@ -59,8 +59,15 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
   function updateLoanDetails(cb) {
     cb = cb || angular.noop;
     $scope.isLoading = true;
+    $scope.overpaidData = {};
+
     LoanService.getData(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '?associations=all').then(function(result) {
       $scope.loanDetails = result.data;
+      LoanService.getData(REST_URL.CLIENT_OVERPAID_AMOUNT + '?R_clientId=' + $scope.loanDetails.clientId).then(function(result) {
+        if (result && result.data && result.data.length) {
+          $scope.overpaidData = result.data[0];
+        }
+      });
       _.map($scope.loanDetails.repaymentSchedule.periods, function(period) {
         if (period.obligationsMetOnDate && period.dueDate) {
           period._daysLate = moment(period.obligationsMetOnDate).diff(period.dueDate, 'days');
@@ -278,6 +285,26 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       }
     });
 
+  };
+
+  $scope.openOverpaidTransferDialog = function() {
+    var msg = 'This client has ' + $scope.overpaidData.countLoans + ' overpaid loan(s). Do you want to move overpaid amount(' + $filter('number')($scope.overpaidData.totalOverpaidAmount) + ') to this loan?';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Move overpaid amount to this loan?', submitBtn: {value: 'Yes', class: 'btn-success'}, cancelBtn: {value: 'No', class: 'btn-primary'}}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        $scope.isLoading = true;
+        LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '?command=moveOverpaid', {}).then(function(result) {
+          console.log(result);
+          $scope.isLoading = false;
+          updateLoanDetails(filterTransactions);
+        }, function(result) {
+          $scope.isLoading = false;
+          $scope.message = 'Cannot change watchlist:' + result.data.defaultUserMessage;
+          $scope.type = 'error';
+          $scope.errors = result.data.errors;
+        });
+      }
+    });
   };
 
   $scope.toggleWatchlist = function() {

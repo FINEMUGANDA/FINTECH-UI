@@ -1228,7 +1228,7 @@ clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $route,
 });
 
 
-clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, CreateClientsService, AuthService, dialogs, $rootScope, data) {
+clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, CreateClientsService, AuthService, dialogs, $rootScope, $filter, data) {
   console.log('LoansActionDialogCtrl', $scope);
   $scope.baseLoan = data.loan;
   $scope.baseLoan.actualDisbursementDate = new Date();
@@ -1253,6 +1253,13 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
     }
   }, function() {
     console.log('Cant recieve loan data');
+  });
+  $scope.overpaidData = {};
+
+  ClientsService.getData(REST_URL.CLIENT_OVERPAID_AMOUNT + '?R_clientId=' + $scope.baseLoan.clientId).then(function(result) {
+    if (result && result.data && result.data.length) {
+      $scope.overpaidData = result.data[0];
+    }
   });
 
   $scope.cancel = function() {
@@ -1289,8 +1296,26 @@ clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalI
       $scope.type = 'alert-success';
       $scope.message = 'Loan disbursed successfuly';
       $scope.errors = result.data.errors;
-      $modalInstance.close(true);
       $rootScope.$emit('updateNotificationsCount');
+
+      if ($scope.overpaidData && $scope.overpaidData.totalOverpaidAmount > 0) {
+        var msg = 'This client has ' + $scope.overpaidData.countLoans + ' overpaid loan(s). Do you want to move overpaid amount(' + $filter('number')($scope.overpaidData.totalOverpaidAmount) + ') to this loan?';
+        var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Move overpaid amount to this loan?', submitBtn: {value: 'Yes', class: 'btn-success'}, cancelBtn: {value: 'No', class: 'btn-primary'}}, {size: 'sm', keyboard: true, backdrop: true});
+        dialog.result.then(function(result) {
+          if (result) {
+            CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=moveOverpaid', json).then(function() {
+              $modalInstance.close(true);
+            }, function() {
+              $modalInstance.close(true);
+            });
+          } else {
+            $modalInstance.close(true);
+          }
+        });
+      } else {
+        $modalInstance.close(true);
+      }
+
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;

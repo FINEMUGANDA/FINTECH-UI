@@ -65,6 +65,7 @@ app.constant('REST_URL', {
     'CREATE_CLIENT_NEXT_TO_KEEN':'api/v1/datatables/client_next_to_keen_details/',
     'CLIENT_NOTE_GENERAL':'api/v1/datatables/client_note_general/',
     'CLIENT_IDENTIFICATION_TEMPLATE_REPORT':'api/v1/runreports/ClientIdentification',
+    CLIENT_OVERPAID_AMOUNT: 'api/v1/runreports/ClientOverpaidAmount',
     'EXCHANGE_RATE':'api/v1/datatables/exchange_rate/',
     CONFIGURATION:'api/v1/configurations',
     ACCOUNT_LIST: 'api/v1/glaccounts',
