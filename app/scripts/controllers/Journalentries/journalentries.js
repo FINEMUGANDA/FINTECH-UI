@@ -92,7 +92,8 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
   //Success callback
   var loadJournalEntriesDetailsSuccess = function(result) {
     $scope.isLoading = true;
-    $scope.unidentifiedEntry = false;
+    $scope.canMoveToProfit = false;
+    $scope.canBeReversed = false;
     try {
       $scope.rowCollection = result.data.pageItems;
       if (!Utility.isUndefinedOrNull(result.data.pageItems)) {
@@ -111,11 +112,11 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
         $scope.createdDate = Utility.toLocalDate($scope.rowCollection[0].createdDate);
       }
       for (var i in result.data.pageItems) {
-        if (!result.data.pageItems[i].reversed) {
-          $scope.hasNotReversedEntry = true;
+        if (!result.data.pageItems[i].reversed && !result.data.pageItems[i].usedInLoan && !result.data.pageItems[i].profitTransactionId && !result.data.pageItems[i].isReversalEntry) {
+          $scope.canBeReversed = true;
         }
-        if (result.data.pageItems[i].unidentifiedEntry) {
-          $scope.unidentifiedEntry = true;
+        if (result.data.pageItems[i].unidentifiedEntry && !result.data.pageItems[i].isProfit && !result.data.pageItems[i].usedInLoan) {
+          $scope.canMoveToProfit = true;
         }
       }
     } catch (e) {

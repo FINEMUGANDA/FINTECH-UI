@@ -26,14 +26,14 @@
               </div>
               <div style="float:right;">
                 <ul role="tablist" style="width: auto;">
-                  <li role="presentation" data-ng-show="hasNotReversedEntry">
+                  <li role="presentation">
                     <div class="action" ng-show="hasPermission('REVERSE_JOURNALENTRY')">
-                      <a ng-click="reverseJournalEntry()" class="btn primary">
+                      <a ng-click="reverseJournalEntry()" class="btn primary" ng-show="canBeReversed">
                         <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
                         <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>
                         Reverse
                       </a>
-                      <a ng-click="moveToProfits()" class="btn primary" ng-show="unidentifiedEntry">Move To Profits</a>
+                      <a ng-click="moveToProfits()" class="btn primary" ng-show="canMoveToProfit">Move To Profits</a>
                     </div>
                   </li>
                 </ul>
