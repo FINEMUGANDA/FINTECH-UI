@@ -215,18 +215,16 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     var dialog = dialogs.create('/views/Journalentries/move.to.profit.dialog.html', 'MoveToProfitDialogController', {}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
-//        $scope.note = result;
-//        $scope.reverseTransaction($scope.id);
         var url = REST_URL.JOURNALENTRIES + '/' + $scope.id + '?command=moveToProfit';
         var json = {
           transactionId: $scope.id,
           glAccount: result
         };
-        JournalService.saveJournalEntry(url, json).then(reverseTransactionSuccess, reverseTransactionFail);
+        JournalService.saveJournalEntry(url, json).then(function(result) {
+          $route.updateParams({id: result.data.transactionId});
+        }, reverseTransactionFail);
       }
     });
-
-
   };
 });
 
@@ -463,8 +461,8 @@ angular.module('angularjsApp').controller('MoveToProfitDialogController', functi
   });
 
   $scope.submit = function() {
-    if ($scope.formData && $scope.formData.debitAccount && $scope.formData.debitAccount.id) {
-      $modalInstance.close($scope.formData.debitAccount.id);
+    if ($scope.formData && $scope.formData.creditAccount && $scope.formData.creditAccount.id) {
+      $modalInstance.close($scope.formData.creditAccount.id);
     }
   };
   $scope.cancel = function() {

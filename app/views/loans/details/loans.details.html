@@ -25,7 +25,7 @@
           <!--<button class="btn btn-sm primary">Waive Interest</button>-->
           <button class="btn btn-sm primary" ng-click="openRescheduleDialog()" ng-show="hasPermission('CREATE_RESCHEDULELOAN')">Reschedule</button>
           <button class="btn btn-sm primary" ng-click="openWriteOffDialog()" ng-show="hasPermission('WRITEOFF_LOAN')">Write Off</button>
-          <button class="btn btn-sm primary" ng-click="openOverpaidTransferDialog()" ng-show="hasPermission('MOVE_OVERPAID_LOAN') && overpaidData.totalOverpaidAmount > 0">Transfer Overpaid</button>
+          <button class="btn btn-sm btn-danger" ng-click="openOverpaidTransferDialog()" ng-show="hasPermission('MOVE_OVERPAID_LOAN') && overpaidData.totalOverpaidAmount > 0">Transfer Overpaid</button>
           <!--
           <button class="btn btn-sm primary" ng-show="hasPermission('CLOSE_LOAN')">Close</button>
           -->

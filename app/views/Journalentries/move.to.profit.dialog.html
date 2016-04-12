@@ -5,8 +5,8 @@
   </h4>
 </div>
 <div class="modal-body">
-  <label>Select affected GL Account (debit)</label>
-  <select ng-model="formData.debitAccount" chosen="glAccounts" class="form-control" ng-options="(debitAccount.name +   ' - ' +   debitAccount.currencyCode +  ' (' +   debitAccount.glCode +   ')') for debitAccount in glAccounts" required>
+  <label>Select affected GL Account (credit)</label>
+  <select ng-model="formData.creditAccount" chosen="glAccounts" class="form-control" ng-options="(creditAccount.name +   ' - ' +   creditAccount.currencyCode +  ' (' +   creditAccount.glCode +   ')') for creditAccount in glAccounts" required>
     <option class="displaynone" value="">-- Select --</option>
   </select>
 </div>
