@@ -194,6 +194,7 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_holiday: 'Holidays',
         fin_journal: 'Journal Entries',
         fin_loan: 'Loan',
+        fin_loan_transaction: 'Loan Transaction',
         fin_loan_reschedule: 'Loan Reschedule',
         fin_loan_assign: 'Loan Reassign.',
         fin_loan_product: 'Loan Product',
@@ -216,13 +217,15 @@ app.constant('PERMISSION_GROUP_LABELS', {
         fin_dashboard_survey: 'Survey',
         fin_codevalue: 'Code Values',
         fin_financialyear: 'Financial Year',
-        fin_configuration: 'Configuration'
+        fin_configuration: 'Configuration',
+        fin_cost_center: 'Cost Center'
     }
 );
 
 app.constant('PERMISSION_GROUPS_SORT_ORDER', {
         general: [
             'fin_loan',
+            'fin_loan_transaction',
             'fin_loan_assign',
             'fin_loan_product',
             'fin_loan_reschedule',
@@ -247,6 +250,7 @@ app.constant('PERMISSION_GROUPS_SORT_ORDER', {
             'fin_exchange_rate',
             'fin_codevalue',
             'fin_financialyear',
+            'fin_cost_center',
             'fin_configuration'
         ],
         dashboard: [
@@ -294,7 +298,10 @@ app.constant('PERMISSION_ACTIONS_SORT_ORDER', {
         DVCPW: 53,
         BULKREASSIGN: 60,
         BACKDATE: 70,
-        PASSWORD: 80
+        PASSWORD: 80,
+        FROMUNIDENTIFIED: 90,
+        MOVETOPROFIT: 91,
+        MOVEOVERPAID: 92
     }
 );
 
