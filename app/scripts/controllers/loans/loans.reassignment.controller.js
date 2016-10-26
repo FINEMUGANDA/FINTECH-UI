@@ -51,10 +51,13 @@ angular.module('angularjsApp').controller('LoansReassignmentCtrl',
             };
 
             $scope.toggleClient = function (client, selected) {
-                $scope.formData.clients[client.id] = (selected === true || selected === false ? selected : !$scope.formData.clients[client.id]);
-                angular.forEach(client.loans, function (loan) {
-                    $scope.formData.loans[loan.id] = $scope.formData.clients[client.id];
-                });
+              if (_.isBoolean(selected)) {
+                $scope.formData.clients[client.id] = selected;
+              }
+              angular.forEach(client.loans, function (loan) {
+                $scope.formData.loans[loan.id] = $scope.formData.clients[client.id];
+              });
+              console.log($scope.formData.loans);
             };
 
             $scope.getToOfficer = function () {

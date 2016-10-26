@@ -82,7 +82,7 @@ angular.module('angularjsApp').controller('CostCenterEditCtrl', function($scope,
       $scope.data = _.extend({}, result.data);
       $scope.selectedGLAccounts = _.filter($scope.glAccounts, 'selected');
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
@@ -147,11 +147,14 @@ angular.module('angularjsApp').controller('CostCenterEditCtrl', function($scope,
   loadCostCenter();
 
   function buildTreeData(data) {
-    var map = {}, item, result = {};
-    for (var i = 0; i < data.length; i += 1) {
-      item = data[i];
-      item.children = [];
-      item.collapsed = true;
+    var result = {};
+
+    var indexed = _.indexBy(data, 'id');
+
+    _.each(indexed, function(item) {
+      if (!item.children) {
+        item.children = [];
+      }
       if ($scope.costCenter && $scope.costCenter.glAccounts) {
         var selectedGLAccount = _.find($scope.costCenter.glAccounts, function(glAccountId) {
           return glAccountId === item.id;
@@ -160,20 +163,23 @@ angular.module('angularjsApp').controller('CostCenterEditCtrl', function($scope,
           item.selected = 'selected';
         }
       }
+      item.collapsed = true;
       item.name = item.name + ' (' + item.glCode + ')';
-      if (item.affectsLoan) {
-        item.name = item.name + ' Affects Loan';
-      }
-      map[item.id] = i;
       if (item.parentId && item.parentId !== '0') {
-        data[map[item.parentId]].children.push(item);
+        if (!indexed[item.parentId]) {
+          indexed[item.parentId] = {};
+        }
+        if (!indexed[item.parentId].children) {
+          indexed[item.parentId].children = [];
+        }
+        indexed[item.parentId].children.push(item);
       } else {
         if (!result[item.type.value]) {
           result[item.type.value] = {name: item.type.value + ' (' + item.glCode.substr(0, 1) + '0000)', children: [], collapsed: true};
         }
         result[item.type.value].children.push(item);
       }
-    }
+    });
     return result;
   }
 
