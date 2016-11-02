@@ -359,7 +359,7 @@ THE SOFTWARE.*/
             if (visible) {
               divs = visible.find('div');
             }
-						if(divs && divs.size() > 0){
+						if(divs && divs.length){
 							divs.each(function(index,datadiv) {
 								content_data += $(datadiv).text().trim()+" ";
 							});
