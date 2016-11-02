@@ -353,11 +353,14 @@ THE SOFTWARE.*/
 					if(defaults.htmlContent == 'true'){
 						content_data = data.html().trim();
 					}else{
-						
 						//Pratik patel : updated for div within TD
-						if((data.filter(':visible').find('div')).size() > 0){
-
-							data.filter(':visible').find('div').each(function(index,datadiv) {
+            var visible = data.filter(':visible');
+            var divs;
+            if (visible) {
+              divs = visible.find('div');
+            }
+						if(divs && divs.size() > 0){
+							divs.each(function(index,datadiv) {
 								content_data += $(datadiv).text().trim()+" ";
 							});
 						}else{
