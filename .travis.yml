@@ -7,5 +7,5 @@ branches:
   only:
     - master
 
-before_script:
+script:
   - npm install
