@@ -51,7 +51,7 @@
               {{client.status}} {{client.statusCode == 600? '(' + client.closureStatus + ')' : ''}}
             </span>
           </td>
-          <td>
+          <td style="width: 190px;">
             <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode | status}}" ng-show="client.loanStatus=='ActiveInBadStanding' || client.loanStatus=='ActiveInGoodStanding' || client.loanStatus=='Written-Off' || client.loanStatus.indexOf('Closed')!=-1 || client.loanStatus=='Overpaid'">
               {{client.loanStatus}}
             </a>
@@ -75,7 +75,7 @@
           </td>
           <td>{{client.productName}}</td>
           <td>{{client.loanOfficer}}</td>
-          <td style="text-align: right; white-space: nowrap">
+          <td style="text-align: right; white-space: nowrap;">
             <!--
             <button ng-if="client.statusCode == 600" class="btn grid-button" ng-click="activateClient(client)">Re-Activate</button>
             <button ng-if="client.statusCode == 300 || client.statusCode == 100 && ((client.loanStatusCode | checkEmptyString) || client.loanStatusCode == 500 || client.loanStatusCode == 600)" class="btn grid-button" ng-click="closeClient(client)">Close</button>
