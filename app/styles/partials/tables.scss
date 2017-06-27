@@ -49,6 +49,15 @@
   }
   .meta {
   }
+  a.status {
+    padding-left: 17px;
+    position: relative;
+    &:before {
+      position: absolute;
+      left: 0;
+      top: -3px;
+    }
+  }
   .status {
     font-weight:500;
     font-size:11px;
