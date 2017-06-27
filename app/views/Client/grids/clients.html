@@ -75,7 +75,7 @@
           </td>
           <td>{{client.productName}}</td>
           <td>{{client.loanOfficer}}</td>
-          <td style="text-align: right;">
+          <td style="text-align: right; white-space: nowrap">
             <!--
             <button ng-if="client.statusCode == 600" class="btn grid-button" ng-click="activateClient(client)">Re-Activate</button>
             <button ng-if="client.statusCode == 300 || client.statusCode == 100 && ((client.loanStatusCode | checkEmptyString) || client.loanStatusCode == 500 || client.loanStatusCode == 600)" class="btn grid-button" ng-click="closeClient(client)">Close</button>
