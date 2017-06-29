@@ -133,8 +133,8 @@
         <hr/>
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
-            <a id="cancel" href="#/editbasicclientinfo/{{id}}" class="btn btn-warning">Back</a>
-            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])">Next</button>
+            <a id="cancel" href="#/editbasicclientinfo/{{id}}" class="btn btn-warning" ng-disabled="saveInProgress">Back</a>
+            <button id="save" type="submit" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])" ng-disabled="saveInProgress">Next</button>
           </div>
         </div>
       </form>

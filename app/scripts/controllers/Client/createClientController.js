@@ -148,6 +148,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
     console.log('CreateClientCtrl : CreateClient : saveBasicClient');
     $scope.createClient.dateOfBirth = moment($scope.createClient.dateOfBirth).format(APPLICATION.DF_MOMENT);
     $scope.createClient.active = false;
+    $scope.saveInProgress = true;
 
     var saveBasicClientSuccess = function(result) {
       console.log('Success : Return from createClientsService');
@@ -155,9 +156,11 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
       if ($scope.cameraFile && $scope.cameraFile.length) {
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + result.data.clientId + '/images', $scope.cameraFile).then(function() {
           console.log('Success : Return from createClientsService');
+          $scope.saveInProgress = false;
           $scope.saveBasicClientExtraInformation(createClientWithDataTable, result.data.clientId);
         }, function() {
           console.log('Failur : Return from createClientsService');
+          $scope.saveInProgress = false;
           $scope.deleteClientBasicInfo(result.data.clientId);
         });
       } else {
@@ -167,15 +170,18 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
           file: $scope.file
         }).then(function() {
           console.log('Success : Return from createClientsService');
+          $scope.saveInProgress = false;
           $scope.saveBasicClientExtraInformation(createClientWithDataTable, result.data.clientId);
         }, function() {
           console.log('Failur : Return from createClientsService');
+          $scope.saveInProgress = false;
           $scope.deleteClientBasicInfo(result.data.clientId);
         });
       }
     };
     var saveBasicClientFail = function(result) {
       console.log('Error : Return from createClientsService');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -194,9 +200,11 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
   //Start - Save Basic Client Extra Infromation
   $scope.saveBasicClientExtraInformation = function(createClientWithDataTable, clientId) {
     console.log('CreateClientCtrl : CreateClient : saveBasicClientExtraInformation :' + clientId);
+    $scope.saveInProgress = true;
 
     var saveBasicClientExtraInformationSuccess = function() {
       console.log('Success : Return from createClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Client basic information are saved successfully';
       var $url = PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO + '/' + clientId;
@@ -205,6 +213,7 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
 
     var saveBasicClientExtraInformationFail = function(result) {
       console.log('Error : Return from createClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Some details of client are not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -229,15 +238,18 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
   //Start - Save Delete Client Infromation
   $scope.deleteClientBasicInfo = function(clientId) {
     console.log(('CreateClientCtrl : CreateClient : deleteClientBasicInfo :' + clientId));
+    $scope.saveInProgress = true;
 
     var deleteClientBasicInfoSuccess = function() {
       console.log('Success : Return from createClientsService.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Cleint information is not saved, please try again!';
       $('html, body').animate({scrollTop: 0}, 800);
     };
     var deleteClientBasicInfoFail = function() {
       console.log('Error : Return from createClientsService.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client information is not saved, please try again!';
       if (clientId) {
@@ -708,17 +720,20 @@ CreateClientCrtl.controller('EditClientCtrl', function($rootScope, $route, $scop
   $scope.editBasicClient = function(editClient, editClientWithDataTable) {
     //TODO Set the client active false for the clients
     $scope.editClient.active = false;
+    $scope.saveInProgress = true;
     console.log('CreateClientCtrl : CreateClient : saveBasicClient');
     $scope.editClient.dateOfBirth = moment($scope.editClient.dateOfBirth).format(APPLICATION.DF_MOMENT);
 
     var editBasicClientSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
       $rootScope.$broadcast('clientCreated');
+      $scope.saveInProgress = false;
       $scope.updateBasicClientExtraInformation(editClientWithDataTable, result.data.clientId);
     };
 
     var editBasicClientFail = function(result) {
       console.log('Error : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client not updated: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -738,9 +753,11 @@ CreateClientCrtl.controller('EditClientCtrl', function($rootScope, $route, $scop
   //Start - save edit client basic extra information template details
   $scope.updateBasicClientExtraInformation = function(editClientWithDataTable, clientId) {
     console.log('EditClientCtrl : updateBasicClientExtraInformation :' + clientId);
+    $scope.saveInProgress = true;
 
     var updateBasicClientExtraInformationSuccess = function() {
       console.log('Success : Return from createClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Client information updated successfully';
       //Redirect to the next page
@@ -750,6 +767,7 @@ CreateClientCrtl.controller('EditClientCtrl', function($rootScope, $route, $scop
 
     var updateBasicClientExtraInformationFail = function(result) {
       console.log('Error : Return from createClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client not updated: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -855,9 +873,13 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
         $scope.createClientAdditionalInfo.introducer_client = parseInt($scope.clientAdditionalInfo.data[0].row[9]);
         $scope.createClientAdditionalInfo.introducer_loanOfficer = parseInt($scope.clientAdditionalInfo.data[0].row[10]);
         $scope.createClientAdditionalInfo.introducer_other = $scope.clientAdditionalInfo.data[0].row[11];
-        $scope.createClientAdditionalInfo.knownToIntroducerSince = $scope.clientAdditionalInfo.data[0].row[12];
+        if ($scope.clientAdditionalInfo.data[0].row[12]) {
+          $scope.createClientAdditionalInfo.knownToIntroducerSince = new Date($scope.clientAdditionalInfo.data[0].row[12]);
+        }
         $scope.createClientAdditionalInfo.visitedById = parseInt($scope.clientAdditionalInfo.data[0].row[13]);
-        $scope.createClientAdditionalInfo.visitingDate = $scope.clientAdditionalInfo.data[0].row[14];
+        if ($scope.clientAdditionalInfo.data[0].row[14]) {
+          $scope.createClientAdditionalInfo.visitingDate = new Date($scope.clientAdditionalInfo.data[0].row[14]);
+        }
       }
     } catch (e) {
       console.log(e);
@@ -921,10 +943,12 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
     $scope.createClientAdditionalInfo.knownToIntroducerSince = moment($scope.createClientAdditionalInfo.knownToIntroducerSince).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     $scope.createClientAdditionalInfo.visitingDate = moment($scope.createClientAdditionalInfo.visitingDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     $scope.createClientAdditionalInfo.locale = 'en';
+    $scope.saveInProgress = true;
 
     var saveClientAdditionalInfoSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
       $scope.type = 'alert-success';
+      $scope.saveInProgress = false;
       if ($scope.createAdditional) {
         $scope.message = 'Client Business Activity Detail saved successfully';
       } else {
@@ -943,6 +967,7 @@ CreateClientCrtl.controller('CreateClientAdditionalInfoCtrl', function($route, $
       $scope.type = 'error';
       $scope.message = 'Client Additional Detail not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
+      $scope.saveInProgress = false;
       if (result.data.errors && result.data.errors.length) {
         for (var i = 0; i < result.data.errors.length; i++) {
           $('#' + $scope.errors[i].parameterName).removeClass('ng-valid').removeClass('ng-valid-required').addClass('ng-invalid').addClass('ng-invalid-required');
@@ -1034,21 +1059,26 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
         description: $scope.clientIdentification.description,
         documentKey: $scope.clientIdentification.documentKey
       };
+      $scope.saveInProgress = true;
 
       if ($scope.clientIdentification.identifier_id) {
         // update
         CreateClientsService.updateClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers/' + $scope.clientIdentification.identifier_id, data).then(function() {
+          $scope.saveInProgress = false;
           $scope.saveClientIdentificationExtra(proceed);
         }, function(result) {
+          $scope.saveInProgress = false;
           $scope.showErrors(result);
         });
       } else {
         // create
         CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $route.current.params.id + '/identifiers', data).then(function(result) {
+          $scope.saveInProgress = false;
           $scope.clientIdentification.identifier_id = result.data.resourceId;
           $scope.clientIdentification.client_id = result.data.clientId;
           $scope.saveClientIdentificationExtra(proceed);
         }, function(result) {
+          $scope.saveInProgress = false;
           $scope.showErrors(result);
         });
       }
@@ -1073,9 +1103,11 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     if($scope.clientIdentification.issue_date) {
       data.issue_date = Utility.toServerDate($scope.clientIdentification.issue_date);
     }
+    $scope.saveInProgress = true;
 
     if ($scope.clientIdentification.extra_id) {
       CreateClientsService.updateClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id + '/' + $scope.clientIdentification.extra_id, data).then(function() {
+        $scope.saveInProgress = false;
         if ($scope.file) {
           $scope.uploadFile(proceed);
         } else if(proceed) {
@@ -1085,11 +1117,13 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
           $scope.loadTemplate();
         }
       }, function(result) {
+        $scope.saveInProgress = false;
         $scope.showErrors(result);
       });
     } else {
       CreateClientsService.saveClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + $route.current.params.id, data).then(function(result) {
         $scope.clientIdentification.extra_id = result.data.resourceId;
+        $scope.saveInProgress = false;
         if ($scope.file) {
           $scope.uploadFile(proceed);
         } else if(proceed) {
@@ -1099,6 +1133,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
           $scope.loadTemplate();
         }
       }, function(result) {
+        $scope.saveInProgress = false;
         $scope.showErrors(result);
       });
     }
@@ -1125,12 +1160,14 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
     if ($scope.file) {
       $scope.formData = {};
       $scope.formData.name = 'client_id_' + $scope.clientIdentification.client_id;
+      $scope.saveInProgress = true;
 
       $upload.upload({
         url: APPLICATION.host + 'api/v1/client_identifiers/' + $scope.clientIdentification.identifier_id + '/documents',
         data: $scope.formData,
         file: $scope.file
       }).then(function(result) {
+        $scope.saveInProgress = false;
         if(proceed) {
           $location.url(PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN + '/' + $route.current.params.id);
         } else {
@@ -1146,6 +1183,7 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
           $scope.showSuccess('File uploaded');
         }
       }, function(result) {
+        $scope.saveInProgress = false;
         $scope.showErrors(result);
       });
     }
@@ -1693,11 +1731,13 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
     }
     $scope.type = '';
     $scope.message = '';
+    $scope.saveInProgress = false;
   };
   //failur callback
   var createClientNextToKeenTemplateFail = function(result) {
     $scope.isLoading = false;
     console.log('Error : Return from CreateClientsService service.');
+    $scope.saveInProgress = false;
 
     if (result.status === 404) {
       var $url = PAGE_URL.CLIENTS;
@@ -1706,6 +1746,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
   };
   var loadCreateClientNextToKeenTemplate = function getData() {
     //$scope.isLoading = true;
+    $scope.saveInProgress = true;
     $timeout(function() {
       $scope.rowCollection = [];
       console.log('successfully got the client Identification info');
@@ -1717,9 +1758,10 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
 
   $scope.loadTableData = function() {
     console.log('CreateClientCtrl : CreateClient : loadTableData');
-
+    $scope.saveInProgress = true;
     var loadTableDataSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.isLoading = false;
       try {
         //Setting the id for the headers
@@ -1795,9 +1837,11 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
     if (!Utility.isUndefinedOrNull($scope.clientNextToKeen.date_of_birth)) {
       $scope.clientNextToKeen.date_of_birth = Utility.toLocalDate($scope.clientNextToKeen.date_of_birth, false);
     }
+    $scope.saveInProgress = true;
 
     var saveClientNextToKeenSuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Client Next To Keen Details saved successfully';
       $scope.errors = [];
@@ -1815,6 +1859,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
 
     var saveClientNextToKeenFail = function(result) {
       console.log('Error : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client Next To Keen Detail not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -1849,8 +1894,10 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
+        $scope.saveInProgress = true;
         var deleteNextToKeenSuccess = function() {
           console.log('Success : Return from CreateClientsService service.');
+          $scope.saveInProgress = false;
           $scope.type = 'alert-success';
           $scope.message = 'Client Next of Keen Details deleted successfully';
           $scope.errors = [];
@@ -1860,6 +1907,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
 
         var deleteNextToKeenFail = function(result) {
           console.log('Error : Return from CreateClientsService service.');
+          $scope.saveInProgress = false;
           $scope.type = 'error';
           $scope.message = 'Client Next To Keen Detail not deleted: ' + result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
@@ -1879,6 +1927,7 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
   };
   $scope.editNextToKeen = function(doc) {
     console.log('CreateClientCtrl : CreateClient : editNextToKeen');
+    $scope.saveInProgress = true;
 
     var editNextToKeenSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
@@ -1903,10 +1952,12 @@ CreateClientCrtl.controller('ClientNextToKeenCtrl', function($route, $scope, $lo
       $scope.type = '';
       $scope.message = '';
       $scope.errors = [];
+      $scope.saveInProgress = false;
     };
 
     var editNextToKeenFail = function(result) {
       console.log('Error : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client Next To Keen Detail not deleted: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -1951,6 +2002,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   //Success callback
   var createClientBusinessActivityTeplateSuccess = function(result) {
     $scope.isLoading = false;
+    $scope.saveInProgress = false;
     try {
       //Setting the id for the urls in the header
       $scope.id = $route.current.params.id;
@@ -2049,6 +2101,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   //failur callback
   var createClientBusinessActivityTemplateFail = function(result) {
     $scope.isLoading = false;
+    $scope.saveInProgress = false;
     console.log('Error : Return from CreateClientsService service.');
     if (result.status === 404) {
       var $url = PAGE_URL.CLIENTS;
@@ -2057,6 +2110,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   };
   var loadCreateClientBusinessActivityTemplate = function getData() {
     $scope.isLoading = true;
+    $scope.saveInProgress = true;
     $timeout(function() {
       $scope.rowCollection = [];
       console.log('successfully got the client Business Activity info');
@@ -2067,10 +2121,12 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
   $scope.loadTableData = function() {
     console.log('CreateClientCtrl : CreateClient : loadTableData');
+    $scope.saveInProgress = true;
 
     var loadTableDataSuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
       $scope.isLoading = false;
+      $scope.saveInProgress = false;
       try {
         //Setting the id for the headers
         $scope.id = $route.current.params.id;
@@ -2085,6 +2141,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     var loadTableDataFail = function(result) {
       console.log('Error : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client Business Details not retrived: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -2132,9 +2189,11 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     //Covert date format
     $scope.clientBusinessActivity.dateFormat = APPLICATION.DF_MIFOS;
     $scope.clientBusinessActivity.operating_since = Utility.toLocalDate($scope.clientBusinessActivity.operating_since, true);
+    $scope.saveInProgress = true;
 
     var saveClientBusinessActivitySuccess = function() {
       console.log('Success : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       if(callback) {
         // NOTE: this is a JSON result object, not a function; quick hack!!!
         try {
@@ -2155,6 +2214,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     var saveClientBusinessActivityFail = function(result) {
       console.log('Error : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client Business Activity Detail not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -2187,8 +2247,10 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
+        $scope.saveInProgress = true;
         var deleteBusinessDetailsSuccess = function() {
           console.log('Success : Return from CreateClientsService service.');
+          $scope.saveInProgress = false;
           $scope.type = 'alert-success';
           $scope.message = 'Client Business Activity Detail deleted successfully';
           //Load the template to display the changes onto the screen
@@ -2197,6 +2259,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
         var deleteBusinessDetailsFail = function(result) {
           console.log('Error : Return from CreateClientsService service.');
+          $scope.saveInProgress = false;
           $scope.type = 'error';
           $scope.message = 'Client Business Activity not deleted: ' + result.data.defaultUserMessage;
           $scope.errors = result.data.errors;
@@ -2217,9 +2280,11 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
   //Function to get the data from the business_activity table to edit it
   $scope.editBusinessActivity = function(doc) {
     console.log('CreateClientCtrl : CreateClient : editNextToKeen');
+    $scope.saveInProgress = true;
 
     var editBusinessActivitySuccess = function(result) {
       console.log('Success : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.client = result.data;
       //Setting the values for the edit client next to keen page
       $scope.clientBusinessActivity.BusinessActivity_cd_business_activity = parseInt($scope.client[0].BusinessActivity_cd_business_activity);
@@ -2240,6 +2305,7 @@ CreateClientCrtl.controller('ClientBusinessActivityCtrl', function($route, $scop
 
     var editBusinessActivityFail = function(result) {
       console.log('Error : Return from CreateClientsService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Client Business Activity cannot be retrived: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -2294,8 +2360,10 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
     // cleanup
     delete $scope.clientStatus.code;
     delete $scope.clientStatus.reason;
+    $scope.saveInProgress = true;
 
     CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=' + code, $scope.clientStatus).then(function() {
+      $scope.saveInProgress = false;
       switch(code) {
         case 'activate':
           $scope.client.status.id = 300;
@@ -2321,6 +2389,7 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
       $scope.updateClientActions();
       $scope.cancelClientStatus();
     }, function(result) {
+      $scope.saveInProgress = false;
       $scope.cancelClientStatus();
       $scope.type = 'error';
       $scope.message = 'Cannot change client status: ' + result.data.defaultUserMessage;

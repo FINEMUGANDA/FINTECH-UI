@@ -80,8 +80,8 @@
         </div>
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
-            <button type="button" class="btn btn-danger" ng-click="reset()">Add</button>
-            <button id="save" type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger" ng-click="reset()" ng-disabled="saveInProgress">Reset</button>
+            <button id="save" type="submit" class="btn btn-primary" ng-disabled="saveInProgress">Save</button>
           </div>
         </div>
 
@@ -152,8 +152,8 @@
       <hr/>
       <div class="col-md-12">
         <div class="col-md-offset-5 paddedtop">
-          <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning">Back</a>
-          <button id="save" type="button" class="btn btn-primary" ng-click="saveAndFinish()" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])">Finish</button>
+          <a id="cancel" href="#/editnextofkeen/{{id}}" class="btn btn-warning" ng-disabled="saveInProgress">Back</a>
+          <button id="save" type="button" class="btn btn-primary" ng-click="saveAndFinish()" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])" ng-disabled="saveInProgress">Finish</button>
           <!--<button id="save" type="button" class="btn btn-primary" ng-click="finish()">Finish</button>-->
         </div>
       </div>

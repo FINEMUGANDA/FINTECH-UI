@@ -81,8 +81,8 @@
         <hr/>
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
-            <button type="button" class="btn btn-danger" ng-click="reset()">Add</button>
-            <button id="save" type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger" ng-click="reset()" ng-disabled="saveInProgress">Reset</button>
+            <button id="save" type="submit" class="btn btn-primary" ng-disabled="saveInProgress">Save</button>
           </div>
         </div>  
       </form>
@@ -150,8 +150,8 @@
       </table>
       <div class="col-md-12">
         <div class="col-md-offset-5 paddedtop">
-          <a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>
-          <a id="save-btn" class="btn btn-primary" ng-click="saveAndNext()" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])">Next</a>
+          <a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning" ng-disabled="saveInProgress">Back</a>
+          <a id="save-btn" class="btn btn-primary" ng-click="saveAndNext()" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])" ng-disabled="saveInProgress">Next</a>
           <!--<a id="next" href="#/editbusinessdetails/{{id}}" class="btn btn-primary">Next</a>-->
         </div>
       </div>

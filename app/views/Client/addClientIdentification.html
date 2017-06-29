@@ -91,8 +91,8 @@
         </div>
         <div class="col-md-12">
           <div class="col-md-offset-5 paddedtop">
-            <button type="button" class="btn btn-danger" ng-click="resetClientIdentification()">Add</button>
-            <button id="save" type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger" ng-click="resetClientIdentification()" ng-disabled="saveInProgress">Reset</button>
+            <button id="save" type="submit" class="btn btn-primary" ng-disabled="saveInProgress">Save</button>
           </div>
         </div>
       </form>
@@ -130,7 +130,7 @@
               </div>
             </td>
             <td class="number actions">
-              <a ng-click="deleteClientIdentification(row)" ng-show="hasPermission('UPDATE_CLIENT')">
+              <a ng-click="deleteClientIdentification(row)" ng-show="hasPermission('UPDATE_CLIENT')" ng-disabled="saveInProgress">
                 <span class="glyphicon glyphicon-remove-circle"></span>
               </a>
             </td>
@@ -161,8 +161,8 @@
       <hr/>
       <div class="col-md-12">
         <div class="col-md-offset-5 paddedtop">
-          <a id="cancel" href="#/editadditionalclientinfo/{{id}}" class="btn btn-warning">Back</a>
-          <a id="save-btn" class="btn btn-primary" ng-click="saveClientIdentification(true)" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])">Next</a>
+          <a id="cancel" href="#/editadditionalclientinfo/{{id}}" class="btn btn-warning" ng-disabled="saveInProgress">Back</a>
+          <a id="save-btn" class="btn btn-primary" ng-click="saveClientIdentification(true)" ng-show="hasAnyPermission(['CREATE_CLIENT', 'UPDATE_CLIENT'])" ng-disabled="saveInProgress">Next</a>
         </div>
       </div>
     </div>
