@@ -82,6 +82,10 @@
           <dt>Total LPI:</dt>
           <dd>{{loanDetails.summary.penaltyChargesOutstanding? (loanDetails.summary.penaltyChargesOutstanding | number) : 'Not Provided'}}</dd>
         </dl>
+        <dl class="dl-horizontal">
+          <dt>Stop LPI Computations:</dt>
+          <dd><input type="checkbox" ng-model="loanDetails.pausedLPI" ng-change="togglePausedLPI()"></dd>
+        </dl>
       </div>
       <div class="col-lg-4">
         <dl class="dl-horizontal">

@@ -44,9 +44,10 @@
             </div>
           </td>
           <td ng-click="showLoanDetails(loan)">
-            <span class="{{loan.loanStatusCode| status}}">
+            <div class="{{loan.loanStatusCode| status}}">
               {{loan.loanStatus}}
-            </span>
+            </div>
+            <div ng-show="loan.pausedLPI">LPI Computation on pause</div>
           </td>
           <td ng-click="showLoanDetails(loan)" class="number">{{loan.loanAmount}}</td>
           <td ng-click="showLoanDetails(loan)" class="number">{{loan.loanArrears}}</td>

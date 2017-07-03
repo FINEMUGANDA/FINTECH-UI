@@ -55,6 +55,7 @@
             <a href="#/loans/{{client.id}}/details/{{client.loanId}}" class="{{client.loanStatusCode | status}}" ng-show="client.loanStatus=='ActiveInBadStanding' || client.loanStatus=='ActiveInGoodStanding' || client.loanStatus=='Written-Off' || client.loanStatus.indexOf('Closed')!=-1 || client.loanStatus=='Overpaid'">
               {{client.loanStatus}}
             </a>
+            <div ng-show="client.pausedLPI" style="color: #449acc;">LPI Computation on pause</div>
             <!--
             <span class="{{client.loanStatusCode| status}}" ng-show="(client.collaterals && client.guarantors) || client.loanStatus!='Submitted and awaiting approval'">
               {{client.loanStatus}}

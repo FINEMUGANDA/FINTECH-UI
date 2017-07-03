@@ -320,6 +320,21 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function($route, R
       $scope.errors = result.data.errors;
     });
   };
+
+  $scope.togglePausedLPI = function() {
+    $scope.isLoading = true;
+    var command = !$scope.loanDetails.pausedLPI ? 'unpauseLPI' : 'pauseLPI';
+    LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=' + command).then(function() {
+      $scope.isLoading = false;
+      updateLoanDetails();
+    }, function(result) {
+      $scope.isLoading = false;
+      $scope.message = 'Cannot change pausedLPI:' + result.data.defaultUserMessage;
+      $scope.type = 'error';
+      $scope.errors = result.data.errors;
+    });
+  };
+
   $scope.undoWriteOff = function() {
     $scope.isLoading = true;
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=undoWriteOff').then(function() {
