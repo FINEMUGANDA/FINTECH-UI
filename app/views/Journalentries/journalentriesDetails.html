@@ -68,7 +68,7 @@
       </tr>
     </thead>
     <tbody ng-hide="isLoading">
-      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer">
+      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer" ng-class="{'strikeoff': journal.reversed || journal.isTransactionReversed}">
         <td>{{journal.glAccountCode}}</td>
         <td>{{journal.glAccountType.value}}</td>
         <td>{{journal.glAccountName}}</td>

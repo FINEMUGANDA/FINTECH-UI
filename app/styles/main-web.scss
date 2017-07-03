@@ -690,3 +690,11 @@ ul.dropdown-menu > li{
     margin-bottom: 0;
   }
 }
+
+.table > tbody > tr.pointer:hover, tr.pointer:hover {
+  background-color: #e5e5e5;
+}
+
+.table > tbody > tr.pointer > td, tr.pointer > td {
+  color: #449acc;
+}

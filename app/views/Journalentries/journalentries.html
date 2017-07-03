@@ -46,13 +46,13 @@
       </tr>
     </thead>
     <tbody ng-hide="isLoading">
-      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer" ng-class="{strikeoff: journal.reversed}">
+      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer" ng-class="{'strikeoff': journal.reversed || journal.isTransactionReversed}">
         <td ng-click="viewDetail(journal)">{{journal.createdOn}}</td>
         <td ng-click="viewDetail(journal)">{{journal.description}}</td>
         <td ng-click="viewDetail(journal)">{{journal.entry_date[2] + '/' + journal.entry_date[1] + '/' + journal.entry_date[0]}}</td>
         <!--<td ng-click="viewDetail(journal)">{{journal.office_name}}</td>-->
-        <td ng-click="viewDetail(journal)" class="number">{{journal.Debit| number:2}}</td>
-        <td ng-click="viewDetail(journal)" class="number">{{journal.Credit| number:2}}</td>
+        <td ng-click="viewDetail(journal)" class="number">{{journal.Debit / (journal.isTransactionReversed + 1) | number:2}}</td>
+        <td ng-click="viewDetail(journal)" class="number">{{journal.Credit / (journal.isTransactionReversed + 1) | number:2}}</td>
         <td ng-click="viewDetail(journal)">{{journal.currencies}}</td>
         <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
       </tr>
