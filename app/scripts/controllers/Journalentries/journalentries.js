@@ -39,6 +39,7 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
     } else {
       $scope.rowCollection = $scope.allJournalEntries;
     }
+    $scope.displayedPages = Math.ceil($scope.rowCollection.length / $scope.itemsByPage);
   };
 
   $scope.$watch('selectedFilter', function() {
