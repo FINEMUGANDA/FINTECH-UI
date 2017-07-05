@@ -162,9 +162,11 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     console.log(json);
     var url = REST_URL.JOURANAL_ENTRY_REVERSE_NOTE + $scope.officeId;
     JournalService.saveJournalEntry(url, json).then(function(result) {
+      $scope.saveInProgress = false;
       console.log('JOURANAL_ENTRY_REVERSE_NOTE : ' + result);
       $route.reload();
     }, function(result) {
+      $scope.saveInProgress = false;
       $scope.spin = false;
       $scope.type = 'error';
       $scope.message = 'Entries are reversed but note can not be saved: ' + result.data.defaultUserMessage;
@@ -175,6 +177,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
   //Failure callback : Reverse Transaction
   var reverseTransactionFail = function(result) {
     $scope.spin = false;
+    $scope.saveInProgress = false;
     console.log('Error : Return from JournalService service.');
     $scope.type = 'error';
     $scope.message = 'Journal Entry not reversed: ' + result.data.defaultUserMessage;
@@ -196,6 +199,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
     var json = {
       'transactionId': transactionId
     };
+    $scope.saveInProgress = true;
     JournalService.saveJournalEntry(url, json).then(reverseTransactionSuccess, reverseTransactionFail);
   };
 
@@ -221,7 +225,9 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function(
           transactionId: $scope.id,
           glAccount: result
         };
+        $scope.saveInProgress = true;
         JournalService.saveJournalEntry(url, json).then(function(result) {
+          $scope.saveInProgress = false;
           $route.updateParams({id: result.data.transactionId});
         }, reverseTransactionFail);
       }
@@ -367,6 +373,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
   //Start - Save Journal Entry
   $scope.saveJournalEntry = function() {
     console.log('CreateJournalEntriesCtrl : saveJournalEntry');
+    $scope.saveInProgress = true;
     var jeTransaction = new Object({});
     //jeTransaction.transactionDate = moment(this.journalEntryForm.transationDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     jeTransaction.transactionDate = Utility.toServerDate(this.journalEntryForm.transationDate);
@@ -413,6 +420,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
 
     var saveJournalEntrySuccess = function() {
       console.log('Success : Return from JournalService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Journal Entry saved successfully';
       $location.path(PAGE_URL.JOURNALENTRIES);
@@ -420,6 +428,7 @@ angular.module('angularjsApp').controller('CreateJournalEntriesCtrl', function($
 
     var saveJournalEntryFail = function(result) {
       console.log('Error : Return from JournalService service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Journal Entry not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;

@@ -180,8 +180,8 @@
           </div>
           <hr/>
           <div class="col-md-offset-5 paddedtop">
-            <a id="cancel" href="#/journalentries" class="btn btn-warning">Cancel</a>
-            <button id="save" type="submit" class="btn btn-primary">Save</button>
+            <a id="cancel" href="#/journalentries" class="btn btn-warning" ng-disabled="saveInProgress">Cancel</a>
+            <button id="save" type="submit" class="btn btn-primary" ng-disabled="saveInProgress">Save</button>
           </div>
         </form>
       </div>

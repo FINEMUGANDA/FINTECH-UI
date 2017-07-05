@@ -11,8 +11,8 @@
   </select>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" ng-click="submit()">Save</button>
-  <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary" ng-click="submit()" ng-disabled="saveInProgress">Save</button>
+  <button type="button" class="btn btn-primary" ng-click="cancel()" ng-disabled="saveInProgress">Cancel</button>
 </div>
 
 
