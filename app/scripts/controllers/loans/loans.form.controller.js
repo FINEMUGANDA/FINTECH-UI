@@ -183,6 +183,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
       $('html, body').animate({scrollTop: 0}, 800);
       return;
     }
+    $scope.saveInProgress = true;
     var data = angular.copy($scope.loan);
     data.locale = 'en';
     data.dateFormat = APPLICATION.DF_MIFOS;
@@ -202,15 +203,17 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
     function saveLoanSuccess(result) {
       console.log('Saved successfuly...', result);
-
+      
       var loanDetails = angular.copy($scope.loanDetails);
       var resultSuccess = function() {
+        $scope.saveInProgress = false;
         $scope.type = 'alert-success';
         $scope.message = 'Loan saved successfuly';
         $scope.errors = [];
         $location.url('/loans/' + $scope.clientId + '/form/collateral/' + result.data.loanId);
       };
       var resultFail = function() {
+        $scope.saveInProgress = false;
         $scope.type = 'error';
         $scope.message = 'Cant save loan details';
         $scope.errors = [];
@@ -225,6 +228,7 @@ angular.module('angularjsApp').controller('LoansFormCreateCtrl', function($route
 
     function saveLoanFail(result) {
       console.log('Cant save loan...', result);
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Cant save loan: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -309,15 +313,18 @@ angular.module('angularjsApp').controller('LoansFormChargesCtrl', function($rout
       $('html, body').animate({scrollTop: 0}, 800);
       return;
     }
+    $scope.saveInProgress = true;
     var data = angular.copy($scope.charge);
     data.locale = 'en';
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges', data).then(function() {
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Charge added successfully.';
       $scope.errors = [];
       $scope.charge = {};
       updateLoanCharges();
     }, function(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant add charge:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -328,8 +335,10 @@ angular.module('angularjsApp').controller('LoansFormChargesCtrl', function($rout
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
+        $scope.saveInProgress = true;
         var index = $scope.rowCollection.indexOf(charge);
         LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/charges/' + charge.id).then(function() {
+          $scope.saveInProgress = false;
           $scope.type = 'alert-success';
           $scope.message = 'Charge removed successfully.';
           $scope.errors = [];
@@ -418,13 +427,16 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
     }
     var data = angular.copy($scope.collateral);
     data.locale = 'en';
+    $scope.saveInProgress = true;
     LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals', data).then(function() {
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Collateral added successfully.';
       $scope.errors = [];
       $scope.collateral = {};
       updateLoanCollaterals();
     }, function(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant add charge:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -437,8 +449,10 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
     var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
     dialog.result.then(function(result) {
       if (result) {
+        $scope.saveInProgress = true;
         var index = $scope.rowCollection.indexOf(collateral);
         LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanId + '/collaterals/' + collateral.id).then(function() {
+          $scope.saveInProgress = false;
           $scope.type = 'alert-success';
           $scope.message = 'Collateral removed successfully.';
           $scope.errors = [];
@@ -448,6 +462,7 @@ angular.module('angularjsApp').controller('LoansFormCollateralCtrl', function($r
             updateLoanCollaterals();
           }
         }, function(result) {
+          $scope.saveInProgress = false;
           $scope.message = 'Cant remove collateral:' + result.data.defaultUserMessage;
           $scope.type = 'error';
           $scope.errors = result.data.errors;
@@ -496,6 +511,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
       $('html, body').animate({scrollTop: 0}, 800);
       return;
     }
+    $scope.saveInProgress = true;
     var json = angular.copy($scope.guarantor);
     json.locale = 'en';
     json.dateFormat = APPLICATION.DF_MIFOS;
@@ -503,6 +519,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
       json.dateOfBirth = moment(json.dateOfBirth).format(APPLICATION.DF_MOMENT);
     }
     function saveGuarantorSuccess() {
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Guarantor saved successfully.';
       $scope.errors = [];
@@ -511,6 +528,7 @@ angular.module('angularjsApp').controller('LoansFormGuarantorCtrl', function($ro
 //      updateLoanCharges();
     }
     function saveGuarantorFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant save guarantor:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;

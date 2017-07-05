@@ -171,7 +171,7 @@
       <hr />
       <div class="col-md-offset-5 paddedtop">
         <!--<a id="cancel" href="#/editclientidentification/{{id}}" class="btn btn-warning">Back</a>-->
-        <button id="save-btn" class="btn btn-primary" type="submit" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Next</button>
+        <button id="save-btn" class="btn btn-primary" type="submit" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])" ng-disabled="saveInProgress">Next</button>
       </div>
     </div>
   </form>

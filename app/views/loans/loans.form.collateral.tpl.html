@@ -31,8 +31,8 @@
     </div>
     <div class="col-md-12">
       <div class="col-md-offset-5 paddedtop">
-        <button type="submit" id="add-collateral-btn" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">{{collateral.id? 'Edit' : 'Save'}}</button>
-        <button type="button" id="reset-collateral-btn" class="btn btn-danger" ng-show="hasAnyPermission(['CREATE_LOAN'])" ng-show="!collateral.id" ng-click="resetCollateral()">Reset</button>
+        <button type="submit" id="add-collateral-btn" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])" ng-disabled="saveInProgress">{{collateral.id? 'Edit' : 'Save'}}</button>
+        <button type="button" id="reset-collateral-btn" class="btn btn-danger" ng-show="hasAnyPermission(['CREATE_LOAN'])" ng-show="!collateral.id" ng-click="resetCollateral()" ng-disabled="saveInProgress">Reset</button>
       </div>
     </div>
   </form>
@@ -81,8 +81,8 @@
   <div class="col-md-12">
     <hr />
     <div class="col-md-offset-5 paddedtop">
-      <a id="cancel" href="#/loans/{{clientId}}/form/charges/{{loanId}}" class="btn btn-warning">Back</a>
-      <a id="next-btn" href="" ng-click="goGuarantor()" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Next</a>
+      <a id="cancel" href="#/loans/{{clientId}}/form/charges/{{loanId}}" class="btn btn-warning" ng-disabled="saveInProgress">Back</a>
+      <a id="next-btn" href="" ng-click="goGuarantor()" class="btn btn-primary" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])" ng-disabled="saveInProgress">Next</a>
     </div>
   </div>
 </div>

@@ -166,9 +166,8 @@
 
             <div class="col-md-12">
                 <div class="col-md-offset-5 paddedtop">
-                    <a id="cancel" href="#/loans/{{clientId}}/form/collateral/{{loanId}}"
-                       class="btn btn-warning">Back</a>
-                    <button id="save-btn" class="btn btn-primary" type="submit" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])">Save</button>
+                    <a id="cancel" href="#/loans/{{clientId}}/form/collateral/{{loanId}}" class="btn btn-warning" ng-disabled="saveInProgress">Back</a>
+                    <button id="save-btn" class="btn btn-primary" type="submit" ng-show="hasAnyPermission(['CREATE_LOAN', 'UPDATE_LOAN'])" ng-disabled="saveInProgress">Save</button>
                 </div>
             </div>
         </div>
