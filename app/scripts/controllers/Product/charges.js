@@ -156,6 +156,7 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
 
     var updateChargeSuccess = function() {
       console.log('Success : Return from charge service.');
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Charge updated successfully';
       $location.url(PAGE_URL.CHARGES);
@@ -163,6 +164,7 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
 
     var updateChargeFail = function(result) {
       console.log('Error : Return from charge service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Charge not updated: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -183,6 +185,7 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
       $scope.message = 'Amount(%) must be or equal to 100';
       $('html, body').animate({scrollTop: 0}, 800);
     } else {
+      $scope.saveInProgress = true;
       console.log('JSON.toJson(chargeDetails) > ' + angular.toJson($scope.chargeDetails));
       if (parseInt($scope.chargeDetails.chargeTimeType) !== 12) { //remove feeInterval for not Overdue maturity date charges
         $scope.chargeDetails.feeFrequency = null;

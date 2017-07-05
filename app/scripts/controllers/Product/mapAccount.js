@@ -130,9 +130,9 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
         $scope.mapAccountingForm.interestWriteOffAccountId = $scope.product.accountingMappings.interestWriteOffAccount.id;
         $scope.mapAccountingForm.feeWriteOffAccountId = $scope.product.accountingMappings.feeWriteOffAccount.id;
       }
-      $scope.mapAccountingForm.unidentifiedDepositsAccountId = $scope.product.accountingMappings.unidentifiedDepositsAccount.id;
-      $scope.mapAccountingForm.overpaidProfitAccountId = $scope.product.accountingMappings.overpaidProfitAccount.id;
-      $scope.mapAccountingForm.overpaymentLiabilityAccountId = $scope.product.accountingMappings.overpaymentLiabilityAccount.id;
+      $scope.mapAccountingForm.unidentifiedDepositsAccountId = _.get($scope, 'product.accountingMappings.unidentifiedDepositsAccount.id');
+      $scope.mapAccountingForm.overpaidProfitAccountId = _.get($scope, 'product.accountingMappings.overpaidProfitAccount.id');
+      $scope.mapAccountingForm.overpaymentLiabilityAccountId = _.get($scope, 'product.accountingMappings.overpaymentLiabilityAccount.id');
       //Todo Set accountin rule default
       $scope.mapAccountingForm.accountingRule = '4';
       $rootScope.message = '';
@@ -165,9 +165,11 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     $scope.type = '';
     this.mapAccountingForm.locale = 'en';
     this.mapAccountingForm.accountingRule = parseInt(this.mapAccountingForm.accountingRule);
+    $scope.saveInProgress = true;
 
     var updateloanProductSuccess = function() {
       console.log('Success : Return from loanProducts service.');
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Loan product Updated successfully';
       $scope.errors = '';
@@ -176,6 +178,7 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
 
     var updateloanProductFail = function(result) {
       console.log('Error : Return from loanProducts service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Loan product not updated: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;

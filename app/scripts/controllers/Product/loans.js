@@ -57,6 +57,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
   //To highlight selected tab
   $scope.step = 1;
   $scope.newProTab = 'active';
+  $scope.formData = {};
   $scope.setStep = function(step) {
     $scope.step = step;
     if (step === 1) {
@@ -147,18 +148,18 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
 
   loadLoanProductTemplate();
 
-  $scope.chargeSelected = function(chargeId) {
-    if (chargeId) {
+  $scope.chargeSelected = function() {
+    if ($scope.formData.chargeId) {
       var chargeTeplateSuccess = function(result) {
         result.data.chargeId = result.data.id;
         $scope.charges.push(result.data);
-        $scope.chargeId = '';
+        $scope.formData.chargeId = '';
         $('select#chargeId').val('');
       };
       var chargeTemplateFail = function() {
         console.log('Error : Return from ChargesService service.');
       };
-      var $url = REST_URL.RETRIVE_CHARGE_BY_ID + chargeId + '?template=true';
+      var $url = REST_URL.RETRIVE_CHARGE_BY_ID + $scope.formData.chargeId + '?template=true';
       ChargesService.getData($url).then(chargeTeplateSuccess, chargeTemplateFail);
     }
   };
@@ -190,6 +191,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
     console.log('LoanProductsCtrl : CreateLoanProducts : saveLoanProduct');
     $scope.message = '';
     $scope.chargesSelected = [];
+    $scope.saveInProgress = true;
     var temp = '';
     for (var i in $scope.charges) {
       temp = {
@@ -204,12 +206,14 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
       $scope.type = 'alert-success';
       $scope.message = 'Loan product saved successfully';
       $scope.isCreated = true;
+      $scope.saveInProgress = false;
       LoanProductService.setEditStep(2);
       $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + result.data.resourceId);
     };
 
     var saveloanProductFail = function(result) {
       console.log('Error : Return from loanProducts service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Loan product not saved: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -229,6 +233,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
 LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $timeout, LoanProductService, CurrencyService, REST_URL, APPLICATION, PAGE_URL, ChargesService, Utility) {
   console.log('LoanProductsCtrl : EditLoanProductsCtrl');
   $scope.id = $route.current.params.id;
+  $scope.formData = {};
   //To highlight selected tab
   $scope.setStep = function(step) {
     $scope.step = step;
@@ -372,6 +377,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
     console.log('LoanProductsCtrl : updateLoanProduct');
     $scope.message = '';
     $scope.chargesSelected = [];
+    $scope.saveInProgress = true;
     var temp = '';
     for (var i in $scope.charges) {
       temp = {
@@ -386,6 +392,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
 
     var updateloanProductSuccess = function() {
       console.log('Success : Return from loanProducts service.');
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Loan product Updated successfully';
       $scope.errors = '';
@@ -396,6 +403,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
 
     var updateloanProductFail = function(result) {
       console.log('Error : Return from loanProducts service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Loan product not updated: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;
@@ -412,20 +420,20 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
 
   //Add charges
   $scope.loanProductCharges = {};
-  $scope.chargeSelected = function(chargeId) {
+  $scope.chargeSelected = function() {
     $scope.chargesSelected = [];
-    if (chargeId) {
+    if ($scope.formData.chargeId) {
       var chargeTeplateSuccess = function(result) {
         result.data.chargeId = result.data.id;
         $scope.charges.push(result.data);
-        $scope.chargeId = '';
+        $scope.formData.chargeId = '';
         $('select#chargeId').val('');
         $scope.saveCharges();
       };
       var chargeTemplateFail = function() {
         console.log('Error : Return from ChargesService service.');
       };
-      var $url = REST_URL.RETRIVE_CHARGE_BY_ID + chargeId + '?template=true';
+      var $url = REST_URL.RETRIVE_CHARGE_BY_ID + $scope.formData.chargeId + '?template=true';
       ChargesService.getData($url).then(chargeTeplateSuccess, chargeTemplateFail);
     }
   };
@@ -450,12 +458,15 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
     //Filterd charge options
     $scope.product.filteredChargeOptions = Utility.filterOptions(chargeOptions, null, $scope.chargesSelected);
 
+    $scope.saveInProgress = true;
     var updateloanProductChargesSuccess = function() {
       console.log('Success : Return from loanProducts service.');
+      $scope.saveInProgress = false;
     };
 
     var updateloanProductChargesFail = function(result) {
       console.log('Error : Return from loanProducts service.');
+      $scope.saveInProgress = false;
       $scope.type = 'error';
       $scope.message = 'Charges cannot be mapped with loan product: ' + result.data.defaultUserMessage;
       $scope.errors = result.data.errors;

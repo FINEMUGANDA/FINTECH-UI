@@ -130,8 +130,8 @@
               </div>
               <hr/>
               <div class="col-md-offset-5 paddedtop">
-                <a id="cancel" href="#/loanProducts" class="btn btn-warning">Cancel</a>                
-                 <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Next</button>
+                <a id="cancel" href="#/loanProducts" class="btn btn-warning" ng-disabled="saveInProgress">Cancel</a>                
+                 <button id="save" type="button" class="btn btn-primary" ng-click="validateLoanProduct(loanProductDetails)" ng-show="hasPermission('UPDATE_LOANPRODUCT')" ng-disabled="saveInProgress">Next</button>
               </div>
             </form>
         </div>
@@ -139,15 +139,14 @@
           <form name="createloanproductform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation>
             <div class="form-group" ng-show="hasAnyPermission(['CREATE_LOANPRODUCT', 'UPDATE_LOANPRODUCT'])">
               <div class="col-sm-3">
-                  <select id="chargeId" ng-model="chargeId" class="form-control"
+                  <select id="chargeId" ng-model="formData.chargeId" class="form-control"
                              ng-options="charge.id as charge.name for charge in product.filteredChargeOptions | filter:loanProductDetails.currencyCode:strict"
                              value="{{charge.id}}">
                          <option value="">-- Select Charge --</option>
                   </select>
               </div>
               <div class="col-sm-1">
-                <button type="button" class="btn btn-primary" ng-click="chargeSelected(chargeId)">Add
-                </button>
+                <button type="button" class="btn btn-primary" ng-click="chargeSelected()" ng-disabled="saveInProgress">Add</button>
               </div>
             </div>
             <table class="table">
@@ -182,8 +181,8 @@
             </table>            
             <hr/>
             <div class="col-md-offset-5 paddedtop">
-              <button class="btn btn-warning" ng-click="setStep(1)">back</button>
-              <a class="btn btn-primary" href="#/mapAccount/{{id}}" ng-show="hasPermission('UPDATE_LOANPRODUCT')">Next</a>
+              <button class="btn btn-warning" ng-click="setStep(1)" ng-disabled="saveInProgress">back</button>
+              <a class="btn btn-primary" href="#/mapAccount/{{id}}" ng-show="hasPermission('UPDATE_LOANPRODUCT')" ng-disabled="saveInProgress">Next</a>
             </div>
           </form>
         </div>
