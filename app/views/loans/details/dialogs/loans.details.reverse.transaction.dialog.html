@@ -66,13 +66,13 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a ng-hide="isLoading" ng-click="submit()" class="btn primary">
+      <a ng-hide="isLoading" ng-click="submit()" class="btn primary" ng-disabled="saveInProgress">
         <span class="glyphicon" ng-class="{'glyphicon-repeat': !spin, 'glyphicon-refresh spin': spin}"></span>
 <!--        <span ng-hide="spin" class="glyphicon glyphicon-repeat"></span>
         <span ng-show="spin" class="glyphicon glyphicon-refresh spin"></span>-->
         Reverse Transaction
       </a>
-      <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+      <button type="button" class="btn btn-primary" ng-click="cancel()" ng-disabled="saveInProgress">Cancel</button>
     </div>
   </div>
 </form>

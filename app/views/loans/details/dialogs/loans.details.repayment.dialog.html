@@ -111,8 +111,8 @@
 
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-success" ng-hide="isLoading">{{action === 'adjust'? 'Adjust': 'Save'}}</button>
-    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-success" ng-hide="isLoading" ng-disabled="saveInProgress">{{action === 'adjust'? 'Adjust': 'Save'}}</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()" ng-disabled="saveInProgress">Cancel</button>
   </div>
 </form>
 

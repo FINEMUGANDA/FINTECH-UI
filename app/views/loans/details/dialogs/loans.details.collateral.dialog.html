@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-success">Save</button>
-    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-success" ng-disabled="saveInProgress">Save</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()" ng-disabled="saveInProgress">Cancel</button>
   </div>
 </form>

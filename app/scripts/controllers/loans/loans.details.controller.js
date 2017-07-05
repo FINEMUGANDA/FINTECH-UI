@@ -414,6 +414,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
       return;
     }
 
+    $scope.saveInProgress = true;
     var data = angular.copy($scope.formData);
     data.locale = 'en';
     data.dateFormat = APPLICATION.DF_MIFOS;
@@ -426,10 +427,12 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
       $scope.message = 'Loan updated successfully.';
       $scope.errors = [];
       $timeout(function() {
+        $scope.saveInProgress = false;
         $modalInstance.close();
       }, 2000);
     }
     function handleFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant prepay loan:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -491,16 +494,19 @@ angular.module('angularjsApp').controller('LoanDeatilsReverseTransactionDialog',
       //data.transactionDate = moment(data.transactionDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
       data.transactionDate = Utility.toServerDate(data.transactionDate);
     }
+    $scope.saveInProgress = true;
     data.transactionAmount = 0;
     function handleSuccess() {
       $scope.type = 'alert-success';
       $scope.message = 'Loan updated successfully.';
       $scope.errors = [];
       $timeout(function() {
+        $scope.saveInProgress = false;
         $modalInstance.close();
       }, 2000);
     }
     function handleFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant prepay loan:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -527,8 +533,10 @@ angular.module('angularjsApp').controller('LoanDeatilsReverseTransactionDialog',
     var url = REST_URL.JOURANAL_ENTRY_REVERSE_NOTE + $scope.officeId;
     JournalService.saveJournalEntry(url, json).then(function(result) {
       console.log('JOURANAL_ENTRY_REVERSE_NOTE : ' + result);
+      $scope.saveInProgress = false;
       $route.reload();
     }, function(result) {
+      $scope.saveInProgress = false;
       $scope.spin = false;
       $scope.type = 'error';
       $scope.message = 'Entries are reversed but note can not be saved: ' + result.data.defaultUserMessage;
@@ -539,6 +547,7 @@ angular.module('angularjsApp').controller('LoanDeatilsReverseTransactionDialog',
   //Failure callback : Reverse Transaction
   var reverseTransactionFail = function(result) {
     $scope.spin = false;
+    $scope.saveInProgress = false;
     console.log('Error : Return from JournalService service.');
     $scope.type = 'error';
     $scope.message = 'Journal Entry not reversed: ' + result.data.defaultUserMessage;
@@ -555,6 +564,7 @@ angular.module('angularjsApp').controller('LoanDeatilsReverseTransactionDialog',
   $scope.spin = false;
   $scope.reverseTransaction = function(transactionId) {
     $scope.spin = true;
+    $scope.saveInProgress = true;
     console.log(transactionId);
     var url = REST_URL.JOURNALENTRIES + '/' + transactionId + '?command=reverse';
     var json = {
@@ -643,6 +653,7 @@ angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', funct
       return;
     }
 
+    $scope.saveInProgress = true;
     var data = angular.copy($scope.formData);
     data.locale = 'en';
     data.dateFormat = APPLICATION.DF_MIFOS;
@@ -655,10 +666,12 @@ angular.module('angularjsApp').controller('LoanDeatilsUnidentifiedDialog', funct
       $scope.message = 'Loan updated successfully.';
       $scope.errors = [];
       $timeout(function() {
+        $scope.saveInProgress = false;
         $modalInstance.close();
       }, 2000);
     }
     function handleFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant prepay loan:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -772,6 +785,7 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
       return;
     }
 
+    $scope.saveInProgress = true;
     var data = angular.copy($scope.formData);
     data.locale = 'en';
     data.dateFormat = APPLICATION.DF_MIFOS;
@@ -785,15 +799,18 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function(
       $scope.errors = [];
       LoanService.saveLoan(REST_URL.CREATE_CLIENT + '/' + $scope.loan.clientId + '?command=close', {locale: 'en', dateFormat: APPLICATION.DF_MIFOS, closureDate: Utility.toServerDate(new Date()), closureReasonId: '15'}).then(function() {
         $timeout(function() {
+          $scope.saveInProgress = false;
           $modalInstance.close();
         }, 2000);
       }, function() {
         $timeout(function() {
+          $scope.saveInProgress = false;
           $modalInstance.close();
         }, 2000);
       });
     }
     function handleFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant write off loan: ' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -827,15 +844,18 @@ angular.module('angularjsApp').controller('LoanDetailsDisbursalUndoDialog', func
       return;
     }
 
+    $scope.saveInProgress = true;
     function handleSuccess() {
       $scope.type = 'alert-success';
       $scope.message = 'Loan disbursal undo was processed successfully';
       $scope.errors = [];
       $timeout(function() {
+        $scope.saveInProgress = false;
         $modalInstance.close();
       }, 2000);
     }
     function handleFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cannot undo loan disbursal: ' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -891,9 +911,11 @@ angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', functio
       $scope.errors = [];
       return;
     }
+    $scope.saveInProgress = true;
     var data = angular.copy($scope.collateral);
     data.locale = 'en';
     function handleSuccess() {
+      $scope.saveInProgress = false;
       $scope.type = 'alert-success';
       $scope.message = 'Collateral added successfully.';
       $scope.errors = [];
@@ -902,6 +924,7 @@ angular.module('angularjsApp').controller('LoanDeatilsCollateralDialog', functio
       $modalInstance.close(true);
     }
     function handleFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant add collateral:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -933,6 +956,7 @@ angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function
       $scope.errors = [];
       return;
     }
+    $scope.saveInProgress = true;
     var json = angular.copy($scope.guarantor);
     json.locale = 'en';
     json.dateFormat = APPLICATION.DF_MIFOS;
@@ -944,10 +968,12 @@ angular.module('angularjsApp').controller('LoanDeatilsGuarantorDialog', function
       $scope.message = 'Guarantor saved successfully.';
       $scope.errors = [];
       $timeout(function() {
+        $scope.saveInProgress = false;
         $modalInstance.close();
       }, 2000);
     }
     function saveGuarantorFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant save guarantor:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
@@ -1043,6 +1069,7 @@ angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST
       $scope.errors = [];
       return;
     }
+    $scope.saveInProgress = true;
     var json = angular.copy($scope.note);
     json.locale = 'en';
     json.dateFormat = APPLICATION.DF_MIFOS;
@@ -1060,10 +1087,12 @@ angular.module('angularjsApp').controller('LoanDeatilsNoteDialog', function(REST
       $scope.message = 'Note saved successfully.';
       $scope.errors = [];
       $timeout(function() {
+        $scope.saveInProgress = false;
         $modalInstance.close();
       }, 2000);
     }
     function saveNoteFail(result) {
+      $scope.saveInProgress = false;
       $scope.message = 'Cant save note:' + result.data.defaultUserMessage;
       $scope.type = 'error';
       $scope.errors = result.data.errors;
