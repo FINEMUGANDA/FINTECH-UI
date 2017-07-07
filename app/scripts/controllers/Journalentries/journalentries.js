@@ -2,48 +2,97 @@
 
 'use strict';
 
-angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, SearchService, $timeout, $location) {
+angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope, REST_URL, PAGE_URL, JournalService, SearchService, $timeout, $location, APPLICATION, $route) {
   console.log('JournalEntriesCtrl');
   $scope.isLoading = false;
   $scope.itemsByPage = 10;
   $scope.allJournalEntries = [];
 
-  $scope.$watch('tableSearch', function() {
-    SearchService.data('journal', $scope.tableSearch);
-  });
+
+//  $scope.rowCollection = [];
+  $scope.displayed = [];
+  $scope.pageSize = APPLICATION.PAGE_SIZE;
+  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+  $scope.pages = [];
+  $scope.searchTerm = '';
+  $scope.data = {};
+  $scope.data.rowCollection = [];
+
+  var params = $location.search();
+
+  console.log('DEBUG: ' + angular.toJson(params));
+
+  if (params && params.clear) {
+    SearchService.clear('ids');
+    SearchService.clear('search');
+    console.log('DEBUG XX: ' + angular.toJson(SearchService.data('ids')));
+    console.log('DEBUG XX: ' + SearchService.data('search'));
+    $location.url(PAGE_URL.JOURNALENTRIES).replace();
+  }
+
+  $scope.goTo = function(p) {
+    $scope.currentPage = p;
+    loadJournalEntries();
+  };
+
+  $scope.goNext = function() {
+    $scope.currentPage++;
+    loadJournalEntries();
+  };
+
+  $scope.goPrevious = function() {
+    $scope.currentPage--;
+    loadJournalEntries();
+  };
+
+  $scope.goLast = function() {
+    $scope.currentPage = $scope.pages.length;
+    loadJournalEntries();
+  };
+
+  $scope.goFirst = function() {
+    $scope.currentPage = 1;
+    loadJournalEntries();
+  };
+
+  $scope.setPageSize = function(s) {
+    $scope.pageSize = s;
+    $scope.goFirst();
+  };
+
+  $scope.onSearch = function() {
+    if (!$scope.searchTerm || $scope.searchTerm.trim() === '') {
+      SearchService.clear('ids');
+      SearchService.clear('search');
+    }
+    $scope.currentPage = 1;
+    loadJournalEntries();
+  };
 
   //Success callback
   var loadJournalEntriesSuccess = function(result) {
-    $scope.type = '';
-    $scope.message = '';
-    $scope.errors = '';
     $scope.isLoading = false;
+
     try {
-      $scope.allJournalEntries = result.data;
-      filterJournalEntries();
-      $scope.tableSearch = SearchService.data('journal');
+      $scope.data.rowCollection = [];
+      $scope.pages = [];
+
+      if (result.data && result.data[0] && result.data[0].journalEntriesCount) {
+        for (var j = 1; j <= Math.ceil(result.data[0].journalEntriesCount / $scope.pageSize); j++) {
+          $scope.pages.push({page: j, link: '#/journalentries/p/' + j});
+        }
+      }
+      $scope.data.rowCollection = result.data;
+
     } catch (e) {
       console.log(e);
     }
-  };
 
-  var filterJournalEntries = function() {
-    if ($scope.selectedFilter === 'unidentified_profit') {
-      $scope.rowCollection = _.filter($scope.allJournalEntries, function(journalEntry) {
-        return journalEntry.profit;
-      });
-    } else if ($scope.selectedFilter === 'unidentified_deposits') {
-      $scope.rowCollection = _.filter($scope.allJournalEntries, function(journalEntry) {
-        return journalEntry.unidentified;
-      });
-    } else {
-      $scope.rowCollection = $scope.allJournalEntries;
-    }
-    $scope.displayedPages = Math.ceil($scope.rowCollection.length / $scope.itemsByPage);
   };
 
   $scope.$watch('selectedFilter', function() {
-    filterJournalEntries();
+    $scope.currentPage = 1;
+    loadJournalEntries();
   });
 
   //Failure callback
@@ -54,15 +103,30 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function($scope,
 
   var loadJournalEntries = function getData() {
     $scope.isLoading = true;
-    $timeout(
-      function() {
-        $scope.rowCollection = [];
-        //service to get journalentries from server
-        JournalService.getData(REST_URL.JOURNALENTRIES_LIST + '?orderBy=transactionDate&sortOrder=DESC').then(loadJournalEntriesSuccess, loadJournalEntriesFail);
-      }, 2000);
-  };
+    $timeout(function() {
+      var offset = $scope.pageSize * ($scope.currentPage - 1);
 
-  loadJournalEntries();
+      SearchService.data('search', $scope.searchTerm);
+
+      if (SearchService.data('ids')) {
+        $scope.searchTerm = SearchService.data('ids')[0] + '';
+      } else if (SearchService.data('search')) {
+        $scope.searchTerm = SearchService.data('search');
+      }
+      var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+      var filterBy = $scope.selectedFilter;
+      var orderBy = _.get($scope.stTable, 'sort.predicate', 'entry_date');
+      var sortOrder = _.get($scope.stTable, 'sort.reverse', false) ? 'ASC' : 'DESC';
+
+
+      //service to get journalentries from server
+      JournalService.getData(REST_URL.JOURNALENTRIES_LIST + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_filterBy=' + filterBy + '&R_search=' + searchTerm + '&R_orderBy=' + orderBy + '&R_sortOrder=' + sortOrder).then(loadJournalEntriesSuccess, loadJournalEntriesFail);
+    });
+  };
+  $scope.data.updateTable = function(tableState) {
+    $scope.stTable = tableState;
+    loadJournalEntries();
+  };
 
   //Forward to view details
   $scope.viewDetail = function(journal) {

@@ -6,7 +6,7 @@
       <div class="action"></div>
     </div>
   </div>
-  <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
+  <table st-table="data.rowCollection" st-pipe="data.updateTable" class="table">
     <thead>
       <tr>
         <th colspan="6">
@@ -23,13 +23,15 @@
               </ul>
             </div>
             <div class="search" style="float:right;">
-              <input type="text" st-search="tableSearch" class="search-box" placeholder="Search Journal Entries" ng-model="tableSearch" />
+              <!--<input type="text" st-search="tableSearch" class="search-box" placeholder="Search Journal Entries" ng-model="tableSearch" />-->
+              <input type="text" ng-model="searchTerm" class="search-box" placeholder="Search Journal Entries" ng-change="onSearch()" ng-model-options="{debounce: 500}"/>
             </div>
             <div class="search" style="float:left;">
               <select ng-model="selectedFilter" class="form-control">
                 <option value="" selected="">All Journal Entries</option>
                 <option value="unidentified_deposits">Only Unidentified Deposits</option>
                 <option value="unidentified_profit">Only Profits</option>
+                <option value="reversed">Only Reversed/Adjusted</option>
               </select>
             </div>
           </div>
@@ -38,21 +40,21 @@
       <tr>
         <th st-sort="id">Created On</th>
         <th st-sort="description">Transaction Description</th>
-        <th st-sort="entry_date">Transaction Date</th>
+        <th st-sort="entry_date" st-sort-default="true">Transaction Date</th>
         <!--<th st-sort="office_name">Office</th>-->
-        <th st-sort="Credit" class="number">Debit</th>
-        <th st-sort="Debit" class="number">Credit</th>
+        <th st-sort="Debit" class="number">Debit</th>
+        <th st-sort="Credit" class="number">Credit</th>
         <th st-sort="currencies">Currencies</th>
       </tr>
     </thead>
     <tbody ng-hide="isLoading">
-      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in displayed" class="pointer" ng-class="{'strikeoff': journal.reversed || journal.isTransactionReversed}">
+      <tr st-select-row="row" st-select-mode="single" ng-repeat="journal in data.rowCollection" class="pointer" ng-class="{'strikeoff': journal.reversed || journal.isTransactionReversed}">
         <td ng-click="viewDetail(journal)">{{journal.createdOn}}</td>
-        <td ng-click="viewDetail(journal)">{{journal.description}}</td>
-        <td ng-click="viewDetail(journal)">{{journal.entry_date[2] + '/' + journal.entry_date[1] + '/' + journal.entry_date[0]}}</td>
+        <td ng-click="viewDetail(journal)">{{journal.description}}<span ng-show="journal.clientName"> [{{journal.clientName}}]</span></td>
+        <td ng-click="viewDetail(journal)">{{journal.transactionDate}}</td>
         <!--<td ng-click="viewDetail(journal)">{{journal.office_name}}</td>-->
-        <td ng-click="viewDetail(journal)" class="number">{{journal.Debit / (journal.isTransactionReversed + 1) | number:2}}</td>
-        <td ng-click="viewDetail(journal)" class="number">{{journal.Credit / (journal.isTransactionReversed + 1) | number:2}}</td>
+        <td ng-click="viewDetail(journal)" class="number">{{journal.Debit| number:2}}</td>
+        <td ng-click="viewDetail(journal)" class="number">{{journal.Credit| number:2}}</td>
         <td ng-click="viewDetail(journal)">{{journal.currencies}}</td>
         <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
       </tr>
@@ -71,9 +73,46 @@
             <div class="export">
               <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>
             </div>
-            <div class="paginate">
-              <div st-pagination="" class="pagination pointer" st-items-by-page="itemsByPage" st-displayed-pages="displayedPages" st-template="views/common/pagination.tpl.html"></div>
-            </div>
+            <nav class="navbar navbar-default pagination">
+              <ul class="nav navbar-nav">
+                <li class="dropdown" uib-dropdown>
+                  <a href="javascript:void(0);" class="dropdown-toggle" id="page-size-btn" uib-dropdown-toggle role="button" aria-expanded="false">Size {{pageSize===10000 ? 'All' : pageSize}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="page-size-btn">
+                    <li><a href="" ng-click="setPageSize(10)">10</a></li>
+                    <li><a href="" ng-click="setPageSize(25)">25</a></li>
+                    <li><a href="" ng-click="setPageSize(50)">50</a></li>
+                    <li><a href="" ng-click="setPageSize(100)">100</a></li>
+                    <li><a href="" ng-click="setPageSize(10000)">All</a></li>
+                  </ul>
+                </li>
+                <li ng-show="currentPage > 1">
+                  <a href="javascript:void(0);" ng-click="goFirst()">
+                    <i class="glyphicon glyphicon-fast-backward"></i>
+                  </a>
+                </li>
+                <li ng-show="currentPage > 1">
+                  <a href="javascript:void(0);" ng-click="goPrevious()">
+                    <i class="glyphicon glyphicon-backward"></i>
+                  </a>
+                </li>
+                <li class="dropdown" uib-dropdown>
+                  <a href="javascript:void(0);" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-expanded="false">Page {{currentPage}} of {{pages.length}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu" style="max-height: 150px; overflow-y: scroll;" uib-dropdown-menu>
+                    <li ng-repeat="page in pages"><a href="javascript:void(0);" ng-click="goTo(page.page)">{{page.page}}</a></li>
+                  </ul>
+                </li>
+                <li ng-show="currentPage < pages.length">
+                  <a href="javascript:void(0);" ng-click="goNext()">
+                    <i class="glyphicon glyphicon-forward"></i>
+                  </a>
+                </li>
+                <li ng-show="currentPage < pages.length">
+                  <a href="javascript:void(0);" ng-click="goLast()">
+                    <i class="glyphicon glyphicon-fast-forward"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </td>
       </tr>
