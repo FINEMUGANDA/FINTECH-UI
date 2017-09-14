@@ -39,9 +39,9 @@ CreateClientCrtl.controller('CreateClientCtrl', function($rootScope, $route, $sc
       $scope.message = 'File extension not supported!';
       $('html, body').animate({scrollTop: 0}, 800);
     }
-    else if ($files[0].size / 1024 > 120) {
+    else if ($files[0].size / 1024 > 1024) {
       $scope.type = 'error';
-      $scope.message = 'File is too large! File size must be less then or equal to 120 KB!';
+      $scope.message = 'File is too large! File size must be less then or equal to 1 MB!';
       $('html, body').animate({scrollTop: 0}, 800);
     } else {
       $scope.file = $files[0];
@@ -518,9 +518,9 @@ CreateClientCrtl.controller('EditClientCtrl', function($rootScope, $route, $scop
       $scope.message = 'File extension not supported!';
       $('html, body').animate({scrollTop: 0}, 800);
     }
-    else if ($files[0].size / 1024 > 120) {
+    else if ($files[0].size / 1024 > 1024) {
       $scope.type = 'error';
-      $scope.message = 'File is too large! File size must be less then or equal to 120 KB';
+      $scope.message = 'File is too large! File size must be less then or equal to 1 MB';
       $('html, body').animate({scrollTop: 0}, 800);
     } else {
       $scope.file = $files[0];
@@ -1019,8 +1019,8 @@ CreateClientCrtl.controller('ClientIdentificationCtrl', function($route, $scope,
   };
 
   $scope.onFileSelect = function($files) {
-    if ($files[0].size / 1024 > 80) {
-      $scope.showErrors(null, 'File is too large! File size must be less then or equal to 80 KB!');
+    if ($files[0].size / 1024 > 1024) {
+      $scope.showErrors(null, 'File is too large! File size must be less then or equal to 1 MB!');
     } else {
       $scope.type = null;
       $scope.message = null;
@@ -1263,9 +1263,9 @@ CreateClientCrtl.controller('ClientIdentificationOldCtrl', function($route, $sco
   };
   //Validate and set uploaded file
   $scope.onFileSelect = function($files) {
-    if ($files[0].size / 1024 > 80) {
+    if ($files[0].size / 1024 > 1024) {
       $scope.type = 'error';
-      $scope.message = 'File is too large! File size must be less then or equal to 80 KB!';
+      $scope.message = 'File is too large! File size must be less then or equal to 1 MB!';
       $('html, body').animate({scrollTop: 0}, 800);
     } else {
       $scope.file = $files[0];
