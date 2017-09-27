@@ -357,25 +357,26 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   };
 
   $scope.save = function() {
-    if($scope.note.created_at) {
-      $scope.note.created_at = moment($scope.note.created_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+    const noteData = angular.copy($scope.note);
+    if(noteData.created_at) {
+      noteData.created_at = moment(noteData.created_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
-    if($scope.note.called_at) {
-      $scope.note.called_at = moment($scope.note.called_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+    if(noteData.called_at) {
+      noteData.called_at = moment(noteData.called_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
-    if($scope.note.visited_at) {
-      $scope.note.visited_at = moment($scope.note.visited_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+    if(noteData.visited_at) {
+      noteData.visited_at = moment(noteData.visited_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
     }
     if($scope.source) {
-      $scope.note.NoteSource_cd_source = $scope.source.id;
+      noteData.NoteSource_cd_source = $scope.source.id;
     }
 
-    $scope.note.dateFormat = APPLICATION.DF_MIFOS;
-    $scope.note.locale = 'en';
+    noteData.dateFormat = APPLICATION.DF_MIFOS;
+    noteData.locale = 'en';
 
-    if($scope.note.id) {
+    if(noteData.id) {
       // update
-      CreateClientsService.updateClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson($scope.note)).then(function() {
+      CreateClientsService.updateClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + noteData.id, angular.toJson(noteData)).then(function() {
         //$modalInstance.dismiss();
         $scope.showMessage();
       }, function(result) {
@@ -385,7 +386,7 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
       });
     } else {
       // create
-      CreateClientsService.saveClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson($scope.note)).then(function() {
+      CreateClientsService.saveClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson(noteData)).then(function() {
         //$modalInstance.dismiss();
         $scope.showMessage();
       }, function(result) {
