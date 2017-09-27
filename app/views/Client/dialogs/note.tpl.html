@@ -60,7 +60,7 @@
                 <thead>
                 <tr>
                     <th>Notes</th>
-                    <th>Date</th>
+                    <th>Action&nbsp;Date</th>
                     <th>Creator</th>
                     <th>Client</th>
                     <th>Source</th>
@@ -70,7 +70,10 @@
                 <tbody>
                 <tr ng-repeat="note in notes" ng-click="selectNote(note)" style="cursor: pointer">
                     <td>{{note.notes}}</td>
-                    <td>{{note.created_at | date: 'dd/MM/yyyy'}}</td>
+                    <td ng-switch="note.NoteSource_cd_source">
+                      <span ng-switch-when="Phone Call">{{note.called_at | date: 'dd/MM/yyyy'}}</span>
+                      <span ng-switch-default>{{note.visited_at | date: 'dd/MM/yyyy'}}</span>
+                    </td>
                     <td>{{note.staff_username}}</td>
                     <td>{{client.name}}</td>
                     <td>{{note.NoteSource_cd_source}}</td>

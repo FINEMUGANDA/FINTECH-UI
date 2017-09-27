@@ -312,7 +312,7 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   $scope.selectNote = function(note) {
     $scope.note = note;
     for(var i=0; i<$scope.sourceOptions.length; i++) {
-      if($scope.sourceOptions[i].id===parseInt(note.NoteSource_cd_source)) {
+      if ($scope.sourceOptions[i].value === note.NoteSource_cd_source) {
         $scope.source = $scope.sourceOptions[i];
         break;
       }
