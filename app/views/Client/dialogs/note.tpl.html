@@ -1,96 +1,102 @@
 <style>
-    .chosen-container {
-        width: 100% !important;
-    }
+  .chosen-container {
+    width: 100% !important;
+  }
 </style>
 <div class="modal-header">
-    <button type="button" class="close" ng-click="cancel()">&times;</button>
-    <h3>{{msg}}</h3>
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h3>{{msg}}</h3>
 </div>
 <div class="modal-body">
-    <div ng-include src="'/views/alert.html'"></div>
-    <div ng-show="isLoading">Loading...</div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3" ng-show="messageVisible">
-            <p class="alert alert-info">
-                Do you want to proceed to enter a follow up note?
-            </p>
-        </div>
-        <div class="col-md-6 col-md-offset-3" ng-hide="messageVisible">
-            <form ng-hide="isLoading" class="form-horizontal" novalidate>
-                <div class="form-group">
-                    <label>Created at</label>
-                    <input name="created_at" class="form-control" type="text" ng-model="note.created_at" datepicker-popup="dd/MM/yyyy" is-open="datepicker.created_at" close-text="Close" ng-click="open($event, 'created_at')" readonly="true" />
-                </div>
-                <div class="form-group">
-                    <label>Notes</label>
-                    <textarea name="notes" class="form-control" ng-model="note.notes"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Source <span class="required">*</span></label>
-                    <select class="form-control" ng-model="source" ng-options="sourceOption as sourceOption.value for sourceOption in sourceOptions" ng-value="source">
-                    </select>
-                </div>
-                <!--
-                <div class="form-group">
-                    <label>Source <span class="required">*</span></label>
-                    <select chosen="sources" class="form-control" ng-model="note.source" ng-options="source.code as source.name for source in sources" ng-value="note.source">
-                        <option value=""></option>
-                    </select>
-                </div>
-                -->
-                <div class="form-group" ng-show="source.value=='Phone Call'">
-                    <label>Called at <span class="required">*</span></label>
-                    <input name="called_at" class="form-control" type="text" ng-model="note.called_at" datepicker-popup="dd/MM/yyyy" is-open="datepicker.called_at" close-text="Close" ng-click="open($event, 'called_at')" readonly="true" />
-                </div>
-                <div class="form-group" ng-show="source.value=='Phone Call'">
-                    <label>Phone No. <span class="required">*</span></label>
-                    <input name="phone" class="form-control" type="text" ng-model="note.phone" />
-                </div>
-                <div class="form-group" ng-show="source.value && source.value!='Phone Call'">
-                    <label>Visited at <span class="required">*</span></label>
-                    <input name="visited_at" class="form-control" type="text" ng-model="note.visited_at" datepicker-popup="dd/MM/yyyy" is-open="datepicker.visited_at" close-text="Close" ng-click="open($event, 'visited_at')" readonly="true" />
-                </div>
-            </form>
-        </div>
+  <div ng-include src="'/views/alert.html'"></div>
+  <div ng-show="isLoading">Loading...</div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3" ng-show="messageVisible">
+      <p class="alert alert-info">
+        Do you want to proceed to enter a follow up note?
+      </p>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped" ng-show="notes && notes.length>0">
-                <thead>
-                <tr>
-                    <th>Notes</th>
-                    <th>Action&nbsp;Date</th>
-                    <th>Creator</th>
-                    <th>Client</th>
-                    <th>Source</th>
-                    <th>&nbsp;</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="note in notes" ng-click="selectNote(note)" style="cursor: pointer">
-                    <td>{{note.notes}}</td>
-                    <td ng-switch="note.NoteSource_cd_source">
-                      <span ng-switch-when="Phone Call">{{note.called_at | date: 'dd/MM/yyyy'}}</span>
-                      <span ng-switch-default>{{note.visited_at | date: 'dd/MM/yyyy'}}</span>
-                    </td>
-                    <td>{{note.staff_username}}</td>
-                    <td>{{client.name}}</td>
-                    <td>{{note.NoteSource_cd_source}}</td>
-                    <td class="actions"><a href="" ng-click="removeNote(note)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="col-md-6 col-md-offset-3" ng-hide="messageVisible">
+      <form ng-hide="isLoading" class="form-horizontal" novalidate>
+        <div class="form-group">
+          <label>Created at</label>
+          <input name="created_at" class="form-control" type="text" ng-model="note.created_at" datepicker-popup="dd/MM/yyyy" is-open="datepicker.created_at" close-text="Close" ng-click="open($event, 'created_at')" readonly="true" />
         </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea name="notes" class="form-control" ng-model="note.notes"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Source <span class="required">*</span></label>
+          <select class="form-control" ng-model="source" ng-options="sourceOption as sourceOption.value for sourceOption in sourceOptions" ng-value="source">
+          </select>
+        </div>
+        <!--
+        <div class="form-group">
+            <label>Source <span class="required">*</span></label>
+            <select chosen="sources" class="form-control" ng-model="note.source" ng-options="source.code as source.name for source in sources" ng-value="note.source">
+                <option value=""></option>
+            </select>
+        </div>
+        -->
+        <div class="form-group" ng-show="source.value == 'Phone Call'">
+          <label>Called at <span class="required">*</span></label>
+          <input name="called_at" class="form-control" type="text" ng-model="note.called_at" datepicker-popup="dd/MM/yyyy" is-open="datepicker.called_at" close-text="Close" ng-click="open($event, 'called_at')" readonly="true" />
+        </div>
+        <div class="form-group" ng-show="source.value == 'Phone Call'">
+          <label>Phone No. <span class="required">*</span></label>
+          <input name="phone" class="form-control" type="text" ng-model="note.phone" />
+        </div>
+        <div class="form-group" ng-show="source.value && source.value != 'Phone Call'">
+          <label>Visited at <span class="required">*</span></label>
+          <input name="visited_at" class="form-control" type="text" ng-model="note.visited_at" datepicker-popup="dd/MM/yyyy" is-open="datepicker.visited_at" close-text="Close" ng-click="open($event, 'visited_at')" readonly="true" />
+        </div>
+      </form>
     </div>
+  </div>
+  <div class="row text-center" style="padding-bottom: 10px;">
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-hide="messageVisible">{{note.id? 'Update' : 'Save'}}</button>
+    <button type="button" class="btn btn-warning" ng-click="resetNote()" ng-hide="messageVisible">Reset</button>
+  </div>
+  <div class="row" ng-hide="messageVisible">
+    <div class="col-md-12">
+      <table class="table table-striped" ng-show="notes && notes.length > 0">
+        <thead>
+          <tr>
+            <th>Notes</th>
+            <th>Action&nbsp;Date</th>
+            <th>Creator</th>
+            <th>Client</th>
+            <th>Source</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="note in notes" ng-click="selectNote(note)" style="cursor: pointer">
+            <td>{{note.notes}}</td>
+            <td ng-switch="note.NoteSource_cd_source">
+              <span ng-switch-when="Phone Call">{{note.called_at| date: 'dd/MM/yyyy'}}</span>
+              <span ng-switch-default>{{note.visited_at| date: 'dd/MM/yyyy'}}</span>
+            </td>
+            <td>{{note.staff_username}}</td>
+            <td>{{client.name}}</td>
+            <td>{{note.NoteSource_cd_source}}</td>
+            <td class="actions"><a href="" ng-click="$event.stopPropagation(); removeNote(note)"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
-    <div class="btn-group">
-        <button type="button" class="btn btn-primary" ng-click="showFollowup()" ng-show="messageVisible">Yes</button>
-        <button type="button" class="btn btn-warning" ng-click="cancel()" ng-show="messageVisible">No</button>
-        <button type="button" class="btn btn-primary" ng-click="save()" ng-hide="messageVisible">Save</button>
-        <button type="button" class="btn btn-warning" ng-click="cancel()" ng-hide="messageVisible">Close</button>
-    </div>
+  <div class="btn-group" ng-show="messageVisible">
+    <button type="button" class="btn btn-primary" ng-click="showFollowup()">Yes</button>
+    <button type="button" class="btn btn-warning" ng-click="hideFollowup()">No</button>
+  </div>
+  <div class="btn-group" ng-hide="messageVisible">
+    <button type="button" class="btn btn-primary" ng-click="back()">Back</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()">Close</button>
+  </div>
 </div>
 
 

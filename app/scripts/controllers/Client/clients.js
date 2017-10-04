@@ -290,7 +290,7 @@ clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $
   };
 });
 
-clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, $location, APPLICATION, REST_URL, CreateClientsService, DataTransferService, Session, Utility, data) {
+clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, $location, APPLICATION, REST_URL, CreateClientsService, DataTransferService, Session, Utility, dialogs, data) {
   $scope.isLoading = false;
   $scope.msg = data.msg;
   $scope.notes = [];
@@ -310,7 +310,7 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   };
 
   $scope.selectNote = function(note) {
-    $scope.note = note;
+    $scope.note = angular.copy(note);
     for(var i=0; i<$scope.sourceOptions.length; i++) {
       if ($scope.sourceOptions[i].value === note.NoteSource_cd_source) {
         $scope.source = $scope.sourceOptions[i];
@@ -320,15 +320,21 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
   };
 
   $scope.removeNote = function(note) {
-    CreateClientsService.deleteClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + note.id).then(function() {
-      if($scope.note.id===note.id) {
-        $scope.resetNote();
+    var msg = 'You are about to remove note: <strong>' + note.notes + '</strong>';
+    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+    dialog.result.then(function(result) {
+      if (result) {
+        CreateClientsService.deleteClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + note.id).then(function() {
+          if($scope.note.id === note.id) {
+            $scope.resetNote();
+          }
+          $scope.reloadNotes();
+        }, function(result) {
+          $scope.type = 'error';
+          $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
+          $scope.errors = result.data.errors;
+        });
       }
-      $scope.reloadNotes();
-    }, function(result) {
-      $scope.type = 'error';
-      $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
-      $scope.errors = result.data.errors;
     });
   };
 
@@ -343,6 +349,12 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
         console.log('DEBUG X: ' + angular.toJson($scope.client));
         console.log('DEBUG X: ' + angular.toJson($scope.loan));
     }
+  };
+
+  $scope.hideFollowup = function() {
+    $scope.resetNote();
+    $scope.messageVisible = false;
+    $scope.reloadNotes();
   };
 
   $scope.showMessage = function() {
@@ -401,11 +413,23 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
     $modalInstance.dismiss();
   };
 
+  $scope.back = function() {
+    $modalInstance.dismiss();
+    dialogs.create('views/Client/dialogs/note.new.tpl.html', 'ClientsNewNoteDialogCtrl', {msg: 'New Note'}, {size: 'md', keyboard: true, backdrop: true});
+  };
+
   $scope.reloadNotes = function() {
     CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '?genericResultSet=true').then(function(result) {
       var columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
       $scope.sourceOptions = columnHeaders.NoteSource_cd_source && columnHeaders.NoteSource_cd_source.columnValues || [];
-      $scope.notes = Utility.fromGenericResult(result);
+      let notes = Utility.fromGenericResult(result);
+      notes = _.sortBy(notes, function(item) {
+        if (item.NoteSource_cd_source === 'Phone Call') {
+          return -new Date(item.called_at).getTime();
+        }
+        return -new Date(item.visited_at || item.created_at).getTime();
+      });
+      $scope.notes = notes;
     }, function(result) {
       $scope.type = 'error';
       $scope.message = 'Cannot retrieve client notes: ' + result.data.defaultUserMessage;
