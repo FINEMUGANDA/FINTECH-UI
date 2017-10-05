@@ -422,7 +422,7 @@ clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance,
     CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '?genericResultSet=true').then(function(result) {
       var columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
       $scope.sourceOptions = columnHeaders.NoteSource_cd_source && columnHeaders.NoteSource_cd_source.columnValues || [];
-      let notes = Utility.fromGenericResult(result);
+      var notes = Utility.fromGenericResult(result);
       notes = _.sortBy(notes, function(item) {
         if (item.NoteSource_cd_source === 'Phone Call') {
           return -new Date(item.called_at).getTime();
