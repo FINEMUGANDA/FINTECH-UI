@@ -9,7 +9,7 @@
   <table st-table="data.rowCollection" st-pipe="data.updateTable" class="table">
     <thead>
       <tr>
-        <th colspan="6">
+        <th colspan="7">
           <div class="filters" >
             <div style="float:right;">
               <ul role="tablist">
@@ -38,13 +38,14 @@
         </th>
       </tr>
       <tr>
-        <th st-sort="id">Created On</th>
-        <th st-sort="description">Transaction Description</th>
-        <th st-sort="entry_date" st-sort-default="true">Transaction Date</th>
-        <!--<th st-sort="office_name">Office</th>-->
-        <th st-sort="Debit" class="number">Debit</th>
-        <th st-sort="Credit" class="number">Credit</th>
-        <th st-sort="currencies">Currencies</th>
+		<th st-sort="id">Created On</th>
+		<th st-sort="description">Transaction Description</th>
+		<th st-sort="entry_date" st-sort-default="true">Transaction Date</th>
+		<!--<th st-sort="office_name">Office</th>-->
+		<th st-sort="Debit" class="number">Debit</th>
+		<th st-sort="Credit" class="number">Credit</th>
+		<th st-sort="currencies">Currencies</th>
+		<th st-sort="currencies">Actions</th>
       </tr>
     </thead>
     <tbody ng-hide="isLoading">
@@ -56,19 +57,19 @@
         <td ng-click="viewDetail(journal)" class="number">{{journal.Debit| number:2}}</td>
         <td ng-click="viewDetail(journal)" class="number">{{journal.Credit| number:2}}</td>
         <td ng-click="viewDetail(journal)">{{journal.currencies}}</td>
-        <!-- <td class="actions"><a ng-click="removeJournal(journal)"><i class="glyphicon glyphicon-remove-circle"></i></a></td> -->
+        <td class="actions"><a ng-click="removeJournal(journal)" ng-show="journal.manualEntry"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
       </tr>
     </tbody>
     <tbody ng-show="isLoading">
       <tr>
-        <td colspan="6" class="text-center">
+        <td colspan="7" class="text-center">
           <div class="loading-indicator">Loading...</div>
         </td>
       </tr>
     </tbody>
     <tfoot ng-hide="isLoading">
       <tr>
-        <td colspan="6">
+        <td colspan="7">
           <div class="table-footer">
             <div class="export">
               <strong>Export: <a href="" class="link pdf" ng-click="pdfExport()" target="_blank">PDF</a><a href="" class="link excel" ng-click="xlsExport()" target="_blank">Excel</a></strong>

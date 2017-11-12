@@ -6,7 +6,7 @@ var app = angular.module('Constants', []);
 app.constant('APPLICATION', {
     // NOTE: like this we never have to change this again; it automatically detects which backend to use (local or remote, if remote then with the correct domain)
     'host' : location.hostname.indexOf('0.0.0.0')>=0 ? 'https://localhost:8443/mifosng-provider/' :
-        location.hostname.indexOf('localhost')>=0 ? 'https://test.finemfi.org/mifosng-provider/' :
+        location.hostname.indexOf('localhost')>=0 ? 'https://localhost:8443/mifosng-provider/' :
             location.hostname.indexOf('test.finemfi.org')>=0 ? 'https://test.finemfi.org/mifosng-provider/' :
                 location.hostname.indexOf('uat.finemfi.org')>=0 ? 'https://uat.finemfi.org/mifosng-provider/' :
                     location.hostname.indexOf('finem.finemfi.org')>=0 ? 'https://finem.finemfi.org/mifosng-provider/' :
@@ -79,6 +79,7 @@ app.constant('REST_URL', {
     ACCOUNT_CREATE: 'api/v1/glaccounts',
     JOURNALENTRIES:'api/v1/journalentries',
     JOURNALENTRIES_LIST:'api/v1/runreports/JournalEntryList',
+    JOURNALENTRIES_DELETE:'api/v1/journalentries/delete',
     UNIDENTIFIED_JOURNALENTRIES_LIST:'api/v1/runreports/UnidentifiedJournalEntryList',
     GLACCOUNTS:'api/v1/glaccounts',
     CURRENCY_LIST:'api/v1/currencies',
