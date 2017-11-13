@@ -57,7 +57,7 @@
         <td ng-click="viewDetail(journal)" class="number">{{journal.Debit| number:2}}</td>
         <td ng-click="viewDetail(journal)" class="number">{{journal.Credit| number:2}}</td>
         <td ng-click="viewDetail(journal)">{{journal.currencies}}</td>
-        <td class="actions"><a ng-click="removeJournal(journal)" ng-show="journal.manualEntry"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
+        <td class="actions"><a ng-click="removeJournal(journal)" ng-show="journal.manualEntry && !(journal.reversed || journal.description.startsWith('Reversal entry for'))"><i class="glyphicon glyphicon-remove-circle"></i></a></td>
       </tr>
     </tbody>
     <tbody ng-show="isLoading">

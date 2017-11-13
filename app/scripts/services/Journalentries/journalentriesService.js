@@ -18,6 +18,11 @@ journalService.factory('JournalService', function ($http, Remote) {
             console.log("Deleting Data using JournalService...");
             var promise = Remote.delete(url, jsondata);
             return promise;
+        },
+        getAssignments: function(url, jsondata) {
+            console.log("Retrieving Journal Entry assignments...");
+            var promise = Remote.get(url, jsondata);
+            return promise;
         }
     };
 });

@@ -69,17 +69,45 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function ($scope
         loadJournalEntries();
     };
     $scope.removeJournal = function(journal) {
-        var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: 'You are about to remove the journal entry: <strong>' + journal.description + '</strong>. This operation is irreversible. Do you want to proceed?'}, {size: 'sm', keyboard: true, backdrop: true});
-        dialog.result.then(function(result) {
+        $scope.title = "Remove Journal Entry";
+        var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: 'You are about to remove the journal entry: <strong>' + journal.description + '</strong>. This operation is irreversible. Do you want to proceed?'}, {size: 'md', keyboard: true, backdrop: true});
+        dialog.result.then(function (result) {
             if (result) {
-                JournalService.deleteJournalEntry(REST_URL.JOURNALENTRIES_DELETE + '/' + journal.id).then(function() {
-                    loadJournalEntries();
-                    $scope.showSuccess('Journal entry deleted successfully');
-                }, function(r) {
-                    $scope.showErrors(r);
+                JournalService.getAssignments(REST_URL.JOURNALENTRIES + '/' + journal.id + '/assignments').then(function(result) {
+                    if (result.data && result.data.length) {
+                        $scope.alertNonRemovableEntry(result.data);
+                    } else {
+                        JournalService.deleteJournalEntry(REST_URL.JOURNALENTRIES_DELETE + '/' + journal.id).then(function () {
+                            $scope.showSuccess('Journal entry deleted successfully');
+                            loadJournalEntries();
+                        }, function (r) {
+                            $scope.showErrors(r);
+                        });
+                    }
                 });
             }
         });
+    };
+
+    $scope.alertNonRemovableEntry = function(data) {
+        var assignment = data[0];
+        var title = "Cannot Remove Journal Entry";
+        var message = "Sorry, you can not delete this Journaly Entry because it has been assigned to <b>";
+        message += assignment.clientName + " [FileNo: " + assignment.clientFileNumber + "][Loan Acc: ";
+        message += assignment.loanAccountNumber + "][" + assignment.loanStatus + "]</b>";
+        dialogs.notify(title, message, {size: 'md', keyboard: true, backdrop: true, animation: true, windowClass: "custom-notify"});
+    };
+
+    $scope.showSuccess = function (message) {
+        $scope.type = 'alert-success';
+        $scope.message = message;
+        $scope.errors = [];
+    };
+
+    $scope.showError = function (message, errors) {
+        $scope.type = 'error';
+        $scope.message = message;
+        $scope.errors = errors ? errors : [];
     };
 
     //Success callback

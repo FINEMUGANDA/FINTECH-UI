@@ -11,62 +11,63 @@
  * Main module of the application.
  */
 var app = angular.module('angularjsApp', [
-  'ngRoute',
-  'ngSanitize',
-  'templates-main',
-  'ngIdle',
-  'nvd3ChartDirectives',
-  'loginController',
-  'dashboardController',
-  'clientsController',
-  'loanProductController',
-  'chargesController',
-  'currencyService',
-  'currencyController',
-  'exchangeRateService',
-  'exchangeRateController',
-  'configurationService',
-  'configurationController',
-  'createClientController',
-  'userServices',
-  'loanService',
-  'journalService',
-  'holidayService',
-  'reportService',
-  'jobService',
-  'auditService',
-  'codeService',
-  'financialYearService',
-  'dataTransferService',
-  'costCenterService',
-  'searchService',
-  'Constants',
-  'ui.bootstrap',
-  'angularFileUpload',
-  'naif.base64',
-  'webcam',
-  'accountService',
-  'angularTreeview',
-  'dialogs.main',
-  'ng.deviceDetector',
-  'ui.router',
-  'ui.bootstrap.typeahead',
-  'permissionService',
-  'roleService',
-  'ngCsv',
-  'modified.datepicker',
-  'angularMoment',
-  'ipCookie'
+    'ngRoute',
+    'ngSanitize',
+    'templates-main',
+    'ngIdle',
+    'nvd3ChartDirectives',
+    'loginController',
+    'dashboardController',
+    'clientsController',
+    'loanProductController',
+    'chargesController',
+    'currencyService',
+    'currencyController',
+    'exchangeRateService',
+    'exchangeRateController',
+    'configurationService',
+    'configurationController',
+    'createClientController',
+    'userServices',
+    'loanService',
+    'journalService',
+    'holidayService',
+    'reportService',
+    'jobService',
+    'auditService',
+    'codeService',
+    'financialYearService',
+    'dataTransferService',
+    'costCenterService',
+    'searchService',
+    'Constants',
+    'ui.bootstrap',
+    'angularFileUpload',
+    'naif.base64',
+    'webcam',
+    'accountService',
+    'angularTreeview',
+    'dialogs.main',
+    'ng.deviceDetector',
+    'ui.router',
+    'ui.bootstrap.typeahead',
+    'permissionService',
+    'roleService',
+    'ngCsv',
+    'modified.datepicker',
+    'angularMoment',
+    'ipCookie',
+    'dialogs.default-translations'
 ]);
 
 // Angular supports chaining, so here we chain the config function onto
 // the module we're configuring.
-app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$idleProvider', function($routeProvider, $sceDelegateProvider, $keepaliveProvider, $idleProvider) {
+app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$idleProvider', function ($routeProvider, $sceDelegateProvider, $keepaliveProvider, $idleProvider) {
     // TODO: remove this once a proper CORS configuration is in place
     $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
         'self',
-        'https://' + location.hostname + ':8443/mifosng-provider/api/v1/**',
+            'https://' + location.hostname + ':8443/mifosng-provider/api/v1/**',
         // Allow loading from our assets domain.  Notice the difference between * and **.
         'https://ec2-54-148-52-34.us-west-2.compute.amazonaws.com/mifosng-provider/api/v1/**']);
 
@@ -76,15 +77,15 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
     $keepaliveProvider.interval(1800);
 
     $routeProvider.when('/', {
-      hclass: 'pre-login',
-      templateUrl: 'views/login.html',
-      controller: 'LoginCtrl'
+        hclass: 'pre-login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
     }).when('/dashboard', {
-      templateUrl: 'views/dashboard.html',
-      controller: 'DashboardCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/clients', {
         templateUrl: 'views/Client/grids/clients.html',
         controller: 'ClientsCtrl',
@@ -158,11 +159,11 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).when('/loansRejected', {
-      templateUrl: 'views/Client/grids/loansRejected.html',
-      controller: 'LoansRejectedCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/grids/loansRejected.html',
+        controller: 'LoansRejectedCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loansRejected/p/:page', {
         templateUrl: 'views/Client/grids/loansRejected.html',
         controller: 'LoansRejectedCtrl',
@@ -170,11 +171,11 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).when('/loansWrittenOff', {
-      templateUrl: 'views/Client/grids/loansWrittenOff.html',
-      controller: 'LoansWrittenOffCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/grids/loansWrittenOff.html',
+        controller: 'LoansWrittenOffCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loansWrittenOff/p/:page', {
         templateUrl: 'views/Client/grids/loansWrittenOff.html',
         controller: 'LoansWrittenOffCtrl',
@@ -182,151 +183,151 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).when('/configuration', {
-      templateUrl: 'views/configuration.html',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/configuration.html',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loanProducts', {
-      templateUrl: 'views/Product/loanProducts.html',
-      controller: 'LoanProductsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Product/loanProducts.html',
+        controller: 'LoanProductsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/charges', {
-      templateUrl: 'views/Product/charges.html',
-      controller: 'ChargesCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Product/charges.html',
+        controller: 'ChargesCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/createloanproduct', {
-      templateUrl: 'views/Product/createLoanProduct.html',
-      controller: 'CreateLoanProductsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Product/createLoanProduct.html',
+        controller: 'CreateLoanProductsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/createCharge', {
-      templateUrl: 'views/Product/editCharge.html',
-      controller: '',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Product/editCharge.html',
+        controller: '',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/editloanproduct/:id', {
-      templateUrl: 'views/Product/editloanproduct.html',
-      controller: 'EditLoanProductsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Product/editloanproduct.html',
+        controller: 'EditLoanProductsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/mapAccount/:id', {
-      templateUrl: 'views/Product/mapAccount.html',
-      controller: 'MapAccountingCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Product/mapAccount.html',
+        controller: 'MapAccountingCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/editCharge/:id', {
-      templateUrl: 'views/Product/editCharge.html',
-      controller: 'EditChargeCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Product/editCharge.html',
+        controller: 'EditChargeCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/createClient', {
-      templateUrl: 'views/Client/basicClientInfo.html',
-      controller: 'CreateClientCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/basicClientInfo.html',
+        controller: 'CreateClientCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/clients/:id', {
         templateUrl: 'views/Client/view_client.html',
         controller: 'ViewClientCtrl'
     }).when('/editbasicclientinfo/:id', {
-      templateUrl: 'views/Client/editBasicClientInfo.html',
-      controller: 'EditClientCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/editBasicClientInfo.html',
+        controller: 'EditClientCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/editadditionalclientinfo/:id', {
-      templateUrl: 'views/Client/additionalClientInfo.html',
-      controller: 'CreateClientAdditionalInfoCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/additionalClientInfo.html',
+        controller: 'CreateClientAdditionalInfoCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/editclientidentification/:id', {
-      templateUrl: 'views/Client/addClientIdentification.html',
-      controller: 'ClientIdentificationCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/addClientIdentification.html',
+        controller: 'ClientIdentificationCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/editnextofkeen/:id', {
-      templateUrl: 'views/Client/addNextOfKeen.html',
-      controller: 'ClientNextToKeenCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/addNextOfKeen.html',
+        controller: 'ClientNextToKeenCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/editbusinessdetails/:id', {
-      templateUrl: 'views/Client/addBusinessDetails.html',
-      controller: 'ClientBusinessActivityCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/addBusinessDetails.html',
+        controller: 'ClientBusinessActivityCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/editnextofkeen/:id/:rowid', {
-      templateUrl: 'views/Client/addNextOfKeen.html',
-      controller: 'ClientNextToKeenCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Client/addNextOfKeen.html',
+        controller: 'ClientNextToKeenCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/accounting', {
-      templateUrl: 'views/accounting/chart.html',
-      controller: 'AccountingChartCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/accounting/chart.html',
+        controller: 'AccountingChartCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/accounting/chart', {
-      templateUrl: 'views/accounting/chart.html',
-      controller: 'AccountingChartCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/accounting/chart.html',
+        controller: 'AccountingChartCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/accounting/edit/:id', {
-      templateUrl: 'views/accounting/edit.account.html',
-      controller: 'AccountingEditCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/accounting/edit.account.html',
+        controller: 'AccountingEditCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/accounting/create', {
-      templateUrl: 'views/accounting/edit.account.html',
-      controller: 'AccountingEditCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/accounting/edit.account.html',
+        controller: 'AccountingEditCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/journalentries', {
-      templateUrl: 'views/Journalentries/journalentries.html',
-      controller: 'JournalEntriesCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Journalentries/journalentries.html',
+        controller: 'JournalEntriesCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/journalentries/details/:id', {
-      templateUrl: 'views/Journalentries/journalentriesDetails.html',
-      controller: 'JournalEntriesDetailsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Journalentries/journalentriesDetails.html',
+        controller: 'JournalEntriesDetailsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/journalentries/create', {
-      templateUrl: 'views/Journalentries/createJournalentries.html',
-      controller: 'CreateJournalEntriesCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Journalentries/createJournalentries.html',
+        controller: 'CreateJournalEntriesCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loans/:clientId/form', {
-      templateUrl: 'views/loans/loans.form.html',
-      controller: 'LoansFormCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/loans/loans.form.html',
+        controller: 'LoansFormCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loans/:clientId/form/:tab', {
-      templateUrl: 'views/loans/loans.form.html',
-      controller: 'LoansFormCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/loans/loans.form.html',
+        controller: 'LoansFormCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/permissions', {
         templateUrl: 'views/Admin/permissions.html',
         controller: 'PermissionController',
@@ -346,23 +347,23 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).when('/admin/roles', {
-      templateUrl: 'views/Admin/roles.html',
-      controller: 'RoleController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/roles.html',
+        controller: 'RoleController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/create_role', {
-      templateUrl: 'views/Admin/role_form.html',
-      controller: 'RoleController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/role_form.html',
+        controller: 'RoleController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/edit_role/:id', {
-      templateUrl: 'views/Admin/role_form.html',
-      controller: 'RoleController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/role_form.html',
+        controller: 'RoleController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/currencies', {
         templateUrl: 'views/Admin/currencies.html',
         controller: 'CurrencyCtrl',
@@ -385,47 +386,47 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         templateUrl: 'views/loans/view_loan.html',
         controller: 'ViewLoanCtrl'
     }).when('/loans/:clientId/form/:tab/:loanId', {
-      templateUrl: 'views/loans/loans.form.html',
-      controller: 'LoansFormCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/loans/loans.form.html',
+        controller: 'LoansFormCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loans/:clientId/details/:loanId', {
-      templateUrl: 'views/loans/details/loans.details.html',
-      controller: 'LoansDetailsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/loans/details/loans.details.html',
+        controller: 'LoansDetailsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/loans/:clientId/details/:loanId/:tab', {
-      templateUrl: 'views/loans/details/loans.details.html',
-      controller: 'LoansDetailsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/loans/details/loans.details.html',
+        controller: 'LoansDetailsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/users', {
-      templateUrl: 'views/Admin/users.html',
-      controller: 'UserController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/users.html',
+        controller: 'UserController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/edit_user/:id', {
-      templateUrl: 'views/Admin/user_form.html',
-      controller: 'UserController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/user_form.html',
+        controller: 'UserController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/create_user', {
-      templateUrl: 'views/Admin/user_form.html',
-      controller: 'UserController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/user_form.html',
+        controller: 'UserController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/view_user/:id', {
-      templateUrl: 'views/Admin/view_user.html',
-      controller: 'UserController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/view_user.html',
+        controller: 'UserController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/passwords', {
         templateUrl: 'views/Admin/users_password.html',
         controller: 'UserPasswordController',
@@ -433,47 +434,47 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).when('/admin/staff', {
-      templateUrl: 'views/Admin/staff.html',
-      controller: 'StaffController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/staff.html',
+        controller: 'StaffController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/edit_staff/:id', {
-      templateUrl: 'views/Admin/staff_form.html',
-      controller: 'StaffController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/staff_form.html',
+        controller: 'StaffController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/create_staff', {
-      templateUrl: 'views/Admin/staff_form.html',
-      controller: 'StaffController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/staff_form.html',
+        controller: 'StaffController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/view_staff/:id', {
-      templateUrl: 'views/Admin/view_staff.html',
-      controller: 'StaffController',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/view_staff.html',
+        controller: 'StaffController',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/costcenters', {
-      templateUrl: 'views/Admin/cost_center.html',
-      controller: 'CostCenterCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/cost_center.html',
+        controller: 'CostCenterCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/costcenters/edit/:staffId', {
-      templateUrl: 'views/Admin/cost_center_form.html',
-      controller: 'CostCenterEditCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/cost_center_form.html',
+        controller: 'CostCenterEditCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/admin/costcenters/create', {
-      templateUrl: 'views/Admin/cost_center_form.html',
-      controller: 'CostCenterEditCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/Admin/cost_center_form.html',
+        controller: 'CostCenterEditCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/codes', {
         templateUrl: 'views/code/codes.html',
         controller: 'CodeListCtrl'
@@ -481,53 +482,53 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         templateUrl: 'views/financialyear/financialyears.html',
         controller: 'FinancialYearCtrl'
     }).when('/holidays', {
-      templateUrl: 'views/holidays/holidays.html',
-      controller: 'HolidayController'
+        templateUrl: 'views/holidays/holidays.html',
+        controller: 'HolidayController'
     }).when('/holidays/create_holiday', {
-      templateUrl: 'views/holidays/create.holiday.html',
-      controller: 'CreateHolidayController'
+        templateUrl: 'views/holidays/create.holiday.html',
+        controller: 'CreateHolidayController'
     }).when('/holidays/edit/:id', {
-      templateUrl: 'views/holidays/edit.holiday.html',
-      controller: 'EditHolidayController'
+        templateUrl: 'views/holidays/edit.holiday.html',
+        controller: 'EditHolidayController'
     }).when('/reports', {
-      templateUrl: 'views/reports/reports.html',
-      controller: 'ReportsController'
+        templateUrl: 'views/reports/reports.html',
+        controller: 'ReportsController'
     }).when('/reports/create_report', {
-      templateUrl: 'views/reports/create.reports.html',
-      controller: 'CreateReportsController'
+        templateUrl: 'views/reports/create.reports.html',
+        controller: 'CreateReportsController'
     }).when('/reports/edit/:id', {
-      templateUrl: 'views/reports/edit.reports.html',
-      controller: 'EditReportsController'
+        templateUrl: 'views/reports/edit.reports.html',
+        controller: 'EditReportsController'
     }).when('/vreports/:type', {
-      templateUrl: 'views/reports/view.reports.html',
-      controller: 'ViewReportsController'
+        templateUrl: 'views/reports/view.reports.html',
+        controller: 'ViewReportsController'
     }).when('/run_reports/:name/:reportId/:type', {
-      templateUrl: 'views/reports/run.reports.html',
-      controller: 'RunReportsController'
+        templateUrl: 'views/reports/run.reports.html',
+        controller: 'RunReportsController'
     }).when('/loan_reassignment', {
-      templateUrl: 'views/loans/loan_reassignment.html',
-      controller: 'LoansReassignmentCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/loans/loan_reassignment.html',
+        controller: 'LoansReassignmentCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/jobs', {
-      templateUrl: 'views/cron.job/cron.job.html',
-      controller: 'CronJobCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/cron.job/cron.job.html',
+        controller: 'CronJobCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/jobs/details/:jobId', {
-      templateUrl: 'views/cron.job/cron.job.details.html',
-      controller: 'CronJobDetailsCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/cron.job/cron.job.details.html',
+        controller: 'CronJobDetailsCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/audit', {
-      templateUrl: 'views/audit/audit.html',
-      controller: 'AuditCtrl',
-      data: {
-        authorizedRoles: ['admin']
-      }
+        templateUrl: 'views/audit/audit.html',
+        controller: 'AuditCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     }).when('/audit/details/:id', {
         templateUrl: 'views/audit/viewaudit.html',
         controller: 'ViewAuditCtrl',
@@ -541,30 +542,30 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
             authorizedRoles: ['admin']
         }
     }).otherwise({
-      redirectTo: '/'
+        redirectTo: '/'
     });
-  }]);
+}]);
 
 //Function to set the default headers for each request made to the rest api
-app.config(['$httpProvider', function($httpProvider) {
+app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.common['X-Mifos-Platform-TenantId'] = 'default';
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     $httpProvider.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
-  }
+}
 ]);
 
 //function to be called when the application gets running
-app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs, RoleService, REST_URL, PERMISSION_ROUTE_MAPPING, $interval) {
-  //total number of records in single page
-  $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
-  //total number of page in single page
-  $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
-  $.fn.smartmenus.defaults.showOnClick = true;
+app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION, PAGE_URL, dialogs, RoleService, REST_URL, PERMISSION_ROUTE_MAPPING, $interval) {
+    //total number of records in single page
+    $rootScope.itemsByPage = APPLICATION.PAGE_SIZE;
+    //total number of page in single page
+    $rootScope.displayedPages = APPLICATION.DISPLAYED_PAGES;
+    $.fn.smartmenus.defaults.showOnClick = true;
 
-    $rootScope.$on('$locationChangeStart',function(event, next /**, current */) {
-        if(next) {
-            var path = next.substr(next.indexOf('#')+1);
+    $rootScope.$on('$locationChangeStart', function (event, next /**, current */) {
+        if (next) {
+            var path = next.substr(next.indexOf('#') + 1);
             switch (path) {
                 case PAGE_URL.DASHBOARD:
                     $rootScope.currentMenuPath = 'home';
@@ -629,13 +630,13 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
                     $rootScope.currentMenuPath = 'accounting';
                     break;
                 default:
-                    if(path.indexOf(PAGE_URL.ROLES_EDIT) > -1 ||
+                    if (path.indexOf(PAGE_URL.ROLES_EDIT) > -1 ||
                         path.indexOf(PAGE_URL.AUDIT_DETAILS) > -1 ||
                         path.indexOf(PAGE_URL.JOBS_DETAILS) > -1 ||
                         path.indexOf(PAGE_URL.STAFF_VIEW) > -1 ||
                         path.indexOf(PAGE_URL.STAFF_EDIT) > -1) {
                         $rootScope.currentMenuPath = 'configuration';
-                    } else if(path.indexOf(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION) > -1 ||
+                    } else if (path.indexOf(PAGE_URL.EDIT_BASIC_CLIENT_INFORMATION) > -1 ||
                         path.indexOf(PAGE_URL.EDIT_CLIENT_ADDITIONAL_INFO) > -1 ||
                         path.indexOf(PAGE_URL.EDIT_CLIENT_IDENTIFICATION) > -1 ||
                         path.indexOf(PAGE_URL.EDIT_CLIENT_NEXT_OF_KEEN) > -1 ||
@@ -653,18 +654,18 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
 
         $rootScope.username = Session.getValue('username');
 
-        if(next) {
-            $rootScope.mainMenuVisible = (next.substr(next.indexOf('#/')+1) !== '/');
+        if (next) {
+            $rootScope.mainMenuVisible = (next.substr(next.indexOf('#/') + 1) !== '/');
         }
 
-        var n = next && next.indexOf('#/') >= 0 ? next.substr(next.indexOf('#/')+1) : next;
-        if(PERMISSION_ROUTE_MAPPING[n] && PERMISSION_ROUTE_MAPPING[n].permissions && PERMISSION_ROUTE_MAPPING[n].permissions.length > 0) {
+        var n = next && next.indexOf('#/') >= 0 ? next.substr(next.indexOf('#/') + 1) : next;
+        if (PERMISSION_ROUTE_MAPPING[n] && PERMISSION_ROUTE_MAPPING[n].permissions && PERMISSION_ROUTE_MAPPING[n].permissions.length > 0) {
             var allowed = false;
             var type = PERMISSION_ROUTE_MAPPING[n].type;
             var check = PERMISSION_ROUTE_MAPPING[n].check;
 
             try {
-                if(type==='report') {
+                if (type === 'report') {
                     switch (check) {
                         case 'any':
                             allowed = AuthService.hasAnyReportCategoryPermission(PERMISSION_ROUTE_MAPPING[n].permissions);
@@ -688,147 +689,147 @@ app.run(function($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLI
                     }
                 }
                 console.log('ROUTE PERMISSION: ' + allowed + ' - ' + angular.toJson(PERMISSION_ROUTE_MAPPING[n]));
-            } catch(err) {
+            } catch (err) {
                 // ignore
             }
-            if(!allowed) {
+            if (!allowed) {
                 //Do your things
                 //event.preventDefault();
             }
         }
     });
 
-  $rootScope.change_pass = function() {
-    var msg = 'You are about to remove User ';
-    var dialog = dialogs.create('/views/change-password.html', 'passwordController', {msg: msg}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
+    $rootScope.change_pass = function () {
+        var msg = 'You are about to remove User ';
+        var dialog = dialogs.create('/views/change-password.html', 'passwordController', {msg: msg}, {size: 'md', keyboard: true, backdrop: true});
+        dialog.result.then(function (result) {
+            if (result) {
 
-      }
+            }
+        });
+    };
+
+    //TODO: we need to find a way to remove from root scope
+    $rootScope.pdfExport = function (ignoreColumns) {
+        var cols = [];
+        if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') !== -1) {
+            cols = ignoreColumns.split(',');
+        }
+        if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') === -1) {
+            cols = [ignoreColumns];
+        }
+
+        $('.table').tableExport({type: 'pdf',
+            ignoreColumn: cols,
+            escape: 'false',
+            pdfFontSize: 7,
+            pdfLeftMargin: 5
+        });
+    };
+
+    //TODO: we need to find a way to remove from root scope
+    $rootScope.xlsExport = function (ignoreColumns) {
+        var cols = [];
+        if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') !== -1) {
+            cols = ignoreColumns.split(',');
+        }
+        if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') === -1) {
+            cols = [ignoreColumns];
+        }
+
+        $('.table').tableExport({type: 'excel',
+            ignoreColumn: cols,
+            escape: 'false'
+        });
+    };
+
+    //TODO default template for the batch request processing
+    $rootScope.batchAPITemplate = function (requestno, requestUrl, requestMethod, jsonData) {
+        var cols = '{ "requestId":' + requestno + ',"relativeUrl":"' + requestUrl + '","method":"' + requestMethod + '",' +
+            '"headers":[ {"name":"Content-type","value":"application/json; charset=utf-8"},{"name":"X-Mifos-Platform-TenantId","value":"default"}],' +
+            '"body":"' + jsonData + '"}';
+        return cols;
+    };
+
+    // TODO: what is this doing?!?!
+    $rootScope.page = {
+        setHclass: function (hclass) {
+            this.hclass = hclass;
+        }
+    };
+
+    $rootScope.$on('$routeChangeSuccess', function (event, current) {
+        if (current.$$route) {
+            $rootScope.page.setHclass(current.$$route.hclass);
+        }
     });
-  };
 
-  //TODO: we need to find a way to remove from root scope
-  $rootScope.pdfExport = function(ignoreColumns) {
-    var cols = [];
-    if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') !== -1) {
-      cols = ignoreColumns.split(',');
-    }
-    if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') === -1) {
-      cols = [ignoreColumns];
-    }
-
-    $('.table').tableExport({type: 'pdf',
-      ignoreColumn: cols,
-      escape: 'false',
-      pdfFontSize: 7,
-      pdfLeftMargin: 5
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+        var authorizedRoles = next.data.authorizedRoles;
+        if (!AuthService.isAuthorized(authorizedRoles)) {
+            event.preventDefault();
+            if (AuthService.isAuthenticated()) {
+                // user is not allowed
+                $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+            } else {
+                // user is not logged in
+                $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+            }
+        }
     });
-  };
 
-  //TODO: we need to find a way to remove from root scope
-  $rootScope.xlsExport = function(ignoreColumns) {
-    var cols = [];
-    if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') !== -1) {
-      cols = ignoreColumns.split(',');
-    }
-    if (ignoreColumns !== undefined && ignoreColumns.indexOf(',') === -1) {
-      cols = [ignoreColumns];
-    }
-
-    $('.table').tableExport({type: 'excel',
-      ignoreColumn: cols,
-      escape: 'false'
+    //hendled notAuthenticated event
+    $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
+        $location.url(PAGE_URL.ROOT);
     });
-  };
+    $rootScope.$on(AUTH_EVENTS.sessionTimeout, function () {
+        $location.url(PAGE_URL.ROOT);
+    });
 
-  //TODO default template for the batch request processing
-  $rootScope.batchAPITemplate = function(requestno, requestUrl, requestMethod, jsonData) {
-    var cols = '{ "requestId":' + requestno + ',"relativeUrl":"' + requestUrl + '","method":"' + requestMethod + '",' +
-      '"headers":[ {"name":"Content-type","value":"application/json; charset=utf-8"},{"name":"X-Mifos-Platform-TenantId","value":"default"}],' +
-      '"body":"' + jsonData + '"}';
-    return cols;
-  };
-
-  // TODO: what is this doing?!?!
-  $rootScope.page = {
-      setHclass: function(hclass) {
-          this.hclass = hclass;
-      }
-  };
-
-  $rootScope.$on('$routeChangeSuccess', function(event, current) {
-      if(current.$$route) {
-          $rootScope.page.setHclass(current.$$route.hclass);
-      }
-  });
-
-  $rootScope.$on('$stateChangeStart', function(event, next) {
-    var authorizedRoles = next.data.authorizedRoles;
-    if (!AuthService.isAuthorized(authorizedRoles)) {
-      event.preventDefault();
-      if (AuthService.isAuthenticated()) {
-        // user is not allowed
-        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-      } else {
-        // user is not logged in
-        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-      }
+    if (Session.getValue(APPLICATION.authToken)) {
+        if ($location.path() === PAGE_URL.ROOT || $location.path() === '') {
+            $location.url(PAGE_URL.DASHBOARD);
+        }
+    } else {
+        //TODO - Need to remove else block once all the functionality will be implemented
+        $location.url(PAGE_URL.ROOT);
     }
-  });
-
-  //hendled notAuthenticated event
-  $rootScope.$on(AUTH_EVENTS.notAuthenticated, function() {
-    $location.url(PAGE_URL.ROOT);
-  });
-  $rootScope.$on(AUTH_EVENTS.sessionTimeout, function() {
-    $location.url(PAGE_URL.ROOT);
-  });
-
-  if (Session.getValue(APPLICATION.authToken)) {
-    if ($location.path() === PAGE_URL.ROOT || $location.path() === '') {
-      $location.url(PAGE_URL.DASHBOARD);
-    }
-  } else {
-    //TODO - Need to remove else block once all the functionality will be implemented
-    $location.url(PAGE_URL.ROOT);
-  }
 });
 
-app.config(function($httpProvider) {
-  $httpProvider.interceptors.push([
-    '$injector',
-    function($injector) {
-      return $injector.get('AuthInterceptor');
-    }
-  ]);
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push([
+        '$injector',
+        function ($injector) {
+            return $injector.get('AuthInterceptor');
+        }
+    ]);
 });
 
-app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
-  return {
-    responseError: function(response) {
-      $rootScope.$broadcast({
-        401: AUTH_EVENTS.notAuthenticated,
-        403: AUTH_EVENTS.notAuthorized,
-        419: AUTH_EVENTS.sessionTimeout,
-        440: AUTH_EVENTS.sessionTimeout
-      }[response.status], response);
-      return $q.reject(response);
-    }
-  };
+app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
+    return {
+        responseError: function (response) {
+            $rootScope.$broadcast({
+                401: AUTH_EVENTS.notAuthenticated,
+                403: AUTH_EVENTS.notAuthorized,
+                419: AUTH_EVENTS.sessionTimeout,
+                440: AUTH_EVENTS.sessionTimeout
+            }[response.status], response);
+            return $q.reject(response);
+        }
+    };
 });
 
-app.controller('ApplicationController', function($rootScope, $scope, $location, USER_ROLES, APPLICATION, REST_URL, AuthService, Session) {
+app.controller('ApplicationController', function ($rootScope, $scope, $location, USER_ROLES, APPLICATION, REST_URL, AuthService, Session) {
     //$scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
 
     /**
-    $scope.setCurrentUser = function(user) {
+     $scope.setCurrentUser = function(user) {
         $scope.currentUser = user;
     };
      */
 
-    $scope.changeView = function(view) {
+    $scope.changeView = function (view) {
         $location.path(view);
     };
 
@@ -855,10 +856,10 @@ app.controller('ApplicationController', function($rootScope, $scope, $location, 
     $rootScope.username = Session.getValue('username');
 
     /**
-    $scope.serverTime = moment().tz(APPLICATION.TIMEZONE);
-    $scope.localTime = moment();
+     $scope.serverTime = moment().tz(APPLICATION.TIMEZONE);
+     $scope.localTime = moment();
 
-    $interval(function() {
+     $interval(function() {
         $scope.serverTime = moment().tz(APPLICATION.TIMEZONE);
         $scope.localTime = moment();
     }, 5000);
@@ -866,150 +867,151 @@ app.controller('ApplicationController', function($rootScope, $scope, $location, 
 });
 
 //Factory to manage the session related things for the application
-app.factory('Session', function(APPLICATION, ipCookie, $rootScope) {
-  var Session = {};
+app.factory('Session', function (APPLICATION, ipCookie, $rootScope) {
+    var Session = {};
 
-  function fetchData2() {
-    if (!ipCookie('ang_session')) {
-      Session.remove();
-      $rootScope.$emit('$idleTimeout');
-      return {};
-    } else {
-      ipCookie(APPLICATION.sessionName, true, {expires : 15, expirationUnit: 'minutes'});
+    function fetchData2() {
+        if (!ipCookie('ang_session')) {
+            Session.remove();
+            $rootScope.$emit('$idleTimeout');
+            return {};
+        } else {
+            ipCookie(APPLICATION.sessionName, true, {expires: 15, expirationUnit: 'minutes'});
+        }
+
+        var data = {};
+        try {
+            data = JSON.parse(window.localStorage.getItem(APPLICATION.sessionName));
+        } catch (e) {
+            console.log('Error to get session data from local storage');
+        }
+
+        return data || {};
     }
 
-    var data = {};
-    try {
-      data = JSON.parse(window.localStorage.getItem(APPLICATION.sessionName));
-    } catch (e) {
-      console.log('Error to get session data from local storage');
+    function saveData(data, notUpdateSessionCookie) {
+        if (!notUpdateSessionCookie) {
+            ipCookie(APPLICATION.sessionName, true, {expires: 15, expirationUnit: 'minutes'});
+        }
+
+        try {
+            window.localStorage.setItem('ang_session', JSON.stringify(data));
+        } catch (e) {
+            console.log('Error to save session data to local storage');
+        }
     }
 
-    return data || {};
-  }
+    Session = {
+        create: function (sessionId, userName, userRole, permissions) {
+            var data = {};
+            data[APPLICATION.authToken] = sessionId;
+            data[APPLICATION.username] = userName;
+            data[APPLICATION.role] = userRole;
+            data[APPLICATION.permissions] = permissions ? permissions : {};
+            saveData(data);
+        },
+        setValue: function (key, value) {
+            var data = fetchData2();
+            data[key] = value;
+            saveData(data);
+        },
+        getValue: function (key) {
+            var data = fetchData2();
+            return data[key];
+        },
+        remove: function () {
+            ipCookie.remove(APPLICATION.sessionName);
+            var data = {};
+            saveData(data, true);
+        }
+    };
 
-  function saveData(data, notUpdateSessionCookie) {
-    if (!notUpdateSessionCookie) {
-      ipCookie(APPLICATION.sessionName, true, {expires : 15, expirationUnit: 'minutes'});
-    }
-
-    try {
-      window.localStorage.setItem('ang_session', JSON.stringify(data));
-    } catch(e) {
-      console.log('Error to save session data to local storage');
-    }
-  }
-
-  Session = {
-    create: function(sessionId, userName, userRole, permissions) {
-      var data = {};
-      data[APPLICATION.authToken] = sessionId;
-      data[APPLICATION.username] = userName;
-      data[APPLICATION.role] = userRole;
-      data[APPLICATION.permissions] = permissions ? permissions : {};
-      saveData(data);
-    },
-    setValue: function(key, value) {
-      var data = fetchData2();
-      data[key] = value;
-      saveData(data);
-    },
-    getValue: function(key) {
-      var data = fetchData2();
-      return data[key];
-    },
-    remove: function() {
-      ipCookie.remove(APPLICATION.sessionName);
-      var data = {};
-      saveData(data, true);
-    }
-  };
-
-  return Session;
+    return Session;
 });
 
 //Directive for the validation of each mandatory field
-app.directive('showValidation', [function() {
+app.directive('showValidation', [function () {
     return {
-      restrict: 'A',
-      require: 'form',
-      link: function(scope, element) {
-        var form = element.controller('form');
-        form.$submitted = false;
-        element.on('submit', function(/** event */) {
-          scope.$apply(function() {
-            element.addClass('ng-submitted');
-            form.$submitted = true;
-          });
-        });
-        element.find('.validate').each(function() {
-          var $formGroup = $(this);
-          var $inputs = $formGroup.find('input[ng-model],textarea[ng-model],select[ng-model]');
-
-          if ($inputs.length > 0) {
-            $inputs.each(function() {
-              var $input = $(this);
-              scope.$watch(function() {
-                return $input.hasClass('ng-invalid') && form.$submitted;
-              }, function(isInvalid) {
-                  if(form.$submitted) {
-                      $formGroup.toggleClass('has-success', !isInvalid);
-                      $formGroup.toggleClass('has-error', isInvalid);
-                  }
-              });
+        restrict: 'A',
+        require: 'form',
+        link: function (scope, element) {
+            var form = element.controller('form');
+            form.$submitted = false;
+            element.on('submit', function (/** event */) {
+                scope.$apply(function () {
+                    element.addClass('ng-submitted');
+                    form.$submitted = true;
+                });
             });
-          }
-        });
-      }
+            element.find('.validate').each(function () {
+                var $formGroup = $(this);
+                var $inputs = $formGroup.find('input[ng-model],textarea[ng-model],select[ng-model]');
+
+                if ($inputs.length > 0) {
+                    $inputs.each(function () {
+                        var $input = $(this);
+                        scope.$watch(function () {
+                            return $input.hasClass('ng-invalid') && form.$submitted;
+                        }, function (isInvalid) {
+                            if (form.$submitted) {
+                                $formGroup.toggleClass('has-success', !isInvalid);
+                                $formGroup.toggleClass('has-error', isInvalid);
+                            }
+                        });
+                    });
+                }
+            });
+        }
     };
-  }]);
+}]);
 
 //Directive to validate the field for only numbers as the input
-app.directive('onlyDigits', function() {
-  return {
-    require: 'ngModel',
-    restrict: 'A',
-    link: function(scope, element, attr, ctrl) {
-      function inputValue(val) {
-        if (val) {
-          var digits = val.replace(/[^0-9.]/g, '');
+app.directive('onlyDigits', function () {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function (scope, element, attr, ctrl) {
+            function inputValue(val) {
+                if (val) {
+                    var digits = val.replace(/[^0-9.]/g, '');
 
-          if (digits !== val) {
-            ctrl.$setViewValue(digits);
-            ctrl.$render();
-          }
-          return parseFloat(digits);
+                    if (digits !== val) {
+                        ctrl.$setViewValue(digits);
+                        ctrl.$render();
+                    }
+                    return parseFloat(digits);
+                }
+                return undefined;
+            }
+
+            ctrl.$parsers.push(inputValue);
         }
-        return undefined;
-      }
-      ctrl.$parsers.push(inputValue);
-    }
-  };
+    };
 });
 
 //Directive for the select box
-app.directive('chosen', function() {
-  var linker = function (scope, element, attrs) {
-      var list = attrs.chosen;
-      var ngModel = attrs.ngModel;
-      scope.$watch(list, function () {
-          element.trigger('liszt:updated');
-          element.trigger('chosen:updated');
-      });
-      scope.$watch(ngModel, function () {
-          element.trigger('liszt:updated');
-          element.trigger('chosen:updated');
-      });
+app.directive('chosen', function () {
+    var linker = function (scope, element, attrs) {
+        var list = attrs.chosen;
+        var ngModel = attrs.ngModel;
+        scope.$watch(list, function () {
+            element.trigger('liszt:updated');
+            element.trigger('chosen:updated');
+        });
+        scope.$watch(ngModel, function () {
+            element.trigger('liszt:updated');
+            element.trigger('chosen:updated');
+        });
 
-      element.chosen({search_contains:true, width: '100%'});
-  };
-  return {
-    restrict: 'A',
-    link: linker
-  };
+        element.chosen({search_contains: true, width: '100%'});
+    };
+    return {
+        restrict: 'A',
+        link: linker
+    };
 });
 //format number
-app.filter('FormatNumber', ['$filter', function($filter) {
+app.filter('FormatNumber', ['$filter', function ($filter) {
     return function (input, fractionSize) {
         if (isNaN(input)) {
             return input;
@@ -1022,93 +1024,93 @@ app.filter('FormatNumber', ['$filter', function($filter) {
     };
 }]);
 
-app.filter('smartTableSearchFilter', function($filter){
-    return function(input, predicate) {
+app.filter('smartTableSearchFilter', function ($filter) {
+    return function (input, predicate) {
         return $filter('filter')(input, predicate[Object.keys(predicate)[0]], false);
     };
 });
 
 //color code status for each data tables
-app.filter('status', [function() {
+app.filter('status', [function () {
     var STATUS_COLOR_CODE = {'0': 'status bad', //red
-      '100': 'status on-hold', //yellow
-      '200': 'status on-hold', //yellow
-      '300': 'status active', //green
-      '400': 'status closed', //grey
-      '500': 'status closed', //grey
-      '600': 'status closed', //grey
-      '601': 'status closed', //grey
-      '602': 'status active', //green
-      '700': 'status closed', //green
-      '800': 'status active activeGoodStanding', //red
-      '900': 'status active activeBadStanding'//green
+        '100': 'status on-hold', //yellow
+        '200': 'status on-hold', //yellow
+        '300': 'status active', //green
+        '400': 'status closed', //grey
+        '500': 'status closed', //grey
+        '600': 'status closed', //grey
+        '601': 'status closed', //grey
+        '602': 'status active', //green
+        '700': 'status closed', //green
+        '800': 'status active activeGoodStanding', //red
+        '900': 'status active activeBadStanding'//green
     };
-    return function(statusCode) {
-      return STATUS_COLOR_CODE[statusCode];
+    return function (statusCode) {
+        return STATUS_COLOR_CODE[statusCode];
     };
-  }]);
+}]);
 
 //Populate data values into table
-app.filter('getDropdownValues', [function() {
-    return function(id, dataValues) {
-      for (var i = 0; i < dataValues.length; i++) {
-        try {
-          if (parseInt(id) === parseInt(dataValues[i].id)) {
-            return dataValues[i].value;
-          }
-        } catch (e) {
+app.filter('getDropdownValues', [function () {
+    return function (id, dataValues) {
+        for (var i = 0; i < dataValues.length; i++) {
+            try {
+                if (parseInt(id) === parseInt(dataValues[i].id)) {
+                    return dataValues[i].value;
+                }
+            } catch (e) {
 
+            }
         }
-      }
     };
-  }]);
+}]);
 
 //Populate data names into table
-app.filter('getDropdownNames', [function() {
-    return function(id, dataValues) {
-      for (var i = 0; i < dataValues.length; i++) {
-        if (id === dataValues[i].id) {
-          return dataValues[i].name;
+app.filter('getDropdownNames', [function () {
+    return function (id, dataValues) {
+        for (var i = 0; i < dataValues.length; i++) {
+            if (id === dataValues[i].id) {
+                return dataValues[i].name;
+            }
         }
-      }
     };
-  }]);
+}]);
 
 //Convert months into monthly in repaymentFrequencyType
-app.filter('getRepaymentFrequencyType', [function() {
+app.filter('getRepaymentFrequencyType', [function () {
     var value;
-    return function(name) {
-      value = name;
-      if (name === 'Months') {
-        value = 'Monthly';
-      }
-      return value;
+    return function (name) {
+        value = name;
+        if (name === 'Months') {
+            value = 'Monthly';
+        }
+        return value;
     };
-  }]);
+}]);
 
 //Give type value on charges grid
-app.filter('getChargeType', [ function() {
+app.filter('getChargeType', [ function () {
     var value;
-    return function(type){
-      value = 'Charge';
-      if(type){
-        value = 'Penalty';
-      }
-      return value;
-  };
+    return function (type) {
+        value = 'Charge';
+        if (type) {
+            value = 'Penalty';
+        }
+        return value;
+    };
 }]);
 
 //color code status for each data tables
-app.filter('checkEmptyString', [ function() {
-    return function(value) {
-      return value==='';
+app.filter('checkEmptyString', [ function () {
+    return function (value) {
+        return value === '';
     };
 }]);
 
 //UTC to local date
-app.filter('localDate', [ function() {
-    return function(date, format) {
-        if(!format) {
+app.filter('localDate', [ function () {
+    return function (date, format) {
+        if (!format) {
             format = 'DD MMM YY';
         }
         return moment.utc(date, format).add(moment().utcOffset(), 'minutes').format(format);
