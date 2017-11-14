@@ -340,6 +340,9 @@ td.actions {
 .custom-notify .text-info {
   color: #000000;
 }
+.custom-notify .text-info.modal-title {
+  color: Red;
+}
 .custom-notify .dialog-header-notify {
   background-color: #FFFFFF !important;
 }
