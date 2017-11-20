@@ -112,23 +112,28 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function ($scope
 
     //Success callback
     var loadJournalEntriesSuccess = function (result) {
-        $scope.isLoading = false;
 
-        try {
-            $scope.data.rowCollection = [];
-            $scope.pages = [];
+		var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+		var filterBy = $scope.selectedFilter;
+		JournalService.getData(REST_URL.JOURNALENTRIES_COUNT + '?filter=' + filterBy + '&search=' + searchTerm).then(function(res) {
+			$scope.isLoading = false;
+			console.log("Journal Entries count returned this....");
+			console.log(res);
+			try {
+				$scope.data.rowCollection = [];
+				$scope.pages = [];
 
-            if (result.data && result.data[0] && result.data[0].journalEntriesCount) {
-                for (var j = 1; j <= Math.ceil(result.data[0].journalEntriesCount / $scope.pageSize); j++) {
-                    $scope.pages.push({page: j, link: '#/journalentries/p/' + j});
-                }
-            }
-            $scope.data.rowCollection = result.data;
+				if (res.data) {
+					for (var j = 1; j <= Math.ceil(res.data / $scope.pageSize); j++) {
+						$scope.pages.push({page: j, link: '#/journalentries/p/' + j});
+					}
+				}
+				$scope.data.rowCollection = result.data;
 
-        } catch (e) {
-            console.log(e);
-        }
-
+			} catch (e) {
+				console.log(e);
+			}
+		}, loadJournalEntriesFail);
     };
 
     $scope.$watch('selectedFilter', function () {
