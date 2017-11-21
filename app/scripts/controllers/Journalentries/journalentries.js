@@ -117,8 +117,6 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function ($scope
 		var filterBy = $scope.selectedFilter;
 		JournalService.getData(REST_URL.JOURNALENTRIES_COUNT + '?filter=' + filterBy + '&search=' + searchTerm).then(function(res) {
 			$scope.isLoading = false;
-			console.log("Journal Entries count returned this....");
-			console.log(res);
 			try {
 				$scope.data.rowCollection = [];
 				$scope.pages = [];
@@ -166,9 +164,38 @@ angular.module('angularjsApp').controller('JournalEntriesCtrl', function ($scope
 
 
             //service to get journalentries from server
+			if (parseInt(sessionStorage.viewJEDetails) === 1 && sessionStorage.pagination) {
+				sessionStorage.viewJEDetails = 0;
+				var pagination = JSON.parse(sessionStorage.pagination);
+				offset = pagination.offset;
+				orderBy = pagination.orderBy;
+				filterBy = pagination.filterBy;
+				sortOrder = pagination.sortOrder;
+				searchTerm = pagination.searchTerm;
+				$scope.pageSize = pagination.pageSize;
+				$scope.currentPage = pagination.currentPage;
+			} else {
+				$scope.persistPaginationData();
+			}
             JournalService.getData(REST_URL.JOURNALENTRIES_LIST + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_filterBy=' + filterBy + '&R_search=' + searchTerm + '&R_orderBy=' + orderBy + '&R_sortOrder=' + sortOrder).then(loadJournalEntriesSuccess, loadJournalEntriesFail);
         });
     };
+	$scope.persistPaginationData = function() {
+		var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+		var filterBy = $scope.selectedFilter;
+		var orderBy = _.get($scope.stTable, 'sort.predicate', 'entry_date');
+		var sortOrder = _.get($scope.stTable, 'sort.reverse', false) ? 'ASC' : 'DESC';
+		var pagination = {
+			orderBy: orderBy,
+			filterBy: filterBy,
+			sortOrder: sortOrder,
+			searchTerm: searchTerm,
+			pageSize: $scope.pageSize,
+			currentPage: $scope.currentPage,
+			offset: $scope.pageSize * ($scope.currentPage - 1)
+		};
+		sessionStorage.pagination = JSON.stringify(pagination);
+	};
     $scope.data.updateTable = function (tableState) {
         $scope.stTable = tableState;
         loadJournalEntries();
@@ -255,6 +282,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function 
                 //service to get journalentries from server
                 JournalService.getData(url).then(loadJournalEntriesDetailsSuccess, loadJournalEntriesDetailsFail);
             }, 2000);
+		sessionStorage.viewJEDetails = 1;
     };
 
     loadJournalEntriesDetails();
