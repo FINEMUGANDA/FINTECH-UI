@@ -9,6 +9,8 @@
   <select ng-model="formData.creditAccount" chosen="glAccounts" class="form-control" ng-options="(creditAccount.name +   ' - ' +   creditAccount.currencyCode +  ' (' +   creditAccount.glCode +   ')') for creditAccount in glAccounts" required>
     <option class="displaynone" value="">-- Select --</option>
   </select>
+	<label>Please Enter Notes:</label>
+	<textarea rows="2" class="form-control" ng-model="formData.note"></textarea>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" ng-click="submit()" ng-disabled="saveInProgress">Save</button>

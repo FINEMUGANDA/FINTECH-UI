@@ -239,14 +239,8 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function 
                 JournalService.getData(url).then(loadReversalEntrySuccess, loadJournalEntriesDetailsFail);
                 $scope.officeName = $scope.rowCollection[0].officeName;
                 $scope.officeId = $scope.rowCollection[0].officeId;
-                //$scope.transactionDate = $scope.rowCollection[0].transactionDate[2] + '/';
-                //$scope.transactionDate +=$scope.rowCollection[0].transactionDate[1] + '/';
-                //$scope.transactionDate +=$scope.rowCollection[0].transactionDate[0];
                 $scope.transactionDate = Utility.toLocalDate($scope.rowCollection[0].transactionDate);
                 $scope.createdByUserName = $scope.rowCollection[0].createdByUserName;
-                //$scope.createdDate = $scope.rowCollection[0].createdDate[2] + '/';
-                //$scope.createdDate +=$scope.rowCollection[0].createdDate[1] + '/';
-                //$scope.createdDate +=$scope.rowCollection[0].createdDate[0];
                 $scope.createdDate = Utility.toLocalDate($scope.rowCollection[0].createdDate);
             }
             for (var i in result.data.pageItems) {
@@ -279,7 +273,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function 
                 } else {
                     $location.path(PAGE_URL.JOURNALENTRIES);
                 }
-                //service to get journalentries from server
+                //service to get journal entries from server
                 JournalService.getData(url).then(loadJournalEntriesDetailsSuccess, loadJournalEntriesDetailsFail);
             }, 2000);
 		sessionStorage.viewJEDetails = 1;
@@ -301,7 +295,7 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function 
         var url = REST_URL.JOURANAL_ENTRY_REVERSE_NOTE + $scope.officeId;
         JournalService.saveJournalEntry(url, json).then(function (result) {
             $scope.saveInProgress = false;
-            console.log('JOURANAL_ENTRY_REVERSE_NOTE : ' + result);
+            console.log('JOURNAL_ENTRY_REVERSE_NOTE : ' + result);
             $route.reload();
         }, function (result) {
             $scope.saveInProgress = false;
@@ -355,18 +349,21 @@ angular.module('angularjsApp').controller('JournalEntriesDetailsCtrl', function 
     };
 
     $scope.moveToProfits = function () {
-        var dialog = dialogs.create('/views/Journalentries/move.to.profit.dialog.html', 'MoveToProfitDialogController', {}, {size: 'sm', keyboard: true, backdrop: true});
+		var dialog = dialogs.create('/views/Journalentries/move.to.profit.dialog.html', 'MoveToProfitDialogController', {}, {size: 'sm', keyboard: true, backdrop: true});
         dialog.result.then(function (result) {
             if (result) {
                 var url = REST_URL.JOURNALENTRIES + '/' + $scope.id + '?command=moveToProfit';
                 var json = {
                     transactionId: $scope.id,
-                    glAccount: result
+                    glAccount: result.glAccount
                 };
                 $scope.saveInProgress = true;
-                JournalService.saveJournalEntry(url, json).then(function (result) {
+                JournalService.saveJournalEntry(url, json).then(function (res) {
                     $scope.saveInProgress = false;
-                    $route.updateParams({id: result.data.transactionId});
+                    $route.updateParams({id: res.data.transactionId});
+					$scope.note = result.note;
+					$scope.id = res.data.transactionId;
+					reverseTransactionSuccess(result);
                 }, reverseTransactionFail);
             }
         });
@@ -613,9 +610,9 @@ angular.module('angularjsApp').controller('MoveToProfitDialogController', functi
     });
 
     $scope.submit = function () {
-        if ($scope.formData && $scope.formData.creditAccount && $scope.formData.creditAccount.id) {
-            $modalInstance.close($scope.formData.creditAccount.id);
-        }
+        if ($scope.formData && $scope.formData.creditAccount && $scope.formData.creditAccount.id && $scope.formData.note) {
+			$modalInstance.close({glAccount: $scope.formData.creditAccount.id, note: $scope.formData.note});
+		}
     };
     $scope.cancel = function () {
         $modalInstance.dismiss();
