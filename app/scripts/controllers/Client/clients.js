@@ -593,7 +593,8 @@ clientsCtrl.controller('ClientSearchCtrl', function($rootScope, $scope, $route, 
   $scope.searchFilter = function( criteria ) {
     criteria = criteria.toLowerCase();
     return function( item ) {
-      return item.name.toLowerCase().indexOf(criteria)>-1 || item.file_no.toLowerCase().indexOf(criteria) > -1;
+      return item.name.toLowerCase().indexOf(criteria) > -1 || item.file_no.toLowerCase().indexOf(criteria) > -1
+		  || (item.mobile_no && item.mobile_no.toLowerCase().indexOf(criteria) > -1);
     };
   };
 
