@@ -2370,8 +2370,8 @@ CreateClientCrtl.controller('ViewClientCtrl', function($route, $scope, $location
           $scope.client.status.value = 'Active';
           break;
         case 'reactivate':
-          $scope.client.status.id = 100;
-          $scope.client.status.value = 'Pending';
+          $scope.client.status.id = 300;
+          $scope.client.status.value = 'Active';
           break;
         case 'reject':
           $scope.client.status.id = 700;
