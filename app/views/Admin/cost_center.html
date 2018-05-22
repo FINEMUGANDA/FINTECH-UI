@@ -13,13 +13,15 @@
       <table st-table="displayed" st-safe-src="rowCollection" st-set-filter="smartTableSearchFilter" class="table">
         <thead>
           <tr>
-            <th st-sort="staff.displayName">Staff</th>
+            <th st-sort="staff.displayName">Staff/Non-staff</th>
             <th></th>
           </tr>
         </thead>
         <tbody ng-hide="isLoading" class="">
           <tr ng-repeat="costCenter in displayed">
-            <td><a ng-href="/#/admin/costcenters/edit/{{costCenter.staff.id}}">{{costCenter.staff.displayName}}</a></td>
+            <td>
+                <a ng-href="/#/admin/costcenters/edit/{{costCenter.staff ? costCenter.staff.id : costCenter.nonStaff.id}}/{{costCenter.costCenterType}}">{{costCenter.staff ? costCenter.staff.displayName : costCenter.nonStaff.name}}</a>
+            </td>
             <td class="actions" style="width: 1%; min-width: 60px;"><a ng-show="hasAnyPermission(['DELETE_COSTCENTER'])" ng-click="removeCostCenter(costCenter)" href=""><i class="glyphicon glyphicon-remove-circle"></i></a></td>
           </tr>
         </tbody>

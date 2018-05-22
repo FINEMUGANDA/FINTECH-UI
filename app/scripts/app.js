@@ -463,7 +463,7 @@ app.config(['$routeProvider', '$sceDelegateProvider', '$keepaliveProvider', '$id
         data: {
             authorizedRoles: ['admin']
         }
-    }).when('/admin/costcenters/edit/:staffId', {
+    }).when('/admin/costcenters/edit/:staffId/:costCenterType', {
         templateUrl: 'views/Admin/cost_center_form.html',
         controller: 'CostCenterEditCtrl',
         data: {
