@@ -18,7 +18,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Cost Center Type<span class="required">*</span></label>
             <div class="validate col-md-3">
-                <select id="costCenterType" ng-model="costCenter.costCenterType" class="form-control">
+                <select id="costCenterType" ng-model="costCenter.costCenterType" class="form-control" ng-disabled="staffId">
                     <option value="staff">Staff</option>
                     <option value="nonstaff">Non-staff</option>
                 </select>
@@ -29,7 +29,7 @@
           <div class="form-group" ng-show="costCenter.costCenterType == 'staff'">
             <label class="control-label col-md-2">Staff<span class="required">*</span></label>
             <div class="validate col-md-3">
-              <select id="staffId" ng-model="costCenter.staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in data.staffOptions"></select>
+              <select id="staffId" ng-model="costCenter.staffId" ng-disabled="staffId" class="form-control" ng-options="staff.id as staff.displayName for staff in data.staffOptions"></select>
             </div>
             <div class="col-md-1"></div>
           </div>
@@ -37,7 +37,7 @@
             <div class="form-group" ng-show="costCenter.costCenterType == 'nonstaff'">
                 <label class="control-label col-md-2">Staff<span class="required">*</span></label>
                 <div class="validate col-md-3">
-                    <select id="nonStaffId" ng-model="costCenter.staffId" class="form-control" ng-options="nonStaff.id as nonStaff.name for nonStaff in data.nonStaffOptions"></select>
+                    <select id="nonStaffId" ng-model="costCenter.staffId" class="form-control" ng-disabled="staffId" ng-options="nonStaff.id as nonStaff.name for nonStaff in data.nonStaffOptions"></select>
                 </div>
                 <div class="col-md-1"></div>
             </div>

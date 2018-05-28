@@ -69,8 +69,8 @@ angular.module('angularjsApp').controller('CostCenterEditCtrl', function ($scope
 		$scope.isLoading = false;
 		try {
 			$scope.rowCollection = result.data;
-			var staffId;
-			var costCenterType;
+			var staffId = $scope.staffId;
+			var costCenterType = $scope.costCenterType;
 			if (result.data) {
 				if (result.data.staff) {
 					staffId = result.data.staff.id;
