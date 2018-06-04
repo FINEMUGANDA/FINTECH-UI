@@ -569,10 +569,11 @@ clientsCtrl.controller('ClientSearchCtrl', function($rootScope, $scope, $route, 
 
   $scope.go = function() {
     var ids = [];
-
-    for(var i=0; i<$scope.selectedClients.length; i++) {
-      ids.push($scope.selectedClients[i].file_no);
-    }
+	if (typeof $scope.selected === "string") {
+		ids.push($scope.selected);
+	} else {
+		ids.push($scope.selected.name);
+	}
     $scope.clear();
 
     var path = '/clients';
@@ -599,8 +600,7 @@ clientsCtrl.controller('ClientSearchCtrl', function($rootScope, $scope, $route, 
   };
 
   $scope.onSelect = function ($item, $model /** , $label */) {
-    $scope.clear();
-    $scope.selectedClients.push($model);
+    $scope.selectedClients = [$model];
     $scope.go();
   };
 
