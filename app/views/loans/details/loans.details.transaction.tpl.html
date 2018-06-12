@@ -36,7 +36,7 @@
       <td class="number">{{transaction.interestPortion| number}}</td>
       <td class="number">{{transaction.feeChargesPortion| number}}</td>
       <td class="number">{{transaction.penaltyChargesPortion| number}}</td>
-      <td class="number">{{transaction.outstandingLoanBalance| number}}</td>
+      <td class="number">{{transaction.outstandingLoanBalance > 0 ? (transaction.outstandingLoanBalance | number) : ''}}</td>
     </tr>
   </tbody>
   <tfoot ng-hide="isLoading">
