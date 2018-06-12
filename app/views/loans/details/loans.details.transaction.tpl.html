@@ -44,6 +44,7 @@
       <td colspan="10">
         <div class="table-footer">
           <div class="export">
+            <strong ng-show="loanDetails.postClosureRepaymentsEnabled && (loanDetails.status.id == 600 || loanDetails.status.id == 700)"><a href="" class="link" ng-click="openTransactionDialog('repayment')" ng-show="hasPermission('REPAYMENT_LOAN')">Make Post Closure Payment</a></strong>
             <strong>Export: <a href="" class="link excel" ng-click="xlsExport('0,7')" target="_blank">Excel</a></strong>
           </div>
           <div class="paginate">
