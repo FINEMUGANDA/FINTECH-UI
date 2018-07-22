@@ -154,7 +154,7 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
           };
           $scope.reqFields.push(temp);
           if (temp.displayType === 'select' && temp.parentParameterName === null) {
-              intializeParams(temp, {});
+              intializeParams(temp);
           } else if (temp.displayType === 'date') {
               $scope.reportDateParams.push(temp);
           } else if (temp.displayType === 'text') {
@@ -209,17 +209,20 @@ angular.module('angularjsApp').controller('RunReportsController', function($sce,
     };
     return successFunction;
   }
-  function intializeParams(paramData, params) {
-    $scope.errorStatus = undefined;
-    $scope.errorDetails = [];
-    //params.reportSource = paramData.name;
-    //params.parameterType = true;
-    var url = REST_URL.RUN_REPORTS + '/';
-    url += paramData.name + '?parameterType=true&genericResultSet=true';
-    url += '&' + params;
-    var successFunction = getSuccuessFunction(paramData);
-    ReportService.getData(url).then(successFunction);
-  }
+
+	function intializeParams(paramData, params) {
+		$scope.errorStatus = undefined;
+		$scope.errorDetails = [];
+		//params.reportSource = paramData.name;
+		//params.parameterType = true;
+		var url = REST_URL.RUN_REPORTS + '/';
+		url += paramData.name + '?parameterType=true&genericResultSet=true';
+		if (params) {
+			url += '&' + params;
+		}
+		var successFunction = getSuccuessFunction(paramData);
+		ReportService.getData(url).then(successFunction);
+	}
   $scope.getDependencies = function (paramData) {
     for (var i = 0; i < $scope.reqFields.length; i++) {
         var temp = $scope.reqFields[i];
