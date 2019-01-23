@@ -30,7 +30,9 @@
           <button class="btn btn-sm primary" ng-show="hasPermission('CLOSE_LOAN')">Close</button>
           -->
         </div>
-        <div class="pull-right" ng-show="loanDetails.status.id == 601">
+        <div class="pull-right" ng-show="loanDetails.status.id == 601 || loanDetails.status.id == 603">
+          <button class="btn btn-sm primary" ng-click="recoverBalance()" ng-show="hasPermission('RECOVER_WRITTEN_OFF_BALANCE') && loanDetails.status.id == 601">Recover balance</button>
+            <button class="btn btn-sm primary" ng-click="undoRecoverBalance()" ng-show="hasPermission('UNDO_RECOVER_WRITTEN_OFF_BALANCE') && loanDetails.status.id == 603">Undo Recover balance</button>
           <button class="btn btn-sm primary" ng-click="toggleWatchlist()" ng-show="hasPermission('WATCH_LOAN')"><span ng-show="loanDetails.watchlist">Remove from Watchlist</span><span ng-hide="loanDetails.watchlist">Add to Watchlist</span>&nbsp;<span class="glyphicon" ng-class="{'glyphicon-exclamation-sign': loanDetails.watchlist}"></span></button>
           <button class="btn btn-sm primary" ng-click="undoWriteOff()" ng-show="hasPermission('UNDOWRITEOFF_LOAN')">Undo Write Off</button>
         </div>

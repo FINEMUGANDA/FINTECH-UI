@@ -21,6 +21,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function ($route, 
 			'600': 'closed',
 			'601': 'loansWrittenOff',
 			'602': 'loans',
+			'603': 'loansWrittenOff',
 			'700': 'loans',
 			'800': 'loans',
 			'900': 'loans'
@@ -363,6 +364,30 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function ($route, 
 	$scope.undoWriteOff = function () {
 		$scope.isLoading = true;
 		LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=undoWriteOff').then(function () {
+			$scope.isLoading = false;
+			updateLoanDetails();
+		}, function (result) {
+			$scope.isLoading = false;
+			$scope.message = 'Cannot undo write off:' + result.data.defaultUserMessage;
+			$scope.type = 'error';
+			$scope.errors = result.data.errors;
+		});
+	};
+	$scope.recoverBalance = function () {
+		$scope.isLoading = true;
+		LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=recoverwrittenoffbalance').then(function () {
+			$scope.isLoading = false;
+			updateLoanDetails();
+		}, function (result) {
+			$scope.isLoading = false;
+			$scope.message = 'Cannot undo write off:' + result.data.defaultUserMessage;
+			$scope.type = 'error';
+			$scope.errors = result.data.errors;
+		});
+	};
+	$scope.undoRecoverBalance = function () {
+		$scope.isLoading = true;
+		LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=undorecoverwrittenoffbalance').then(function () {
 			$scope.isLoading = false;
 			updateLoanDetails();
 		}, function (result) {

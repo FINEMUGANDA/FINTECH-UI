@@ -351,32 +351,34 @@ angular.module('angularjsApp').controller('RoleController', function ($route, $r
                 $scope.actionNames[matrices[k]] = Object.keys(actionNames[matrices[k]]).sort(sortFunction);
             }
 
-            if(reportGroup.length>0) {
-                ReportService.getData(REST_URL.BASE + 'reports' + '?tenantIdentifier=default').then(function(result) {
-                    $scope.permissionsReport = {};
-                    $scope.currentReportCategory = '';
-                    for(var j=0; j<result.data.length; j++) {
-                        var report = result.data[j];
-                        if(report.reportCategory) {
-                            if(j===0) {
-                                $scope.currentReportCategory = report.reportCategory;
-                            }
-                            for(var i=0; i<reportGroup.length; i++) {
-                                if(reportGroup[i].entityName===report.reportName && PERMISSION_REPORT_CATEGORIES[report.reportCategory]) {
-                                    if(!$scope.permissionsReport[report.reportCategory]) {
-                                        $scope.permissionsReport[report.reportCategory] = [];
-                                    }
-                                    if(report.useReport===true) {
-                                        $scope.permissionsReport[report.reportCategory].push(reportGroup[i]);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }, function() {
-                    $scope.showError('Error : Cannot load reports.');
-                });
-            }
+			if (reportGroup.length > 0) {
+				ReportService.getData(REST_URL.BASE + 'reports' + '?tenantIdentifier=default').then(function (result) {
+					$scope.permissionsReport = {};
+					$scope.currentReportCategory = '';
+					for (var j = 0; j < result.data.length; j++) {
+						var report = result.data[j];
+						if (report.reportCategory) {
+							if (j === 0) {
+								$scope.currentReportCategory = report.reportCategory;
+							}
+							for (var i = 0; i < reportGroup.length; i++) {
+								if (reportGroup[i].entityName === report.reportName && PERMISSION_REPORT_CATEGORIES[report.reportCategory]) {
+									if (!$scope.permissionsReport[report.reportCategory]) {
+										$scope.permissionsReport[report.reportCategory] = [];
+									}
+									if (report.useReport === true) {
+										$scope.permissionsReport[report.reportCategory].push(reportGroup[i]);
+									}
+								}
+							}
+						}
+					}
+					console.log("Loading them reports...");
+					console.log($scope.permissionsReport);
+				}, function () {
+					$scope.showError('Error : Cannot load reports.');
+				});
+			}
         };
         var loadPermissionsFail = function () {
             $scope.showError('Error : Return from loadPermissions.');

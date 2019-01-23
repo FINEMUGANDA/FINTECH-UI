@@ -1041,6 +1041,7 @@ app.filter('status', [function () {
         '600': 'status closed', //grey
         '601': 'status closed', //grey
         '602': 'status active', //green
+		'603': 'status closed', //grey
         '700': 'status closed', //green
         '800': 'status active activeGoodStanding', //red
         '900': 'status active activeBadStanding'//green
