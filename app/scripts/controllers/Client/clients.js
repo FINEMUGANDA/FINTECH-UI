@@ -1510,6 +1510,15 @@ clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $route, $timeout,
     $scope.isLoading = false;
     try {
       $scope.displayed = result.data;
+	  $scope.displayed.map(function(x) {
+		 if (x.loan_status_id == 603) {
+			 x.watchlist = "Balance recovered";
+		 } else if (x.watchlist == 0) {
+			 x.watchlist = "No";
+		 } else {
+			 x.watchlist = "Yes";
+		 }
+	  });
 
       $scope.pages = [];
 
