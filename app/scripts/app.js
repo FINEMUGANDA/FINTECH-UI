@@ -719,7 +719,7 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPL
             cols = [ignoreColumns];
         }
 
-        $('.table').tableExport({type: 'pdf',
+        $('.table.pdf').tableExport({type: 'pdf',
             ignoreColumn: cols,
             escape: 'false',
             pdfFontSize: 7,

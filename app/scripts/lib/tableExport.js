@@ -347,7 +347,6 @@ THE SOFTWARE.*/
 	
 				}
 				
-				
 				function parseString(data){
 					var content_data='';
 					if(defaults.htmlContent == 'true'){
