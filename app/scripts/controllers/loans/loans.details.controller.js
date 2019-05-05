@@ -304,7 +304,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function ($route, 
 			$scope.errors = result.data.errors;
 		}
 		var msg = 'Do you want to initiate a refund of UGX ' + $filter('number')($scope.loanDetails.totalOverpaid) + ' to ' + $scope.loanDetails.clientName + '?';
-		var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Refund Client', submitBtn: {value: 'Refund Client', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
+		var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Refund Client or LO', submitBtn: {value: 'Refund Client or LO', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
 		dialog.result.then(function (result) {
 			if (result) {
 				LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loanDetails.id + '/transactions?command=refundToClient', $scope.formData).then(handleSuccess, handleFail);
