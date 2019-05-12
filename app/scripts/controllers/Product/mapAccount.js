@@ -65,7 +65,8 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
     $location.url(PAGE_URL.EDITLOANPRODUCT + '/' + $scope.id);
   };
   $scope.isAccountingEnabled = function () {
-    if (parseInt($scope.mapAccountingForm.accountingRule) === 2 || parseInt($scope.mapAccountingForm.accountingRule) === 3 || parseInt($scope.mapAccountingForm.accountingRule) === 4) {
+	  console.log("Accounting rule: " + $scope.mapAccountingForm.accountingRule);
+    if (parseInt($scope.mapAccountingForm.accountingRule) === 1 || parseInt($scope.mapAccountingForm.accountingRule) === 2 || parseInt($scope.mapAccountingForm.accountingRule) === 3 || parseInt($scope.mapAccountingForm.accountingRule) === 4) {
         return true;
     }
     return false;
@@ -133,8 +134,6 @@ angular.module('angularjsApp').controller('MapAccountingCtrl', function($rootSco
       $scope.mapAccountingForm.unidentifiedDepositsAccountId = _.get($scope, 'product.accountingMappings.unidentifiedDepositsAccount.id');
       $scope.mapAccountingForm.overpaidProfitAccountId = _.get($scope, 'product.accountingMappings.overpaidProfitAccount.id');
       $scope.mapAccountingForm.overpaymentLiabilityAccountId = _.get($scope, 'product.accountingMappings.overpaymentLiabilityAccount.id');
-      //Todo Set accountin rule default
-      $scope.mapAccountingForm.accountingRule = '4';
       $rootScope.message = '';
       $rootScope.type = '';
     } catch (e) {

@@ -30,28 +30,21 @@
         </div>
       </div>
       <form name="mapAccountingLoanform" ng-hide="isLoading" class="form-horizontal" novalidate  show-validation ng-submit="updateLoanProduct()">
-        <div class="col-md-12 " ng-hide='true'>
-          <div class="radio-inline">
-              <input type="radio" ng-model="mapAccountingForm.accountingRule" value="1"/>
-              None
-          </div>
-          <!--
-          <div class="radio-inline">
-              <input type="radio" ng-model="mapAccountingForm.accountingRule" value="2"/>
-              Cash
-          </div>
-          <div class="radio-inline">
-              <input type="radio" ng-model="mapAccountingForm.accountingRule" value="3"/>
-              Accrual (periodic)
-          </div>
-          -->
-          <div class="radio-inline">
-              <input type="radio" ng-model="mapAccountingForm.accountingRule" value="4"/>
-              Accrual (upfront)
-          </div>
-          <hr/>
-        </div>
         <div class="col-md-12" ng-show="isAccountingEnabled()">
+            <div class="form-group">
+                <h4>Accounting Rule</h4>
+                <div class="col-md-12">
+                    <div class="radio-inline">
+                        <input type="radio" ng-model="mapAccountingForm.accountingRule" value="3"/>
+                        Accrual (periodic)
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" ng-model="mapAccountingForm.accountingRule" value="4"/>
+                        Accrual (upfront)
+                    </div>
+                </div>
+            </div>
+            <hr/>
           <div class="form-group">
             <h4>Assets</h4>
             <label class="control-label col-sm-2">Fund source</label>

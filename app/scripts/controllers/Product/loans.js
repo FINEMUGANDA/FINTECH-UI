@@ -81,9 +81,6 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
   $scope.repaymentFrequencyTypeOptions = [
     {id: 2, value: 'Monthly'}
   ];
-  $scope.interestTypeOptions = [
-    {id: 1, value: 'Flat'}
-  ];
 
   //To load the loadproducts page
   $scope.isLoading = false;
@@ -95,6 +92,7 @@ LoanProductCrtl.controller('CreateLoanProductsCtrl', function($scope, $location,
     $scope.isLoading = false;
     try {
       $scope.product = result.data;
+	  $scope.interestTypeOptions = $scope.product.interestTypeOptions;
       $scope.loanProductDetails.digitsAfterDecimal = '2';
       $scope.loanProductDetails.currencyCode = $scope.product.currencyOptions && $scope.product.currencyOptions.length>0 ? $scope.product.currencyOptions[0].code : null;
       //Days and weeks options are hidden
@@ -274,9 +272,6 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
   $scope.repaymentFrequencyTypeOptions = [
     {id: 2, value: 'Monthly'}
   ];
-  $scope.interestTypeOptions = [
-    {id: 1, value: 'Flat'}
-  ];
 
   //Success callback
   var editLoanProductTeplateSuccess = function(result) {
@@ -286,6 +281,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
     $scope.isLoading = false;
     try {
       $scope.product = result.data;
+	  $scope.interestTypeOptions = $scope.product.interestTypeOptions;
       $scope.loanProductDetails.digitsAfterDecimal = '2';
       $scope.loanProductDetails.currencyCode = $scope.product.currency.code;
       $scope.loanProductDetails.repaymentFrequencyType = $scope.product.repaymentFrequencyType.id;
