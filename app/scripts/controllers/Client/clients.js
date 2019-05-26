@@ -5,1561 +5,1575 @@
 // Here we attach this controller to our testApp module
 var clientsCtrl = angular.module('clientsController', ['clientsService', 'Constants', 'smart-table']);
 
-clientsCtrl.controller('ClientsCtrl', function($scope, $route, $location, $timeout, ClientsService, CreateClientsService, SearchService, REST_URL, PAGE_URL, APPLICATION, dialogs) {
-  console.log('ClientsCtrl : loadClients');
-  //To load the clients page
-
-  $scope.isLoading = false;
-  $scope.rowCollection = [];
-  $scope.displayed = [];
-  $scope.pageSize = APPLICATION.PAGE_SIZE;
-  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
-  $scope.pages = [];
-  $scope.searchTerm = '';
-
-  var params = $location.search();
-
-  console.log('DEBUG: ' + angular.toJson(params));
-
-  if(params && params.clear) {
-     SearchService.clear('ids');
-     SearchService.clear('search');
-     console.log('DEBUG XX: ' + angular.toJson(SearchService.data('ids')));
-     console.log('DEBUG XX: ' + SearchService.data('search'));
-     $location.url(PAGE_URL.CLIENTS).replace();
-  }
-
-  $scope.goTo = function(p) {
-    $scope.currentPage = p;
-    loadClients();
-  };
-
-  $scope.goNext = function() {
-    $scope.currentPage++;
-    loadClients();
-  };
-
-  $scope.goPrevious = function() {
-    $scope.currentPage--;
-    loadClients();
-  };
-
-  $scope.goLast = function() {
-    $scope.currentPage = $scope.pages.length;
-    loadClients();
-  };
-
-  $scope.goFirst = function() {
-    $scope.currentPage = 1;
-    loadClients();
-  };
-
-  $scope.setPageSize = function(s) {
-    $scope.pageSize = s;
-    $scope.goFirst();
-  };
-
-  $scope.onSearch = function($event) {
-    if(!$scope.searchTerm || $scope.searchTerm.trim()==='') {
-        SearchService.clear('ids');
-        SearchService.clear('search');
-    }
-    if($event.keyCode===13) {
-      loadClients();
-    }
-  };
-
-  var addClient = function(client) {
-    $scope.rowCollection.push(client);
-    client.image = APPLICATION.NO_IMAGE_THUMB;
-    CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(function(result) {
-      client.image = result.data;
-    });
-  };
-
-  //Success callback
-  var allClientsSuccess = function(result) {
-    $scope.isLoading = false;
-
-    try {
-      $scope.rowCollection = [];
-      $scope.pages = [];
-
-      if(result.data && result.data[0] && result.data[0].clientCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].clientCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/clients/p/' + j});
-        }
-      }
-
-      for(var i=0; i<result.data.length; i++) {
-        addClient(result.data[i]);
-      }
-
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  //failur callback
-  var allClientsFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from allClients service.');
-  };
-
-  var loadClients = function getData() {
-    $scope.isLoading = true;
-
-    $timeout(function() {
-      $scope.rowCollection = [];
-      var offset = $scope.pageSize * ($scope.currentPage-1);
-      var status = $route.current.params.status ? $route.current.params.status : '%';
-
-      SearchService.data('search', $scope.searchTerm);
-
-      if(SearchService.data('ids')) {
-          $scope.searchTerm = SearchService.data('ids')[0] + '';
-      } else if(SearchService.data('search')) {
-          $scope.searchTerm = SearchService.data('search');
-      }
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-      ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_status=' + status + '&R_search=' + searchTerm).then(allClientsSuccess, allClientsFail);
-    }, 2000);
-  };
-
-  $scope.closeClient = function(client) {
-    var dialog = dialogs.create('/views/Client/grids/closeClientDialog.html', 'ConfirmCloseClientDialog', {client: client}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        loadClients();
-      }
-    });
-  };
-
-  $scope.createNote = function(client) {
-    var dialog = dialogs.create('views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: client}, {size: 'lg', keyboard: true, backdrop: true});
-    dialog.result.then(function() {
-      // TODO: do we need this?
-    });
-  };
-
-  $scope.activateClient = function(client) {
-    var msg = 'Are You sure want to re-activate client <strong>' + client.name + '</strong>?';
-    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Activate', submitBtn: {value: 'Activate', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        $scope.message = '';
-        var json = {
-          dateFormat: APPLICATION.DF_MIFOS,
-          locale: 'en',
-          activationDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
-        };
-        var url = REST_URL.CREATE_CLIENT + '/' + client.id + '?command=activate';
-        CreateClientsService.saveClient(url, json).then(function(result) {
-          console.log('Success CreateClientsService command activate', result);
-          $scope.type = 'alert-success';
-          $scope.message = 'Client has been successfuly activated.';
-          loadClients();
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Client not activated: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
-    });
-  };
-
-  loadClients();
-});
-
-clientsCtrl.controller('ClientSelectCtrl', function($scope, $modalInstance, REST_URL, ClientsService, data) {
-  $scope.isLoading = true;
-  $scope.msg = data.msg;
-  $scope.action = data.action;
-  $scope.clientId = null;
-  $scope.clients = null;
-
-  $scope.select = function() {
-    $modalInstance.close($scope.client.id);
-  };
-
-  $scope.cancel = function() {
-    $modalInstance.dismiss();
-  };
-
-  ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
-    $scope.clients = [];
-
-    angular.forEach(result.data, function(client) {
-      if( (!client.loanStatus || client.loanStatus.trim()==='' || client.loanStatus.indexOf('Written-Off')>-1 || client.loanStatus.indexOf('Closed')>-1 || client.loanStatus.indexOf('Withdrawn')>-1) && client.status==='Active') {
-        $scope.clients.push(client);
-      }
-    });
-    $scope.isLoading = false;
-  });
-});
-
-clientsCtrl.controller('ClientsRepaymentDialogCtrl', function($scope, $location, $modalInstance, REST_URL, ClientsService, DataTransferService, data) {
-  $scope.isLoading = true;
-  $scope.msg = data.msg;
-  $scope.action = data.action;
-  $scope.client = null;
-  $scope.paymentCode = 'payment';
-  $scope.clients = null;
-  $scope.paymentOptions = [
-    {
-      code: 'prepay',
-      name: 'Prepay loan'
-    },
-    {
-      code: 'payment',
-      name: 'Make loan payment'
-    }
-  ];
-
-  $scope.proceed = function() {
-    $modalInstance.dismiss();
-    $location.path('/loans/' + $scope.client.id + '/details/' + $scope.client.loanId);
-
-    DataTransferService.set('loan.payment.code', $scope.paymentCode);
-    //$scope.$broadcast('loan.show.dialog', $scope.paymentCode);
-  };
-
-  $scope.cancel = function() {
-    $modalInstance.dismiss();
-  };
-
-  ClientsService.getData(REST_URL.CLIENTS_LOAN_REPAYMENT).then(function(result) {
-    $scope.clients = result.data;
-    $scope.isLoading = false;
-  });
-});
-
-clientsCtrl.controller('ClientsNewNoteDialogCtrl', function($scope, $location, $modalInstance, REST_URL, dialogs, ClientsService, DataTransferService, data) {
-  $scope.isLoading = true;
-  $scope.msg = data.msg;
-  $scope.action = data.action;
-  $scope.client = null;
-  $scope.noteType = 'general';
-  $scope.clients = null;
-  $scope.noteTypes = [
-    {
-      code: 'followup',
-      name: 'Follow up Note'
-    },
-    {
-      code: 'general',
-      name: 'General Note'
-    }
-  ];
-
-  $scope.$watch('noteType', function() {
-    if($scope.noteType==='followup') {
-      // TODO: check if this is enough or if we need a new report without paging...
-      var status = "'Invalid', 'Submitted and awaiting approval', 'Approved', 'Active', 'Withdrawn by client', 'Rejected', 'Closed', 'Written-Off', 'Rescheduled', 'Overpaid', 'ActiveInGoodStanding', 'ActiveInBadStanding'";
-      ClientsService.getData(REST_URL.LOANS + '?R_limit=25&R_offset=0&R_search=%&R_status='+status).then(function(result) {
-        $scope.clients = result.data;
-        $scope.isLoading = false;
-      });
-    } else {
-      ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
-        $scope.clients = result.data;
-        $scope.isLoading = false;
-      });
-    }
-  });
-
-  $scope.proceed = function() {
-    if($scope.noteType==='followup') {
-      if($scope.client && $scope.client.clientId && $scope.client.loanId) {
-        DataTransferService.set('loan.detail.tab', 'notes');
-        DataTransferService.set('loan.id', $scope.client.loanId);
-        //DataTransferService.set('client.id', $scope.client.clientId);
-        $location.path('/loans/' + $scope.client.clientId + '/details/' + $scope.client.loanId);
-      }
-    } else {
-      var dialog = dialogs.create('views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: $scope.client}, {size: 'lg', keyboard: true, backdrop: true});
-      dialog.result.then(function() {
-        // TODO: do we need this?
-      });
-    }
-    $modalInstance.dismiss();
-  };
-
-  $scope.cancel = function() {
-    $modalInstance.dismiss();
-  };
-});
-
-clientsCtrl.controller('ClientsNoteDialogCtrl', function($scope, $modalInstance, $location, APPLICATION, REST_URL, CreateClientsService, DataTransferService, Session, Utility, dialogs, data) {
-  $scope.isLoading = false;
-  $scope.msg = data.msg;
-  $scope.notes = [];
-  $scope.client = data.client;
-  $scope.sourceOptions = [];
-  $scope.datepicker = {};
-
-  $scope.resetNote = function() {
-    $scope.note = {created_at: new Date(), client_id: data.client.id, dateFormat: APPLICATION.DF_MIFOS, locale: 'en', staff_username: Session.getValue('username')};
-    $scope.source = null;
-  };
-
-  $scope.open = function($event, target) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.datepicker[target] = true;
-  };
-
-  $scope.selectNote = function(note) {
-    $scope.note = angular.copy(note);
-    for(var i=0; i<$scope.sourceOptions.length; i++) {
-      if ($scope.sourceOptions[i].value === note.NoteSource_cd_source) {
-        $scope.source = $scope.sourceOptions[i];
-        break;
-      }
-    }
-  };
-
-  $scope.removeNote = function(note) {
-    var msg = 'You are about to remove note: <strong>' + note.notes + '</strong>';
-    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        CreateClientsService.deleteClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + note.id).then(function() {
-          if($scope.note.id === note.id) {
-            $scope.resetNote();
-          }
-          $scope.reloadNotes();
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
-    });
-  };
-
-  $scope.showFollowup = function() {
-    if($scope.loan && $scope.loan.clientId===$scope.client.id) {
-      var loanId = $scope.loan.loanId ? $scope.loan.loanId : $scope.loan.id;
-      DataTransferService.set('loan.detail.tab', 'notes');
-      DataTransferService.set('loan.id', loanId);
-      $location.path('/loans/' + $scope.loan.clientId + '/details/' + loanId);
-      $modalInstance.dismiss();
-    } else {
-        console.log('DEBUG X: ' + angular.toJson($scope.client));
-        console.log('DEBUG X: ' + angular.toJson($scope.loan));
-    }
-  };
-
-  $scope.hideFollowup = function() {
-    $scope.resetNote();
-    $scope.messageVisible = false;
-    $scope.reloadNotes();
-  };
-
-  $scope.showMessage = function() {
-    if($scope.client && $scope.client.loanId) {
-        CreateClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.client.loanId).then(function(result) {
-            $scope.loan = result.data;
-            $scope.messageVisible = true;
-        }, function(result) {
-            console.log('ERROR: ' + angular.toJson(result));
-        });
-    }
-  };
-
-  $scope.save = function() {
-    const noteData = angular.copy($scope.note);
-    if(noteData.created_at) {
-      noteData.created_at = moment(noteData.created_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
-    }
-    if(noteData.called_at) {
-      noteData.called_at = moment(noteData.called_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
-    }
-    if(noteData.visited_at) {
-      noteData.visited_at = moment(noteData.visited_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
-    }
-    if($scope.source) {
-      noteData.NoteSource_cd_source = $scope.source.id;
-    }
-
-    noteData.dateFormat = APPLICATION.DF_MIFOS;
-    noteData.locale = 'en';
-
-    if(noteData.id) {
-      // update
-      CreateClientsService.updateClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + noteData.id, angular.toJson(noteData)).then(function() {
-        //$modalInstance.dismiss();
-        $scope.showMessage();
-      }, function(result) {
-        $scope.type = 'error';
-        $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
-        $scope.errors = result.data.errors;
-      });
-    } else {
-      // create
-      CreateClientsService.saveClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson(noteData)).then(function() {
-        //$modalInstance.dismiss();
-        $scope.showMessage();
-      }, function(result) {
-        $scope.type = 'error';
-        $scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
-        $scope.errors = result.data.errors;
-      });
-    }
-  };
-
-  $scope.cancel = function() {
-    $modalInstance.dismiss();
-  };
-
-  $scope.back = function() {
-    $modalInstance.dismiss();
-    dialogs.create('views/Client/dialogs/note.new.tpl.html', 'ClientsNewNoteDialogCtrl', {msg: 'New Note'}, {size: 'md', keyboard: true, backdrop: true});
-  };
-
-  $scope.reloadNotes = function() {
-    CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '?genericResultSet=true').then(function(result) {
-      var columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
-      $scope.sourceOptions = columnHeaders.NoteSource_cd_source && columnHeaders.NoteSource_cd_source.columnValues || [];
-      var notes = Utility.fromGenericResult(result);
-      notes = _.sortBy(notes, function(item) {
-        if (item.NoteSource_cd_source === 'Phone Call') {
-          return -new Date(item.called_at).getTime();
-        }
-        return -new Date(item.visited_at || item.created_at).getTime();
-      });
-      $scope.notes = notes;
-    }, function(result) {
-      $scope.type = 'error';
-      $scope.message = 'Cannot retrieve client notes: ' + result.data.defaultUserMessage;
-      $scope.errors = result.data.errors;
-    });
-  };
-
-  $scope.resetNote();
-  $scope.reloadNotes();
-});
-
-clientsCtrl.controller('ClientsUploadDialogCtrl', function($scope, $modalInstance, $upload, $timeout, APPLICATION, REST_URL, CreateClientsService, ClientsService, data) {
-  $scope.isLoading = true;
-  $scope.msg = data.msg;
-  $scope.client = null;
-  $scope.doc = {};
-  $scope.extra = {};
-  $scope.clients = null;
-  $scope.file = null;
-  $scope.docTypes = [];
-
-  $scope.$watch('client', function() {
-    if($scope.client) {
-      $scope.docTypes = null;
-      CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '/identifiers/template').then(function(result) {
-        $scope.docTypes = result.data.allowedDocumentTypes;
-        if($scope.docTypes && $scope.docTypes.length>0) {
-          $scope.doc.documentTypeId = $scope.docTypes[0].id;
-        }
-      }, function() {
-        // TODO: do we need this?
-      });
-    }
-  });
-
-  $scope.onFileSelect = function($files) {
-    if ($files[0].size / 1024 > 2048) {
-      $scope.type = 'error';
-      $scope.message = 'File is too large! File size must be less then or equal to 2MB';
-      $scope.file = null;
-    } else {
-      $scope.file = $files[0];
-    }
-  };
-
-  $scope.open = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.opened = true;
-  };
-
-  $scope.upload = function() {
-    if($scope.file) {
-
-      $scope.isLoading = true;
-
-      CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '/identifiers', angular.toJson($scope.doc)).then(function(result) {
-        var clientId = result.data.clientId;
-        var resourceId = result.data.resourceId;
-
-        var formData = {};
-        formData.name = 'client_id_' + clientId;
-
-        $scope.doc = {};
-        //console.log('UPLOAD: ' + angular.toJson(result));
-
-        // extra
-        $scope.extra.identifier_id = resourceId;
-        $scope.extra.locale = 'en';
-        $scope.extra.dateFormat = APPLICATION.DF_MIFOS;
-        if ($scope.extra.issue_date) {
-          $scope.extra.issue_date = moment($scope.extra.issue_date).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
-        }
-
-        CreateClientsService.saveClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + clientId, angular.toJson($scope.extra)).then(function() {
-          $scope.extra = {};
-
-          // upload
-          $upload.upload({
-            url: APPLICATION.host + 'api/v1/client_identifiers/' + resourceId + '/documents',
-            data: formData,
-            file: $scope.file
-          }).then(function() {
-            $scope.type = 'alert-success';
-            $scope.errors = [];
-            $scope.message = 'Document uploaded';
-            $scope.isLoading = false;
-
-            $timeout($scope.cancel, 3000);
-          }, function(r) {
-            $scope.type = 'error';
-            $scope.message = 'Document attachment not uploaded!';
-            $scope.errors = r.data.errors;
-            $scope.isLoading = false;
-
-            $timeout($scope.cancel, 3000);
-          });
-        }, function(r) {
-          $scope.type = 'error';
-          $scope.message = 'Document Extras not saved!';
-          $scope.errors = r.data.errors;
-          $scope.isLoading = false;
-
-          $timeout($scope.cancel, 3000);
-        });
-      }, function(result) {
-        $scope.type = 'error';
-        $scope.message = 'Document not saved!';
-        $scope.errors = result.data.errors;
-        $scope.isLoading = false;
-
-        $timeout($scope.cancel, 3000);
-      });
-    }
-  };
-
-  $scope.cancel = function() {
-    $scope.client = null;
-    $scope.docTypes = [];
-    $scope.file = null;
-    $scope.isLoading = false;
-    $modalInstance.dismiss();
-  };
-
-  // TODO: consider using another approach here; quick fix
-  //ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=5000&R_offset=0&R_status=%&R_search=%').then(function(result) {
-  ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
-    $scope.clients = result.data;
-    $scope.isLoading = false;
-  });
-});
-
-clientsCtrl.controller('ClientSearchCtrl', function($rootScope, $scope, $route, $location, REST_URL, ClientsService, SearchService, AUTH_EVENTS) {
-  $scope.selected = null;
-  $scope.clients = null;
-  $scope.selectedClients = [];
-
-  $scope.go = function() {
-    var ids = [];
-	if (typeof $scope.selected === "string") {
-		ids.push($scope.selected);
-	} else {
-		ids.push($scope.selected.name);
+clientsCtrl.controller('ClientsCtrl', function ($scope, $route, $location, $timeout, ClientsService, CreateClientsService, SearchService, REST_URL, PAGE_URL, APPLICATION, dialogs) {
+	console.log('ClientsCtrl : loadClients');
+	//To load the clients page
+
+	$scope.isLoading = false;
+	$scope.rowCollection = [];
+	$scope.displayed = [];
+	$scope.pageSize = APPLICATION.PAGE_SIZE;
+	$scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+	$scope.pages = [];
+	$scope.searchTerm = '';
+
+	var params = $location.search();
+
+	console.log('DEBUG: ' + angular.toJson(params));
+
+	if (params && params.clear) {
+		SearchService.clear('ids');
+		SearchService.clear('search');
+		console.log('DEBUG XX: ' + angular.toJson(SearchService.data('ids')));
+		console.log('DEBUG XX: ' + SearchService.data('search'));
+		$location.url(PAGE_URL.CLIENTS).replace();
 	}
-    $scope.clear();
 
-    var path = '/clients';
-    SearchService.data('ids', ids);
+	$scope.goTo = function (p) {
+		$scope.currentPage = p;
+		loadClients();
+	};
 
-    if($location.path()===path) {
-      $route.reload();
-    } else {
-      $location.path(path);
-    }
-  };
+	$scope.goNext = function () {
+		$scope.currentPage++;
+		loadClients();
+	};
 
-  $scope.clear = function() {
-    $scope.selected = null;
-    $scope.selectedClients = [];
-  };
+	$scope.goPrevious = function () {
+		$scope.currentPage--;
+		loadClients();
+	};
 
-  $scope.searchFilter = function( criteria ) {
-    criteria = criteria.toLowerCase();
-    return function( item ) {
-      return item.name.toLowerCase().indexOf(criteria) > -1 || item.file_no.toLowerCase().indexOf(criteria) > -1
-		  || (item.mobile_no && item.mobile_no.toLowerCase().indexOf(criteria) > -1);
-    };
-  };
+	$scope.goLast = function () {
+		$scope.currentPage = $scope.pages.length;
+		loadClients();
+	};
 
-  $scope.onSelect = function ($item, $model /** , $label */) {
-    $scope.selectedClients = [$model];
-    $scope.go();
-  };
+	$scope.goFirst = function () {
+		$scope.currentPage = 1;
+		loadClients();
+	};
 
-  $scope.onKeypress = function($event) {
-    if ($event.which === 13) {
-      $scope.go();
-    }
-  };
+	$scope.setPageSize = function (s) {
+		$scope.pageSize = s;
+		$scope.goFirst();
+	};
 
-  $scope.load = function(/** val */) {
-    $scope.isLoading = true;
-    return ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function(result) {
-      $scope.clients = result.data;
-      $scope.isLoading = false;
-      return result.data;
-    }, function() {
-      $scope.isLoading = false;
-    });
-  };
-  $rootScope.$on('clientCreated', function() {
-    $scope.load();
-  });
-  $scope.$on(AUTH_EVENTS.loginSuccess, function() {
-    if(!$scope.clients || $scope.clients.length===0) {
-      $scope.load();
-    }
-  });
+	$scope.onSearch = function ($event) {
+		if (!$scope.searchTerm || $scope.searchTerm.trim() === '') {
+			SearchService.clear('ids');
+			SearchService.clear('search');
+		}
+		if ($event.keyCode === 13) {
+			loadClients();
+		}
+	};
 
-  if($location.path()!=='/') {
-    if(!$scope.clients || $scope.clients.length===0) {
-      $scope.load();
-    }
-  }
+	var addClient = function (client) {
+		$scope.rowCollection.push(client);
+		client.image = APPLICATION.NO_IMAGE_THUMB;
+		CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + client.id + '/images').then(function (result) {
+			client.image = result.data;
+		});
+	};
+
+	//Success callback
+	var allClientsSuccess = function (result) {
+		$scope.isLoading = false;
+
+		try {
+			$scope.rowCollection = [];
+			$scope.pages = [];
+
+			if (result.data && result.data[0] && result.data[0].clientCount) {
+				for (var j = 1; j <= Math.ceil(result.data[0].clientCount / $scope.pageSize); j++) {
+					$scope.pages.push({page: j, link: '#/clients/p/' + j});
+				}
+			}
+
+			for (var i = 0; i < result.data.length; i++) {
+				addClient(result.data[i]);
+			}
+
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	//failur callback
+	var allClientsFail = function () {
+		$scope.isLoading = false;
+		console.log('Error : Return from allClients service.');
+	};
+
+	var loadClients = function getData() {
+		$scope.isLoading = true;
+
+		$timeout(function () {
+			$scope.rowCollection = [];
+			var offset = $scope.pageSize * ($scope.currentPage - 1);
+			var status = $route.current.params.status ? $route.current.params.status : '%';
+
+			SearchService.data('search', $scope.searchTerm);
+
+			if (SearchService.data('ids')) {
+				$scope.searchTerm = SearchService.data('ids')[0] + '';
+			} else if (SearchService.data('search')) {
+				$scope.searchTerm = SearchService.data('search');
+			}
+			var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+			ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_status=' + status + '&R_search=' + searchTerm).then(allClientsSuccess, allClientsFail);
+		}, 2000);
+	};
+
+	$scope.closeClient = function (client) {
+		var dialog = dialogs.create('/views/Client/grids/closeClientDialog.html', 'ConfirmCloseClientDialog', {client: client}, {size: 'md', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				loadClients();
+			}
+		});
+	};
+
+	$scope.createNote = function (client) {
+		var dialog = dialogs.create('views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: client}, {size: 'lg', keyboard: true, backdrop: true});
+		dialog.result.then(function () {
+			// TODO: do we need this?
+		});
+	};
+
+	$scope.activateClient = function (client) {
+		var msg = 'Are You sure want to re-activate client <strong>' + client.name + '</strong>?';
+		var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Confirm Activate', submitBtn: {value: 'Activate', class: 'btn-success'}}, {size: 'sm', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				$scope.message = '';
+				var json = {
+					dateFormat: APPLICATION.DF_MIFOS,
+					locale: 'en',
+					activationDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
+				};
+				var url = REST_URL.CREATE_CLIENT + '/' + client.id + '?command=activate';
+				CreateClientsService.saveClient(url, json).then(function (result) {
+					console.log('Success CreateClientsService command activate', result);
+					$scope.type = 'alert-success';
+					$scope.message = 'Client has been successfuly activated.';
+					loadClients();
+				}, function (result) {
+					$scope.type = 'error';
+					$scope.message = 'Client not activated: ' + result.data.defaultUserMessage;
+					$scope.errors = result.data.errors;
+				});
+			}
+		});
+	};
+
+	loadClients();
 });
 
-clientsCtrl.controller('ConfirmCloseClientDialog', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, AuthService, CreateClientsService, data) {
-  $scope.client = data.client;
-  $scope.info = {};
-  var $url = REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=close';
-  ClientsService.getData($url).then(function(result) {
-    if (result.data && result.data.narrations) {
-      $scope.closureReasons = result.data.narrations;
-    }
-  }, function() {
-    console.log('Cant recieve closure reasons data');
-  });
-  $scope.closeClient = function() {
-    $scope.message = '';
+clientsCtrl.controller('ClientSelectCtrl', function ($scope, $modalInstance, REST_URL, ClientsService, data) {
+	$scope.isLoading = true;
+	$scope.msg = data.msg;
+	$scope.action = data.action;
+	$scope.clientId = null;
+	$scope.clients = null;
 
-    var json = {
-      dateFormat: APPLICATION.DF_MIFOS,
-      locale: 'en',
-      closureDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT),
-      closureReasonId: $scope.info.closureReason
-    };
-    var url = REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=close';
-    CreateClientsService.saveClient(url, json).then(function(result) {
-      console.log('Success CreateClientsService command close', result);
-      $modalInstance.close(true);
-    }, function(result) {
-      $scope.type = 'error';
-      $scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
-      $scope.errors = result.data.errors;
-    });
-  };
+	$scope.select = function () {
+		$modalInstance.close($scope.client.id);
+	};
 
-  $scope.cancel = function() {
-    $modalInstance.close(false);
-  };
-  $scope.hasPermission = function(permission) {
-    console.log('PERMISSION: ' + permission);
-    return AuthService.hasPermission(permission);
-  };
+	$scope.cancel = function () {
+		$modalInstance.dismiss();
+	};
 
+	ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function (result) {
+		$scope.clients = [];
+
+		angular.forEach(result.data, function (client) {
+			if ((!client.loanStatus || client.loanStatus.trim() === '' || client.loanStatus.indexOf('Written-Off') > -1 || client.loanStatus.indexOf('Closed') > -1 || client.loanStatus.indexOf('Withdrawn') > -1) && client.status === 'Active') {
+				$scope.clients.push(client);
+			}
+		});
+		$scope.isLoading = false;
+	});
 });
 
+clientsCtrl.controller('ClientsRepaymentDialogCtrl', function ($scope, $location, $modalInstance, REST_URL, ClientsService, DataTransferService, data) {
+	$scope.isLoading = true;
+	$scope.msg = data.msg;
+	$scope.action = data.action;
+	$scope.client = null;
+	$scope.paymentCode = 'payment';
+	$scope.clients = null;
+	$scope.paymentOptions = [
+		{
+			code: 'prepay',
+			name: 'Prepay loan'
+		},
+		{
+			code: 'payment',
+			name: 'Make loan payment'
+		}
+	];
 
-clientsCtrl.controller('LoansCtrl', function($scope, $route, $location, $timeout, ClientsService, SearchService, CreateClientsService, REST_URL, APPLICATION) {
-  console.log('LoansCtrl : Loans');
-  //To load the loans page
+	$scope.proceed = function () {
+		$modalInstance.dismiss();
+		$location.path('/loans/' + $scope.client.id + '/details/' + $scope.client.loanId);
 
-  $scope.isLoading = false;
-  $scope.rowCollection = [];
-  $scope.displayed = [];
-  $scope.pageSize = APPLICATION.PAGE_SIZE;
-  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
-  $scope.pages = [];
+		DataTransferService.set('loan.payment.code', $scope.paymentCode);
+		//$scope.$broadcast('loan.show.dialog', $scope.paymentCode);
+	};
 
-  $scope.onSearch = function($event) {
-    if(!$scope.searchTerm || $scope.searchTerm.trim()==='') {
-      SearchService.clear('search');
-    }
-    if($event.keyCode===13) {
-      loadLoans();
-    }
-  };
+	$scope.cancel = function () {
+		$modalInstance.dismiss();
+	};
 
-  $scope.goTo = function(p) {
-    $scope.currentPage = p;
-    loadLoans();
-  };
-
-  $scope.goNext = function() {
-    $scope.currentPage++;
-    loadLoans();
-  };
-
-  $scope.goPrevious = function() {
-    $scope.currentPage--;
-    loadLoans();
-  };
-
-  $scope.goLast = function() {
-    $scope.currentPage = $scope.pages.length;
-    loadLoans();
-  };
-
-  $scope.goFirst = function() {
-    $scope.currentPage = 1;
-    loadLoans();
-  };
-
-  $scope.setPageSize = function(s) {
-    $scope.pageSize = s;
-    $scope.goFirst();
-  };
-
-  //Success callback
-  var allLoansSuccess = function(result) {
-    $scope.isLoading = false;
-    try {
-      $scope.rowCollection = [];
-      $scope.pages = [];
-
-      if(result.data && result.data[0] && result.data[0].loanCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/loans/p/' + j});
-        }
-      }
-
-      angular.forEach(result.data, function(loan) {
-        loan.image = APPLICATION.NO_IMAGE_THUMB;
-
-        $scope.rowCollection.push(loan);
-        CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function(result) {
-          loan.image = result.data;
-        });
-      });
-    } catch (e) {
-    }
-  };
-
-  //failur callback
-  var allLoansFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from allLoansFail service.');
-  };
-
-  var loadLoans = function getData() {
-    $scope.isLoading = true;
-
-    $timeout(function() {
-      $scope.rowCollection = [];
-      var offset = $scope.pageSize * ($scope.currentPage-1);
-      var status = '%';
-
-      SearchService.data('search', $scope.searchTerm);
-
-      if(SearchService.data('search')) {
-         $scope.searchTerm = SearchService.data('search');
-      }
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-      if($route.current.params.loanStatus==='total') {
-        status = "'ActiveInGoodStanding','ActiveInBadStanding'";
-      } else if($route.current.params.loanStatus==='bad') {
-        status = "'ActiveInBadStanding'";
-      } else {
-        status = "'Invalid', 'Submitted and awaiting approval', 'Approved', 'Active', 'Withdrawn by client', 'Rejected', 'Closed', 'Written-Off', 'Rescheduled', 'Overpaid', 'ActiveInGoodStanding', 'ActiveInBadStanding'";
-      }
-      ClientsService.getData(REST_URL.LOANS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_status=' + status+ '&R_search=' + searchTerm).then(allLoansSuccess, allLoansFail);
-    }, 2000);
-  };
-
-  $scope.showLoanDetails = function(loan) {
-    $location.url('/loans/' + loan.clientId + '/details/' + loan.loanId);
-  };
-
-  loadLoans();
+	ClientsService.getData(REST_URL.CLIENTS_LOAN_REPAYMENT).then(function (result) {
+		$scope.clients = result.data;
+		$scope.isLoading = false;
+	});
 });
 
-clientsCtrl.controller('LoansClosedCtrl', function($scope, $route, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
-  console.log('LoansClosedCtrl : Loans');
-  //To load the loans page
+clientsCtrl.controller('ClientsNewNoteDialogCtrl', function ($scope, $location, $modalInstance, REST_URL, dialogs, ClientsService, DataTransferService, data) {
+	$scope.isLoading = true;
+	$scope.msg = data.msg;
+	$scope.action = data.action;
+	$scope.client = null;
+	$scope.noteType = 'general';
+	$scope.clients = null;
+	$scope.noteTypes = [
+		{
+			code: 'followup',
+			name: 'Follow up Note'
+		},
+		{
+			code: 'general',
+			name: 'General Note'
+		}
+	];
 
-  $scope.isLoading = false;
-  $scope.rowCollection = [];
-  $scope.displayed = [];
-  $scope.pageSize = APPLICATION.PAGE_SIZE;
-  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
-  $scope.pages = [];
+	$scope.$watch('noteType', function () {
+		if ($scope.noteType === 'followup') {
+			// TODO: check if this is enough or if we need a new report without paging...
+			var status = "'Invalid', 'Submitted and awaiting approval', 'Approved', 'Active', 'Withdrawn by client', 'Rejected', 'Closed', 'Written-Off', 'Rescheduled', 'Overpaid', 'ActiveInGoodStanding', 'ActiveInBadStanding'";
+			ClientsService.getData(REST_URL.LOANS + '?R_limit=25&R_offset=0&R_search=%&R_status=' + status).then(function (result) {
+				$scope.clients = result.data;
+				$scope.isLoading = false;
+			});
+		} else {
+			ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function (result) {
+				$scope.clients = result.data;
+				$scope.isLoading = false;
+			});
+		}
+	});
 
-  $scope.onKeyboard = function($event) {
-    if($event.keyCode===37) {
-      $scope.goPrevious();
-    } else if($event.keyCode===30) {
-      $scope.goNext();
-    }
-  };
+	$scope.proceed = function () {
+		if ($scope.noteType === 'followup') {
+			if ($scope.client && $scope.client.clientId && $scope.client.loanId) {
+				DataTransferService.set('loan.detail.tab', 'notes');
+				DataTransferService.set('loan.id', $scope.client.loanId);
+				//DataTransferService.set('client.id', $scope.client.clientId);
+				$location.path('/loans/' + $scope.client.clientId + '/details/' + $scope.client.loanId);
+			}
+		} else {
+			var dialog = dialogs.create('views/Client/dialogs/note.tpl.html', 'ClientsNoteDialogCtrl', {msg: 'General Client Notes', client: $scope.client}, {size: 'lg', keyboard: true, backdrop: true});
+			dialog.result.then(function () {
+				// TODO: do we need this?
+			});
+		}
+		$modalInstance.dismiss();
+	};
 
-  $scope.onSearch = function($event) {
-    if($event.keyCode===13) {
-      loadLoans();
-    }
-  };
-
-  $scope.goTo = function(p) {
-    $scope.currentPage = p;
-    loadLoans();
-  };
-
-  $scope.goNext = function() {
-    $scope.currentPage++;
-    loadLoans();
-  };
-
-  $scope.goPrevious = function() {
-    $scope.currentPage--;
-    loadLoans();
-  };
-
-  $scope.goLast = function() {
-    $scope.currentPage = $scope.pages.length;
-    loadLoans();
-  };
-
-  $scope.goFirst = function() {
-    $scope.currentPage = 1;
-    loadLoans();
-  };
-
-  $scope.setPageSize = function(s) {
-    $scope.pageSize = s;
-    $scope.goFirst();
-  };
-
-  //Success callback
-  var allLoansSuccess = function(result) {
-    $scope.isLoading = false;
-    try {
-      $scope.rowCollection = result.data;
-
-      $scope.pages = [];
-
-      if(result.data && result.data[0] && result.data[0].loanCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/loansClosed/p/' + j});
-        }
-      }
-
-      angular.forEach($scope.rowCollection, function(loan) {
-          loan.image = APPLICATION.NO_IMAGE_THUMB;
-          CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function(result) {
-              loan.image = result.data;
-          });
-      });
-    } catch (e) {
-    }
-  };
-
-  //failur callback
-  var allLoansFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from allLoansFail service.');
-  };
-
-  var loadLoans = function getData() {
-    $scope.isLoading = true;
-
-    $timeout(function() {
-      $scope.rowCollection = [];
-      //service to get loans from server
-      var offset = $scope.pageSize * ($scope.currentPage-1);
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-      ClientsService.getData(REST_URL.LOANS_CLOSED + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansSuccess, allLoansFail);
-    }, 2000);
-  };
-
-  $scope.showLoanDetails = function(loan) {
-    $location.url('/loans/' + loan.clientId + '/details/' + loan.loanId);
-  };
-
-  loadLoans();
+	$scope.cancel = function () {
+		$modalInstance.dismiss();
+	};
 });
 
-clientsCtrl.controller('LoansPendingApprovalsCtrl', function($scope, $route, $timeout, LoanService, CreateClientsService, APPLICATION, REST_URL, $location, dialogs) {
-  console.log('LoansPendingApprovalsCtrl : LoansPendingApprovals');
-  //To load the LoansPendingApprovals page
+clientsCtrl.controller('ClientsNoteDialogCtrl', function ($scope, $modalInstance, $location, APPLICATION, REST_URL, CreateClientsService, DataTransferService, Session, Utility, dialogs, data) {
+	$scope.isLoading = false;
+	$scope.msg = data.msg;
+	$scope.notes = [];
+	$scope.client = data.client;
+	$scope.sourceOptions = [];
+	$scope.datepicker = {};
 
-  $scope.isLoading = false;
-  $scope.rowCollection = [];
-  $scope.displayed = [];
-  $scope.pageSize = APPLICATION.PAGE_SIZE;
-  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
-  $scope.pages = [];
+	$scope.resetNote = function () {
+		$scope.note = {created_at: new Date(), client_id: data.client.id, dateFormat: APPLICATION.DF_MIFOS, locale: 'en', staff_username: Session.getValue('username')};
+		$scope.source = null;
+	};
 
-  $scope.onKeyboard = function($event) {
-    if($event.keyCode===37) {
-      $scope.goPrevious();
-    } else if($event.keyCode===30) {
-      $scope.goNext();
-    }
-  };
+	$scope.open = function ($event, target) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.datepicker[target] = true;
+	};
 
-  $scope.onSearch = function($event) {
-    if($event.keyCode===13) {
-      loadLoansPendingApprovals();
-    }
-  };
+	$scope.selectNote = function (note) {
+		$scope.note = angular.copy(note);
+		for (var i = 0; i < $scope.sourceOptions.length; i++) {
+			if ($scope.sourceOptions[i].value === note.NoteSource_cd_source) {
+				$scope.source = $scope.sourceOptions[i];
+				break;
+			}
+		}
+	};
 
-  $scope.goTo = function(p) {
-    $scope.currentPage = p;
-    loadLoansPendingApprovals();
-  };
+	$scope.removeNote = function (note) {
+		var msg = 'You are about to remove note: <strong>' + note.notes + '</strong>';
+		var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				CreateClientsService.deleteClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + note.id).then(function () {
+					if ($scope.note.id === note.id) {
+						$scope.resetNote();
+					}
+					$scope.reloadNotes();
+				}, function (result) {
+					$scope.type = 'error';
+					$scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
+					$scope.errors = result.data.errors;
+				});
+			}
+		});
+	};
 
-  $scope.goNext = function() {
-    $scope.currentPage++;
-    loadLoansPendingApprovals();
-  };
+	$scope.showFollowup = function () {
+		if ($scope.loan && $scope.loan.clientId === $scope.client.id) {
+			var loanId = $scope.loan.loanId ? $scope.loan.loanId : $scope.loan.id;
+			DataTransferService.set('loan.detail.tab', 'notes');
+			DataTransferService.set('loan.id', loanId);
+			$location.path('/loans/' + $scope.loan.clientId + '/details/' + loanId);
+			$modalInstance.dismiss();
+		} else {
+			console.log('DEBUG X: ' + angular.toJson($scope.client));
+			console.log('DEBUG X: ' + angular.toJson($scope.loan));
+		}
+	};
 
-  $scope.goPrevious = function() {
-    $scope.currentPage--;
-    loadLoansPendingApprovals();
-  };
+	$scope.hideFollowup = function () {
+		$scope.resetNote();
+		$scope.messageVisible = false;
+		$scope.reloadNotes();
+	};
 
-  $scope.goLast = function() {
-    $scope.currentPage = $scope.pages.length;
-    loadLoansPendingApprovals();
-  };
+	$scope.showMessage = function () {
+		if ($scope.client && $scope.client.loanId) {
+			CreateClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.client.loanId).then(function (result) {
+				$scope.loan = result.data;
+				$scope.messageVisible = true;
+			}, function (result) {
+				console.log('ERROR: ' + angular.toJson(result));
+			});
+		}
+	};
 
-  $scope.goFirst = function() {
-    $scope.currentPage = 1;
-    loadLoansPendingApprovals();
-  };
+	$scope.save = function () {
+		const noteData = angular.copy($scope.note);
+		if (noteData.created_at) {
+			noteData.created_at = moment(noteData.created_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+		}
+		if (noteData.called_at) {
+			noteData.called_at = moment(noteData.called_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+		}
+		if (noteData.visited_at) {
+			noteData.visited_at = moment(noteData.visited_at).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+		}
+		if ($scope.source) {
+			noteData.NoteSource_cd_source = $scope.source.id;
+		}
 
-  $scope.setPageSize = function(s) {
-    $scope.pageSize = s;
-    $scope.goFirst();
-  };
+		noteData.dateFormat = APPLICATION.DF_MIFOS;
+		noteData.locale = 'en';
 
-  //Success callback
-  var allLoansPendingApprovalsSuccess = function(result) {
-    $scope.isLoading = false;
-    try {
-      $scope.rowCollection = result.data;
+		if (noteData.id) {
+			// update
+			CreateClientsService.updateClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '/' + noteData.id, angular.toJson(noteData)).then(function () {
+				//$modalInstance.dismiss();
+				$scope.showMessage();
+			}, function (result) {
+				$scope.type = 'error';
+				$scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
+				$scope.errors = result.data.errors;
+			});
+		} else {
+			// create
+			CreateClientsService.saveClient(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id, angular.toJson(noteData)).then(function () {
+				//$modalInstance.dismiss();
+				$scope.showMessage();
+			}, function (result) {
+				$scope.type = 'error';
+				$scope.message = 'Cannot save client notes: ' + result.data.defaultUserMessage;
+				$scope.errors = result.data.errors;
+			});
+		}
+	};
 
-      $scope.pages = [];
+	$scope.cancel = function () {
+		$modalInstance.dismiss();
+	};
 
-      if(result.data && result.data[0] && result.data[0].loanCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/loansPendingApproval/p/' + j});
-        }
-      }
-    } catch (e) {
-    }
-  };
+	$scope.back = function () {
+		$modalInstance.dismiss();
+		dialogs.create('views/Client/dialogs/note.new.tpl.html', 'ClientsNewNoteDialogCtrl', {msg: 'New Note'}, {size: 'md', keyboard: true, backdrop: true});
+	};
 
-  //failur callback
-  var allLoansPendingApprovalsFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from allLoansPendingApprovalsFail service.');
-  };
+	$scope.reloadNotes = function () {
+		CreateClientsService.getData(REST_URL.CLIENT_NOTE_GENERAL + $scope.client.id + '?genericResultSet=true').then(function (result) {
+			var columnHeaders = _.indexBy(result.data.columnHeaders, 'columnName');
+			$scope.sourceOptions = columnHeaders.NoteSource_cd_source && columnHeaders.NoteSource_cd_source.columnValues || [];
+			var notes = Utility.fromGenericResult(result);
+			notes = _.sortBy(notes, function (item) {
+				if (item.NoteSource_cd_source === 'Phone Call') {
+					return -new Date(item.called_at).getTime();
+				}
+				return -new Date(item.visited_at || item.created_at).getTime();
+			});
+			$scope.notes = notes;
+		}, function (result) {
+			$scope.type = 'error';
+			$scope.message = 'Cannot retrieve client notes: ' + result.data.defaultUserMessage;
+			$scope.errors = result.data.errors;
+		});
+	};
 
-  var loadLoansPendingApprovals = function getData() {
-    $scope.isLoading = true;
-
-    $timeout(function() {
-      $scope.rowCollection = [];
-      var offset = $scope.pageSize * ($scope.currentPage-1);
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-      //service to get LoansPendingApprovals from server
-      LoanService.getData(REST_URL.LOANS_PENDING_APPROVALS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansPendingApprovalsSuccess, allLoansPendingApprovalsFail);
-    }, 2000);
-  };
-
-  $scope.editLoan = function(loan) {
-    //$location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
-    $location.url('/loans/view/' + loan.loanId);
-  };
-
-  $scope.removeLoan = function(loan) {
-    var msg = 'You are about to remove Loan for client: <strong>' + loan.name + '</strong>';
-    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + loan.loanId).then(function() {
-          $scope.type = 'alert-success';
-          $scope.message = 'Loan removed successfuly';
-          $scope.errors = [];
-          loadLoansPendingApprovals();
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
-    });
-  };
-
-  $scope.openActionDialog = function(loan) {
-    var dialog = dialogs.create('/views/Client/grids/loans.dialog.action.html', 'LoansActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        loadLoansPendingApprovals();
-      }
-    });
-  };
-
-  loadLoansPendingApprovals();
+	$scope.resetNote();
+	$scope.reloadNotes();
 });
 
-clientsCtrl.controller('LoansActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, AuthService, ClientsService, CreateClientsService, dialogs, $rootScope, data) {
-  console.log('LoansActionDialogCtrl', $scope);
-  $scope.baseLoan = data.loan;
-  $scope.info = {};
-  $scope.data = {};
-  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '/charges').then(function(result) {
-    if (result.data) {
-      $scope.data.charges = result.data;
-    }
-  }, function() {
-    console.log('Cant recieve charges data');
-  });
-  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId).then(function(result) {
-    if (result.data) {
-      $scope.loan = result.data;
-    }
-  }, function() {
-    console.log('Cant recieve loan data');
-  });
+clientsCtrl.controller('ClientsUploadDialogCtrl', function ($scope, $modalInstance, $upload, $timeout, APPLICATION, REST_URL, CreateClientsService, ClientsService, data) {
+	$scope.isLoading = true;
+	$scope.msg = data.msg;
+	$scope.client = null;
+	$scope.doc = {};
+	$scope.extra = {};
+	$scope.clients = null;
+	$scope.file = null;
+	$scope.docTypes = [];
 
-  $scope.cancel = function() {
-    $modalInstance.close(false);
-  };
-  $scope.reject = function() {
-    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'reject'}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        var json = {
-          dateFormat: APPLICATION.DF_MIFOS,
-          locale: 'en',
-          rejectedOnDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT),
-          note: result.note
-        };
-        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=reject', json).then(function(result) {
-          $scope.type = 'alert-success';
-          $scope.message = 'Loan rejected successfuly';
-          $scope.errors = result.data.errors;
-          $modalInstance.close(true);
-          $rootScope.$emit('updateNotificationsCount');
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
-    });
-  };
-  $scope.approve = function() {
-    var json = {
-      dateFormat: APPLICATION.DF_MIFOS,
-      locale: 'en',
-      approvedOnDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
-    };
-    CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=approve', json).then(function(result) {
-      $scope.type = 'alert-success';
-      $scope.message = 'Loan approved successfuly';
-      $scope.errors = result.data.errors;
-      $modalInstance.close(true);
-      $rootScope.$emit('updateNotificationsCount');
-    }, function(result) {
-      $scope.type = 'error';
-      $scope.message = 'Loan not approved: ' + result.data.defaultUserMessage;
-      $scope.errors = result.data.errors;
-    });
-  };
+	$scope.$watch('client', function () {
+		if ($scope.client) {
+			$scope.docTypes = null;
+			CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '/identifiers/template').then(function (result) {
+				$scope.docTypes = result.data.allowedDocumentTypes;
+				if ($scope.docTypes && $scope.docTypes.length > 0) {
+					$scope.doc.documentTypeId = $scope.docTypes[0].id;
+				}
+			}, function () {
+				// TODO: do we need this?
+			});
+		}
+	});
 
-    $scope.hasPermission = AuthService.hasPermission;
+	$scope.onFileSelect = function ($files) {
+		if ($files[0].size / 1024 > 2048) {
+			$scope.type = 'error';
+			$scope.message = 'File is too large! File size must be less then or equal to 2MB';
+			$scope.file = null;
+		} else {
+			$scope.file = $files[0];
+		}
+	};
 
+	$scope.open = function ($event) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.opened = true;
+	};
+
+	$scope.upload = function () {
+		if ($scope.file) {
+
+			$scope.isLoading = true;
+
+			CreateClientsService.saveClient(REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '/identifiers', angular.toJson($scope.doc)).then(function (result) {
+				var clientId = result.data.clientId;
+				var resourceId = result.data.resourceId;
+
+				var formData = {};
+				formData.name = 'client_id_' + clientId;
+
+				$scope.doc = {};
+				//console.log('UPLOAD: ' + angular.toJson(result));
+
+				// extra
+				$scope.extra.identifier_id = resourceId;
+				$scope.extra.locale = 'en';
+				$scope.extra.dateFormat = APPLICATION.DF_MIFOS;
+				if ($scope.extra.issue_date) {
+					$scope.extra.issue_date = moment($scope.extra.issue_date).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT);
+				}
+
+				CreateClientsService.saveClient(REST_URL.CREATE_CLIENT_IDENTIFICATION + clientId, angular.toJson($scope.extra)).then(function () {
+					$scope.extra = {};
+
+					// upload
+					$upload.upload({
+						url: APPLICATION.host + 'api/v1/client_identifiers/' + resourceId + '/documents',
+						data: formData,
+						file: $scope.file
+					}).then(function () {
+						$scope.type = 'alert-success';
+						$scope.errors = [];
+						$scope.message = 'Document uploaded';
+						$scope.isLoading = false;
+
+						$timeout($scope.cancel, 3000);
+					}, function (r) {
+						$scope.type = 'error';
+						$scope.message = 'Document attachment not uploaded!';
+						$scope.errors = r.data.errors;
+						$scope.isLoading = false;
+
+						$timeout($scope.cancel, 3000);
+					});
+				}, function (r) {
+					$scope.type = 'error';
+					$scope.message = 'Document Extras not saved!';
+					$scope.errors = r.data.errors;
+					$scope.isLoading = false;
+
+					$timeout($scope.cancel, 3000);
+				});
+			}, function (result) {
+				$scope.type = 'error';
+				$scope.message = 'Document not saved!';
+				$scope.errors = result.data.errors;
+				$scope.isLoading = false;
+
+				$timeout($scope.cancel, 3000);
+			});
+		}
+	};
+
+	$scope.cancel = function () {
+		$scope.client = null;
+		$scope.docTypes = [];
+		$scope.file = null;
+		$scope.isLoading = false;
+		$modalInstance.dismiss();
+	};
+
+	// TODO: consider using another approach here; quick fix
+	//ClientsService.getData(REST_URL.ALL_CLIENTS + '?R_limit=5000&R_offset=0&R_status=%&R_search=%').then(function(result) {
+	ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function (result) {
+		$scope.clients = result.data;
+		$scope.isLoading = false;
+	});
 });
 
-clientsCtrl.controller('SubmitLoanActionDialogCtrl', function($scope, $modalInstance, data) {
-  $scope.dialogType = data.type;
-  $scope.datepicker = {};
-  $scope.data = {};
-  if ($scope.dialogType === 'approve') {
-    $scope.title = 'Approve Loan';
-    $scope.messageLabel = 'Note';
-  } else if ($scope.dialogType === 'disburse') {
-    $scope.title = 'Disburse Loan';
-    $scope.messageLabel = 'Note';
-  } else if ($scope.dialogType === 'undoApproval') {
-    $scope.title = 'Undo Approval Loan';
-    $scope.messageLabel = 'Note';
-  } else {
-    $scope.title = 'Reject Loan';
-    $scope.messageLabel = 'Reason';
-  }
-  $scope.open = function($event, target) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.datepicker[target] = true;
-  };
-  $scope.ok = function() {
-    if (!$scope.submitLoanActionForm.$valid) {
-      $scope.type = 'error';
-      $scope.message = 'Highlighted fields are required';
-      $scope.errors = [];
-      $('html, body').animate({scrollTop: 0}, 800);
-      return;
-    }
-    $modalInstance.close(angular.copy($scope.data));
-  };
-  $scope.cancel = function() {
-    $modalInstance.close(false);
-  };
+clientsCtrl.controller('ClientSearchCtrl', function ($rootScope, $scope, $route, $location, REST_URL, ClientsService, SearchService, AUTH_EVENTS) {
+	$scope.selected = null;
+	$scope.clients = null;
+	$scope.selectedClients = [];
+
+	$scope.go = function () {
+		var ids = [];
+		if (typeof $scope.selected === "string") {
+			ids.push($scope.selected);
+		} else {
+			ids.push($scope.selected.name);
+		}
+		$scope.clear();
+
+		var path = '/clients';
+		SearchService.data('ids', ids);
+
+		if ($location.path() === path) {
+			$route.reload();
+		} else {
+			$location.path(path);
+		}
+	};
+
+	$scope.clear = function () {
+		$scope.selected = null;
+		$scope.selectedClients = [];
+	};
+
+	$scope.searchFilter = function (criteria) {
+		criteria = criteria.toLowerCase();
+		return function (item) {
+			return item.name.toLowerCase().indexOf(criteria) > -1 || item.file_no.toLowerCase().indexOf(criteria) > -1
+				|| (item.mobile_no && item.mobile_no.toLowerCase().indexOf(criteria) > -1);
+		};
+	};
+
+	$scope.onSelect = function ($item, $model /** , $label */) {
+		$scope.selectedClients = [$model];
+		$scope.go();
+	};
+
+	$scope.onKeypress = function ($event) {
+		if ($event.which === 13) {
+			$scope.go();
+		}
+	};
+
+	$scope.load = function (/** val */) {
+		$scope.isLoading = true;
+		return ClientsService.getData(REST_URL.SEARCH_CLIENTS).then(function (result) {
+			$scope.clients = result.data;
+			$scope.isLoading = false;
+			return result.data;
+		}, function () {
+			$scope.isLoading = false;
+		});
+	};
+	$rootScope.$on('clientCreated', function () {
+		$scope.load();
+	});
+	$scope.$on(AUTH_EVENTS.loginSuccess, function () {
+		if (!$scope.clients || $scope.clients.length === 0) {
+			$scope.load();
+		}
+	});
+
+	if ($location.path() !== '/') {
+		if (!$scope.clients || $scope.clients.length === 0) {
+			$scope.load();
+		}
+	}
 });
 
+clientsCtrl.controller('ConfirmCloseClientDialog', function ($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, AuthService, CreateClientsService, data) {
+	$scope.client = data.client;
+	$scope.info = {};
+	var $url = REST_URL.CREATE_CLIENT_TEMPLATE + '?commandParam=close';
+	ClientsService.getData($url).then(function (result) {
+		if (result.data && result.data.narrations) {
+			$scope.closureReasons = result.data.narrations;
+		}
+	}, function () {
+		console.log('Cant recieve closure reasons data');
+	});
+	$scope.closeClient = function () {
+		$scope.message = '';
 
-clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function($scope, $route, $timeout, LoanService, APPLICATION, REST_URL, $location, dialogs) {
-  console.log('LoansAwaitingDisbursementCtrl : LoansAwaitingDisbursement');
-  //To load the LoansAwaitingDisbursement page
+		var json = {
+			dateFormat: APPLICATION.DF_MIFOS,
+			locale: 'en',
+			closureDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT),
+			closureReasonId: $scope.info.closureReason
+		};
+		var url = REST_URL.CREATE_CLIENT + '/' + $scope.client.id + '?command=close';
+		CreateClientsService.saveClient(url, json).then(function (result) {
+			console.log('Success CreateClientsService command close', result);
+			$modalInstance.close(true);
+		}, function (result) {
+			$scope.type = 'error';
+			$scope.message = 'Account not removed: ' + result.data.defaultUserMessage;
+			$scope.errors = result.data.errors;
+		});
+	};
 
-  $scope.isLoading = false;
-  $scope.rowCollection = [];
-  $scope.displayed = [];
-  $scope.pageSize = APPLICATION.PAGE_SIZE;
-  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
-  $scope.pages = [];
+	$scope.cancel = function () {
+		$modalInstance.close(false);
+	};
+	$scope.hasPermission = function (permission) {
+		console.log('PERMISSION: ' + permission);
+		return AuthService.hasPermission(permission);
+	};
 
-  $scope.onKeyboard = function($event) {
-    if($event.keyCode===37) {
-      $scope.goPrevious();
-    } else if($event.keyCode===30) {
-      $scope.goNext();
-    }
-  };
-
-  $scope.onSearch = function($event) {
-    if($event.keyCode===13) {
-      loadLoansPendingApprovals();
-    }
-  };
-
-  $scope.goTo = function(p) {
-    $scope.currentPage = p;
-    loadLoansPendingApprovals();
-  };
-
-  $scope.goNext = function() {
-    $scope.currentPage++;
-    loadLoansPendingApprovals();
-  };
-
-  $scope.goPrevious = function() {
-    $scope.currentPage--;
-    loadLoansPendingApprovals();
-  };
-
-  $scope.goLast = function() {
-    $scope.currentPage = $scope.pages.length;
-    loadLoansPendingApprovals();
-  };
-
-  $scope.goFirst = function() {
-    $scope.currentPage = 1;
-    loadLoansPendingApprovals();
-  };
-
-  $scope.setPageSize = function(s) {
-    $scope.pageSize = s;
-    $scope.goFirst();
-  };
-
-  //Success callback
-  var allLoansAwaitingDisbursementSuccess = function(result) {
-    $scope.isLoading = false;
-    try {
-      $scope.rowCollection = result.data;
-
-      $scope.pages = [];
-
-      if(result.data && result.data[0] && result.data[0].loanCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/loansAwaitingDisbursement/p/' + j});
-        }
-      }
-    } catch (e) {
-    }
-  };
-
-  //failur callback
-  var allLoansAwaitingDisbursemensFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from allLoansAwaitingDisbursemensFail service.');
-  };
-
-  var loadLoansPendingApprovals = function getData() {
-    $scope.isLoading = true;
-
-    $timeout(function() {
-      $scope.rowCollection = [];
-      //service to get allLoansAwaitingDisbursemensFail from server
-      var offset = $scope.pageSize * ($scope.currentPage-1);
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-      LoanService.getData(REST_URL.LOANS_AWAITING_DISBURSEMENT + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansAwaitingDisbursementSuccess, allLoansAwaitingDisbursemensFail);
-    }, 2000);
-  };
-
-  $scope.editLoan = function(loan) {
-    //$location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
-    $location.url('/loans/view/' + loan.loanId);
-  };
-  $scope.removeLoan = function(loan) {
-    var msg = 'You are about to remove Loan for client: <strong>' + loan.name + '</strong>';
-    var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + loan.loanId).then(function() {
-          $scope.type = 'alert-success';
-          $scope.message = 'Loan removed successfuly';
-          $scope.errors = [];
-          loadLoansPendingApprovals();
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Loan not removed: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
-    });
-  };
-  $scope.openActionDialog = function(loan) {
-    var dialog = dialogs.create('/views/Client/grids/loans.dialog.disburse.action.html', 'LoansDisburseActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        loadLoansPendingApprovals();
-      }
-    });
-  };
-
-  loadLoansPendingApprovals();
 });
 
 
-clientsCtrl.controller('LoansDisburseActionDialogCtrl', function($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, CreateClientsService, AuthService, dialogs, $rootScope, $filter, data) {
-  console.log('LoansActionDialogCtrl', $scope);
-  $scope.baseLoan = data.loan;
-  $scope.baseLoan.actualDisbursementDate = new Date();
-  $scope.info = {};
-  $scope.data = {};
-  $scope.datepicker = {};
-  $scope.open = function($event, target) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.datepicker[target] = true;
-  };
-  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '/charges').then(function(result) {
-    if (result.data) {
-      $scope.data.charges = result.data;
-    }
-  }, function() {
-    console.log('Cant recieve charges data');
-  });
-  ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId).then(function(result) {
-    if (result.data) {
-      $scope.loan = result.data;
-    }
-  }, function() {
-    console.log('Cant recieve loan data');
-  });
-  $scope.overpaidData = {};
+clientsCtrl.controller('LoansCtrl', function ($scope, $route, $location, $timeout, ClientsService, SearchService, CreateClientsService, REST_URL, APPLICATION) {
+	console.log('LoansCtrl : Loans');
+	//To load the loans page
 
-  ClientsService.getData(REST_URL.CLIENT_OVERPAID_AMOUNT + '?R_clientId=' + $scope.baseLoan.clientId).then(function(result) {
-    if (result && result.data && result.data.length) {
-      $scope.overpaidData = result.data[0];
-    }
-  });
+	$scope.isLoading = false;
+	$scope.rowCollection = [];
+	$scope.displayed = [];
+	$scope.pageSize = APPLICATION.PAGE_SIZE;
+	$scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+	$scope.pages = [];
 
-  $scope.cancel = function() {
-    $modalInstance.close(false);
-  };
-  $scope.undoApproval = function() {
-    var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'undoApproval'}, {size: 'md', keyboard: true, backdrop: true});
-    dialog.result.then(function(result) {
-      if (result) {
-        var json = {
-          note: result.note
-        };
-        CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=undoApproval', json).then(function(result) {
-          $scope.type = 'alert-success';
-          $scope.message = 'Loan rejected successfuly';
-          $scope.errors = result.data.errors;
-          $modalInstance.close(true);
-          $rootScope.$emit('updateNotificationsCount');
-        }, function(result) {
-          $scope.type = 'error';
-          $scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
-          $scope.errors = result.data.errors;
-        });
-      }
-    });
-  };
-  $scope.disburse = function() {
-    var json = {
-      dateFormat: APPLICATION.DF_MIFOS,
-      locale: 'en',
-      actualDisbursementDate: moment($scope.baseLoan.actualDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
-    };
-    CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=disburse', json).then(function(result) {
-      $scope.type = 'alert-success';
-      $scope.message = 'Loan disbursed successfuly';
-      $scope.errors = result.data.errors;
-      $rootScope.$emit('updateNotificationsCount');
+	$scope.onSearch = function ($event) {
+		if (!$scope.searchTerm || $scope.searchTerm.trim() === '') {
+			SearchService.clear('search');
+		}
+		if ($event.keyCode === 13) {
+			loadLoans();
+		}
+	};
 
-      if ($scope.overpaidData && $scope.overpaidData.totalOverpaidAmount > 0) {
-        var msg = 'This client has ' + $scope.overpaidData.countLoans + ' overpaid loan(s). Do you want to move overpaid amount(' + $filter('number')($scope.overpaidData.totalOverpaidAmount) + ') to this loan?';
-        var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Move overpaid amount to this loan?', submitBtn: {value: 'Yes', class: 'btn-success'}, cancelBtn: {value: 'No', class: 'btn-primary'}}, {size: 'sm', keyboard: true, backdrop: true});
-        dialog.result.then(function(result) {
-          if (result) {
-            CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=moveOverpaid', json).then(function() {
-              $modalInstance.close(true);
-            }, function() {
-              $modalInstance.close(true);
-            });
-          } else {
-            $modalInstance.close(true);
-          }
-        });
-      } else {
-        $modalInstance.close(true);
-      }
+	$scope.goTo = function (p) {
+		$scope.currentPage = p;
+		loadLoans();
+	};
 
-    }, function(result) {
-      $scope.type = 'error';
-      $scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;
-      $scope.errors = result.data.errors;
-    });
-  };
-  $scope.hasPermission = function(permission) {
-    return AuthService.hasPermission(permission);
-  };
+	$scope.goNext = function () {
+		$scope.currentPage++;
+		loadLoans();
+	};
+
+	$scope.goPrevious = function () {
+		$scope.currentPage--;
+		loadLoans();
+	};
+
+	$scope.goLast = function () {
+		$scope.currentPage = $scope.pages.length;
+		loadLoans();
+	};
+
+	$scope.goFirst = function () {
+		$scope.currentPage = 1;
+		loadLoans();
+	};
+
+	$scope.setPageSize = function (s) {
+		$scope.pageSize = s;
+		$scope.goFirst();
+	};
+
+	//Success callback
+	var allLoansSuccess = function (result) {
+		$scope.isLoading = false;
+		try {
+			$scope.rowCollection = [];
+			$scope.pages = [];
+
+			if (result.data && result.data[0] && result.data[0].loanCount) {
+				for (var j = 1; j <= Math.ceil(result.data[0].loanCount / $scope.pageSize); j++) {
+					$scope.pages.push({page: j, link: '#/loans/p/' + j});
+				}
+			}
+
+			angular.forEach(result.data, function (loan) {
+				loan.image = APPLICATION.NO_IMAGE_THUMB;
+
+				$scope.rowCollection.push(loan);
+				CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function (result) {
+					loan.image = result.data;
+				});
+			});
+		} catch (e) {
+		}
+	};
+
+	//failur callback
+	var allLoansFail = function () {
+		$scope.isLoading = false;
+		console.log('Error : Return from allLoansFail service.');
+	};
+
+	var loadLoans = function getData() {
+		$scope.isLoading = true;
+
+		$timeout(function () {
+			$scope.rowCollection = [];
+			var offset = $scope.pageSize * ($scope.currentPage - 1);
+			var status = '%';
+
+			SearchService.data('search', $scope.searchTerm);
+
+			if (SearchService.data('search')) {
+				$scope.searchTerm = SearchService.data('search');
+			}
+			var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+			if ($route.current.params.loanStatus === 'total') {
+				status = "'ActiveInGoodStanding','ActiveInBadStanding'";
+			} else if ($route.current.params.loanStatus === 'bad') {
+				status = "'ActiveInBadStanding'";
+			} else {
+				status = "'Invalid', 'Submitted and awaiting approval', 'Approved', 'Active', 'Withdrawn by client', 'Rejected', 'Closed', 'Written-Off', 'Rescheduled', 'Overpaid', 'ActiveInGoodStanding', 'ActiveInBadStanding'";
+			}
+			ClientsService.getData(REST_URL.LOANS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_status=' + status + '&R_search=' + searchTerm).then(allLoansSuccess, allLoansFail);
+		}, 2000);
+	};
+
+	$scope.showLoanDetails = function (loan) {
+		$location.url('/loans/' + loan.clientId + '/details/' + loan.loanId);
+	};
+
+	loadLoans();
+});
+
+clientsCtrl.controller('LoansClosedCtrl', function ($scope, $route, $location, $timeout, ClientsService, CreateClientsService, REST_URL, APPLICATION) {
+	console.log('LoansClosedCtrl : Loans');
+	//To load the loans page
+
+	$scope.isLoading = false;
+	$scope.rowCollection = [];
+	$scope.displayed = [];
+	$scope.pageSize = APPLICATION.PAGE_SIZE;
+	$scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+	$scope.pages = [];
+
+	$scope.onKeyboard = function ($event) {
+		if ($event.keyCode === 37) {
+			$scope.goPrevious();
+		} else if ($event.keyCode === 30) {
+			$scope.goNext();
+		}
+	};
+
+	$scope.onSearch = function ($event) {
+		if ($event.keyCode === 13) {
+			loadLoans();
+		}
+	};
+
+	$scope.goTo = function (p) {
+		$scope.currentPage = p;
+		loadLoans();
+	};
+
+	$scope.goNext = function () {
+		$scope.currentPage++;
+		loadLoans();
+	};
+
+	$scope.goPrevious = function () {
+		$scope.currentPage--;
+		loadLoans();
+	};
+
+	$scope.goLast = function () {
+		$scope.currentPage = $scope.pages.length;
+		loadLoans();
+	};
+
+	$scope.goFirst = function () {
+		$scope.currentPage = 1;
+		loadLoans();
+	};
+
+	$scope.setPageSize = function (s) {
+		$scope.pageSize = s;
+		$scope.goFirst();
+	};
+
+	//Success callback
+	var allLoansSuccess = function (result) {
+		$scope.isLoading = false;
+		try {
+			$scope.rowCollection = result.data;
+
+			$scope.pages = [];
+
+			if (result.data && result.data[0] && result.data[0].loanCount) {
+				for (var j = 1; j <= Math.ceil(result.data[0].loanCount / $scope.pageSize); j++) {
+					$scope.pages.push({page: j, link: '#/loansClosed/p/' + j});
+				}
+			}
+
+			angular.forEach($scope.rowCollection, function (loan) {
+				loan.image = APPLICATION.NO_IMAGE_THUMB;
+				CreateClientsService.getData(REST_URL.CREATE_CLIENT + '/' + loan.clientId + '/images').then(function (result) {
+					loan.image = result.data;
+				});
+			});
+		} catch (e) {
+		}
+	};
+
+	//failur callback
+	var allLoansFail = function () {
+		$scope.isLoading = false;
+		console.log('Error : Return from allLoansFail service.');
+	};
+
+	var loadLoans = function getData() {
+		$scope.isLoading = true;
+
+		$timeout(function () {
+			$scope.rowCollection = [];
+			//service to get loans from server
+			var offset = $scope.pageSize * ($scope.currentPage - 1);
+			var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+			ClientsService.getData(REST_URL.LOANS_CLOSED + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansSuccess, allLoansFail);
+		}, 2000);
+	};
+
+	$scope.showLoanDetails = function (loan) {
+		$location.url('/loans/' + loan.clientId + '/details/' + loan.loanId);
+	};
+
+	loadLoans();
+});
+
+clientsCtrl.controller('LoansPendingApprovalsCtrl', function ($scope, $route, $timeout, LoanService, CreateClientsService, APPLICATION, REST_URL, $location, dialogs) {
+	console.log('LoansPendingApprovalsCtrl : LoansPendingApprovals');
+	//To load the LoansPendingApprovals page
+
+	$scope.isLoading = false;
+	$scope.rowCollection = [];
+	$scope.displayed = [];
+	$scope.pageSize = APPLICATION.PAGE_SIZE;
+	$scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+	$scope.pages = [];
+
+	$scope.onKeyboard = function ($event) {
+		if ($event.keyCode === 37) {
+			$scope.goPrevious();
+		} else if ($event.keyCode === 30) {
+			$scope.goNext();
+		}
+	};
+
+	$scope.onSearch = function ($event) {
+		if ($event.keyCode === 13) {
+			loadLoansPendingApprovals();
+		}
+	};
+
+	$scope.goTo = function (p) {
+		$scope.currentPage = p;
+		loadLoansPendingApprovals();
+	};
+
+	$scope.goNext = function () {
+		$scope.currentPage++;
+		loadLoansPendingApprovals();
+	};
+
+	$scope.goPrevious = function () {
+		$scope.currentPage--;
+		loadLoansPendingApprovals();
+	};
+
+	$scope.goLast = function () {
+		$scope.currentPage = $scope.pages.length;
+		loadLoansPendingApprovals();
+	};
+
+	$scope.goFirst = function () {
+		$scope.currentPage = 1;
+		loadLoansPendingApprovals();
+	};
+
+	$scope.setPageSize = function (s) {
+		$scope.pageSize = s;
+		$scope.goFirst();
+	};
+
+	//Success callback
+	var allLoansPendingApprovalsSuccess = function (result) {
+		$scope.isLoading = false;
+		try {
+			$scope.rowCollection = result.data;
+
+			$scope.pages = [];
+
+			if (result.data && result.data[0] && result.data[0].loanCount) {
+				for (var j = 1; j <= Math.ceil(result.data[0].loanCount / $scope.pageSize); j++) {
+					$scope.pages.push({page: j, link: '#/loansPendingApproval/p/' + j});
+				}
+			}
+		} catch (e) {
+		}
+	};
+
+	//failur callback
+	var allLoansPendingApprovalsFail = function () {
+		$scope.isLoading = false;
+		console.log('Error : Return from allLoansPendingApprovalsFail service.');
+	};
+
+	var loadLoansPendingApprovals = function getData() {
+		$scope.isLoading = true;
+
+		$timeout(function () {
+			$scope.rowCollection = [];
+			var offset = $scope.pageSize * ($scope.currentPage - 1);
+			var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+			//service to get LoansPendingApprovals from server
+			LoanService.getData(REST_URL.LOANS_PENDING_APPROVALS + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansPendingApprovalsSuccess, allLoansPendingApprovalsFail);
+		}, 2000);
+	};
+
+	$scope.editLoan = function (loan) {
+		//$location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+		$location.url('/loans/view/' + loan.loanId);
+	};
+
+	$scope.removeLoan = function (loan) {
+		var msg = 'You are about to remove Loan for client: <strong>' + loan.name + '</strong>';
+		var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + loan.loanId).then(function () {
+					$scope.type = 'alert-success';
+					$scope.message = 'Loan removed successfuly';
+					$scope.errors = [];
+					loadLoansPendingApprovals();
+				}, function (result) {
+					$scope.type = 'error';
+					$scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
+					$scope.errors = result.data.errors;
+				});
+			}
+		});
+	};
+
+	$scope.openActionDialog = function (loan) {
+		var dialog = dialogs.create('/views/Client/grids/loans.dialog.action.html', 'LoansActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				loadLoansPendingApprovals();
+			}
+		});
+	};
+
+	loadLoansPendingApprovals();
+});
+
+clientsCtrl.controller('LoansActionDialogCtrl', function ($scope, $modalInstance, APPLICATION, REST_URL, AuthService, ClientsService, CreateClientsService, dialogs, $rootScope, data) {
+	console.log('LoansActionDialogCtrl', $scope);
+	$scope.baseLoan = data.loan;
+	$scope.info = {};
+	$scope.data = {};
+	ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '/charges').then(function (result) {
+		if (result.data) {
+			$scope.data.charges = result.data;
+		}
+	}, function () {
+		console.log('Cant recieve charges data');
+	});
+	ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId).then(function (result) {
+		if (result.data) {
+			$scope.loan = result.data;
+		}
+	}, function () {
+		console.log('Cant recieve loan data');
+	});
+
+	$scope.cancel = function () {
+		$modalInstance.close(false);
+	};
+	$scope.reject = function () {
+		var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'reject'}, {size: 'md', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				var json = {
+					dateFormat: APPLICATION.DF_MIFOS,
+					locale: 'en',
+					rejectedOnDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT),
+					note: result.note
+				};
+				CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=reject', json).then(function (result) {
+					$scope.type = 'alert-success';
+					$scope.message = 'Loan rejected successfuly';
+					$scope.errors = result.data.errors;
+					$modalInstance.close(true);
+					$rootScope.$emit('updateNotificationsCount');
+				}, function (result) {
+					$scope.type = 'error';
+					$scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
+					$scope.errors = result.data.errors;
+				});
+			}
+		});
+	};
+	$scope.approve = function () {
+		var json = {
+			dateFormat: APPLICATION.DF_MIFOS,
+			locale: 'en',
+			approvedOnDate: moment().tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
+		};
+		CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=approve', json).then(function (result) {
+			$scope.type = 'alert-success';
+			$scope.message = 'Loan approved successfuly';
+			$scope.errors = result.data.errors;
+			$modalInstance.close(true);
+			$rootScope.$emit('updateNotificationsCount');
+		}, function (result) {
+			$scope.type = 'error';
+			$scope.message = 'Loan not approved: ' + result.data.defaultUserMessage;
+			$scope.errors = result.data.errors;
+		});
+	};
+
+	$scope.deleteLoan = function () {
+		CreateClientsService.deleteClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId, {}).then(function (result) {
+			$scope.type = 'alert-success';
+			$scope.message = 'Loan deleted successfuly';
+			$scope.errors = result.data.errors;
+			$modalInstance.close(true);
+			$rootScope.$emit('updateNotificationsCount');
+		}, function (result) {
+			$scope.type = 'error';
+			$scope.message = 'Loan not deleted: ' + result.data.defaultUserMessage;
+			$scope.errors = result.data.errors;
+		});
+	};
+
+	$scope.hasPermission = AuthService.hasPermission;
 
 });
 
-clientsCtrl.controller('LoansRejectedCtrl', function($scope, $route, $timeout, ClientsService, APPLICATION, REST_URL) {
-  console.log('LoansRejectedCtrl : LoansRejected');
-  //To load the LoansRejected page
-
-  $scope.isLoading = false;
-  $scope.rowCollection = [];
-  $scope.displayed = [];
-  $scope.pageSize = APPLICATION.PAGE_SIZE;
-  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
-  $scope.pages = [];
-
-  $scope.onKeyboard = function($event) {
-    if($event.keyCode===37) {
-      $scope.goPrevious();
-    } else if($event.keyCode===30) {
-      $scope.goNext();
-    }
-  };
-
-  $scope.onSearch = function($event) {
-    if($event.keyCode===13) {
-      loadLoansRejected();
-    }
-  };
-
-  $scope.goTo = function(p) {
-    $scope.currentPage = p;
-    loadLoansRejected();
-  };
-
-  $scope.goNext = function() {
-    $scope.currentPage++;
-    loadLoansRejected();
-  };
-
-  $scope.goPrevious = function() {
-    $scope.currentPage--;
-    loadLoansRejected();
-  };
-
-  $scope.goLast = function() {
-    $scope.currentPage = $scope.pages.length;
-    loadLoansRejected();
-  };
-
-  $scope.goFirst = function() {
-    $scope.currentPage = 1;
-    loadLoansRejected();
-  };
-
-  $scope.setPageSize = function(s) {
-    $scope.pageSize = s;
-    $scope.goFirst();
-  };
-
-  //Success callback
-  var allLoansRejectedSuccess = function(result) {
-    $scope.isLoading = false;
-    try {
-      $scope.rowCollection = result.data;
-
-      $scope.pages = [];
-
-      if(result.data && result.data[0] && result.data[0].loanCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/loansRejected/p/' + j});
-        }
-      }
-    } catch (e) {
-    }
-  };
-
-  //failur callback
-  var allLoansRejectedFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from LoansRejected service.');
-  };
-
-  var loadLoansRejected = function getData() {
-    $scope.isLoading = true;
-
-    $timeout(
-      function() {
-        $scope.rowCollection = [];
-
-        var offset = $scope.pageSize * ($scope.currentPage-1);
-        var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-        //service to get allLoansAwaitingDisbursemensFail from server
-        ClientsService.getData(REST_URL.LOANS_REJECTED + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansRejectedSuccess, allLoansRejectedFail);
-      }, 2000
-      );
-  };
-
-  loadLoansRejected();
+clientsCtrl.controller('SubmitLoanActionDialogCtrl', function ($scope, $modalInstance, data) {
+	$scope.dialogType = data.type;
+	$scope.datepicker = {};
+	$scope.data = {};
+	if ($scope.dialogType === 'approve') {
+		$scope.title = 'Approve Loan';
+		$scope.messageLabel = 'Note';
+	} else if ($scope.dialogType === 'disburse') {
+		$scope.title = 'Disburse Loan';
+		$scope.messageLabel = 'Note';
+	} else if ($scope.dialogType === 'undoApproval') {
+		$scope.title = 'Undo Approval Loan';
+		$scope.messageLabel = 'Note';
+	} else {
+		$scope.title = 'Reject Loan';
+		$scope.messageLabel = 'Reason';
+	}
+	$scope.open = function ($event, target) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.datepicker[target] = true;
+	};
+	$scope.ok = function () {
+		if (!$scope.submitLoanActionForm.$valid) {
+			$scope.type = 'error';
+			$scope.message = 'Highlighted fields are required';
+			$scope.errors = [];
+			$('html, body').animate({scrollTop: 0}, 800);
+			return;
+		}
+		$modalInstance.close(angular.copy($scope.data));
+	};
+	$scope.cancel = function () {
+		$modalInstance.close(false);
+	};
 });
 
-clientsCtrl.controller('LoansWrittenOffCtrl', function($scope, $route, $timeout, $location, ClientsService, APPLICATION, REST_URL) {
-  console.log('LoansWrittenOffCtrl : LoansWrittenOff');
-  //To load the LoansWrittenOff page
 
-  $scope.isLoading = false;
-  $scope.rowCollection = [];
-  $scope.displayed = [];
-  $scope.pageSize = APPLICATION.PAGE_SIZE;
-  $scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
-  $scope.pages = [];
+clientsCtrl.controller('LoansAwaitingDisbursementCtrl', function ($scope, $route, $timeout, LoanService, APPLICATION, REST_URL, $location, dialogs) {
+	console.log('LoansAwaitingDisbursementCtrl : LoansAwaitingDisbursement');
+	//To load the LoansAwaitingDisbursement page
 
-  $scope.onKeyboard = function($event) {
-    if($event.keyCode===37) {
-      $scope.goPrevious();
-    } else if($event.keyCode===30) {
-      $scope.goNext();
-    }
-  };
+	$scope.isLoading = false;
+	$scope.rowCollection = [];
+	$scope.displayed = [];
+	$scope.pageSize = APPLICATION.PAGE_SIZE;
+	$scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+	$scope.pages = [];
 
-  $scope.onSearch = function($event) {
-    if($event.keyCode===13) {
-      loadLoansWrittenOff();
-    }
-  };
+	$scope.onKeyboard = function ($event) {
+		if ($event.keyCode === 37) {
+			$scope.goPrevious();
+		} else if ($event.keyCode === 30) {
+			$scope.goNext();
+		}
+	};
 
-  $scope.goTo = function(p) {
-    $scope.currentPage = p;
-    loadLoansWrittenOff();
-  };
+	$scope.onSearch = function ($event) {
+		if ($event.keyCode === 13) {
+			loadLoansPendingApprovals();
+		}
+	};
 
-  $scope.goNext = function() {
-    $scope.currentPage++;
-    loadLoansWrittenOff();
-  };
+	$scope.goTo = function (p) {
+		$scope.currentPage = p;
+		loadLoansPendingApprovals();
+	};
 
-  $scope.goPrevious = function() {
-    $scope.currentPage--;
-    loadLoansWrittenOff();
-  };
+	$scope.goNext = function () {
+		$scope.currentPage++;
+		loadLoansPendingApprovals();
+	};
 
-  $scope.goLast = function() {
-    $scope.currentPage = $scope.pages.length;
-    loadLoansWrittenOff();
-  };
+	$scope.goPrevious = function () {
+		$scope.currentPage--;
+		loadLoansPendingApprovals();
+	};
 
-  $scope.goFirst = function() {
-    $scope.currentPage = 1;
-    loadLoansWrittenOff();
-  };
+	$scope.goLast = function () {
+		$scope.currentPage = $scope.pages.length;
+		loadLoansPendingApprovals();
+	};
 
-  $scope.setPageSize = function(s) {
-    $scope.pageSize = s;
-    $scope.goFirst();
-  };
+	$scope.goFirst = function () {
+		$scope.currentPage = 1;
+		loadLoansPendingApprovals();
+	};
 
-  //Success callback
-  var allLoansWrittenOffSuccess = function(result) {
-    $scope.isLoading = false;
-    try {
-      $scope.displayed = result.data;
-	  $scope.displayed.map(function(x) {
-		 if (x.loan_status_id == 603) {
-			 x.watchlist = "Balance recovered";
-		 } else if (x.watchlist == 0) {
-			 x.watchlist = "No";
-		 } else {
-			 x.watchlist = "Yes";
-		 }
-	  });
+	$scope.setPageSize = function (s) {
+		$scope.pageSize = s;
+		$scope.goFirst();
+	};
 
-      $scope.pages = [];
+	//Success callback
+	var allLoansAwaitingDisbursementSuccess = function (result) {
+		$scope.isLoading = false;
+		try {
+			$scope.rowCollection = result.data;
 
-      if(result.data && result.data[0] && result.data[0].loanCount) {
-        for(var j=1; j<=Math.ceil(result.data[0].loanCount/$scope.pageSize); j++) {
-          $scope.pages.push({page: j, link: '#/loansWrittenOff/p/' + j});
-        }
-      }
-    } catch (e) {
-    }
-  };
+			$scope.pages = [];
 
-  //failur callback
-  var allLoansWrittenOffFail = function() {
-    $scope.isLoading = false;
-    console.log('Error : Return from LoansWrittenOff service.');
-  };
+			if (result.data && result.data[0] && result.data[0].loanCount) {
+				for (var j = 1; j <= Math.ceil(result.data[0].loanCount / $scope.pageSize); j++) {
+					$scope.pages.push({page: j, link: '#/loansAwaitingDisbursement/p/' + j});
+				}
+			}
+		} catch (e) {
+		}
+	};
 
-  $scope.tableState = {};
+	//failur callback
+	var allLoansAwaitingDisbursemensFail = function () {
+		$scope.isLoading = false;
+		console.log('Error : Return from allLoansAwaitingDisbursemensFail service.');
+	};
 
-  $scope.showLoan = function(loan) {
-    $location.url('/loans/' + loan.id + '/details/' + loan.loanId);
-  };
+	var loadLoansPendingApprovals = function getData() {
+		$scope.isLoading = true;
 
-  var loadLoansWrittenOff = function getData() {
-    $scope.isLoading = true;
+		$timeout(function () {
+			$scope.rowCollection = [];
+			//service to get allLoansAwaitingDisbursemensFail from server
+			var offset = $scope.pageSize * ($scope.currentPage - 1);
+			var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+			LoanService.getData(REST_URL.LOANS_AWAITING_DISBURSEMENT + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansAwaitingDisbursementSuccess, allLoansAwaitingDisbursemensFail);
+		}, 2000);
+	};
 
-    $timeout(function() {
-      $scope.rowCollection = [];
+	$scope.editLoan = function (loan) {
+		//$location.url('/loans/' + loan.clientId + '/form/create/' + loan.loanId);
+		$location.url('/loans/view/' + loan.loanId);
+	};
+	$scope.removeLoan = function (loan) {
+		var msg = 'You are about to remove Loan for client: <strong>' + loan.name + '</strong>';
+		var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg}, {size: 'sm', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				LoanService.removeLoan(REST_URL.LOANS_CREATE + '/' + loan.loanId).then(function () {
+					$scope.type = 'alert-success';
+					$scope.message = 'Loan removed successfuly';
+					$scope.errors = [];
+					loadLoansPendingApprovals();
+				}, function (result) {
+					$scope.type = 'error';
+					$scope.message = 'Loan not removed: ' + result.data.defaultUserMessage;
+					$scope.errors = result.data.errors;
+				});
+			}
+		});
+	};
+	$scope.openActionDialog = function (loan) {
+		var dialog = dialogs.create('/views/Client/grids/loans.dialog.disburse.action.html', 'LoansDisburseActionDialogCtrl', {loan: loan}, {size: 'md', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				loadLoansPendingApprovals();
+			}
+		});
+	};
 
-      var offset = $scope.pageSize * ($scope.currentPage-1);
-      var searchTerm = $scope.searchTerm && $scope.searchTerm.length>0 ? '%25' + $scope.searchTerm + '%25': '%25';
-      //service to get LoansWritten from server
-      ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm + '&R_orderBy=' + ($scope.tableState.sort.predicate || 'writtenoffon_date') + '&R_orderByDirection=' + ($scope.tableState.sort.reverse? 'asc' : 'desc')).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
-    }, 2000);
-  };
-  $scope.getData = function(tableState) {
-    console.log('tableState', tableState);
-    $scope.tableState = tableState;
-    loadLoansWrittenOff();
-  };
+	loadLoansPendingApprovals();
+});
+
+
+clientsCtrl.controller('LoansDisburseActionDialogCtrl', function ($scope, $modalInstance, APPLICATION, REST_URL, ClientsService, CreateClientsService, AuthService, dialogs, $rootScope, $filter, data) {
+	console.log('LoansActionDialogCtrl', $scope);
+	$scope.baseLoan = data.loan;
+	$scope.baseLoan.actualDisbursementDate = new Date();
+	$scope.info = {};
+	$scope.data = {};
+	$scope.datepicker = {};
+	$scope.open = function ($event, target) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.datepicker[target] = true;
+	};
+	ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '/charges').then(function (result) {
+		if (result.data) {
+			$scope.data.charges = result.data;
+		}
+	}, function () {
+		console.log('Cant recieve charges data');
+	});
+	ClientsService.getData(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId).then(function (result) {
+		if (result.data) {
+			$scope.loan = result.data;
+		}
+	}, function () {
+		console.log('Cant recieve loan data');
+	});
+	$scope.overpaidData = {};
+
+	ClientsService.getData(REST_URL.CLIENT_OVERPAID_AMOUNT + '?R_clientId=' + $scope.baseLoan.clientId).then(function (result) {
+		if (result && result.data && result.data.length) {
+			$scope.overpaidData = result.data[0];
+		}
+	});
+
+	$scope.cancel = function () {
+		$modalInstance.close(false);
+	};
+	$scope.undoApproval = function () {
+		var dialog = dialogs.create('/views/Client/grids/submitLoanActionDialog.html', 'SubmitLoanActionDialogCtrl', {type: 'undoApproval'}, {size: 'md', keyboard: true, backdrop: true});
+		dialog.result.then(function (result) {
+			if (result) {
+				var json = {
+					note: result.note
+				};
+				CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=undoApproval', json).then(function (result) {
+					$scope.type = 'alert-success';
+					$scope.message = 'Loan rejected successfuly';
+					$scope.errors = result.data.errors;
+					$modalInstance.close(true);
+					$rootScope.$emit('updateNotificationsCount');
+				}, function (result) {
+					$scope.type = 'error';
+					$scope.message = 'Loan not rejected: ' + result.data.defaultUserMessage;
+					$scope.errors = result.data.errors;
+				});
+			}
+		});
+	};
+	$scope.disburse = function () {
+		var json = {
+			dateFormat: APPLICATION.DF_MIFOS,
+			locale: 'en',
+			actualDisbursementDate: moment($scope.baseLoan.actualDisbursementDate).tz(APPLICATION.TIMEZONE).format(APPLICATION.DF_MOMENT)
+		};
+		CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=disburse', json).then(function (result) {
+			$scope.type = 'alert-success';
+			$scope.message = 'Loan disbursed successfuly';
+			$scope.errors = result.data.errors;
+			$rootScope.$emit('updateNotificationsCount');
+
+			if ($scope.overpaidData && $scope.overpaidData.totalOverpaidAmount > 0) {
+				var msg = 'This client has ' + $scope.overpaidData.countLoans + ' overpaid loan(s). Do you want to move overpaid amount(' + $filter('number')($scope.overpaidData.totalOverpaidAmount) + ') to this loan?';
+				var dialog = dialogs.create('/views/custom-confirm.html', 'CustomConfirmController', {msg: msg, title: 'Move overpaid amount to this loan?', submitBtn: {value: 'Yes', class: 'btn-success'}, cancelBtn: {value: 'No', class: 'btn-primary'}}, {size: 'sm', keyboard: true, backdrop: true});
+				dialog.result.then(function (result) {
+					if (result) {
+						CreateClientsService.saveClient(REST_URL.LOANS_CREATE + '/' + $scope.baseLoan.loanId + '?command=moveOverpaid', json).then(function () {
+							$modalInstance.close(true);
+						}, function () {
+							$modalInstance.close(true);
+						});
+					} else {
+						$modalInstance.close(true);
+					}
+				});
+			} else {
+				$modalInstance.close(true);
+			}
+
+		}, function (result) {
+			$scope.type = 'error';
+			$scope.message = 'Loan not disursed: ' + result.data.defaultUserMessage;
+			$scope.errors = result.data.errors;
+		});
+	};
+	$scope.hasPermission = function (permission) {
+		return AuthService.hasPermission(permission);
+	};
+
+});
+
+clientsCtrl.controller('LoansRejectedCtrl', function ($scope, $route, $timeout, ClientsService, APPLICATION, REST_URL) {
+	console.log('LoansRejectedCtrl : LoansRejected');
+	//To load the LoansRejected page
+
+	$scope.isLoading = false;
+	$scope.rowCollection = [];
+	$scope.displayed = [];
+	$scope.pageSize = APPLICATION.PAGE_SIZE;
+	$scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+	$scope.pages = [];
+
+	$scope.onKeyboard = function ($event) {
+		if ($event.keyCode === 37) {
+			$scope.goPrevious();
+		} else if ($event.keyCode === 30) {
+			$scope.goNext();
+		}
+	};
+
+	$scope.onSearch = function ($event) {
+		if ($event.keyCode === 13) {
+			loadLoansRejected();
+		}
+	};
+
+	$scope.goTo = function (p) {
+		$scope.currentPage = p;
+		loadLoansRejected();
+	};
+
+	$scope.goNext = function () {
+		$scope.currentPage++;
+		loadLoansRejected();
+	};
+
+	$scope.goPrevious = function () {
+		$scope.currentPage--;
+		loadLoansRejected();
+	};
+
+	$scope.goLast = function () {
+		$scope.currentPage = $scope.pages.length;
+		loadLoansRejected();
+	};
+
+	$scope.goFirst = function () {
+		$scope.currentPage = 1;
+		loadLoansRejected();
+	};
+
+	$scope.setPageSize = function (s) {
+		$scope.pageSize = s;
+		$scope.goFirst();
+	};
+
+	//Success callback
+	var allLoansRejectedSuccess = function (result) {
+		$scope.isLoading = false;
+		try {
+			$scope.rowCollection = result.data;
+
+			$scope.pages = [];
+
+			if (result.data && result.data[0] && result.data[0].loanCount) {
+				for (var j = 1; j <= Math.ceil(result.data[0].loanCount / $scope.pageSize); j++) {
+					$scope.pages.push({page: j, link: '#/loansRejected/p/' + j});
+				}
+			}
+		} catch (e) {
+		}
+	};
+
+	//failur callback
+	var allLoansRejectedFail = function () {
+		$scope.isLoading = false;
+		console.log('Error : Return from LoansRejected service.');
+	};
+
+	var loadLoansRejected = function getData() {
+		$scope.isLoading = true;
+
+		$timeout(
+			function () {
+				$scope.rowCollection = [];
+
+				var offset = $scope.pageSize * ($scope.currentPage - 1);
+				var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+				//service to get allLoansAwaitingDisbursemensFail from server
+				ClientsService.getData(REST_URL.LOANS_REJECTED + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm).then(allLoansRejectedSuccess, allLoansRejectedFail);
+			}, 2000
+		);
+	};
+
+	loadLoansRejected();
+});
+
+clientsCtrl.controller('LoansWrittenOffCtrl', function ($scope, $route, $timeout, $location, ClientsService, APPLICATION, REST_URL) {
+	console.log('LoansWrittenOffCtrl : LoansWrittenOff');
+	//To load the LoansWrittenOff page
+
+	$scope.isLoading = false;
+	$scope.rowCollection = [];
+	$scope.displayed = [];
+	$scope.pageSize = APPLICATION.PAGE_SIZE;
+	$scope.currentPage = $route.current.params.page ? parseInt($route.current.params.page) : 1;
+	$scope.pages = [];
+
+	$scope.onKeyboard = function ($event) {
+		if ($event.keyCode === 37) {
+			$scope.goPrevious();
+		} else if ($event.keyCode === 30) {
+			$scope.goNext();
+		}
+	};
+
+	$scope.onSearch = function ($event) {
+		if ($event.keyCode === 13) {
+			loadLoansWrittenOff();
+		}
+	};
+
+	$scope.goTo = function (p) {
+		$scope.currentPage = p;
+		loadLoansWrittenOff();
+	};
+
+	$scope.goNext = function () {
+		$scope.currentPage++;
+		loadLoansWrittenOff();
+	};
+
+	$scope.goPrevious = function () {
+		$scope.currentPage--;
+		loadLoansWrittenOff();
+	};
+
+	$scope.goLast = function () {
+		$scope.currentPage = $scope.pages.length;
+		loadLoansWrittenOff();
+	};
+
+	$scope.goFirst = function () {
+		$scope.currentPage = 1;
+		loadLoansWrittenOff();
+	};
+
+	$scope.setPageSize = function (s) {
+		$scope.pageSize = s;
+		$scope.goFirst();
+	};
+
+	//Success callback
+	var allLoansWrittenOffSuccess = function (result) {
+		$scope.isLoading = false;
+		try {
+			$scope.displayed = result.data;
+			$scope.displayed.map(function (x) {
+				if (x.loan_status_id == 603) {
+					x.watchlist = "Balance recovered";
+				} else if (x.watchlist == 0) {
+					x.watchlist = "No";
+				} else {
+					x.watchlist = "Yes";
+				}
+			});
+
+			$scope.pages = [];
+
+			if (result.data && result.data[0] && result.data[0].loanCount) {
+				for (var j = 1; j <= Math.ceil(result.data[0].loanCount / $scope.pageSize); j++) {
+					$scope.pages.push({page: j, link: '#/loansWrittenOff/p/' + j});
+				}
+			}
+		} catch (e) {
+		}
+	};
+
+	//failur callback
+	var allLoansWrittenOffFail = function () {
+		$scope.isLoading = false;
+		console.log('Error : Return from LoansWrittenOff service.');
+	};
+
+	$scope.tableState = {};
+
+	$scope.showLoan = function (loan) {
+		$location.url('/loans/' + loan.id + '/details/' + loan.loanId);
+	};
+
+	var loadLoansWrittenOff = function getData() {
+		$scope.isLoading = true;
+
+		$timeout(function () {
+			$scope.rowCollection = [];
+
+			var offset = $scope.pageSize * ($scope.currentPage - 1);
+			var searchTerm = $scope.searchTerm && $scope.searchTerm.length > 0 ? '%25' + $scope.searchTerm + '%25' : '%25';
+			//service to get LoansWritten from server
+			ClientsService.getData(REST_URL.LOANS_WRITTEN_OFF + '?R_limit=' + $scope.pageSize + '&R_offset=' + offset + '&R_search=' + searchTerm + '&R_orderBy=' + ($scope.tableState.sort.predicate || 'writtenoffon_date') + '&R_orderByDirection=' + ($scope.tableState.sort.reverse ? 'asc' : 'desc')).then(allLoansWrittenOffSuccess, allLoansWrittenOffFail);
+		}, 2000);
+	};
+	$scope.getData = function (tableState) {
+		console.log('tableState', tableState);
+		$scope.tableState = tableState;
+		loadLoansWrittenOff();
+	};
 
 //  loadLoansWrittenOff();
 });
