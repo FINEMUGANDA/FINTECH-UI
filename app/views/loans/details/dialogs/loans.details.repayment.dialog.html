@@ -51,7 +51,32 @@
         <div class="form-group">
           <label class="control-label col-sm-5" for="feeChargesPortion">LPI</label>
           <div class="col-sm-7">
-            <input id="feeChargesPortion" type="text" name="fee" ng-value="data.penaltyChargesPortion | number" class="form-control" readonly>
+            <input id="feeChargesPortion" type="text" name="fee" ng-value="data.penaltyChargesPortion | number" class="form-control checkbox" readonly>
+          </div>
+        </div>
+
+        <div class="form-group" ng-show="action == 'prepay'">
+          <label class="control-label col-sm-8" for="applyCharge">Apply Early Termination Fee/Charge</label>
+          <div class="col-sm-4">
+              <input id="applyCharge" ng-model="applyCharge" type="checkbox" name="applyCharge" class="form-control" ng-change="handleApplyCharge()">
+          </div>
+        </div>
+        <div class="form-group" ng-show="applyCharge">
+            <label class="control-label col-sm-5" for="applyCharge">
+                Charge
+            </label>
+            <div class="col-sm-7">
+                <select id="chargeId" ng-model="chargeId" class="form-control" ng-change="selectCharge(chargeId)" >
+                    <option ng-repeat="charge in chargeOptions" value="{{charge.id}}" ng-selected="charge.id == chargeId">{{charge.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-show="applyCharge">
+          <label class="control-label col-sm-5" for="chargeAmount">
+              Amount
+          </label>
+          <div class="col-sm-7">
+              <input id="chargeAmount" ng-model="chargeAmount" type="text" name="chargeAmount" class="form-control" number-format>
           </div>
         </div>
 

@@ -435,6 +435,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 	$scope.transaction = data.transaction;
 	$scope.formData = {};
 	$scope.isLoading = true;
+	$scope.appyCharge = false;
 	var url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/template?command=repayment';
 	if ($scope.action === 'prepay') {
 		url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/template?command=prepayLoan';
@@ -453,8 +454,75 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 			}
 			$scope.formData.transactionAmount = result.data.amount;
 			$scope.isLoading = false;
+			if ($scope.action === 'prepay') {
+				$scope.originalFees = result.data.feeChargesPortion;
+				$scope.originalTotalAmount = result.data.amount;
+				var chargeUrl = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/charges/template';
+				LoanService.getData(chargeUrl).then(function (result) {
+					var charges = result.data.chargeOptions;
+					if ($scope.loan.charges) {
+						charges = charges.filter(function (x) {
+							return !$scope.loan.charges.map(function (c) { return c.chargeId; }).includes(x.id);
+						});
+					}
+					$scope.chargeOptions = charges ? charges.filter(function (c) { return c.chargeAppliesTo.id === 1 }) : [];
+				});
+			}
 		});
 	});
+
+	$scope.handleApplyCharge = function() {
+		if (!$scope.appyCharge) {
+			$scope.chargeId = "";
+			$scope.chargeAmount = "";
+			$scope.data.feeChargesPortion = $scope.originalFees;
+			$scope.formData.transactionAmount = $scope.originalTotalAmount;
+		}
+	};
+
+	$scope.selectCharge = function (chargeId) {
+		var charge = $scope.chargeOptions.filter(function(x) { return x.id == chargeId})[0];
+		if (charge) {
+			var amount = charge.amount;
+			$scope.selectedCharge = charge;
+			switch(charge.chargeCalculationType.id) {
+				case 1:
+					amount *= $scope.loan.numberOfRepayments;
+					break;
+				case 2:
+					var chargeAmount = 0;
+					$scope.loan.repaymentSchedule.periods.map(function(x) {
+						chargeAmount += (amount/100) * (x.principalDue || 0);
+					});
+					amount = chargeAmount;
+					break;
+				case 3:
+					var chargeAmount = 0;
+					$scope.loan.repaymentSchedule.periods.map(function(x) {
+						chargeAmount += (amount/100) * ((x.principalDue || 0) + (x.interestDue || 0));
+					});
+					amount = chargeAmount;
+					break;
+				case 4:
+					var chargeAmount = 0;
+					$scope.loan.repaymentSchedule.periods.map(function(x) {
+						chargeAmount += (amount/100) * (x.interestDue || 0);
+					});
+					amount = chargeAmount;
+					break;
+				case 5:
+					var chargeAmount = 0;
+					$scope.loan.repaymentSchedule.periods.map(function(x) {
+						chargeAmount += (amount/100) * (x.totalOutstandingForPeriod || 0);
+					});
+					amount = chargeAmount;
+					break;
+			}
+			$scope.chargeAmount = amount;
+			$scope.data.feeChargesPortion = $scope.originalFees + amount;
+			$scope.formData.transactionAmount = $scope.originalTotalAmount + amount;
+		}
+	};
 
 	$scope.open = function ($event) {
 		$event.preventDefault();
@@ -497,10 +565,32 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 			$scope.errors = result.data.errors;
 		}
 
+		function handleChargeSuccess() {
+			$scope.errors = [];
+			LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+		}
+
+		function handleChargeFail(result) {
+			$scope.saveInProgress = false;
+			$scope.message = 'Cannot add loan charge:' + result.data.defaultUserMessage;
+			$scope.type = 'error';
+			$scope.errors = result.data.errors;
+		}
+
 		if ($scope.transaction && $scope.transaction.id) {
 			LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/' + $scope.transaction.id, data).then(handleSuccess, handleFail);
 		} else {
-			LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+			if ($scope.applyCharge) {
+				var payLoad = {
+					amount: $scope.selectedCharge.amount,
+					chargeId: $scope.selectedCharge.id,
+					dateFormat: APPLICATION.DF_MIFOS,
+					locale: "en"
+				};
+				LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/charges', payLoad).then(handleChargeSuccess, handleChargeFail);
+			} else {
+				LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+			}
 		}
 	};
 	$scope.cancel = function () {
