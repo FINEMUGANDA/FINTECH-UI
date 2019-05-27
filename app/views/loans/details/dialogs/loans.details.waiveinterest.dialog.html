@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">&times;</button>
+  <h4 class="modal-title">Waive Interest</h4>
+</div>
+
+<form name="loanDetailsFormWaiveInterest" class="form form-horizontal" ng-submit="submit()" novalidate show-validation>
+  <div class="modal-body">
+    <div ng-include src="'/views/alert.html'"></div>
+    <div ng-show="isLoading">Loading...</div>
+    <div class="clearfix" ng-hide="isLoading">
+      <div class="form-group">
+        <label class="control-label col-sm-5" for="transactionDate">Interest waived on<span class="required">*</span></label>
+        <div class="col-sm-6 validate">
+          <input id="transactionDate" name="transactionDate" class="form-control" type="text" ng-model="formData.transactionDate" datepicker-popup="dd/MM/yyyy" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-click="open($event)" />
+        </div>
+      </div>
+        <div class="form-group">
+            <label class="control-label col-sm-5" for="transactionAmount">Transaction Amount<span class="required">*</span></label>
+            <div class="col-sm-6">
+                <input id="transactionAmount" type="text" name="transactionAmount" ng-model="formData.transactionAmount" ng-value="data.amount | number" class="form-control">
+            </div>
+        </div>
+      <div class="form-group">
+        <label class="control-label col-sm-5" for="note">Note</label>
+        <div class="col-sm-6">
+          <textarea id="note" name="note" ng-model="formData.note" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" ng-hide="isLoading">Waive</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+  </div>
+</form>
+
+
+

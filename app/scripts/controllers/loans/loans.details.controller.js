@@ -10,6 +10,7 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function ($route, 
 	$scope.step = 'create';
 	$scope.isLoading = true;
 	$scope.itemsByPage = 10;
+	$scope.isWaived = true;
 
 	function updateActiveState(statusCode) {
 		var STATUS_CODE = {
@@ -260,7 +261,14 @@ angular.module('angularjsApp').controller('LoansDetailsCtrl', function ($route, 
 	};
 
 	$scope.openWriteOffDialog = function () {
-		var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.writeoff.dialog.html', 'LoanDeatilsWriteOffDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
+		var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.writeoff.dialog.html', 'LoanDetailsWriteOffDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
+		dialog.result.then(function () {
+			updateLoanDetails();
+		});
+	};
+
+	$scope.openWaiveInterestDialog = function () {
+		var dialog = dialogs.create('/views/loans/details/dialogs/loans.details.waiveinterest.dialog.html', 'LoanDetailsWaiveInterestDialog', {loan: $scope.loanDetails}, {size: 'md', keyboard: true, backdrop: true});
 		dialog.result.then(function () {
 			updateLoanDetails();
 		});
@@ -811,7 +819,7 @@ angular.module('angularjsApp').controller('LoanDeatilsDueVsCollectedDialog', fun
 	};
 });
 
-angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function ($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, Utility) {
+angular.module('angularjsApp').controller('LoanDetailsWriteOffDialog', function ($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, Utility) {
 	$scope.loan = data.loan;
 	$scope.action = data.action;
 	$scope.formData = {};
@@ -878,6 +886,69 @@ angular.module('angularjsApp').controller('LoanDeatilsWriteOffDialog', function 
 		}
 
 		LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=writeoff', data).then(handleSuccess, handleFail);
+	};
+	$scope.cancel = function () {
+		$modalInstance.dismiss();
+	};
+});
+
+angular.module('angularjsApp').controller('LoanDetailsWaiveInterestDialog', function ($route, APPLICATION, REST_URL, LoanService, $timeout, $scope, $modalInstance, dialogs, data, Utility) {
+	$scope.loan = data.loan;
+	$scope.action = data.action;
+	$scope.formData = {};
+	$scope.isLoading = true;
+	var url = REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions/template?command=waiveinterest';
+	LoanService.getData(url).then(function (result) {
+		$scope.data = result.data;
+		$timeout(function () {
+			if (result.data.date && result.data.date.length) {
+				$scope.formData.transactionDate = Utility.toLocalDate(result.data.date);
+			}
+			$scope.formData.transactionAmount = data.amount;
+			$scope.isLoading = false;
+		});
+	});
+
+	$scope.open = function ($event) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.opened = true;
+	};
+
+	$scope.submit = function () {
+		$scope.message = '';
+		$scope.errors = [];
+		if (!$scope.loanDetailsFormWaiveInterest.$valid) {
+			$scope.type = 'error';
+			$scope.message = 'Highlighted fields are required';
+			$scope.errors = [];
+			return;
+		}
+
+		$scope.saveInProgress = true;
+		var data = angular.copy($scope.formData);
+		data.locale = 'en';
+		data.dateFormat = APPLICATION.DF_MIFOS;
+		data.transactionAmount = $scope.formData.transactionAmount;
+		if (typeof data.transactionDate === 'object') {
+			data.transactionDate = Utility.toServerDate($scope.formData.transactionDate);
+		}
+		function handleSuccess() {
+			$scope.type = 'alert-success';
+			$scope.message = 'Waive interest was processed successfully';
+			$scope.errors = [];
+			$scope.saveInProgress = false;
+			$modalInstance.close();
+		}
+
+		function handleFail(result) {
+			$scope.saveInProgress = false;
+			$scope.message = 'Cannot waive interest: ' + result.data.defaultUserMessage;
+			$scope.type = 'error';
+			$scope.errors = result.data.errors;
+		}
+
+		LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=waiveinterest', data).then(handleSuccess, handleFail);
 	};
 	$scope.cancel = function () {
 		$modalInstance.dismiss();
