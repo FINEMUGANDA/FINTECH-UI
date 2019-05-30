@@ -465,7 +465,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 							return !$scope.loan.charges.map(function (c) { return c.chargeId; }).includes(x.id);
 						});
 					}
-					$scope.chargeOptions = charges ? charges.filter(function (c) { return c.chargeAppliesTo.id === 1 }) : [];
+					$scope.chargeOptions = charges ? charges.filter(function (c) { return c.chargeAppliesTo.id === 1 && c.chargeTimeType.id === 2; }) : [];
 				});
 			}
 		});
@@ -486,9 +486,6 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 			var amount = charge.amount;
 			$scope.selectedCharge = charge;
 			switch(charge.chargeCalculationType.id) {
-				case 1:
-					amount *= $scope.loan.numberOfRepayments;
-					break;
 				case 2:
 					var chargeAmount = 0;
 					$scope.loan.repaymentSchedule.periods.map(function(x) {
@@ -560,14 +557,28 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 
 		function handleFail(result) {
 			$scope.saveInProgress = false;
-			$scope.message = 'Cant prepay loan:' + result.data.defaultUserMessage;
+			$scope.message = "Can't prepay loan: " + result.data.defaultUserMessage;
 			$scope.type = 'error';
 			$scope.errors = result.data.errors;
+			$timeout(function () {
+				$scope.saveInProgress = false;
+				$modalInstance.close();
+			}, 4000);
 		}
 
 		function handleChargeSuccess() {
 			$scope.errors = [];
-			LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+			LoanService.getData(url).then(function (result) {
+				$scope.data = result.data;
+				$timeout(function () {
+					if (result.data.date && result.data.date.length) {
+						data.transactionDate = Utility.toLocalDate(result.data.date);
+					}
+					data.transactionAmount = result.data.amount;
+					LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/transactions?command=repayment', data).then(handleSuccess, handleFail);
+				});
+			});
+
 		}
 
 		function handleChargeFail(result) {
@@ -585,6 +596,7 @@ angular.module('angularjsApp').controller('LoanDeatilsRepaymentDialog', function
 					amount: $scope.selectedCharge.amount,
 					chargeId: $scope.selectedCharge.id,
 					dateFormat: APPLICATION.DF_MIFOS,
+					dueDate: data.transactionDate,
 					locale: "en"
 				};
 				LoanService.saveLoan(REST_URL.LOANS_CREATE + '/' + $scope.loan.id + '/charges', payLoad).then(handleChargeSuccess, handleChargeFail);

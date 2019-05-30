@@ -73,7 +73,7 @@ chargesController.controller('EditChargeCtrl', function($scope, $location, $time
   $scope.isLoading = false;
   $scope.chargeDetails = {};
   $scope.message = '';
-  var ignoreChargeTimeTypeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 10, 11]; //TODO: filter this on REST API
+  var ignoreChargeTimeTypeOptions = [0, 1, 3, 4, 5, 6, 7, 10, 11]; //TODO: filter this on REST API
   //Success callback
   var chargeTeplateSuccess = function(result) {
     $scope.isLoading = false;
