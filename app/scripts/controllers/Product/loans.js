@@ -10,6 +10,8 @@ LoanProductCrtl.controller('LoanProductsCtrl', function($scope, $location, $time
   $scope.rowCollection = [];
   $scope.displayed = [];
   $scope.itemsByPage = 10;
+  $scope.mapAccountingForm = {};
+  $scope.mapAccountingForm.accountingRule = 4;
 
   $scope.$watch('tableSearch', function() {
     SearchService.data('product', $scope.tableSearch);
@@ -384,7 +386,7 @@ LoanProductCrtl.controller('EditLoanProductsCtrl', function($route, $scope, $tim
     $scope.loanProductDetails.charges = $scope.chargesSelected;
 
     // TODO: find out why this magic number is necessary; this is hard coded in MapAccountingCtrl
-    $scope.loanProductDetails.accountingRule = '4';
+    $scope.loanProductDetails.accountingRule = $scope.product.accountingRule.id;
 
     var updateloanProductSuccess = function() {
       console.log('Success : Return from loanProducts service.');
