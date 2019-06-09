@@ -1006,7 +1006,7 @@ angular.module('angularjsApp').controller('LoanDetailsWaiveInterestDialog', func
 			if (result.data.date && result.data.date.length) {
 				$scope.formData.transactionDate = Utility.toLocalDate(result.data.date);
 			}
-			$scope.formData.transactionAmount = data.amount;
+			$scope.formData.transactionAmount = result.data.amount;
 			$scope.isLoading = false;
 		});
 	});
